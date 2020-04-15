@@ -248,7 +248,9 @@ public class TrandingSignalProcess {
                     newTranOrderList.add(trObj);
                 }
             }
-
+            if (newTranOrderList.size() == 0) {
+                return null;
+            }
             ArrayList<AFstockInfo> newStockArray = new ArrayList();
             for (int i = 0; i < StockArray.size(); i++) {
                 AFstockInfo info = (AFstockInfo) StockArray.get(i);
@@ -1018,7 +1020,7 @@ public class TrandingSignalProcess {
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
                         ProcessNN2 nn2 = new ProcessNN2();
-                        int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList);
+                        int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn2Signal;
                     }
                     break;

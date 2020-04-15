@@ -26,7 +26,7 @@ public class ProcessNN2 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
 
-    public static NNObj NNpredictNN2(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock, 
+    public static NNObj NNpredictNN2(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         NNObj nn = new NNObj();
@@ -176,11 +176,8 @@ public class ProcessNN2 {
         return inputDatalist;
     }
 
-    
-    
-    
     int ProcessTRHistoryOffsetNN2(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
-            int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList) {
+            int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
 
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
@@ -212,6 +209,22 @@ public class ProcessNN2 {
                 float predictionV = nn.getPrediction();
                 if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
                     nnSignal = macdSignal;
+                } else {
+                    //
+                    if (writeArray.size() > 0) {
+                        for (int j = 0; j < writeArray.size(); j++) {
+                            StockTRHistoryObj lastTH = writeArray.get(writeArray.size() - 1 - j);
+                            if (lastTH.getTrsignal() != nnSignal) {
+                                float thClose = lastTH.getClose();
+                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+                                float StClose = stockinfo.getFclose();
+                                if (specialRule1(thClose, StClose) == true) {
+                                    nnSignal = macdSignal;
+                                }
+                            }
+                        }
+                    }
+
                 }
                 trHistory.setParmSt1(nn.getComment());
                 if (CKey.NN_DEBUG == true) {
@@ -255,6 +268,24 @@ public class ProcessNN2 {
                     float predictionV = nn.getPrediction();
                     if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
                         nnSignal = macdSignal;
+                    } else {
+                        // get the last transaction price
+                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
+                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
+                        if (thList != null) {
+                            if (thList.size() > 0) {
+                                TransationOrderObj lastTH = thList.get(0);
+                                float thClose = lastTH.getAvgprice();
+                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+                                float StClose = stockinfo.getFclose();
+                                if (specialRule1(thClose, StClose) == true) {
+                                    logger.info("> updateAdminTradingsignalnn2 Override NN signal dela price > 15%");
+                                    nnSignal = macdSignal;
+                                }
+
+                            }
+                        }
                     }
                 }
                 trObj.setTrsignal(nnSignal);
@@ -265,4 +296,12 @@ public class ProcessNN2 {
         }
     }
 
+    public boolean specialRule1(float thClose, float StClose) {
+        float delPer = 100 * (StClose - thClose) / thClose;
+        delPer = Math.abs(delPer);
+        if (delPer > 15) {  // > 15% override the NN sigal and take the MACD signal
+            return true;
+        }
+        return false;
+    }
 }
