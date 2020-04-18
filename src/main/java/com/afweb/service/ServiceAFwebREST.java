@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.net.ssl.HttpsURLConnection;
+import org.apache.commons.codec.binary.Base64;
 import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 /**
@@ -1194,28 +1196,117 @@ public class ServiceAFwebREST {
     private static final String METHOD_GET = "get";
 
 ////////////////////////////////////////
-    private String sendRequest_1(String method, String subResourcePath, Map<String, String> queryParams, String bodyParams) throws Exception {
-        String response = null;
-        for (int i = 0; i < 4; i++) {
-            try {
-                response = sendRequest_Process_1(method, subResourcePath, queryParams, bodyParams);
-                if (response != null) {
-                    return response;
-                }
-            } catch (Exception ex) {
+//    private String sendRequest_1(String method, String subResourcePath, Map<String, String> queryParams, String bodyParams) throws Exception {
+//        String response = null;
+//        for (int i = 0; i < 4; i++) {
+//            try {
+//                response = sendRequest_Process_1(method, subResourcePath, queryParams, bodyParams);
+//                if (response != null) {
+//                    return response;
+//                }
+//            } catch (Exception ex) {
+//
+//            }
+//
+//            System.out.println("sendRequest " + subResourcePath + " Rety " + (i + 1));
+//        }
+//        response = sendRequest_Process_1(method, subResourcePath, queryParams, bodyParams);
+//        return response;
+//    }
+//
+//    private String sendRequest_Process_1(String method, String subResourcePath, Map<String, String> queryParams, String bodyElement)
+//            throws Exception {
+//        try {
+//            String URLPath = CKey.SERVERDB_REMOTE_URL + subResourcePath;
+//
+//            String webResourceString = "";
+//            // assume only one param
+//            if (queryParams != null && !queryParams.isEmpty()) {
+//                for (String key : queryParams.keySet()) {
+//                    webResourceString = "?" + key + "=" + queryParams.get(key);
+//                }
+//            }
+//
+//            URLPath += webResourceString;
+//            URL request = new URL(URLPath);
+//            HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
+//            System.out.println("Request Code:: " + URLPath);
+//            if (CKey.PROXY == true) {
+//                //////Add Proxy 
+//                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
+//                con = (HttpURLConnection) request.openConnection(proxy);
+//                //////Add Proxy 
+//            } else {
+//                con = (HttpURLConnection) request.openConnection();
+//            }
+//            if (method.equals(METHOD_POST)) {
+//                con.setRequestMethod("POST");
+//            } else {
+//                con.setRequestMethod("GET");
+//            }
+//            con.setRequestProperty("User-Agent", USER_AGENT);
+//            con.setRequestProperty("Content-Type", "application/json; utf-8");
+//
+//            if (method.equals(METHOD_POST)) {
+//                // For POST only - START
+//                con.setDoOutput(true);
+//                OutputStream os = con.getOutputStream();
+//                byte[] input = bodyElement.getBytes("utf-8");
+//                os.write(input, 0, input.length);
+//                os.flush();
+//                os.close();
+//                // For POST only - END
+//            }
+//            int responseCode = con.getResponseCode();
+//            System.out.println("Response Code:: " + responseCode);
+//
+//            if (responseCode >= 200 && responseCode < 300) {
+//                ;
+//            } else {
+//                System.out.println("bodyElement :: " + bodyElement);
+//                return null;
+//            }
+//            if (responseCode == HttpURLConnection.HTTP_OK) { //success
+//                BufferedReader in = new BufferedReader(new InputStreamReader(
+//                        con.getInputStream()));
+//                String inputLine;
+//                StringBuffer response = new StringBuffer();
+//
+//                while ((inputLine = in.readLine()) != null) {
+//                    response.append(inputLine);
+//                }
+//                in.close();
+//                // print result
+//                return response.toString();
+//            } else {
+//                log.info("POST request not worked");
+//            }
+//
+//        } catch (Exception e) {
+//            log.info("Error sending REST request:" + e);
+//            throw e;
+//        }
+//        return null;
+//    }
 
+    
+   private String sendRequest_1(String method, String subResourcePath, Map<String, String> queryParams, String bodyParams) {
+        try {
+            if (subResourcePath.indexOf("https") != -1) {
+                return this.https_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
             }
-
-            System.out.println("sendRequest " + subResourcePath + " Rety " + (i + 1));
+            return this.http_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
+        } catch (Exception ex) {
+//            Logger.getLogger(SsnsService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response = sendRequest_Process_1(method, subResourcePath, queryParams, bodyParams);
-        return response;
+        return null;
     }
 
-    private String sendRequest_Process_1(String method, String subResourcePath, Map<String, String> queryParams, String bodyElement)
+    private String https_sendRequest_Process_Ssns(String method, String subResourcePath, Map<String, String> queryParams, String bodyParams)
             throws Exception {
         try {
-            String URLPath = CKey.SERVERDB_REMOTE_URL + subResourcePath;
+
+            String URLPath = subResourcePath;
 
             String webResourceString = "";
             // assume only one param
@@ -1225,28 +1316,53 @@ public class ServiceAFwebREST {
                 }
             }
 
+            String bodyElement =bodyParams;
+//            if (bodyParams != null) {
+//                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
+//            }
+
             URLPath += webResourceString;
             URL request = new URL(URLPath);
-            HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
-            System.out.println("Request Code:: " + URLPath);
+
+            HttpsURLConnection con = null; //(HttpURLConnection) request.openConnection();
+
             if (CKey.PROXY == true) {
                 //////Add Proxy 
                 Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
-                con = (HttpURLConnection) request.openConnection(proxy);
+                con = (HttpsURLConnection) request.openConnection(proxy);
                 //////Add Proxy 
             } else {
-                con = (HttpURLConnection) request.openConnection();
+                con = (HttpsURLConnection) request.openConnection();
             }
+
+
+//            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
+//            // encode data on your side using BASE64
+//            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
+//            String authEncoded = new String(bytesEncoded);
+//            con.setRequestProperty("Authorization", "Basic " + authEncoded);
+
+
             if (method.equals(METHOD_POST)) {
                 con.setRequestMethod("POST");
-            } else {
+            } else if (method.equals(METHOD_GET)) {
                 con.setRequestMethod("GET");
             }
             con.setRequestProperty("User-Agent", USER_AGENT);
-            con.setRequestProperty("Content-Type", "application/json; utf-8");
+//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
 
             if (method.equals(METHOD_POST)) {
-                // For POST only - START
+
+//                con.setRequestMethod("POST");
+//                con.addRequestProperty("Accept", "application/json");
+//                con.addRequestProperty("Connection", "close");
+//                con.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
+//                con.addRequestProperty("Content-Length", String.valueOf(bodyElement.length()));
+//                con.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON format
+                con.setDoInput(true);
+                // For POST only - START                
                 con.setDoOutput(true);
                 OutputStream os = con.getOutputStream();
                 byte[] input = bodyElement.getBytes("utf-8");
@@ -1255,36 +1371,142 @@ public class ServiceAFwebREST {
                 os.close();
                 // For POST only - END
             }
-            int responseCode = con.getResponseCode();
-            System.out.println("Response Code:: " + responseCode);
 
+            int responseCode = con.getResponseCode();
+            if (responseCode != 200) {
+                System.out.println("Response Code:: " + responseCode);
+            }
             if (responseCode >= 200 && responseCode < 300) {
                 ;
+
             } else {
-                System.out.println("bodyElement :: " + bodyElement);
+//                System.out.println("Response Code:: " + responseCode);
+//                System.out.println("bodyElement :: " + bodyElement);
                 return null;
             }
+
             if (responseCode == HttpURLConnection.HTTP_OK) { //success
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         con.getInputStream()));
                 String inputLine;
+
                 StringBuffer response = new StringBuffer();
 
                 while ((inputLine = in.readLine()) != null) {
+
                     response.append(inputLine);
                 }
                 in.close();
                 // print result
                 return response.toString();
             } else {
-                log.info("POST request not worked");
+                System.out.println("POST request not worked");
             }
 
         } catch (Exception e) {
-            log.info("Error sending REST request:" + e);
+//            logger.info("Error sending REST request:" + e);
             throw e;
         }
         return null;
     }
 
+    private String http_sendRequest_Process_Ssns(String method, String subResourcePath, Map<String, String> queryParams, String bodyParams)
+            throws Exception {
+        try {
+
+            String URLPath = subResourcePath;
+
+            String webResourceString = "";
+            // assume only one param
+            if (queryParams != null && !queryParams.isEmpty()) {
+                for (String key : queryParams.keySet()) {
+                    webResourceString = "?" + key + "=" + queryParams.get(key);
+                }
+            }
+
+           String bodyElement =bodyParams;
+//            if (bodyParams != null) {
+//                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
+//            }
+
+            URLPath += webResourceString;
+            URL request = new URL(URLPath);
+
+            HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
+
+            if (CKey.PROXY == true) {
+                //////Add Proxy 
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
+                con = (HttpURLConnection) request.openConnection(proxy);
+                //////Add Proxy 
+            } else {
+                con = (HttpURLConnection) request.openConnection();
+            }
+
+
+//            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
+//            // encode data on your side using BASE64
+//            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
+//            String authEncoded = new String(bytesEncoded);
+//            con.setRequestProperty("Authorization", "Basic " + authEncoded);
+
+
+            if (method.equals(METHOD_POST)) {
+                con.setRequestMethod("POST");
+            } else if (method.equals(METHOD_GET)) {
+                con.setRequestMethod("GET");
+            }
+            con.setRequestProperty("User-Agent", USER_AGENT);
+//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+//            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+
+            if (method.equals(METHOD_POST)) {
+                con.setDoOutput(true);
+                try (OutputStream os = con.getOutputStream()) {
+                    byte[] input = bodyElement.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                    os.flush();
+                    os.close();
+                }
+
+            }
+
+            int responseCode = con.getResponseCode();
+            if (responseCode != 200) {
+                System.out.println("Response Code:: " + responseCode);
+            }
+            if (responseCode >= 200 && responseCode < 300) {
+                ;
+            } else {
+//                System.out.println("Response Code:: " + responseCode);
+//                System.out.println("bodyElement :: " + bodyElement);
+                return null;
+            }
+            if (responseCode == HttpURLConnection.HTTP_OK) { //success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+
+                    response.append(inputLine);
+                }
+                in.close();
+                // print result
+                return response.toString();
+            } else {
+                System.out.println("POST request not worked");
+            }
+
+        } catch (Exception e) {
+//            System.out.println("Error sending REST request:" + e);
+            throw e;
+        }
+        return null;
+    }
+    
 }
