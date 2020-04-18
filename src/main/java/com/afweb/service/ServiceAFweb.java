@@ -59,10 +59,9 @@ public class ServiceAFweb {
     private StockImp stockImp = new StockImp();
     private AccountImp accountImp = new AccountImp();
     private AccountProcess accountProcessImp = new AccountProcess();
-//    private TradingNNprocess NNProcessImp = new TradingNNprocess();
-//    private TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
-//    private StockInternet stockInternet = new StockInternet();
+
+    public static String PROXYURL = "";
 
     private static ArrayList TRList = new ArrayList();
 
@@ -182,6 +181,11 @@ public class ServiceAFweb {
         //testing        
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.dataSource = dataSource;
+
+        String enSt = CKey.PROXYURL_TMP;
+        enSt = StringTag.replaceAll("abc", "", enSt);
+        PROXYURL = enSt;
+
     }
 
     public int timerThread() {
@@ -3946,6 +3950,7 @@ public class ServiceAFweb {
             return getServiceAFwebREST().getLockName(symbol_acc, type);
         }
         String name = symbol_acc;
+        name = name.toUpperCase();
         if (type == ConstantKey.STOCK_LOCKTYPE) {
             SymbolNameObj symObj = new SymbolNameObj(symbol_acc);
             name = symObj.getYahooSymbol();
@@ -3963,6 +3968,7 @@ public class ServiceAFweb {
             return getServiceAFwebREST().setLockName(symbol_acc, type, lockdatel, comment);
         }
         String name = symbol_acc;
+        name = name.toUpperCase();
         if (type == ConstantKey.STOCK_LOCKTYPE) {
             SymbolNameObj symObj = new SymbolNameObj(symbol_acc);
             name = symObj.getYahooSymbol();
@@ -3980,6 +3986,7 @@ public class ServiceAFweb {
         }
 
         String name = symbol_acc;
+        name = name.toUpperCase();
         if (type == ConstantKey.STOCK_LOCKTYPE) {
             SymbolNameObj symObj = new SymbolNameObj(symbol_acc);
             name = symObj.getYahooSymbol();

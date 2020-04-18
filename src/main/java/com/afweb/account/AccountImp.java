@@ -122,7 +122,9 @@ public class AccountImp {
 
     public CustomerObj getCustomerStatus(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
+        UserName = UserName.toUpperCase();
         CustomerObj customer = accountdb.getCustomer(UserName, Password);
+
         if (customer != null) {
             return customer;
         }
@@ -131,6 +133,7 @@ public class AccountImp {
 
     public CustomerObj getCustomerPassword(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
+        UserName = UserName.toUpperCase();
         CustomerObj customer = accountdb.getCustomer(UserName, Password);
         if (customer != null) {
             if (customer.getStatus() == ConstantKey.OPEN) {
@@ -148,6 +151,7 @@ public class AccountImp {
 
     public CustomerObj getCustomerPasswordForce(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
+        UserName = UserName.toUpperCase();
         CustomerObj customer = accountdb.getCustomer(UserName, Password);
         if (customer != null) {
             return customer;
@@ -201,6 +205,9 @@ public class AccountImp {
         if (newCustomer == null) {
             return 0;
         }
+        String userN = newCustomer.getUsername();
+        userN = userN.toUpperCase();
+        newCustomer.setUsername(userN);        
         logger.info("> addCustomer  " + newCustomer.getUsername());
         int result = 0;
         try {

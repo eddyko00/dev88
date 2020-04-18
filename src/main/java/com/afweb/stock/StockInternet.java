@@ -149,7 +149,7 @@ public class StockInternet {
             URLConnection connection = null;
             if (CKey.PROXY == true) {
                 //////Add Proxy 
-                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
                 connection = request.openConnection(proxy);
                 //////Add Proxy 
             } else {
@@ -258,7 +258,7 @@ public class StockInternet {
 
             ///Addding proxy //////////////////////
             if (CKey.PROXY == true) {
-                HttpHost proxy = new HttpHost(CKey.PROXYURL, 8080, "http");
+                HttpHost proxy = new HttpHost(ServiceAFweb.PROXYURL, 8080, "http");
 
                 RequestConfig config = RequestConfig.custom()
                         .setProxy(proxy)

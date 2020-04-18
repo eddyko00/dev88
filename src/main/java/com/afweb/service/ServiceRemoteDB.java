@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Logger;
+import javax.net.ssl.HttpsURLConnection;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -53,7 +55,7 @@ public class ServiceRemoteDB {
 
     private static ServiceAFweb serviceAFWeb = null;
 
-    public static Logger log = Logger.getLogger("ServiceRemoteDB");
+    public static Logger logger = Logger.getLogger("ServiceRemoteDB");
     public static String CMD = "cmd";
     public static String CMDPOST = "sqlreq";
 
@@ -122,7 +124,7 @@ public class ServiceRemoteDB {
                     postSize = 0;
                     postSt = "";
                 } catch (Exception ex) {
-                    log.info("postExecuteListRemoteDB_Mysql exception " + ex);
+                    logger.info("postExecuteListRemoteDB_Mysql exception " + ex);
                     return 0;
                 }
             }
@@ -137,7 +139,7 @@ public class ServiceRemoteDB {
             int ret = postExecuteListRemoteDB_Mysql(postSt);
             return ret;
         } catch (Exception ex) {
-            log.info("postExecuteListRemoteDB_Mysql exception " + ex);
+            logger.info("postExecuteListRemoteDB_Mysql exception " + ex);
         }
         return 0;
 
@@ -160,7 +162,7 @@ public class ServiceRemoteDB {
             int end = output.indexOf(" ~~");
 
             if ((beg >= end) || (beg == -1)) {
-                log.info("postExecuteListRemoteDB_Mysql " + sqlCMDList);
+                logger.info("postExecuteListRemoteDB_Mysql " + sqlCMDList);
                 return -1;
             }
             output = output.substring(beg + 3, end);
@@ -168,7 +170,7 @@ public class ServiceRemoteDB {
             String[] dataArray = splitIncludeEmpty(output, '~');
             output = dataArray[0];
             if (output == null) {
-                log.info("postExecuteListRemoteDB_Mysql " + sqlCMDList);
+                logger.info("postExecuteListRemoteDB_Mysql " + sqlCMDList);
                 return 0;
             }
             if (output.length() == 0) {
@@ -177,7 +179,7 @@ public class ServiceRemoteDB {
             return Integer.parseInt(output);
 
         } catch (Exception ex) {
-            log.info("postExecuteListRemoteDB_Mysql exception " + ex);
+            logger.info("postExecuteListRemoteDB_Mysql exception " + ex);
 
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
@@ -203,17 +205,17 @@ public class ServiceRemoteDB {
             int end = output.indexOf(" ~~");
 
             if ((beg >= end) || (beg == -1)) {
-                log.info("postExecuteRemoteDB_RemoteMysql fail " + sqlCMD);
+                logger.info("postExecuteRemoteDB_RemoteMysql fail " + sqlCMD);
                 return -1;
             }
             output = output.substring(beg + 3, end);
             if (output.length() > 2) {
-                log.info("postExecuteRemoteDB_RemoteMysql output " + output);
+                logger.info("postExecuteRemoteDB_RemoteMysql output " + output);
             }
             String[] dataArray = splitIncludeEmpty(output, '~');
             output = dataArray[0];
             if (output == null) {
-                log.info("postExecuteRemoteDB_RemoteMysql fail" + sqlCMD);
+                logger.info("postExecuteRemoteDB_RemoteMysql fail" + sqlCMD);
                 return 0;
             }
             if (output.length() == 0) {
@@ -222,7 +224,7 @@ public class ServiceRemoteDB {
             return Integer.parseInt(output);
 
         } catch (Exception ex) {
-            log.info("postExecuteRemoteDB_Mysql exception " + ex);
+            logger.info("postExecuteRemoteDB_Mysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -273,14 +275,14 @@ public class ServiceRemoteDB {
                 List<CountRowsRDB> listItem = Arrays.<CountRowsRDB>asList(arrayItem);
                 arrayDB = new ArrayList<CountRowsRDB>(listItem);
             } catch (IOException ex) {
-                log.info("getCountRowsInTable exception " + output);
+                logger.info("getCountRowsInTable exception " + output);
                 return -1;
             }
             int countR = arrayDB.get(0).getCount();
             return countR;
 
         } catch (Exception ex) {
-            log.info("getCountRowsInTable exception " + ex);
+            logger.info("getCountRowsInTable exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -342,7 +344,7 @@ public class ServiceRemoteDB {
             return getStockSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getStockSqlRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getStockSqlRemoteDB_RemoteMysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -387,7 +389,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getStockSqlRemoteDB_Process exception " + output);
+            logger.info("getStockSqlRemoteDB_Process exception " + output);
             return null;
         }
     }
@@ -447,7 +449,7 @@ public class ServiceRemoteDB {
             return getStockInfoSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getStockInfoSqlRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getStockInfoSqlRemoteDB_RemoteMysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -483,7 +485,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getStockInfoSqlRemoteDB_Process exception " + output);
+            logger.info("getStockInfoSqlRemoteDB_Process exception " + output);
             return null;
         }
     }
@@ -547,7 +549,7 @@ public class ServiceRemoteDB {
             return getCustomerListSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getCustomerListSqlRemoteDB exception " + ex);
+            logger.info("getCustomerListSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -605,7 +607,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (Exception ex) {
-            log.info("getCustomerListSqlRemoteDB exception " + ex);
+            logger.info("getCustomerListSqlRemoteDB exception " + ex);
             return null;
         }
     }
@@ -669,7 +671,7 @@ public class ServiceRemoteDB {
             return getAccountListSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAccountListSqlRemoteDB exception " + ex);
+            logger.info("getAccountListSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -714,7 +716,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (Exception ex) {
-            log.info("getAccountListSqlRemoteDB exception " + output);
+            logger.info("getAccountListSqlRemoteDB exception " + output);
             return null;
         }
     }
@@ -773,7 +775,7 @@ public class ServiceRemoteDB {
             return getBillingListSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getBillingListSqlRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getBillingListSqlRemoteDB_RemoteMysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -814,7 +816,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (Exception ex) {
-            log.info("getBillingListSqlRemoteDB_Process exception " + output);
+            logger.info("getBillingListSqlRemoteDB_Process exception " + output);
             return null;
         }
     }
@@ -871,7 +873,7 @@ public class ServiceRemoteDB {
             return getCommListSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getCommListSqlRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getCommListSqlRemoteDB_RemoteMysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -908,7 +910,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (Exception ex) {
-            log.info("getCommListSqlRemoteDB_Process exception " + output);
+            logger.info("getCommListSqlRemoteDB_Process exception " + output);
             return null;
         }
     }
@@ -972,7 +974,7 @@ public class ServiceRemoteDB {
             return getAccountStockTransactionListRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAccountStockTransactionListRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getAccountStockTransactionListRemoteDB_RemoteMysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1021,7 +1023,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAccountStockTransactionListRemoteDB exception " + output);
+            logger.info("getAccountStockTransactionListRemoteDB exception " + output);
             return null;
         }
     }
@@ -1087,7 +1089,7 @@ public class ServiceRemoteDB {
             return getAccountStockPerfromanceListRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAccountStockPerfromanceListRemoteDB_Mysql exception " + ex);
+            logger.info("getAccountStockPerfromanceListRemoteDB_Mysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1122,7 +1124,7 @@ public class ServiceRemoteDB {
                         perf.setPerformData(perfData);
                     }
                 } catch (Exception ex) {
-                    log.info("> getAccountStockPerfromanceList exception " + ex.getMessage());
+                    logger.info("> getAccountStockPerfromanceList exception " + ex.getMessage());
                 }
 
                 perf.setNetprofit(Float.parseFloat(rs.getNetprofit()));
@@ -1134,7 +1136,7 @@ public class ServiceRemoteDB {
                     dayObj = sdf.parse(rs.getStartdate());
                     perf.setStartdate(new java.sql.Date(dayObj.getTime()));
                 } catch (ParseException ex) {
-                    log.info("> getAccountStockPerfromanceList exception " + ex.getMessage());
+                    logger.info("> getAccountStockPerfromanceList exception " + ex.getMessage());
                 }
 
                 perf.setStockid(Integer.parseInt(rs.getStockid()));
@@ -1156,7 +1158,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAccountStockPerfromanceListRemoteDB_Process exception " + output);
+            logger.info("getAccountStockPerfromanceListRemoteDB_Process exception " + output);
             return null;
         }
     }
@@ -1228,7 +1230,7 @@ public class ServiceRemoteDB {
             return getAccountStockListSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAccountStockListSqlRemoteDB exception " + ex);
+            logger.info("getAccountStockListSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1276,7 +1278,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAccountStockListSqlRemoteDB exception " + output);
+            logger.info("getAccountStockListSqlRemoteDB exception " + output);
             return null;
         }
     }
@@ -1331,7 +1333,7 @@ public class ServiceRemoteDB {
             return getAllLockSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAllLockSqlRemoteDB exception " + ex);
+            logger.info("getAllLockSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1372,7 +1374,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAllLockSqlRemoteDB exception " + output);
+            logger.info("getAllLockSqlRemoteDB exception " + output);
             return null;
         }
 
@@ -1429,7 +1431,7 @@ public class ServiceRemoteDB {
             return getAllNeuralNetDataSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAllNeuralNetSqlRemoteDB exception " + ex);
+            logger.info("getAllNeuralNetSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1486,7 +1488,7 @@ public class ServiceRemoteDB {
             return getAllNeuralNetSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAllNeuralNetSqlRemoteDB exception " + ex);
+            logger.info("getAllNeuralNetSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1523,7 +1525,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAllNeuralNetDataSqlRemoteDB_Process exception " + output);
+            logger.info("getAllNeuralNetDataSqlRemoteDB_Process exception " + output);
             return null;
         }
     }
@@ -1555,7 +1557,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAllNeuralNetSqlRemoteDB exception " + output);
+            logger.info("getAllNeuralNetSqlRemoteDB exception " + output);
             return null;
         }
     }
@@ -1604,7 +1606,7 @@ public class ServiceRemoteDB {
             return getAllNameSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAllNameSqlRemoteDB exception " + ex);
+            logger.info("getAllNameSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1627,7 +1629,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAllNameSqlRemoteDB exception " + output);
+            logger.info("getAllNameSqlRemoteDB exception " + output);
             return null;
         }
     }
@@ -1675,7 +1677,7 @@ public class ServiceRemoteDB {
             return getAllSymbolSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAllSymbolSqlRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getAllSymbolSqlRemoteDB_RemoteMysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1698,7 +1700,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAllSymbolSqlRemoteDB exception " + output);
+            logger.info("getAllSymbolSqlRemoteDB exception " + output);
             return null;
         }
     }
@@ -1746,7 +1748,7 @@ public class ServiceRemoteDB {
             return getAllIdSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAllIdSqlRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getAllIdSqlRemoteDB_RemoteMysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1769,7 +1771,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAllIdSqlRemoteDB exception " + output);
+            logger.info("getAllIdSqlRemoteDB exception " + output);
             return null;
         }
     }
@@ -1817,7 +1819,7 @@ public class ServiceRemoteDB {
             return getAllUserNameSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            log.info("getAllNameSqlRemoteDB exception " + ex);
+            logger.info("getAllNameSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1840,7 +1842,7 @@ public class ServiceRemoteDB {
             }
             return arrayReturn;
         } catch (IOException ex) {
-            log.info("getAllNameSqlRemoteDB exception " + output);
+            logger.info("getAllNameSqlRemoteDB exception " + output);
             return null;
         }
     }
@@ -1873,7 +1875,7 @@ public class ServiceRemoteDB {
             return output;
 
         } catch (Exception ex) {
-            log.info("getAllSQLqueryRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getAllSQLqueryRemoteDB_RemoteMysql exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }
@@ -1884,138 +1886,357 @@ public class ServiceRemoteDB {
     private static final String METHOD_POST = "post";
     private static final String METHOD_GET = "get";
 
-    private String sendRequest_remotesql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams) throws Exception {
-        String response = null;
-        for (int i = 0; i < 4; i++) {
-            try {
-                if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-                    response = sendRequest_Process_Ms_sql(method, subResourcePath, queryParams, bodyParams);
-
-                } else {
-                    response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
-                }
-                if (response != null) {
-                    return response;
-                }
-            } catch (Exception ex) {
-                // retry
-//                log.info("sendRequest " + bodyElement);
-                log.info("sendRequest " + method + " Rety " + (i + 1));
+    private String sendRequest_remotesql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams) {
+        try {
+            if (subResourcePath.indexOf("https") != -1) {
+                return this.https_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
             }
+            return this.http_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
+        } catch (Exception ex) {
+//            Logger.getLogger(SsnsService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            response = sendRequest_Process_Ms_sql(method, subResourcePath, queryParams, bodyParams);
-
-        } else {
-            response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
-        }
-
-        return response;
+        return null;
     }
 
-    private String sendRequest_Process_Mysql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
+    private String https_sendRequest_Process_Ssns(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
             throws Exception {
         try {
-            if (method.equals(METHOD_POST)) {
-                String URLPath = getURL_PATH() + subResourcePath;
 
-                String webResourceString = "";
-                // assume only one param
-                if (queryParams != null && !queryParams.isEmpty()) {
-                    for (String key : queryParams.keySet()) {
-                        webResourceString = "?" + key + "=" + queryParams.get(key);
-                    }
-                }
+            String URLPath = subResourcePath;
 
-                String bodyElement = "";
-
-                if (bodyParams != null && !bodyParams.isEmpty()) {
-                    String bodyTmp = "";
-                    for (String key : bodyParams.keySet()) {
-                        bodyTmp = bodyParams.get(key);
-                        bodyTmp = bodyTmp.replaceAll("&", "-");
-                        bodyTmp = bodyTmp.replaceAll("%", "%25");
-                        bodyElement = key + "=" + bodyTmp;
-                    }
-
-                }
-
-                URLPath += webResourceString;
-                URL request = new URL(URLPath);
-                //just for testing
-//                log.info("Request:: " +URLPath);     
-                boolean flagD = true;
-                if (bodyElement.indexOf("select * from stockinfo where") == -1) {
-                    flagD = false;
-                }
-                if (bodyElement.indexOf("select * from stock where") == -1) {
-                    flagD = false;
-                }
-                if (flagD == true) {
-                    System.out.println("Request Code:: " + bodyElement);
-                }
-                HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
-                if (CKey.PROXY == true) {
-                    //////Add Proxy 
-                    Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
-                    con = (HttpURLConnection) request.openConnection(proxy);
-                    //////Add Proxy 
-                } else {
-                    con = (HttpURLConnection) request.openConnection();
-                }
-                if (method.equals(METHOD_POST)) {
-                    con.setRequestMethod("POST");
-                } else {
-                    con.setRequestMethod("GET");
-                }
-                con.setRequestProperty("User-Agent", USER_AGENT);
-                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-//                con.setRequestProperty("Content-Type", "application/json; utf-8");
-
-                if (method.equals(METHOD_POST)) {
-                    // For POST only - START
-                    con.setDoOutput(true);
-                    OutputStream os = con.getOutputStream();
-                    byte[] input = bodyElement.getBytes("utf-8");
-                    os.write(input, 0, input.length);
-                    os.flush();
-                    os.close();
-                    // For POST only - END
-                }
-
-                int responseCode = con.getResponseCode();
-                if (responseCode != 200) {
-                    System.out.println("Response Code:: " + responseCode);
-                }
-                if (responseCode >= 200 && responseCode < 300) {
-                    ;
-                } else {
-                    System.out.println("Response Code:: " + responseCode);
-                    System.out.println("bodyElement :: " + bodyElement);
-                    return null;
-                }
-                if (responseCode == HttpURLConnection.HTTP_OK) { //success
-                    BufferedReader in = new BufferedReader(new InputStreamReader(
-                            con.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-                    // print result
-                    return response.toString();
-                } else {
-                    log.info("POST request not worked");
+            String webResourceString = "";
+            // assume only one param
+            if (queryParams != null && !queryParams.isEmpty()) {
+                for (String key : queryParams.keySet()) {
+                    webResourceString = "?" + key + "=" + queryParams.get(key);
                 }
             }
+
+            String bodyElement = "";
+            if (bodyParams != null) {
+                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
+            }
+
+            URLPath += webResourceString;
+            URL request = new URL(URLPath);
+
+            HttpsURLConnection con = null; //(HttpURLConnection) request.openConnection();
+
+            if (CKey.PROXY == true) {
+                //////Add Proxy 
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
+                con = (HttpsURLConnection) request.openConnection(proxy);
+                //////Add Proxy 
+            } else {
+                con = (HttpsURLConnection) request.openConnection();
+            }
+
+//            if (URLPath.indexOf(":8080") == -1) {
+//            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
+//            // encode data on your side using BASE64
+//            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
+//            String authEncoded = new String(bytesEncoded);
+//            con.setRequestProperty("Authorization", "Basic " + authEncoded);
+//            }
+
+            if (method.equals(METHOD_POST)) {
+                con.setRequestMethod("POST");
+            } else if (method.equals(METHOD_GET)) {
+                con.setRequestMethod("GET");
+            }
+            con.setRequestProperty("User-Agent", USER_AGENT);
+//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+
+            if (method.equals(METHOD_POST)) {
+
+//                con.setRequestMethod("POST");
+//                con.addRequestProperty("Accept", "application/json");
+//                con.addRequestProperty("Connection", "close");
+//                con.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
+//                con.addRequestProperty("Content-Length", String.valueOf(bodyElement.length()));
+//                con.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON format
+                con.setDoInput(true);
+                // For POST only - START                
+                con.setDoOutput(true);
+                OutputStream os = con.getOutputStream();
+                byte[] input = bodyElement.getBytes("utf-8");
+                os.write(input, 0, input.length);
+                os.flush();
+                os.close();
+                // For POST only - END
+            }
+
+            int responseCode = con.getResponseCode();
+            if (responseCode != 200) {
+                System.out.println("Response Code:: " + responseCode);
+            }
+            if (responseCode >= 200 && responseCode < 300) {
+                ;
+
+            } else {
+//                System.out.println("Response Code:: " + responseCode);
+//                System.out.println("bodyElement :: " + bodyElement);
+                return null;
+            }
+
+            if (responseCode == HttpURLConnection.HTTP_OK) { //success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+
+                    response.append(inputLine);
+                }
+                in.close();
+                // print result
+                return response.toString();
+            } else {
+                logger.info("POST request not worked");
+            }
+
         } catch (Exception e) {
-            log.info("Error sending REST request:" + e);
+//            logger.info("Error sending REST request:" + e);
             throw e;
         }
         return null;
     }
+
+    private String http_sendRequest_Process_Ssns(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
+            throws Exception {
+        try {
+
+            String URLPath = subResourcePath;
+
+            String webResourceString = "";
+            // assume only one param
+            if (queryParams != null && !queryParams.isEmpty()) {
+                for (String key : queryParams.keySet()) {
+                    webResourceString = "?" + key + "=" + queryParams.get(key);
+                }
+            }
+
+            String bodyElement = "";
+            if (bodyParams != null) {
+                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
+            }
+
+            URLPath += webResourceString;
+            URL request = new URL(URLPath);
+
+            HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
+
+            if (CKey.PROXY == true) {
+                //////Add Proxy 
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
+                con = (HttpURLConnection) request.openConnection(proxy);
+                //////Add Proxy 
+            } else {
+                con = (HttpURLConnection) request.openConnection();
+            }
+
+//            if (URLPath.indexOf(":8080") == -1) {
+//            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
+//            // encode data on your side using BASE64
+//            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
+//            String authEncoded = new String(bytesEncoded);
+//            con.setRequestProperty("Authorization", "Basic " + authEncoded);
+//            }
+
+            if (method.equals(METHOD_POST)) {
+                con.setRequestMethod("POST");
+            } else if (method.equals(METHOD_GET)) {
+                con.setRequestMethod("GET");
+            }
+            con.setRequestProperty("User-Agent", USER_AGENT);
+//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+//            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+
+            if (method.equals(METHOD_POST)) {
+                con.setDoOutput(true);
+                try (OutputStream os = con.getOutputStream()) {
+                    byte[] input = bodyElement.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                    os.flush();
+                    os.close();
+                }
+
+            }
+
+            int responseCode = con.getResponseCode();
+            if (responseCode != 200) {
+                System.out.println("Response Code:: " + responseCode);
+            }
+            if (responseCode >= 200 && responseCode < 300) {
+                ;
+            } else {
+//                System.out.println("Response Code:: " + responseCode);
+//                System.out.println("bodyElement :: " + bodyElement);
+                return null;
+            }
+            if (responseCode == HttpURLConnection.HTTP_OK) { //success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+
+                    response.append(inputLine);
+                }
+                in.close();
+                // print result
+                return response.toString();
+            } else {
+                logger.info("POST request not worked");
+            }
+
+        } catch (Exception e) {
+//            logger.info("Error sending REST request:" + e);
+            throw e;
+        }
+        return null;
+    }
+
+//    private String sendRequest_remotesql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams) throws Exception {
+//        String response = null;
+//        for (int i = 0; i < 4; i++) {
+//            try {
+//                if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
+//                    response = sendRequest_Process_Ms_sql(method, subResourcePath, queryParams, bodyParams);
+//
+//                } else {
+//                    response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
+//                }
+//                if (response != null) {
+//                    return response;
+//                }
+//            } catch (Exception ex) {
+//                // retry
+////                log.info("sendRequest " + bodyElement);
+//                logger.info("sendRequest " + method + " Rety " + (i + 1));
+//            }
+//        }
+//        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
+//            response = sendRequest_Process_Ms_sql(method, subResourcePath, queryParams, bodyParams);
+//
+//        } else {
+//            response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
+//        }
+//
+//        return response;
+//    }
+//
+//    private String sendRequest_Process_Mysql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
+//            throws Exception {
+//        try {
+//            if (method.equals(METHOD_POST)) {
+//                String URLPath = getURL_PATH() + subResourcePath;
+//
+//                String webResourceString = "";
+//                // assume only one param
+//                if (queryParams != null && !queryParams.isEmpty()) {
+//                    for (String key : queryParams.keySet()) {
+//                        webResourceString = "?" + key + "=" + queryParams.get(key);
+//                    }
+//                }
+//
+//                String bodyElement = "";
+//
+//                if (bodyParams != null && !bodyParams.isEmpty()) {
+//                    String bodyTmp = "";
+//                    for (String key : bodyParams.keySet()) {
+//                        bodyTmp = bodyParams.get(key);
+//                        bodyTmp = bodyTmp.replaceAll("&", "-");
+//                        bodyTmp = bodyTmp.replaceAll("%", "%25");
+//                        bodyElement = key + "=" + bodyTmp;
+//                    }
+//
+//                }
+//
+//                URLPath += webResourceString;
+//                URL request = new URL(URLPath);
+//                //just for testing
+////                log.info("Request:: " +URLPath);     
+//                boolean flagD = true;
+//                if (bodyElement.indexOf("select * from stockinfo where") == -1) {
+//                    flagD = false;
+//                }
+//                if (bodyElement.indexOf("select * from stock where") == -1) {
+//                    flagD = false;
+//                }
+//                if (flagD == true) {
+//                    System.out.println("Request Code:: " + bodyElement);
+//                }
+//                HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
+//                if (CKey.PROXY == true) {
+//                    //////Add Proxy 
+//                    Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
+//                    con = (HttpURLConnection) request.openConnection(proxy);
+//                    //////Add Proxy 
+//                } else {
+//                    con = (HttpURLConnection) request.openConnection();
+//                }
+//                if (method.equals(METHOD_POST)) {
+//                    con.setRequestMethod("POST");
+//                } else {
+//                    con.setRequestMethod("GET");
+//                }
+//                con.setRequestProperty("User-Agent", USER_AGENT);
+//                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+////                con.setRequestProperty("Content-Type", "application/json; utf-8");
+//
+//                if (method.equals(METHOD_POST)) {
+//                    // For POST only - START
+//                    con.setDoOutput(true);
+//                    OutputStream os = con.getOutputStream();
+//                    byte[] input = bodyElement.getBytes("utf-8");
+//                    os.write(input, 0, input.length);
+//                    os.flush();
+//                    os.close();
+//                    // For POST only - END
+//                }
+//
+//                int responseCode = con.getResponseCode();
+//                if (responseCode != 200) {
+//                    System.out.println("Response Code:: " + responseCode);
+//                }
+//                if (responseCode >= 200 && responseCode < 300) {
+//                    ;
+//                } else {
+//                    System.out.println("Response Code:: " + responseCode);
+//                    System.out.println("bodyElement :: " + bodyElement);
+//                    return null;
+//                }
+//                if (responseCode == HttpURLConnection.HTTP_OK) { //success
+//                    BufferedReader in = new BufferedReader(new InputStreamReader(
+//                            con.getInputStream()));
+//                    String inputLine;
+//                    StringBuffer response = new StringBuffer();
+//
+//                    while ((inputLine = in.readLine()) != null) {
+//                        response.append(inputLine);
+//                    }
+//                    in.close();
+//                    // print result
+//                    return response.toString();
+//                } else {
+//                    logger.info("POST request not worked");
+//                }
+//            }
+//        } catch (Exception e) {
+//            logger.info("Error sending REST request:" + e);
+//            throw e;
+//        }
+//        return null;
+//    }
 
     //////////////////////////
     private String sendRequest_Process_Ms_sql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
@@ -2038,7 +2259,7 @@ public class ServiceRemoteDB {
             HttpClient client = new DefaultHttpClient();
             if (CKey.PROXY == true) {
                 //////Add Proxy 
-                HttpHost proxy = new HttpHost(CKey.PROXYURL, 8080, "http");
+                HttpHost proxy = new HttpHost(ServiceAFweb.PROXYURL, 8080, "http");
                 client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
             }
             HttpPost requestPost = new HttpPost(URLPath);

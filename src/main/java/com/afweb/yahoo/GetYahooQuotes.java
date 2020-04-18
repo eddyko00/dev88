@@ -88,7 +88,7 @@ public class GetYahooQuotes {
 
             ///Addding proxy //////////////////////
             if (CKey.PROXY == true) {
-                HttpHost proxy = new HttpHost(CKey.PROXYURL, 8080, "http");
+                HttpHost proxy = new HttpHost(ServiceAFweb.PROXYURL, 8080, "http");
 
                 RequestConfig config = RequestConfig.custom()
                         .setProxy(proxy)
@@ -195,7 +195,7 @@ public class GetYahooQuotes {
 
             ///Addding proxy //////////////////////
             if (CKey.PROXY == true) {
-                HttpHost proxy = new HttpHost(CKey.PROXYURL, 8080, "http");
+                HttpHost proxy = new HttpHost(ServiceAFweb.PROXYURL, 8080, "http");
 
                 RequestConfig config = RequestConfig.custom()
                         .setProxy(proxy)

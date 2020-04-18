@@ -274,7 +274,10 @@ public class AccountDB {
 
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long dateNowLong = dateNow.getTimeInMillis();
-            CustomerObj customer = getCustomer(newCustomer.getUsername(), null);
+            String userN = newCustomer.getUsername();
+            userN = userN.toUpperCase();
+            CustomerObj customer = getCustomer(userN, null);            
+
             if (customer != null) {
                 int status = customer.getStatus();
                 // just for testing

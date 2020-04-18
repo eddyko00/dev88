@@ -5,6 +5,7 @@
  */
 package com.example.herokudemo;
 
+import com.afweb.service.ServiceAFweb;
 import com.afweb.util.CKey;
 
 import java.io.BufferedReader;
@@ -51,7 +52,7 @@ public class RESTtimerREST {
             }
             if (proxyFlag == true) {
                 //////Add Proxy 
-                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
                 con = (HttpURLConnection) request.openConnection(proxy);
                 //////Add Proxy 
             } else {

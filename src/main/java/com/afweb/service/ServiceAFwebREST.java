@@ -1328,7 +1328,7 @@ public class ServiceAFwebREST {
 
             if (CKey.PROXY == true) {
                 //////Add Proxy 
-                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
                 con = (HttpsURLConnection) request.openConnection(proxy);
                 //////Add Proxy 
             } else {
@@ -1436,7 +1436,7 @@ public class ServiceAFwebREST {
 
             if (CKey.PROXY == true) {
                 //////Add Proxy 
-                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
                 con = (HttpURLConnection) request.openConnection(proxy);
                 //////Add Proxy 
             } else {
