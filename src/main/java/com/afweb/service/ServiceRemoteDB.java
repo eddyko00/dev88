@@ -1886,427 +1886,414 @@ public class ServiceRemoteDB {
     private static final String METHOD_POST = "post";
     private static final String METHOD_GET = "get";
 
-    private String sendRequest_remotesql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams) {
-        try {
-            if (subResourcePath.indexOf("https") != -1) {
-                return this.https_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
-            }
-            return this.http_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
-        } catch (Exception ex) {
-//            Logger.getLogger(SsnsService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    private String https_sendRequest_Process_Ssns(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
-            throws Exception {
-        try {
-
-            String URLPath = subResourcePath;
-
-            String webResourceString = "";
-            // assume only one param
-            if (queryParams != null && !queryParams.isEmpty()) {
-                for (String key : queryParams.keySet()) {
-                    webResourceString = "?" + key + "=" + queryParams.get(key);
-                }
-            }
-
-            String bodyElement = "";
-            if (bodyParams != null) {
-                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
-            }
-
-            URLPath += webResourceString;
-            URL request = new URL(URLPath);
-
-            HttpsURLConnection con = null; //(HttpURLConnection) request.openConnection();
-
-            if (CKey.PROXY == true) {
-                //////Add Proxy 
-                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
-                con = (HttpsURLConnection) request.openConnection(proxy);
-                //////Add Proxy 
-            } else {
-                con = (HttpsURLConnection) request.openConnection();
-            }
-
-//            if (URLPath.indexOf(":8080") == -1) {
-//            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
-//            // encode data on your side using BASE64
-//            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
-//            String authEncoded = new String(bytesEncoded);
-//            con.setRequestProperty("Authorization", "Basic " + authEncoded);
+//    private String sendRequest_remotesql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams) {
+//        try {
+//            if (subResourcePath.indexOf("https") != -1) {
+//                return this.https_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
 //            }
-
-            if (method.equals(METHOD_POST)) {
-                con.setRequestMethod("POST");
-            } else if (method.equals(METHOD_GET)) {
-                con.setRequestMethod("GET");
-            }
-            con.setRequestProperty("User-Agent", USER_AGENT);
-//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Accept", "application/json");
-
-            if (method.equals(METHOD_POST)) {
-
-//                con.setRequestMethod("POST");
-//                con.addRequestProperty("Accept", "application/json");
-//                con.addRequestProperty("Connection", "close");
-//                con.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
-//                con.addRequestProperty("Content-Length", String.valueOf(bodyElement.length()));
-//                con.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON format
-                con.setDoInput(true);
-                // For POST only - START                
-                con.setDoOutput(true);
-                OutputStream os = con.getOutputStream();
-                byte[] input = bodyElement.getBytes("utf-8");
-                os.write(input, 0, input.length);
-                os.flush();
-                os.close();
-                // For POST only - END
-            }
-
-            int responseCode = con.getResponseCode();
-            if (responseCode != 200) {
-                System.out.println("Response Code:: " + responseCode);
-            }
-            if (responseCode >= 200 && responseCode < 300) {
-                ;
-
-            } else {
-//                System.out.println("Response Code:: " + responseCode);
-//                System.out.println("bodyElement :: " + bodyElement);
-                return null;
-            }
-
-            if (responseCode == HttpURLConnection.HTTP_OK) { //success
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                        con.getInputStream()));
-                String inputLine;
-
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-
-                    response.append(inputLine);
-                }
-                in.close();
-                // print result
-                return response.toString();
-            } else {
-                logger.info("POST request not worked");
-            }
-
-        } catch (Exception e) {
-//            logger.info("Error sending REST request:" + e);
-            throw e;
-        }
-        return null;
-    }
-
-    private String http_sendRequest_Process_Ssns(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
-            throws Exception {
-        try {
-
-            String URLPath = subResourcePath;
-
-            String webResourceString = "";
-            // assume only one param
-            if (queryParams != null && !queryParams.isEmpty()) {
-                for (String key : queryParams.keySet()) {
-                    webResourceString = "?" + key + "=" + queryParams.get(key);
-                }
-            }
-
-            String bodyElement = "";
-            if (bodyParams != null) {
-                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
-            }
-
-            URLPath += webResourceString;
-            URL request = new URL(URLPath);
-
-            HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
-
-            if (CKey.PROXY == true) {
-                //////Add Proxy 
-                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
-                con = (HttpURLConnection) request.openConnection(proxy);
-                //////Add Proxy 
-            } else {
-                con = (HttpURLConnection) request.openConnection();
-            }
-
-//            if (URLPath.indexOf(":8080") == -1) {
-//            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
-//            // encode data on your side using BASE64
-//            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
-//            String authEncoded = new String(bytesEncoded);
-//            con.setRequestProperty("Authorization", "Basic " + authEncoded);
-//            }
-
-            if (method.equals(METHOD_POST)) {
-                con.setRequestMethod("POST");
-            } else if (method.equals(METHOD_GET)) {
-                con.setRequestMethod("GET");
-            }
-            con.setRequestProperty("User-Agent", USER_AGENT);
-//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-//            con.setRequestProperty("Content-Type", "application/json; utf-8");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Accept", "application/json");
-
-            if (method.equals(METHOD_POST)) {
-                con.setDoOutput(true);
-                try (OutputStream os = con.getOutputStream()) {
-                    byte[] input = bodyElement.getBytes("utf-8");
-                    os.write(input, 0, input.length);
-                    os.flush();
-                    os.close();
-                }
-
-            }
-
-            int responseCode = con.getResponseCode();
-            if (responseCode != 200) {
-                System.out.println("Response Code:: " + responseCode);
-            }
-            if (responseCode >= 200 && responseCode < 300) {
-                ;
-            } else {
-//                System.out.println("Response Code:: " + responseCode);
-//                System.out.println("bodyElement :: " + bodyElement);
-                return null;
-            }
-            if (responseCode == HttpURLConnection.HTTP_OK) { //success
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                        con.getInputStream()));
-                String inputLine;
-
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-
-                    response.append(inputLine);
-                }
-                in.close();
-                // print result
-                return response.toString();
-            } else {
-                logger.info("POST request not worked");
-            }
-
-        } catch (Exception e) {
-//            logger.info("Error sending REST request:" + e);
-            throw e;
-        }
-        return null;
-    }
-
-//    private String sendRequest_remotesql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams) throws Exception {
-//        String response = null;
-//        for (int i = 0; i < 4; i++) {
-//            try {
-//                if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-//                    response = sendRequest_Process_Ms_sql(method, subResourcePath, queryParams, bodyParams);
-//
-//                } else {
-//                    response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
-//                }
-//                if (response != null) {
-//                    return response;
-//                }
-//            } catch (Exception ex) {
-//                // retry
-////                log.info("sendRequest " + bodyElement);
-//                logger.info("sendRequest " + method + " Rety " + (i + 1));
-//            }
+//            return this.http_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
+//        } catch (Exception ex) {
+////            Logger.getLogger(SsnsService.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-//        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-//            response = sendRequest_Process_Ms_sql(method, subResourcePath, queryParams, bodyParams);
-//
-//        } else {
-//            response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
-//        }
-//
-//        return response;
+//        return null;
 //    }
 //
-//    private String sendRequest_Process_Mysql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
+//    private String https_sendRequest_Process_Ssns(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
 //            throws Exception {
 //        try {
-//            if (method.equals(METHOD_POST)) {
-//                String URLPath = getURL_PATH() + subResourcePath;
 //
-//                String webResourceString = "";
-//                // assume only one param
-//                if (queryParams != null && !queryParams.isEmpty()) {
-//                    for (String key : queryParams.keySet()) {
-//                        webResourceString = "?" + key + "=" + queryParams.get(key);
-//                    }
-//                }
+//            String URLPath = subResourcePath;
 //
-//                String bodyElement = "";
-//
-//                if (bodyParams != null && !bodyParams.isEmpty()) {
-//                    String bodyTmp = "";
-//                    for (String key : bodyParams.keySet()) {
-//                        bodyTmp = bodyParams.get(key);
-//                        bodyTmp = bodyTmp.replaceAll("&", "-");
-//                        bodyTmp = bodyTmp.replaceAll("%", "%25");
-//                        bodyElement = key + "=" + bodyTmp;
-//                    }
-//
-//                }
-//
-//                URLPath += webResourceString;
-//                URL request = new URL(URLPath);
-//                //just for testing
-////                log.info("Request:: " +URLPath);     
-//                boolean flagD = true;
-//                if (bodyElement.indexOf("select * from stockinfo where") == -1) {
-//                    flagD = false;
-//                }
-//                if (bodyElement.indexOf("select * from stock where") == -1) {
-//                    flagD = false;
-//                }
-//                if (flagD == true) {
-//                    System.out.println("Request Code:: " + bodyElement);
-//                }
-//                HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
-//                if (CKey.PROXY == true) {
-//                    //////Add Proxy 
-//                    Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CKey.PROXYURL, 8080));
-//                    con = (HttpURLConnection) request.openConnection(proxy);
-//                    //////Add Proxy 
-//                } else {
-//                    con = (HttpURLConnection) request.openConnection();
-//                }
-//                if (method.equals(METHOD_POST)) {
-//                    con.setRequestMethod("POST");
-//                } else {
-//                    con.setRequestMethod("GET");
-//                }
-//                con.setRequestProperty("User-Agent", USER_AGENT);
-//                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-////                con.setRequestProperty("Content-Type", "application/json; utf-8");
-//
-//                if (method.equals(METHOD_POST)) {
-//                    // For POST only - START
-//                    con.setDoOutput(true);
-//                    OutputStream os = con.getOutputStream();
-//                    byte[] input = bodyElement.getBytes("utf-8");
-//                    os.write(input, 0, input.length);
-//                    os.flush();
-//                    os.close();
-//                    // For POST only - END
-//                }
-//
-//                int responseCode = con.getResponseCode();
-//                if (responseCode != 200) {
-//                    System.out.println("Response Code:: " + responseCode);
-//                }
-//                if (responseCode >= 200 && responseCode < 300) {
-//                    ;
-//                } else {
-//                    System.out.println("Response Code:: " + responseCode);
-//                    System.out.println("bodyElement :: " + bodyElement);
-//                    return null;
-//                }
-//                if (responseCode == HttpURLConnection.HTTP_OK) { //success
-//                    BufferedReader in = new BufferedReader(new InputStreamReader(
-//                            con.getInputStream()));
-//                    String inputLine;
-//                    StringBuffer response = new StringBuffer();
-//
-//                    while ((inputLine = in.readLine()) != null) {
-//                        response.append(inputLine);
-//                    }
-//                    in.close();
-//                    // print result
-//                    return response.toString();
-//                } else {
-//                    logger.info("POST request not worked");
+//            String webResourceString = "";
+//            // assume only one param
+//            if (queryParams != null && !queryParams.isEmpty()) {
+//                for (String key : queryParams.keySet()) {
+//                    webResourceString = "?" + key + "=" + queryParams.get(key);
 //                }
 //            }
+//
+//            String bodyElement = "";
+//            if (bodyParams != null) {
+//                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
+//            }
+//
+//            URLPath += webResourceString;
+//            URL request = new URL(URLPath);
+//
+//            HttpsURLConnection con = null; //(HttpURLConnection) request.openConnection();
+//
+//            if (CKey.PROXY == true) {
+//                //////Add Proxy 
+//                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
+//                con = (HttpsURLConnection) request.openConnection(proxy);
+//                //////Add Proxy 
+//            } else {
+//                con = (HttpsURLConnection) request.openConnection();
+//            }
+//
+////            if (URLPath.indexOf(":8080") == -1) {
+////            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
+////            // encode data on your side using BASE64
+////            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
+////            String authEncoded = new String(bytesEncoded);
+////            con.setRequestProperty("Authorization", "Basic " + authEncoded);
+////            }
+//            if (method.equals(METHOD_POST)) {
+//                con.setRequestMethod("POST");
+//            } else if (method.equals(METHOD_GET)) {
+//                con.setRequestMethod("GET");
+//            }
+//            con.setRequestProperty("User-Agent", USER_AGENT);
+////            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+//            con.setRequestProperty("Content-Type", "application/json");
+//            con.setRequestProperty("Accept", "application/json");
+//
+//            if (method.equals(METHOD_POST)) {
+//
+////                con.setRequestMethod("POST");
+////                con.addRequestProperty("Accept", "application/json");
+////                con.addRequestProperty("Connection", "close");
+////                con.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
+////                con.addRequestProperty("Content-Length", String.valueOf(bodyElement.length()));
+////                con.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON format
+//                con.setDoInput(true);
+//                // For POST only - START                
+//                con.setDoOutput(true);
+//                OutputStream os = con.getOutputStream();
+//                byte[] input = bodyElement.getBytes("utf-8");
+//                os.write(input, 0, input.length);
+//                os.flush();
+//                os.close();
+//                // For POST only - END
+//            }
+//
+//            int responseCode = con.getResponseCode();
+//            if (responseCode != 200) {
+//                System.out.println("Response Code:: " + responseCode);
+//            }
+//            if (responseCode >= 200 && responseCode < 300) {
+//                ;
+//
+//            } else {
+////                System.out.println("Response Code:: " + responseCode);
+////                System.out.println("bodyElement :: " + bodyElement);
+//                return null;
+//            }
+//
+//            if (responseCode == HttpURLConnection.HTTP_OK) { //success
+//                BufferedReader in = new BufferedReader(new InputStreamReader(
+//                        con.getInputStream()));
+//                String inputLine;
+//
+//                StringBuffer response = new StringBuffer();
+//
+//                while ((inputLine = in.readLine()) != null) {
+//
+//                    response.append(inputLine);
+//                }
+//                in.close();
+//                // print result
+//                return response.toString();
+//            } else {
+//                logger.info("POST request not worked");
+//            }
+//
 //        } catch (Exception e) {
-//            logger.info("Error sending REST request:" + e);
+////            logger.info("Error sending REST request:" + e);
 //            throw e;
 //        }
 //        return null;
 //    }
+//
+//    private String http_sendRequest_Process_Ssns(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
+//            throws Exception {
+//        try {
+//
+////            String URLPath = subResourcePath;
+//            String URLPath = getURL_PATH() + subResourcePath;
+//            String webResourceString = "";
+//            // assume only one param
+//            if (queryParams != null && !queryParams.isEmpty()) {
+//                for (String key : queryParams.keySet()) {
+//                    webResourceString = "?" + key + "=" + queryParams.get(key);
+//                }
+//            }
+//
+//            String bodyElement = "";
+//            if (bodyParams != null) {
+//                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
+//            }
+//
+//            URLPath += webResourceString;
+//            URL request = new URL(URLPath);
+//
+//            HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
+//
+//            if (CKey.PROXY == true) {
+//                //////Add Proxy 
+//                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
+//                con = (HttpURLConnection) request.openConnection(proxy);
+//                //////Add Proxy 
+//            } else {
+//                con = (HttpURLConnection) request.openConnection();
+//            }
+//
+////            if (URLPath.indexOf(":8080") == -1) {
+////            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
+////            // encode data on your side using BASE64
+////            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
+////            String authEncoded = new String(bytesEncoded);
+////            con.setRequestProperty("Authorization", "Basic " + authEncoded);
+////            }
+//            if (method.equals(METHOD_POST)) {
+//                con.setRequestMethod("POST");
+//            } else if (method.equals(METHOD_GET)) {
+//                con.setRequestMethod("GET");
+//            }
+//            con.setRequestProperty("User-Agent", USER_AGENT);
+////            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+////            con.setRequestProperty("Content-Type", "application/json; utf-8");
+//            con.setRequestProperty("Content-Type", "application/json");
+//            con.setRequestProperty("Accept", "application/json");
+//
+//            if (method.equals(METHOD_POST)) {
+//                con.setDoOutput(true);
+//                try (OutputStream os = con.getOutputStream()) {
+//                    byte[] input = bodyElement.getBytes("utf-8");
+//                    os.write(input, 0, input.length);
+//                    os.flush();
+//                    os.close();
+//                }
+//
+//            }
+//
+//            int responseCode = con.getResponseCode();
+//            if (responseCode != 200) {
+//                System.out.println("Response Code:: " + responseCode);
+//            }
+//            if (responseCode >= 200 && responseCode < 300) {
+//                ;
+//            } else {
+////                System.out.println("Response Code:: " + responseCode);
+////                System.out.println("bodyElement :: " + bodyElement);
+//                return null;
+//            }
+//            if (responseCode == HttpURLConnection.HTTP_OK) { //success
+//                BufferedReader in = new BufferedReader(new InputStreamReader(
+//                        con.getInputStream()));
+//                String inputLine;
+//
+//                StringBuffer response = new StringBuffer();
+//
+//                while ((inputLine = in.readLine()) != null) {
+//
+//                    response.append(inputLine);
+//                }
+//                in.close();
+//                // print result
+//                return response.toString();
+//            } else {
+//                logger.info("POST request not worked");
+//            }
+//
+//        } catch (Exception e) {
+////            logger.info("Error sending REST request:" + e);
+//            throw e;
+//        }
+//        return null;
+//    }
+    private String sendRequest_remotesql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams) throws Exception {
+        String response = null;
+        for (int i = 0; i < 4; i++) {
+            try {
+                response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
 
-    //////////////////////////
-    private String sendRequest_Process_Ms_sql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
-            throws Exception {
-
-        String URLPath = getURL_PATH() + subResourcePath;
-
-        String webResourceString = "";
-        // assume only one param
-        if (queryParams != null && !queryParams.isEmpty()) {
-            for (String key : queryParams.keySet()) {
-                webResourceString = "?" + key + "=" + queryParams.get(key);
+                if (response != null) {
+                    return response;
+                }
+            } catch (Exception ex) {
+                // retry
+//                log.info("sendRequest " + bodyElement);
+                logger.info("sendRequest " + method + " Rety " + (i + 1));
             }
         }
-        URLPath += webResourceString;
+        response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
 
-        BufferedReader in = null;
-        String resultString = null;
-        try {
-            HttpClient client = new DefaultHttpClient();
-            if (CKey.PROXY == true) {
-                //////Add Proxy 
-                HttpHost proxy = new HttpHost(ServiceAFweb.PROXYURL, 8080, "http");
-                client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-            }
-            HttpPost requestPost = new HttpPost(URLPath);
-
-            List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-            if (bodyParams != null && !bodyParams.isEmpty()) {
-                for (String key : bodyParams.keySet()) {
-                    String bodyElement = bodyParams.get(key);
-                    bodyElement = bodyElement.replaceAll("&", "-");
-                    bodyElement = bodyElement.replaceAll("%", "%25");
-                    postParameters.add(new BasicNameValuePair(key, bodyElement));
-                }
-            }
-            UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(postParameters);
-
-            requestPost.setEntity(formEntity);
-
-            HttpResponse response = client.execute(requestPost);
-            in = new BufferedReader(
-                    new InputStreamReader(
-                            response.getEntity().getContent()));
-
-            StringBuffer sb = new StringBuffer("");
-            String line = "";
-            String NL = System.getProperty("line.separator");
-            while ((line = in.readLine()) != null) {
-                sb.append(line + NL);
-            }
-            in.close();
-
-            resultString = sb.toString();
-            return resultString;
-
-        } catch (Exception e) {
-            // Do something about exceptions
-            e.printStackTrace();
-            throw new Exception("Error send REST request");
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        return response;
     }
+
+    private String sendRequest_Process_Mysql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
+            throws Exception {
+        try {
+            if (method.equals(METHOD_POST)) {
+                String URLPath = getURL_PATH() + subResourcePath;
+
+                String webResourceString = "";
+                // assume only one param
+                if (queryParams != null && !queryParams.isEmpty()) {
+                    for (String key : queryParams.keySet()) {
+                        webResourceString = "?" + key + "=" + queryParams.get(key);
+                    }
+                }
+
+                String bodyElement = "";
+
+                if (bodyParams != null && !bodyParams.isEmpty()) {
+                    String bodyTmp = "";
+                    for (String key : bodyParams.keySet()) {
+                        bodyTmp = bodyParams.get(key);
+                        bodyTmp = bodyTmp.replaceAll("&", "-");
+                        bodyTmp = bodyTmp.replaceAll("%", "%25");
+                        bodyElement = key + "=" + bodyTmp;
+                    }
+
+                }
+
+                URLPath += webResourceString;
+                URL request = new URL(URLPath);
+                //just for testing
+//                log.info("Request:: " +URLPath);     
+                boolean flagD = true;
+                if (bodyElement.indexOf("select * from stockinfo where") == -1) {
+                    flagD = false;
+                }
+                if (bodyElement.indexOf("select * from stock where") == -1) {
+                    flagD = false;
+                }
+                if (flagD == true) {
+                    System.out.println("Request Code:: " + bodyElement);
+                }
+                HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
+                if (CKey.PROXY == true) {
+                    //////Add Proxy 
+                    Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
+                    con = (HttpURLConnection) request.openConnection(proxy);
+                    //////Add Proxy 
+                } else {
+                    con = (HttpURLConnection) request.openConnection();
+                }
+                if (method.equals(METHOD_POST)) {
+                    con.setRequestMethod("POST");
+                } else {
+                    con.setRequestMethod("GET");
+                }
+                con.setRequestProperty("User-Agent", USER_AGENT);
+                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+//                con.setRequestProperty("Content-Type", "application/json; utf-8");
+
+                if (method.equals(METHOD_POST)) {
+                    // For POST only - START
+                    con.setDoOutput(true);
+                    OutputStream os = con.getOutputStream();
+                    byte[] input = bodyElement.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                    os.flush();
+                    os.close();
+                    // For POST only - END
+                }
+
+                int responseCode = con.getResponseCode();
+                if (responseCode != 200) {
+                    System.out.println("Response Code:: " + responseCode);
+                }
+                if (responseCode >= 200 && responseCode < 300) {
+                    ;
+                } else {
+                    System.out.println("Response Code:: " + responseCode);
+                    System.out.println("bodyElement :: " + bodyElement);
+                    return null;
+                }
+                if (responseCode == HttpURLConnection.HTTP_OK) { //success
+                    BufferedReader in = new BufferedReader(new InputStreamReader(
+                            con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                    // print result
+                    return response.toString();
+                } else {
+                    logger.info("POST request not worked");
+                }
+            }
+        } catch (Exception e) {
+            logger.info("Error sending REST request:" + e);
+            throw e;
+        }
+        return null;
+    }
+    //////////////////////////
+//    private String sendRequest_Process_Ms_sql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
+//            throws Exception {
+//
+//        String URLPath = getURL_PATH() + subResourcePath;
+//
+//        String webResourceString = "";
+//        // assume only one param
+//        if (queryParams != null && !queryParams.isEmpty()) {
+//            for (String key : queryParams.keySet()) {
+//                webResourceString = "?" + key + "=" + queryParams.get(key);
+//            }
+//        }
+//        URLPath += webResourceString;
+//
+//        BufferedReader in = null;
+//        String resultString = null;
+//        try {
+//            HttpClient client = new DefaultHttpClient();
+//            if (CKey.PROXY == true) {
+//                //////Add Proxy 
+//                HttpHost proxy = new HttpHost(ServiceAFweb.PROXYURL, 8080, "http");
+//                client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+//            }
+//            HttpPost requestPost = new HttpPost(URLPath);
+//
+//            List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+//            if (bodyParams != null && !bodyParams.isEmpty()) {
+//                for (String key : bodyParams.keySet()) {
+//                    String bodyElement = bodyParams.get(key);
+//                    bodyElement = bodyElement.replaceAll("&", "-");
+//                    bodyElement = bodyElement.replaceAll("%", "%25");
+//                    postParameters.add(new BasicNameValuePair(key, bodyElement));
+//                }
+//            }
+//            UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(postParameters);
+//
+//            requestPost.setEntity(formEntity);
+//
+//            HttpResponse response = client.execute(requestPost);
+//            in = new BufferedReader(
+//                    new InputStreamReader(
+//                            response.getEntity().getContent()));
+//
+//            StringBuffer sb = new StringBuffer("");
+//            String line = "";
+//            String NL = System.getProperty("line.separator");
+//            while ((line = in.readLine()) != null) {
+//                sb.append(line + NL);
+//            }
+//            in.close();
+//
+//            resultString = sb.toString();
+//            return resultString;
+//
+//        } catch (Exception e) {
+//            // Do something about exceptions
+//            e.printStackTrace();
+//            throw new Exception("Error send REST request");
+//        } finally {
+//            if (in != null) {
+//                try {
+//                    in.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 
     ////////
     public static String[] splitIncludeEmpty(String inputStr, char delimiter) {
