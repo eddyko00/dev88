@@ -47,7 +47,7 @@ public class WebAppConfig {
 //sh-4.2$ 
 
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://172.30.156.196:3306/sampledb?useSSL=false");
+            dataSource.setUrl("jdbc:mysql://172.30.156.196:3306/sampledb?useSSL=true");
             dataSource.setUsername("sa");
             dataSource.setPassword("admin");            
             
