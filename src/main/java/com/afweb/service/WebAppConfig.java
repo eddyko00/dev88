@@ -47,7 +47,8 @@ public class WebAppConfig {
 //MYSQL_PORT=tcp://172.30.253.152:3306
 //MYSQL_SERVICE_HOST=172.30.253
 
-            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
             dataSource.setUrl("jdbc:mysql://172.30.253.152:3306/sampledb?useSSL=true");
             dataSource.setUsername("sa");
             dataSource.setPassword("admin");            
