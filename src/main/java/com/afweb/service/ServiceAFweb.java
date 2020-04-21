@@ -283,11 +283,7 @@ public class ServiceAFweb {
                 // work around. must initialize for remote MYSQL
                 serverObj.setTimerInit(true);
                 getServerObj().setProcessTimerCnt(0);
-                //////////// for Openshift
-                if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
-                    RESTtimer.serverURL_0 = "stop";
-                }
-                ////////////
+
                 String SrvName = "iisweb";
                 String stlockDateValue = "" + lockDateValue;
                 stlockDateValue = stlockDateValue.substring(10);
@@ -359,6 +355,11 @@ public class ServiceAFweb {
                     //try 2 times
                     getAccountProcessImp().ProcessAdminAccount(this);
                     getAccountProcessImp().ProcessAdminAccount(this);
+                    //////////// for Openshift
+                    if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
+                        RESTtimer.serverURL_0 = "stop";
+                    }
+                    ////////////
 
                 }
                 // final initialization
