@@ -96,7 +96,7 @@ public class IndexController {
 
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
         arrayString.add("/cust/{username}/sys/cust/{customername}/removeCustomer");
-        arrayString.add("/cust/{username}/sys/cust/{customername}/update?substatus=&investment=&balance=");       
+        arrayString.add("/cust/{username}/sys/cust/{customername}/update?substatus=&investment=&balance=");
 
         arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
         arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
@@ -132,6 +132,33 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
 
         return arrayString;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/mysql", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String getmysql(
+            @PathVariable("username") String username,
+            @RequestBody String input
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        RequestObj sqlObj = new RequestObj();
+        try {
+            sqlObj = new ObjectMapper().readValue(input, RequestObj.class);
+        } catch (IOException ex) {
+            return "";
+        }
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (sqlObj.getCmd().equals(ServiceAFweb.RemoteGetMySQL + "")) {
+                    return afWebService.SystemRemoteGetMySQL(sqlObj.getReq());
+                }
+                if (sqlObj.getCmd().equals(ServiceAFweb.RemoteUpdateMySQL + "")) {
+                    return afWebService.SystemRemoteUpdateMySQL(sqlObj.getReq());
+                }
+            }
+        }
+        return "";
     }
 
     @RequestMapping(value = "/server", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -1807,7 +1834,6 @@ public class IndexController {
         return 0;
     }
 
-      
     @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateCustAllStatus(
@@ -1815,7 +1841,7 @@ public class IndexController {
             @PathVariable("customername") String customername,
             @RequestParam(value = "substatus", required = true) String substatusSt,
             @RequestParam(value = "investment", required = true) String investmentSt,
-            @RequestParam(value = "balance", required = true) String balanceSt       
+            @RequestParam(value = "balance", required = true) String balanceSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         if (customername == null) {
@@ -1830,8 +1856,7 @@ public class IndexController {
             }
         }
         return 0;
-    }    
-    
+    }
 
     /////////////////////////////////////////////////////////////////////////    
     @RequestMapping(value = "/timer")
