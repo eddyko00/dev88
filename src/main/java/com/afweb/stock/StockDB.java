@@ -1413,11 +1413,14 @@ public class StockDB {
     }
 
     public int updateRemoteMYSQL(String sqlCMD) throws Exception {
-        logger.info("> updateRemoteMYSQL " + sqlCMD);
-
-        getJdbcTemplate().execute(sqlCMD);
-//        getJdbcTemplate().update(sqlCMD);        
-        return 1;
+//        logger.info("> updateRemoteMYSQL " + sqlCMD);
+        try {
+            getJdbcTemplate().execute(sqlCMD);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> updateRemoteMYSQL exception " + e.getMessage());
+        }
+        return 0;
     }
 
     public String getRemoteMYSQL(String sql) throws SQLException {
@@ -1463,7 +1466,6 @@ public class StockDB {
             return ret;
         } catch (SQLException e) {
             logger.info("> getRemoteMYSQL exception " + e.getMessage());
-
         } finally {
             if (con != null) {
                 con.close();
@@ -1474,7 +1476,6 @@ public class StockDB {
         }
         return "";
     }
-
 
 //    public String getRemoteMYSQL(String sql) throws SQLException {
 //        Statement stmt = null;
