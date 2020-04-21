@@ -20,7 +20,7 @@ public class CKey {
     public static final int REMOTE_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
     public static final int MYSQL = 0;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
 
-    public static final int SQL_DATABASE = LOCAL_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
+    public static final int SQL_DATABASE = MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
 
     //
     //////////////////////
