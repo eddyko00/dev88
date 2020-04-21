@@ -810,7 +810,7 @@ public class StockDB {
 
                 createTableList.add("create table comm (id int(10) not null auto_increment, name varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, data text, accountid int(10) not null, customerid int(10) not null, primary key (id))");
                 createTableList.add("create table billing (id int(10) not null auto_increment, name varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, payment float not null, balance float not null, data text, accountid int(10) not null, customerid int(10) not null, primary key (id))");
-     
+
                 createTableList.add("alter table stockinfo add constraint fkstockinfo189813 foreign key (stockid) references stock (id)");
                 createTableList.add("alter table tradingrule add constraint fktradingrul566192 foreign key (accountid) references account (id)");
                 createTableList.add("alter table transationorder add constraint fktransation900454 foreign key (tradingruleid) references tradingrule (id)");
