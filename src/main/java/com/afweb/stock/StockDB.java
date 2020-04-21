@@ -1449,17 +1449,17 @@ public class StockDB {
             int firstList = 0;
             while (resultSet.next()) {
                 if (firstList > 0) {
-                    retString.append(",");
+                    retString.append("~");
                 }
                 firstList++;
                 int firstColumn = 0;
                 for (String columnName : columns) {
                     if (firstColumn > 0) {
-                        retString.append(",");
+                        retString.append("~");
                     }
                     firstColumn++;
                     String value = resultSet.getString(columnName);
-                    retString.append("\"" + value + "\"");
+                    retString.append(value);
                 }
             }
             String ret = retString.toString();
