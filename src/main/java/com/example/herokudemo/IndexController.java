@@ -150,12 +150,13 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                System.out.println(sqlObj.getReq());
+//                System.out.println(sqlObj.getReq());
                 if (sqlObj.getCmd().equals("1")) {
                     return afWebService.SystemRemoteGetMySQL(sqlObj.getReq());
-                }
-                if (sqlObj.getCmd().equals("2")) {
+                } else if (sqlObj.getCmd().equals("2")) {
                     return afWebService.SystemRemoteUpdateMySQL(sqlObj.getReq());
+                } else if (sqlObj.getCmd().equals("3")) {
+                    return afWebService.SystemRemoteUpdateMySQLList(sqlObj.getReq());
                 }
             }
         }
