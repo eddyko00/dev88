@@ -24,10 +24,10 @@ public class WebAppConfig {
         }
         if (CKey.SQL_DATABASE == CKey.MYSQL) {
 
-            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://www.db4free.net:3306/eddydb_sample?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
-            dataSource.setUsername("eddysa");
-            dataSource.setPassword("eddyadmin");
+//            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//            dataSource.setUrl("jdbc:mysql://www.db4free.net:3306/eddydb_sample?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
+//            dataSource.setUsername("eddysa");
+//            dataSource.setPassword("eddyadmin");
             
 
             // create my MYSQL not PHP
@@ -47,9 +47,10 @@ public class WebAppConfig {
 //MYSQL_PORT=tcp://172.30.253.152:3306
 //MYSQL_SERVICE_HOST=172.30.253
 
+//Open Shfit error Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
 //            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://172.30.253.152:3306/sampledb?useSSL=true");
+            dataSource.setUrl("jdbc:mysql://172.30.253.152:3306/sampledb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
             dataSource.setUsername("sa");
             dataSource.setPassword("admin");            
             

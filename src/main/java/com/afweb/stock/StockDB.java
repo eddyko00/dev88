@@ -626,8 +626,7 @@ public class StockDB {
             return count;
         }
 
-        Integer result = jdbcTemplate.queryForObject("select count(0) from " + tableName, Integer.class
-        );
+        Integer result = jdbcTemplate.queryForObject("select count(0) from " + tableName, Integer.class);
         return (result != null ? result : 0);
     }
 
