@@ -30,27 +30,26 @@ public class WebAppConfig {
 //            dataSource.setPassword("eddyadmin");
             
 
-            // create my MYSQL not PHP
 //sh-4.2$ env | grep MYSQL
-//MYSQL_PREFIX=/opt/rh/rh-mysql80/root/usr
-//MYSQL_VERSION=8.0
+//MYSQL_PREFIX=/opt/rh/rh-mysql57/root/usr
+//MYSQL_VERSION=5.7
 //MYSQL_DATABASE=sampledb
 //MYSQL_PASSWORD=admin
 //MYSQL_PORT_3306_TCP_PORT=3306
-//MYSQL_PORT_3306_TCP=tcp://172.30.253.152:3306
+//MYSQL_PORT_3306_TCP=tcp://172.30.136.72:3306
 //MYSQL_SERVICE_PORT_MYSQL=3306
 //MYSQL_PORT_3306_TCP_PROTO=tcp
-//MYSQL_PORT_3306_TCP_ADDR=172.30.253.152
+//MYSQL_PORT_3306_TCP_ADDR=172.30.136.72
 //MYSQL_SERVICE_PORT=3306
 //MYSQL_USER=sa
-//MYSQL_ROOT_PASSWORD=admin
-//MYSQL_PORT=tcp://172.30.253.152:3306
-//MYSQL_SERVICE_HOST=172.30.253
+//MYSQL_PORT=tcp://172.30.136.72:3306
+//MYSQL_SERVICE_HOST=172.30.136.72
+//sh-4.2$ 
 
 //Open Shfit error Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-//            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://172.30.253.152:3306/sampledb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+            dataSource.setUrl("jdbc:mysql://172.30.136.72:3306/sampledb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
             dataSource.setUsername("sa");
             dataSource.setPassword("admin");            
             
