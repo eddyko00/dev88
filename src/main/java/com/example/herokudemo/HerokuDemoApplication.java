@@ -45,14 +45,6 @@ public class HerokuDemoApplication {
             } else {
                 restTimer.RestTimerHandler();
             }
-//            if (timerSchCnt < 4) {
-//                restTimer.RestTimerHandler();
-//            } else {
-//                if (timerSchCnt % 3 == 0) {
-//                    // need to slow down the timer handler, Heroku will memory leak failue
-//                    restTimer.RestTimerHandler();
-//                }
-//            }
 
             TimeUnit.SECONDS.sleep(1);
 

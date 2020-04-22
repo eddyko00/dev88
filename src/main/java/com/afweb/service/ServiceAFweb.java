@@ -4149,31 +4149,10 @@ public class ServiceAFweb {
         }
         return msg;
     }
-
     public String SystemRemoteUpdateMySQLList(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
         }
-//        if (checkCallRemoteMysql() == true) {
-//            RequestObj sqlObj = new RequestObj();
-//            sqlObj.setCmd(ServiceAFweb.RemoteUpdateMySQLList + "");
-//            String st;
-//            try {
-//                st = new ObjectMapper().writeValueAsString(SQL);
-//                sqlObj.setReq(st);
-//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-//                String output = sqlObjresp.getResp();
-//                if (output == null) {
-//                    return "";
-//
-//                }
-//                String result = output;
-//                return result;
-//            } catch (Exception ex) {
-//                logger.info("> SystemRemoteUpdateMySQL exception " + ex.getMessage());
-//            }
-//            return "";
-//        }
 
         String st = SQL;
         String[] sqlList = st.split("~");
@@ -4188,26 +4167,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
         }
-//        if (checkCallRemoteMysql() == true) {
-//            RequestObj sqlObj = new RequestObj();
-//            sqlObj.setCmd(ServiceAFweb.RemoteUpdateMySQL + "");
-//            String st;
-//            try {
-//                st = new ObjectMapper().writeValueAsString(SQL);
-//                sqlObj.setReq(st);
-//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-//                String output = sqlObjresp.getResp();
-//                if (output == null) {
-//                    return "";
-//
-//                }
-//                String result = output;
-//                return result;
-//            } catch (Exception ex) {
-//                logger.info("> SystemRemoteUpdateMySQL exception " + ex.getMessage());
-//            }
-//            return "";
-//        }
+
         return getStockImp().updateRemoteMYSQL(SQL) + "";
     }
 
@@ -4215,28 +4175,10 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
         }
-//        if (checkCallRemoteMysql() == true) {
-//            RequestObj sqlObj = new RequestObj();
-//            sqlObj.setCmd(ServiceAFweb.RemoteGetMySQL + "");
-//            String st;
-//            try {
-//                st = new ObjectMapper().writeValueAsString(SQL);
-//                sqlObj.setReq(st);
-//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-//                String output = sqlObjresp.getResp();
-//                if (output == null) {
-//                    return "";
-//
-//                }
-//                String result = output;
-//                return result;
-//            } catch (Exception ex) {
-//                logger.info("> SystemRemoteGetMySQL exception " + ex.getMessage());
-//            }
-//            return "";
-//        }
+
         return getStockImp().getRemoteMYSQL(SQL);
     }
+
 ///////////////////////////
 //    cannot autowire Could not autowire field:
     public static final int AllName = 200; //"1";

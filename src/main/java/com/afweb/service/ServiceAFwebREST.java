@@ -1508,5 +1508,117 @@ public class ServiceAFwebREST {
         }
         return null;
     }
+    ////////////////////////////////////////////
     
+    public String getSQLRequestRemote(RequestObj sqlObj) {
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+        String subResourcePath = CKey.SERVERDB_URL + "/cust/" + CKey.ADMIN_USERNAME + "/sys/mysql";
+
+        try {
+            String sqlSt = new ObjectMapper().writeValueAsString(sqlObj);
+
+            String output = sendRequest_2(METHOD_POST, subResourcePath, null, sqlSt);
+
+            return output;
+        } catch (Exception ex) {
+            log.info("getSQLRequest exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+        }
+        return null;
+    }
+
+    private String sendRequest_2(String method, String subResourcePath, Map<String, String> queryParams, String bodyParams) throws Exception {
+        String response = null;
+        for (int i = 0; i < 4; i++) {
+            try {
+                response = sendRequest_Process_2(method, subResourcePath, queryParams, bodyParams);
+                if (response != null) {
+                    return response;
+                }
+            } catch (Exception ex) {
+
+            }
+
+            System.out.println("sendRequest " + subResourcePath + " Rety " + (i + 1));
+        }
+        response = sendRequest_Process_2(method, subResourcePath, queryParams, bodyParams);
+        return response;
+    }
+
+    private String sendRequest_Process_2(String method, String subResourcePath, Map<String, String> queryParams, String bodyElement)
+            throws Exception {
+        try {
+            String URLPath = subResourcePath;
+
+            String webResourceString = "";
+            // assume only one param
+            if (queryParams != null && !queryParams.isEmpty()) {
+                for (String key : queryParams.keySet()) {
+                    webResourceString = "?" + key + "=" + queryParams.get(key);
+                }
+            }
+
+            URLPath += webResourceString;
+            URL request = new URL(URLPath);
+            HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
+//            System.out.println("Request Code:: " + URLPath);
+            if (CKey.PROXY == true) {
+                //////Add Proxy 
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
+                con = (HttpURLConnection) request.openConnection(proxy);
+                //////Add Proxy 
+            } else {
+                con = (HttpURLConnection) request.openConnection();
+            }
+            if (method.equals(METHOD_POST)) {
+                con.setRequestMethod("POST");
+            } else {
+                con.setRequestMethod("GET");
+            }
+            con.setRequestProperty("User-Agent", USER_AGENT);
+            con.setRequestProperty("Content-Type", "text/xml");
+//            con.setRequestProperty("Content-Type", "application/json; utf-8");
+
+            if (method.equals(METHOD_POST)) {
+                // For POST only - START
+                con.setDoOutput(true);
+                OutputStream os = con.getOutputStream();
+                byte[] input = bodyElement.getBytes("utf-8");
+                os.write(input, 0, input.length);
+                os.flush();
+                os.close();
+                // For POST only - END
+            }
+            int responseCode = con.getResponseCode();
+//            System.out.println("Response Code:: " + responseCode);
+
+            if (responseCode >= 200 && responseCode < 300) {
+                ;
+            } else {
+                System.out.println("bodyElement :: " + bodyElement);
+                return null;
+            }
+            if (responseCode == HttpURLConnection.HTTP_OK) { //success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                // print result
+                return response.toString();
+            } else {
+                log.info("POST request not worked");
+            }
+
+        } catch (Exception e) {
+            log.info("Error sending REST request:" + e);
+            throw e;
+        }
+        return null;
+    }
+
 }
