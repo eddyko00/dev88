@@ -20,7 +20,7 @@ public class CKey {
     public static final int REMOTE_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
     public static final int MYSQL = 0;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
 
-    public static final int SQL_DATABASE = MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
+    public static final int SQL_DATABASE = REMOTE_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
     public static final boolean SQL_RemoveServerDB = false; // need true and REMOTE_MYSQL using remote server not PHP 
 
     //
@@ -29,7 +29,7 @@ public class CKey {
     public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
     public static boolean NN_DEBUG = false; //false; //true; 
-    public static boolean OPENSHIFT_DB1 = true; //false; //true; // release
+    public static boolean OPENSHIFT_DB1 = false; //false; //true; // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     public static boolean UI_TIMER = false; //false //true for timer ticker  
@@ -59,8 +59,8 @@ public class CKey {
 
 //***********    
 //*********** 
-//    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-    public static final String SERVERDB_URL = URL_PATH_OP;
+    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
+//    public static final String SERVERDB_URL = URL_PATH_OP;
 //
 //**********    
 //*********** 
