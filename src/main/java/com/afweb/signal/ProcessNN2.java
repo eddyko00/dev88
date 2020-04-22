@@ -10,6 +10,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.service.ServiceAFweb;
+import com.afweb.stock.StockDB;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -218,7 +219,8 @@ public class ProcessNN2 {
                                 float thClose = lastTH.getClose();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                if (specialRule1(thClose, StClose) == true) {
+                                float delta = specialRule1(thClose, StClose);
+                                if (delta > 0) {
                                     nnSignal = macdSignal;
                                 }
                             }
@@ -258,6 +260,36 @@ public class ProcessNN2 {
                     nnSignal = macdSignal;
                 }
                 if (macdSignal == nnSignal) {
+                    // test if suddent drop
+                    boolean testRule2 = true;
+                    if (testRule2 == true) {
+                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
+                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
+                        if (thList != null) {
+                            if (thList.size() > 0) {
+                                TransationOrderObj lastTH = thList.get(0);
+                                float thClose = lastTH.getAvgprice();
+                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+                                float StClose = stockinfo.getFclose();
+                                float delta = specialRule1(thClose, StClose);
+                                if (delta > 0) {
+                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Delta Transactoin change > 15% Delta=" + delta);
+//                                    nnSignal = macdSignal;
+                                    int subStatus = stock.getSubstatus();
+                                    if (subStatus == 0) {
+                                        stock.setSubstatus(ConstantKey.STOCK_DELTA);
+                                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+                                        ArrayList sqlList = new ArrayList();
+                                        sqlList.add(sockNameSQL);
+                                        serviceAFWeb.SystemUpdateSQLList(sqlList);
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
                     trObj.setTrsignal(macdSignal);
                     UpdateTRList.add(trObj);
                     return;
@@ -279,8 +311,9 @@ public class ProcessNN2 {
                                 float thClose = lastTH.getAvgprice();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                if (specialRule1(thClose, StClose) == true) {
-                                    logger.info("> updateAdminTradingsignalnn2 Override NN signal dela price > 15%");
+                                float delta = specialRule1(thClose, StClose);
+                                if (delta > 0) {
+                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override NN signal dela price > 15% Delta=" + delta);
                                     nnSignal = macdSignal;
                                 }
 
@@ -296,12 +329,12 @@ public class ProcessNN2 {
         }
     }
 
-    public boolean specialRule1(float thClose, float StClose) {
+    public float specialRule1(float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
         delPer = Math.abs(delPer);
         if (delPer > 15) {  // > 15% override the NN sigal and take the MACD signal
-            return true;
+            return delPer;
         }
-        return false;
+        return 0;
     }
 }

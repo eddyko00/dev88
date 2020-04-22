@@ -211,7 +211,11 @@ public class IndexController {
     @RequestMapping(value = "/server/url0", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerURL() {
-        return RESTtimer.serverURL_0;
+        String url0 =RESTtimer.serverURL_0;
+        if (url0.length()==0) {
+            url0=CKey.SERVERDB_URL;
+        }
+        return url0;
     }
 
     @RequestMapping(value = "/server/url0/sethero", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

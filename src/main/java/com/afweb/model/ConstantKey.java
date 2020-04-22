@@ -68,7 +68,9 @@ public class ConstantKey {
 
     public static final String MSG_STOCK_SPLIT = "STOCK_SPLIT";
     public static final int STOCK_SPLIT = 10;
-
+    
+    public static final String MSG_STOCK_DELTA = "STOCK_DELTA";
+    public static final int STOCK_DELTA = 12;
 //// communication type
     public static final String COM_SIGNAL = "MSG_SIG";
     public static final int INT_COM_SIGNAL = 0;

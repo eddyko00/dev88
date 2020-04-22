@@ -634,10 +634,6 @@ public class ServiceAFweb {
 
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
-//            TRprocessImp.UpdateAllStock(this);
-//            String symbol = "HOU.TO";
-//            AFstockObj stock = this.getRealTimeStockImp(symbol);
-//            TRprocessImp.updateRealTimeStockTest(this, stock);
 
             int commid = 1;
             CommObj commObj = getAccountImp().getCommObjByID(commid);
@@ -664,8 +660,13 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-        boolean initflag = false;
+        boolean initflag = true;
         if (initflag == true) {
+
+//            String symbol = "HOU.TO";
+//            AFstockObj stock = this.getRealTimeStockImp(symbol);
+//            TRprocessImp.updateRealTimeStockTest(this, stock);            
+//            TRprocessImp.UpdateAllStock(this);
 
             //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy
 //            forceRemoveCustTest("EDDY-KO00-GMAIL-COM", "pass");
@@ -860,16 +861,16 @@ public class ServiceAFweb {
 
         }
 
-        boolean flagSig = false;
+        boolean flagSig = true;
         if (flagSig == true) {
 
-//            String symbol = "HOU.TO";
-            String symbol = "DIA";
+            String symbol = "HOU.TO";
+//            String symbol = "DIA";
             String nnName = ConstantKey.TR_NN2;
 
 //          // will clear the transaction history  
-            AFstockObj stock = this.getRealTimeStockImp(symbol);
-            AccountObj accountAdminObj = this.getAdminObjFromCache();
+//            AFstockObj stock = this.getRealTimeStockImp(symbol);
+//            AccountObj accountAdminObj = this.getAdminObjFromCache();
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
 
 //          update HOU current history of transaction
@@ -4149,6 +4150,7 @@ public class ServiceAFweb {
         }
         return msg;
     }
+
     public String SystemRemoteUpdateMySQLList(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
