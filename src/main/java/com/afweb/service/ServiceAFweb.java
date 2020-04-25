@@ -62,7 +62,10 @@ public class ServiceAFweb {
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
 
     public static String PROXYURL = "";
-
+    public static String URL_LOCALDB = "";
+    public static String FileLocalPath = "";
+    
+    
     private static ArrayList TRList = new ArrayList();
 
     private static AccountObj cacheAccountAdminObj = null;
@@ -185,6 +188,9 @@ public class ServiceAFweb {
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);
         PROXYURL = enSt;
+      if (FileLocalPath.length() == 0) {
+            FileLocalPath = CKey.FileLocalPathTemp;
+        }
 
     }
 

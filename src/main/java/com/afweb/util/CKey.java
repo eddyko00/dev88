@@ -1,7 +1,9 @@
 package com.afweb.util;
 
 public class CKey {
-
+    //local pc
+    public static String FileLocalPathTemp = "C:\\TEMP\\";
+    
     public static final String ADMIN_USERNAME = "Admin1";
     public static final String FUND_MANAGER_USERNAME = "FundMgr";
 

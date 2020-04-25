@@ -8,6 +8,7 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceRemoteDB;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -171,6 +172,50 @@ public class IndexController {
         return afWebService.getServerList();
     }
 
+    @RequestMapping(value = "/server/mysqldb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String getServerLocalDbURL() {
+        return ServiceAFweb.URL_LOCALDB;
+    }
+
+    @RequestMapping(value = "/server/mysqldb/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String setServerLocalDbURL(
+            @RequestParam(value = "url", required = true) String urlSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+
+        ServiceAFweb.URL_LOCALDB = urlSt.trim();
+        //restart ServiceAFweb
+        afWebService.SystemStart();
+        return "done...";
+    }
+
+    @RequestMapping(value = "/server/filepath", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String getServerFileP() {
+        return ServiceAFweb.FileLocalPath;
+    }
+
+    @RequestMapping(value = "/server/sysfilepath", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String getServerFileDir() {
+        String userDirectory = Paths.get("").toAbsolutePath().toString();
+        return userDirectory;
+    }
+
+    @RequestMapping(value = "/server/filepath/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String setServerfileP(
+            @RequestParam(value = "path", required = true) String pathSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+
+        ServiceAFweb.FileLocalPath = pathSt.trim();
+        return "done...";
+    }
+
+
     @RequestMapping(value = "/server/dburl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerDBURL() {
@@ -242,40 +287,7 @@ public class IndexController {
         RESTtimer.serverURL_0 = urlSt.trim();
         return "done...";
     }
-//
-//    @RequestMapping(value = "/server/url1", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    String getServerURL1() {
-//        return RESTtimer.serverURL_1;
-//    }
-//
-//    @RequestMapping(value = "/server/url1/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    String setServerURL1(
-//            @RequestParam(value = "url", required = true) String urlSt,
-//            HttpServletRequest request, HttpServletResponse response
-//    ) {
-//
-//        RESTtimer.serverURL_1 = urlSt.trim();
-//        return "done...";
-//    }
-//
-//    @RequestMapping(value = "/server/url2", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    String getServerURL2() {
-//        return RESTtimer.serverURL_2;
-//    }
-//
-//    @RequestMapping(value = "/server/url2/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    String setServerURL2(
-//            @RequestParam(value = "url", required = true) String urlSt,
-//            HttpServletRequest request, HttpServletResponse response
-//    ) {
-//
-//        RESTtimer.serverURL_2 = urlSt.trim();
-//        return "done...";
-//    }
+
 
     @RequestMapping(value = "/timerhandler", produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
