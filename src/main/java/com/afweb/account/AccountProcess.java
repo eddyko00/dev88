@@ -1127,6 +1127,9 @@ public class AccountProcess {
     private int sendRequestObj(ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
         try {
+            if (writeSQLArray.size() == 0) {
+                return 1;
+            }            
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.UpdateSQLList + "");
             String st = new ObjectMapper().writeValueAsString(writeSQLArray);

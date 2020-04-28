@@ -1288,9 +1288,7 @@ public class ServiceAFwebREST {
 //        }
 //        return null;
 //    }
-
-    
-   private String sendRequest_1(String method, String subResourcePath, Map<String, String> queryParams, String bodyParams) {
+    private String sendRequest_1(String method, String subResourcePath, Map<String, String> queryParams, String bodyParams) {
         try {
             if (subResourcePath.indexOf("https") != -1) {
                 return this.https_sendRequest_Process_Ssns(method, subResourcePath, queryParams, bodyParams);
@@ -1316,7 +1314,7 @@ public class ServiceAFwebREST {
                 }
             }
 
-            String bodyElement =bodyParams;
+            String bodyElement = bodyParams;
 //            if (bodyParams != null) {
 //                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
 //            }
@@ -1335,14 +1333,11 @@ public class ServiceAFwebREST {
                 con = (HttpsURLConnection) request.openConnection();
             }
 
-
 //            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
 //            // encode data on your side using BASE64
 //            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
 //            String authEncoded = new String(bytesEncoded);
 //            con.setRequestProperty("Authorization", "Basic " + authEncoded);
-
-
             if (method.equals(METHOD_POST)) {
                 con.setRequestMethod("POST");
             } else if (method.equals(METHOD_GET)) {
@@ -1424,7 +1419,7 @@ public class ServiceAFwebREST {
                 }
             }
 
-           String bodyElement =bodyParams;
+            String bodyElement = bodyParams;
 //            if (bodyParams != null) {
 //                bodyElement = new ObjectMapper().writeValueAsString(bodyParams);
 //            }
@@ -1443,14 +1438,11 @@ public class ServiceAFwebREST {
                 con = (HttpURLConnection) request.openConnection();
             }
 
-
 //            String authStr = "APP_SELFSERVEUSGBIZSVC" + ":" + "soaorgid";
 //            // encode data on your side using BASE64
 //            byte[] bytesEncoded = Base64.encodeBase64(authStr.getBytes());
 //            String authEncoded = new String(bytesEncoded);
 //            con.setRequestProperty("Authorization", "Basic " + authEncoded);
-
-
             if (method.equals(METHOD_POST)) {
                 con.setRequestMethod("POST");
             } else if (method.equals(METHOD_GET)) {
@@ -1509,21 +1501,31 @@ public class ServiceAFwebREST {
         return null;
     }
     ////////////////////////////////////////////
-    
+    private static int sendNum = 0;
+
     public String getSQLRequestRemote(RequestObj sqlObj) {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
         String subResourcePath = CKey.SERVERDB_URL + "/cust/" + CKey.ADMIN_USERNAME + "/sys/mysql";
+
+        if (sqlObj.getReq().length() < 3) {
+            log.info("getSQLRequest not correct num " + sendNum + " sql " + sqlObj.getReq());
+            return "";
+        }
 
         try {
             String sqlSt = new ObjectMapper().writeValueAsString(sqlObj);
 
             String output = sendRequest_2(METHOD_POST, subResourcePath, null, sqlSt);
-
+            sendNum++;
+            if ((sendNum % 10) == 0) {
+                log.info("getSQLRequest sendNum " + sendNum);
+            }
             return output;
         } catch (Exception ex) {
             log.info("getSQLRequest exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
+
         return null;
     }
 
