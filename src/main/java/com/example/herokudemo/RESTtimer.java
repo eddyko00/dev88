@@ -28,14 +28,7 @@ public class RESTtimer {
     public static String serverURL_0 = "";
 
     public void RestTimerHandler() {
-        if (CKey.UI_TIMER == true) {
-            RestTimerHandler1(CKey.URL_PATH_HERO);
-            RestTimerHandler2(CKey.URL_PATH_OP);
-            RestTimerHandler0(CKey.SERVER_TIMER_URL);
-        } else {
-            RestTimerHandler0(CKey.SERVERDB_URL);
-        }
-
+        RestTimerHandler0(CKey.SERVERDB_URL);
     }
 
     public void RestTimerHandler1(String urlStr) {

@@ -28,10 +28,10 @@ public class CKey {
     //
     //////////////////////
     //
-    public static boolean PROXY = false; //false; //true; 
+    public static boolean PROXY = true; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
     public static boolean NN_DEBUG = false; //false; //true; 
-    public static boolean OPENSHIFT_DB1 = false; //false; //true; // release
+    public static boolean OPENSHIFT_DB1 = true; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     public static boolean UI_TIMER = false; //false //true for timer ticker  
@@ -42,7 +42,7 @@ public class CKey {
     public static String URL_PATH_HERO_DB_PHP = "https://iiswebphp.herokuapp.com";  //Remotemysql  https://remotemysql.com/dashboard.php
     public static String URL_PATH_HERO_DBDB_PHP = "https://iiswebdb.herokuapp.com";  //DB4Free https://www.db4free.net/phpMyAdmin/
 
-    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;
+//    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;
 
     /////heroku
     /////heroku
@@ -50,14 +50,14 @@ public class CKey {
 //    //
 //    /////Openshift Login eddyko00  Pass eddyko100 -  using LOCAL_MYSQL  
     public static String WEBPOST_OP_PHP = "/health.php";
-    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web006.apps.us-east-1.starter.openshift-online.com"; //eddyko00     
-    public static final String URL_PATH_OP = "http://iisweb-web006.apps.us-east-1.starter.openshift-online.com";
+    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web006.apps.us-west-1.starter.openshift-online.com"; //eddyko00     
+    public static final String URL_PATH_OP = "http://iisweb-web006.apps.us-west-1.starter.openshift-online.com";
 
     //***********    
 //***********    
     public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DBDB_PHP;  //Heroku PHP DB4free too slow
 //    public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DB_PHP;  //Heroku PHP DB interface  
-//    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
+    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
 
 //***********    
 //*********** 
@@ -66,7 +66,7 @@ public class CKey {
 //
 //**********    
 //*********** 
-    public static final String SERVER_TIMER_URL = "https://iiswebtimer.herokuapp.com";  // server timerhandler    
+//    public static final String SERVER_TIMER_URL = "https://iiswebtimer.herokuapp.com";  // server timerhandler    
 
     ////////////////////////////       
 //https://www.thebalance.com/best-etfs-4173857

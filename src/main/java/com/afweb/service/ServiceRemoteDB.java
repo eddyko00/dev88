@@ -2116,43 +2116,6 @@ public class ServiceRemoteDB {
     private String sendRequest_Process_Mysql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
             throws Exception {
         try {
-            
-            boolean RemoteCallflag = CKey.SQL_RemoveServerDB;  // using remote server not PHP
-            if (RemoteCallflag == true) {
-                ServiceAFwebREST remoteREST = new ServiceAFwebREST();
-                RequestObj sqlObj = new RequestObj();
-                String cmd = "";
-                if (queryParams != null && !queryParams.isEmpty()) {
-                    for (String key : queryParams.keySet()) {
-                        cmd = queryParams.get(key);
-                        break;
-                    }
-                }
-                if (cmd.equals("1")) {
-                    ;
-                } else if (cmd.equals("2")) {
-                    ;
-                } else if (cmd.equals("3")) {
-                    ;
-                } else {
-                    return "";
-                }
-                sqlObj.setCmd(cmd);
-                String sql = "";
-                if (bodyParams != null && !bodyParams.isEmpty()) {
-                    String bodyTmp = "";
-                    for (String key : bodyParams.keySet()) {
-                        bodyTmp = bodyParams.get(key);
-                        sql = bodyTmp;
-                    }
-                }
-                sqlObj.setReq(sql);
-                String resp = remoteREST.getSQLRequestRemote(sqlObj);
-                if (resp != null) {
-                    resp = "~~ " + resp + " ~~";
-                }
-                return resp;
-            }
             if (method.equals(METHOD_POST)) {
                 String URLPath = getURL_PATH() + subResourcePath;
 
@@ -2253,6 +2216,9 @@ public class ServiceRemoteDB {
         }
         return null;
     }
+
+    
+    
     //////////////////////////
 //    private String sendRequest_Process_Ms_sql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
 //            throws Exception {
