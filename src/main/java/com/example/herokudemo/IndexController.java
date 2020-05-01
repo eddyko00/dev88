@@ -33,6 +33,12 @@ public class IndexController {
 
     private static AFwebService afWebService = new AFwebService();
 
+
+    @RequestMapping("/index")
+    public String indexMessage() {
+        return "index";
+    }
+
     @GetMapping("/")
     public String index() {
         return "Hello there! I'm running v1.1";
