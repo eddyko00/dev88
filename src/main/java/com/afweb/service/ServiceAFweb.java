@@ -645,7 +645,7 @@ public class ServiceAFweb {
             /////////need manually enter the communication id
             /////////need manually enter the communication id
 
-            int commid = 216; // 215;
+            int commid = 215; // 216; // 215;
             CommObj commObj = getAccountImp().getCommObjByID(commid);
             if (commObj != null) {
                 CommData commData = getAccountImp().getCommDataObj(commObj);
@@ -653,6 +653,14 @@ public class ServiceAFweb {
                     String sym = commData.getSymbol();
                     boolean retBoolean = true;
                     AFstockObj stock = getStockImp().getRealTimeStock(sym, null);
+//                    if (stock.getSubstatus() == ConstantKey.OPEN) {
+//                        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
+//                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+//                        ArrayList sqlList = new ArrayList();
+//                        sqlList.add(sockNameSQL);
+//                        SystemUpdateSQLList(sqlList);
+//                    }
+
                     if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
                         return;
                     }
@@ -661,6 +669,7 @@ public class ServiceAFweb {
                         logger.info("updateStockFile not found " + nnFileName);
                         return;
                     }
+
                     getStockImp().deleteStockInfoByStockId(stock);
                     // update file
                     retBoolean = getAccountProcessImp().updateStockFile(this, sym);
@@ -675,9 +684,8 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-        boolean initflag = true;
+        boolean initflag = false;
         if (initflag == true) {
-
 
 //
             String symbol = "HOU.TO";
@@ -1063,6 +1071,8 @@ public class ServiceAFweb {
                     avgprice = avgprice * split;
                     share = share / split;
                 }
+                thObj.setAvgprice(avgprice);
+                thObj.setShare(share);
                 String trSql = AccountDB.updateSplitTransactionSQL(thObj);
                 transSQL.add(trSql);
 
