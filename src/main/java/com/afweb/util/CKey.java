@@ -33,7 +33,7 @@ public class CKey {
     public static boolean NN_DEBUG = false; //false; //true; 
     public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
-
+ 
     public static boolean UI_TIMER = false; //false //true for timer ticker  
     /////heroku
     /////heroku
