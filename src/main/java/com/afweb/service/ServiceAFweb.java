@@ -629,6 +629,8 @@ public class ServiceAFweb {
             CKey.OPENSHIFT_DB1 = true;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
             restoreSystem();
+            // restore original
+            CKey.OPENSHIFT_DB1 = false;
         }
 
         boolean flagTran_TR_ACC = false;
@@ -640,8 +642,10 @@ public class ServiceAFweb {
 
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
+            /////////need manually enter the communication id
+            /////////need manually enter the communication id
 
-            int commid = 1;
+            int commid = 216; // 215;
             CommObj commObj = getAccountImp().getCommObjByID(commid);
             if (commObj != null) {
                 CommData commData = getAccountImp().getCommDataObj(commObj);
@@ -650,6 +654,11 @@ public class ServiceAFweb {
                     boolean retBoolean = true;
                     AFstockObj stock = getStockImp().getRealTimeStock(sym, null);
                     if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
+                        return;
+                    }
+                    String nnFileName = FileLocalPath + sym + ".csv";
+                    if (FileUtil.FileTest(nnFileName) == false) {
+                        logger.info("updateStockFile not found " + nnFileName);
                         return;
                     }
                     getStockImp().deleteStockInfoByStockId(stock);
@@ -666,9 +675,20 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-        boolean initflag = false;
+        boolean initflag = true;
         if (initflag == true) {
 
+
+//
+            String symbol = "HOU.TO";
+            AFstockObj stock = this.getRealTimeStockImp(symbol);
+            TRprocessImp.updateRealTimeStockTest(this, stock);
+//            TRprocessImp.UpdateAllStock(this);
+            //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy
+//            forceRemoveCustTest("EDDY-KO00-GMAIL-COM", "pass");
+//            int ret = InitDBData();  // init DB Adding customer account
+//            getAccountProcessImp().ProcessCustomerDisableMaintanceTest(this);
+//
 //            String symbol = "SPY";
 //            updateErrorStockYahooParseError(symbol);
 //            symbol = "DIA";
@@ -692,15 +712,6 @@ public class ServiceAFweb {
 //            symbol = "AAPL";
 //            updateErrorStockYahooParseError(symbol);
 //
-//
-//            String symbol = "HOU.TO";
-//            AFstockObj stock = this.getRealTimeStockImp(symbol);
-//            TRprocessImp.updateRealTimeStockTest(this, stock);
-//            TRprocessImp.UpdateAllStock(this);
-            //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy
-//            forceRemoveCustTest("EDDY-KO00-GMAIL-COM", "pass");
-//            int ret = InitDBData();  // init DB Adding customer account
-//            getAccountProcessImp().ProcessCustomerDisableMaintanceTest(this);
         }
 
         boolean updatetrflag = false;
@@ -1031,6 +1042,15 @@ public class ServiceAFweb {
                 }
                 if (tempSplit < CKey.SPLIT_VAL) {
                     // This transaction already done the spliting
+                    if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+                        stock.setSubstatus(ConstantKey.OPEN);
+                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+                        ArrayList sqlList = new ArrayList();
+                        sqlList.add(sockNameSQL);
+                        SystemUpdateSQLList(sqlList);
+                        logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
+                    }
+
                     continue;
                 }
 
@@ -1111,7 +1131,7 @@ public class ServiceAFweb {
         String tableName = "neuralnetdata";
         try {
             ArrayList<String> writeArray = new ArrayList();
-            String fName = AccountProcess.FileLocalPath + tableName + ".txt";
+            String fName = FileLocalPath + tableName + ".txt";
             if (FileUtil.FileTest(fName) == false) {
                 return 0;
             }

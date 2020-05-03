@@ -244,7 +244,13 @@ public class StockInternet {
 
     HttpClient client = HttpClientBuilder.create().build();
     HttpClientContext context = HttpClientContext.create();
-
+    // stoct split get the latest
+    // https://ca.finance.yahoo.com/quote/HOU.TO/history?period1=1430611200&period2=1588291200&interval=1d&filter=history&frequency=1d
+    // change Time Peroid -> 5 Y
+    // Apply
+    // download
+    
+    
     //https://ca.finance.yahoo.com/quote/DIA/history?period1=885254400&period2=1583625600&interval=1d&filter=history&frequency=1d
     //https://ca.finance.yahoo.com/quote/TD.TO/history?p=TD.TO
     public StringBuffer getInternetYahooScreenPage(String symbol, String url) {

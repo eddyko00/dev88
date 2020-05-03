@@ -856,7 +856,7 @@ public class AccountProcess {
     public boolean updateStockFile(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         this.serviceAFWeb = serviceAFWeb;
         ArrayList inputArray = new ArrayList();
-        String nnFileName = FileLocalPath + NormalizeSymbol + ".csv";
+        String nnFileName = ServiceAFweb.FileLocalPath + NormalizeSymbol + ".csv";
         if (FileUtil.FileTest(nnFileName) == false) {
             logger.info("updateStockFile not found " + nnFileName);
             return false;
@@ -942,12 +942,12 @@ public class AccountProcess {
 ////////////////uploadDBData////////////////////////    
 ////////////////uploadDBData////////////////////////        
 ////////////////////////////////////////    
-    public static String FileLocalPath = "T:/Netbean/db/";
+//    public static String ServiceAFweb.FileLocalPath = "T:/Netbean/db/";
 
     public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
         this.serviceAFWeb = serviceAFWeb;
 
-        if (FileUtil.FileTest(FileLocalPath + "customer.txt") == false) {
+        if (FileUtil.FileTest(ServiceAFweb.FileLocalPath + "customer.txt") == false) {
             return false;
         }
 
@@ -1006,7 +1006,7 @@ public class AccountProcess {
 
         try {
             ArrayList<String> writeArray = new ArrayList();
-            String fName = FileLocalPath + tableName + ".txt";
+            String fName = ServiceAFweb.FileLocalPath + tableName + ".txt";
             if (FileUtil.FileTest(fName) == false) {
                 return 0;
             }
@@ -1043,7 +1043,7 @@ public class AccountProcess {
 
         try {
             ArrayList<String> writeArray = new ArrayList();
-            String fName = FileLocalPath + tableName + ".txt";
+            String fName = ServiceAFweb.FileLocalPath + tableName + ".txt";
             if (FileUtil.FileTest(fName) == false) {
                 return 0;
             }
@@ -1081,7 +1081,7 @@ public class AccountProcess {
         String tableName = "stockinfo";
         int ret = 0;
         while (true) {
-            String fileName = FileLocalPath + tableName + "_" + fileCont + ".txt";
+            String fileName = ServiceAFweb.FileLocalPath + tableName + "_" + fileCont + ".txt";
             if (FileUtil.FileTest(fileName) == false) {
                 break;
             }
@@ -1096,7 +1096,7 @@ public class AccountProcess {
         try {
             ArrayList<String> writeArray = new ArrayList();
             String fileName = tableName + "_" + fileCont + ".txt";
-            FileUtil.FileReadTextArray(FileLocalPath + fileName, writeArray);
+            FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + fileName, writeArray);
             ArrayList<String> writeSQLArray = new ArrayList();
 
             logger.info("> restoreDBstockinfo " + writeArray.size());
@@ -1154,7 +1154,7 @@ public class AccountProcess {
         String tableName = "stock";
         try {
             ArrayList<String> writeArray = new ArrayList();
-            FileUtil.FileReadTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             ArrayList<String> writeSQLArray = new ArrayList();
             logger.info("> restoreDBstock " + writeArray.size());
             for (int i = 0; i < writeArray.size(); i++) {
@@ -1176,7 +1176,7 @@ public class AccountProcess {
         String tableName = "account";
         try {
             ArrayList<String> writeArray = new ArrayList();
-            FileUtil.FileReadTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             ArrayList<String> writeSQLArray = new ArrayList();
             logger.info("> restoreDBaccount " + writeArray.size());
             for (int i = 0; i < writeArray.size(); i++) {
@@ -1198,7 +1198,7 @@ public class AccountProcess {
         try {
 
             ArrayList<String> writeArray = new ArrayList();
-            FileUtil.FileReadTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             ArrayList<String> writeSQLArray = new ArrayList();
             logger.info("> restoreDBcustomer " + writeArray.size());
             for (int i = 0; i < writeArray.size(); i++) {
@@ -1219,7 +1219,7 @@ public class AccountProcess {
         String tableName = "tradingrule";
         try {
             ArrayList<String> writeArray = new ArrayList();
-            FileUtil.FileReadTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             ArrayList<String> writeSQLArray = new ArrayList();
             logger.info("> restoreDBaccountstock " + writeArray.size());
             int index = 0;
@@ -1252,7 +1252,7 @@ public class AccountProcess {
         String tableName = "billing";
         try {
             ArrayList<String> writeArray = new ArrayList();
-            String fileName = FileLocalPath + tableName + ".txt";
+            String fileName = ServiceAFweb.FileLocalPath + tableName + ".txt";
             if (FileUtil.FileTest(fileName) == false) {
                 return 0;
             }
@@ -1291,7 +1291,7 @@ public class AccountProcess {
         String tableName = "comm";
         try {
             ArrayList<String> writeArray = new ArrayList();
-            String fileName = FileLocalPath + tableName + ".txt";
+            String fileName = ServiceAFweb.FileLocalPath + tableName + ".txt";
             if (FileUtil.FileTest(fileName) == false) {
                 return 0;
             }
@@ -1330,7 +1330,7 @@ public class AccountProcess {
         String tableName = "transationorder";
         try {
             ArrayList<String> writeArray = new ArrayList();
-            String fileName = FileLocalPath + tableName + ".txt";
+            String fileName = ServiceAFweb.FileLocalPath + tableName + ".txt";
             if (FileUtil.FileTest(fileName) == false) {
                 return 0;
             }
@@ -1369,7 +1369,7 @@ public class AccountProcess {
         String tableName = "performance";
         try {
             ArrayList<String> writeArray = new ArrayList();
-            String fileName = FileLocalPath + tableName + ".txt";
+            String fileName = ServiceAFweb.FileLocalPath + tableName + ".txt";
             if (FileUtil.FileTest(fileName) == false) {
                 return 0;
             }
@@ -1446,7 +1446,7 @@ public class AccountProcess {
                 }
 
             }
-            FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
@@ -1519,7 +1519,7 @@ public class AccountProcess {
                 }
 
             }
-            FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
@@ -1593,7 +1593,7 @@ public class AccountProcess {
                 }
 
             }
-            FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
@@ -1668,7 +1668,7 @@ public class AccountProcess {
                 }
 
             }
-            FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
@@ -1742,7 +1742,7 @@ public class AccountProcess {
                 }
 
             }
-            FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
@@ -1819,7 +1819,7 @@ public class AccountProcess {
                     String st = new ObjectMapper().writeValueAsString(obj);
                     writeArray.add(st);
                 }
-                FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
                 return 1;
             }
         } catch (Exception ex) {
@@ -1861,7 +1861,7 @@ public class AccountProcess {
                     String st = new ObjectMapper().writeValueAsString(obj);
                     writeArray.add(st);
                 }
-                FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
                 return 1;
             }
         } catch (Exception ex) {
@@ -1903,7 +1903,7 @@ public class AccountProcess {
                     break;
                 }
             }
-            FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
 
@@ -1971,7 +1971,7 @@ public class AccountProcess {
                     break;
                 }
             }
-            FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
 
@@ -2043,13 +2043,13 @@ public class AccountProcess {
                 }
                 loopCnt++;
                 if (loopCnt > 15) {
-                    FileUtil.FileWriteTextArray(FileLocalPath + tableName + "_" + fileCont + ".txt", writeArray);
+                    FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + "_" + fileCont + ".txt", writeArray);
                     fileCont++;
                     loopCnt = 0;
                     writeArray.clear();
                 }
             }
-            FileUtil.FileWriteTextArray(FileLocalPath + tableName + "_" + fileCont + ".txt", writeArray);
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + "_" + fileCont + ".txt", writeArray);
             return 1;
         }
 
@@ -2124,7 +2124,7 @@ public class AccountProcess {
                     String st = new ObjectMapper().writeValueAsString(obj);
                     writeArray.add(st);
                 }
-                FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
                 return 1;
             }
         } catch (Exception ex) {
@@ -2166,7 +2166,7 @@ public class AccountProcess {
                     String st = new ObjectMapper().writeValueAsString(obj);
                     writeArray.add(st);
                 }
-                FileUtil.FileWriteTextArray(FileLocalPath + tableName + ".txt", writeArray);
+                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
                 return 1;
             }
         } catch (Exception ex) {

@@ -2,7 +2,7 @@ package com.afweb.util;
 
 public class CKey {
     //local pc
-    public static String FileLocalPathTemp = "C:\\TEMP\\";
+    public static String FileLocalPathTemp = "T:/Netbean/db/";
     
     public static final String ADMIN_USERNAME = "Admin1";
     public static final String FUND_MANAGER_USERNAME = "FundMgr";
@@ -28,11 +28,11 @@ public class CKey {
     //
     //////////////////////
     //
-    public static boolean PROXY = false; //false; //true; 
+    public static boolean PROXY = true; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
-    public static boolean NN_DEBUG = false; //false; //true; 
+    public static boolean NN_DEBUG = true; //false; //true; 
     public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
-    public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
+    public static boolean UI_ONLY = true; //false Openshift; //true heroku;  
 
     public static boolean UI_TIMER = false; //false //true for timer ticker  
     /////heroku
