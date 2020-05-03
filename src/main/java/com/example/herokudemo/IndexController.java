@@ -56,7 +56,7 @@ public class IndexController {
         arrayString.add("/server/url0/set?url=stop");
 //        arrayString.add("/server/dburl");
 //        arrayString.add("/server/dburl/set?url=");         
-        arrayString.add("/st/help");
+        arrayString.add("/help");
         arrayString.add("/st?length={0 for all}");
         arrayString.add("/st/{symbol}");
         arrayString.add("/st/{symbol}/history?length={0 for all}");

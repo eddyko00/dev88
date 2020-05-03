@@ -324,7 +324,8 @@ public class StockInternet {
                     String stOpen = sTag.GetNextText();
                     if (stOpen.equals("Dividend")) {
                         break;
-                    }                    
+                    } 
+                    
                     //2:1 Stock Split here
                     
                     String stHigh = sTag.GetNextText();
@@ -355,7 +356,9 @@ public class StockInternet {
                     String stVolume = sTag.GetNextText();
 
                     LineNum++;
-                    inLine = stDate + "," + stOpen + "," + stHigh + "," + stLow + "," + stClose + "," + stAdjClose + "," + stVolume;
+                    inLine = stDate + "#" + stOpen + "#" + stHigh + "#" + stLow + "#" + stClose + "#" + stAdjClose + "#" + stVolume;
+                    inLine = inLine.replaceAll(",", "");
+                    inLine = inLine.replaceAll("#", ",");                   
                     //Date,Open,High,Low,Close,Adj Close,Volume
                     if (inLine.indexOf("Date,Open") != -1) {
                         continue;

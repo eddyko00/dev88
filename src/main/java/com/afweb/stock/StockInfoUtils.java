@@ -45,6 +45,19 @@ public class StockInfoUtils {
     }
 
     private static String cleanNumberString(String data) {
+//        while (data.length() > 0) {
+//            if (data.charAt(0) == '0') {
+//                if (data.length() > 1) {
+//                    if (data.charAt(1) == '.') {
+//                        break;
+//                    }
+//                    data = data.substring(1);
+//                    continue;
+//                }
+//            }
+//            break;
+//        }
+
         return StockInfoUtils.join(data.trim().split(","), "");
     }
 
@@ -266,13 +279,19 @@ public class StockInfoUtils {
     }
 
 //Mar. 06, 2020 convert to 1995-04-14 format
-    public static String parseHistDateScreen(String date) {
-        SimpleDateFormat format = new SimpleDateFormat("MMM.dd,yyyy", Locale.US);
-        try {
-            if (StockInfoUtils.isParseable(date)) {
-                Calendar c = Calendar.getInstance();
-                c.setTime(format.parse(date));
+    public static String parseHistDateScreen(String dateSt) {
 
+        try {
+            if (StockInfoUtils.isParseable(dateSt)) {
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat formatDot = new SimpleDateFormat("MMM.dd,yyyy", Locale.US);
+                SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy", Locale.US);
+
+                if (dateSt.indexOf(".") != -1) {
+                    c.setTime(formatDot.parse(dateSt));
+                } else {
+                    c.setTime(format.parse(dateSt));
+                }
                 Date entryDate = c.getTime();
 
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -280,7 +299,7 @@ public class StockInfoUtils {
                 return stDate;
             }
         } catch (ParseException ex) {
-//            logger.info("Failed to parse hist date: " + date + " " + ex);
+            logger.info("Failed to parse hist date: " + dateSt + " " + ex);
         }
         return null;
     }

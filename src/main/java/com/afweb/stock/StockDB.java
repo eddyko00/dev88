@@ -193,7 +193,7 @@ public class StockDB {
         }
         return 0;
     }
-
+    
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
         try {
             String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();

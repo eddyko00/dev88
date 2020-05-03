@@ -123,7 +123,7 @@ public class AccountProcess {
         for (int i = 0; i < custList.size(); i++) {
             CustomerObj custObj = (CustomerObj) custList.get(i);
             if (custObj.getUpdatedatel() < cust4DayAgo) {
-                
+
                 //remove customer
                 serviceAFWeb.removeCustomer(custObj.getUsername());
 
@@ -861,6 +861,10 @@ public class AccountProcess {
             logger.info("updateStockFile not found " + nnFileName);
             return false;
         }
+
+        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+        serviceAFWeb.getStockImp().deleteStockInfoByStockId(stock);
+
         ArrayList<AFstockInfo> StockArray = new ArrayList();
         boolean ret = FileUtil.FileReadTextArray(nnFileName, inputArray);
         if (ret == true) {
@@ -1129,7 +1133,7 @@ public class AccountProcess {
         try {
             if (writeSQLArray.size() == 0) {
                 return 1;
-            }            
+            }
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.UpdateSQLList + "");
             String st = new ObjectMapper().writeValueAsString(writeSQLArray);

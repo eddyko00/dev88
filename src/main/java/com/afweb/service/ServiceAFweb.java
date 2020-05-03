@@ -64,8 +64,7 @@ public class ServiceAFweb {
     public static String PROXYURL = "";
     public static String URL_LOCALDB = "";
     public static String FileLocalPath = "";
-    
-    
+
     private static ArrayList TRList = new ArrayList();
 
     private static AccountObj cacheAccountAdminObj = null;
@@ -188,7 +187,7 @@ public class ServiceAFweb {
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);
         PROXYURL = enSt;
-      if (FileLocalPath.length() == 0) {
+        if (FileLocalPath.length() == 0) {
             FileLocalPath = CKey.FileLocalPathTemp;
         }
 
@@ -594,6 +593,7 @@ public class ServiceAFweb {
 
         boolean flaginputStock = false;
         if (flaginputStock == true) {
+
             getAccountProcessImp().updateAllStockFile(this);
         }
 
@@ -666,14 +666,37 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-        boolean initflag = true;
+        boolean initflag = false;
         if (initflag == true) {
 
+//            String symbol = "SPY";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "DIA";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "QQQ";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "HOU.TO";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "HOD.TO";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "T.TO";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "FAS";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "FAZ";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "XIU.TO";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "RY.TO";
+//            updateErrorStockYahooParseError(symbol);
+//            symbol = "AAPL";
+//            updateErrorStockYahooParseError(symbol);
+//
+//
 //            String symbol = "HOU.TO";
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);
-//            TRprocessImp.updateRealTimeStockTest(this, stock);            
+//            TRprocessImp.updateRealTimeStockTest(this, stock);
 //            TRprocessImp.UpdateAllStock(this);
-
             //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy
 //            forceRemoveCustTest("EDDY-KO00-GMAIL-COM", "pass");
 //            int ret = InitDBData();  // init DB Adding customer account
@@ -878,7 +901,6 @@ public class ServiceAFweb {
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);
 //            AccountObj accountAdminObj = this.getAdminObjFromCache();
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-
 //          update HOU current history of transaction
             TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
@@ -892,6 +914,20 @@ public class ServiceAFweb {
             logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
             return;
         }
+    }
+
+    public void updateErrorStockYahooParseError(String symbol) {
+//        String symbol = "HOU.TO";
+        AFstockObj stock = this.getRealTimeStockImp(symbol);
+
+        stock.setStatus(ConstantKey.OPEN);
+        //send SQL update
+        String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
+        ArrayList sqlList = new ArrayList();
+        sqlList.add(sockUpdateSQL);
+        SystemUpdateSQLList(sqlList);
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TRprocessImp.updateRealTimeStockTest(this, stock);
     }
 
     public void forceRemoveCustTest(String login, String pass) {
@@ -1155,7 +1191,6 @@ public class ServiceAFweb {
         }
 
     }
-    
 
     public static void AFSleep() {
         // delay seems causing openshif not working        
