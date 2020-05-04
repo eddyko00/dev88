@@ -507,8 +507,8 @@ public class AccountProcess {
                     String symbol = (String) stockNameArray.get(j);
                     int ret = TRprocessImp.updateStockProcess(serviceAFWeb, symbol);
                     if (ret > 0) {
-                        updateTradingsignal(accountAdminObj, accountObj, symbol);
-                        upateTradingTransaction(accountObj, symbol);
+                        updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
+                        upateTradingTransaction(serviceAFWeb, accountObj, symbol);
                     }
                 }
                 maxAccountCnt++;
@@ -521,7 +521,7 @@ public class AccountProcess {
 
     }
 
-    public void updateTradingsignal(AccountObj accountAdminObj, AccountObj accountObj, String symbol) {
+    public void updateTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj, AccountObj accountObj, String symbol) {
 
         // update Trading signal
         ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.SystemAccountStockListByAccountID(accountAdminObj.getId(), symbol);
@@ -675,7 +675,7 @@ public class AccountProcess {
         return 0;
     }
 
-    public void upateTradingTransaction(AccountObj accountObj, String symbol) {
+    public void upateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         try {
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
