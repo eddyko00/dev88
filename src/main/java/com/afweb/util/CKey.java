@@ -1,9 +1,10 @@
 package com.afweb.util;
 
 public class CKey {
+
     //local pc
     public static String FileLocalPathTemp = "T:/Netbean/db/";
-    
+
     public static final String ADMIN_USERNAME = "Admin1";
     public static final String FUND_MANAGER_USERNAME = "FundMgr";
 
@@ -31,9 +32,9 @@ public class CKey {
     public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
     public static boolean NN_DEBUG = false; //false; //true; 
-    public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
+    public static boolean OPENSHIFT_DB1 = true; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
- 
+
     public static boolean UI_TIMER = false; //false //true for timer ticker  
     /////heroku
     /////heroku
@@ -41,8 +42,6 @@ public class CKey {
     public static String WEBPOST_HERO_PHP = "/webgetresp.php";
     public static String URL_PATH_HERO_DB_PHP = "https://iiswebphp.herokuapp.com";  //Remotemysql  https://remotemysql.com/dashboard.php
     public static String URL_PATH_HERO_DBDB_PHP = "https://iiswebdb.herokuapp.com";  //DB4Free https://www.db4free.net/phpMyAdmin/
-
-    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;
 
     /////heroku
     /////heroku
@@ -57,14 +56,18 @@ public class CKey {
 //***********    
     public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DBDB_PHP;  //Heroku PHP DB4free too slow
 //    public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DB_PHP;  //Heroku PHP DB interface  
-//    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
-
+//***********    
+//*********** 
+// PHP DB server
+// PHP DB server  
+//    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;   
+    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
 //***********    
 //*********** 
 // server timerhandler
 // server timerhandler    
-    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-//    public static final String SERVERDB_URL = URL_PATH_OP;
+//    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
+    public static final String SERVERDB_URL = URL_PATH_OP;
 //
 //**********    
 //*********** 
