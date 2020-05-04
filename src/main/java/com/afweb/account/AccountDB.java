@@ -134,9 +134,9 @@ public class AccountDB {
                     customer.setFirstname(rs.getString("firstname"));
                     customer.setLastname(rs.getString("lastname"));
                     customer.setEmail(rs.getString("email"));
-                    customer.setInvestment(rs.getFloat("investment"));
+                    customer.setPayment(rs.getFloat("payment"));
                     customer.setBalance(rs.getFloat("balance"));
-
+                    customer.setPortfolio(rs.getString("portfolio"));
                     customer.setUpdatedatel(rs.getLong("updatedatel"));
                     //entrydatedisplay not reliable. should use entrydatel
                     customer.setUpdatedatedisplay(new java.sql.Date(customer.getUpdatedatel()));
@@ -185,7 +185,7 @@ public class AccountDB {
 
     public static String SQLUupdateCustAllStatus(CustomerObj acc) {
         String sqlCMD = "update customer set status=" + acc.getStatus() + ",substatus=" + acc.getSubstatus()
-                + ",investment=" + acc.getInvestment() + ",balance=" + acc.getBalance()
+                + ",payment=" + acc.getPayment() + ",balance=" + acc.getBalance()
                 + " where id=" + acc.getId();
         return sqlCMD;
     }
@@ -260,21 +260,21 @@ public class AccountDB {
         newC.setUpdatedatedisplay(new java.sql.Date(newC.getUpdatedatel()));
         String sqlCMD
                 = "insert into customer(username, password, type, status, substatus, startdate, firstname, lastname,"
-                + " email, investment, balance , updatedatedisplay, updatedatel, id) values "
+                + " email, payment, balance, portfolio, updatedatedisplay, updatedatel, id) values "
                 + "('" + newC.getUsername() + "','" + newC.getPassword() + "'," + newC.getType()
                 + "," + newC.getStatus() + "," + newC.getSubstatus() + ",'" + newC.getStartdate() + "'"
                 + ",'" + firstname + "','" + lastname + "'"
-                + ",'" + email + "'," + newC.getInvestment() + "," + newC.getBalance()
+                + ",'" + email + "'," + newC.getPayment() + "," + newC.getBalance() + ",'" + newC.getPortfolio()+"'"
                 + ",'" + newC.getUpdatedatedisplay() + "'," + newC.getUpdatedatel() + "," + newC.getId() + ")";
         return sqlCMD;
     }
 
-    public int addCustomer(CustomerObj newCustomer) {
+    public int addCustomer(CustomerObj newC) {
         try {
 
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long dateNowLong = dateNow.getTimeInMillis();
-            String userN = newCustomer.getUsername();
+            String userN = newC.getUsername();
             userN = userN.toUpperCase();
             CustomerObj customer = getCustomer(userN, null);            
 
@@ -285,15 +285,15 @@ public class AccountDB {
                 // just for testing
                 if (status != ConstantKey.OPEN) {
                     customer.setStatus(ConstantKey.OPEN);
-                    customer.setSubstatus(newCustomer.getSubstatus());
-                    customer.setInvestment(newCustomer.getInvestment());
-                    customer.setBalance(newCustomer.getBalance());
+                    customer.setSubstatus(newC.getSubstatus());
+                    customer.setPayment(newC.getPayment());
+                    customer.setBalance(newC.getBalance());
                     this.updateCustAllStatus(customer);
 
                 }
 
-                newCustomer.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
-                newCustomer.setUpdatedatel(dateNowLong);
+                newC.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+                newC.setUpdatedatel(dateNowLong);
 
                 updateCustomerUpdateDate(customer);
                 return ConstantKey.EXISTED;
@@ -301,11 +301,11 @@ public class AccountDB {
 
             String sqlCMD
                     = "insert into customer(username, password, type, status, substatus, startdate, firstname, lastname,"
-                    + " email, investment, balance , updatedatedisplay, updatedatel) values "
-                    + "('" + newCustomer.getUsername() + "','" + newCustomer.getPassword() + "'," + newCustomer.getType()
-                    + "," + ConstantKey.OPEN + "," + newCustomer.getSubstatus() + ",'" + new java.sql.Date(dateNowLong) + "'"
-                    + ",'" + newCustomer.getFirstname() + "','" + newCustomer.getLastname() + "'"
-                    + ",'" + newCustomer.getEmail() + "'," + newCustomer.getInvestment() + "," + newCustomer.getBalance()
+                    + " email, payment, balance, portfolio, updatedatedisplay, updatedatel) values "
+                    + "('" + newC.getUsername() + "','" + newC.getPassword() + "'," + newC.getType()
+                    + "," + ConstantKey.OPEN + "," + newC.getSubstatus() + ",'" + new java.sql.Date(dateNowLong) + "'"
+                    + ",'" + newC.getFirstname() + "','" + newC.getLastname() + "'"
+                    + ",'" + newC.getEmail() + "'," + newC.getPayment() + "," + newC.getBalance()+ ",'" + newC.getPortfolio()+"'"
                     + ",'" + new java.sql.Date(dateNowLong) + "'," + dateNowLong + ")";
 
             processUpdateDB(sqlCMD);
@@ -1421,22 +1421,22 @@ public class AccountDB {
             switch (newCustomer.getType()) {
                 case CustomerObj.INT_ADMIN_USER:
                     newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                    newCustomer.setInvestment(ConstantKey.INT_PP_DELUXE_PRICE);
+                    newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
                     newCustomer.setBalance(0);
                     break;
                 case CustomerObj.INT_FUND_USER:
                     newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                    newCustomer.setInvestment(ConstantKey.INT_PP_DELUXE_PRICE);
+                    newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
                     newCustomer.setBalance(0);
                     break;
                 case CustomerObj.INT_GUEST_USER:
                     newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                    newCustomer.setInvestment(ConstantKey.INT_PP_DELUXE_PRICE);
+                    newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
                     newCustomer.setBalance(0);
                     break;
                 default:
                     newCustomer.setSubstatus(ConstantKey.INT_PP_BASIC);
-                    newCustomer.setInvestment(ConstantKey.INT_PP_BASIC_PRICE);
+                    newCustomer.setPayment(ConstantKey.INT_PP_BASIC_PRICE);
                     newCustomer.setBalance(0);
                     break;
             }

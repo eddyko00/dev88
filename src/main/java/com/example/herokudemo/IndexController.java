@@ -70,7 +70,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/login&pass={pass}");
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
-        arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&investment=&balance=&servicefee=");
+        arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&payment=&balance=&servicefee=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove");
@@ -421,14 +421,14 @@ public class IndexController {
         return account;
     }
 
-//               arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&investment=&balance=&servicefee=");
+//               arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&payment=&balance=&servicefee=");
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateAccountStatus(
             @PathVariable("username") String username,
             @PathVariable("accountid") String accountid,
             @RequestParam(value = "substatus", required = true) String substatusSt,
-            @RequestParam(value = "investment", required = true) String investmentSt,
+            @RequestParam(value = "payment", required = true) String paymentSt,
             @RequestParam(value = "balance", required = true) String balanceSt,
             @RequestParam(value = "servicefee", required = true) String servicefeeSt,
             HttpServletRequest request, HttpServletResponse response
@@ -439,7 +439,7 @@ public class IndexController {
             return 0;
         }
 
-        int ret = afWebService.updateAccountStatusByAccountID(username, balanceSt, accountid, substatusSt, investmentSt, balanceSt, servicefeeSt);
+        int ret = afWebService.updateAccountStatusByAccountID(username, balanceSt, accountid, substatusSt, paymentSt, balanceSt, servicefeeSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }

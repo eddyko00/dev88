@@ -958,7 +958,7 @@ public class ServiceAFweb {
             custObj.setStatus(ConstantKey.DISABLE);;
         }
         float bal = custObj.getBalance();
-        float payment = custObj.getInvestment();
+        float payment = custObj.getPayment();
         float outstand = bal - payment;
         if (outstand >= 0) {  //No out standing payment 
             custObj.setStatus(ConstantKey.DISABLE);

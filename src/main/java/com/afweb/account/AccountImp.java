@@ -283,15 +283,15 @@ public class AccountImp {
         }
         return null;
     }
-//http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15
+//http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&payment=0&balance=15
 
     public int updateCustAllStatus(String UserName,
-            int substatus, float investment, float balance) {
+            int substatus, float payment, float balance) {
 
         CustomerObj customer = getCustomerPassword(UserName, null);
         if (customer != null) {
             customer.setSubstatus(substatus);
-            customer.setInvestment(investment);
+            customer.setPayment(payment);
             customer.setBalance(balance);
             return accountdb.updateCustAllStatus(customer);
         }

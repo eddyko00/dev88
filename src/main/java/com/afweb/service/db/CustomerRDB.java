@@ -12,21 +12,23 @@ import com.vpumlmodel.account.account;
  * @author eddy
  */
 public class CustomerRDB {
-    	private account[] account;
-	private String id;
-	private String username;
-	private String password;
-	private String type;
-	private String status;
-	private String substatus;
-	private String startdate;
-	private String firstname;
-	private String lastname;
-	private String email;
-	private String investment;        
-	private String balance;
-	private String updatedatedisplay;
-	private String updatedatel;
+
+    private account[] account;
+    private String id;
+    private String username;
+    private String password;
+    private String type;
+    private String status;
+    private String substatus;
+    private String startdate;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String payment;
+    private String balance;
+    private String portfolio;
+    private String updatedatedisplay;
+    private String updatedatel;
 
     /**
      * @return the account
@@ -224,17 +226,32 @@ public class CustomerRDB {
         this.updatedatel = updatedatel;
     }
 
+    
     /**
-     * @return the investment
+     * @return the payment
      */
-    public String getInvestment() {
-        return investment;
+    public String getPayment() {
+        return payment;
     }
 
     /**
-     * @param investment the investment to set
+     * @param payment the payment to set
      */
-    public void setInvestment(String investment) {
-        this.investment = investment;
+    public void setPayment(String payment) {
+        this.payment = payment;
+    }
+
+    /**
+     * @return the portfolio
+     */
+    public String getPortfolio() {
+        return portfolio;
+    }
+
+    /**
+     * @param portfolio the portfolio to set
+     */
+    public void setPortfolio(String portfolio) {
+        this.portfolio = portfolio;
     }
 }

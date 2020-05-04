@@ -248,10 +248,10 @@ public class ServiceAFwebREST {
     }
 
     public int updateAccountStatusByAccountID(String EmailUserName, String Password, String AccountIDSt,
-            String substatusSt, String investmentSt, String balanceSt, String servicefeeSt) {
+            String substatusSt, String paymentSt, String balanceSt, String servicefeeSt) {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
         String subResourcePath = "/cust/" + EmailUserName + "/acc/" + AccountIDSt + "/update?substatus=" + substatusSt
-                + "&investment=" + investmentSt + "&balance=" + balanceSt + "&servicefee=" + servicefeeSt;
+                + "&payment=" + paymentSt + "&balance=" + balanceSt + "&servicefee=" + servicefeeSt;
         try {
 //            ClientResponse response = get(subResourcePath, null);
 //            String output = response.getEntity(String.class);
@@ -1092,10 +1092,10 @@ public class ServiceAFwebREST {
     }
 
     public int updateCustAllStatus(String customername,
-            String substatusSt, String investmentSt, String balanceSt) {
+            String substatusSt, String paymentSt, String balanceSt) {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
         String subResourcePath = "/cust/" + CKey.ADMIN_USERNAME + "/sys/cust/" + customername + "/update?substatus=" + substatusSt
-                + "&investment=" + investmentSt + "&balance=" + balanceSt;
+                + "&payment=" + paymentSt + "&balance=" + balanceSt;
         try {
 //            ClientResponse response = get(subResourcePath, null);
 //            String output = response.getEntity(String.class);

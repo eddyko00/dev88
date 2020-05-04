@@ -169,7 +169,7 @@ public class AccountProcess {
                 continue;
             }
             float bal = custObj.getBalance();
-            float payment = custObj.getInvestment();
+            float payment = custObj.getPayment();
             float outstand = bal - payment;
             if (outstand >= 0) {  //No out standing payment 
                 continue;

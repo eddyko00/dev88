@@ -4,6 +4,34 @@ import com.vpumlmodel.account.*;
 
 public class customer {
 
+    /**
+     * @return the payment
+     */
+    public float getPayment() {
+        return payment;
+    }
+
+    /**
+     * @param payment the payment to set
+     */
+    public void setPayment(float payment) {
+        this.payment = payment;
+    }
+
+    /**
+     * @return the portfolio
+     */
+    public String getPortfolio() {
+        return portfolio;
+    }
+
+    /**
+     * @param portfolio the portfolio to set
+     */
+    public void setPortfolio(String portfolio) {
+        this.portfolio = portfolio;
+    }
+
     private account[] account;
     private int id;
     private String username;
@@ -15,8 +43,9 @@ public class customer {
     private String firstname;
     private String lastname;
     private String email;
-    private float investment;
+    private float payment;
     private float balance;
+    private String portfolio;
     private java.sql.Date updatedatedisplay;
     private long updatedatel;
 
@@ -221,20 +250,6 @@ public class customer {
      */
     public void setUpdatedatel(long updatedatel) {
         this.updatedatel = updatedatel;
-    }
-
-    /**
-     * @return the investment
-     */
-    public float getInvestment() {
-        return investment;
-    }
-
-    /**
-     * @param investment the investment to set
-     */
-    public void setInvestment(float investment) {
-        this.investment = investment;
     }
 
 }

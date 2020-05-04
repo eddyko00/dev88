@@ -581,8 +581,9 @@ public class ServiceRemoteDB {
                 customer.setFirstname(FN);
                 customer.setLastname(LN);
                 customer.setEmail(rs.getEmail());
-                customer.setInvestment(Float.parseFloat(rs.getInvestment()));
+                customer.setPayment(Float.parseFloat(rs.getPayment()));
                 customer.setBalance(Float.parseFloat(rs.getBalance()));
+                customer.setPortfolio(rs.getPortfolio());
                 customer.setUpdatedatel(Long.parseLong(rs.getUpdatedatel()));
                 customer.setUpdatedatedisplay(new java.sql.Date(customer.getUpdatedatel()));
 
