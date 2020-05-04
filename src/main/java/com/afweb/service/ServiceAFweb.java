@@ -360,11 +360,6 @@ public class ServiceAFweb {
                     //try 2 times
                     getAccountProcessImp().ProcessAdminAccount(this);
                     getAccountProcessImp().ProcessAdminAccount(this);
-                    //////////// for Openshift
-                    if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
-                        RESTtimer.serverURL_0 = "stop";
-                    }
-                    ////////////
 
                 }
                 // final initialization

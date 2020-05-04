@@ -6,6 +6,10 @@
 package com.example.herokudemo;
 
 import com.afweb.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import java.util.logging.Logger;
 
@@ -28,10 +32,35 @@ public class RESTtimer {
     public static String serverURL_0 = "";
 
     public void RestTimerHandler() {
+        if (getEnv.checkLocalPC() == true) {
+            ;
+        }
+        if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            long lockDateValue = dateNow.getTimeInMillis();
+            String tzid = "America/New_York"; //EDT
+            TimeZone tz = TimeZone.getTimeZone(tzid);
+            java.util.Date d = new java.util.Date(lockDateValue);
+            DateFormat format = new SimpleDateFormat("M/dd/yyyy HH z");
+            format.setTimeZone(tz);
+            String ESTdate = format.format(d);  //4/03/2020 04:47 PM EDT
+            String[] arrOfStr = ESTdate.split(" ");
+            int hr = Integer.parseInt(arrOfStr[1]);
+            if ((hr >= 10) && (hr <= 11)) {
+                serverURL_1 = "";
+            } else if ((hr >= 17) && (hr <= 18)) {
+                serverURL_1 = "";
+            } else {
+                if (HerokuDemoApplication.timerSchCnt > 5) {
+                    serverURL_0 = "stop";
+                }
+            }
+        }
         RestTimerHandler0(CKey.SERVERDB_URL);
     }
 
     public void RestTimerHandler1(String urlStr) {
+
         if (serverURL_1.equals("stop")) {
             return;
         }
