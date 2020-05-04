@@ -512,7 +512,7 @@ public class ServiceRemoteDB {
 //substatus int not null, startdate date null, firstname varchar(255) null, lastname varchar(255) null, email varchar(255) null, 
 //investment float(10) not null, balance float(10) not null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
 
-            int recSize = 14;
+            int recSize = 15;
             for (int i = 0; i < dataArray.length; i += recSize) {
                 output += "{";
                 output += "\"id\":\"" + dataArray[i] + "\",";
@@ -525,10 +525,11 @@ public class ServiceRemoteDB {
                 output += "\"firstname\":\"" + dataArray[i + 7] + "\",";
                 output += "\"lastname\":\"" + dataArray[i + 8] + "\",";
                 output += "\"email\":\"" + dataArray[i + 9] + "\",";
-                output += "\"investment\":\"" + dataArray[i + 10] + "\",";
+                output += "\"payment\":\"" + dataArray[i + 10] + "\",";
                 output += "\"balance\":\"" + dataArray[i + 11] + "\",";
-                output += "\"updatedatedisplay\":\"" + dataArray[i + 12] + "\",";
-                output += "\"updatedatel\":\"" + dataArray[i + 13] + "\"";
+                output += "\"portfolio\":\"" + dataArray[i + 12] + "\",";                
+                output += "\"updatedatedisplay\":\"" + dataArray[i + 13] + "\",";
+                output += "\"updatedatel\":\"" + dataArray[i + 14] + "\"";
 
                 if (i + recSize >= dataArray.length) {
                     output += "}";
