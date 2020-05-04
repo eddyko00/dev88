@@ -17,7 +17,7 @@ public class account {
     private float investment;
     private float balance;
     private float servicefee;
-    private String portfolio;
+    private String portfolio="";
     private int linkaccountid;
     private int customerid;
 

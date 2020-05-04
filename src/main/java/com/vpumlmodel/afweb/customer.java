@@ -40,12 +40,12 @@ public class customer {
     private int status;
     private int substatus;
     private java.sql.Date startdate;
-    private String firstname;
-    private String lastname;
-    private String email;
+    private String firstname="";
+    private String lastname="";
+    private String email="";
     private float payment;
     private float balance;
-    private String portfolio;
+    private String portfolio="";
     private java.sql.Date updatedatedisplay;
     private long updatedatel;
 

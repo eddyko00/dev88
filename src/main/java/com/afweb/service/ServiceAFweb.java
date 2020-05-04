@@ -639,7 +639,7 @@ public class ServiceAFweb {
         }
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
- 
+
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
             /////////need manually enter the communication id
@@ -751,6 +751,7 @@ public class ServiceAFweb {
                 result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
             }
         }
+//        
         boolean comtestflag = false;
         if (comtestflag == true) {
             AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
@@ -909,12 +910,19 @@ public class ServiceAFweb {
 
         }
 
-        boolean flagSig = true;
+        boolean flagSig = false;
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
 //            String symbol = "DIA";
             String nnName = ConstantKey.TR_NN2;
+// force signal
+            AccountObj accountAdminObj = this.getAdminObjFromCache();
+            String accountid ="2";
+            String stockidsymbol= "HOU.TO";
+            
+            int ret = addAccountStockTran(CKey.ADMIN_USERNAME,
+                    null, accountid, stockidsymbol, "TR_ACC", 0);
 
 //          // will clear the transaction history  
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);
