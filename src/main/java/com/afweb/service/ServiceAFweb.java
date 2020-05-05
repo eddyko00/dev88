@@ -934,9 +934,9 @@ public class ServiceAFweb {
 
 //            
 //          // will clear the transaction history  
-//            AFstockObj stock = this.getRealTimeStockImp(symbol);
-//            AccountObj accountAdminObj = this.getAdminObjFromCache();
-//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+            AFstockObj stock = this.getRealTimeStockImp(symbol);
+            AccountObj accountAdminObj = this.getAdminObjFromCache();
+            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
 //          update HOU current history of transaction
             TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
