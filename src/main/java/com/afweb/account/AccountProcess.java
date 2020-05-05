@@ -2179,7 +2179,7 @@ public class AccountProcess {
         try {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllId + "");
-            String sql = "select id  from " + table + " order by id asc";
+            String sql = "select id from " + table + " order by id asc";
             sqlObj.setReq(sql);
 
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
