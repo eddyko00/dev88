@@ -904,12 +904,12 @@ public class ServiceAFweb {
 
         }
 
-        boolean flagSig = false;
+        boolean flagSig = true;
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
 //            String symbol = "DIA";
-            String nnName = ConstantKey.TR_NN2;
+            String nnName = ConstantKey.TR_NN3;
             
 // force manual signal
 //            AccountObj accountAdminObj = null;

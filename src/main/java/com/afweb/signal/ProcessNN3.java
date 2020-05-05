@@ -26,7 +26,70 @@ public class ProcessNN3 {
 
     public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
-        return NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+
+        if (DataOffset != 0) {
+            return NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+        }
+
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        ArrayList<TransationOrderObj> thObjListnn1 = serviceAFWeb.getAccountImp().getAccountStockTransList(accountAdminObj.getId(),
+                stock.getId(), "TR_NN1", 0);
+        ArrayList<TransationOrderObj> thObjListnn2 = serviceAFWeb.getAccountImp().getAccountStockTransList(accountAdminObj.getId(),
+                stock.getId(), "TR_NN2", 0);
+        NNObj nn = new NNObj();
+        nn.setPrediction((float) 0.1);
+        nn.setTrsignal(0);
+        if ((thObjListnn1 != null) && (thObjListnn2 != null)) {
+            /// calculate which one is better
+            AFstockInfo afstockInfo = stock.getAfstockInfo();
+            float close = afstockInfo.getFclose();
+            float perfnn1 = calculateBest(thObjListnn1, close);
+            float perfnn2 = calculateBest(thObjListnn2, close);
+            String TR_N = "TR_NN2";
+            if (perfnn1 > perfnn2) {
+                TR_N = "TR_NN1";
+            }
+            TradingRuleObj tr = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accountObj.getId(), stock.getId(), TR_N);
+            nn.setTrsignal(tr.getTrsignal());
+            nn.setPrediction((float) 0.9);
+        }
+        return nn;
+    }
+
+    private static float calculateBest(ArrayList<TransationOrderObj> thObjLis, float close) {
+        int j = thObjLis.size() - 1;
+        TransationOrderObj prevTranObj = null;
+        float total = 0;
+        for (int i = 0; i < thObjLis.size(); i++) {
+            TransationOrderObj tranObj = thObjLis.get(j - i);
+            if ((tranObj.getTrsignal() != ConstantKey.S_BUY) && (tranObj.getTrsignal() != ConstantKey.S_SELL)) {
+                if (prevTranObj != null) {
+                    float diff = (tranObj.getAvgprice() - prevTranObj.getAvgprice()) * tranObj.getShare();
+                    if (prevTranObj.getTrsignal() == ConstantKey.S_BUY) {
+                        ;
+                    }
+                    if (prevTranObj.getTrsignal() == ConstantKey.S_SELL) {
+                        diff = -diff;
+                    }
+                    total += diff;
+                }
+            } else {
+                if (i == thObjLis.size() - 1) {
+                    //calculate the result on the last one
+                    float diff = (close - tranObj.getAvgprice()) * tranObj.getShare();
+                    if (tranObj.getTrsignal() == ConstantKey.S_BUY) {
+                        ;
+                    }
+                    if (tranObj.getTrsignal() == ConstantKey.S_SELL) {
+                        diff = -diff;
+                    }
+                    total += diff;
+
+                }
+            }
+            prevTranObj = tranObj;
+        }
+        return total;
     }
 
     int ProcessTRHistoryOffsetNN3(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
@@ -64,12 +127,10 @@ public class ProcessNN3 {
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
                 int nnSignal = trObj.getTrsignal();
-                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
+                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN3, accountObj, stock, tradingRuleList, StockArray, offset);
 
                 if (nn != null) {
 
-                    String inputObjSt = nn.getComment();
-                    NNInputOutObj inputObj = new ObjectMapper().readValue(inputObjSt, NNInputOutObj.class);
                     float predictionV = nn.getPrediction();
                     if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
                         nnSignal = nn.getTrsignal();

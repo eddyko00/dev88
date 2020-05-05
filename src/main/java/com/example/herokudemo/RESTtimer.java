@@ -47,9 +47,9 @@ public class RESTtimer {
             String[] arrOfStr = ESTdate.split(" ");
             int hr = Integer.parseInt(arrOfStr[1]);
             if ((hr >= 10) && (hr <= 11)) {
-                serverURL_1 = "";
+                serverURL_0 = "";
             } else if ((hr >= 17) && (hr <= 18)) {
-                serverURL_1 = "";
+                serverURL_0 = "";
             } else {
                 if (HerokuDemoApplication.timerSchCnt > 5) {
                     serverURL_0 = "stop";

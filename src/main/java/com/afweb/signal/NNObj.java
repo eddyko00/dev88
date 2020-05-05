@@ -16,7 +16,7 @@ public class NNObj {
     private float rating;
     private float grossprofit;
     private float prediction;
-    private String comment;
+    private String comment="";
 
     /**
      * @return the trsignal
