@@ -904,7 +904,7 @@ public class ServiceAFweb {
 
         }
 
-        boolean flagSig = true;
+        boolean flagSig = false;
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
