@@ -334,7 +334,7 @@ public class ServiceAFweb {
                         logger.info(">>>>>>> InitDBData started.........");
                         // 0 - new db, 1 - db already exist, -1 db error
                         int ret = InitDBData();  // init DB Adding customer account
-                        sysPortfolio = CKey.FUND_PORTFOLIO;
+//                        sysPortfolio = CKey.FUND_PORTFOLIO;
                         if (ret != -1) {
 
                             InitSystemData();   // Add Stock 
@@ -444,6 +444,7 @@ public class ServiceAFweb {
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
                     processNeuralNet();
+//                    
                     boolean fundFlag = true;
                     if (fundFlag == true) {
                         getAccountProcessImp().ProcessFundAccount(this);
@@ -885,15 +886,15 @@ public class ServiceAFweb {
 
         }
 
-        boolean flagFund = false;
-        if (flagFund == true) {
-            InitSystemFund(CKey.FUND_PORTFOLIO);
-            for (int i = 0; i < 10; i++) {
-                getAccountProcessImp().ProcessFundAccount(this);
-                getAccountProcessImp().ProcessAdminAccount(this);
-                TRprocessImp.UpdateAllStock(this);
-            }
-        }
+//        boolean flagFund = false;
+//        if (flagFund == true) {
+//            InitSystemFund(CKey.FUND_PORTFOLIO);
+//            for (int i = 0; i < 10; i++) {
+//                getAccountProcessImp().ProcessFundAccount(this);
+//                getAccountProcessImp().ProcessAdminAccount(this);
+//                TRprocessImp.UpdateAllStock(this);
+//            }
+//        }
 
         boolean flagNeuralData = false;
         if (flagNeuralData == true) {

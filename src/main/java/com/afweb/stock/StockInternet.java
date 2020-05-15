@@ -79,7 +79,6 @@ public class StockInternet {
                 return null;
             }
 
-           
             AFstockObj stockRT = GetRealTimeStockInternet(NormalizeSymbol);
 
             AFstockInfo stockInfoRT = stockRT.getAfstockInfo();
@@ -194,47 +193,50 @@ public class StockInternet {
                     stock.setUpdatedatedisplay(new java.sql.Date(dateNow.getTimeInMillis()));
                     stock.setUpdatedatel(dateNow.getTimeInMillis());
                 }
+                if (node.has("regularMarketPreviousClose") == true) {
 
-                String regularMarketPreviousClose = node.get("regularMarketPreviousClose").asText();
-                float fprevClose = Float.parseFloat(regularMarketPreviousClose);
+                    String regularMarketPreviousClose = node.get("regularMarketPreviousClose").asText();
+                    float fprevClose = Float.parseFloat(regularMarketPreviousClose);
 
-                String regularMarketOpen = node.get("regularMarketOpen").asText();
-                float fopen = Float.parseFloat(regularMarketOpen);
+                    String regularMarketOpen = node.get("regularMarketOpen").asText();
+                    float fopen = Float.parseFloat(regularMarketOpen);
 
-                String regularMarketPrice = node.get("regularMarketPrice").asText();
-                float fclose = Float.parseFloat(regularMarketPrice);
+                    String regularMarketPrice = node.get("regularMarketPrice").asText();
+                    float fclose = Float.parseFloat(regularMarketPrice);
 
-                String regularMarketDayHigh = node.get("regularMarketDayHigh").asText();
-                float high = Float.parseFloat(regularMarketDayHigh);
+                    String regularMarketDayHigh = node.get("regularMarketDayHigh").asText();
+                    float high = Float.parseFloat(regularMarketDayHigh);
 
-                String regularMarketDayLow = node.get("regularMarketDayLow").asText();
-                float low = Float.parseFloat(regularMarketDayLow);
+                    String regularMarketDayLow = node.get("regularMarketDayLow").asText();
+                    float low = Float.parseFloat(regularMarketDayLow);
 
-                String regularMarketVolume = node.get("regularMarketVolume").asText();
-                float volume = Float.parseFloat(regularMarketVolume);
+                    String regularMarketVolume = node.get("regularMarketVolume").asText();
+                    float volume = Float.parseFloat(regularMarketVolume);
 
-                long stockInfoEnddayvalue = stock.getUpdatedatel();
-                stockInfoEnddayvalue = TimeConvertion.endOfDayInMillis(stockInfoEnddayvalue);
+                    long stockInfoEnddayvalue = stock.getUpdatedatel();
+                    stockInfoEnddayvalue = TimeConvertion.endOfDayInMillis(stockInfoEnddayvalue);
 
-                AFstockInfo stockInfoObj = new AFstockInfo();
-                stockInfoObj.setEntrydatedisplay(new java.sql.Date(stockInfoEnddayvalue));
-                stockInfoObj.setEntrydatel(stockInfoEnddayvalue);
+                    AFstockInfo stockInfoObj = new AFstockInfo();
+                    stockInfoObj.setEntrydatedisplay(new java.sql.Date(stockInfoEnddayvalue));
+                    stockInfoObj.setEntrydatel(stockInfoEnddayvalue);
 
-                stockInfoObj.setFopen(fopen);
-                stockInfoObj.setFclose(fclose);
-                stockInfoObj.setHigh(high);
-                stockInfoObj.setLow(low);
-                stockInfoObj.setVolume(volume);
-                stock.setAfstockInfo(stockInfoObj);
+                    stockInfoObj.setFopen(fopen);
+                    stockInfoObj.setFclose(fclose);
+                    stockInfoObj.setHigh(high);
+                    stockInfoObj.setLow(low);
+                    stockInfoObj.setVolume(volume);
+                    stock.setAfstockInfo(stockInfoObj);
 
-                stock.setPrevClose(fprevClose);
+                    stock.setPrevClose(fprevClose);
 
-                // force to the symblo request
-                // force to the symblo request                
-                stock.setSymbol(NormalizeSymbol);
-                return stock;
+                    // force to the symblo request
+                    // force to the symblo request                
+                    stock.setSymbol(NormalizeSymbol);
+                    return stock;
+                } else {
+                    logger.info("GetRealTimeStockInternet error Market Info " + NormalizeSymbol);
+                }
             }
-
         } catch (Exception ex) {
             logger.info("GetRealTimeStockInternet Exception " + ex);
         }
@@ -249,8 +251,7 @@ public class StockInternet {
     // change Time Peroid -> 5 Y
     // Apply
     // download
-    
-    
+
     //https://ca.finance.yahoo.com/quote/DIA/history?period1=885254400&period2=1583625600&interval=1d&filter=history&frequency=1d
     //https://ca.finance.yahoo.com/quote/TD.TO/history?p=TD.TO
     public StringBuffer getInternetYahooScreenPage(String symbol, String url) {
@@ -330,17 +331,16 @@ public class StockInternet {
                     String stOpen = sTag.GetNextText();
                     if (stOpen.equals("Dividend")) {
                         break;
-                    } 
-                    
+                    }
+
                     //2:1 Stock Split here
-                    
                     String stHigh = sTag.GetNextText();
                     if (stHigh.equals("Dividend")) {
                         break;
                     }
                     if (stHigh.equals("Stock Split")) {
                         break;
-                    }                    
+                    }
                     String stLow = sTag.GetNextText();
                     // Stock Split
                     // will get the Dividend line in here
@@ -349,22 +349,22 @@ public class StockInternet {
                     }
                     if (stLow.equals("Stock Split")) {
                         break;
-                    }                    
-                    
+                    }
+
                     String stClose = sTag.GetNextText();
                     if (stClose.equals("Dividend")) {
                         break;
                     }
                     if (stClose.equals("Stock Split")) {
                         break;
-                    }                    
+                    }
                     String stAdjClose = sTag.GetNextText();
                     String stVolume = sTag.GetNextText();
 
                     LineNum++;
                     inLine = stDate + "#" + stOpen + "#" + stHigh + "#" + stLow + "#" + stClose + "#" + stAdjClose + "#" + stVolume;
                     inLine = inLine.replaceAll(",", "");
-                    inLine = inLine.replaceAll("#", ",");                   
+                    inLine = inLine.replaceAll("#", ",");
                     //Date,Open,High,Low,Close,Adj Close,Volume
                     if (inLine.indexOf("Date,Open") != -1) {
                         continue;

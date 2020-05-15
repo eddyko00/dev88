@@ -76,10 +76,10 @@ public class CKey {
     ////////////////////////////       
 //https://www.thebalance.com/best-etfs-4173857
 //https://www.etftrends.com/popular-etfs/
-    public static String FUND_PORTFOLIO = ""
-            //            + "VOO,GLD,SCHD,VEA,"
-            //            + "EEM,IEMG,VTI,IVV,VTV,XLF"
-            + "";
+//    public static String FUND_PORTFOLIO = ""
+//            //            + "VOO,GLD,SCHD,VEA,"
+//            //            + "EEM,IEMG,VTI,IVV,VTV,XLF"
+//            + "";
 
     public static String NN_version = "NNBP_V1";
 //    public static String NN1_MACD_TRN = "tr_nn1_macd";

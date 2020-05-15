@@ -311,6 +311,7 @@ public class AccountProcess {
                     int accountId = Integer.parseInt(accountIdSt);
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                        
                         ProcessFundAccountUpdate(accountObj);
                     }
                 } catch (Exception e) {
