@@ -311,57 +311,7 @@ public class AccountProcess {
                     int accountId = Integer.parseInt(accountIdSt);
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                        String portfolio = accountObj.getPortfolio();
-                        if (portfolio != null) {
-                            portfolio = portfolio.trim();
-                            if (portfolio.length() > 0) {
-                                ArrayList AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
-                                if (AccountStockNameList == null) {
-                                    break;
-                                }
-                                ArrayList portfolioArray = new ArrayList();
-                                String[] portfolioList = portfolio.split(",");
-                                if (portfolioList.length > 0) {
-                                    for (int j = 0; j < portfolioList.length; j++) {
-                                        String symbol = portfolioList[j];
-                                        portfolioArray.add(symbol);
-                                    }
-                                }
-                                int numCnt = 0;
-                                ArrayList addedList = new ArrayList();
-                                ArrayList removeList = new ArrayList();
-                                boolean result = compareStockList(portfolioArray, AccountStockNameList, addedList, removeList);
-                                if (result == true) {
-                                    for (int i = 0; i < addedList.size(); i++) {
-                                        String symbol = (String) addedList.get(i);
-                                        int resultAdd = serviceAFWeb.addAccountStockSymbol(accountObj, symbol);
-                                        if (resultAdd > 0) {
-                                            logger.info("> ProcessFundAccount add TR stock " + accountObj.getAccountname() + " " + symbol
-                                            );
-                                        }
-                                        numCnt++;
-                                        if (numCnt > 10) {
-                                            break;
-                                        }
-                                        ServiceAFweb.AFSleep();
-
-                                    }
-                                    /////////
-                                    for (int i = 0; i < removeList.size(); i++) {
-                                        String symbol = (String) removeList.get(i);
-                                        int resultRemove = serviceAFWeb.removeAccountStockSymbol(accountObj, symbol);
-                                        if (resultRemove > 0) {
-                                            logger.info("> ProcessFundAccount remove TR stock " + accountObj.getAccountname() + " " + symbol);
-                                        }
-                                        numCnt++;
-                                        if (numCnt > 10) {
-                                            break;
-                                        }
-                                        ServiceAFweb.AFSleep();
-                                    }
-                                }
-                            }
-                        }
+                        ProcessFundAccountUpdate(accountObj);
                     }
                 } catch (Exception e) {
                     logger.info("> ProcessFundAccount Exception " + e.getMessage());
@@ -369,6 +319,74 @@ public class AccountProcess {
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
         }
+    }
+
+    public int ProcessFundAccountUpdate(AccountObj accountObj) {
+        String portfolio = accountObj.getPortfolio();
+
+        ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
+        if (accountList == null) {
+            return 0;
+        }
+        for (int k = 0; k < accountList.size(); k++) {
+            AccountObj accObj = (AccountObj) accountList.get(k);
+            if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+
+                if (portfolio != null) {
+                    portfolio = portfolio.trim();
+                    if (portfolio.length() > 0) {
+                        ArrayList AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accObj.getId());
+                        if (AccountStockNameList == null) {
+                            return 0;
+                        }
+                        ArrayList portfolioArray = new ArrayList();
+                        String[] portfolioList = portfolio.split(",");
+                        if (portfolioList.length > 0) {
+                            for (int j = 0; j < portfolioList.length; j++) {
+                                String symbol = portfolioList[j];
+                                portfolioArray.add(symbol);
+                            }
+                        }
+                        int numCnt = 0;
+                        ArrayList addedList = new ArrayList();
+                        ArrayList removeList = new ArrayList();
+                        boolean result = compareStockList(portfolioArray, AccountStockNameList, addedList, removeList);
+                        if (result == true) {
+                            for (int i = 0; i < addedList.size(); i++) {
+                                String symbol = (String) addedList.get(i);
+                                int resultAdd = serviceAFWeb.addAccountStockSymbol(accObj, symbol);
+                                if (resultAdd > 0) {
+                                    logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol
+                                    );
+                                }
+                                numCnt++;
+                                if (numCnt > 10) {
+                                    break;
+                                }
+                                ServiceAFweb.AFSleep();
+
+                            }
+                            /////////
+                            for (int i = 0; i < removeList.size(); i++) {
+                                String symbol = (String) removeList.get(i);
+                                int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
+                                if (resultRemove > 0) {
+                                    logger.info("> ProcessFundAccount remove TR stock " + accObj.getAccountname() + " " + symbol);
+                                }
+                                numCnt++;
+                                if (numCnt > 10) {
+                                    break;
+                                }
+                                ServiceAFweb.AFSleep();
+                            }
+
+                        }
+                        return 1;
+                    }
+                }
+            }
+        }
+        return 0;
     }
 
     public void ProcessAdminAccount(ServiceAFweb serviceAFWeb) {
@@ -943,7 +961,6 @@ public class AccountProcess {
 ////////////////uploadDBData////////////////////////        
 ////////////////////////////////////////    
 //    public static String ServiceAFweb.FileLocalPath = "T:/Netbean/db/";
-
     public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
         this.serviceAFWeb = serviceAFWeb;
 

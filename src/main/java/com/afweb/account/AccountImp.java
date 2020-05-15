@@ -207,7 +207,7 @@ public class AccountImp {
         }
         String userN = newCustomer.getUsername();
         userN = userN.toUpperCase();
-        newCustomer.setUsername(userN);        
+        newCustomer.setUsername(userN);
         logger.info("> addCustomer  " + newCustomer.getUsername());
         int result = 0;
         try {
@@ -218,8 +218,13 @@ public class AccountImp {
         return result;
     }
 
-    public ArrayList getAccountListByCustomerID(CustomerObj customer) {
+    public ArrayList getAccountListByCustomerObj(CustomerObj customer) {
         ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
+        return accountList;
+    }
+
+    public ArrayList getAccountListByCustomerId(int custId) {
+        ArrayList accountList = accountdb.getAccountByCustomerID(custId);
         return accountList;
     }
 

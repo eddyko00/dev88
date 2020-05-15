@@ -444,6 +444,10 @@ public class ServiceAFweb {
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
                     processNeuralNet();
+                    boolean fundFlag = true;
+                    if (fundFlag == true) {
+                        getAccountProcessImp().ProcessFundAccount(this);
+                    }
 
                 }
             }
@@ -910,7 +914,7 @@ public class ServiceAFweb {
             String symbol = "HOU.TO";
 //            String symbol = "DIA";
             String nnName = ConstantKey.TR_NN3;
-            
+
 // force manual signal
 //            AccountObj accountAdminObj = null;
 //            AccountObj accountObj = null;
@@ -931,7 +935,6 @@ public class ServiceAFweb {
 //
 //            int ret = addAccountStockTran(CKey.ADMIN_USERNAME,
 //                    null, accountid, stockidsymbol, "TR_ACC", 2);
-
 //            
 //          // will clear the transaction history  
             AFstockObj stock = this.getRealTimeStockImp(symbol);
@@ -1300,7 +1303,7 @@ public class ServiceAFweb {
         if (custObj.getStatus() == ConstantKey.OPEN) {
             return 0;
         }
-        ArrayList accountList = getAccountImp().getAccountListByCustomerID(custObj);
+        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {
                 AccountObj accountObj = (AccountObj) accountList.get(i);
@@ -4943,7 +4946,7 @@ public class ServiceAFweb {
             return;
         }
         CustomerObj custObj = getAccountImp().getCustomerStatus(CKey.FUND_MANAGER_USERNAME, null);
-        ArrayList accountList = getAccountImp().getAccountListByCustomerID(custObj);
+        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {
                 AccountObj accountObj = (AccountObj) accountList.get(i);
