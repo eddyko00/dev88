@@ -3781,18 +3781,37 @@ public class ServiceAFweb {
         if (stockObj != null) {
             AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
             if (accountObj != null) {
-                return getAccountImp().removeAccountStock(accountObj, stockObj.getId());
+                return removeAccountStockSymbol(accountObj, stockObj.getSymbol());
             }
         }
-
         return 0;
     }
 
     public int removeAccountStockSymbol(AccountObj accountObj, String symbol) {
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
         if (stockObj != null) {
+
+            int signal = ConstantKey.S_EXIT;
+            String trName = ConstantKey.TR_ACC;
+            TradingRuleObj tradingRuleObj = SystemAccountStockIDByTRname(accountObj.getId(), stockObj.getId(), trName);
+            int curSignal = tradingRuleObj.getTrsignal();
+
+            boolean updateTran = true;
+            if (curSignal == ConstantKey.S_BUY) {
+                ;
+            } else if (curSignal == ConstantKey.S_SELL) {
+                ;
+            } else {
+                updateTran = false;
+            }
+            if (updateTran == true) {
+                TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal, null, false);
+            }
+
             return getAccountImp().removeAccountStock(accountObj, stockObj.getId());
         }
 

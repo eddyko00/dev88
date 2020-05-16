@@ -381,21 +381,6 @@ public class AccountProcess {
                         if (stock == null) {
                             continue;
                         }
-                        int signal = ConstantKey.S_EXIT;
-                        String trName = ConstantKey.TR_ACC;
-                        TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
-                        int curSignal = tradingRuleObj.getTrsignal();
-
-                        if (curSignal == ConstantKey.S_BUY) {
-                            ;
-                        } else if (curSignal == ConstantKey.S_SELL) {
-                            ;
-                        } else {
-                            continue;
-                        }
-
-                        TRprocessImp.AddTransactionOrderWithComm(serviceAFWeb, accountObj, stock, trName, signal, null, false);
-
                         int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
                         if (resultRemove > 0) {
                             logger.info("> ProcessFundAccount remove TR stock " + accObj.getAccountname() + " " + symbol);
