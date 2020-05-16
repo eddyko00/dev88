@@ -2360,6 +2360,33 @@ public class TrandingSignalProcess {
     }
 
     //////////////////////////////////////// transaction order
+    public int AddTransactionOrderWithComm(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate, boolean fromSystem) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        int ret = TRprocessImp.AddTransactionOrder(serviceAFWeb, accountObj, stock, trName, tranSignal, null, false);
+        if (ret == 1) {
+            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
+
+            String tzid = "America/New_York"; //EDT
+            TimeZone tz = TimeZone.getTimeZone(tzid);
+            java.sql.Date d = new java.sql.Date(trObj.getUpdatedatel());
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+            DateFormat format = new SimpleDateFormat(" hh:mm a");
+            format.setTimeZone(tz);
+            String ESTdate = format.format(d);
+
+            String sig = "exit";
+            if (trObj.getTrsignal() == ConstantKey.S_BUY) {
+                sig = ConstantKey.S_BUY_ST;
+            } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
+                sig = ConstantKey.S_SELL_ST;
+            }
+            String msg = ESTdate + " " + stock.getSymbol() + " Sig:" + sig;
+            serviceAFWeb.getAccountProcessImp().AddCommMessage(serviceAFWeb, accountObj, trObj, msg);
+        }
+        return ret;
+
+    }
+
     public int AddTransactionOrder(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate, boolean fromSystem) {
         try {
             ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);

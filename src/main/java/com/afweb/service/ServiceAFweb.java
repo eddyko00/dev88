@@ -895,7 +895,6 @@ public class ServiceAFweb {
 //                TRprocessImp.UpdateAllStock(this);
 //            }
 //        }
-
         boolean flagNeuralData = false;
         if (flagNeuralData == true) {
             SystemClearNNData();
@@ -2290,29 +2289,10 @@ public class ServiceAFweb {
             if (stock == null) {
                 return 0;
             }
+
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            int ret = TRprocessImp.AddTransactionOrder(this, accountObj, stock, trName, signal, null, false);
-            if (ret == 1) {
-                TradingRuleObj trObj = SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
+            int ret = TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stock, trName, signal, null, false);
 
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(trObj.getUpdatedatel());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTdate = format.format(d);
-
-                String sig = "exit";
-                if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-                    sig = ConstantKey.S_BUY_ST;
-                } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                    sig = ConstantKey.S_SELL_ST;
-                }
-                String msg = ESTdate + " " + stock.getSymbol() + " Sig:" + sig;
-                this.getAccountProcessImp().AddCommMessage(this, accountObj, trObj, msg);
-
-            }
             return ret;
         }
         return 0;
