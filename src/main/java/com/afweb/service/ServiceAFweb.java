@@ -445,7 +445,7 @@ public class ServiceAFweb {
 ///////////////////////////////////////////////////////////////////////////////////
                     processNeuralNet();
 //                    
-                    boolean fundFlag = true;
+                    boolean fundFlag = false;
                     if (fundFlag == true) {
                         getAccountProcessImp().ProcessFundAccount(this);
                     }
