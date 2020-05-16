@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class FundM {
 
-    private ArrayList accL;
-    private ArrayList funL;
+    private ArrayList accL = new ArrayList();
+    private ArrayList funL = new ArrayList();
     private float bal=0;
     private float inv=0;
 

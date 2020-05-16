@@ -333,8 +333,6 @@ public class AccountProcess {
 
         if (fundMgr == null) {
             fundMgr = new FundM();
-            fundMgr.setAccL(new ArrayList());
-            fundMgr.setFunL(new ArrayList());
             try {
                 String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
                 serviceAFWeb.getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
