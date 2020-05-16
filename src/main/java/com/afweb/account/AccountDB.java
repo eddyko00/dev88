@@ -264,7 +264,7 @@ public class AccountDB {
                 + "('" + newC.getUsername() + "','" + newC.getPassword() + "'," + newC.getType()
                 + "," + newC.getStatus() + "," + newC.getSubstatus() + ",'" + newC.getStartdate() + "'"
                 + ",'" + firstname + "','" + lastname + "'"
-                + ",'" + email + "'," + newC.getPayment() + "," + newC.getBalance() + ",'" + newC.getPortfolio()+"'"
+                + ",'" + email + "'," + newC.getPayment() + "," + newC.getBalance() + ",'" + newC.getPortfolio() + "'"
                 + ",'" + newC.getUpdatedatedisplay() + "'," + newC.getUpdatedatel() + "," + newC.getId() + ")";
         return sqlCMD;
     }
@@ -276,7 +276,7 @@ public class AccountDB {
             long dateNowLong = dateNow.getTimeInMillis();
             String userN = newC.getUsername();
             userN = userN.toUpperCase();
-            CustomerObj customer = getCustomer(userN, null);            
+            CustomerObj customer = getCustomer(userN, null);
 
             if (customer != null) {
                 int status = customer.getStatus();
@@ -305,7 +305,7 @@ public class AccountDB {
                     + "('" + newC.getUsername() + "','" + newC.getPassword() + "'," + newC.getType()
                     + "," + ConstantKey.OPEN + "," + newC.getSubstatus() + ",'" + new java.sql.Date(dateNowLong) + "'"
                     + ",'" + newC.getFirstname() + "','" + newC.getLastname() + "'"
-                    + ",'" + newC.getEmail() + "'," + newC.getPayment() + "," + newC.getBalance()+ ",'" + newC.getPortfolio()+"'"
+                    + ",'" + newC.getEmail() + "'," + newC.getPayment() + "," + newC.getBalance() + ",'" + newC.getPortfolio() + "'"
                     + ",'" + new java.sql.Date(dateNowLong) + "'," + dateNowLong + ")";
 
             processUpdateDB(sqlCMD);
@@ -1348,6 +1348,7 @@ public class AccountDB {
     }
 
     public int updateAccountPortfolio(String accountName, String portfolio) {
+        portfolio = portfolio.replaceAll("\"", "#");
         String sqlCMD = SQLUpdateAccountPortfoli(accountName, portfolio);
         try {
             processUpdateDB(sqlCMD);
