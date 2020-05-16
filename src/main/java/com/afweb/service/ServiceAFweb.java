@@ -3794,7 +3794,7 @@ public class ServiceAFweb {
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
         if (stockObj != null) {
 
-            int signal = ConstantKey.S_EXIT;
+            int signal = ConstantKey.S_NEUTRAL;
             String trName = ConstantKey.TR_ACC;
             TradingRuleObj tradingRuleObj = SystemAccountStockIDByTRname(accountObj.getId(), stockObj.getId(), trName);
             int curSignal = tradingRuleObj.getTrsignal();
@@ -3809,6 +3809,12 @@ public class ServiceAFweb {
             }
             if (updateTran == true) {
                 TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
+
+                ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
+                UpdateTRList.add(tradingRuleObj);
+                getAccountImp().updateAccountStockSignal(UpdateTRList);
+
                 TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal, null, false);
             }
 
