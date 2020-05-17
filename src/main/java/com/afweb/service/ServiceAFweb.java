@@ -445,8 +445,16 @@ public class ServiceAFweb {
 ///////////////////////////////////////////////////////////////////////////////////
                     processNeuralNet();
 //                    
-                    boolean fundFlag = false;
+                    boolean fundFlag = true;
                     if (fundFlag == true) {
+                        
+//                        updateCustStatusSubStatus(CKey.FUND_MANAGER_USERNAME, ConstantKey.DISABLE + "", 0 + "");
+//                        removeCustomer(CKey.FUND_MANAGER_USERNAME);
+//                        CustomerObj newCustomer = new CustomerObj();
+//                        newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);
+//                        newCustomer.setPassword("passw0rd");
+//                        newCustomer.setType(CustomerObj.INT_FUND_USER);
+//                        getAccountImp().addCustomer(newCustomer);
                         getAccountProcessImp().ProcessFundAccount(this);
                     }
 
@@ -1286,6 +1294,7 @@ public class ServiceAFweb {
     }
 
     //////////////////////////////////////
+    // need ConstantKey.DISABLE status beofore remove customer
     public int removeCustomer(String customername) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;

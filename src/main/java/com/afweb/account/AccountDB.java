@@ -1456,7 +1456,9 @@ public class AccountDB {
 
                     String accountName = "acc-" + customer.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
                     result = addAccount(customer, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.INT_PP_DELUXE);
-
+                    accountName = "acc-" + customer.getId() + "-" + AccountObj.TRADING_ACCOUNT;
+                    result = addAccount(customer, accountName, AccountObj.INT_TRADING_ACCOUNT, ConstantKey.INT_PP_DELUXE);
+                    return 1;
                 } else if (customer.getType() == CustomerObj.INT_GUEST_USER) {
 
                     String accountName = "acc-" + customer.getId() + "-" + AccountObj.TRADING_ACCOUNT;
