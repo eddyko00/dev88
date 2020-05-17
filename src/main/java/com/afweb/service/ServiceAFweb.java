@@ -442,12 +442,10 @@ public class ServiceAFweb {
 // Window -> Debugging -> Breakpoints Select all, the delete
 //
 ///////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
-                    processNeuralNet();
 //                    
-                    boolean fundFlag = true;
+                    boolean fundFlag = false;
                     if (fundFlag == true) {
-                        
+
 //                        updateCustStatusSubStatus(CKey.FUND_MANAGER_USERNAME, ConstantKey.DISABLE + "", 0 + "");
 //                        removeCustomer(CKey.FUND_MANAGER_USERNAME);
 //                        CustomerObj newCustomer = new CustomerObj();
@@ -456,7 +454,10 @@ public class ServiceAFweb {
 //                        newCustomer.setType(CustomerObj.INT_FUND_USER);
 //                        getAccountImp().addCustomer(newCustomer);
                         getAccountProcessImp().ProcessFundAccount(this);
+
                     }
+///////////////////////////////////////////////////////////////////////////////////
+                    processNeuralNet();
 
                 }
             }
