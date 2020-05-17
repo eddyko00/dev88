@@ -592,7 +592,6 @@ public class ServiceAFweb {
 
         boolean flaginputStock = false;
         if (flaginputStock == true) {
-
             getAccountProcessImp().updateAllStockFile(this);
         }
 

@@ -867,6 +867,21 @@ public class AccountProcess {
 
     //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
     public void updateAllStockFile(ServiceAFweb serviceAFWeb) {
+        updateStockFile(serviceAFWeb, "ABT");
+        updateStockFile(serviceAFWeb, "AMT");
+        updateStockFile(serviceAFWeb, "AMZN");
+        updateStockFile(serviceAFWeb, "BABA");
+        updateStockFile(serviceAFWeb, "FB");
+        updateStockFile(serviceAFWeb, "FNV");
+        updateStockFile(serviceAFWeb, "MSFT");
+        updateStockFile(serviceAFWeb, "NEM");
+        updateStockFile(serviceAFWeb, "ROG");
+        updateStockFile(serviceAFWeb, "V");
+        updateStockFile(serviceAFWeb, "XLNX");
+
+
+        
+////////////////////////////////////////////////////        
         updateStockFile(serviceAFWeb, "SPY");
         updateStockFile(serviceAFWeb, "DIA");
         updateStockFile(serviceAFWeb, "QQQ");
