@@ -255,6 +255,11 @@ public class StockInternet {
     //https://ca.finance.yahoo.com/quote/DIA/history?period1=885254400&period2=1583625600&interval=1d&filter=history&frequency=1d
     //https://ca.finance.yahoo.com/quote/TD.TO/history?p=TD.TO
     public StringBuffer getInternetYahooScreenPage(String symbol, String url) {
+        return getInternetYahooScreenPage(url);
+    }
+
+    public StringBuffer getInternetYahooScreenPage(String url) {
+
         ServiceAFweb.getServerObj().setCntInterRequest(ServiceAFweb.getServerObj().getCntInterRequest() + 1);
 
         StringBuffer result = new StringBuffer();
