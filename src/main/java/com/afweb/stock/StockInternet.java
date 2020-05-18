@@ -70,8 +70,8 @@ public class StockInternet {
             // always the earliest day first
             // always the earliest day first
             // always the earliest day first
-//            StockArray = internetQuote.getHistoricalData(NormalizeSymbol, startDate, endDate);
-            StockArray = getInternetHistoricalScreen(NormalizeSymbol, startDate, endDate);
+            StockArray = internetQuote.getHistoricalData(NormalizeSymbol, startDate, endDate);
+//            StockArray = getInternetHistoricalScreen(NormalizeSymbol, startDate, endDate);
 //            if (NormalizeSymbol.equals("HOU.TO")) {
 //                logger.info("GetStockHistoricalInternet  " + NormalizeSymbol + " " + StockArray.size());
 //            }
@@ -265,7 +265,10 @@ public class StockInternet {
         StringBuffer result = new StringBuffer();
         HttpGet request = new HttpGet(url);
 
-        request.addHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
+//        request.addHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
+        //http://blog.bradlucas.com/posts/2017-06-04-yahoo-finance-quote-download-java/
+        request.addHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:74.0) Gecko/20100101 Firefox/74.0");  
+        
         try {
 
             ///Addding proxy //////////////////////

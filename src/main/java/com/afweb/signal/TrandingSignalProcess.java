@@ -1444,9 +1444,9 @@ public class TrandingSignalProcess {
                 // temporary fix the yahoo finance cannot get history
                 // temporary fix the yahoo finance cannot get history
                 // temporary fix the yahoo finance cannot get history
-                if (internetHistoryLen == 0) {
-                    return 0;
-                }
+//                if (internetHistoryLen == 0) {
+//                    return 0;
+//                }
 
                 // always the earliest day first
                 ArrayList<AFstockInfo> StockArray = stockInternet.GetStockHistoricalInternet(NormalizeSymbol, internetHistoryLen);
