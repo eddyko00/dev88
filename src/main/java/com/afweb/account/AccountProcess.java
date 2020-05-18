@@ -869,7 +869,6 @@ public class AccountProcess {
     public void updateAllStockFile(ServiceAFweb serviceAFWeb) {
         
         updateStockFile(serviceAFWeb, "AEM");
-        updateStockFile(serviceAFWeb, "BABA");
         updateStockFile(serviceAFWeb, "INTC");
         updateStockFile(serviceAFWeb, "NFLX");
         updateStockFile(serviceAFWeb, "TMO");        

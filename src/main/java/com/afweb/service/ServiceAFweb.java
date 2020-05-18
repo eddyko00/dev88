@@ -458,7 +458,8 @@ public class ServiceAFweb {
                     }
 ///////////////////////////////////////////////////////////////////////////////////
                     processNeuralNet();
-
+///////////////////////////////////////////////////////////////////////////////////
+                    logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
                 }
             }
         }
@@ -957,10 +958,6 @@ public class ServiceAFweb {
 //            TRprocessImp.upateAdminTransaction(this, accountAObj, symbol);
         }
 
-        if (true) {
-            logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
-            return;
-        }
     }
 
     public void updateErrorStockYahooParseError(String symbol) {
