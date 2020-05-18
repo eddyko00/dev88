@@ -381,8 +381,10 @@ public class AccountDB {
                     account.setStatus(rs.getInt("status"));
                     account.setSubstatus(rs.getInt("substatus"));
                     account.setUpdatedatel(rs.getLong("updatedatel"));
+
                     //entrydatedisplay not reliable. should use entrydatel
                     account.setUpdatedatedisplay(new java.sql.Date(account.getUpdatedatel()));
+                    account.setStartdate(new java.sql.Date(rs.getDate("startdate").getTime()));
 
                     account.setInvestment(rs.getFloat("investment"));
                     account.setBalance(rs.getFloat("balance"));
