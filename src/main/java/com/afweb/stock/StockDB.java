@@ -603,6 +603,7 @@ public class StockDB {
             for (int i = 0; i < SQLTran.size(); i++) {
                 String SQL = (String) SQLTran.get(i);
                 getJdbcTemplate().update(SQL);
+                ServiceAFweb.AFSleep();
                 if ((i % 100) == 0) {
                     ServiceAFweb.AFSleep();
                 }

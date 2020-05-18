@@ -40,7 +40,7 @@ public class CKey {
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
     public static String WEBPOST_HERO_PHP = "/webgetresp.php";
-    public static String URL_PATH_HERO_DB_PHP = "https://iiswebphp.herokuapp.com";  //Remotemysql  https://remotemysql.com/dashboard.php
+//    public static String URL_PATH_HERO_DB_PHP = "https://iiswebphp.herokuapp.com";  //Remotemysql  https://remotemysql.com/dashboard.php
     public static String URL_PATH_HERO_DBDB_PHP = "https://iiswebdb.herokuapp.com";  //DB4Free https://www.db4free.net/phpMyAdmin/
 
     /////heroku

@@ -318,7 +318,7 @@ public class ServiceAFweb {
                     return getServerObj().getTimerCnt();
 
                 }
-                boolean restoreFlag = false;
+                boolean restoreFlag = true;
                 if (restoreFlag == true) {
                     restoreSystem();
                     serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);

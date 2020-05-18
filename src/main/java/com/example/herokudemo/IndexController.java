@@ -228,12 +228,12 @@ public class IndexController {
         return ServiceRemoteDB.getURL_PATH();
     }
 
-    @RequestMapping(value = "/server/dburl/sethero", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String getServerDBURLOPHER() {
-        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DB_PHP + CKey.WEBPOST_HERO_PHP);
-        return ServiceRemoteDB.getURL_PATH();
-    }
+//    @RequestMapping(value = "/server/dburl/sethero", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    String getServerDBURLOPHER() {
+//        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
+//        return ServiceRemoteDB.getURL_PATH();
+//    }
 
     @RequestMapping(value = "/server/dburl/setherodb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

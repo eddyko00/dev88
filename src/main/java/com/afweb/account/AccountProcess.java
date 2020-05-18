@@ -1154,7 +1154,7 @@ public class AccountProcess {
                 String sql = StockDB.insertStockInfo(item);
                 writeSQLArray.add(sql);
                 index++;
-                if (index > 500) {
+                if (index > 200) {  //500) {
                     index = 0;
                     int ret = sendRequestObj(writeSQLArray);
                     if (ret == 0) {

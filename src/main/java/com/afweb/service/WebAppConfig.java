@@ -12,11 +12,14 @@ public class WebAppConfig {
         if ((CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL)) {
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
             dataSource.setUrl("jdbc:mysql://mysql:3306/sampledb");
+
             dataSource.setUsername("sa");
             dataSource.setPassword("admin");
 
             if (getEnv.checkLocalPC() == true) {
-                String Local_mysql = "jdbc:mysql://localhost:3306/sampledb?useSSL=true";
+// https://support.microsoft.com/en-ca/help/196271/when-you-try-to-connect-from-tcp-ports-greater-than-5000-you-receive-t            
+//                String Local_mysql = "jdbc:mysql://localhost:3306/sampledb?useSSL=true";
+                String Local_mysql = "jdbc:mysql://localhost:3306/sampledb?useSSL=false";
                 dataSource.setUrl(Local_mysql);
 
             }
