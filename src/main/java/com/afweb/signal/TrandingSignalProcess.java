@@ -1468,7 +1468,7 @@ public class TrandingSignalProcess {
                     String msg = "";
                     CommData commDataObj = new CommData();
                     ArrayList<AFstockInfo> StockArrayTemp = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
-                    if (StockArrayTemp != null || StockArrayTemp.size() > 0) {
+                    if (StockArrayTemp != null && StockArrayTemp.size() > 0) {
                         AFstockInfo stockInfo = StockArrayTemp.get(0);
                         long historydate = stockInfo.getEntrydatel();
                         historydate = TimeConvertion.endOfDayInMillis(historydate);

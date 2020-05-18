@@ -697,6 +697,7 @@ public class ServiceAFweb {
 
 //
             String symbol = "HOU.TO";
+            symbol ="C";
             AFstockObj stock = this.getRealTimeStockImp(symbol);
             TRprocessImp.updateRealTimeStockTest(this, stock);
 //            TRprocessImp.UpdateAllStock(this);
