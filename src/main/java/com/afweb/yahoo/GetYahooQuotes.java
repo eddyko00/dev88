@@ -26,24 +26,18 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockInfoUtils;
 import com.afweb.util.CKey;
 import com.afweb.util.StringTag;
-import com.afweb.util.TimeConvertion;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.FileOutputStream;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.List;
-import java.util.Locale;
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
