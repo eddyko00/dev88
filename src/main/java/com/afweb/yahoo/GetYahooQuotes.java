@@ -76,10 +76,12 @@ public class GetYahooQuotes {
     }
 
     public String getPage(String symbol) {
+        ServiceAFweb.getServerObj().setCntInterRequest(ServiceAFweb.getServerObj().getCntInterRequest() + 1);
+
         String rtn = null;
         String url = String.format("https://finance.yahoo.com/quote/%s/?p=%s", symbol, symbol);
         HttpGet request = new HttpGet(url);
-        System.out.println(url);
+//        System.out.println(url);
 
 //        request.addHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
         //http://blog.bradlucas.com/posts/2017-06-04-yahoo-finance-quote-download-java/
@@ -97,7 +99,7 @@ public class GetYahooQuotes {
             ///Addding proxy /////////////////
 
             HttpResponse response = client.execute(request, context);
-            System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
+//            System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
 
             BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             StringBuffer result = new StringBuffer();
@@ -107,11 +109,14 @@ public class GetYahooQuotes {
             }
             rtn = result.toString();
             HttpClientUtils.closeQuietly(response);
+            return rtn;
         } catch (Exception ex) {
             System.out.println("Exception");
             System.out.println(ex);
         }
-        System.out.println("returning from getPage");
+//        System.out.println("returning from getPage");
+        ServiceAFweb.getServerObj().setCntInterException(ServiceAFweb.getServerObj().getCntInterException() + 1);
+
         return rtn;
     }
 
@@ -206,53 +211,6 @@ public class GetYahooQuotes {
 //    }
     //https://ca.finance.yahoo.com/quote/TD.TO/history?p=TD.TO
     //https://query1.finance.yahoo.com/v7/finance/download/TD.TO?period1=1552056389&period2=1583675189&interval=1d&events=history&crumb=qHB3dMXSmt6
-    public void downloadData(String symbol, long startDate, long endDate, String crumb) {
-        String filename = String.format("%s.csv", symbol);
-        String url = String.format("https://query1.finance.yahoo.com/v7/finance/download/%s?period1=%s&period2=%s&interval=1d&events=history&crumb=%s", symbol, startDate, endDate, crumb);
-        HttpGet request = new HttpGet(url);
-        logger.info("downloadData " + url);
-
-//        request.addHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
-        //http://blog.bradlucas.com/posts/2017-06-04-yahoo-finance-quote-download-java/
-        request.addHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:74.0) Gecko/20100101 Firefox/74.0");        
-        try {
-            ///Addding proxy //////////////////////
-            if (CKey.PROXY == true) {
-                HttpHost proxy = new HttpHost(ServiceAFweb.PROXYURL, 8080, "http");
-
-                RequestConfig config = RequestConfig.custom()
-                        .setProxy(proxy)
-                        .build();
-                request.setConfig(config);
-            }
-            ///Addding proxy /////////////////
-
-            HttpResponse response = client.execute(request, context);
-//            System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
-            HttpEntity entity = response.getEntity();
-
-//            String reasonPhrase = response.getStatusLine().getReasonPhrase();
-//            int statusCode = response.getStatusLine().getStatusCode();
-//            System.out.println(String.format("statusCode: %d", statusCode));
-//            System.out.println(String.format("reasonPhrase: %s", reasonPhrase));
-            if (entity != null) {
-                BufferedInputStream bis = new BufferedInputStream(entity.getContent());
-                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filename)));
-                int inByte;
-                while ((inByte = bis.read()) != -1) {
-                    bos.write(inByte);
-                }
-                bis.close();
-                bos.close();
-            }
-            HttpClientUtils.closeQuietly(response);
-
-        } catch (Exception ex) {
-            logger.info("downloadData Exception " + ex);
-
-        }
-    }
-
 //    public void downloadData(String symbol, long startDate, long endDate, String crumb) {
 //        String filename = String.format("%s.csv", symbol);
 //        String url = String.format("https://query1.finance.yahoo.com/v7/finance/download/%s?period1=%s&period2=%s&interval=1d&events=history&crumb=%s", symbol, startDate, endDate, crumb);
