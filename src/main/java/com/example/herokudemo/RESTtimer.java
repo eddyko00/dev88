@@ -34,8 +34,7 @@ public class RESTtimer {
     public void RestTimerHandler() {
         if (getEnv.checkLocalPC() == true) {
             ;
-        }
-        if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
+        } else {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long lockDateValue = dateNow.getTimeInMillis();
             String tzid = "America/New_York"; //EDT
@@ -46,13 +45,23 @@ public class RESTtimer {
             String ESTdate = format.format(d);  //4/03/2020 04:47 PM EDT
             String[] arrOfStr = ESTdate.split(" ");
             int hr = Integer.parseInt(arrOfStr[1]);
-            if ((hr >= 10) && (hr <= 11)) {
-                serverURL_0 = "";
-            } else if ((hr >= 17) && (hr <= 18)) {
-                serverURL_0 = "";
-            } else {
-                if (HerokuDemoApplication.timerSchCnt > 5) {
-                    serverURL_0 = "stop";
+            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
+                if ((hr >= 10) && (hr <= 11)) {
+                    serverURL_0 = "";
+                } else if ((hr >= 17) && (hr <= 18)) {
+                    serverURL_0 = "";
+                } else {
+                    if (HerokuDemoApplication.timerSchCnt > 5) {
+                        serverURL_0 = "stop";
+                    }
+                }
+            } else if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO)) {
+                if ((hr >= 8) && (hr <= 20)) {
+                    serverURL_0 = "";
+                } else {
+                    if (HerokuDemoApplication.timerSchCnt > 5) {
+                        serverURL_0 = "stop";
+                    }
                 }
             }
         }
