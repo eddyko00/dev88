@@ -14,6 +14,7 @@ import com.afweb.nn.*;
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.logging.Level;
 
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -456,6 +458,22 @@ public class ServiceAFweb {
                         getAccountProcessImp().ProcessFundAccount(this);
 
                     }
+                    boolean testtest = false;
+                    if (testtest == true) {
+
+                        int size1yearAll = 20 * 12 * 5 + (50 * 3);
+                        ArrayList<AFstockInfo> StockArray = getStockHistorical("HOU.TO", size1yearAll);
+                        String st = "";
+                        try {
+                            st = new ObjectMapper().writeValueAsString(StockArray);
+                        } catch (JsonProcessingException ex) {
+                        }
+                        logger.info("size " + st.length());
+                        String newSt = StockInternet.compress(st);
+                        logger.info("newSt " + newSt.length());
+                        String orgSt = StockInternet.decompress(newSt);
+                        logger.info("orgSt " + orgSt.length());
+                    }
 ///////////////////////////////////////////////////////////////////////////////////
                     processNeuralNet();
 ///////////////////////////////////////////////////////////////////////////////////
@@ -697,7 +715,7 @@ public class ServiceAFweb {
 
 //
             String symbol = "HOU.TO";
-            symbol ="C";
+            symbol = "C";
             AFstockObj stock = this.getRealTimeStockImp(symbol);
             TRprocessImp.updateRealTimeStockTest(this, stock);
 //            TRprocessImp.UpdateAllStock(this);
@@ -1582,8 +1600,7 @@ public class ServiceAFweb {
             }
 
             try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class
-                );
+                NameList = new ObjectMapper().readValue(output, ArrayList.class);
             } catch (Exception ex) {
                 logger.info("> SystemAccountStockNameList exception " + ex.getMessage());
             }
@@ -1609,8 +1626,7 @@ public class ServiceAFweb {
             }
 
             try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class
-                );
+                NameList = new ObjectMapper().readValue(output, ArrayList.class);
             } catch (Exception ex) {
                 logger.info("> SystemAllOpenAccountIDList exception " + ex.getMessage());
             }
@@ -1637,8 +1653,7 @@ public class ServiceAFweb {
             }
 
             try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class
-                );
+                NameList = new ObjectMapper().readValue(output, ArrayList.class);
             } catch (Exception ex) {
                 logger.info("> AllAccountStockNameListExceptionAdmin exception " + ex.getMessage());
             }
@@ -1664,8 +1679,7 @@ public class ServiceAFweb {
             AFstockObj stockObj = null;
 
             try {
-                stockObj = new ObjectMapper().readValue(output, AFstockObj.class
-                );
+                stockObj = new ObjectMapper().readValue(output, AFstockObj.class);
             } catch (Exception ex) {
                 logger.info("> SystemRealTimeStockByStockID exception " + ex.getMessage());
             }
@@ -1690,8 +1704,7 @@ public class ServiceAFweb {
             AccountObj accountObj = null;
 
             try {
-                accountObj = new ObjectMapper().readValue(output, AccountObj.class
-                );
+                accountObj = new ObjectMapper().readValue(output, AccountObj.class);
             } catch (Exception ex) {
                 logger.info("> SystemAccountObjByAccountID exception " + ex.getMessage());
             }
@@ -1722,8 +1735,7 @@ public class ServiceAFweb {
 
                 }
 
-                TradingRuleObj ret = new ObjectMapper().readValue(output, TradingRuleObj.class
-                );
+                TradingRuleObj ret = new ObjectMapper().readValue(output, TradingRuleObj.class);
                 return ret;
 
             } catch (Exception ex) {
