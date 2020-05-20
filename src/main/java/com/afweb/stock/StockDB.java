@@ -193,7 +193,7 @@ public class StockDB {
         }
         return 0;
     }
-    
+
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
         try {
             String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();
@@ -717,8 +717,10 @@ public class StockDB {
         int total = 0;
         logger.info(">>>>> InitStockDB Table creation");
         try {
+
             boolean initDBflag = false;
             if (initDBflag == true) {
+//             processExecuteDB("delete from stockinfo where id>0");
                 processExecuteDB("drop table if exists dummy1");
             }
             total = getCountRowsInTable(getJdbcTemplate(), "dummy1");
