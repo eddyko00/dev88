@@ -1589,6 +1589,7 @@ public class TrandingSignalProcess {
         return 0;
     }
 
+
     ///////////////////////
     // Need to change for multiple Neural Net weight
     public void uploadNeuralNetWeight(ServiceAFweb serviceAFWeb, int nnNum) {

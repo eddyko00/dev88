@@ -8,6 +8,7 @@ import com.afweb.nn.NNInputOutObj;
 
 import com.afweb.nn.NeuralNetwork;
 import com.afweb.nnBP.NNBPservice;
+import com.afweb.service.ServiceAFweb;
 
 import com.afweb.util.CKey;
 import com.afweb.util.TimeConvertion;
@@ -419,17 +420,23 @@ public class StockImp {
                 if (result == 0) {
                     initNeuralNetBPObj();
                     // make sure both ServiceAFweb.InitSystemData and StockImp.initStockDB are update
-                    stockdb.addStock("AAPL");
-                    stockdb.addStock("SPY");
-                    stockdb.addStock("DIA");
-                    stockdb.addStock("QQQ");
-                    stockdb.addStock("HOU.TO");
-                    stockdb.addStock("HOD.TO");
-                    stockdb.addStock("T.TO");
-                    stockdb.addStock("FAS");
-                    stockdb.addStock("FAZ");
-                    stockdb.addStock("RY.TO");
-                    stockdb.addStock("XIU.TO");
+                    //    public static String primaryStock[] = {"AAPL","SPY","DIA","QQQ","HOU.TO","HOD.TO","T.TO","FAS","FAZ","RY.TO","XIU.TO"};
+
+                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+                        String stockN = ServiceAFweb.primaryStock[i];
+                        stockdb.addStock(stockN);
+                    }
+//                    stockdb.addStock("AAPL");
+//                    stockdb.addStock("SPY");
+//                    stockdb.addStock("DIA");
+//                    stockdb.addStock("QQQ");
+//                    stockdb.addStock("HOU.TO");
+//                    stockdb.addStock("HOD.TO");
+//                    stockdb.addStock("T.TO");
+//                    stockdb.addStock("FAS");
+//                    stockdb.addStock("FAZ");
+//                    stockdb.addStock("RY.TO");
+//                    stockdb.addStock("XIU.TO");
                     return 0; // new db
 
                 }

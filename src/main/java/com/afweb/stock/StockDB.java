@@ -533,9 +533,9 @@ public class StockDB {
 
             }
 
-            if (getEnv.checkLocalPC() == true) {
-                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
-            }
+//            if (getEnv.checkLocalPC() == true) {
+//                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
+//            }
             //clear Fail update count
             long dateNowLong = dateNow.getTimeInMillis();
             stock.setUpdatedatedisplay(new java.sql.Date(dateNowLong));

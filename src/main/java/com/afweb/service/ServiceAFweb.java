@@ -14,7 +14,7 @@ import com.afweb.nn.*;
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -30,7 +30,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
-import java.util.logging.Level;
 
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -74,6 +73,7 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
+    public static String primaryStock[] = {"AAPL","SPY","DIA","QQQ","HOU.TO","HOD.TO","T.TO","FAS","FAZ","RY.TO","XIU.TO"};
     /**
      * @return the cacheAccountAdminObj
      */
@@ -445,8 +445,11 @@ public class ServiceAFweb {
 //
 ///////////////////////////////////////////////////////////////////////////////////
 //                    
-                    boolean fundFlag = false;
+                    boolean fundFlag = true;
                     if (fundFlag == true) {
+
+//                        FundMgrProcess fundP = new FundMgrProcess();
+//                        fundP.updateMutualFundAll();
 
 //                        updateCustStatusSubStatus(CKey.FUND_MANAGER_USERNAME, ConstantKey.DISABLE + "", 0 + "");
 //                        removeCustomer(CKey.FUND_MANAGER_USERNAME);
@@ -458,22 +461,7 @@ public class ServiceAFweb {
                         getAccountProcessImp().ProcessFundAccount(this);
 
                     }
-                    boolean testtest = false;
-                    if (testtest == true) {
 
-                        int size1yearAll = 20 * 12 * 5 + (50 * 3);
-                        ArrayList<AFstockInfo> StockArray = getStockHistorical("HOU.TO", size1yearAll);
-                        String st = "";
-                        try {
-                            st = new ObjectMapper().writeValueAsString(StockArray);
-                        } catch (JsonProcessingException ex) {
-                        }
-                        logger.info("size " + st.length());
-                        String newSt = StockInternet.compress(st);
-                        logger.info("newSt " + newSt.length());
-                        String orgSt = StockInternet.decompress(newSt);
-                        logger.info("orgSt " + orgSt.length());
-                    }
 ///////////////////////////////////////////////////////////////////////////////////
                     processNeuralNet();
 ///////////////////////////////////////////////////////////////////////////////////
@@ -715,7 +703,6 @@ public class ServiceAFweb {
 
 //
             String symbol = "HOU.TO";
-            symbol = "C";
             AFstockObj stock = this.getRealTimeStockImp(symbol);
             TRprocessImp.updateRealTimeStockTest(this, stock);
 //            TRprocessImp.UpdateAllStock(this);
@@ -724,28 +711,7 @@ public class ServiceAFweb {
 //            int ret = InitDBData();  // init DB Adding customer account
 //            getAccountProcessImp().ProcessCustomerDisableMaintanceTest(this);
 //
-//            String symbol = "SPY";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "DIA";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "QQQ";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "HOU.TO";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "HOD.TO";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "T.TO";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "FAS";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "FAZ";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "XIU.TO";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "RY.TO";
-//            updateErrorStockYahooParseError(symbol);
-//            symbol = "AAPL";
-//            updateErrorStockYahooParseError(symbol);
+
 //
         }
 
