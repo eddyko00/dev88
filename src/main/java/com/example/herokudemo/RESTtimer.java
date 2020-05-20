@@ -59,9 +59,9 @@ public class RESTtimer {
                 if ((hr >= 8) && (hr <= 20)) {
                     serverURL_0 = "";
                 } else {
-                    if (HerokuDemoApplication.timerSchCnt > 5) {
-                        serverURL_0 = "stop";
-                    }
+//                    if (HerokuDemoApplication.timerSchCnt > 5) {
+//                        serverURL_0 = "stop";
+//                    }
                 }
             }
         }
