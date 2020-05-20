@@ -15,7 +15,6 @@ import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -73,7 +72,8 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
-    public static String primaryStock[] = {"AAPL","SPY","DIA","QQQ","HOU.TO","HOD.TO","T.TO","FAS","FAZ","RY.TO","XIU.TO"};
+    public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
+
     /**
      * @return the cacheAccountAdminObj
      */
@@ -450,7 +450,6 @@ public class ServiceAFweb {
 
 //                        FundMgrProcess fundP = new FundMgrProcess();
 //                        fundP.updateMutualFundAll();
-
 //                        updateCustStatusSubStatus(CKey.FUND_MANAGER_USERNAME, ConstantKey.DISABLE + "", 0 + "");
 //                        removeCustomer(CKey.FUND_MANAGER_USERNAME);
 //                        CustomerObj newCustomer = new CustomerObj();
@@ -705,7 +704,9 @@ public class ServiceAFweb {
             String symbol = "HOU.TO";
             AFstockObj stock = this.getRealTimeStockImp(symbol);
             TRprocessImp.updateRealTimeStockTest(this, stock);
-//            TRprocessImp.UpdateAllStock(this);
+            for (int k = 0; k < 10; k++) {
+                TRprocessImp.UpdateAllStock(this);
+            }
             //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy
 //            forceRemoveCustTest("EDDY-KO00-GMAIL-COM", "pass");
 //            int ret = InitDBData();  // init DB Adding customer account
@@ -3953,8 +3954,7 @@ public class ServiceAFweb {
         if (mergedList.size() == 0) {
             return (ArrayList) mergedList;
         }
-
-        if (length < 10) {
+        if (length < 22) {
             ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
             ArrayList<AFstockInfo> retArray = new ArrayList();
             for (int i = 0; i < length; i++) {
@@ -3963,6 +3963,42 @@ public class ServiceAFweb {
             }
             return retArray;
         }
+        boolean primarySt = false;
+        for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+            String stockN = ServiceAFweb.primaryStock[i];
+            if (stockN.equals(NormalizeSymbol.toUpperCase())) {
+                primarySt = true;
+                break;
+            }
+        }
+        if (primarySt == false) {
+            // assume yahoo finance is working.
+            // save only the last 10 to save memory 10M only in Clever Cloud 
+            // always the earliest day first
+            StockInternet internet = new StockInternet();
+            ArrayList<AFstockInfo> StockArray = internet.GetStockHistoricalInternet(NormalizeSymbol, length);
+            if (StockArray == null) {
+                ///////seems internet error
+                logger.info("getStockHistorical internet error " + NormalizeSymbol);
+                return null;
+            }
+            if (StockArray.size() == 0) {
+                return StockArray;
+            }
+            AFstockInfo mergeInfo = mergedList.get(0);
+            long mergeInfoEOD = TimeConvertion.endOfDayInMillis(mergeInfo.getEntrydatel());
+            AFstockInfo StockInfo = StockArray.get(0);
+            long StockInfoEOD = TimeConvertion.endOfDayInMillis(StockInfo.getEntrydatel());
+            if (mergeInfoEOD == StockInfoEOD) {
+                StockArray.remove(0);
+                StockArray.add(0, mergedList.get(0));
+            } else {
+                StockArray.add(mergedList.get(0));
+            }
+            mergedList = StockArray;
+
+        }
+
         return (ArrayList) mergedList;
     }
 

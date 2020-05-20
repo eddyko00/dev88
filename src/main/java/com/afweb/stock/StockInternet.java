@@ -61,6 +61,9 @@ public class StockInternet {
 ////    public static int HALF_YEAR_DATA = 26 * 5;
 ////    public static int ONE_YEAR_DATA = 52 * 5;
 ////    public static int TWO_YEAR_DATA = 52 * 5 * 2;
+    // always the earliest day first
+    // always the earliest day first
+    // always the earliest day first    
     public ArrayList<AFstockInfo> GetStockHistoricalInternet(String NormalizeSymbol, int length) { // number of days in lenght
         GetYahooQuotes internetQuote = new GetYahooQuotes();
         ServiceAFweb.getServerObj().setCntInterRequest(ServiceAFweb.getServerObj().getCntInterRequest() + 1);
@@ -415,7 +418,7 @@ public class StockInternet {
         return StockArray;
     }
 
-  public static String compress(String str) {
+    public static String compress(String str) {
         if (str == null || str.length() == 0) {
             return str;
         }
@@ -432,7 +435,7 @@ public class StockInternet {
         return null;
     }
 
-   public static String decompress(String str) {
+    public static String decompress(String str) {
         if (str == null || str.length() == 0) {
             return str;
         }
