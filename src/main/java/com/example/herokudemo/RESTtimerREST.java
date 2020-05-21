@@ -47,9 +47,7 @@ public class RESTtimerREST {
             URLPath += webResourceString;
             URL request = new URL(URLPath);
             HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
-            if (CKey.UI_TIMER == true) {
-                System.out.println("Request Code:: " + URLPath);
-            }
+
             if (proxyFlag == true) {
                 //////Add Proxy 
                 Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ServiceAFweb.PROXYURL, 8080));
@@ -104,9 +102,8 @@ public class RESTtimerREST {
             }
 
         } catch (Exception e) {
-            if (CKey.UI_TIMER == true) {
-                log.info("Error sending REST request:" + e);
-            }
+
+//          log.info("Error sending REST request:" + e);
             throw e;
         }
         return null;

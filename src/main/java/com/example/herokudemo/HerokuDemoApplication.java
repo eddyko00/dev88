@@ -32,10 +32,10 @@ public class HerokuDemoApplication {
         }
 
         try {
-            if (CKey.UI_TIMER == true) {
-                restTimer.RestTimerHandler();
-                return;
-            }
+//            if (CKey.UI_TIMER == true) {
+//                restTimer.RestTimerHandler();
+//                return;
+//            }
             if (getEnv.checkLocalPC() == true) {
                 restTimer.RestTimerHandler();
                 return;

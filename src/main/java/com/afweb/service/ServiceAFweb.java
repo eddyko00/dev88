@@ -252,9 +252,6 @@ public class ServiceAFweb {
             return getServerObj().getTimerCnt();
         }
 
-        if (CKey.UI_TIMER == true) {
-            return getServerObj().getTimerCnt();
-        }
 
         serverObj.setLastServUpdateTimer(lockDateValue);
         serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() + 1);
