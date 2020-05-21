@@ -62,85 +62,34 @@ public class RESTtimer {
         }
         RestTimerHandler0(CKey.SERVERDB_URL);
     }
-    private static int timerCnt = 0;
-    private static int timerExceptionCnt = 0;
-    private static long lastTimer = 0;
-    private static long timerServ = 0;
-
-    public void RestTimerHandler1(String urlStr) {
-
-        if (serverURL_1.equals("stop")) {
-            return;
-        }
-        if (timerServ == 0) {
-            timerServ = System.currentTimeMillis();
-        }
-        timerCnt++;
-        if (timerCnt < 0) {
-            timerCnt = 0;
-        }
-
-        if (timerExceptionCnt > 2) {
-            long currentTime = System.currentTimeMillis();
-            long lockDate1Min = TimeConvertion.addMinutes(lastTimer, 1); // add 1 minutes
-            if (lockDate1Min < currentTime) {
-                timerExceptionCnt = 0;
-            }
-            return;
-        }
-        lastTimer = System.currentTimeMillis();
-        timerMsg = "timerThreadServ=" + timerServ + "-timerCnt=" + timerCnt + "-ExceptionCnt=" + timerExceptionCnt;
-        // // too much log
-//        logger.info(timerMsg);
-        try {
-
-            // Create Client
-            String url = "";
-            if (serverURL_1.length() == 0) {
-                url = urlStr + "/timerhandler?resttimerMsg=" + timerMsg;
-            } else {
-                url = serverURL_1 + "/timerhandler?resttimerMsg=" + timerMsg;
-            }
-            RESTtimerREST restAPI = new RESTtimerREST();
-            String ret = restAPI.sendRequest(RESTtimerREST.METHOD_GET, url, null, null, CKey.PROXY);
-
-            timerExceptionCnt--;
-            if (timerExceptionCnt < 0) {
-                timerExceptionCnt = 0;
-            }
-        } catch (Exception ex) {
-            logger.info("RestTimerHandler1 Failed with HTTP Error ");
-        }
-        timerExceptionCnt++;
-    }
-
-    private static int timerCnt3 = 0;
-    private static int timerExceptionCnt3 = 0;
-    private static long lastTimer3 = 0;
-    private static long timerServ3 = 0;
+    
+    private static int timerCnt0 = 0;
+    private static int timerExceptionCnt0 = 0;
+    private static long lastTimer0 = 0;
+    private static long timerServ0 = 0;
 
     public void RestTimerHandler0(String urlStr) {
         if (serverURL_0.equals("stop")) {
             return;
         }
-        if (timerServ3 == 0) {
-            timerServ3 = System.currentTimeMillis();
+        if (timerServ0 == 0) {
+            timerServ0 = System.currentTimeMillis();
         }
-        timerCnt3++;
-        if (timerCnt3 < 0) {
-            timerCnt3 = 0;
+        timerCnt0++;
+        if (timerCnt0 < 0) {
+            timerCnt0 = 0;
         }
 
-        if (timerExceptionCnt3 > 2) {
+        if (timerExceptionCnt0 > 2) {
             long currentTime = System.currentTimeMillis();
-            long lockDate1Min = TimeConvertion.addMinutes(lastTimer3, 1); // add 1 minutes
+            long lockDate1Min = TimeConvertion.addMinutes(lastTimer0, 1); // add 1 minutes
             if (lockDate1Min < currentTime) {
-                timerExceptionCnt3 = 0;
+                timerExceptionCnt0 = 0;
             }
             return;
         }
-        lastTimer3 = System.currentTimeMillis();
-        timerMsg = "timerThreadServ=" + timerServ3 + "-timerCnt=" + timerCnt3 + "-ExceptionCnt=" + timerExceptionCnt3;
+        lastTimer0 = System.currentTimeMillis();
+        timerMsg = "timerThreadServ=" + timerServ0 + "-timerCnt=" + timerCnt0 + "-ExceptionCnt=" + timerExceptionCnt0;
         // // too much log
 //        logger.info(timerMsg);
         try {
@@ -160,16 +109,70 @@ public class RESTtimer {
             String ret = restAPI.sendRequest(RESTtimerREST.METHOD_GET, url, null, null, false);
 //            logger.info(ret);
 
-            timerExceptionCnt3--;
-            if (timerExceptionCnt3 < 0) {
-                timerExceptionCnt3 = 0;
+            timerExceptionCnt0--;
+            if (timerExceptionCnt0 < 0) {
+                timerExceptionCnt0 = 0;
             }
         } catch (Exception ex) {
             if (CKey.NN_DEBUG == true) {
 //                logger.info("RestTimerHandler0 Failed with HTTP Error ");
             }
         }
-        timerExceptionCnt3++;
+        timerExceptionCnt0++;
     }
 
+    
+//    private static int timerCnt = 0;
+//    private static int timerExceptionCnt = 0;
+//    private static long lastTimer = 0;
+//    private static long timerServ = 0;
+//
+//    public void RestTimerHandler1(String urlStr) {
+//
+//        if (serverURL_1.equals("stop")) {
+//            return;
+//        }
+//        if (timerServ == 0) {
+//            timerServ = System.currentTimeMillis();
+//        }
+//        timerCnt++;
+//        if (timerCnt < 0) {
+//            timerCnt = 0;
+//        }
+//
+//        if (timerExceptionCnt > 2) {
+//            long currentTime = System.currentTimeMillis();
+//            long lockDate1Min = TimeConvertion.addMinutes(lastTimer, 1); // add 1 minutes
+//            if (lockDate1Min < currentTime) {
+//                timerExceptionCnt = 0;
+//            }
+//            return;
+//        }
+//        lastTimer = System.currentTimeMillis();
+//        timerMsg = "timerThreadServ=" + timerServ + "-timerCnt=" + timerCnt + "-ExceptionCnt=" + timerExceptionCnt;
+//        // // too much log
+////        logger.info(timerMsg);
+//        try {
+//
+//            // Create Client
+//            String url = "";
+//            if (serverURL_1.length() == 0) {
+//                url = urlStr + "/timerhandler?resttimerMsg=" + timerMsg;
+//            } else {
+//                url = serverURL_1 + "/timerhandler?resttimerMsg=" + timerMsg;
+//            }
+//            RESTtimerREST restAPI = new RESTtimerREST();
+//            String ret = restAPI.sendRequest(RESTtimerREST.METHOD_GET, url, null, null, CKey.PROXY);
+//
+//            timerExceptionCnt--;
+//            if (timerExceptionCnt < 0) {
+//                timerExceptionCnt = 0;
+//            }
+//        } catch (Exception ex) {
+//            logger.info("RestTimerHandler1 Failed with HTTP Error ");
+//        }
+//        timerExceptionCnt++;
+//    }
+
+    
 }
