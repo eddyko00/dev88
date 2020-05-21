@@ -701,7 +701,7 @@ public class ServiceAFweb {
             String symbol = "HOU.TO";
             AFstockObj stock = this.getRealTimeStockImp(symbol);
             TRprocessImp.updateRealTimeStockTest(this, stock);
-            for (int k = 0; k < 10; k++) {
+            for (int k = 0; k < 20; k++) {
                 TRprocessImp.UpdateAllStock(this);
             }
             //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy

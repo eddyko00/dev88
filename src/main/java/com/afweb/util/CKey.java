@@ -35,12 +35,12 @@ public class CKey {
     public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
-//    public static boolean UI_TIMER = false; //false //true for timer ticker  
+    public static boolean SEPARATE_STOCK_DB = false; //false //true    
+    public static String WEBPOST_HERO_STOCK_PHP = "/webgetresp_stock.php";
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
     public static String WEBPOST_HERO_PHP = "/webgetresp.php";
-//    public static String URL_PATH_HERO_DB_PHP = "https://iiswebphp.herokuapp.com";  //Remotemysql  https://remotemysql.com/dashboard.php
     public static String URL_PATH_HERO_DBDB_PHP = "https://iiswebdb.herokuapp.com";  //DB4Free https://www.db4free.net/phpMyAdmin/
 
     /////heroku

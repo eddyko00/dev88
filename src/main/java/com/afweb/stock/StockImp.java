@@ -406,6 +406,7 @@ public class StockImp {
     // 0 - new db, 1 - db already exist, -1 db error
     public int initStockDB() {
         try {
+
             int result = stockdb.initStockDB();
 
             if (result >= 0) {
@@ -417,26 +418,19 @@ public class StockImp {
                 }
                 //dummy stock
                 stockdb.addStock("T_T");
+                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+                    String stockN = ServiceAFweb.primaryStock[i];
+                    stockdb.addStock(stockN);
+                }
                 if (result == 0) {
                     initNeuralNetBPObj();
                     // make sure both ServiceAFweb.InitSystemData and StockImp.initStockDB are update
                     //    public static String primaryStock[] = {"AAPL","SPY","DIA","QQQ","HOU.TO","HOD.TO","T.TO","FAS","FAZ","RY.TO","XIU.TO"};
 
-                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                        String stockN = ServiceAFweb.primaryStock[i];
-                        stockdb.addStock(stockN);
-                    }
-//                    stockdb.addStock("AAPL");
-//                    stockdb.addStock("SPY");
-//                    stockdb.addStock("DIA");
-//                    stockdb.addStock("QQQ");
-//                    stockdb.addStock("HOU.TO");
-//                    stockdb.addStock("HOD.TO");
-//                    stockdb.addStock("T.TO");
-//                    stockdb.addStock("FAS");
-//                    stockdb.addStock("FAZ");
-//                    stockdb.addStock("RY.TO");
-//                    stockdb.addStock("XIU.TO");
+//                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+//                        String stockN = ServiceAFweb.primaryStock[i];
+//                        stockdb.addStock(stockN);
+//                    }
                     return 0; // new db
 
                 }
