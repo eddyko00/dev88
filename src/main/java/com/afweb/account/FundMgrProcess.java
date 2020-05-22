@@ -5,6 +5,7 @@
  */
 package com.afweb.account;
 
+import static com.afweb.account.AccountProcess.logger;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockObj;
@@ -14,9 +15,10 @@ import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
 /**
@@ -139,6 +141,200 @@ public class FundMgrProcess {
     ArrayList stockArrayTDPreciousMetals = new ArrayList();
     ArrayList stockArrayTDGlobalEntertainment = new ArrayList();
     ArrayList stockArrayTDScienceTechnology = new ArrayList();
+
+    private static ArrayList accountIdNameArray = new ArrayList();
+    private static ArrayList accountFundIdNameArray = new ArrayList();
+
+    public void ProcessFundMgrAccount(ServiceAFweb serviceAFWeb) {
+
+//        logger.info("> UpdateAccountSignal ");
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        if (accountAdminObj == null) {
+            return;
+        }
+        if (accountFundIdNameArray == null) {
+            accountFundIdNameArray = new ArrayList();
+        }
+        if (accountFundIdNameArray.size() == 0) {
+            ArrayList accountIdList = serviceAFWeb.SystemAllOpenAccountIDList();
+            if (accountIdList == null) {
+                return;
+            }
+            accountFundIdNameArray = accountIdList;
+        }
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long lockDateValue = dateNow.getTimeInMillis();
+        String LockName = "ALL_FUNDMGR";
+        long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.FUND_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
+        if (CKey.NN_DEBUG == true) {
+            lockReturn = 1;
+        }
+        if (lockReturn > 0) {
+
+            long currentTime = System.currentTimeMillis();
+            long lockDate2Min = TimeConvertion.addMinutes(currentTime, 2);
+
+            for (int k = 0; k < 10; k++) {
+                currentTime = System.currentTimeMillis();
+                if (lockDate2Min < currentTime) {
+                    break;
+                }
+                if (accountFundIdNameArray.size() == 0) {
+                    break;
+                }
+                try {
+                    String accountIdSt = (String) accountFundIdNameArray.get(0);
+                    accountFundIdNameArray.remove(0);
+                    int accountId = Integer.parseInt(accountIdSt);
+                    AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
+                    if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                        updateMutualFundBestStock(serviceAFWeb, accountObj);
+                    }
+                } catch (Exception e) {
+                    logger.info("> ProcessFundAccount Exception " + e.getMessage());
+                }
+            }
+            serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
+        }
+    }
+
+    public int updateMutualFundBestStock(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
+        String portfolio = accountObj.getPortfolio();
+        FundM fundMgr = null;
+        try {
+            portfolio = portfolio.replaceAll("#", "\"");
+            fundMgr = new ObjectMapper().readValue(portfolio, FundM.class);
+        } catch (Exception ex) {
+        }
+
+        if (fundMgr == null) {
+            fundMgr = new FundM();
+            try {
+                String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
+                serviceAFWeb.getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+            } catch (JsonProcessingException ex) {
+            }
+        }
+
+        ArrayList portfolioArray = fundMgr.getFunL();
+
+        ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
+        if (accountList == null) {
+            return 0;
+        }
+        for (int k = 0; k < accountList.size(); k++) {
+            AccountObj accObj = (AccountObj) accountList.get(k);
+            if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+                ArrayList AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accObj.getId());
+                if (AccountStockNameList == null) {
+                    return 0;
+                }
+                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+
+                ArrayList<PerformanceObj> perfList = new ArrayList();
+                for (int i = 0; i < AccountStockNameList.size(); i++) {
+                    String stockN = (String) AccountStockNameList.get(i);
+                    String EmailUserName = CKey.ADMIN_USERNAME;
+                    String Password = null;
+                    String AccountIDSt = "" + accountAdminObj.getId();
+                    String stockidsymbol = stockN;
+                    String trName = ConstantKey.TR_NN2;
+                    int length = 1;
+                    ArrayList<PerformanceObj> stockPerList = serviceAFWeb.getAccountStockPerfHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
+                    if (stockPerList != null) {
+                        if (stockPerList.size() > 0) {
+                            perfList.add(stockPerList.get(0));
+                        }
+                    }
+                }
+
+                ////////sort the best perfList
+                float a;
+                float b;
+                PerformanceObj c;
+                PerformanceObj d;
+                for (int i = 0; i < perfList.size(); i++) {
+                    for (int j = i; j < perfList.size() - 1; j++) {
+                        a = perfList.get(i).getGrossprofit();
+                        b = perfList.get(j + 1).getGrossprofit();
+                        c = perfList.get(i);
+                        d = perfList.get(j + 1);
+                        if (a > b) {
+                            PerformanceObj temp = d;
+                            perfList.set(j + 1, c);
+                            perfList.set(i, temp);
+                        }
+                    }
+                }
+                for (PerformanceObj person : perfList) {
+                    System.out.println(person.getGrossprofit());
+                }
+
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    ////////// update FUND_MANAGER_USERNAME account
+    public boolean updateMutualFundAll() {
+
+        logger.info("updateMutualFundAll");
+        ArrayList stockArray = new ArrayList();
+        boolean ret = getGlobeFundStockList(stockArray);
+        if (ret == false) {
+            return ret;
+        }
+
+        ArrayList portfolioArray = new ArrayList();
+
+        Set<String> set = new HashSet<>();
+        for (int i = 0; i < stockArray.size(); i++) {
+            String stock = (String) stockArray.get(i);
+            if (!set.add(stock)) {
+                continue;
+            }
+
+            portfolioArray.add(stock);
+        }
+
+        CustomerObj custObj = getAccountImp().getCustomerStatus(CKey.FUND_MANAGER_USERNAME, null);
+        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
+        if (accountList != null) {
+            for (int i = 0; i < accountList.size(); i++) {
+                AccountObj accountObj = (AccountObj) accountList.get(i);
+                if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                    String portfolio = accountObj.getPortfolio();
+
+                    FundM fundMgr = null;
+                    try {
+                        portfolio = portfolio.replaceAll("#", "\"");
+                        fundMgr = new ObjectMapper().readValue(portfolio, FundM.class);
+                    } catch (Exception ex) {
+                    }
+
+                    if (fundMgr == null) {
+                        fundMgr = new FundM();
+                        try {
+                            String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
+                            getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                        } catch (Exception ex) {
+                        }
+                    }
+                    fundMgr.setFunL(portfolioArray);
+                    String portfStr;
+                    try {
+                        portfStr = new ObjectMapper().writeValueAsString(fundMgr);
+                        getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                    } catch (JsonProcessingException ex) {
+                    }
+
+                    break;
+                }
+            }
+        }
+        return true;
+    }
 
     public boolean getGlobeFundStockList(ArrayList stockArray) {
         int nStock = 1; //3;
@@ -294,66 +490,6 @@ public class FundMgrProcess {
             ex.printStackTrace();
         }
         return false;
-    }
-
-    public boolean updateMutualFundAll() {
-
-        logger.info("updateMutualFundAll");
-        ArrayList stockArray = new ArrayList();
-        boolean ret = getGlobeFundStockList(stockArray);
-        if (ret == false) {
-            return ret;
-        }
-
-        ArrayList portfolioArray = new ArrayList();
-
-        Set<String> set = new HashSet<>();
-        for (int i = 0; i < stockArray.size(); i++) {
-            String stock = (String) stockArray.get(i);
-            if (!set.add(stock)) {
-                continue;
-            }
-
-            portfolioArray.add(stock);
-        }
-
-        CustomerObj custObj = getAccountImp().getCustomerStatus(CKey.FUND_MANAGER_USERNAME, null);
-        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
-        if (accountList != null) {
-            for (int i = 0; i < accountList.size(); i++) {
-                AccountObj accountObj = (AccountObj) accountList.get(i);
-                if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                    String portfolio = accountObj.getPortfolio();
-
-                    FundM fundMgr = null;
-                    try {
-                        portfolio = portfolio.replaceAll("#", "\"");
-                        fundMgr = new ObjectMapper().readValue(portfolio, FundM.class);
-                    } catch (Exception ex) {
-                    }
-
-                    if (fundMgr == null) {
-                        fundMgr = new FundM();
-                        try {
-                            String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
-                            getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
-                        } catch (Exception ex) {
-                        }
-                    }
-                    fundMgr.setFunL(portfolioArray);
-                    String portfStr;
-                    try {
-                        portfStr = new ObjectMapper().writeValueAsString(fundMgr);
-                        getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
-                    } catch (JsonProcessingException ex) {
-                    }
-
-                    break;
-                }
-            }
-        }
-
-        return true;
     }
 
     public String copyMutualFund(String fundName, String mutualFundName) {
