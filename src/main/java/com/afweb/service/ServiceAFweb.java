@@ -252,7 +252,6 @@ public class ServiceAFweb {
             return getServerObj().getTimerCnt();
         }
 
-
         serverObj.setLastServUpdateTimer(lockDateValue);
         serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() + 1);
         try {
@@ -558,7 +557,14 @@ public class ServiceAFweb {
             } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                NNProcessImp.ProcessTrainNeuralNet(this);
+                if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == false) {
+                    ///Error R14 (Memory quota exceeded) in heroku
+                    ///Error R14 (Memory quota exceeded) in heroku
+                    NNProcessImp.ProcessTrainNeuralNet(this);
+                } else if (getEnv.checkLocalPC() == true) {
+                    NNProcessImp.ProcessTrainNeuralNet(this);
+                }
+
             } else {
                 NNProcessImp.ProcessInputNeuralNet(this);
             }
