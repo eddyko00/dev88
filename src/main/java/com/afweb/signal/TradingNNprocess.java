@@ -46,6 +46,12 @@ public class TradingNNprocess {
 //            return;
 //        }        
 //        logger.info("> ProcessTrainNeuralNet ");
+        if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {
+            ///Error R14 (Memory quota exceeded) in heroku
+            ///Error R14 (Memory quota exceeded) in heroku
+            return;
+        }
+
         this.serviceAFWeb = serviceAFWeb;
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         UpdateStockNNprocessNameArray(accountAdminObj);
