@@ -106,6 +106,9 @@ public class ServiceRemoteDB {
             postSize++;
             if ((postSize > MAXPostSize) || (postSt.length() > 2000)) {
                 try {
+                    if (postSt.length() == 0) {
+                        continue;
+                    }
                     int ret = postExecuteListRemoteDB_Mysql(postSt);
                     if (ret == 0) {
                         return ret;
@@ -125,6 +128,9 @@ public class ServiceRemoteDB {
             postSt += "~" + sqlCMDList.get(i);
         }
         try {
+            if (postSt.length() == 0) {
+                return 1;
+            }
             int ret = postExecuteListRemoteDB_Mysql(postSt);
             return ret;
         } catch (Exception ex) {
