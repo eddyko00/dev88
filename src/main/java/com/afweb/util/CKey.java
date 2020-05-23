@@ -35,8 +35,10 @@ public class CKey {
     public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
+    ////////////////////// make this always true
     public static boolean SEPARATE_STOCK_DB = true; //false //true    
     public static String WEBPOST_HERO_STOCK_PHP = "/webgetresp_stock.php";
+    /////////////////////
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
