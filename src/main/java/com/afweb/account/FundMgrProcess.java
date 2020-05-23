@@ -358,7 +358,7 @@ public class FundMgrProcess {
     }
 
     public boolean getGlobeFundStockList(ArrayList stockArray) {
-        int nStock = 2; //3;
+        int nStock = 1; //2; //3;
 
 //        this.getGlobeFundStockList(TDMonthlyIncome, stockArrayTDMonthlyIncome, nStock);
         String fundURL = FidelityGlobalHealthCare;
