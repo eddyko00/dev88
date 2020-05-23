@@ -116,9 +116,9 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/retrainnninput");
         arrayString.add("/cust/{username}/sys/autonnflag");
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
-        arrayString.add("/cust/{username}/sys/autnntrain");
-        arrayString.add("/cust/{username}/sys/autnntrain/enable");        
-        arrayString.add("/cust/{username}/sys/autnntrain/disable");         
+        arrayString.add("/cust/{username}/sys/autonntrain");
+        arrayString.add("/cust/{username}/sys/autonntrain/enable");        
+        arrayString.add("/cust/{username}/sys/autonntrain/disable");         
         //DB Backup
         arrayString.add("/cust/{username}/sys/downloaddb");
 
@@ -1316,7 +1316,7 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/autnntrain", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/autonntrain", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemNNTrainFlag(@PathVariable("username") String username) {
         WebStatus msg = new WebStatus();
@@ -1342,7 +1342,7 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/autnntrain/enable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/autonntrain/enable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus setSystemNNTrainEnableFlag(@PathVariable("username") String username) {
         WebStatus msg = new WebStatus();
@@ -1370,7 +1370,7 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/autnntrain/disable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/autonntrain/disable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus setSystemNNTrainDisableFlag(@PathVariable("username") String username) {
         WebStatus msg = new WebStatus();
