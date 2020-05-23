@@ -50,7 +50,9 @@ public class TradingNNprocess {
             if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {
                 ///Error R14 (Memory quota exceeded) in heroku
                 ///Error R14 (Memory quota exceeded) in heroku
-                return;
+                if (ServiceAFweb.NN_AllowTraingStockFlag == false) {
+                    return;
+                }
             }
         }
         this.serviceAFWeb = serviceAFWeb;

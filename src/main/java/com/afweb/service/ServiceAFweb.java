@@ -51,6 +51,7 @@ public class ServiceAFweb {
     private DataSource dataSource;
     
     public static String serverLockName = "server";
+    public static boolean NN_AllowTraingStockFlag = false;    
     private static boolean initProcessTimer = false;
     private static int delayProcessTimer = 0;
     private static long timerThreadDateValue = 0;
@@ -522,7 +523,7 @@ public class ServiceAFweb {
                 systemNNFlag = true;
             }
             
-            if ((getServerObj().getProcessTimerCnt() % 280) == 0) {
+            if ((getServerObj().getProcessTimerCnt() % (280*2)) == 0) {
                 // 30 sec per tick ~ 5 hour   60 s*60 * 4/ 30 
                 if (systemNNFlag == true) {
                     logger.info("> processTimer SystemClearNNinput every 4 hr");
@@ -537,7 +538,7 @@ public class ServiceAFweb {
                     
                 }
             }
-            if ((getServerObj().getProcessTimerCnt() % 200) == 0) {
+            if ((getServerObj().getProcessTimerCnt() % (200*2)) == 0) {
                 // 30 sec per tick ~  for 3 hour   60 s*60 *3 /30 
                 if (systemNNFlag == true) {
                     logger.info("> processTimer retrainStockNNprocessNameArray every 3 hr");

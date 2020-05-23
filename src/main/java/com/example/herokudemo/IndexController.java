@@ -33,7 +33,6 @@ public class IndexController {
 
     private static AFwebService afWebService = new AFwebService();
 
-
     @RequestMapping("/index")
     public String indexMessage() {
         return "index";
@@ -117,6 +116,9 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/retrainnninput");
         arrayString.add("/cust/{username}/sys/autonnflag");
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
+        arrayString.add("/cust/{username}/sys/autnntrain");
+        arrayString.add("/cust/{username}/sys/autnntrain/enable");        
+        arrayString.add("/cust/{username}/sys/autnntrain/disable");         
         //DB Backup
         arrayString.add("/cust/{username}/sys/downloaddb");
 
@@ -170,7 +172,6 @@ public class IndexController {
         return "";
     }
 
-
     @RequestMapping(value = "/server", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getServerObj() {
@@ -221,7 +222,6 @@ public class IndexController {
         return "done...";
     }
 
-
     @RequestMapping(value = "/server/dburl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerDBURL() {
@@ -234,7 +234,6 @@ public class IndexController {
 //        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
 //        return ServiceRemoteDB.getURL_PATH();
 //    }
-
     @RequestMapping(value = "/server/dburl/setherodb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerDBURLOPHERDB() {
@@ -262,9 +261,9 @@ public class IndexController {
     @RequestMapping(value = "/server/url0", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerURL() {
-        String url0 =RESTtimer.serverURL_0;
-        if (url0.length()==0) {
-            url0=CKey.SERVERDB_URL;
+        String url0 = RESTtimer.serverURL_0;
+        if (url0.length() == 0) {
+            url0 = CKey.SERVERDB_URL;
         }
         return url0;
     }
@@ -293,7 +292,6 @@ public class IndexController {
         RESTtimer.serverURL_0 = urlSt.trim();
         return "done...";
     }
-
 
     @RequestMapping(value = "/timerhandler", produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -1310,6 +1308,88 @@ public class IndexController {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse(afWebService.SystemClearNNinput());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/autnntrain", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus getSystemNNTrainFlag(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/autnntrain/enable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus setSystemNNTrainEnableFlag(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                afWebService.systemNNFlag = true;
+                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                ServiceAFweb.NN_AllowTraingStockFlag = true;
+                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/autnntrain/disable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus setSystemNNTrainDisableFlag(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                afWebService.systemNNFlag = true;
+                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                ServiceAFweb.NN_AllowTraingStockFlag = false;
+                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
                 msg.setResult(true);
                 return msg;
             }
