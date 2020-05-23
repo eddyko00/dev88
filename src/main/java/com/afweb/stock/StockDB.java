@@ -761,9 +761,9 @@ public class StockDB {
     }
 
     public int initStockDB() {
-        if (CKey.SEPARATE_STOCK_DB == true) {
-            initStockInfoDB();
-        }
+//        if (CKey.SEPARATE_STOCK_DB == true) {
+//            initStockInfoDB();
+//        }
         int total = 0;
         logger.info(">>>>> InitStockDB Table creation");
         try {
@@ -795,8 +795,15 @@ public class StockDB {
             if (total == -1) {
                 return -1;
             }
-
 // sequency is important
+
+            if (CKey.SEPARATE_STOCK_DB == true) {
+                CKey.SEPARATE_STOCK_DB = false;
+                processExecuteDB("drop table if exists stockinfo");
+                CKey.SEPARATE_STOCK_DB = true;
+                processExecuteDB("drop table if exists stockinfo");
+            }
+
             ArrayList dropTableList = new ArrayList();
             dropTableList.add("drop table if exists dummy1");
             dropTableList.add("drop table if exists lockobject");
@@ -812,12 +819,11 @@ public class StockDB {
             dropTableList.add("drop table if exists stock");
             dropTableList.add("drop table if exists account");
             dropTableList.add("drop table if exists customer");
-
-//            boolean resultDrop = ExecuteSQLArrayList(dropTableList);
-            int resultDropList = updateSQLArrayList(dropTableList);
-
+//            
+            //must use this ExecuteSQLArrayList to exec one by one for 2 db 
+            boolean resultDropList = ExecuteSQLArrayList(dropTableList);
+            
             ArrayList createTableList = new ArrayList();
-////
             if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
                 createTableList.add("create table dummy1 (id int identity not null, primary key (id))");
                 createTableList.add("create table tradingrule (id int identity not null, trname varchar(255) not null, type int not null, trsignal int not null, updatedatedisplay date null, updatedatel bigint not null, status int not null, substatus int not null, investment float(10) not null, balance float(10) not null, longshare float(10) not null, longamount float(10) not null, shortshare float(10) not null, shortamount float(10) not null, linktradingruleid int not null, stockid int not null, accountid int not null, comment varchar(255) not null, primary key (id))");
@@ -838,7 +844,7 @@ public class StockDB {
                 createTableList.add("create table comm (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, data text null, accountid int not null, customerid int not null, primary key (id))");
                 createTableList.add("create table billing (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, payment float(10) not null, balance float(10) not null, data text null, accountid int not null, customerid int not null, primary key (id))");
 
-                createTableList.add("alter table stockinfo add constraint fkstockinfo189813 foreign key (stockid) references stock (id)");
+//                createTableList.add("alter table stockinfo add constraint fkstockinfo189813 foreign key (stockid) references stock (id)");
                 createTableList.add("alter table tradingrule add constraint fktradingrul566192 foreign key (accountid) references account (id)");
                 createTableList.add("alter table transationorder add constraint fktransation900454 foreign key (tradingruleid) references tradingrule (id)");
                 createTableList.add("alter table account add constraint fkaccount643453 foreign key (customerid) references customer (id)");
@@ -863,11 +869,13 @@ public class StockDB {
                 createTableList.add("create table comm (id int(10) not null auto_increment, name varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, data text, accountid int(10) not null, customerid int(10) not null, primary key (id))");
                 createTableList.add("create table billing (id int(10) not null auto_increment, name varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, payment float not null, balance float not null, data text, accountid int(10) not null, customerid int(10) not null, primary key (id))");
 
-                createTableList.add("alter table stockinfo add constraint fkstockinfo189813 foreign key (stockid) references stock (id)");
+//                createTableList.add("alter table stockinfo add constraint fkstockinfo189813 foreign key (stockid) references stock (id)");
                 createTableList.add("alter table tradingrule add constraint fktradingrul566192 foreign key (accountid) references account (id)");
                 createTableList.add("alter table transationorder add constraint fktransation900454 foreign key (tradingruleid) references tradingrule (id)");
                 createTableList.add("alter table account add constraint fkaccount643453 foreign key (customerid) references customer (id)");
             }
+            
+            //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultCreate = ExecuteSQLArrayList(createTableList);
 
             logger.info("> InitStockDB Done - result " + resultCreate);

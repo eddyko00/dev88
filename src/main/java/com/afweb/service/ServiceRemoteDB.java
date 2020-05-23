@@ -6,7 +6,6 @@
 package com.afweb.service;
 
 import com.afweb.model.ConstantKey;
-import com.afweb.model.RequestObj;
 import com.afweb.model.account.*;
 
 import com.afweb.model.stock.*;
@@ -1980,11 +1979,13 @@ public class ServiceRemoteDB {
                 if (bodyElement.indexOf(" stockinfo") != -1) {
                     String tmpURL = CKey.REMOTEDB_MY_SQLURL + WEBPOST_MYSQL;
                     if (getURL_PATH().equals(tmpURL)) {
-                         System.out.println("stockinfo:: " + bodyElement);
-                  
+                        if (CKey.NN_DEBUG == true) {
+                            System.out.println("stockinfo:: " + bodyElement);
+                        }
+
                     }
                 }
-            }            
+            }
             if (responseCode != 200) {
                 System.out.println("Response Code:: " + responseCode);
             }
