@@ -533,6 +533,7 @@ public class StockDB {
             }
             //must sepalate stock and stockinfo to exec one by one for 2 db 
             int sqlResult = updateSQLArrayList(sqlTranList);
+            sqlTranList.clear();
             
 //            if (getEnv.checkLocalPC() == true) {
 //                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
