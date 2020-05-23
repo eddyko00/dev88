@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -216,8 +217,6 @@ public class FundMgrProcess {
             }
         }
 
-        ArrayList portfolioArray = fundMgr.getFunL();
-
         ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
             return 0;
@@ -243,12 +242,15 @@ public class FundMgrProcess {
                     ArrayList<PerformanceObj> stockPerList = serviceAFWeb.getAccountStockPerfHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
                     if (stockPerList != null) {
                         if (stockPerList.size() > 0) {
-                            perfList.add(stockPerList.get(0));
+                            PerformanceObj perfObj = stockPerList.get(0);
+                            perfObj.setName(stockidsymbol);
+
+                            perfList.add(perfObj);
                         }
                     }
                 }
 
-                ////////sort the best perfList
+                ////////sort the best perfList low number to high
                 float a;
                 float b;
                 PerformanceObj c;
@@ -266,8 +268,27 @@ public class FundMgrProcess {
                         }
                     }
                 }
-                for (PerformanceObj person : perfList) {
-                    System.out.println(person.getGrossprofit());
+                // change high to low
+
+                Collections.reverse(perfList);
+                ArrayList accPortList = new ArrayList();
+                for (PerformanceObj perObj : perfList) {
+                    System.out.println(perObj.getName() + " " + perObj.getGrossprofit());
+                    if (perObj.getGrossprofit() > 0) {
+                        if (accPortList.size() < 3) {
+                            accPortList.add(perObj.getName());
+                        }
+                    }
+                }
+
+                fundMgr.setAccL(accPortList);
+
+                String portfStr;
+                try {
+                    portfStr = new ObjectMapper().writeValueAsString(fundMgr);
+                    getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                } catch (JsonProcessingException e) {
+                    logger.info("> updateMutualFundBestStock Exception " + e.getMessage());
                 }
 
                 return 1;
@@ -337,7 +358,7 @@ public class FundMgrProcess {
     }
 
     public boolean getGlobeFundStockList(ArrayList stockArray) {
-        int nStock = 1; //3;
+        int nStock = 2; //3;
 
 //        this.getGlobeFundStockList(TDMonthlyIncome, stockArrayTDMonthlyIncome, nStock);
         String fundURL = FidelityGlobalHealthCare;
