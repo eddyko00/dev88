@@ -531,7 +531,9 @@ public class StockDB {
                 sqlTranList.add(insertSQL);
 
             }
-
+            //must sepalate stock and stockinfo to exec one by one for 2 db 
+            int sqlResult = updateSQLArrayList(sqlTranList);
+            
 //            if (getEnv.checkLocalPC() == true) {
 //                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
 //            }
@@ -547,7 +549,7 @@ public class StockDB {
                     + stock.getFailedupdate() + " where symbol='" + stock.getSymbol() + "'";
             sqlTranList.add(sqlUpdateStockSQL);
             // process all transaction
-            int sqlResult = updateSQLArrayList(sqlTranList);
+            sqlResult = updateSQLArrayList(sqlTranList);
             if (sqlResult == 1) {
                 return 1; //resultAdd; 
             }
