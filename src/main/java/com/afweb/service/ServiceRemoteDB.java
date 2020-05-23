@@ -151,7 +151,7 @@ public class ServiceRemoteDB {
             int end = output.indexOf(" ~~");
 
             if ((beg >= end) || (beg == -1)) {
-                logger.info("postExecuteListRemoteDB_Mysql " + sqlCMDList);
+                logger.info("postExecuteListRemoteDB_Mysql output" + sqlCMDList);
                 return -1;
             }
             output = output.substring(beg + 3, end);
@@ -159,7 +159,7 @@ public class ServiceRemoteDB {
             String[] dataArray = splitIncludeEmpty(output, '~');
             output = dataArray[0];
             if (output == null) {
-                logger.info("postExecuteListRemoteDB_Mysql " + sqlCMDList);
+                logger.info("postExecuteListRemoteDB_Mysql array" + sqlCMDList);
                 return 0;
             }
             if (output.length() == 0) {
