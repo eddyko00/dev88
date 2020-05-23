@@ -98,7 +98,7 @@ public class TradingNNprocess {
                         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
                         if (stock != null) {
 
-                            String LockStock = "NN_TR_" + symbol + "_" + trNN;
+                            String LockStock = "NN_TR_" + symbol; // + "_" + trNN;
                             LockStock = LockStock.toUpperCase();
 
                             long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
