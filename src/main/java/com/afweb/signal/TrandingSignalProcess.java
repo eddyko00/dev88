@@ -1550,13 +1550,13 @@ public class TrandingSignalProcess {
                 }
 
                 boolean primarySt = false;
-                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                    String stockN = ServiceAFweb.primaryStock[i];
-                    if (stockN.equals(NormalizeSymbol.toUpperCase())) {
-                        primarySt = true;
-                        break;
-                    }
-                }
+//                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+//                    String stockN = ServiceAFweb.primaryStock[i];
+//                    if (stockN.equals(NormalizeSymbol.toUpperCase())) {
+//                        primarySt = true;
+//                        break;
+//                    }
+//                }
                 if (primarySt == false) {
                     // assume yahoo finance is working.
                     // save only the last 10 to save memory 10M only in Clever Cloud 

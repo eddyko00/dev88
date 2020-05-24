@@ -36,7 +36,7 @@ public class CKey {
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     ////////////////////// make this always true
-    public static boolean SEPARATE_STOCK_DB = true; //false //true    
+    public static boolean SEPARATE_STOCK_DB = false; //false //true    
     public static String WEBPOST_HERO_STOCK_PHP = "/webgetresp_stock.php";
     /////////////////////
     /////heroku
