@@ -564,7 +564,7 @@ public class ServiceAFweb {
                 NNProcessImp.ProcessReTrainNeuralNet(this);
             } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
                 //10 Sec * 5 ~ 1 minutes
-                TRprocessImp.UpdateAllStock(this);
+//                TRprocessImp.UpdateAllStock(this);
             } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
