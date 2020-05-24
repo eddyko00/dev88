@@ -1249,7 +1249,7 @@ public class TrandingSignalProcess {
         } catch (Exception ex) {
         }
 
-        if ((hr > 18) && (hr < 6)) {  //if (hr > 17) {
+        if ((hr > 18) && (hr < 8)) {  //if (hr > 17) {
             String LockName = "MK_CLOSE_" + ServiceAFweb.getServerObj().getServerName();
 
             int lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);

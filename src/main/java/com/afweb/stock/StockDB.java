@@ -714,59 +714,8 @@ public class StockDB {
         return -1;
     }
 
-    public int initStockInfoDB() {
-        if (CKey.SEPARATE_STOCK_DB == true) {
-            int total = 0;
-            logger.info(">>>>> initStockInfoDB Table creation");
-            try {
-
-                boolean initDBflag = false;
-                if (initDBflag == true) {
-//             processExecuteDB("delete from stockinfo where id>0");
-                    processExecuteDB("drop table if exists stockinfodummy");
-                }
-                total = getCountRowsInTable(getJdbcTemplate(), "stockinfodummy");
-            } catch (Exception e) {
-                logger.info("> initStockInfoDB Table exception");
-                total = -1;
-            }
-            if (total >= 0) {
-                return 1;  // already exist
-            }
-            try {
-
-                ArrayList dropTableList = new ArrayList();
-                dropTableList.add("drop table if exists stockinfodummy");
-                dropTableList.add("drop table if exists stockinfo");
-
-                boolean resultDrop = ExecuteSQLArrayList(dropTableList);
-//                int resultDropList = updateSQLArrayList(dropTableList);
-
-                ArrayList createTableList = new ArrayList();
-
-                if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
-                    createTableList.add("create table stockinfodummy (id int(10) not null auto_increment, primary key (id))");
-                    createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, stockid int(10) not null, primary key (id))");
-                }
-                boolean resultCreate = ExecuteSQLArrayList(createTableList);
-
-                logger.info("> initStockInfoDB Done - result " + resultCreate);
-                total = getCountRowsInTable(getJdbcTemplate(), "stockinfo");
-                return 0;  // new database
-
-            } catch (Exception e) {
-                logger.info("> initStockInfoDB Table exception " + e.getMessage());
-            }
-            return -1;
-
-        }
-        return 0;
-    }
-
     public int initStockDB() {
-//        if (CKey.SEPARATE_STOCK_DB == true) {
-//            initStockInfoDB();
-//        }
+
         int total = 0;
         logger.info(">>>>> InitStockDB Table creation");
         try {
