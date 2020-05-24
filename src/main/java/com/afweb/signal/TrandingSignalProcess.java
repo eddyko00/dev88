@@ -1256,12 +1256,11 @@ public class TrandingSignalProcess {
 //            if (CKey.NN_DEBUG == true) {
 //                lockReturn = 1;
 //            }
-            if (lockReturn > 0) {
-                ;
-            } else {
+            if (lockReturn == 0) {
                 //no unlock and just wait for 90 minutes
                 return 0;
             }
+            logger.info("UpdateAllStock marke close " + hr);
         }
         updateStockUpdateNameArray();
         int result = 0;
@@ -1561,7 +1560,7 @@ public class TrandingSignalProcess {
                     // assume yahoo finance is working.
                     // save only the last 10 to save memory 10M only in Clever Cloud 
                     ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
-                    for (int j=0; j<25; j++) {
+                    for (int j = 0; j < 25; j++) {
                         StockArrayTmp.add(StockArray.get(j));
                     }
                     StockArray = StockArrayTmp;
