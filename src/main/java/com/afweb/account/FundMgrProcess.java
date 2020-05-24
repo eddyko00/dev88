@@ -5,7 +5,6 @@
  */
 package com.afweb.account;
 
-import static com.afweb.account.AccountProcess.logger;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockObj;
@@ -183,6 +182,9 @@ public class FundMgrProcess {
                 if (accountFundIdNameArray.size() == 0) {
                     break;
                 }
+                FundMgrProcess fundmgr = new FundMgrProcess();
+                fundmgr.updateMutualFundAll();
+                
                 try {
                     String accountIdSt = (String) accountFundIdNameArray.get(0);
                     accountFundIdNameArray.remove(0);
@@ -374,19 +376,19 @@ public class FundMgrProcess {
         }
         stockArray.addAll(stockArrayFidelityTechnologyInnovators);
         fundURL = TDBlueChipEquity;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDBlueChipEquity, nStock);
+        ret = this.getGlobeFundStockList(fundURL, stockArrayTDBlueChipEquity, nStock + 1);
         if (ret == false) {
             return false;
         }
         stockArray.addAll(stockArrayTDBlueChipEquity);
         fundURL = TDDividendGrowth;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDDividendGrowth, nStock);
+        ret = this.getGlobeFundStockList(fundURL, stockArrayTDDividendGrowth, nStock + 1);
         if (ret == false) {
             return false;
         }
         stockArray.addAll(stockArrayTDDividendGrowth);
         fundURL = TDMonthlyIncome;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDMonthlyIncome, nStock);
+        ret = this.getGlobeFundStockList(fundURL, stockArrayTDMonthlyIncome, nStock + 1);
         if (ret == false) {
             return false;
         }

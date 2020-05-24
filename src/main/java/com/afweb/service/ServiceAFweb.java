@@ -444,8 +444,7 @@ public class ServiceAFweb {
 //                    
                     boolean fundMgrFlag = false;
                     if (fundMgrFlag == true) {
-                        FundMgrProcess fundmgr = new FundMgrProcess();
-                        fundmgr.updateMutualFundAll();                        
+                        FundMgrProcess fundmgr = new FundMgrProcess();                    
                         fundmgr.ProcessFundMgrAccount(this);
 
                     }
