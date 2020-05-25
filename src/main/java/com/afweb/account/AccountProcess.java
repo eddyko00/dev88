@@ -312,7 +312,9 @@ public class AccountProcess {
                     int accountId = Integer.parseInt(accountIdSt);
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                        ProcessTradingAccountUpdate(serviceAFWeb, accountObj);
                         ProcessFundAccountUpdate(serviceAFWeb, accountObj);
+
                     }
                 } catch (Exception e) {
                     logger.info("> ProcessFundAccount Exception " + e.getMessage());
@@ -323,6 +325,85 @@ public class AccountProcess {
     }
 
     public int ProcessFundAccountUpdate(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
+        String portfolio = accountObj.getPortfolio();
+        FundM fundMgr = null;
+        try {
+            portfolio = portfolio.replaceAll("#", "\"");
+            fundMgr = new ObjectMapper().readValue(portfolio, FundM.class);
+        } catch (Exception ex) {
+        }
+
+        if (fundMgr == null) {
+            fundMgr = new FundM();
+            try {
+                String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
+                serviceAFWeb.getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+            } catch (JsonProcessingException ex) {
+            }
+        }
+
+        ArrayList portfolioArray = fundMgr.getFunL();
+
+        ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
+        if (accountList == null) {
+            return 0;
+        }
+        for (int k = 0; k < accountList.size(); k++) {
+            AccountObj accObj = (AccountObj) accountList.get(k);
+            if (accObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                ArrayList AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accObj.getId());
+                if (AccountStockNameList == null) {
+                    return 0;
+                }
+
+                int numCnt = 0;
+                ArrayList addedList = new ArrayList();
+                ArrayList removeList = new ArrayList();
+                boolean result = compareStockList(portfolioArray, AccountStockNameList, addedList, removeList);
+                if (result == true) {
+                    for (int i = 0; i < addedList.size(); i++) {
+                        String symbol = (String) addedList.get(i);
+                        int resultAdd = serviceAFWeb.addAccountStockSymbol(accObj, symbol);
+                        if (resultAdd > 0) {
+                            logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol
+                            );
+                        }
+                        numCnt++;
+                        if (numCnt > 10) {
+                            break;
+                        }
+                        ServiceAFweb.AFSleep();
+
+                    }
+
+                    /////////
+                    for (int i = 0; i < removeList.size(); i++) {
+                        String symbol = (String) removeList.get(i);
+                        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+                        if (stock == null) {
+                            continue;
+                        }
+                        ArrayList<StockTRHistoryObj> trObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
+
+                        int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
+                        if (resultRemove > 0) {
+                            logger.info("> ProcessFundAccount remove TR stock " + accObj.getAccountname() + " " + symbol);
+                        }
+                        numCnt++;
+                        if (numCnt > 10) {
+                            break;
+                        }
+                        ServiceAFweb.AFSleep();
+                    }
+                }
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public int ProcessTradingAccountUpdate(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
         try {
@@ -867,7 +948,7 @@ public class AccountProcess {
 
     //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
     public void updateAllStockFile(ServiceAFweb serviceAFWeb) {
-        
+
 //        updateStockFile(serviceAFWeb, "AEM");
 //        updateStockFile(serviceAFWeb, "INTC");
 //        updateStockFile(serviceAFWeb, "NFLX");
@@ -883,15 +964,11 @@ public class AccountProcess {
 //        updateStockFile(serviceAFWeb, "ROG");
 //        updateStockFile(serviceAFWeb, "V");
 //        updateStockFile(serviceAFWeb, "XLNX");
-
-
-        
 ////////////////////////////////////////////////////        
 //    public static String primaryStock[] = {"AAPL","SPY","DIA","QQQ","HOU.TO","HOD.TO","T.TO","FAS","FAZ","RY.TO","XIU.TO"};
-
-        for (int i=0; i< ServiceAFweb.primaryStock.length; i++) {
+        for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
             String stockN = ServiceAFweb.primaryStock[i];
-             updateStockFile(serviceAFWeb, stockN);
+            updateStockFile(serviceAFWeb, stockN);
         }
 
     }

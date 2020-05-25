@@ -170,6 +170,8 @@ public class FundMgrProcess {
             lockReturn = 1;
         }
         if (lockReturn > 0) {
+            FundMgrProcess fundmgr = new FundMgrProcess();
+            fundmgr.updateMutualFundAll();
 
             long currentTime = System.currentTimeMillis();
             long lockDate2Min = TimeConvertion.addMinutes(currentTime, 2);
@@ -182,9 +184,7 @@ public class FundMgrProcess {
                 if (accountFundIdNameArray.size() == 0) {
                     break;
                 }
-                FundMgrProcess fundmgr = new FundMgrProcess();
-                fundmgr.updateMutualFundAll();
-                
+
                 try {
                     String accountIdSt = (String) accountFundIdNameArray.get(0);
                     accountFundIdNameArray.remove(0);
