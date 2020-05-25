@@ -28,8 +28,6 @@ import java.util.Calendar;
 
 import java.util.List;
 import java.util.TimeZone;
-import java.util.logging.Level;
-
 import java.util.logging.Logger;
 
 /**
@@ -235,13 +233,11 @@ public class AccountProcess {
         if (accountAdminObj == null) {
             return;
         }
-
         ArrayList StockNameList = serviceAFWeb.getAllOpenStockNameArray();
 
         if (StockNameList == null) {
             return;
         }
-
         ArrayList AllAccountStockNameList = serviceAFWeb.SystemAllAccountStockNameListExceptionAdmin(accountAdminObj.getId());
 
         if (AllAccountStockNameList == null) {
@@ -342,7 +338,7 @@ public class AccountProcess {
             }
         }
 
-        ArrayList portfolioArray = fundMgr.getFunL();
+        ArrayList portAccArray = fundMgr.getAccL();
 
         ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
@@ -359,7 +355,7 @@ public class AccountProcess {
                 int numCnt = 0;
                 ArrayList addedList = new ArrayList();
                 ArrayList removeList = new ArrayList();
-                boolean result = compareStockList(portfolioArray, AccountStockNameList, addedList, removeList);
+                boolean result = compareStockList(portAccArray, AccountStockNameList, addedList, removeList);
                 if (result == true) {
                     for (int i = 0; i < addedList.size(); i++) {
                         String symbol = (String) addedList.get(i);
@@ -379,12 +375,25 @@ public class AccountProcess {
                     /////////
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
-                        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
                         AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
                         if (stock == null) {
                             continue;
                         }
-                        ArrayList<StockTRHistoryObj> trObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
+                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
+                        if (thList == null) {
+                            continue;
+                        }
+                        if (thList.size() != 0) {
+                            TransationOrderObj thObj = thList.get(0);
+                            int sig = thObj.getTrsignal();
+                            long entrydatel = thObj.getEntrydatel();
+
+                            long currentTime = System.currentTimeMillis();
+                            long day5befor = TimeConvertion.addDays(currentTime, -5);
+                            if (entrydatel > day5befor) {
+                                continue;
+                            }
+                        }
 
                         int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
                         if (resultRemove > 0) {
@@ -444,7 +453,7 @@ public class AccountProcess {
                         String symbol = (String) addedList.get(i);
                         int resultAdd = serviceAFWeb.addAccountStockSymbol(accObj, symbol);
                         if (resultAdd > 0) {
-                            logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol
+                            logger.info("> ProcessTradingAccountUpdate add TR stock " + accObj.getAccountname() + " " + symbol
                             );
                         }
                         numCnt++;
@@ -457,14 +466,14 @@ public class AccountProcess {
                     /////////
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
-                        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
                         AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
                         if (stock == null) {
                             continue;
                         }
                         int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
                         if (resultRemove > 0) {
-                            logger.info("> ProcessFundAccount remove TR stock " + accObj.getAccountname() + " " + symbol);
+                            logger.info("> ProcessTradingAccountUpdate remove TR stock " + accObj.getAccountname() + " " + symbol);
                         }
                         numCnt++;
                         if (numCnt > 10) {
