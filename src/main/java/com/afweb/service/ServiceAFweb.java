@@ -509,7 +509,7 @@ public class ServiceAFweb {
                     getAccountProcessImp().ProcessSystemMaintance(this);
                 }
             }
-            if (((getServerObj().getProcessTimerCnt() % 10) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
+            if (((getServerObj().getProcessTimerCnt() % 27) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
                 long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
                 if (result == 0) {
                     Calendar dateNow1 = TimeConvertion.getCurrentCalendar();
@@ -534,7 +534,6 @@ public class ServiceAFweb {
                         SystemClearNNinput();
                         // no need to clear it
                     }
-
                 }
             }
             if ((getServerObj().getProcessTimerCnt() % (200 * 2)) == 0) {
@@ -551,7 +550,11 @@ public class ServiceAFweb {
                     }
                 }
             }
-            if ((getServerObj().getProcessTimerCnt() % 13) == 0) {
+            if ((getServerObj().getProcessTimerCnt() % 21) == 0) {
+                // add or remove stock in Mutual fund account based on all stocks in the system
+                getAccountProcessImp().ProcessFundAccount(this);
+
+            } else if ((getServerObj().getProcessTimerCnt() % 13) == 0) {
                 // not stable -  slave cannot call Master in Openshift ???? 
                 TRprocessImp.UpdateAllStock(this);
 
@@ -559,8 +562,6 @@ public class ServiceAFweb {
                 getAccountProcessImp().ProcessSystemMaintance(this);
                 System.gc();
             } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
-                // add or remove stock in Mutual fund account based on all stocks in the system
-                getAccountProcessImp().ProcessFundAccount(this);
                 NNProcessImp.ProcessReTrainNeuralNet(this);
             } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
                 //10 Sec * 5 ~ 1 minutes
