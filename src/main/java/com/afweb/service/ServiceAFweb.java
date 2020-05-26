@@ -593,10 +593,10 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagNeuralnet = false;
+        boolean flagNeuralnet = true;
         if (flagNeuralnet == true) {
             // clear the old input for NN0
-            boolean flagClearInput = true;
+            boolean flagClearInput = false;
             if (flagClearInput == true) {
                 // delete TR nn1 transaction
                 String nnName = ConstantKey.TR_NN1;
@@ -611,7 +611,7 @@ public class ServiceAFweb {
             NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
             NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
             // start training
-            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
+//            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
         }
 
         boolean flaginpTrainData = false;

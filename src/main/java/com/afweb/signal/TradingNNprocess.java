@@ -882,7 +882,12 @@ public class TradingNNprocess {
         }
         inputList.remove(len - 1);
         inputList.remove(0);
-        boolean inputSaveFlag = true;
+        
+        //////// do not save in DB, only files
+        //////// do not save in DB, only files
+        //////// do not save in DB, only files
+        
+        boolean inputSaveFlag = false;
         if (inputSaveFlag == true) {
             int totalAdd = 0;
             int totalDup = 0;
@@ -903,7 +908,6 @@ public class TradingNNprocess {
                 }
             }
             logger.info("> getTrainingNNdataProcess " + BPname + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
-
         }
         return inputList;
     }
