@@ -160,6 +160,25 @@ public class AccountDB {
         return null;
     }
 
+    public CustomerObj getCustomerByCustID(int custId) {
+        CustomerObj customer = null;
+        try {
+            String sql = "select * from customer where id =" + custId;
+
+            ArrayList<CustomerObj> entries = getCustomerListSQL(sql, 1);
+            if (entries == null) {
+                return null;
+            }
+            if (entries.size() != 0) {
+                customer = entries.get(0);
+                return customer;
+            }
+        } catch (Exception e) {
+            logger.info("> getCustomerByCustID exception " + custId + " - " + e.getMessage());
+        }
+        return null;
+    }
+
     public CustomerObj getCustomer(String UserName, String Password) {
         CustomerObj customer = null;
         try {
@@ -317,7 +336,7 @@ public class AccountDB {
         return 0;
     }
 
-///////////////////////////////////////////////////////
+/////////////////////////////////////////////////////// 
     public ArrayList getAccountByCustomerID(int customerID) {
         String sql = "select * from account where customerid=" + customerID;
         sql += " order by type desc";

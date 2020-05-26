@@ -181,14 +181,19 @@ public class FundMgrProcess {
                 if (AccountStockNameList == null) {
                     return 0;
                 }
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                CustomerObj customer = getAccountImp().getCustomerByCustID(accObj.getCustomerid());
+                if (customer == null) {
+                    return 0;
+                }
+//                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
                 ArrayList<PerformanceObj> perfList = new ArrayList();
                 for (int i = 0; i < AccountStockNameList.size(); i++) {
                     String stockN = (String) AccountStockNameList.get(i);
-                    String EmailUserName = CKey.ADMIN_USERNAME;
+
+                    String EmailUserName = customer.getUsername();
                     String Password = null;
-                    String AccountIDSt = "" + accountAdminObj.getId();
+                    String AccountIDSt = "" + accObj.getId();
                     String stockidsymbol = stockN;
                     String trName = ConstantKey.TR_NN2;
                     int length = 1;

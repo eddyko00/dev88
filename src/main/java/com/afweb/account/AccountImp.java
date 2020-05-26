@@ -131,6 +131,12 @@ public class AccountImp {
         return null;
     }
 
+    //// do not expose to external interface
+    public CustomerObj getCustomerByCustID(int custId) {
+        CustomerObj customer = accountdb.getCustomerByCustID(custId);
+        return customer;
+    }
+
     public CustomerObj getCustomerPassword(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
