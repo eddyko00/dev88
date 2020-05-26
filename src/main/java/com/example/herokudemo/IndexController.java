@@ -437,7 +437,7 @@ public class IndexController {
             return 0;
         }
 
-        int ret = afWebService.updateAccountStatusByAccountID(username, balanceSt, accountid, substatusSt, paymentSt, balanceSt, servicefeeSt);
+        int ret = afWebService.updateAccountStatusByCustomerAccountID(username, balanceSt, accountid, substatusSt, paymentSt, balanceSt, servicefeeSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }

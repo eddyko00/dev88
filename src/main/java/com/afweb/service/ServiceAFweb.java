@@ -2069,7 +2069,7 @@ public class ServiceAFweb {
         return getAccountImp().updateTransactionOrder(transSQL);
     }
 
-    public int updateAccountStatusByAccountID(String EmailUserName, String Password, String AccountIDSt,
+    public int updateAccountStatusByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt,
             String substatusSt, String investmentSt, String balanceSt, String servicefeeSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
