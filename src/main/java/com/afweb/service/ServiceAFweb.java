@@ -442,9 +442,10 @@ public class ServiceAFweb {
 //
 ///////////////////////////////////////////////////////////////////////////////////
 //                    
-                    boolean fundMgrFlag = false;
+                    boolean fundMgrFlag = true;
                     if (fundMgrFlag == true) {
                         FundMgrProcess fundmgr = new FundMgrProcess();
+                        fundmgr.ProcessIISWebGlobalFundMgr(this);
                         fundmgr.ProcessFundMgrAccount(this);
 
                     }

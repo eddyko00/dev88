@@ -30,7 +30,6 @@ public class FundMgrProcess {
     public static Logger logger = Logger.getLogger("FundMgrProcess");
     private AccountImp accountImp = new AccountImp();
 
-
 // https://www.theglobeandmail.com/investing/markets/funds/FID899.CF
 // Fidelity Global Health Care Fund Series A 
     String FidelityGlobalHealthCare = "https://www.theglobeandmail.com/investing/markets/funds/FID899.CF";
@@ -73,12 +72,36 @@ public class FundMgrProcess {
     ArrayList stockArrayTDGlobalEntertainment = new ArrayList();
     ArrayList stockArrayTDScienceTechnology = new ArrayList();
 
+    public void ProcessIISWebGlobalFundMgr(ServiceAFweb serviceAFWeb) {
+
+        logger.info("> ProcessIISWebGlobalFundMgr ");
+
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long lockDateValue = dateNow.getTimeInMillis();
+        String LockName = "ALL_FUNDMGR";
+        long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.FUND_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
+        if (CKey.NN_DEBUG == true) {
+            lockReturn = 1;
+        }
+        if (lockReturn > 0) {
+            try {
+                updateMutualFundAll();
+                updateIndexMutualFundAll();
+
+            } catch (Exception e) {
+                logger.info("> ProcessIISWebGlobalFundMgr Exception " + e.getMessage());
+            }
+
+            serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
+        }
+    }
+
     private static ArrayList accountIdNameArray = new ArrayList();
     private static ArrayList accountFundIdNameArray = new ArrayList();
 
     public void ProcessFundMgrAccount(ServiceAFweb serviceAFWeb) {
 
-//        logger.info("> UpdateAccountSignal ");
+//        logger.info("> ProcessFundMgrAccount ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
@@ -101,9 +124,6 @@ public class FundMgrProcess {
             lockReturn = 1;
         }
         if (lockReturn > 0) {
-            FundMgrProcess fundmgr = new FundMgrProcess();
-            fundmgr.updateMutualFundAll();
-
             long currentTime = System.currentTimeMillis();
             long lockDate2Min = TimeConvertion.addMinutes(currentTime, 2);
 
@@ -231,9 +251,57 @@ public class FundMgrProcess {
     }
 
     ////////// update FUND_MANAGER_USERNAME account
+    public boolean updateIndexMutualFundAll() {
+
+        logger.info("updateIndexMutualFundAll");
+
+        CustomerObj custObj = getAccountImp().getCustomerStatus(CKey.INDEXFUND_MANAGER_USERNAME, null);
+        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
+        if (accountList != null) {
+            for (int i = 0; i < accountList.size(); i++) {
+                AccountObj accountObj = (AccountObj) accountList.get(i);
+                if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                    String portfolio = accountObj.getPortfolio();
+
+                    FundM fundMgr = null;
+                    try {
+                        portfolio = portfolio.replaceAll("#", "\"");
+                        fundMgr = new ObjectMapper().readValue(portfolio, FundM.class);
+                    } catch (Exception ex) {
+                    }
+
+                    if (fundMgr == null) {
+                        fundMgr = new FundM();
+                        try {
+                            String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
+                            getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                        } catch (Exception ex) {
+                        }
+                    }
+                    ArrayList portfolioArray = new ArrayList();
+
+                    portfolioArray.add("SPY");
+                    portfolioArray.add("DIA");
+                    portfolioArray.add("QQQ");
+                    portfolioArray.add("XIU.TO");
+                    fundMgr.setFunL(portfolioArray);
+                    String portfStr;
+                    try {
+                        portfStr = new ObjectMapper().writeValueAsString(fundMgr);
+                        getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                    } catch (JsonProcessingException ex) {
+                    }
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+
     public boolean updateMutualFundAll() {
 
         logger.info("updateMutualFundAll");
+
         ArrayList stockArray = new ArrayList();
         boolean ret = getGlobeFundStockList(stockArray);
         if (ret == false) {
@@ -252,8 +320,8 @@ public class FundMgrProcess {
             portfolioArray.add(stock);
         }
 
-        CustomerObj custObj = getAccountImp().getCustomerStatus(CKey.FUND_MANAGER_USERNAME, null);
-        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
+        CustomerObj custFundObj = getAccountImp().getCustomerStatus(CKey.FUND_MANAGER_USERNAME, null);
+        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custFundObj);
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {
                 AccountObj accountObj = (AccountObj) accountList.get(i);
@@ -415,7 +483,6 @@ public class FundMgrProcess {
         return false;
     }
 
- 
     /**
      * @return the accountImp
      */
