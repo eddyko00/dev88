@@ -7,7 +7,7 @@ public class CKey {
 
     public static final String ADMIN_USERNAME = "Admin1";
     public static final String FUND_MANAGER_USERNAME = "FundMgr";
-
+    public static final String INDEXFUND_MANAGER_USERNAME = "IndexMgr";
     public static final String AF_SYSTEM = "AFsystem";
 
     public static final String MASTER_SRV = "MasterDBSRV";

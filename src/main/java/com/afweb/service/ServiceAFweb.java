@@ -4926,8 +4926,13 @@ public class ServiceAFweb {
                 newCustomer.setPassword("passw0rd");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
                 getAccountImp().addCustomer(newCustomer);
-
+//                
+                newCustomer.setUsername(CKey.INDEXFUND_MANAGER_USERNAME);
+                newCustomer.setPassword("passw0rd");
+                newCustomer.setType(CustomerObj.INT_FUND_USER);
+                getAccountImp().addCustomer(newCustomer);
             }
+
             newCustomer.setUsername("EDDY");
             newCustomer.setPassword("pass");
             newCustomer.setType(CustomerObj.INT_CLIENT_BASIC_USER);
