@@ -449,7 +449,7 @@ public class ServiceAFweb {
 
                     }
 
-                    boolean fundFlag = false;
+                    boolean fundFlag = true;
                     if (fundFlag == true) {
 
 //                        FundMgrProcess fundP = new FundMgrProcess();
@@ -2086,7 +2086,7 @@ public class ServiceAFweb {
             float investment = Float.parseFloat(investmentSt);
             float balance = Float.parseFloat(balanceSt);
             float servicefee = Float.parseFloat(servicefeeSt);
-            return getAccountImp().updateAccountStatusByAccountID(UserName, Password, accountid, substatus, investment, balance, servicefee);
+            return getAccountImp().updateAccountStatusByCustomerAccountID(UserName, Password, accountid, substatus, investment, balance, servicefee);
 
         } catch (Exception e) {
         }

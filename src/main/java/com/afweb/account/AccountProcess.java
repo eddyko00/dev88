@@ -347,6 +347,17 @@ public class AccountProcess {
         for (int k = 0; k < accountList.size(); k++) {
             AccountObj accObj = (AccountObj) accountList.get(k);
             if (accObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                //////
+                ///just for testing
+//                ArrayList aList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(1);
+//                for (int m = 0; m < aList.size(); m++) {
+//                    AccountObj aObj = (AccountObj) aList.get(m);
+//                    if (aObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+//                        accObj = aObj;
+//                        break;
+//                    }
+//                }
+                //////
                 ArrayList AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accObj.getId());
                 if (AccountStockNameList == null) {
                     return 0;
@@ -395,82 +406,93 @@ public class AccountProcess {
                         total = total - trObj.getInvestment();
                         accountTotal += total;
                     }
-                    logger.info("> ProcessFundAccount " + accObj.getAccountname() + " curProfit" + accountTotal);
+                    logger.info("> ProcessFundAccount " + accObj.getAccountname() + " curProfit " + accountTotal);
                     accObj.setBalance(accountTotal);
                     /////////
                     float totalBal = accObj.getInvestment();
-                    for (int i = 0; i < removeList.size(); i++) {
 
-                        String symbol = (String) removeList.get(i);
-                        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
-                        if (stock == null) {
-                            continue;
-                        }
-                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
-                        if (thList == null) {
-                            continue;
-                        }
-                        if (thList.size() != 0) {
-                            TransationOrderObj thObj = thList.get(0);
-                            int sig = thObj.getTrsignal();
-                            long entrydatel = thObj.getEntrydatel();
+                    try {
+                        for (int i = 0; i < removeList.size(); i++) {
 
-                            long currentTime = System.currentTimeMillis();
-                            long day5befor = TimeConvertion.addDays(currentTime, -5);
-                            if (entrydatel > day5befor) {
+                            String symbol = (String) removeList.get(i);
+                            AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+                            if (stock == null) {
                                 continue;
                             }
-                        }
-
-                        int signal = ConstantKey.S_NEUTRAL;
-                        String trName = ConstantKey.TR_ACC;
-                        TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
-                        int curSignal = tradingRuleObj.getTrsignal();
-
-                        boolean updateTran = true;
-                        if (curSignal == ConstantKey.S_BUY) {
-                            ;
-                        } else if (curSignal == ConstantKey.S_SELL) {
-                            ;
-                        } else {
-                            updateTran = false;
-                        }
-                        if (updateTran == true) {
-                            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-                            tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
-
-                            ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
-                            UpdateTRList.add(tradingRuleObj);
-                            serviceAFWeb.getAccountImp().updateAccountStockSignal(UpdateTRList);
-
-                            TRprocessImp.AddTransactionOrderWithComm(serviceAFWeb, accountObj, stock, trName, signal, null, false);
-
-                            //////calcuate performance
-                            TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
-
-                            float sharebalance = 0;
-                            if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-                                sharebalance = trObj.getLongamount();
-                            } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                                sharebalance = trObj.getShortamount();
+                            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
+                            if (thList == null) {
+                                continue;
                             }
-                            float total = trObj.getBalance() + sharebalance;
-                            total = total - trObj.getInvestment();
-                            logger.info("> ProcessFundAccount " + accObj.getAccountname() + " " + symbol + " stockProfit" + total);
-                            totalBal += total;
-                        }
-                        accObj.setInvestment(totalBal);
-                        //////update account
+                            if (thList.size() != 0) {
+                                TransationOrderObj thObj = thList.get(0);
+                                int sig = thObj.getTrsignal();
+                                long entrydatel = thObj.getEntrydatel();
+
+                                long currentTime = System.currentTimeMillis();
+                                long day5befor = TimeConvertion.addDays(currentTime, -5);
+                                if (entrydatel > day5befor) {
+                                    continue;
+                                }
+                            }
+
+                            int signal = ConstantKey.S_NEUTRAL;
+                            String trName = ConstantKey.TR_ACC;
+                            TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
+                            int curSignal = tradingRuleObj.getTrsignal();
+
+                            boolean updateTran = true;
+                            if (curSignal == ConstantKey.S_BUY) {
+                                ;
+                            } else if (curSignal == ConstantKey.S_SELL) {
+                                ;
+                            } else {
+                                updateTran = false;
+                            }
+                            if (updateTran == true) {
+                                TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                                tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
+
+                                ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
+                                UpdateTRList.add(tradingRuleObj);
+                                serviceAFWeb.getAccountImp().updateAccountStockSignal(UpdateTRList);
+
+                                TRprocessImp.AddTransactionOrderWithComm(serviceAFWeb, accObj, stock, trName, signal, null, false);
+
+                                //////calcuate performance
+                                TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+
+                                float sharebalance = 0;
+                                if (trObj.getTrsignal() == ConstantKey.S_BUY) {
+                                    sharebalance = trObj.getLongamount();
+                                } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
+                                    sharebalance = trObj.getShortamount();
+                                }
+                                float total = trObj.getBalance() + sharebalance;
+                                total = total - trObj.getInvestment();
+                                logger.info("> ProcessFundAccount " + accObj.getAccountname() + " " + symbol + " stockProfit " + total);
+                                totalBal += total;
+                            }
 //            
-                        int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
-                        if (resultRemove > 0) {
-                            logger.info("> ProcessFundAccount remove TR stock " + accObj.getAccountname() + " " + symbol);
+                            int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
+                            if (resultRemove > 0) {
+                                logger.info("> ProcessFundAccount remove TR stock " + accObj.getAccountname() + " " + symbol);
+                            }
+                            numCnt++;
+                            if (numCnt > 10) {
+                                break;
+                            }
+                            ServiceAFweb.AFSleep();
                         }
-                        numCnt++;
-                        if (numCnt > 10) {
-                            break;
-                        }
-                        ServiceAFweb.AFSleep();
+
+                        // update account Obj performance
+                        accObj.setInvestment(totalBal);
+
+                        int substatus = accObj.getSubstatus();
+                        float investment = accObj.getInvestment();
+                        float balance = accObj.getBalance();
+                        float servicefee = accObj.getServicefee();
+                        serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
+                    } catch (Exception e) {
                     }
                 }
                 return 1;
