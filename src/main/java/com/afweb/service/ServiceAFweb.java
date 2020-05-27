@@ -14,6 +14,7 @@ import com.afweb.nn.*;
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.logging.Level;
 
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -613,7 +615,45 @@ public class ServiceAFweb {
             // start training
             NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
         }
+//        
+        boolean flagNeuralnetCreateJava = false;
+        if (flagNeuralnetCreateJava == true) {
+            try {
+                ArrayList<NNInputOutObj> inputlist = TRprocessImp.getTrainingInputFromFile(this);
+                String inputListSt = new ObjectMapper().writeValueAsString(inputlist);
+                StringBuffer msg1 = FileUtil.FileReadText(ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight.txt");
+                String weightSt = msg1.toString();
 
+                String outputWrite = ""
+                        ///
+                        + "package com.afweb.service;\n"
+                        + "\n"
+                        + "public class nnData {\n"
+                        + "\n"
+                        + "    public static String NN1_WEIGHT_0 = \"\"\n"
+                        + "            + \"" + weightSt + "\"\n"
+                        + "            + \"\";\n"
+                        + "    public static String NN1_INPUTLIST = \"\"\n"
+                        + "            + \"\"\n";
+                int len = inputListSt.length();
+                int beg = 0;
+                int end = 0;
+                while (len > 0) {
+                    String st = inputListSt.substring(beg, end);
+                }
+
+                outputWrite += ""
+                        + "            + \"\";\n"
+                        + "}\n"
+                        ///
+                        + "";
+
+                StringBuffer msgWrite = new StringBuffer(outputWrite);
+
+            } catch (JsonProcessingException ex) {
+            }
+
+        }
         boolean flaginpTrainData = false;
         if (flaginpTrainData == true) {
             TRprocessImp.initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN1);
