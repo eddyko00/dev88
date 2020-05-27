@@ -1225,20 +1225,20 @@ public class ServiceAFweb {
     }
 
     public ArrayList<NNInputOutObj> NeuralNetGetNN1_INPUTLIST() {
-        StringBuffer inputWrite = new StringBuffer();
+        StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputOutObj> inputlist = null;
         try {
-            inputWrite.append(nnData.NN1_INPUTLIST1);
-            inputWrite.append(nnData.NN1_INPUTLIST2);
-            inputWrite.append(nnData.NN1_INPUTLIST3);
-            inputWrite.append(nnData.NN1_INPUTLIST4);
-            inputWrite.append(nnData.NN1_INPUTLIST5);
-            inputWrite.append(nnData.NN1_INPUTLIST6);
-            inputWrite.append(nnData.NN1_INPUTLIST7);
-            inputWrite.append(nnData.NN1_INPUTLIST8);
-            inputWrite.append(nnData.NN1_INPUTLIST9);
-            inputWrite.append(nnData.NN1_INPUTLIST10);
-            String inputListSt = decompress(inputWrite.toString());
+            inputBuf.append(nnData.NN1_INPUTLIST1);
+            inputBuf.append(nnData.NN1_INPUTLIST2);
+            inputBuf.append(nnData.NN1_INPUTLIST3);
+            inputBuf.append(nnData.NN1_INPUTLIST4);
+            inputBuf.append(nnData.NN1_INPUTLIST5);
+            inputBuf.append(nnData.NN1_INPUTLIST6);
+            inputBuf.append(nnData.NN1_INPUTLIST7);
+            inputBuf.append(nnData.NN1_INPUTLIST8);
+            inputBuf.append(nnData.NN1_INPUTLIST9);
+            inputBuf.append(nnData.NN1_INPUTLIST10);
+            String inputListSt = decompress(inputBuf.toString());
 
             NNInputOutObj[] arrayItem = new ObjectMapper().readValue(inputListSt, NNInputOutObj[].class);
             List<NNInputOutObj> listItem = Arrays.<NNInputOutObj>asList(arrayItem);
