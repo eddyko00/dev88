@@ -593,7 +593,7 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagNeuralnet = true;
+        boolean flagNeuralnet = false;
         if (flagNeuralnet == true) {
             // clear the old input for NN0
             boolean flagClearInput = false;
@@ -611,7 +611,7 @@ public class ServiceAFweb {
             NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
             NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
             // start training
-//            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
+            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
         }
 
         boolean flaginpTrainData = false;
@@ -1228,7 +1228,7 @@ public class ServiceAFweb {
                 return;
             }
 
-            boolean flagClean = true;
+            boolean flagClean = false;
             if (flagClean == true) {
                 getStockImp().setCreateNeuralNetObj1(BPname, "");
                 TRprocessImp.initTrainingNeuralNetData(this, nnName);

@@ -1756,6 +1756,17 @@ public class TrandingSignalProcess {
                     break;
                 }
             }
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + ConstantKey.TR_NN2 + i + ".csv";
+                logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = readTrainingNeuralNet1(serviceAFWeb, inputDatalist, ConstantKey.TR_NN1, nnFileName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
             //convert inptdatalist to inputlist
             for (int i = 0; i < inputDatalist.size(); i++) {
                 NNInputDataObj inputDObj = inputDatalist.get(i);
@@ -2004,22 +2015,27 @@ public class TrandingSignalProcess {
 
                 objData.setObj(obj);
                 inputlist.add(objData);
-//                
+//              
+                //////////do not update DB
+                //////////do not update DB                
+                boolean inputSaveFlag = false;
+                if (inputSaveFlag == true) {
+                    ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPname, stockId, objData.getUpdatedatel());
+                    if ((objList == null) || (objList.size() == 0)) {
+                        serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPname, stockId, objData);
+                        addTotal++;
+                        continue;
+                    }
 
-                ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPname, stockId, objData.getUpdatedatel());
-                if ((objList == null) || (objList.size() == 0)) {
-                    serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPname, stockId, objData);
-                    addTotal++;
-                    continue;
-                }
-                boolean flag = true;
-                if (flag == true) {
-                    if (CKey.NN_DEBUG == true) {
+                    boolean flag = true;
+                    if (flag == true) {
+                        if (CKey.NN_DEBUG == true) {
 //                        logger.info("> readTrainingNeuralNet1 duplicate " + BPname + " " + stockId + " " + objData.getObj().getDateSt());
+                        }
                     }
                 }
             }
-            logger.info("> readTrainingNeuralNet1 done " + nnFileName + " " + BPname + " " + addTotal);
+            logger.info("> readTrainingNeuralNet1 done " + nnFileName + " " + BPname + " Size" + inputlist.size() + "  " + addTotal);
 
             return true;
         }

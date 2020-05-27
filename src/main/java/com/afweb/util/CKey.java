@@ -29,11 +29,11 @@ public class CKey {
     //
     //////////////////////
     //
-    public static boolean PROXY = true; //false; //true; 
+    public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
-    public static boolean NN_DEBUG = true; //false; //true; 
-    public static boolean OPENSHIFT_DB1 = true; //false; using HEROKU //true; using openshift // release
-    public static boolean UI_ONLY = true; //false Openshift; //true heroku;  
+    public static boolean NN_DEBUG = false; //false; //true; 
+    public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
+    public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     ////////////////////// make this always true
     public static boolean SEPARATE_STOCK_DB = false; //false //true    
@@ -90,8 +90,8 @@ public class CKey {
     public static int MONTH_SIZE = 14;
     public static int SHORT_MONTH_SIZE = 2;//3;
     public static double PREDICT_THRESHOLD = 0.6;
-    public static double NN1_ERROR_THRESHOLD = 0.04; //0.045 for 110 node // 0.053 for 100 node; 
-    public static double NN2_ERROR_THRESHOLD = 0.04;
+    public static double NN1_ERROR_THRESHOLD = 0.043; //0.045 for 110 node // 0.053 for 100 node; 
+    public static double NN2_ERROR_THRESHOLD = 0.043;
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 110; //24; //18; //16;
     public static final int NN2_MIDDLE_SIZE = 110;

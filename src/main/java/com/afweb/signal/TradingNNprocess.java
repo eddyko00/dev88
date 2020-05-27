@@ -836,7 +836,7 @@ public class TradingNNprocess {
                     + "\",\"" + obj.getInput6()
                     + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
                     + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
-                    //                    + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
+                    // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
                     + "\"";
 
             if (i == 0) {

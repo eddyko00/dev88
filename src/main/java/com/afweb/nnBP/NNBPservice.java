@@ -161,6 +161,11 @@ public class NNBPservice {
         if (getEnv.checkLocalPC() == true) {
             Min4 = 8;
         }
+        if (CKey.NN_DEBUG == true) {
+            Min4 = 100;
+            numberIteration = 9000000;
+        }
+  
         long lockDate4Min = TimeConvertion.addMinutes(currentTime, Min4);
 
         int i = 0;
