@@ -17,7 +17,11 @@ import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 
 import java.text.DateFormat;
@@ -33,6 +37,8 @@ import java.util.TimeZone;
 import java.util.logging.Level;
 
 import java.util.logging.Logger;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -618,40 +624,9 @@ public class ServiceAFweb {
 //        
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
-            try {
-                ArrayList<NNInputOutObj> inputlist = TRprocessImp.getTrainingInputFromFile(this);
-                String inputListSt = new ObjectMapper().writeValueAsString(inputlist);
-                StringBuffer msg1 = FileUtil.FileReadText(ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight.txt");
-                String weightSt = msg1.toString();
 
-                String outputWrite = ""
-                        ///
-                        + "package com.afweb.service;\n"
-                        + "\n"
-                        + "public class nnData {\n"
-                        + "\n"
-                        + "    public static String NN1_WEIGHT_0 = \"\"\n"
-                        + "            + \"" + weightSt + "\"\n"
-                        + "            + \"\";\n"
-                        + "    public static String NN1_INPUTLIST = \"\"\n"
-                        + "            + \"\"\n";
-                int len = inputListSt.length();
-                int beg = 0;
-                int end = 0;
-                while (len > 0) {
-                    String st = inputListSt.substring(beg, end);
-                }
-
-                outputWrite += ""
-                        + "            + \"\";\n"
-                        + "}\n"
-                        ///
-                        + "";
-
-                StringBuffer msgWrite = new StringBuffer(outputWrite);
-
-            } catch (JsonProcessingException ex) {
-            }
+            NeuralNetCreatJava();
+            ArrayList<NNInputOutObj> inputlist = NeuralNetGetNN1_INPUTLIST();
 
         }
         boolean flaginpTrainData = false;
@@ -1247,6 +1222,123 @@ public class ServiceAFweb {
             logger.info("> restoreDBneuralnetDataProcess - exception " + ex);
         }
         return 0;
+    }
+
+    public ArrayList<NNInputOutObj> NeuralNetGetNN1_INPUTLIST() {
+        StringBuffer inputWrite = new StringBuffer();
+        ArrayList<NNInputOutObj> inputlist = null;
+        try {
+            inputWrite.append(nnData.NN1_INPUTLIST1);
+            inputWrite.append(nnData.NN1_INPUTLIST2);
+            inputWrite.append(nnData.NN1_INPUTLIST3);
+            inputWrite.append(nnData.NN1_INPUTLIST4);
+            inputWrite.append(nnData.NN1_INPUTLIST5);
+            inputWrite.append(nnData.NN1_INPUTLIST6);
+            inputWrite.append(nnData.NN1_INPUTLIST7);
+            inputWrite.append(nnData.NN1_INPUTLIST8);
+            inputWrite.append(nnData.NN1_INPUTLIST9);
+            inputWrite.append(nnData.NN1_INPUTLIST10);
+            String inputListSt = decompress(inputWrite.toString());
+
+            NNInputOutObj[] arrayItem = new ObjectMapper().readValue(inputListSt, NNInputOutObj[].class);
+            List<NNInputOutObj> listItem = Arrays.<NNInputOutObj>asList(arrayItem);
+            inputlist = new ArrayList<NNInputOutObj>(listItem);
+            return inputlist;
+        } catch (IOException ex) {
+        }
+        return null;
+    }
+
+    private boolean NeuralNetCreatJava() {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        try {
+            ArrayList<NNInputOutObj> inputlist = TRprocessImp.getTrainingInputFromFile(this);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+            String inputListSt = compress(inputListRawSt);
+
+            String fileN = ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight0.txt";
+            if (FileUtil.FileTest(fileN) == false) {
+                return false;
+            }
+            StringBuffer msg1 = FileUtil.FileReadText(fileN);
+            String weightSt = msg1.toString();
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "\n"
+                    + "public class nnData {\n"
+                    + "\n"
+                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
+            int sizeline = 1000;
+            int len = weightSt.length();
+            int beg = 0;
+            int end = sizeline;
+            while (true) {
+                String st = weightSt.substring(beg, end);
+                msgWrite.append("+ \"" + st + "\"\n");
+                if (end >= len) {
+                    break;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+            msgWrite.append(""
+                    + "            + \"\";\n");
+
+            len = inputListSt.length();
+            beg = 0;
+            end = sizeline;
+            int index = 1;
+            int line = 0;
+            while (true) {
+                if (line == 0) {
+                    msgWrite.append(""
+                            + "    public static String NN1_INPUTLIST" + index + " = \"\"\n"
+                            + "            + \"\"\n");
+                }
+                line++;
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.append("+ \"" + st + "\"\n");
+
+                if (end >= len) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+
+                    break;
+                }
+                if (line == 20) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+                    line = 0;
+                    index++;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
+            fileN = ServiceAFweb.FileLocalDebugPath + "nnData.java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
     }
 
     private void NeuralNetProcessTesting(int TR_Name) {
@@ -5177,6 +5269,47 @@ public class ServiceAFweb {
      */
     public void setServiceAFwebREST(ServiceAFwebREST serviceAFwebREST) {
         this.serviceAFwebREST = serviceAFwebREST;
+    }
+
+    public static String compress(String str) {
+        if (str == null || str.length() == 0) {
+            return str;
+        }
+        try {
+            String inEncoding = "UTF-8";
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            GZIPOutputStream gzip = new GZIPOutputStream(out);
+            gzip.write(str.getBytes(inEncoding));
+            gzip.close();
+            return URLEncoder.encode(out.toString("ISO-8859-1"), "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String decompress(String str) {
+        if (str == null || str.length() == 0) {
+            return str;
+        }
+
+        try {
+            String outEncoding = "UTF-8";
+            String decode = URLDecoder.decode(str, "UTF-8");
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ByteArrayInputStream in = new ByteArrayInputStream(decode.getBytes("ISO-8859-1"));
+            GZIPInputStream gunzip = new GZIPInputStream(in);
+            byte[] buffer = new byte[256];
+            int n;
+            while ((n = gunzip.read(buffer)) >= 0) {
+                out.write(buffer, 0, n);
+            }
+            return out.toString(outEncoding);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -16,8 +16,7 @@ import com.afweb.util.TimeConvertion;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -26,15 +25,13 @@ import java.net.Proxy;
 
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.Date;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
+
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -416,46 +413,5 @@ public class StockInternet {
         }
 //        logger.info("getHistoricalScreen  " + symbol + " " + StockArray.size());
         return StockArray;
-    }
-
-    public static String compress(String str) {
-        if (str == null || str.length() == 0) {
-            return str;
-        }
-        try {
-            String inEncoding = "UTF-8";
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            GZIPOutputStream gzip = new GZIPOutputStream(out);
-            gzip.write(str.getBytes(inEncoding));
-            gzip.close();
-            return URLEncoder.encode(out.toString("ISO-8859-1"), "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static String decompress(String str) {
-        if (str == null || str.length() == 0) {
-            return str;
-        }
-
-        try {
-            String outEncoding = "UTF-8";
-            String decode = URLDecoder.decode(str, "UTF-8");
-
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            ByteArrayInputStream in = new ByteArrayInputStream(decode.getBytes("ISO-8859-1"));
-            GZIPInputStream gunzip = new GZIPInputStream(in);
-            byte[] buffer = new byte[256];
-            int n;
-            while ((n = gunzip.read(buffer)) >= 0) {
-                out.write(buffer, 0, n);
-            }
-            return out.toString(outEncoding);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
