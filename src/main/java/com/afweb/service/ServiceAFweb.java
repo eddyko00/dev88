@@ -14,7 +14,6 @@ import com.afweb.nn.*;
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
@@ -34,7 +33,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
-import java.util.logging.Level;
 
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -625,8 +623,13 @@ public class ServiceAFweb {
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
 
-            NeuralNetCreatJava();
-            ArrayList<NNInputOutObj> inputlist = NeuralNetGetNN1_INPUTLIST();
+//            NeuralNetCreatJava();
+//            ArrayList<NNInputDataObj> inputlist = NeuralNetGetNN1_INPUTLIST();
+            String symbol = "HOU.TO";
+            int nnTRN = ConstantKey.INT_TR_NN1;
+            String nnName = ConstantKey.TR_NN1;
+            String BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
+            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
 
         }
         boolean flaginpTrainData = false;
@@ -1224,9 +1227,9 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList<NNInputOutObj> NeuralNetGetNN1_INPUTLIST() {
+    public ArrayList<NNInputDataObj> NeuralNetGetNN1_INPUTLIST(int stockId) {
         StringBuffer inputBuf = new StringBuffer();
-        ArrayList<NNInputOutObj> inputlist = null;
+        ArrayList<NNInputDataObj> inputlist = null;
         try {
             inputBuf.append(nnData.NN1_INPUTLIST1);
             inputBuf.append(nnData.NN1_INPUTLIST2);
@@ -1238,11 +1241,16 @@ public class ServiceAFweb {
             inputBuf.append(nnData.NN1_INPUTLIST8);
             inputBuf.append(nnData.NN1_INPUTLIST9);
             inputBuf.append(nnData.NN1_INPUTLIST10);
+            inputBuf.append(nnData.NN1_INPUTLIST11);
             String inputListSt = decompress(inputBuf.toString());
 
-            NNInputOutObj[] arrayItem = new ObjectMapper().readValue(inputListSt, NNInputOutObj[].class);
-            List<NNInputOutObj> listItem = Arrays.<NNInputOutObj>asList(arrayItem);
-            inputlist = new ArrayList<NNInputOutObj>(listItem);
+            NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListSt, NNInputDataObj[].class);
+            List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
+            inputlist = new ArrayList<NNInputDataObj>(listItem);
+
+            if (stockId < 0) {
+                return inputlist;
+            }
             return inputlist;
         } catch (IOException ex) {
         }
@@ -1252,7 +1260,7 @@ public class ServiceAFweb {
     private boolean NeuralNetCreatJava() {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         try {
-            ArrayList<NNInputOutObj> inputlist = TRprocessImp.getTrainingInputFromFile(this);
+            ArrayList<NNInputDataObj> inputlist = TRprocessImp.getTrainingInputDataFromFile(this);
             if (inputlist.size() == 0) {
                 return false;
             }

@@ -882,11 +882,10 @@ public class TradingNNprocess {
         }
         inputList.remove(len - 1);
         inputList.remove(0);
-        
+
         //////// do not save in DB, only files
         //////// do not save in DB, only files
         //////// do not save in DB, only files
-        
         boolean inputSaveFlag = false;
         if (inputSaveFlag == true) {
             int totalAdd = 0;
@@ -1645,12 +1644,21 @@ public class TradingNNprocess {
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
                 ArrayList<NNInputDataObj> inputlistSym1 = new ArrayList();
                 ArrayList<NNInputDataObj> inputlistSym2 = new ArrayList();
+
                 // just for testing
                 inputlistSym1 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
                 inputlistSym2 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN2, 0);
                 // just for testing                
+
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
+                
+                boolean trainInFile = false;
+                if (trainInFile == true) {
+                    ArrayList<NNInputDataObj> inputL = serviceAFWeb.NeuralNetGetNN1_INPUTLIST( -1);
+                    inputlistSym.clear();
+                    inputlistSym.addAll(inputL);
+                }
 
                 if (inputlistSym != null) {
                     //merge inputlistSym

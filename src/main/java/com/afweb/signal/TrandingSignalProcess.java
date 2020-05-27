@@ -1734,6 +1734,34 @@ public class TrandingSignalProcess {
         return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnNameSym, nnError);
     }
 
+    public ArrayList<NNInputDataObj> getTrainingInputDataFromFile(ServiceAFweb serviceAFWeb) {
+        ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
+        for (int i = 1; i < 20; i++) {
+            String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + ConstantKey.TR_NN1 + i + ".csv";
+            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+            boolean ret = readTrainingNeuralNet1(serviceAFWeb, inputDatalist, ConstantKey.TR_NN1, nnFileName);
+            if (i == 0) {
+                continue;
+            }
+            if (ret == false) {
+                break;
+            }
+        }
+        for (int i = 1; i < 20; i++) {
+            String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + ConstantKey.TR_NN2 + i + ".csv";
+            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+            boolean ret = readTrainingNeuralNet1(serviceAFWeb, inputDatalist, ConstantKey.TR_NN1, nnFileName);
+            if (i == 0) {
+                continue;
+            }
+            if (ret == false) {
+                break;
+            }
+        }
+
+        return inputDatalist;
+    }
+
     public ArrayList<NNInputOutObj> getTrainingInputFromFile(ServiceAFweb serviceAFWeb) {
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
