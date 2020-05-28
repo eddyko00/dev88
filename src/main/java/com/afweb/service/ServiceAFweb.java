@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
@@ -595,11 +596,13 @@ public class ServiceAFweb {
 
     public static String debugSymbol = "HOU.TO";
 
+    public static boolean forceNNReadFileflag = false;
+
     private void processNeuralNet() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagNeuralnet = false;
+        boolean flagNeuralnet = true;
         if (flagNeuralnet == true) {
             // clear the old input for NN0
             boolean flagClearInput = false;
@@ -614,23 +617,43 @@ public class ServiceAFweb {
 //            
             }
 
-            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
-            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
+//            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
+//            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
             // start training
-            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
+//            forceNNReadFileflag = true;
+//            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
+//            forceNNReadFileflag = false;
+            ArrayList<NNInputDataObj> inputlistSym = null;
+            String symbol = "HOU.TO";
+            inputlistSym = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+
+            ArrayList<NNInputDataObj> inputlist = new ArrayList();
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this);
+
+            for (int i=0; i<inputlist.size(); i++ ) {
+
+            }
         }
 //        
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
 
 //            NeuralNetCreatJava();
-//            ArrayList<NNInputDataObj> inputlist = NeuralNetGetNN1_INPUTLIST();
             String symbol = "HOU.TO";
+//            ArrayList<NNInputDataObj> inputL = NeuralNetGetNN1_INPUTLIST("");
+//            for (int k = 0; k < inputL.size(); k++) {
+//                NNInputDataObj inputLObj = inputL.get(k);
+//            }
+
             int nnTRN = ConstantKey.INT_TR_NN1;
             String nnName = ConstantKey.TR_NN1;
-            String BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
-            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
 
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
+
+//            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
+            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
+            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
         }
         boolean flaginpTrainData = false;
         if (flaginpTrainData == true) {
@@ -1227,9 +1250,9 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList<NNInputDataObj> NeuralNetGetNN1_INPUTLIST(int stockId) {
+    public ArrayList<NNInputDataObj> NeuralNetGetNN1_INPUTLIST(String symbol) {
         StringBuffer inputBuf = new StringBuffer();
-        ArrayList<NNInputDataObj> inputlist = null;
+        ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
             inputBuf.append(nnData.NN1_INPUTLIST1);
             inputBuf.append(nnData.NN1_INPUTLIST2);
@@ -1243,14 +1266,26 @@ public class ServiceAFweb {
             inputBuf.append(nnData.NN1_INPUTLIST10);
             inputBuf.append(nnData.NN1_INPUTLIST11);
             String inputListSt = decompress(inputBuf.toString());
-
-            NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListSt, NNInputDataObj[].class);
-            List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
-            inputlist = new ArrayList<NNInputDataObj>(listItem);
-
-            if (stockId < 0) {
+            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+            stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
+            if (symbol != "") {
+                inputlist = stockInputMap.get(symbol);
+                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
+                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
+                inputlist = new ArrayList<NNInputDataObj>(listItem);
                 return inputlist;
             }
+
+            for (String sym : stockInputMap.keySet()) {
+                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
+                String inputListRawSt = new ObjectMapper().writeValueAsString(inputL);
+                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
+                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
+                inputL = new ArrayList<NNInputDataObj>(listItem);
+                inputlist.addAll(inputL);
+            }
+
             return inputlist;
         } catch (IOException ex) {
         }
@@ -1259,12 +1294,66 @@ public class ServiceAFweb {
 
     private boolean NeuralNetCreatJava() {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
         try {
-            ArrayList<NNInputDataObj> inputlist = TRprocessImp.getTrainingInputDataFromFile(this);
+            String symbol = "";
+            ArrayList<NNInputDataObj> inputlist = null;
+            symbol = "HOU.TO";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
             if (inputlist.size() == 0) {
                 return false;
             }
-            String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+            stockInputMap.put(symbol, inputlist);
+            symbol = "SPY";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            stockInputMap.put(symbol, inputlist);
+            symbol = "DIA";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            stockInputMap.put(symbol, inputlist);
+            symbol = "QQQ";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            stockInputMap.put(symbol, inputlist);
+            symbol = "HOD.TO";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            stockInputMap.put(symbol, inputlist);
+            symbol = "XIU.TO";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            stockInputMap.put(symbol, inputlist);
+            symbol = "FAS";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            stockInputMap.put(symbol, inputlist);
+            symbol = "FAZ";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            stockInputMap.put(symbol, inputlist);
+            symbol = "RY.TO";
+            inputlist = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
+            if (inputlist.size() == 0) {
+                return false;
+            }
+            stockInputMap.put(symbol, inputlist);
+/////////////////            
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = compress(inputListRawSt);
 
             String fileN = ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight0.txt";
@@ -1352,6 +1441,7 @@ public class ServiceAFweb {
     private void NeuralNetProcessTesting(int TR_Name) {
         ///////////////////////////////////////////////////////////////////////////////////
         // read new NN data
+        forceNNReadFileflag = true;
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         boolean initTrainNeuralNet = true;
         if (initTrainNeuralNet == true) {

@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class ProcessNN2 {
 
-    protected static Logger logger = Logger.getLogger("ProcessNN3");
+    protected static Logger logger = Logger.getLogger("ProcessNN2");
 
     public static NNObj NNpredictNN2(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
