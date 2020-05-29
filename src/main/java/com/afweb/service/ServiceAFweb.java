@@ -604,7 +604,7 @@ public class ServiceAFweb {
 
         
         boolean flagNeuralnet = false;
-        if (flagNeuralnet == false) {
+        if (flagNeuralnet == true) {
             for (int i=0; i< 100; i++) {
                  NNProcessImp.ProcessInputNeuralNet(this);
             }
@@ -640,7 +640,7 @@ public class ServiceAFweb {
 //            }
         }
 //        
-        boolean flagNeuralnetCreateJava = false;
+        boolean flagNeuralnetCreateJava = true;
         if (flagNeuralnetCreateJava == true) {
             String symbol = "HOU.TO";
 //            NeuralNetCreatJava();
@@ -653,7 +653,7 @@ public class ServiceAFweb {
             getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
 //            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
             NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
-            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
+//            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
         }
 //        
         boolean flaginpTrainData = false;

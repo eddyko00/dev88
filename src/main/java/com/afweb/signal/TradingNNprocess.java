@@ -1488,6 +1488,7 @@ public class TradingNNprocess {
                     inputL = serviceAFWeb.NeuralNetGetNN1InputfromStaticCode(symbol);
                     logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
                     if (inputL != null) {
+                        int ttt=0;
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {
                                 NNInputDataObj inputLObj = inputL.get(k);
@@ -1497,10 +1498,13 @@ public class TradingNNprocess {
                                     long inputSymObjEOD = TimeConvertion.endOfDayInMillis(inputSymObj.getUpdatedatel());
                                     java.sql.Date inputLObjD = new java.sql.Date(inputLObjEOD);
                                     java.sql.Date inputSymObjD = new java.sql.Date(inputSymObjEOD);
-
-                                    logger.info("> inputStockNeuralNetData " + symbol + " " + inputLObjD.toString() + " " + inputLObjEOD
-                                            + " " + inputSymObjD.toString() + " " + inputSymObjEOD);
-
+                                    if ("2020-04-15".equals(inputSymObjD.toString())) {
+                                        ttt++;
+                                        if (ttt < 20) {
+                                            logger.info("> inputStockNeuralNetData " + symbol + " " + inputLObjD.toString() + " " + inputLObjEOD
+                                                    + " " + inputSymObjD.toString() + " " + inputSymObjEOD);
+                                        }
+                                    }
                                     if (inputLObjEOD == inputSymObjEOD) {
                                         inputlistSym.remove(m);
 //                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
