@@ -604,7 +604,7 @@ public class ServiceAFweb {
 
         
         boolean flagNeuralnet = false;
-        if (flagNeuralnet == true) {
+        if (flagNeuralnet == false) {
             for (int i=0; i< 100; i++) {
                  NNProcessImp.ProcessInputNeuralNet(this);
             }
