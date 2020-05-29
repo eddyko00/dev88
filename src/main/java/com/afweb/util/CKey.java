@@ -31,7 +31,7 @@ public class CKey {
     //
     //////////////////////
     //
-    public static boolean PROXY = true; //false; //true; 
+    public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
     public static boolean NN_DEBUG = true; //false; //true; 
     public static boolean OPENSHIFT_DB1 = true; //false; using HEROKU //true; using openshift // release
@@ -95,8 +95,8 @@ public class CKey {
     public static double NN1_ERROR_THRESHOLD = 0.043; //0.045 for 110 node // 0.053 for 100 node; 
     public static double NN2_ERROR_THRESHOLD = 0.043;
     public static final int NN_INPUT_SIZE = 10;
-    public static final int NN1_MIDDLE_SIZE = 110; //24; //18; //16;
-    public static final int NN2_MIDDLE_SIZE = 110;
+    public static final int NN1_MIDDLE_SIZE = 120; //24; //18; //16;
+    public static final int NN2_MIDDLE_SIZE = 120;
     public static String version = "2.0528";
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
             // remember to change version in NNBPservice String version = "1.0"

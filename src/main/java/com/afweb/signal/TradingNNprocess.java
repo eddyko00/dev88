@@ -746,8 +746,8 @@ public class TradingNNprocess {
         ArrayList<NNInputDataObj> InputListFAS = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
         symbol = "FAZ";
         ArrayList<NNInputDataObj> InputListFAZ = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        symbol = "RY.TO";
-        ArrayList<NNInputDataObj> InputListRY = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
+//        symbol = "RY.TO";
+//        ArrayList<NNInputDataObj> InputListRY = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
     }
 
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
