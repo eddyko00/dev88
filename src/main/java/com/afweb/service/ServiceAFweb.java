@@ -602,7 +602,7 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagNeuralnet = true;
+        boolean flagNeuralnet = false;
         if (flagNeuralnet == true) {
             // clear the old input for NN0
             boolean flagClearInput = false;
@@ -617,8 +617,8 @@ public class ServiceAFweb {
 //            
             }
 
-//            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
-//            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
+            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
+            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
             // start training
             forceNNReadFileflag = true;
             NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
@@ -638,20 +638,17 @@ public class ServiceAFweb {
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
             String symbol = "HOU.TO";
-            NeuralNetCreatJava();
+//            NeuralNetCreatJava();
 
-//            ArrayList<NNInputDataObj> inputL = NeuralNetGetNN1_INPUTLIST("");
-//            for (int k = 0; k < inputL.size(); k++) {
-//                NNInputDataObj inputLObj = inputL.get(k);
-//            }
-//            int nnTRN = ConstantKey.INT_TR_NN1;
-//            String nnName = ConstantKey.TR_NN1;
-//
-//            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
+
+            int nnTRN = ConstantKey.INT_TR_NN1;
+            String nnName = ConstantKey.TR_NN1;
+
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
 //            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
-//            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
-//            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
+            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
+            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
         }
 //        
         boolean flaginpTrainData = false;
@@ -1249,7 +1246,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList<NNInputDataObj> NeuralNetGetNN1_INPUTLIST(String symbol) {
+    public ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(String symbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
@@ -1263,7 +1260,7 @@ public class ServiceAFweb {
             inputBuf.append(nnData.NN1_INPUTLIST8);
             inputBuf.append(nnData.NN1_INPUTLIST9);
             inputBuf.append(nnData.NN1_INPUTLIST10);
-            inputBuf.append(nnData.NN1_INPUTLIST11);
+//            inputBuf.append(nnData.NN1_INPUTLIST11);
             String inputListSt = decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
@@ -1387,7 +1384,7 @@ public class ServiceAFweb {
     private void NeuralNetProcessTesting(int TR_Name) {
         ///////////////////////////////////////////////////////////////////////////////////
         // read new NN data
-        forceNNReadFileflag = true;
+        forceNNReadFileflag = true; // should be true to get it from file instead from db
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         boolean initTrainNeuralNet = true;
         if (initTrainNeuralNet == true) {

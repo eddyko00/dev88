@@ -1486,7 +1486,7 @@ public class TradingNNprocess {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = serviceAFWeb.NeuralNetGetNN1_INPUTLIST(symbol);
+                    inputL = serviceAFWeb.NeuralNetGetNN1InputfromStaticCode(symbol);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {
@@ -1600,7 +1600,7 @@ public class TradingNNprocess {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = serviceAFWeb.NeuralNetGetNN1_INPUTLIST(symbol);
+                    inputL = serviceAFWeb.NeuralNetGetNN1InputfromStaticCode(symbol);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {

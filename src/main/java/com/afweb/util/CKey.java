@@ -33,9 +33,9 @@ public class CKey {
     //
     public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
-    public static boolean NN_DEBUG = true; //false; //true; 
-    public static boolean OPENSHIFT_DB1 = true; //false; using HEROKU //true; using openshift // release
-    public static boolean UI_ONLY = true; //false Openshift; //true heroku;  
+    public static boolean NN_DEBUG = false; //false; //true; 
+    public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
+    public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     ////////////////////// make this always true
     public static boolean SEPARATE_STOCK_DB = false; //false //true    

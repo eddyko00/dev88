@@ -1955,7 +1955,7 @@ public class TrandingSignalProcess {
         if (ServiceAFweb.forceNNReadFileflag == true) {
             inputlist = getTrainingInputFromFile(serviceAFWeb);
         } else {
-            ArrayList<NNInputDataObj> inputDatalist = serviceAFWeb.NeuralNetGetNN1_INPUTLIST("");
+            ArrayList<NNInputDataObj> inputDatalist = serviceAFWeb.NeuralNetGetNN1InputfromStaticCode("");
             for (int i = 0; i < inputDatalist.size(); i++) {
                 NNInputDataObj inputDObj = inputDatalist.get(i);
                 NNInputOutObj inputObj = new NNInputOutObj();
@@ -2252,7 +2252,9 @@ public class TrandingSignalProcess {
         NNBPservice nn = null;
         ///NeuralNetObj1 transition
         ///NeuralNetObj0 release
+        
         AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
+        
         if (afNeuralNet != null) {
             String weightSt = afNeuralNet.getWeight();
 
@@ -2283,9 +2285,6 @@ public class TrandingSignalProcess {
             afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
             afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
             String weightSt = "";
-            if (ServiceAFweb.forceNNReadFileflag == true) {
-                weightSt = CKey.NN1_WEIGHT_0;
-            }
             afNeuralNet.setWeight(weightSt);
             serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
         }
