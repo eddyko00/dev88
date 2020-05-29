@@ -1488,24 +1488,17 @@ public class TradingNNprocess {
                     inputL = serviceAFWeb.NeuralNetGetNN1InputfromStaticCode(symbol);
                     logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
                     if (inputL != null) {
-                        int ttt=0;
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {
                                 NNInputDataObj inputLObj = inputL.get(k);
                                 for (int m = 0; m < inputlistSym.size(); m++) {
                                     NNInputDataObj inputSymObj = inputlistSym.get(m);
-                                    long inputLObjEOD = TimeConvertion.endOfDayInMillis(inputLObj.getUpdatedatel());
-                                    long inputSymObjEOD = TimeConvertion.endOfDayInMillis(inputSymObj.getUpdatedatel());
-                                    java.sql.Date inputLObjD = new java.sql.Date(inputLObjEOD);
-                                    java.sql.Date inputSymObjD = new java.sql.Date(inputSymObjEOD);
-                                    if ("2020-04-15".equals(inputSymObjD.toString())) {
-                                        ttt++;
-                                        if (ttt < 20) {
-                                            logger.info("> inputStockNeuralNetData " + symbol + " " + inputLObjD.toString() + " " + inputLObjEOD
-                                                    + " " + inputSymObjD.toString() + " " + inputSymObjEOD);
-                                        }
+                                    String inputLObD = inputLObj.getObj().getDateSt();
+                                    String inputSymObD = inputSymObj.getObj().getDateSt();
+                                    if (inputLObD.equals("2020-04-29")) {
+                                        logger.info("> inputStockNeuralNetData " + symbol + " " + inputLObD + " " + inputSymObD);
                                     }
-                                    if (inputLObjEOD == inputSymObjEOD) {
+                                    if (inputLObD.equals(inputSymObD)) {
                                         inputlistSym.remove(m);
 //                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
                                         break;
