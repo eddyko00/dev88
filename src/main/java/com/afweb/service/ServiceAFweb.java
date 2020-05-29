@@ -640,7 +640,7 @@ public class ServiceAFweb {
 //            }
         }
 //        
-        boolean flagNeuralnetCreateJava = true;
+        boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
             String symbol = "HOU.TO";
 //            NeuralNetCreatJava();
