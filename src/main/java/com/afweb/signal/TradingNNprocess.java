@@ -1487,6 +1487,7 @@ public class TradingNNprocess {
                 boolean trainInFile = true;
                 if (trainInFile == true) {
                     inputL = serviceAFWeb.NeuralNetGetNN1InputfromStaticCode(symbol);
+                    logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {
@@ -1495,6 +1496,7 @@ public class TradingNNprocess {
                                     NNInputDataObj inputSymObj = inputlistSym.get(m);
                                     if (inputLObj.getUpdatedatel() == inputSymObj.getUpdatedatel()) {
                                         inputlistSym.remove(m);
+                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
                                         break;
                                     }
                                 }
