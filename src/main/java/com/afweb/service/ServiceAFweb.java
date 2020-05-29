@@ -602,13 +602,12 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        
         boolean flagNeuralnet = false;
         if (flagNeuralnet == true) {
-            for (int i=0; i< 100; i++) {
-                 NNProcessImp.ProcessInputNeuralNet(this);
+            for (int i = 0; i < 100; i++) {
+                NNProcessImp.ProcessInputNeuralNet(this);
             }
-            
+
             // clear the old input for NN0
             boolean flagClearInput = false;
             if (flagClearInput == true) {
@@ -644,7 +643,6 @@ public class ServiceAFweb {
         if (flagNeuralnetCreateJava == true) {
             String symbol = "HOU.TO";
 //            NeuralNetCreatJava();
-
 
             int nnTRN = ConstantKey.INT_TR_NN1;
             String nnName = ConstantKey.TR_NN1;
