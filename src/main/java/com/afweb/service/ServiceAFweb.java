@@ -1266,6 +1266,9 @@ public class ServiceAFweb {
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
             if (symbol != "") {
                 inputlist = stockInputMap.get(symbol);
+                if (inputlist == null) {
+                    return null;
+                }
                 String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
                 NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
                 List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
@@ -1283,7 +1286,8 @@ public class ServiceAFweb {
             }
 
             return inputlist;
-        } catch (IOException ex) {
+        } catch (Exception ex) {
+            logger.info("> NeuralNetGetNN1InputfromStaticCode - exception " + ex);
         }
         return null;
     }
@@ -1295,7 +1299,7 @@ public class ServiceAFweb {
 
         try {
             TRprocessImp.getTrainingInputDataFromFile(this, stockInputMap);
- 
+
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = compress(inputListRawSt);
 
