@@ -1495,8 +1495,12 @@ public class TradingNNprocess {
                                     NNInputDataObj inputSymObj = inputlistSym.get(m);
                                     long inputLObjEOD = TimeConvertion.endOfDayInMillis(inputLObj.getUpdatedatel());
                                     long inputSymObjEOD = TimeConvertion.endOfDayInMillis(inputSymObj.getUpdatedatel());
-                                    
-//                                    logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObjEOD + " " + inputSymObjEOD);
+                                    java.sql.Date inputLObjD = new java.sql.Date(inputLObjEOD);
+                                    java.sql.Date inputSymObjD = new java.sql.Date(inputSymObjEOD);
+
+                                    logger.info("> inputStockNeuralNetData " + symbol + " " + inputLObjD.toString() + " " + inputLObjEOD
+                                            + " " + inputSymObjD.toString() + " " + inputSymObjEOD);
+
                                     if (inputLObjEOD == inputSymObjEOD) {
                                         inputlistSym.remove(m);
 //                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
