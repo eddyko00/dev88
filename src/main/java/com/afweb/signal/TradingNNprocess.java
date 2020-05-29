@@ -1495,9 +1495,6 @@ public class TradingNNprocess {
                                     NNInputDataObj inputSymObj = inputlistSym.get(m);
                                     String inputLObD = inputLObj.getObj().getDateSt();
                                     String inputSymObD = inputSymObj.getObj().getDateSt();
-                                    if (inputLObD.equals("2020-04-29")) {
-                                        logger.info("> inputStockNeuralNetData " + symbol + " " + inputLObD + " " + inputSymObD);
-                                    }
                                     if (inputLObD.equals(inputSymObD)) {
                                         inputlistSym.remove(m);
 //                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
