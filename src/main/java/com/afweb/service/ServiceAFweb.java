@@ -602,8 +602,13 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
+        
         boolean flagNeuralnet = false;
         if (flagNeuralnet == true) {
+            for (int i=0; i< 100; i++) {
+                 NNProcessImp.ProcessInputNeuralNet(this);
+            }
+            
             // clear the old input for NN0
             boolean flagClearInput = false;
             if (flagClearInput == true) {
