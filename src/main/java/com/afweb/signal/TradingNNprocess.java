@@ -1493,10 +1493,13 @@ public class TradingNNprocess {
                                 NNInputDataObj inputLObj = inputL.get(k);
                                 for (int m = 0; m < inputlistSym.size(); m++) {
                                     NNInputDataObj inputSymObj = inputlistSym.get(m);
-                                    logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel() + " " + inputSymObj.getUpdatedatel());
-                                    if (inputLObj.getUpdatedatel() == inputSymObj.getUpdatedatel()) {
+                                    long inputLObjEOD = TimeConvertion.endOfDayInMillis(inputLObj.getUpdatedatel());
+                                    long inputSymObjEOD = TimeConvertion.endOfDayInMillis(inputSymObj.getUpdatedatel());
+                                    
+//                                    logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObjEOD + " " + inputSymObjEOD);
+                                    if (inputLObjEOD == inputSymObjEOD) {
                                         inputlistSym.remove(m);
-                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
+//                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
                                         break;
                                     }
                                 }
