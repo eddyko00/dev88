@@ -847,7 +847,7 @@ public class TradingNNprocess {
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
             FileUtil.FileWriteTextArray(filename, writeArray);
-            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
+//            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
 
         }
         inputList.remove(len - 1);

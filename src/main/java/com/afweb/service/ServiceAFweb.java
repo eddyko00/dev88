@@ -11,6 +11,7 @@ import com.afweb.chart.ChartService;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.nnBP.NNBPservice;
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
@@ -433,7 +434,7 @@ public class ServiceAFweb {
     public boolean debugFlag = false;
 
     public static int initTrainNeuralNetNumber = 0;
-    public static ArrayList writeArrayNeuralNet = new ArrayList();
+//    public static ArrayList writeArrayNeuralNet = new ArrayList();
 
     public boolean systemNNFlag = false;
 
@@ -604,29 +605,15 @@ public class ServiceAFweb {
 
         boolean flagNeuralnet = false;
         if (flagNeuralnet == true) {
-            for (int i = 0; i < 100; i++) {
-                NNProcessImp.ProcessInputNeuralNet(this);
-            }
+//            for (int i = 0; i < 100; i++) {
+//                NNProcessImp.ProcessInputNeuralNet(this);
+//            }
 
-            // clear the old input for NN0
-            boolean flagClearInput = false;
-            if (flagClearInput == true) {
-                // delete TR nn1 transaction
-                String nnName = ConstantKey.TR_NN1;
-                String BPname = CKey.NN_version + "_" + nnName;
-                getStockImp().deleteNeuralNetData(BPname);
-                nnName = ConstantKey.TR_NN2;
-                BPname = CKey.NN_version + "_" + nnName;
-                getStockImp().deleteNeuralNetData(BPname);
-//            
-            }
-
-            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
-            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
+//            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
+//            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
             // start training
-            forceNNReadFileflag = true;
             NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
-            forceNNReadFileflag = false;
+
 //            ArrayList<NNInputDataObj> inputlistSym = null;
 //            String symbol = "HOU.TO";
 //            inputlistSym = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
@@ -642,7 +629,7 @@ public class ServiceAFweb {
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
             String symbol = "HOU.TO";
-//            NeuralNetCreatJava();
+            NeuralNetCreatJava();
 
             int nnTRN = ConstantKey.INT_TR_NN1;
             String nnName = ConstantKey.TR_NN1;
@@ -1186,20 +1173,20 @@ public class ServiceAFweb {
 
             for (int j = 0; j < sizeYr; j++) { //4; j++) {
                 int size = 20 * CKey.MONTH_SIZE * j;
-                writeArrayNeuralNet.clear();
+//                writeArrayNeuralNet.clear();
                 initTrainNeuralNetNumber = j + 1;
 
                 NNProcessImp.trainingNNdataAll(this, TR_Name, size);
 
-                if (getEnv.checkLocalPC() == true) {
-
-                    String filename = FileLocalDebugPath + nnName + initTrainNeuralNetNumber + ".csv";
-                    FileUtil.FileWriteTextArray(filename, writeArrayNeuralNet);
-
-//                    filename = FileLocalNNPath + "/" + nnName + initTrainNeuralNetNumber + ".csv";
+//                if (getEnv.checkLocalPC() == true) {
+//
+//                    String filename = FileLocalDebugPath + nnName + initTrainNeuralNetNumber + ".csv";
 //                    FileUtil.FileWriteTextArray(filename, writeArrayNeuralNet);
-                    logger.info(">>> NeuralNetTesting write " + j + " " + filename);
-                }
+//
+////                    filename = FileLocalNNPath + "/" + nnName + initTrainNeuralNetNumber + ".csv";
+////                    FileUtil.FileWriteTextArray(filename, writeArrayNeuralNet);
+//                    logger.info(">>> NeuralNetTesting write " + j + " " + filename);
+//                }
             }
         }
         // create neural net input data
@@ -1408,10 +1395,24 @@ public class ServiceAFweb {
                 return;
             }
 
-            boolean flagClean = false;
-            if (flagClean == true) {
-                getStockImp().setCreateNeuralNetObj1(BPname, "");
-                TRprocessImp.initTrainingNeuralNetData(this, nnName);
+            boolean flagInit = true;
+            if (flagInit == true) {
+//                getStockImp().setCreateNeuralNetObj1(BPname, "");
+//                TRprocessImp.initTrainingNeuralNetData(this, nnName);
+
+                AFneuralNet afNeuralNet = getNeuralNetObjWeight1(BPname, 0);
+                if (afNeuralNet == null) {
+                    afNeuralNet = new AFneuralNet();
+                    afNeuralNet.setName(BPname);
+                    afNeuralNet.setStatus(ConstantKey.OPEN);
+                    afNeuralNet.setType(0);
+                    Calendar dateDefault = TimeConvertion.getDefaultCalendar();
+                    afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
+                    afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
+                    String weightSt = (CKey.NN1_WEIGHT_0);
+                    afNeuralNet.setWeight(weightSt);
+                    setNeuralNetObjWeight1(afNeuralNet);
+                }
             }
 
             for (int i = 0; i < 20; i++) {
@@ -1764,7 +1765,8 @@ public class ServiceAFweb {
             }
 
             try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class);
+                NameList = new ObjectMapper().readValue(output, ArrayList.class
+                );
             } catch (Exception ex) {
                 logger.info("> SystemAccountStockNameList exception " + ex.getMessage());
             }
@@ -1790,7 +1792,8 @@ public class ServiceAFweb {
             }
 
             try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class);
+                NameList = new ObjectMapper().readValue(output, ArrayList.class
+                );
             } catch (Exception ex) {
                 logger.info("> SystemAllOpenAccountIDList exception " + ex.getMessage());
             }
@@ -1817,7 +1820,8 @@ public class ServiceAFweb {
             }
 
             try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class);
+                NameList = new ObjectMapper().readValue(output, ArrayList.class
+                );
             } catch (Exception ex) {
                 logger.info("> AllAccountStockNameListExceptionAdmin exception " + ex.getMessage());
             }
@@ -1843,7 +1847,8 @@ public class ServiceAFweb {
             AFstockObj stockObj = null;
 
             try {
-                stockObj = new ObjectMapper().readValue(output, AFstockObj.class);
+                stockObj = new ObjectMapper().readValue(output, AFstockObj.class
+                );
             } catch (Exception ex) {
                 logger.info("> SystemRealTimeStockByStockID exception " + ex.getMessage());
             }
@@ -1868,7 +1873,8 @@ public class ServiceAFweb {
             AccountObj accountObj = null;
 
             try {
-                accountObj = new ObjectMapper().readValue(output, AccountObj.class);
+                accountObj = new ObjectMapper().readValue(output, AccountObj.class
+                );
             } catch (Exception ex) {
                 logger.info("> SystemAccountObjByAccountID exception " + ex.getMessage());
             }
@@ -1899,7 +1905,8 @@ public class ServiceAFweb {
 
                 }
 
-                TradingRuleObj ret = new ObjectMapper().readValue(output, TradingRuleObj.class);
+                TradingRuleObj ret = new ObjectMapper().readValue(output, TradingRuleObj.class
+                );
                 return ret;
 
             } catch (Exception ex) {
@@ -3125,7 +3132,7 @@ public class ServiceAFweb {
         if (getEnv.checkLocalPC() == true) {
             String filename = FileLocalDebugPath + stockidsymbol + "_nn1_" + initTrainNeuralNetNumber + ".csv";
             FileUtil.FileWriteTextArray(filename, writeArray);
-            writeArrayNeuralNet.addAll(writeAllArray);
+//            writeArrayNeuralNet.addAll(writeAllArray);
         }
         return writeAllArray;
     }
@@ -3273,7 +3280,7 @@ public class ServiceAFweb {
         if (getEnv.checkLocalPC() == true) {
             String filename = FileLocalDebugPath + stockidsymbol + "_nn2_" + initTrainNeuralNetNumber + ".csv";
             FileUtil.FileWriteTextArray(filename, writeArray);
-            writeArrayNeuralNet.addAll(writeAllArray);
+//            writeArrayNeuralNet.addAll(writeAllArray);
         }
         return writeAllArray;
     }
