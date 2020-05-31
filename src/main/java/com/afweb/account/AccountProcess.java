@@ -372,8 +372,7 @@ public class AccountProcess {
                         String symbol = (String) addedList.get(i);
                         int resultAdd = serviceAFWeb.addAccountStockSymbol(accObj, symbol);
                         if (resultAdd > 0) {
-                            logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol
-                            );
+                            logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol );
                         }
                         numCnt++;
                         if (numCnt > 10) {

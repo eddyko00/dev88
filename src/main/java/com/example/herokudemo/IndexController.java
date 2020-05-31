@@ -119,6 +119,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/autonntrain");
         arrayString.add("/cust/{username}/sys/autonntrain/enable");        
         arrayString.add("/cust/{username}/sys/autonntrain/disable");         
+        arrayString.add("/cust/{username}/sys/fundmgr");         
         //DB Backup
         arrayString.add("/cust/{username}/sys/downloaddb");
 
@@ -1315,7 +1316,6 @@ public class IndexController {
 
         return null;
     }
-
     @RequestMapping(value = "/cust/{username}/sys/autonntrain", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemNNTrainFlag(@PathVariable("username") String username) {
@@ -1334,6 +1334,35 @@ public class IndexController {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
+    
+    
+    @RequestMapping(value = "/cust/{username}/sys/fundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus getSystemFundMgr(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                
+                msg.setResponse("" + afWebService.SystemFundMgr());
                 msg.setResult(true);
                 return msg;
             }

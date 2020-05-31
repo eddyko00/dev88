@@ -11,7 +11,7 @@ import com.afweb.chart.ChartService;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.nnBP.NNBPservice;
+
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
@@ -452,10 +452,7 @@ public class ServiceAFweb {
 //                    
                     boolean fundMgrFlag = false;
                     if (fundMgrFlag == true) {
-                        FundMgrProcess fundmgr = new FundMgrProcess();
-                        fundmgr.ProcessIISWebGlobalFundMgr(this);
-                        fundmgr.ProcessFundMgrAccount(this);
-
+                        SystemFundMgr();
                     }
 
                     boolean fundFlag = false;
@@ -4999,6 +4996,13 @@ public class ServiceAFweb {
         serverObj.setSysMaintenance(true);
 
         return "sysMaintenance " + retSatus;
+    }
+
+    public boolean SystemFundMgr() {
+        FundMgrProcess fundmgr = new FundMgrProcess();
+        fundmgr.ProcessIISWebGlobalFundMgr(this);
+        fundmgr.ProcessFundMgrAccount(this);
+        return true;
     }
 
     public String SystemCleanDBData() {
