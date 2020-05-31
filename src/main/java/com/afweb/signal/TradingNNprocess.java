@@ -730,24 +730,14 @@ public class TradingNNprocess {
         logger.info("> trainingNNdataAll ");
         this.serviceAFWeb = serviceAFWeb;
         String symbol = "";
-        symbol = "HOU.TO";
-        ArrayList<NNInputDataObj> InputListHOU = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        symbol = "SPY";
-        ArrayList<NNInputDataObj> InputListSPY = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        symbol = "DIA";
-        ArrayList<NNInputDataObj> InputListDIA = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        symbol = "QQQ";
-        ArrayList<NNInputDataObj> InputListQQQ = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        symbol = "HOD.TO";
-        ArrayList<NNInputDataObj> InputListHOD = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        symbol = "XIU.TO";
-        ArrayList<NNInputDataObj> InputListXIU = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        symbol = "FAS";
-        ArrayList<NNInputDataObj> InputListFAS = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        symbol = "FAZ";
-        ArrayList<NNInputDataObj> InputListFAZ = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-//        symbol = "RY.TO";
-//        ArrayList<NNInputDataObj> InputListRY = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
+
+        String symbolL[]
+                = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO", "GLD", "IWM"};
+        for (int i = 0; i < symbolL.length; i++) {
+            symbol = symbolL[i];
+            ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
+        }
+
     }
 
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {

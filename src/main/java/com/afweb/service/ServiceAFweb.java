@@ -606,21 +606,11 @@ public class ServiceAFweb {
 //                NNProcessImp.ProcessInputNeuralNet(this);
 //            }
 
-//            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
-//            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
+            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
+            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
             // start training
             NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
-
-//            ArrayList<NNInputDataObj> inputlistSym = null;
-//            String symbol = "HOU.TO";
-//            inputlistSym = TRprocessImp.getTrainingInputDataFromFile(this, symbol);
-//
-//            ArrayList<NNInputDataObj> inputlist = new ArrayList();
-//            inputlist = TRprocessImp.getTrainingInputDataFromFile(this);
-//
-//            for (int i=0; i<inputlist.size(); i++ ) {
-//
-//            }
+            NeuralNetCreatJava();
         }
 //        
         boolean flagNeuralnetCreateJava = false;
@@ -628,13 +618,13 @@ public class ServiceAFweb {
             String symbol = "HOU.TO";
             NeuralNetCreatJava();
 
-            int nnTRN = ConstantKey.INT_TR_NN1;
-            String nnName = ConstantKey.TR_NN1;
-
-            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
+//            int nnTRN = ConstantKey.INT_TR_NN1;
+//            String nnName = ConstantKey.TR_NN1;
+//
+//            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
 //            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
-            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
+//            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
 //            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
         }
 //        
@@ -1247,7 +1237,13 @@ public class ServiceAFweb {
             inputBuf.append(nnData.NN1_INPUTLIST8);
             inputBuf.append(nnData.NN1_INPUTLIST9);
             inputBuf.append(nnData.NN1_INPUTLIST10);
-//            inputBuf.append(nnData.NN1_INPUTLIST11);
+            inputBuf.append(nnData.NN1_INPUTLIST11);
+            inputBuf.append(nnData.NN1_INPUTLIST12);
+            inputBuf.append(nnData.NN1_INPUTLIST13);
+            inputBuf.append(nnData.NN1_INPUTLIST14);
+            inputBuf.append(nnData.NN1_INPUTLIST15);            
+            inputBuf.append(nnData.NN1_INPUTLIST16);
+          
             String inputListSt = decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
@@ -1285,7 +1281,7 @@ public class ServiceAFweb {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
-            TRprocessImp.getTrainingInputDataFromFile(this, stockInputMap);
+            TRprocessImp.getStaticJavaInputDataFromFile(this, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = compress(inputListRawSt);
@@ -1394,9 +1390,6 @@ public class ServiceAFweb {
 
             boolean flagInit = true;
             if (flagInit == true) {
-//                getStockImp().setCreateNeuralNetObj1(BPname, "");
-//                TRprocessImp.initTrainingNeuralNetData(this, nnName);
-
                 AFneuralNet afNeuralNet = getNeuralNetObjWeight1(BPname, 0);
                 if (afNeuralNet == null) {
                     afNeuralNet = new AFneuralNet();
@@ -1409,6 +1402,9 @@ public class ServiceAFweb {
                     String weightSt = (CKey.NN1_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
                     setNeuralNetObjWeight1(afNeuralNet);
+                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN1_WEIGHT_0");
+                } else {
+                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
                 }
             }
 

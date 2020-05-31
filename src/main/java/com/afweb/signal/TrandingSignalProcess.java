@@ -1799,150 +1799,79 @@ public class TrandingSignalProcess {
         return inputlist;
     }
 
+    public ArrayList<NNInputDataObj> getStaticJavaInputDataFromFile(ServiceAFweb serviceAFWeb, HashMap<String, ArrayList> stockInputMap) {
+        ArrayList<NNInputDataObj> inputlist = new ArrayList();
+        ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
+
+ 
+        String symbol = "";
+        String symbolL[]
+            = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO", "GLD", "IWM"};
+
+        for (int i = 0; i < symbolL.length; i++) {
+            symbol = symbolL[i];
+            inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
+            if (inputlist.size() == 0) {
+                return null;
+            }
+            inputlistRet.addAll(inputlist);
+            if (stockInputMap != null) {
+                stockInputMap.put(symbol, inputlist);
+            }
+        }
+
+        return inputlistRet;
+
+    }
+
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFile(ServiceAFweb serviceAFWeb, HashMap<String, ArrayList> stockInputMap) {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
         String symbol = "";
+        String symbolL[]
+                = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO"};
 
-        symbol = "HOU.TO";
-        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-        if (inputlist.size() == 0) {
-            return null;
+        for (int i = 0; i < symbolL.length; i++) {
+            symbol = symbolL[i];
+            inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
+            if (inputlist.size() == 0) {
+                return null;
+            }
+            inputlistRet.addAll(inputlist);
+            if (stockInputMap != null) {
+                stockInputMap.put(symbol, inputlist);
+            }
         }
-        inputlistRet.addAll(inputlist);
-        if (stockInputMap != null) {
-            stockInputMap.put(symbol, inputlist);
-        }
-        symbol = "SPY";
-        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-        if (inputlist.size() == 0) {
-            return null;
-        }
-        inputlistRet.addAll(inputlist);
-        if (stockInputMap != null) {
-            stockInputMap.put(symbol, inputlist);
-        }
-        symbol = "DIA";
-        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-        if (inputlist.size() == 0) {
-            return null;
-        }
-        inputlistRet.addAll(inputlist);
-        if (stockInputMap != null) {
-            stockInputMap.put(symbol, inputlist);
-        }
-        symbol = "QQQ";
-        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-        if (inputlist.size() == 0) {
-            return null;
-        }
-        inputlistRet.addAll(inputlist);
-        if (stockInputMap != null) {
-            stockInputMap.put(symbol, inputlist);
-        }
-        symbol = "HOD.TO";
-        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-        if (inputlist.size() == 0) {
-            return null;
-        }
-        inputlistRet.addAll(inputlist);
-        if (stockInputMap != null) {
-            stockInputMap.put(symbol, inputlist);
-        }
-        symbol = "XIU.TO";
-        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-        if (inputlist.size() == 0) {
-            return null;
-        }
-        inputlistRet.addAll(inputlist);
-        if (stockInputMap != null) {
-            stockInputMap.put(symbol, inputlist);
-        }
-        symbol = "FAS";
-        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-        if (inputlist.size() == 0) {
-            return null;
-        }
-        inputlistRet.addAll(inputlist);
-        if (stockInputMap != null) {
-            stockInputMap.put(symbol, inputlist);
-        }
-        symbol = "FAZ";
-        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-        if (inputlist.size() == 0) {
-            return null;
-        }
-        inputlistRet.addAll(inputlist);
-        if (stockInputMap != null) {
-            stockInputMap.put(symbol, inputlist);
-        }
-        // too many data nn cannot train
-//        symbol = "RY.TO";
-//        inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);
-//        if (inputlist.size() == 0) {
-//            return null;
-//        }
-//        inputlistRet.addAll(inputlist);
-//        if (stockInputMap != null) {
-//            stockInputMap.put(symbol, inputlist);
-//        }
+
         return inputlistRet;
     }
 
-//    public ArrayList<NNInputDataObj> getTrainingInputDataFromFile(ServiceAFweb serviceAFWeb) {
-//
-//        ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
-//        for (int i = 1; i < 20; i++) {
-//            String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + ConstantKey.TR_NN1 + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-//            boolean ret = readTrainingNeuralNet1(serviceAFWeb, inputDatalist, ConstantKey.TR_NN1, nnFileName);
-//            if (i == 0) {
-//                continue;
-//            }
-//            if (ret == false) {
-//                break;
-//            }
-//        }
-//        for (int i = 1; i < 20; i++) {
-//            String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + ConstantKey.TR_NN2 + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-//            boolean ret = readTrainingNeuralNet1(serviceAFWeb, inputDatalist, ConstantKey.TR_NN1, nnFileName);
-//            if (i == 0) {
-//                continue;
-//            }
-//            if (ret == false) {
-//                break;
-//            }
+//    private int TRtrainingNNNeuralNetProcessFile(ServiceAFweb serviceAFWeb, String BPnameTR, String nnNameSym, double nnError) {
+//        String BPnameSym = CKey.NN_version + "_" + nnNameSym;
+//        ArrayList<NNInputOutObj> inputlist = new ArrayList();
+//        boolean forceNN1flag = true;
+//        if (forceNN1flag == true) {
+//            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
 //        }
 //
-//        return inputDatalist;
+//        boolean forceNNReadFileflag = true;
+//        if (forceNNReadFileflag == true) {
+//            inputlist = getTrainingInputFromFile(serviceAFWeb);
+//        }
+//
+//        if (inputlist.size() == 0) {
+//            return 0;
+//        }
+//        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputlist);
+//
+//        String NNnameSt = nnTraining.getNameNN() + "_" + nnNameSym;
+//        nnTraining.setNameNN(NNnameSt);
+//        nnTraining.setSymbol(nnNameSym);
+//
+//        /// start training or continue training           
+//        /// start training or continue training
+//        return TrainingNNBP(serviceAFWeb, nnNameSym, nnTraining, nnError);
 //    }
-    private int TRtrainingNNNeuralNetProcessFile(ServiceAFweb serviceAFWeb, String BPnameTR, String nnNameSym, double nnError) {
-        String BPnameSym = CKey.NN_version + "_" + nnNameSym;
-        ArrayList<NNInputOutObj> inputlist = new ArrayList();
-        boolean forceNN1flag = true;
-        if (forceNN1flag == true) {
-            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-        }
-
-        boolean forceNNReadFileflag = true;
-        if (forceNNReadFileflag == true) {
-            inputlist = getTrainingInputFromFile(serviceAFWeb);
-        }
-
-        if (inputlist.size() == 0) {
-            return 0;
-        }
-        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputlist);
-
-        String NNnameSt = nnTraining.getNameNN() + "_" + nnNameSym;
-        nnTraining.setNameNN(NNnameSt);
-        nnTraining.setSymbol(nnNameSym);
-
-        /// start training or continue training           
-        /// start training or continue training
-        return TrainingNNBP(serviceAFWeb, nnNameSym, nnTraining, nnError);
-    }
 
     private int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnNameSym, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
@@ -2252,9 +2181,9 @@ public class TrandingSignalProcess {
         NNBPservice nn = null;
         ///NeuralNetObj1 transition
         ///NeuralNetObj0 release
-        
+
         AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
-        
+
         if (afNeuralNet != null) {
             String weightSt = afNeuralNet.getWeight();
 
