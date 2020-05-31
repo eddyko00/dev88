@@ -666,7 +666,7 @@ public class ServiceAFweb {
             ArrayList<NNInputDataObj> inputlistSym = trainNN.getReTrainingNNdataStock(this, symbol, ConstantKey.INT_TR_NN1, 0);
         }
 
-        boolean dbhero2opflag = false;
+        boolean dbhero2opflag = true;
         if (dbhero2opflag == true) {
             CKey.OPENSHIFT_DB1 = false;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
