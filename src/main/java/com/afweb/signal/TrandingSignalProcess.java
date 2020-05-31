@@ -1803,10 +1803,9 @@ public class TrandingSignalProcess {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
 
- 
         String symbol = "";
         String symbolL[]
-            = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO", "GLD", "IWM"};
+                = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO", "GLD", "IWM"};
 
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
@@ -1828,8 +1827,8 @@ public class TrandingSignalProcess {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
         String symbol = "";
-        String symbolL[]
-                = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO"};
+//            public static String neuralNetTrainStock[] = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO"};
+        String symbolL[] = ServiceAFweb.neuralNetTrainStock;
 
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
@@ -1872,7 +1871,6 @@ public class TrandingSignalProcess {
 //        /// start training or continue training
 //        return TrainingNNBP(serviceAFWeb, nnNameSym, nnTraining, nnError);
 //    }
-
     private int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnNameSym, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();

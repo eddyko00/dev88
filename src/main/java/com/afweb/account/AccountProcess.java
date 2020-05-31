@@ -1046,23 +1046,9 @@ public class AccountProcess {
     //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
     public void updateAllStockFile(ServiceAFweb serviceAFWeb) {
 
-//        updateStockFile(serviceAFWeb, "AEM");
-//        updateStockFile(serviceAFWeb, "INTC");
-//        updateStockFile(serviceAFWeb, "NFLX");
-//        updateStockFile(serviceAFWeb, "TMO");        
-//        updateStockFile(serviceAFWeb, "ABT");
-//        updateStockFile(serviceAFWeb, "AMT");
-//        updateStockFile(serviceAFWeb, "AMZN");
-//        updateStockFile(serviceAFWeb, "BABA");
-//        updateStockFile(serviceAFWeb, "FB");
-//        updateStockFile(serviceAFWeb, "FNV");
-//        updateStockFile(serviceAFWeb, "MSFT");
-//        updateStockFile(serviceAFWeb, "NEM");
-//        updateStockFile(serviceAFWeb, "ROG");
-//        updateStockFile(serviceAFWeb, "V");
-//        updateStockFile(serviceAFWeb, "XLNX");
 ////////////////////////////////////////////////////        
-//    public static String primaryStock[] = {"AAPL","SPY","DIA","QQQ","HOU.TO","HOD.TO","T.TO","FAS","FAZ","RY.TO","XIU.TO"};
+//    public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
+
         for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
             String stockN = ServiceAFweb.primaryStock[i];
             updateStockFile(serviceAFWeb, stockN);

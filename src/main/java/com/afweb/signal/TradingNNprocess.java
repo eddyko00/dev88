@@ -743,6 +743,20 @@ public class TradingNNprocess {
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess " + symbol);
         this.serviceAFWeb = serviceAFWeb;
+
+        boolean trainStock = false;
+        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
+            String stockN = ServiceAFweb.neuralNetTrainStock[i];
+            if (stockN.equals(symbol)) {
+                trainStock = true;
+                break;
+            }
+        }
+        if (trainStock == false) {
+            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
+                return null;
+            }
+        }
         symbol = symbol.replace(".", "_");
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);

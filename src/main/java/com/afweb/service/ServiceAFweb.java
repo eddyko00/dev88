@@ -82,7 +82,7 @@ public class ServiceAFweb {
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
     public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
-
+    public static String neuralNetTrainStock[] = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO"};
     /**
      * @return the cacheAccountAdminObj
      */
@@ -634,10 +634,14 @@ public class ServiceAFweb {
 //          getTRprocessImp().initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN2);
         }
 
+        // need this only if yahoo get history stock does not work
+        // need this only if yahoo get history stock does not work        
         boolean flaginputStock = false;
         if (flaginputStock == true) {
             getAccountProcessImp().updateAllStockFile(this);
         }
+        // need this only if yahoo get history stock does not work
+        // need this only if yahoo get history stock does not work 
 
         boolean retrainupdateinputflag = false;
         if (retrainupdateinputflag == true) {
@@ -1165,15 +1169,6 @@ public class ServiceAFweb {
 
                 NNProcessImp.trainingNNdataAll(this, TR_Name, size);
 
-//                if (getEnv.checkLocalPC() == true) {
-//
-//                    String filename = FileLocalDebugPath + nnName + initTrainNeuralNetNumber + ".csv";
-//                    FileUtil.FileWriteTextArray(filename, writeArrayNeuralNet);
-//
-////                    filename = FileLocalNNPath + "/" + nnName + initTrainNeuralNetNumber + ".csv";
-////                    FileUtil.FileWriteTextArray(filename, writeArrayNeuralNet);
-//                    logger.info(">>> NeuralNetTesting write " + j + " " + filename);
-//                }
             }
         }
         // create neural net input data
@@ -1239,11 +1234,7 @@ public class ServiceAFweb {
             inputBuf.append(nnData.NN1_INPUTLIST10);
             inputBuf.append(nnData.NN1_INPUTLIST11);
             inputBuf.append(nnData.NN1_INPUTLIST12);
-            inputBuf.append(nnData.NN1_INPUTLIST13);
-            inputBuf.append(nnData.NN1_INPUTLIST14);
-            inputBuf.append(nnData.NN1_INPUTLIST15);            
-            inputBuf.append(nnData.NN1_INPUTLIST16);
-          
+
             String inputListSt = decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
