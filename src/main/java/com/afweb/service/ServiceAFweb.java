@@ -83,6 +83,7 @@ public class ServiceAFweb {
 
     public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
     public static String neuralNetTrainStock[] = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO"};
+
     /**
      * @return the cacheAccountAdminObj
      */
@@ -803,6 +804,12 @@ public class ServiceAFweb {
 
         boolean commadmflag = false;
         if (commadmflag == true) {
+
+            //clear all communication
+//            this.getAccountImp().removeCommByCommID(65);
+//            this.getAccountImp().removeCommByCommID(215);
+//            this.getAccountImp().removeCommByCommID(216);
+
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
             AccountObj accountAdminObj = getAdminObjFromCache();
