@@ -372,7 +372,7 @@ public class AccountProcess {
                         String symbol = (String) addedList.get(i);
                         int resultAdd = serviceAFWeb.addAccountStockSymbol(accObj, symbol);
                         if (resultAdd > 0) {
-                            logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol );
+                            logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol);
                         }
                         numCnt++;
                         if (numCnt > 10) {
@@ -393,13 +393,20 @@ public class AccountProcess {
                         if (stock == null) {
                             continue;
                         }
+                        if (stock.getAfstockInfo() == null) {
+                            continue;
+                        }
+                        float curPrice = stock.getAfstockInfo().getFclose();
                         TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
 
                         float sharebalance = 0;
                         if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-                            sharebalance = trObj.getLongamount();
+                            float delta = (curPrice * trObj.getLongshare()) - trObj.getLongamount();
+                            sharebalance = delta;
+
                         } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                            sharebalance = trObj.getShortamount();
+                            float delta = (curPrice * trObj.getShortshare()) - trObj.getShortamount();
+                            sharebalance = -delta;
                         }
                         float total = trObj.getBalance() + sharebalance;
                         total = total - trObj.getInvestment();
@@ -418,22 +425,23 @@ public class AccountProcess {
                             if (stock == null) {
                                 continue;
                             }
-                            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
-                            if (thList == null) {
+                            if (stock.getAfstockInfo() == null) {
                                 continue;
                             }
-                            if (thList.size() != 0) {
-                                TransationOrderObj thObj = thList.get(0);
-                                int sig = thObj.getTrsignal();
-                                long entrydatel = thObj.getEntrydatel();
+                            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
+                            if (thList != null) {
+                                if (thList.size() != 0) {
+                                    TransationOrderObj thObj = thList.get(0);
+                                    int sig = thObj.getTrsignal();
+                                    long entrydatel = thObj.getEntrydatel();
 
-                                long currentTime = System.currentTimeMillis();
-                                long day5befor = TimeConvertion.addDays(currentTime, -5);
-                                if (entrydatel > day5befor) {
-                                    continue;
+                                    long currentTime = System.currentTimeMillis();
+                                    long day5befor = TimeConvertion.addDays(currentTime, -5);
+                                    if (entrydatel > day5befor) {
+                                        continue;
+                                    }
                                 }
                             }
-
                             int signal = ConstantKey.S_NEUTRAL;
                             String trName = ConstantKey.TR_ACC;
                             TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
@@ -449,27 +457,31 @@ public class AccountProcess {
                             }
                             if (updateTran == true) {
                                 TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-                                tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
 
+                                tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
                                 ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
                                 UpdateTRList.add(tradingRuleObj);
                                 serviceAFWeb.getAccountImp().updateAccountStockSignal(UpdateTRList);
 
-                                TRprocessImp.AddTransactionOrderWithComm(serviceAFWeb, accObj, stock, trName, signal, null, false);
-
                                 //////calcuate performance
+                                float curPrice = stock.getAfstockInfo().getFclose();
                                 TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
 
                                 float sharebalance = 0;
                                 if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-                                    sharebalance = trObj.getLongamount();
+                                    float delta = (curPrice * trObj.getLongshare()) - trObj.getLongamount();
+                                    sharebalance = delta;
+
                                 } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                                    sharebalance = trObj.getShortamount();
+                                    float delta = (curPrice * trObj.getShortshare()) - trObj.getShortamount();
+                                    sharebalance = -delta;
                                 }
-                                float total = trObj.getBalance() + sharebalance;
-                                total = total - trObj.getInvestment();
+                                float total = sharebalance;
                                 logger.info("> ProcessFundAccount " + accObj.getAccountname() + " " + symbol + " stockProfit " + total);
                                 totalBal += total;
+
+                                TRprocessImp.AddTransactionOrderWithComm(serviceAFWeb, accObj, stock, trName, signal, null, false);
+
                             }
 //            
                             int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
@@ -1048,7 +1060,6 @@ public class AccountProcess {
 
 ////////////////////////////////////////////////////        
 //    public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
-
         for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
             String stockN = ServiceAFweb.primaryStock[i];
             updateStockFile(serviceAFWeb, stockN);

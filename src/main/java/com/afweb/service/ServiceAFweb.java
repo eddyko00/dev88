@@ -616,17 +616,8 @@ public class ServiceAFweb {
 //        
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
-            String symbol = "HOU.TO";
             NeuralNetCreatJava();
 
-//            int nnTRN = ConstantKey.INT_TR_NN1;
-//            String nnName = ConstantKey.TR_NN1;
-//
-//            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
-//            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
-//            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
-//            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
         }
 //        
         boolean flaginpTrainData = false;
@@ -687,6 +678,20 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
 
+        boolean flagTestNeuralnetTrain = false;
+        if (flagTestNeuralnetTrain == true) {
+            String symbol = "HOU.TO";
+
+            int nnTRN = ConstantKey.INT_TR_NN1;
+            String nnName = ConstantKey.TR_NN1;
+
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
+//            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
+            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
+            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
+        }
+        
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
             /////////need manually enter the communication id
@@ -809,7 +814,6 @@ public class ServiceAFweb {
 //            this.getAccountImp().removeCommByCommID(65);
 //            this.getAccountImp().removeCommByCommID(215);
 //            this.getAccountImp().removeCommByCommID(216);
-
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
             AccountObj accountAdminObj = getAdminObjFromCache();
