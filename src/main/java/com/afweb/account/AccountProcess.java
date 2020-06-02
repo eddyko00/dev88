@@ -408,8 +408,7 @@ public class AccountProcess {
                             float delta = (curPrice * trObj.getShortshare()) - trObj.getShortamount();
                             sharebalance = -delta;
                         }
-                        float total = trObj.getBalance() + sharebalance;
-                        total = total - trObj.getInvestment();
+                        float total =  sharebalance;
                         accountTotal += total;
                     }
                     logger.info("> ProcessFundAccount " + accObj.getAccountname() + " curProfit " + accountTotal);
