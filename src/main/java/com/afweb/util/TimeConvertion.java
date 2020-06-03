@@ -249,7 +249,7 @@ public class TimeConvertion {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, 1);  // 0 try this some error in transaction
             calendar.set(Calendar.MILLISECOND, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MINUTE, 0);
@@ -267,10 +267,10 @@ public class TimeConvertion {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.HOUR_OF_DAY, 22);  //23 try this for end of day
             calendar.set(Calendar.MILLISECOND, 999);
             calendar.set(Calendar.SECOND, 59);
-            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.MINUTE, 59); 
             return calendar.getTimeInMillis();
         }
     }
