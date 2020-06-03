@@ -3454,7 +3454,6 @@ public class ServiceAFweb {
 //        return ioStream;
 //
 //    }
-
     public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
 
         ArrayList<TransationOrderObj> thList = this.getAccountStockTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
@@ -3556,7 +3555,7 @@ public class ServiceAFweb {
         return ioStream;
 
     }
-    
+
     public String getAccountStockTRLIstCurrentChartFile(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         try {
@@ -5160,17 +5159,23 @@ public class ServiceAFweb {
         }
         return "" + retSatus;
     }
+//    
+    public static boolean SystemClearNNtranFalg = false;
 
     public String SystemClearNNtran() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-        if (getServerObj().isLocalDBservice() == true) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
+        if (SystemClearNNtranFalg == false) {
+            SystemClearNNtranFalg = true;
+            if (getServerObj().isLocalDBservice() == true) {
+                retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
+                retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
+                retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
+                retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
+                retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
+                retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
+            }
+            SystemClearNNtranFalg = false;
         }
         return "" + retSatus;
     }
