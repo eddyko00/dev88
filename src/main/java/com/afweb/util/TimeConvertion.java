@@ -249,7 +249,7 @@ public class TimeConvertion {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
-            calendar.set(Calendar.HOUR_OF_DAY, 1);  // 0 try this some error in transaction
+            calendar.set(Calendar.HOUR_OF_DAY, 2);  // 0 try this some error in transaction
             calendar.set(Calendar.MILLISECOND, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MINUTE, 0);
@@ -263,11 +263,12 @@ public class TimeConvertion {
      * @param date long to calculate end of day from
      * @return Last millisecond of <code>date</code>
      */
+    //https://www.timestampconvert.com/?go2=true&offset=4&timestamp=1590206399999&Submit=++++++Convert+to+Date++++++
     public static long endOfDayInMillis(long date) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
-            calendar.set(Calendar.HOUR_OF_DAY, 22);  //23 try this for end of day
+            calendar.set(Calendar.HOUR_OF_DAY, 21);  //23 try this for end of day
             calendar.set(Calendar.MILLISECOND, 999);
             calendar.set(Calendar.SECOND, 59);
             calendar.set(Calendar.MINUTE, 59); 
