@@ -3465,7 +3465,9 @@ public class ServiceAFweb {
         }
         String symbol = stockidsymbol;
         AFstockObj stock = this.getRealTimeStockImp(symbol);
-
+        if (stock == null) {
+            return null;
+        }
         int size1year = 20 * 10;
         ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1year);
         if (StockArray == null) {
