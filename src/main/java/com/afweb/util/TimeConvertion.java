@@ -211,7 +211,7 @@ public class TimeConvertion {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTime(date);
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.HOUR_OF_DAY, 21);   // 23 transacion order get one more day???????
             calendar.set(Calendar.MILLISECOND, 999);
             calendar.set(Calendar.SECOND, 59);
             calendar.set(Calendar.MINUTE, 59);
@@ -230,7 +230,7 @@ public class TimeConvertion {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTime(date);
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, 2);  // 0  transacion order get one more day???????
             calendar.set(Calendar.MILLISECOND, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MINUTE, 0);
