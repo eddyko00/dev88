@@ -3442,6 +3442,11 @@ public class ServiceAFweb {
             sellDate = noDate;
             sellD = noD;
         }
+        for (int j = 0; j < sellDate.size(); j++) {
+            Double close = sellD.get(j);
+            Date da = sellDate.get(j);
+            System.out.println(close + " " + da);
+        }
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);
