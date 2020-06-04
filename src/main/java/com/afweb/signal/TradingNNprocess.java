@@ -730,9 +730,8 @@ public class TradingNNprocess {
         logger.info("> trainingNNdataAll ");
         this.serviceAFWeb = serviceAFWeb;
         String symbol = "";
-
-        String symbolL[]
-                = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO", "GLD", "IWM"};
+//    public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
+        String symbolL[] = ServiceAFweb.primaryStock;
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
             ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);

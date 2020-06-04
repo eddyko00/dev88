@@ -1804,8 +1804,8 @@ public class TrandingSignalProcess {
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
 
         String symbol = "";
-        String symbolL[]
-                = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO", "GLD", "IWM"};
+//        public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
+        String symbolL[] = ServiceAFweb.primaryStock;
 
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
@@ -1827,9 +1827,8 @@ public class TrandingSignalProcess {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
         String symbol = "";
-//            public static String neuralNetTrainStock[] = {"SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO"};
-        String symbolL[] = ServiceAFweb.neuralNetTrainStock;
-
+//        String symbolL[] = ServiceAFweb.neuralNetTrainStock;
+        String symbolL[] = ServiceAFweb.primaryStock;
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
             inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, symbol);

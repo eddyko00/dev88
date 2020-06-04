@@ -601,20 +601,19 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagNeuralnet = false;
-        if (flagNeuralnet == true) {
-//            for (int i = 0; i < 100; i++) {
-//                NNProcessImp.ProcessInputNeuralNet(this);
-//            }
-
+        boolean flagNeuralnetInput = false;
+        if (flagNeuralnetInput == true) {
             NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
             NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
+
+        }
+        boolean flagNeuralnetTrain = false;
+        if (flagNeuralnetTrain == true) {
             // start training
             NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
-            NeuralNetCreatJava();
+
         }
-//        
-        boolean flagNeuralnetCreateJava = false;
+        boolean flagNeuralnetCreateJava = true;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetCreatJava();
 
@@ -1244,7 +1243,6 @@ public class ServiceAFweb {
             inputBuf.append(nnData.NN1_INPUTLIST9);
             inputBuf.append(nnData.NN1_INPUTLIST10);
             inputBuf.append(nnData.NN1_INPUTLIST11);
-            inputBuf.append(nnData.NN1_INPUTLIST12);
 
             String inputListSt = decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
