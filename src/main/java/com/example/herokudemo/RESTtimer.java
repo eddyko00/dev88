@@ -73,6 +73,7 @@ public class RESTtimer {
     private static long timerServ0 = 0;
 
     public void RestTimerHandler0(String urlStr) {
+
         if (timerServ0 == 0) {
             timerServ0 = System.currentTimeMillis();
         }
@@ -99,17 +100,19 @@ public class RESTtimer {
             String url = "";
             if (serverURL_0.length() == 0) {
                 url = urlStr + "/timerhandler?resttimerMsg=" + timerMsg;
-                if (getEnv.checkLocalPC() == true) {
-                    url = AFwebService.localTimerURL + AFwebService.webPrefix + "/timerhandler?resttimerMsg=" + timerMsg;
-                }
+
             } else if (serverURL_0.equals("startop")) {
-                url = CKey.URL_PATH_OP + "/timerhandler?resttimerMsg=" + timerMsg;
+                url = urlStr + "/timerhandler?resttimerMsg=" + timerMsg;
+
             } else if (serverURL_0.equals("stop")) {
                 return;
             } else {
                 url = serverURL_0 + "/timerhandler?resttimerMsg=" + timerMsg;
             }
 
+            if (getEnv.checkLocalPC() == true) {
+                url = AFwebService.localTimerURL + AFwebService.webPrefix + "/timerhandler?resttimerMsg=" + timerMsg;
+            }
             RESTtimerREST restAPI = new RESTtimerREST();
             String ret = restAPI.sendRequest(RESTtimerREST.METHOD_GET, url, null, null, false);
 //            logger.info(ret);
