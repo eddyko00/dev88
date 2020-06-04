@@ -47,7 +47,11 @@ public class RESTtimer {
                     serverURL_0 = "";
                 } else {
                     if (HerokuDemoApplication.timerSchCnt > 5) {
-                        serverURL_0 = "stop";
+                        if (serverURL_0.equals("startop")) {
+                            ;
+                        } else {
+                            serverURL_0 = "stop";
+                        }
                     }
                 }
             } else if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO)) {
@@ -62,7 +66,7 @@ public class RESTtimer {
         }
         RestTimerHandler0(CKey.SERVERDB_URL);
     }
-    
+
     private static int timerCnt0 = 0;
     private static int timerExceptionCnt0 = 0;
     private static long lastTimer0 = 0;
@@ -97,7 +101,9 @@ public class RESTtimer {
             // Create Client
             String url = "";
 
-            if (serverURL_0.length() == 0) {
+            if (serverURL_0.equals("startop")) {
+                url = CKey.URL_PATH_OP + "/timerhandler?resttimerMsg=" + timerMsg;
+            } else if (serverURL_0.length() == 0) {
                 url = urlStr + "/timerhandler?resttimerMsg=" + timerMsg;
                 if (getEnv.checkLocalPC() == true) {
                     url = AFwebService.localTimerURL + AFwebService.webPrefix + "/timerhandler?resttimerMsg=" + timerMsg;
@@ -105,6 +111,7 @@ public class RESTtimer {
             } else {
                 url = serverURL_0 + "/timerhandler?resttimerMsg=" + timerMsg;
             }
+
             RESTtimerREST restAPI = new RESTtimerREST();
             String ret = restAPI.sendRequest(RESTtimerREST.METHOD_GET, url, null, null, false);
 //            logger.info(ret);
@@ -121,7 +128,6 @@ public class RESTtimer {
         timerExceptionCnt0++;
     }
 
-    
 //    private static int timerCnt = 0;
 //    private static int timerExceptionCnt = 0;
 //    private static long lastTimer = 0;
@@ -173,6 +179,4 @@ public class RESTtimer {
 //        }
 //        timerExceptionCnt++;
 //    }
-
-    
 }
