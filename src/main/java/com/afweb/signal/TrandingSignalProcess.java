@@ -1141,18 +1141,18 @@ public class TrandingSignalProcess {
             trObj.setUpdatedatedisplay(new java.sql.Date(dateNowUpdate.getTimeInMillis()));
             trObj.setUpdatedatel(dateNowUpdate.getTimeInMillis());
         }
-        if (trTradingACCObj
-                != null) {
+        if (trTradingACCObj != null) {
             int trLinkId = trTradingACCObj.getLinktradingruleid();
 //            if (trLinkId == 0) {
 //                trLinkId = ConstantKey.INT_TR_MACD;
 //            }
+
             if (trLinkId != 0) {
                 for (int j = 0; j < tradingRuleList.size(); j++) {
                     TradingRuleObj trObj = (TradingRuleObj) tradingRuleList.get(j);
                     if (trLinkId == trObj.getType()) {
                         trTradingACCObj.setTrsignal(trObj.getTrsignal());
-                        UpdateTRList.add(trObj);
+                        UpdateTRList.add(trTradingACCObj);
                         break;
                     }
                 }
