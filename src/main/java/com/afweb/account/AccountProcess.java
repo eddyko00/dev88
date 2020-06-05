@@ -408,10 +408,10 @@ public class AccountProcess {
                             float delta = (curPrice * trObj.getShortshare()) - trObj.getShortamount();
                             sharebalance = -delta;
                         }
-                        float total =  sharebalance;
+                        float total = sharebalance;
                         accountTotal += total;
                     }
-                    logger.info("> ProcessFundAccount " + accObj.getAccountname() + " curProfit " + accountTotal);
+//                    logger.info("> ProcessFundAccount " + accObj.getAccountname() + " curProfit " + accountTotal);
                     accObj.setBalance(accountTotal);
                     /////////
                     float totalBal = accObj.getInvestment();
@@ -427,6 +427,22 @@ public class AccountProcess {
                             if (stock.getAfstockInfo() == null) {
                                 continue;
                             }
+
+                            boolean notRemoveFlag = true;
+                            if (notRemoveFlag == true) {
+
+                                String trName = ConstantKey.TR_ACC;
+                                TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
+                                // need to get the latest TR object after the SystemAddTransactionOrder
+                                if (trObj.getStatus() != ConstantKey.DISABLE) {
+                                    trObj.setStatus(ConstantKey.DISABLE);
+                                    String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);
+                                    ArrayList sqlList = new ArrayList();
+                                    sqlList.add(updateSQL);
+                                    serviceAFWeb.SystemUpdateSQLList(sqlList);
+                                }
+                            }
+
                             ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
                             if (thList != null) {
                                 if (thList.size() != 0) {
@@ -441,6 +457,7 @@ public class AccountProcess {
                                     }
                                 }
                             }
+
                             int signal = ConstantKey.S_NEUTRAL;
                             String trName = ConstantKey.TR_ACC;
                             TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
@@ -476,7 +493,7 @@ public class AccountProcess {
                                     sharebalance = -delta;
                                 }
                                 float total = sharebalance;
-                                logger.info("> ProcessFundAccount " + accObj.getAccountname() + " " + symbol + " stockProfit " + total);
+//                                logger.info("> ProcessFundAccount " + accObj.getAccountname() + " " + symbol + " stockProfit " + total);
                                 totalBal += total;
 
                                 TRprocessImp.AddTransactionOrderWithComm(serviceAFWeb, accObj, stock, trName, signal, null, false);
