@@ -613,7 +613,7 @@ public class ServiceAFweb {
             NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
 
         }
-        boolean flagNeuralnetCreateJava = true;
+        boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetCreatJava();
 
