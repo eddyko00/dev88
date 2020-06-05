@@ -933,10 +933,11 @@ public class AccountDB {
 
         String sql = ""
                 + "select tradingrule.*, stock.symbol as symbol from tradingrule inner join stock on "
-                + "tradingrule.stockid = stock.id where tradingrule.status=" + ConstantKey.OPEN + " and tradingrule.accountid=" + AccountID;
+                + "tradingrule.stockid = stock.id where tradingrule.accountid=" + AccountID;
 //        String sql = ""
 //                + "select tradingrule.*, stock.symbol as symbol from tradingrule inner join stock on "
-//                + "tradingrule.stockid = stock.id where tradingrule.accountid=" + AccountID;
+//                + "tradingrule.stockid = stock.id where tradingrule.status=" + ConstantKey.OPEN + " and tradingrule.accountid=" + AccountID;
+
 
         if (StockID != null) {
             sql += " and tradingrule.stockid=" + StockID;

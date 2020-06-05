@@ -398,7 +398,9 @@ public class AccountProcess {
                         }
                         float curPrice = stock.getAfstockInfo().getFclose();
                         TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
-
+                        if (trObj == null) {
+                            continue;
+                        }
                         float sharebalance = 0;
                         if (trObj.getTrsignal() == ConstantKey.S_BUY) {
                             float delta = (curPrice * trObj.getLongshare()) - trObj.getLongamount();
@@ -434,8 +436,8 @@ public class AccountProcess {
                                 String trName = ConstantKey.TR_ACC;
                                 TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
                                 // need to get the latest TR object after the SystemAddTransactionOrder
-                                if (trObj.getStatus() != ConstantKey.DISABLE) {
-                                    trObj.setStatus(ConstantKey.DISABLE);
+                                if (trObj.getStatus() != ConstantKey.PENDING) {
+                                    trObj.setStatus(ConstantKey.PENDING);
                                     String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);
                                     ArrayList sqlList = new ArrayList();
                                     sqlList.add(updateSQL);

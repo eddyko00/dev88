@@ -37,7 +37,7 @@ public class ConstantKey {
     public static final int INT_PP_DELUXE = 20;
     public static final int INT_PP_DELUXE_NUM = 20;
     public static final float INT_PP_DELUXE_PRICE = 30;
-    
+
     public static final String MSG_OPEN = "ENABLE";
     public static final int OPEN = 0;
 
@@ -49,7 +49,10 @@ public class ConstantKey {
 
     public static final String MSG_DISABLE = "DISABLE";
     public static final int DISABLE = 1;
-
+    
+    public static final String MSG_PENDING = "PENDING";
+    public static final int PENDING = 2;
+    
     public static final String MSG_NO_ACTIVE = "NO_ACTIVATE";
     public static final int NOACT = 4;
 
@@ -68,7 +71,7 @@ public class ConstantKey {
 
     public static final String MSG_STOCK_SPLIT = "STOCK_SPLIT";
     public static final int STOCK_SPLIT = 10;
-    
+
     public static final String MSG_STOCK_DELTA = "STOCK_DELTA";
     public static final int STOCK_DELTA = 12;
 //// communication type
@@ -136,7 +139,7 @@ public class ConstantKey {
     public static final int INT_TR_NN2 = 5;
 
     public static final String TR_NN3 = "TR_NN3"; //NN for MV
-    public static final int INT_TR_NN3 = 6;    
+    public static final int INT_TR_NN3 = 6;
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final int SIZE_TR = 7;
@@ -169,8 +172,8 @@ public class ConstantKey {
             return INT_TR_NN1;
         } else if (trname.equals(TR_NN2)) {
             return INT_TR_NN2;
-         } else if (trname.equals(TR_NN3)) {
-            return INT_TR_NN3;           
+        } else if (trname.equals(TR_NN3)) {
+            return INT_TR_NN3;
         }
         return 0;
     }
