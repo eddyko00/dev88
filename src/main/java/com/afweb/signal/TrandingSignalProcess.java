@@ -871,7 +871,7 @@ public class TrandingSignalProcess {
                     // need to get the latest TR object after the SystemAddTransactionOrder
                     trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trObj.getTrname());
                     // need to get the latest TR object after the SystemAddTransactionOrder
-                    trObj.setSubstatus(ConstantKey.DISABLE);
+                    trObj.setSubstatus(ConstantKey.OPEN);
                     String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(updateSQL);
