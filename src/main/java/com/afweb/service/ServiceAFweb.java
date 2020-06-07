@@ -952,8 +952,8 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol = "FAZ";
-            String nnName = ConstantKey.TR_NN3;
+            symbol = "AAPL";
+            String nnName = ConstantKey.TR_MACD;
 
 // force manual signal
 //            AccountObj accountAdminObj = null;
@@ -977,12 +977,12 @@ public class ServiceAFweb {
 //                    null, accountid, stockidsymbol, "TR_ACC", 2);
 //            
 //          // will clear the transaction history  
-//            AFstockObj stock = this.getRealTimeStockImp(symbol);
-//            AccountObj accountAdminObj = this.getAdminObjFromCache();
-//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+            AFstockObj stock = this.getRealTimeStockImp(symbol);
+            AccountObj accountAdminObj = this.getAdminObjFromCache();
+            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
 //          update HOU current history of transaction
             TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 
             // update HOU history of transaction
 //            AccountObj accountAObj = getAdminObjFromCache();

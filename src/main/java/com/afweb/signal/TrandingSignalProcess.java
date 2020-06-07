@@ -858,7 +858,12 @@ public class TrandingSignalProcess {
                         //check time only when signal change
                         if (trHistory.getUpdateDatel() > date2yrBack) {
                             // add signal
-                            Calendar dateOffet = TimeConvertion.getCurrentCalendar(trHistory.getUpdateDatel());
+                            long endofDay =  TimeConvertion.addHours(trHistory.getUpdateDatel(), -5);
+                            //// not sure why tran date is one day more (may be daylight saving?????????                            
+                            //// not sure why tran date is one day more (may be daylight saving?????????    
+                            //// not sure why tran date is one day more (may be daylight saving?????????                               
+                            Calendar dateOffet = TimeConvertion.getCurrentCalendar(endofDay);
+                           
                             //Override the stockinfo for the price
                             AFstockInfo afstockInfo = trHistory.getAfstockInfo();
                             stock.setAfstockInfo(afstockInfo);
