@@ -36,16 +36,16 @@ public class ChartService {
                 return null;
             }
             XYChart chart = getlineChartBase(name, xDate, yNormalizeData);
-
+            
             if (buyDate.size() != 0) {
                 addBuyChart(chart, buyDate, buyD);
             } else {
-                System.out.println("> saveChart exception buyDate");
+//                System.out.println("> saveChart exception buyDate");
             }
             if (sellDate.size() != 0) {
                 addSellChart(chart, sellDate, sellD);
             } else {
-                System.out.println("> saveChart exception sellDate");
+//                System.out.println("> saveChart exception sellDate");
             }
             return BitmapEncoder.getBitmapBytes(chart, BitmapEncoder.BitmapFormat.JPG);
         } catch (Exception ex) {
