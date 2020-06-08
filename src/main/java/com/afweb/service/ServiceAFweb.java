@@ -3437,10 +3437,10 @@ public class ServiceAFweb {
                 sellD.add(norClose);
                 sellDate.add(da);
             } else {
-                sellD.add(norClose);
-                sellDate.add(da);
-                buyD.add(norClose);
-                buyDate.add(da);
+//                sellD.add(norClose);
+//                sellDate.add(da);
+//                buyD.add(norClose);
+//                buyDate.add(da);
             }
         }
 
