@@ -3563,6 +3563,7 @@ public class ServiceAFweb {
 //        return ioStream;
 //
 //    }
+    
     public String getAccountStockTRLIstCurrentChartFile(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         try {
