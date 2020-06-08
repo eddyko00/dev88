@@ -3403,10 +3403,10 @@ public class ServiceAFweb {
 //            }
             yD.add(norClose);
 
-            if (j == 0) {
-                noDate.add(da);
-                noD.add(norClose);
-            }
+//            if (j == 0) {
+//                noDate.add(da);
+//                noD.add(norClose);
+//            }
         }
 
         AFstockInfo stockinfo = StockArray.get(0);
@@ -3448,12 +3448,12 @@ public class ServiceAFweb {
             }
         }
 
-        if ((buyDate.size() == 0) && (sellDate.size() == 0)) {
-            buyDate = noDate;
-            buyD = noD;
+//        if ((buyDate.size() == 0) && (sellDate.size() == 0)) {
+//            buyDate = noDate;
+//            buyD = noD;
 //            sellDate = noDate;
 //            sellD = noD;
-        }
+//        }
 
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
