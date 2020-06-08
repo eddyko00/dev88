@@ -4313,17 +4313,17 @@ public class ServiceAFweb {
             ////////////////error in HEROKU and Local //////////////
             /////////////
 
-            AFstockInfo first = mergedList.get(0);
-            AFstockInfo first1 = mergedList.get(1);
-
+//           AFstockInfo first = mergedList.get(0);
+//           AFstockInfo first1 = mergedList.get(1);
+//           logger.info(symbol + "getStockHistorical first " + first.getEntrydatel() + " first-1 " + first1.getEntrydatel());
             AFstockInfo last = mergedList.get(mergedList.size() - 1);
             AFstockInfo last1 = mergedList.get(mergedList.size() - 2);
-            logger.info(symbol + "getStockHistorical first " + first.getEntrydatel() + " first-1 " + first1.getEntrydatel());
-            logger.info(symbol + "getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
 
-            if (first.getEntrydatel() < last.getEntrydatel()) {
-//                Collections.reverse(mergedList);
-                logger.info(symbol + "getStockHistorical reverse mergedList");
+            if (last.getEntrydatel() > last1.getEntrydatel()) {
+                logger.info(symbol + "getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
+                //drop the last one
+                mergedList.remove(last);
+
             }
         }
         return (ArrayList) mergedList;
