@@ -4309,7 +4309,7 @@ public class ServiceAFweb {
             mergedList = StockArray;
 
         }
-        if (mergedList.size() > 0) {
+        if (mergedList.size() > 1) {
             ////////////////error in HEROKU and Local //////////////
             /////////////
 
