@@ -3360,8 +3360,8 @@ public class ServiceAFweb {
 
         ArrayList<TransationOrderObj> thList = this.getAccountStockTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
 
-        System.out.println("> getAccountStockTRLIstCurrentChartDisplay size " + thList.size());
-        System.out.println(EmailUserName + " " + Password + " " + AccountIDSt + " " + stockidsymbol + " " + trname);
+//        System.out.println("> getAccountStockTRLIstCurrentChartDisplay size " + thList.size());
+//        System.out.println(EmailUserName + " " + Password + " " + AccountIDSt + " " + stockidsymbol + " " + trname);
 
         if (thList == null) {
             // still allow to display dummy graph
@@ -3390,26 +3390,15 @@ public class ServiceAFweb {
         List<Date> sellDate = new ArrayList<Date>();
         List<Double> sellD = new ArrayList<Double>();
 
-        List<Date> noDate = new ArrayList<Date>();
-        List<Double> noD = new ArrayList<Double>();
-
         for (int j = 0; j < StockArray.size(); j++) {
             AFstockInfo stockinfo = StockArray.get(j);
 
             Date da = new Date(stockinfo.getEntrydatel());
             xDate.add(da);
-            long stockdatel = TimeConvertion.endOfDayInMillis(stockinfo.getEntrydatel());
             float close = stockinfo.getFclose();
             double norClose = close;
-//            if (j == 0) {
-//                norClose = 0;
-//            }
             yD.add(norClose);
 
-//            if (j == 0) {
-//                noDate.add(da);
-//                noD.add(norClose);
-//            }
         }
 
         AFstockInfo stockinfo = StockArray.get(0);
@@ -3418,8 +3407,6 @@ public class ServiceAFweb {
             TransationOrderObj thObj = thList.get(i);
 
             long THdatel = thObj.getEntrydatel(); //TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
-            System.out.println("stockdatel(0) " + stockdatel + " > " + "THdatel(" + i + ") " + THdatel);
-
             if (stockdatel > THdatel) {
                 continue;
             }
@@ -3454,12 +3441,13 @@ public class ServiceAFweb {
             }
         }
 
-//        if ((buyDate.size() == 0) && (sellDate.size() == 0)) {
-//            buyDate = noDate;
-//            buyD = noD;
-//            sellDate = noDate;
-//            sellD = noD;
-//        }
+        /// add this one to show the trend line
+        Date da = new Date(stockinfo.getEntrydatel());
+        xDate.add(da);
+        float close = stockinfo.getFclose();
+        double norClose = close;
+        yD.add(norClose);
+
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);
@@ -3468,109 +3456,6 @@ public class ServiceAFweb {
 
     }
 
-//    public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
-//
-//        ArrayList<TransationOrderObj> thList = this.getAccountStockTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
-//
-//        if (thList == null) {
-//            // still allow to display dummy graph
-////            return null;
-//            thList = new ArrayList();
-//        }
-//        String symbol = stockidsymbol;
-//        AFstockObj stock = this.getRealTimeStockImp(symbol);
-//        if (stock == null) {
-//            return null;
-//        }
-//        int size1year = 20 * 10;
-//        ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1year);
-//        if (StockArray == null) {
-//            return null;
-//        }
-//
-//        Collections.reverse(StockArray);
-//        Collections.reverse(thList);
-//
-//        List<Date> xDate = new ArrayList<Date>();
-//        List<Double> yD = new ArrayList<Double>();
-//
-//        List<Date> buyDate = new ArrayList<Date>();
-//        List<Double> buyD = new ArrayList<Double>();
-//        List<Date> sellDate = new ArrayList<Date>();
-//        List<Double> sellD = new ArrayList<Double>();
-//
-//        List<Date> noDate = new ArrayList<Date>();
-//        List<Double> noD = new ArrayList<Double>();
-//
-//        for (int j = 0; j < StockArray.size(); j++) {
-//            AFstockInfo stockinfo = StockArray.get(j);
-//
-//            Date da = new Date(stockinfo.getEntrydatel());
-//            xDate.add(da);
-//            long stockdatel = TimeConvertion.endOfDayInMillis(stockinfo.getEntrydatel());
-//            float close = stockinfo.getFclose();
-//            double norClose = close;
-////            if (j == 0) {
-////                norClose = 0;
-////            }
-//            yD.add(norClose);
-//
-//            if (j == 0) {
-//                noDate.add(da);
-//                noD.add(norClose);
-//            }
-//
-//            for (int i = 0; i < thList.size(); i++) {
-//                TransationOrderObj thObj = thList.get(i);
-//                long THdatel = TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
-//                if (stockdatel != THdatel) {
-//                    continue;
-//                }
-//
-//                TransationOrderObj thObjNext = thObj;
-//                if ((thObj.getTrsignal() == ConstantKey.S_BUY) || (thObj.getTrsignal() == ConstantKey.S_SELL)) {
-//                    ;
-//                } else {
-//                    if (i + 1 < thList.size()) {
-//                        thObjNext = thList.get(i + 1);
-//                    }
-//                    long THdatelNext = TimeConvertion.endOfDayInMillis(thObjNext.getEntrydatel());
-//                    if (THdatel == THdatelNext) {
-//                        thObj = thObjNext;
-//                    }
-//                }
-//                int signal = thObj.getTrsignal();
-//                if (signal == ConstantKey.S_BUY) {
-//                    buyD.add(norClose);
-//                    buyDate.add(da);
-//                } else if (signal == ConstantKey.S_SELL) {
-//                    sellD.add(norClose);
-//                    sellDate.add(da);
-//                } else {
-//                    sellD.add(norClose);
-//                    sellDate.add(da);
-//                    buyD.add(norClose);
-//                    buyDate.add(da);
-//                }
-//                break;
-//            }
-//
-//        }
-//        if (buyDate.size() == 0) {
-//            buyDate = noDate;
-//            buyD = noD;
-//        }
-//        if (sellDate.size() == 0) {
-//            sellDate = noDate;
-//            sellD = noD;
-//        }
-//        ChartService chart = new ChartService();
-//        byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
-//                xDate, yD, buyDate, buyD, sellDate, sellD);
-//
-//        return ioStream;
-//
-//    }
     public String getAccountStockTRLIstCurrentChartFile(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         try {
