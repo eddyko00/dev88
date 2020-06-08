@@ -3409,10 +3409,14 @@ public class ServiceAFweb {
             }
         }
 
+        AFstockInfo stockinfo = StockArray.get(0);
+        long stockdatel = stockinfo.getEntrydatel();
         for (int i = 0; i < thList.size(); i++) {
             TransationOrderObj thObj = thList.get(i);
             long THdatel = TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
-
+            if (stockdatel > THdatel) {
+                continue;
+            }
             TransationOrderObj thObjNext = thObj;
             if ((thObj.getTrsignal() == ConstantKey.S_BUY) || (thObj.getTrsignal() == ConstantKey.S_SELL)) {
                 ;
@@ -3444,14 +3448,13 @@ public class ServiceAFweb {
             }
         }
 
-        if (buyDate.size() == 0) {
+        if ((buyDate.size() == 0) && (sellDate.size() == 0)) {
             buyDate = noDate;
             buyD = noD;
+//            sellDate = noDate;
+//            sellD = noD;
         }
-        if (sellDate.size() == 0) {
-            sellDate = noDate;
-            sellD = noD;
-        }
+
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);
@@ -3563,7 +3566,6 @@ public class ServiceAFweb {
 //        return ioStream;
 //
 //    }
-    
     public String getAccountStockTRLIstCurrentChartFile(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         try {
