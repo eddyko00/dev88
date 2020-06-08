@@ -3360,6 +3360,9 @@ public class ServiceAFweb {
 
         ArrayList<TransationOrderObj> thList = this.getAccountStockTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
 
+        System.out.println("> getAccountStockTRLIstCurrentChartDisplay size " + thList.size());
+        System.out.println(EmailUserName + " " + Password + " " + AccountIDSt + " " + stockidsymbol + " " + trname);
+
         if (thList == null) {
             // still allow to display dummy graph
 //            return null;
@@ -3454,7 +3457,6 @@ public class ServiceAFweb {
 //            sellDate = noDate;
 //            sellD = noD;
 //        }
-
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);
