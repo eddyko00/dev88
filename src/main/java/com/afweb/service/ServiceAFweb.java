@@ -4205,6 +4205,7 @@ public class ServiceAFweb {
         return stockInfoArray;
     }
 
+    /////recent day first and the old data last////////////
     public ArrayList<AFstockInfoDisplay> getStockHistoricalDisplay(String symbol, int length) {
 
         ArrayList<AFstockInfoDisplay> dspList = new ArrayList();
@@ -4308,7 +4309,16 @@ public class ServiceAFweb {
             mergedList = StockArray;
 
         }
-
+        if (mergedList.size() > 0) {
+            ////////////////error in HEROKU and Local //////////////
+            /////////////
+            AFstockInfo first = mergedList.get(0);
+            AFstockInfo last = mergedList.get(0);
+            if (first.getEntrydatel() < last.getEntrydatel()) {
+                Collections.reverse(mergedList);
+                logger.info("getStockHistorical reverse mergedList");
+            }
+        }
         return (ArrayList) mergedList;
     }
 
