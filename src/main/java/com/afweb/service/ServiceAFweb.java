@@ -3413,7 +3413,7 @@ public class ServiceAFweb {
         long stockdatel = stockinfo.getEntrydatel();
         for (int i = 0; i < thList.size(); i++) {
             TransationOrderObj thObj = thList.get(i);
-            long THdatel = TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
+            long THdatel = thObj.getEntrydatel(); //TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
             if (stockdatel > THdatel) {
                 continue;
             }
