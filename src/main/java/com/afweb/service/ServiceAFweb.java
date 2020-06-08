@@ -3416,7 +3416,10 @@ public class ServiceAFweb {
         long stockdatel = stockinfo.getEntrydatel();
         for (int i = 0; i < thList.size(); i++) {
             TransationOrderObj thObj = thList.get(i);
+
             long THdatel = thObj.getEntrydatel(); //TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
+            System.out.println("stockdatel(0) " + stockdatel + " > " + "THdatel(" + i + ") " + THdatel);
+
             if (stockdatel > THdatel) {
                 continue;
             }
