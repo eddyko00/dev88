@@ -4313,7 +4313,7 @@ public class ServiceAFweb {
             ////////////////error in HEROKU and Local //////////////
             /////////////
             AFstockInfo first = mergedList.get(0);
-            AFstockInfo last = mergedList.get(0);
+            AFstockInfo last = mergedList.get(mergedList.size()-1);
             if (first.getEntrydatel() < last.getEntrydatel()) {
                 Collections.reverse(mergedList);
                 logger.info("getStockHistorical reverse mergedList");
