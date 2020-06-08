@@ -4312,11 +4312,18 @@ public class ServiceAFweb {
         if (mergedList.size() > 0) {
             ////////////////error in HEROKU and Local //////////////
             /////////////
+
             AFstockInfo first = mergedList.get(0);
-            AFstockInfo last = mergedList.get(mergedList.size()-1);
+            AFstockInfo first1 = mergedList.get(1);
+
+            AFstockInfo last = mergedList.get(mergedList.size() - 1);
+            AFstockInfo last1 = mergedList.get(mergedList.size() - 2);
+            logger.info(symbol + "getStockHistorical first " + first.getEntrydatel() + " first-1 " + first1.getEntrydatel());
+            logger.info(symbol + "getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
+
             if (first.getEntrydatel() < last.getEntrydatel()) {
-                Collections.reverse(mergedList);
-                logger.info("getStockHistorical reverse mergedList");
+//                Collections.reverse(mergedList);
+                logger.info(symbol + "getStockHistorical reverse mergedList");
             }
         }
         return (ArrayList) mergedList;
