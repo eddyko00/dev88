@@ -3362,7 +3362,6 @@ public class ServiceAFweb {
 
 //        System.out.println("> getAccountStockTRLIstCurrentChartDisplay size " + thList.size());
 //        System.out.println(EmailUserName + " " + Password + " " + AccountIDSt + " " + stockidsymbol + " " + trname);
-
         if (thList == null) {
             // still allow to display dummy graph
 //            return null;
@@ -4187,9 +4186,10 @@ public class ServiceAFweb {
             long StockInfoEOD = TimeConvertion.endOfDayInMillis(StockInfo.getEntrydatel());
             if (mergeInfoEOD == StockInfoEOD) {
                 StockArray.remove(0);
-                StockArray.add(0, mergedList.get(0));
+                StockArray.add(0, mergeInfo);
             } else {
-                StockArray.add(mergedList.get(0));
+                logger.info(symbol + " getStockHistorical StockInfo " + StockInfo.getEntrydatel() + " mergeInfo " + mergeInfo.getEntrydatel());
+//                StockArray.add(mergeInfo);
             }
             mergedList = StockArray;
 
@@ -4205,7 +4205,7 @@ public class ServiceAFweb {
             AFstockInfo last1 = mergedList.get(mergedList.size() - 2);
 
             if (last.getEntrydatel() > last1.getEntrydatel()) {
-                logger.info(symbol + "getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
+                logger.info(symbol + " getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
                 //drop the last one
                 mergedList.remove(last);
 
