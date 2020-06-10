@@ -4180,6 +4180,7 @@ public class ServiceAFweb {
             if (StockArray.size() == 0) {
                 return StockArray;
             }
+
             AFstockInfo mergeInfo = mergedList.get(0);
             long mergeInfoEOD = TimeConvertion.endOfDayInMillis(mergeInfo.getEntrydatel());
             AFstockInfo StockInfo = StockArray.get(0);
@@ -4188,15 +4189,17 @@ public class ServiceAFweb {
                 StockArray.remove(0);
                 StockArray.add(0, mergeInfo);
             } else {
-                logger.info(symbol + " getStockHistorical StockInfo " + StockInfo.getEntrydatel() + " mergeInfo " + mergeInfo.getEntrydatel());
+//                logger.info(symbol + " getStockHistorical StockInfo " + StockInfo.getEntrydatel() + " mergeInfo " + mergeInfo.getEntrydatel());
 //                StockArray.add(mergeInfo);
             }
             mergedList = StockArray;
 
         }
+        
+        ////////////////error in HEROKU and Local not sure why?????? //////////////
+        ////////////////error in HEROKU and Local not sure why?????? //////////////
+        ////////////////error in HEROKU and Local not sure why?????? //////////////
         if (mergedList.size() > 1) {
-            ////////////////error in HEROKU and Local //////////////
-            /////////////
 
 //           AFstockInfo first = mergedList.get(0);
 //           AFstockInfo first1 = mergedList.get(1);
@@ -4205,8 +4208,8 @@ public class ServiceAFweb {
             AFstockInfo last1 = mergedList.get(mergedList.size() - 2);
 
             if (last.getEntrydatel() > last1.getEntrydatel()) {
-                logger.info(symbol + " getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
-                //drop the last one
+//                logger.info(symbol + " getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
+                //drop the last become only the last one become the current day (not happen in local) 
                 mergedList.remove(last);
 
             }
