@@ -127,15 +127,18 @@ public class FundMgrProcess {
             long currentTime = System.currentTimeMillis();
             long lockDate2Min = TimeConvertion.addMinutes(currentTime, 2);
 
+            int numProc = 0;
             for (int k = 0; k < 10; k++) {
                 currentTime = System.currentTimeMillis();
-                if (lockDate2Min < currentTime) {
-                    break;
-                }
+//                if (lockDate2Min < currentTime) {
+//                    break;
+//                }
                 if (accountFundIdNameArray.size() == 0) {
                     break;
                 }
-
+                if (numProc > 3) {
+                    break;
+                }
                 try {
                     String accountIdSt = (String) accountFundIdNameArray.get(0);
                     accountFundIdNameArray.remove(0);
@@ -143,6 +146,7 @@ public class FundMgrProcess {
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         updateMutualFundBestStock(serviceAFWeb, accountObj);
+                        numProc++;
                     }
                 } catch (Exception e) {
                     logger.info("> ProcessFundAccount Exception " + e.getMessage());
@@ -289,8 +293,8 @@ public class FundMgrProcess {
                     portfolioArray.add("DIA");
                     portfolioArray.add("QQQ");
                     portfolioArray.add("XIU.TO");
-                    portfolioArray.add("GLD");                    
-                    portfolioArray.add("IWM");                      
+                    portfolioArray.add("GLD");
+                    portfolioArray.add("IWM");
                     fundMgr.setFunL(portfolioArray);
                     String portfStr;
                     try {

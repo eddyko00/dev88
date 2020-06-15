@@ -4195,7 +4195,7 @@ public class ServiceAFweb {
             mergedList = StockArray;
 
         }
-        
+
         ////////////////error in HEROKU and Local not sure why?????? //////////////
         ////////////////error in HEROKU and Local not sure why?????? //////////////
         ////////////////error in HEROKU and Local not sure why?????? //////////////
