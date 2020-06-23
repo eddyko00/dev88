@@ -6,7 +6,7 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.NNInputDataObj;
 import com.afweb.nn.NNInputOutObj;
 
-import com.afweb.nn.NeuralNetwork;
+//import com.afweb.nn.NeuralNetwork;
 import com.afweb.nnBP.NNBPservice;
 import com.afweb.service.ServiceAFweb;
 
@@ -334,25 +334,25 @@ public class StockImp {
     public int initNeuralNetBPObj() {
         return stockdb.initNeuralNetBPObj();
     }
-
-    public int releaseNeuralNetObj(String name) {
-
-        String nameSt = stockdb.getNeuralNetName1(name);
-        if (nameSt != null) {
-            AFneuralNet nnObj = getNeuralNetObjWeight1(name);
-            NeuralNetwork nnTemp = new NeuralNetwork();
-            nnTemp.createNeuralNetbyWeight(nnObj.getWeight());
-            nnTemp.setInput(null);
-            nnTemp.setTarget(null);
-            String weightSt = nnTemp.getNeuralNetObjSt();
-            int ret = setCreateNeuralNetObj0(name, weightSt);
-            if (ret == 1) {
-                setCreateNeuralNetObj1(name, "");
-                return stockdb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
-            }
-        }
-        return 0;
-    }
+//
+//    public int releaseNeuralNetObj(String name) {
+//
+//        String nameSt = stockdb.getNeuralNetName1(name);
+//        if (nameSt != null) {
+//            AFneuralNet nnObj = getNeuralNetObjWeight1(name);
+//            NeuralNetwork nnTemp = new NeuralNetwork();
+//            nnTemp.createNeuralNetbyWeight(nnObj.getWeight());
+//            nnTemp.setInput(null);
+//            nnTemp.setTarget(null);
+//            String weightSt = nnTemp.getNeuralNetObjSt();
+//            int ret = setCreateNeuralNetObj0(name, weightSt);
+//            if (ret == 1) {
+//                setCreateNeuralNetObj1(name, "");
+//                return stockdb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
+//            }
+//        }
+//        return 0;
+//    }
 
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name) {
         return stockdb.getNeuralNetDataObj(name);
