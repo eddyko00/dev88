@@ -5,12 +5,14 @@
  */
 package com.afweb.service;
 
+import com.afweb.nnprocess.TradingNNprocess;
 import com.afweb.model.*;
 import com.afweb.account.*;
 import com.afweb.chart.ChartService;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.nnprocess.NNProcess;
 
 import com.afweb.signal.*;
 import com.afweb.stock.*;
@@ -598,21 +600,26 @@ public class ServiceAFweb {
     public static boolean forceNNReadFileflag = false;
 
     private void processNeuralNet() {
+        NNProcess nnProc = new NNProcess();
+        nnProc.processNeuralNet(this);
+        
+        
+
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagNeuralnetInput = false;
-        if (flagNeuralnetInput == true) {
-            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
-            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
-
-        }
-        boolean flagNeuralnetTrain = false;
-        if (flagNeuralnetTrain == true) {
-            // start training
-            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
-
-        }
+//        boolean flagNeuralnetInput = false;
+//        if (flagNeuralnetInput == true) {
+//            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
+//            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
+//
+//        }
+//        boolean flagNeuralnetTrain = false;
+//        if (flagNeuralnetTrain == true) {
+//            // start training
+//            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
+//
+//        }
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetCreatJava();
@@ -1161,28 +1168,28 @@ public class ServiceAFweb {
     // training neural net input data
     // create neural net input data
     //     
-    private void NeuralNetInputTesting(int TR_Name) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-
-        boolean createTrain = true;
-        if (createTrain == true) {
-            int sizeYr = 3;
-            String nnName = ConstantKey.TR_NN1;
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-            }
-
-            for (int j = 0; j < sizeYr; j++) { //4; j++) {
-                int size = 20 * CKey.MONTH_SIZE * j;
-//                writeArrayNeuralNet.clear();
-                initTrainNeuralNetNumber = j + 1;
-
-                NNProcessImp.trainingNNdataAll(this, TR_Name, size);
-
-            }
-        }
-        // create neural net input data
-    }
+//    private void NeuralNetInputTesting(int TR_Name) {
+//        TradingNNprocess NNProcessImp = new TradingNNprocess();
+//
+//        boolean createTrain = true;
+//        if (createTrain == true) {
+//            int sizeYr = 3;
+//            String nnName = ConstantKey.TR_NN1;
+//            if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                nnName = ConstantKey.TR_NN2;
+//            }
+//
+//            for (int j = 0; j < sizeYr; j++) { //4; j++) {
+//                int size = 20 * CKey.MONTH_SIZE * j;
+////                writeArrayNeuralNet.clear();
+//                initTrainNeuralNetNumber = j + 1;
+//
+//                NNProcessImp.trainingNNdataAll(this, TR_Name, size);
+//
+//            }
+//        }
+//        // create neural net input data
+//    }
 
     public int updateDBneuralnetDataProcess() {
         String tableName = "neuralnetdata";
@@ -1368,61 +1375,61 @@ public class ServiceAFweb {
         return false;
     }
 
-    private void NeuralNetProcessTesting(int TR_Name) {
-        ///////////////////////////////////////////////////////////////////////////////////
-        // read new NN data
-        forceNNReadFileflag = true; // should be true to get it from file instead from db
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-        boolean initTrainNeuralNet = true;
-        if (initTrainNeuralNet == true) {
-
-            double errorNN = CKey.NN1_ERROR_THRESHOLD;
-            String nnName = ConstantKey.TR_NN1;
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-                errorNN = CKey.NN2_ERROR_THRESHOLD;
-            }
-            String BPname = CKey.NN_version + "_" + nnName;
-            // Not need to do neural net for NN2. Same NN weight for NN1 and NN2
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                return;
-            }
-
-            boolean flagInit = true;
-            if (flagInit == true) {
-                AFneuralNet afNeuralNet = getNeuralNetObjWeight1(BPname, 0);
-                if (afNeuralNet == null) {
-                    afNeuralNet = new AFneuralNet();
-                    afNeuralNet.setName(BPname);
-                    afNeuralNet.setStatus(ConstantKey.OPEN);
-                    afNeuralNet.setType(0);
-                    Calendar dateDefault = TimeConvertion.getDefaultCalendar();
-                    afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
-                    afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-                    String weightSt = (CKey.NN1_WEIGHT_0);
-                    afNeuralNet.setWeight(weightSt);
-                    setNeuralNetObjWeight1(afNeuralNet);
-                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN1_WEIGHT_0");
-                } else {
-                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
-                }
-            }
-
-            for (int i = 0; i < 20; i++) {
-                int retflag = 0;
-                if (TR_Name == ConstantKey.INT_TR_NN1) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(this, nnName, errorNN);
-                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
-                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(this, nnName, errorNN);
-                }
-                if (retflag == 1) {
-                    break;
-                }
-                logger.info(">>> initTrainNeuralNet " + i);
-            }
-        }
-
-    }
+//    private void NeuralNetProcessTesting(int TR_Name) {
+//        ///////////////////////////////////////////////////////////////////////////////////
+//        // read new NN data
+//        forceNNReadFileflag = true; // should be true to get it from file instead from db
+//        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//        boolean initTrainNeuralNet = true;
+//        if (initTrainNeuralNet == true) {
+//
+//            double errorNN = CKey.NN1_ERROR_THRESHOLD;
+//            String nnName = ConstantKey.TR_NN1;
+//            if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                nnName = ConstantKey.TR_NN2;
+//                errorNN = CKey.NN2_ERROR_THRESHOLD;
+//            }
+//            String BPname = CKey.NN_version + "_" + nnName;
+//            // Not need to do neural net for NN2. Same NN weight for NN1 and NN2
+//            if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                return;
+//            }
+//
+//            boolean flagInit = true;
+//            if (flagInit == true) {
+//                AFneuralNet afNeuralNet = getNeuralNetObjWeight1(BPname, 0);
+//                if (afNeuralNet == null) {
+//                    afNeuralNet = new AFneuralNet();
+//                    afNeuralNet.setName(BPname);
+//                    afNeuralNet.setStatus(ConstantKey.OPEN);
+//                    afNeuralNet.setType(0);
+//                    Calendar dateDefault = TimeConvertion.getDefaultCalendar();
+//                    afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
+//                    afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
+//                    String weightSt = (CKey.NN1_WEIGHT_0);
+//                    afNeuralNet.setWeight(weightSt);
+//                    setNeuralNetObjWeight1(afNeuralNet);
+//                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN1_WEIGHT_0");
+//                } else {
+//                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
+//                }
+//            }
+//
+//            for (int i = 0; i < 20; i++) {
+//                int retflag = 0;
+//                if (TR_Name == ConstantKey.INT_TR_NN1) {
+//                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(this, nnName, errorNN);
+//                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(this, nnName, errorNN);
+//                }
+//                if (retflag == 1) {
+//                    break;
+//                }
+//                logger.info(">>> initTrainNeuralNet " + i);
+//            }
+//        }
+//
+//    }
 
     public static void AFSleep() {
         // delay seems causing openshif not working        

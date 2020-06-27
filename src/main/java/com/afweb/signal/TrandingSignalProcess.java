@@ -5,6 +5,7 @@
  */
 package com.afweb.signal;
 
+import com.afweb.nnprocess.TradingNNprocess;
 import com.afweb.account.*;
 import com.afweb.model.*;
 
