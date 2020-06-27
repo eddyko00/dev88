@@ -398,7 +398,7 @@ public class StockInternet {
                     }
                     AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine);
                     if (StockD == null) {
-                        logger.info("getHistoricalData Exception " + symbol + " " + inLine);
+                        logger.info("getInternetHistoricalScreen Exception " + symbol + " " + inLine);
                         break;
                     }
 
@@ -406,7 +406,7 @@ public class StockInternet {
                 }
 
             } catch (Exception ex) {
-                logger.info("getHistoricalScreen Exception " + inLine);
+                logger.info("getInternetHistoricalScreen Exception " + inLine);
                 conFlag = false;
                 break;
             }

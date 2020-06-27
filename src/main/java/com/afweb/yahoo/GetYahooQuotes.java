@@ -358,7 +358,7 @@ public class GetYahooQuotes {
                     }
                     AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine);
                     if (StockD == null) {
-                        logger.info("getHistoricalData Exception " + symbol + " " + inLine);
+                        logger.info("getHistoricalScreen Exception " + symbol + " " + inLine);
                         break;
                     }
 
