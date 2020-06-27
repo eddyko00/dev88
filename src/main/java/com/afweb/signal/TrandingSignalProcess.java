@@ -2004,37 +2004,37 @@ public class TrandingSignalProcess {
             TrainingNNBP(serviceAFWeb, nnName, nnTraining, 0);
         }
     }
-
-    public void initTrainingNeuralNetFile(ServiceAFweb serviceAFWeb, int TR_Name) {
-        if (getEnv.checkLocalPC() == true) {
-            //get sample
-            String nnName = ConstantKey.TR_NN1;
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-            }
-
-            boolean flagClearInput = true;
-            if (flagClearInput == true) {
-                // delete TR nn1 transaction
-                String BPname = CKey.NN_version + "_" + nnName;
-                serviceAFWeb.getStockImp().deleteNeuralNetData(BPname);
-            }
-
-            ArrayList<NNInputDataObj> inputlist = new ArrayList();
-
-            for (int i = 1; i < 20; i++) {
-                String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + nnName + i + ".csv";
-                logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = readTrainingNeuralNet1(serviceAFWeb, inputlist, nnName, nnFileName);
-                if (i == 0) {
-                    continue;
-                }
-                if (ret == false) {
-                    break;
-                }
-            }
-        }
-    }
+//
+//    public void initTrainingNeuralNetFile(ServiceAFweb serviceAFWeb, int TR_Name) {
+//        if (getEnv.checkLocalPC() == true) {
+//            //get sample
+//            String nnName = ConstantKey.TR_NN1;
+//            if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                nnName = ConstantKey.TR_NN2;
+//            }
+//
+//            boolean flagClearInput = true;
+//            if (flagClearInput == true) {
+//                // delete TR nn1 transaction
+//                String BPname = CKey.NN_version + "_" + nnName;
+//                serviceAFWeb.getStockImp().deleteNeuralNetData(BPname);
+//            }
+//
+//            ArrayList<NNInputDataObj> inputlist = new ArrayList();
+//
+//            for (int i = 1; i < 20; i++) {
+//                String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + nnName + i + ".csv";
+//                logger.info("> initTrainingNeuralNet1 " + nnFileName);
+//                boolean ret = readTrainingNeuralNet1(serviceAFWeb, inputlist, nnName, nnFileName);
+//                if (i == 0) {
+//                    continue;
+//                }
+//                if (ret == false) {
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
 //    public void testXORneuralnet(ServiceAFweb serviceAFWeb) {
 //        String TestName = "xor";

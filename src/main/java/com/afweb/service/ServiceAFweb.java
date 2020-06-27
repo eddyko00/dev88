@@ -620,17 +620,17 @@ public class ServiceAFweb {
 //            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
 //
 //        }
-        boolean flagNeuralnetCreateJava = false;
-        if (flagNeuralnetCreateJava == true) {
-            NeuralNetCreatJava();
-
-        }
+//        boolean flagNeuralnetCreateJava = false;
+//        if (flagNeuralnetCreateJava == true) {
+//            NeuralNetCreatJava();
+//
+//        }
 //        
-        boolean flaginpTrainData = false;
-        if (flaginpTrainData == true) {
-            TRprocessImp.initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN1);
-//          getTRprocessImp().initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN2);
-        }
+//        boolean flaginpTrainData = false;
+//        if (flaginpTrainData == true) {
+//            TRprocessImp.initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN1);
+////          getTRprocessImp().initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN2);
+//        }
 
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work        
@@ -1282,98 +1282,98 @@ public class ServiceAFweb {
         return null;
     }
 
-    private boolean NeuralNetCreatJava() {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-
-        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-
-        try {
-            TRprocessImp.getStaticJavaInputDataFromFile(this, stockInputMap);
-
-            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = compress(inputListRawSt);
-
-            String fileN = ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight0.txt";
-            if (FileUtil.FileTest(fileN) == false) {
-                return false;
-            }
-            StringBuffer msg1 = FileUtil.FileReadText(fileN);
-            String weightSt = msg1.toString();
-            StringBuffer msgWrite = new StringBuffer();
-            msgWrite.append("" ///
-                    + "package com.afweb.nn;\n"
-                    + "\n"
-                    + "public class nnData {\n"
-                    + "\n"
-                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
-            int sizeline = 1000;
-            int len = weightSt.length();
-            int beg = 0;
-            int end = sizeline;
-            while (true) {
-                String st = weightSt.substring(beg, end);
-                msgWrite.append("+ \"" + st + "\"\n");
-                if (end >= len) {
-                    break;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-            msgWrite.append(""
-                    + "            + \"\";\n");
-
-            len = inputListSt.length();
-            beg = 0;
-            end = sizeline;
-            int index = 1;
-            int line = 0;
-            while (true) {
-                if (line == 0) {
-                    msgWrite.append(""
-                            + "    public static String NN1_INPUTLIST" + index + " = \"\"\n"
-                            + "            + \"\"\n");
-                }
-                line++;
-                String st = inputListSt.substring(beg, end);
-
-                msgWrite.append("+ \"" + st + "\"\n");
-
-                if (end >= len) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-
-                    break;
-                }
-                if (line == 20) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-                    line = 0;
-                    index++;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-
-            msgWrite.append(""
-                    + "}\n"
-                    ///
-                    + ""
-            );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nnData.java";
-            FileUtil.FileWriteText(fileN, msgWrite);
-            return true;
-        } catch (Exception ex) {
-        }
-        return false;
-    }
+//    private boolean NeuralNetCreatJava() {
+//        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//
+//        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+//
+//        try {
+//            TRprocessImp.getStaticJavaInputDataFromFile(this, stockInputMap);
+//
+//            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+//            String inputListSt = compress(inputListRawSt);
+//
+//            String fileN = ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight0.txt";
+//            if (FileUtil.FileTest(fileN) == false) {
+//                return false;
+//            }
+//            StringBuffer msg1 = FileUtil.FileReadText(fileN);
+//            String weightSt = msg1.toString();
+//            StringBuffer msgWrite = new StringBuffer();
+//            msgWrite.append("" ///
+//                    + "package com.afweb.nn;\n"
+//                    + "\n"
+//                    + "public class nnData {\n"
+//                    + "\n"
+//                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
+//            int sizeline = 1000;
+//            int len = weightSt.length();
+//            int beg = 0;
+//            int end = sizeline;
+//            while (true) {
+//                String st = weightSt.substring(beg, end);
+//                msgWrite.append("+ \"" + st + "\"\n");
+//                if (end >= len) {
+//                    break;
+//                }
+//                beg = end;
+//                if (end + sizeline <= len) {
+//                    end += sizeline;
+//                } else {
+//                    end = len;
+//                }
+//            }
+//            msgWrite.append(""
+//                    + "            + \"\";\n");
+//
+//            len = inputListSt.length();
+//            beg = 0;
+//            end = sizeline;
+//            int index = 1;
+//            int line = 0;
+//            while (true) {
+//                if (line == 0) {
+//                    msgWrite.append(""
+//                            + "    public static String NN1_INPUTLIST" + index + " = \"\"\n"
+//                            + "            + \"\"\n");
+//                }
+//                line++;
+//                String st = inputListSt.substring(beg, end);
+//
+//                msgWrite.append("+ \"" + st + "\"\n");
+//
+//                if (end >= len) {
+//                    msgWrite.append(""
+//                            + "            + \"\";\n");
+//
+//                    break;
+//                }
+//                if (line == 20) {
+//                    msgWrite.append(""
+//                            + "            + \"\";\n");
+//                    line = 0;
+//                    index++;
+//                }
+//                beg = end;
+//                if (end + sizeline <= len) {
+//                    end += sizeline;
+//                } else {
+//                    end = len;
+//                }
+//            }
+//
+//            msgWrite.append(""
+//                    + "}\n"
+//                    ///
+//                    + ""
+//            );
+//            fileN = ServiceAFweb.FileLocalDebugPath + "nnData.java";
+//            FileUtil.FileWriteText(fileN, msgWrite);
+//            return true;
+//        } catch (Exception ex) {
+//        }
+//        return false;
+//    }
 
 //    private void NeuralNetProcessTesting(int TR_Name) {
 //        ///////////////////////////////////////////////////////////////////////////////////

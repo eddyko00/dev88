@@ -7,19 +7,20 @@ package com.afweb.nnprocess;
 
 import com.afweb.util.CKey;
 import com.afweb.model.*;
-import com.afweb.account.*;
-import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import static com.afweb.nnprocess.TradingNNprocess.logger;
 import com.afweb.service.ServiceAFweb;
+import static com.afweb.service.ServiceAFweb.compress;
 
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -42,7 +43,16 @@ public class NNProcess {
             // start training
             NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
 
-        }        
+        }
+        boolean flagNeuralnetCreateJava = false;
+        if (flagNeuralnetCreateJava == true) {
+            NeuralNetCreatJava(serviceAFWeb);
+
+        }
+        boolean flaginpTrainData = false;
+        if (flaginpTrainData == true) {
+            initTrainingNeuralNetFile(serviceAFWeb, ConstantKey.INT_TR_NN1);
+        }
     }
 
     // training neural net input data
@@ -227,9 +237,7 @@ public class NNProcess {
         return inputList;
     }
 
-    
-
-    private void NeuralNetProcessTesting(ServiceAFweb serviceAFWeb,int TR_Name) {
+    private void NeuralNetProcessTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
         ///////////////////////////////////////////////////////////////////////////////////
         // read new NN data
         serviceAFWeb.forceNNReadFileflag = true; // should be true to get it from file instead from db
@@ -284,6 +292,130 @@ public class NNProcess {
         }
 
     }
-    
-    
+
+    private boolean NeuralNetCreatJava(ServiceAFweb serviceAFWeb) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, stockInputMap);
+
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+            String inputListSt = compress(inputListRawSt);
+
+            String fileN = ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight0.txt";
+            if (FileUtil.FileTest(fileN) == false) {
+                return false;
+            }
+            StringBuffer msg1 = FileUtil.FileReadText(fileN);
+            String weightSt = msg1.toString();
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "\n"
+                    + "public class nnData {\n"
+                    + "\n"
+                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
+            int sizeline = 1000;
+            int len = weightSt.length();
+            int beg = 0;
+            int end = sizeline;
+            while (true) {
+                String st = weightSt.substring(beg, end);
+                msgWrite.append("+ \"" + st + "\"\n");
+                if (end >= len) {
+                    break;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+            msgWrite.append(""
+                    + "            + \"\";\n");
+
+            len = inputListSt.length();
+            beg = 0;
+            end = sizeline;
+            int index = 1;
+            int line = 0;
+            while (true) {
+                if (line == 0) {
+                    msgWrite.append(""
+                            + "    public static String NN1_INPUTLIST" + index + " = \"\"\n"
+                            + "            + \"\"\n");
+                }
+                line++;
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.append("+ \"" + st + "\"\n");
+
+                if (end >= len) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+
+                    break;
+                }
+                if (line == 20) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+                    line = 0;
+                    index++;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
+            fileN = ServiceAFweb.FileLocalDebugPath + "nnData.java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
+    public void initTrainingNeuralNetFile(ServiceAFweb serviceAFWeb, int TR_Name) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        if (getEnv.checkLocalPC() == true) {
+            //get sample
+            String nnName = ConstantKey.TR_NN1;
+            if (TR_Name == ConstantKey.INT_TR_NN2) {
+                nnName = ConstantKey.TR_NN2;
+            }
+
+            boolean flagClearInput = true;
+            if (flagClearInput == true) {
+                // delete TR nn1 transaction
+                String BPname = CKey.NN_version + "_" + nnName;
+                serviceAFWeb.getStockImp().deleteNeuralNetData(BPname);
+            }
+
+            ArrayList<NNInputDataObj> inputlist = new ArrayList();
+
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + nnName + i + ".csv";
+                logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = TRprocessImp.readTrainingNeuralNet1(serviceAFWeb, inputlist, nnName, nnFileName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
+        }
+    }
+
 }
