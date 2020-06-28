@@ -380,6 +380,7 @@ public class GetYahooQuotes {
     // always the earliest day first
     public ArrayList<AFstockInfo> getHistoricalData(String symbol, long startDate, long endDate) throws IOException {
         ///// some issue in the weekend get error essage
+        // <!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
         ///// some issue in the weekend get error essage
         ServiceAFweb.AFSleepSec(5);
         ///// some issue in the weekend get error essage
