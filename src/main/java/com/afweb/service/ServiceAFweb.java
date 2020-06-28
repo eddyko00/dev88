@@ -602,8 +602,6 @@ public class ServiceAFweb {
     private void processNeuralNet() {
         NNProcess nnProc = new NNProcess();
         nnProc.processNeuralNet(this);
-        
-        
 
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -631,7 +629,6 @@ public class ServiceAFweb {
 //            TRprocessImp.initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN1);
 ////          getTRprocessImp().initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN2);
 //        }
-
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work        
         boolean flaginputStock = false;
@@ -1190,7 +1187,6 @@ public class ServiceAFweb {
 //        }
 //        // create neural net input data
 //    }
-
     public int updateDBneuralnetDataProcess() {
         String tableName = "neuralnetdata";
         try {
@@ -1374,7 +1370,6 @@ public class ServiceAFweb {
 //        }
 //        return false;
 //    }
-
 //    private void NeuralNetProcessTesting(int TR_Name) {
 //        ///////////////////////////////////////////////////////////////////////////////////
 //        // read new NN data
@@ -1430,6 +1425,16 @@ public class ServiceAFweb {
 //        }
 //
 //    }
+    public static void AFSleepSec(int sec) {
+        // delay seems causing openshif not working        
+        if (true) {
+            return;
+        }
+        try {
+            Thread.sleep(sec * 1000);
+        } catch (Exception ex) {
+        }
+    }
 
     public static void AFSleep() {
         // delay seems causing openshif not working        

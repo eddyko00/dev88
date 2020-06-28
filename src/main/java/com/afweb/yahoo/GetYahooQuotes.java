@@ -379,7 +379,8 @@ public class GetYahooQuotes {
     // always the earliest day first
     // always the earliest day first
     public ArrayList<AFstockInfo> getHistoricalData(String symbol, long startDate, long endDate) throws IOException {
-
+        ServiceAFweb.AFSleepSec(5);
+        
         // try to get the max 6 year
         int Max6YrStock = CKey.DATA6YEAR;
         String crumb = getCrumb(symbol);
@@ -390,6 +391,7 @@ public class GetYahooQuotes {
             logger.info("getHistoricalData crumb empyt " + symbol);
             return null;
         }
+        ServiceAFweb.AFSleepSec(5);        
         String url = String.format("https://query1.finance.yahoo.com/v7/finance/download/%s?period1=%s&period2=%s&interval=1d&events=history&crumb=%s", symbol, startDate, endDate, crumb);
         HttpGet request = new HttpGet(url);
 //        logger.info("getHistoricalData " + url);
