@@ -9,24 +9,28 @@ import com.afweb.util.CKey;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import static com.afweb.nnprocess.TradingNNprocess.logger;
 import com.afweb.service.ServiceAFweb;
-import static com.afweb.service.ServiceAFweb.compress;
+import static com.afweb.service.ServiceAFweb.*;
 
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 /**
  *
  * @author eddyko
  */
 public class NNProcess {
+
+    public static Logger logger = Logger.getLogger("NNProcess");
 
     public void processNeuralNet(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -53,6 +57,13 @@ public class NNProcess {
         if (flaginpTrainData == true) {
             initTrainingNeuralNetFile(serviceAFWeb, ConstantKey.INT_TR_NN1);
         }
+
+//        boolean retrainupdateinputflag = false;
+//        if (retrainupdateinputflag == true) {
+//            updateDBneuralnetDataProcess(serviceAFWeb);
+//
+//        }
+
     }
 
     // training neural net input data
@@ -417,5 +428,49 @@ public class NNProcess {
             }
         }
     }
+//
+//    public int updateDBneuralnetDataProcess(ServiceAFweb serviceAFWeb) {
+//        String tableName = "neuralnetdata";
+//        try {
+//            ArrayList<String> writeArray = new ArrayList();
+//            String fName = FileLocalPath + tableName + ".txt";
+//            if (FileUtil.FileTest(fName) == false) {
+//                return 0;
+//            }
+//            FileUtil.FileReadTextArray(fName, writeArray);
+//            ArrayList<String> writeSQLArray = new ArrayList();
+//            logger.info("> updateDBneuralnetDataProcess " + tableName + " " + writeArray.size());
+//            int totalAdd = 0;
+//            int totalDup = 0;
+//            for (int i = 0; i < writeArray.size(); i++) {
+//                String output = writeArray.get(i);
+//                AFneuralNetData objData = new ObjectMapper().readValue(output, AFneuralNetData.class);
+//                boolean flagtype = true;
+//                if (flagtype == true) {
+//                    if (objData.getType() != 0) {
+//                        totalDup++;
+//                        continue;
+//                    }
+//                }
+//                ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(objData.getName(), objData.getType(), objData.getUpdatedatel());
+//                if (objList == null) {
+//                    continue;
+//                }
+//                if (objList.size() != 0) {
+//                    totalDup++;
+//                    continue;
+//                }
+//                serviceAFWeb.getStockImp().insertNeuralNetDataObject(objData);
+//                totalAdd++;
+//            }
+//            logger.info("> updateDBneuralnetDataProcess  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+//
+//            return 1;
+//
+//        } catch (IOException ex) {
+//            logger.info("> restoreDBneuralnetDataProcess - exception " + ex);
+//        }
+//        return 0;
+//    }
 
 }

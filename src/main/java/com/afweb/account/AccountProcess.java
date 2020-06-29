@@ -1072,103 +1072,103 @@ public class AccountProcess {
         }
         return offset;
     }
-
-    //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
-    public void updateAllStockFile(ServiceAFweb serviceAFWeb) {
-
-////////////////////////////////////////////////////        
-//    public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
-        for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-            String stockN = ServiceAFweb.primaryStock[i];
-            updateStockFile(serviceAFWeb, stockN);
-        }
-
-    }
-
-    public boolean updateStockFile(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        this.serviceAFWeb = serviceAFWeb;
-        ArrayList inputArray = new ArrayList();
-        String nnFileName = ServiceAFweb.FileLocalPath + NormalizeSymbol + ".csv";
-        if (FileUtil.FileTest(nnFileName) == false) {
-            logger.info("updateStockFile not found " + nnFileName);
-            return false;
-        }
-
-        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
-        serviceAFWeb.getStockImp().deleteStockInfoByStockId(stock);
-
-        ArrayList<AFstockInfo> StockArray = new ArrayList();
-        boolean ret = FileUtil.FileReadTextArray(nnFileName, inputArray);
-        if (ret == true) {
-            int LineNum = 0;
-            String inLine = "";
-            for (int i = 0; i < inputArray.size(); i++) {
-                inLine = (String) inputArray.get(i);
-                LineNum++;
-                //Date,Open,High,Low,Close,Adj Close,Volume
-                if (inLine.indexOf("Date,Open") != -1) {
-                    continue;
-                }
-                //1995-04-14,null,null,null,null,null,null
-                if (inLine.indexOf("null,null,null") != -1) {
-                    continue;
-                }
-                if (inLine.indexOf("Dividend") != -1) {
-                    continue;
-                }
-                if (inLine.indexOf("Stock Split") != -1) {
-                    break;
-                }
-                if (inLine.indexOf("-,-,-,-,-") != -1) {
-                    continue;
-                }
-                AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine);
-                if (StockD == null) {
-                    logger.info("updateStockFile Exception " + NormalizeSymbol + " " + inLine);
-                    break;
-                }
-
-                StockArray.add(StockD);
-            }
-            logger.info("updateStockFile  " + NormalizeSymbol + " " + StockArray.size());
-            if (StockArray.size() == 0) {
-                return false;
-            }
-            ArrayList<AFstockInfo> StockSendArray = new ArrayList();
-            int index = 0;
-//            Collections.reverse(StockArray);
-            for (int i = 0; i < StockArray.size(); i++) {
-
-                StockSendArray.add(StockArray.get(i));
-                index++;
-                if (index > 99) {
-                    index = 0;
-//                    Collections.reverse(StockSendArray);
-                    StockInfoTranObj stockInfoTran = new StockInfoTranObj();
-                    stockInfoTran.setNormalizeName(NormalizeSymbol);
-                    stockInfoTran.setStockInfoList(StockSendArray);
-                    // require oldest date to earliest
-                    // require oldest date to earliest
-                    int retTran = serviceAFWeb.updateStockInfoTransaction(stockInfoTran);
-                    if (retTran == 0) {
-                        return false;
-                    }
-                    StockSendArray.clear();
-                }
-
-            }
-//            Collections.reverse(StockSendArray);
-            StockInfoTranObj stockInfoTran = new StockInfoTranObj();
-            stockInfoTran.setNormalizeName(NormalizeSymbol);
-            stockInfoTran.setStockInfoList(StockSendArray);
-//                logger.info("updateRealTimeStock send " + StockSendArray.size());
-
-            // require oldest date to earliest
-            // require oldest date to earliest
-            serviceAFWeb.updateStockInfoTransaction(stockInfoTran);
-        }
-        return true;
-    }
+//
+//    //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
+//    public void updateAllStockFile(ServiceAFweb serviceAFWeb) {
+//
+//////////////////////////////////////////////////////        
+////    public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
+//        for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+//            String stockN = ServiceAFweb.primaryStock[i];
+//            updateStockFile(serviceAFWeb, stockN);
+//        }
+//
+//    }
+//
+//    public boolean updateStockFile(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+//        this.serviceAFWeb = serviceAFWeb;
+//        ArrayList inputArray = new ArrayList();
+//        String nnFileName = ServiceAFweb.FileLocalPath + NormalizeSymbol + ".csv";
+//        if (FileUtil.FileTest(nnFileName) == false) {
+//            logger.info("updateStockFile not found " + nnFileName);
+//            return false;
+//        }
+//
+//        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+//        serviceAFWeb.getStockImp().deleteStockInfoByStockId(stock);
+//
+//        ArrayList<AFstockInfo> StockArray = new ArrayList();
+//        boolean ret = FileUtil.FileReadTextArray(nnFileName, inputArray);
+//        if (ret == true) {
+//            int LineNum = 0;
+//            String inLine = "";
+//            for (int i = 0; i < inputArray.size(); i++) {
+//                inLine = (String) inputArray.get(i);
+//                LineNum++;
+//                //Date,Open,High,Low,Close,Adj Close,Volume
+//                if (inLine.indexOf("Date,Open") != -1) {
+//                    continue;
+//                }
+//                //1995-04-14,null,null,null,null,null,null
+//                if (inLine.indexOf("null,null,null") != -1) {
+//                    continue;
+//                }
+//                if (inLine.indexOf("Dividend") != -1) {
+//                    continue;
+//                }
+//                if (inLine.indexOf("Stock Split") != -1) {
+//                    break;
+//                }
+//                if (inLine.indexOf("-,-,-,-,-") != -1) {
+//                    continue;
+//                }
+//                AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine);
+//                if (StockD == null) {
+//                    logger.info("updateStockFile Exception " + NormalizeSymbol + " " + inLine);
+//                    break;
+//                }
+//
+//                StockArray.add(StockD);
+//            }
+//            logger.info("updateStockFile  " + NormalizeSymbol + " " + StockArray.size());
+//            if (StockArray.size() == 0) {
+//                return false;
+//            }
+//            ArrayList<AFstockInfo> StockSendArray = new ArrayList();
+//            int index = 0;
+////            Collections.reverse(StockArray);
+//            for (int i = 0; i < StockArray.size(); i++) {
+//
+//                StockSendArray.add(StockArray.get(i));
+//                index++;
+//                if (index > 99) {
+//                    index = 0;
+////                    Collections.reverse(StockSendArray);
+//                    StockInfoTranObj stockInfoTran = new StockInfoTranObj();
+//                    stockInfoTran.setNormalizeName(NormalizeSymbol);
+//                    stockInfoTran.setStockInfoList(StockSendArray);
+//                    // require oldest date to earliest
+//                    // require oldest date to earliest
+//                    int retTran = serviceAFWeb.updateStockInfoTransaction(stockInfoTran);
+//                    if (retTran == 0) {
+//                        return false;
+//                    }
+//                    StockSendArray.clear();
+//                }
+//
+//            }
+////            Collections.reverse(StockSendArray);
+//            StockInfoTranObj stockInfoTran = new StockInfoTranObj();
+//            stockInfoTran.setNormalizeName(NormalizeSymbol);
+//            stockInfoTran.setStockInfoList(StockSendArray);
+////                logger.info("updateRealTimeStock send " + StockSendArray.size());
+//
+//            // require oldest date to earliest
+//            // require oldest date to earliest
+//            serviceAFWeb.updateStockInfoTransaction(stockInfoTran);
+//        }
+//        return true;
+//    }
 
 ////////////////////////////////////////    
 ////////////////uploadDBData////////////////////////    

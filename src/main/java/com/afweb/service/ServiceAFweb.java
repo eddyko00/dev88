@@ -633,16 +633,11 @@ public class ServiceAFweb {
         // need this only if yahoo get history stock does not work        
         boolean flaginputStock = false;
         if (flaginputStock == true) {
-            getAccountProcessImp().updateAllStockFile(this);
+            StockInternet.updateAllStockFile(this);
         }
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work 
 
-        boolean retrainupdateinputflag = false;
-        if (retrainupdateinputflag == true) {
-            updateDBneuralnetDataProcess();
-
-        }
 
         boolean flagRetrainData = false;
         if (flagRetrainData == true) {
@@ -727,7 +722,7 @@ public class ServiceAFweb {
 
                     getStockImp().deleteStockInfoByStockId(stock);
                     // update file
-                    retBoolean = getAccountProcessImp().updateStockFile(this, sym);
+                    retBoolean = StockInternet.updateStockFile(this, sym);
 
                     if (retBoolean == true) {
                         processStockSplit(commData.getSymbol(), commData.getSplit());
@@ -1187,49 +1182,49 @@ public class ServiceAFweb {
 //        }
 //        // create neural net input data
 //    }
-    public int updateDBneuralnetDataProcess() {
-        String tableName = "neuralnetdata";
-        try {
-            ArrayList<String> writeArray = new ArrayList();
-            String fName = FileLocalPath + tableName + ".txt";
-            if (FileUtil.FileTest(fName) == false) {
-                return 0;
-            }
-            FileUtil.FileReadTextArray(fName, writeArray);
-            ArrayList<String> writeSQLArray = new ArrayList();
-            logger.info("> updateDBneuralnetDataProcess " + tableName + " " + writeArray.size());
-            int totalAdd = 0;
-            int totalDup = 0;
-            for (int i = 0; i < writeArray.size(); i++) {
-                String output = writeArray.get(i);
-                AFneuralNetData objData = new ObjectMapper().readValue(output, AFneuralNetData.class);
-                boolean flagtype = true;
-                if (flagtype == true) {
-                    if (objData.getType() != 0) {
-                        totalDup++;
-                        continue;
-                    }
-                }
-                ArrayList<AFneuralNetData> objList = this.getStockImp().getNeuralNetDataObj(objData.getName(), objData.getType(), objData.getUpdatedatel());
-                if (objList == null) {
-                    continue;
-                }
-                if (objList.size() != 0) {
-                    totalDup++;
-                    continue;
-                }
-                this.getStockImp().insertNeuralNetDataObject(objData);
-                totalAdd++;
-            }
-            logger.info("> updateDBneuralnetDataProcess  totalAdd=" + totalAdd + " totalDup=" + totalDup);
-
-            return 1;
-
-        } catch (IOException ex) {
-            logger.info("> restoreDBneuralnetDataProcess - exception " + ex);
-        }
-        return 0;
-    }
+//    public int updateDBneuralnetDataProcess() {
+//        String tableName = "neuralnetdata";
+//        try {
+//            ArrayList<String> writeArray = new ArrayList();
+//            String fName = FileLocalPath + tableName + ".txt";
+//            if (FileUtil.FileTest(fName) == false) {
+//                return 0;
+//            }
+//            FileUtil.FileReadTextArray(fName, writeArray);
+//            ArrayList<String> writeSQLArray = new ArrayList();
+//            logger.info("> updateDBneuralnetDataProcess " + tableName + " " + writeArray.size());
+//            int totalAdd = 0;
+//            int totalDup = 0;
+//            for (int i = 0; i < writeArray.size(); i++) {
+//                String output = writeArray.get(i);
+//                AFneuralNetData objData = new ObjectMapper().readValue(output, AFneuralNetData.class);
+//                boolean flagtype = true;
+//                if (flagtype == true) {
+//                    if (objData.getType() != 0) {
+//                        totalDup++;
+//                        continue;
+//                    }
+//                }
+//                ArrayList<AFneuralNetData> objList = this.getStockImp().getNeuralNetDataObj(objData.getName(), objData.getType(), objData.getUpdatedatel());
+//                if (objList == null) {
+//                    continue;
+//                }
+//                if (objList.size() != 0) {
+//                    totalDup++;
+//                    continue;
+//                }
+//                this.getStockImp().insertNeuralNetDataObject(objData);
+//                totalAdd++;
+//            }
+//            logger.info("> updateDBneuralnetDataProcess  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+//
+//            return 1;
+//
+//        } catch (IOException ex) {
+//            logger.info("> restoreDBneuralnetDataProcess - exception " + ex);
+//        }
+//        return 0;
+//    }
 
     public ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(String symbol) {
         StringBuffer inputBuf = new StringBuffer();
