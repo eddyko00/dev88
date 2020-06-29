@@ -17,6 +17,7 @@ import com.afweb.nnprocess.NNProcess;
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
@@ -37,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.logging.Level;
 
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -600,35 +602,13 @@ public class ServiceAFweb {
     public static boolean forceNNReadFileflag = false;
 
     private void processNeuralNet() {
-        NNProcess nnProc = new NNProcess();
-        nnProc.processNeuralNet(this);
 
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-//        boolean flagNeuralnetInput = false;
-//        if (flagNeuralnetInput == true) {
-//            NeuralNetInputTesting(ConstantKey.INT_TR_NN1);
-//            NeuralNetInputTesting(ConstantKey.INT_TR_NN2);
-//
-//        }
-//        boolean flagNeuralnetTrain = false;
-//        if (flagNeuralnetTrain == true) {
-//            // start training
-//            NeuralNetProcessTesting(ConstantKey.INT_TR_NN1);
-//
-//        }
-//        boolean flagNeuralnetCreateJava = false;
-//        if (flagNeuralnetCreateJava == true) {
-//            NeuralNetCreatJava();
-//
-//        }
-//        
-//        boolean flaginpTrainData = false;
-//        if (flaginpTrainData == true) {
-//            TRprocessImp.initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN1);
-////          getTRprocessImp().initTrainingNeuralNetFile(this, ConstantKey.INT_TR_NN2);
-//        }
+        NNProcess nnProc = new NNProcess();
+        nnProc.processNeuralNet(this);
+
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work        
         boolean flaginputStock = false;
@@ -638,6 +618,85 @@ public class ServiceAFweb {
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work 
 
+        boolean saveStockFileFlag = false;
+        if (saveStockFileFlag == true) {
+            ArrayList stockNameArray = getAllOpenStockNameArray();
+            logger.info("updateRealTimeStock " + stockNameArray.size());
+            for (int i = 0; i < stockNameArray.size(); i++) {
+                String sym = (String) stockNameArray.get(i);
+                ArrayList<String> writeArray = new ArrayList();
+                int size1year = 5 * 52;
+                ArrayList StockArray = getStockHistorical(sym, size1year * 4);
+                if (StockArray == null) {
+                    continue;
+                }
+                String StFileName = FileLocalPath + sym + ".txt";
+                logger.info("saveStockFile Size " + StockArray.size() + " " + StFileName);
+                for (int j = 0; j < StockArray.size(); j++) {
+                    try {
+                        AFstockInfo obj = (AFstockInfo) StockArray.get(j);
+                        String st = new ObjectMapper().writeValueAsString(obj);
+                        writeArray.add(st);
+                    } catch (JsonProcessingException ex) {
+                    }
+                }
+                FileUtil.FileWriteTextArray(StFileName, writeArray);
+            }
+        }
+
+        boolean saveStockDBFlag = false;
+        if (saveStockDBFlag == true) {
+            ArrayList stockNameArray = getAllOpenStockNameArray();
+            logger.info("updateRealTimeStock " + stockNameArray.size());
+            for (int k = 0; k < stockNameArray.size(); k++) {
+                String sym = (String) stockNameArray.get(k);
+
+                String StFileName = FileLocalPath + sym + ".txt";
+                ArrayList<String> writeArray = new ArrayList();
+                FileUtil.FileReadTextArray(StFileName, writeArray);
+                ArrayList StockArray = new ArrayList();
+                for (int j = 0; j < writeArray.size(); j++) {
+                    String st = writeArray.get(j);
+                    try {
+                        AFstockInfo stockInfo = new ObjectMapper().readValue(st, AFstockInfo.class);
+                        StockArray.add(stockInfo);
+                    } catch (IOException ex) {
+                    }
+                }
+                ArrayList<AFstockInfo> StockSendArray = new ArrayList();
+                int index = 0;
+                ///make it last date fisrt
+                Collections.reverse(StockArray);
+
+                for (int i = 0; i < StockArray.size(); i++) {
+
+                    StockSendArray.add((AFstockInfo) StockArray.get(i));
+                    index++;
+                    if (index > 99) {
+                        index = 0;
+                        Collections.reverse(StockSendArray);
+                        StockInfoTranObj stockInfoTran = new StockInfoTranObj();
+                        stockInfoTran.setNormalizeName(sym);
+                        stockInfoTran.setStockInfoList(StockSendArray);
+
+                        int ret = updateStockInfoTransaction(stockInfoTran);
+                        if (ret == 0) {
+                            continue;
+                        }
+                        StockSendArray.clear();
+                    }
+
+                }
+                Collections.reverse(StockSendArray);
+                StockInfoTranObj stockInfoTran = new StockInfoTranObj();
+                stockInfoTran.setNormalizeName(sym);
+                stockInfoTran.setStockInfoList(StockSendArray);
+                if (StockSendArray.size() == 0) {
+                    continue;
+                }
+                updateStockInfoTransaction(stockInfoTran);
+            }
+        }
 
         boolean flagRetrainData = false;
         if (flagRetrainData == true) {
@@ -734,7 +793,7 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-        boolean initflag = false;
+        boolean initflag = true;
         if (initflag == true) {
 
 //
@@ -1225,7 +1284,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
     public ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(String symbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
