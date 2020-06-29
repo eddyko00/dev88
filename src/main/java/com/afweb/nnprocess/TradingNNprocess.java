@@ -6,7 +6,6 @@
 package com.afweb.nnprocess;
 
 import com.afweb.model.ConstantKey;
-import com.afweb.model.SymbolNameObj;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 

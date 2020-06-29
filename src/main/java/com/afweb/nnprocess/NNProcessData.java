@@ -9,15 +9,12 @@ import com.afweb.util.CKey;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.service.ServiceAFweb;
-import static com.afweb.service.ServiceAFweb.*;
+import com.afweb.service.*;
 
 import com.afweb.signal.*;
-import com.afweb.stock.*;
 import com.afweb.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -28,7 +25,7 @@ import java.util.logging.Logger;
  *
  * @author eddyko
  */
-public class NNProcess {
+public class NNProcessData {
 
     public static Logger logger = Logger.getLogger("NNProcess");
 
@@ -63,33 +60,34 @@ public class NNProcess {
 //            updateDBneuralnetDataProcess(serviceAFWeb);
 //
 //        }
+        ///////////////////////////////////////////////////////////////////////////////////   
+        ///////////////////////////////////////////////////////////////////////////////////   
+        boolean flagTestNeuralnetTrain = false;
+        if (flagTestNeuralnetTrain == true) {
+            String symbol = "HOU.TO";
 
+            int nnTRN = ConstantKey.INT_TR_NN1;
+            String nnName = ConstantKey.TR_NN1;
+
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
+//            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
+            NNProcessImp.inputStockNeuralNetData(serviceAFWeb, nnTRN, symbol);
+            NNProcessImp.stockTrainNeuralNet(serviceAFWeb, nnTRN, symbol);
+        }
     }
 
     // training neural net input data
     // create neural net input data
     //     
     private void NeuralNetInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-
-        boolean createTrain = true;
-        if (createTrain == true) {
-            int sizeYr = 3;
-            String nnName = ConstantKey.TR_NN1;
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-            }
-
-            for (int j = 0; j < sizeYr; j++) { //4; j++) {
-                int size = 20 * CKey.MONTH_SIZE * j;
+        int sizeYr = 3;
+        for (int j = 0; j < sizeYr; j++) { //4; j++) {
+            int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
-                serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-
-                trainingNNdataAll(serviceAFWeb, TR_Name, size);
-
-            }
+            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
+            trainingNNdataAll(serviceAFWeb, TR_Name, size);
         }
-        // create neural net input data
     }
 
     public void trainingNNdataAll(ServiceAFweb serviceAFWeb, int tr, int offset) {
@@ -313,7 +311,7 @@ public class NNProcess {
             TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = compress(inputListRawSt);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
 
             String fileN = ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight0.txt";
             if (FileUtil.FileTest(fileN) == false) {

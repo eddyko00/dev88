@@ -12,7 +12,7 @@ import com.afweb.chart.ChartService;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.nnprocess.NNProcess;
+import com.afweb.nnprocess.NNProcessData;
 
 import com.afweb.signal.*;
 import com.afweb.stock.*;
@@ -38,7 +38,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
-import java.util.logging.Level;
 
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -477,7 +476,7 @@ public class ServiceAFweb {
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
-                    processNeuralNet();
+                    processDebug();
 ///////////////////////////////////////////////////////////////////////////////////
                     logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
                 }
@@ -601,12 +600,12 @@ public class ServiceAFweb {
 
     public static boolean forceNNReadFileflag = false;
 
-    private void processNeuralNet() {
+    private void processDebug() {
 
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        NNProcess nnProc = new NNProcess();
+        NNProcessData nnProc = new NNProcessData();
         nnProc.processNeuralNet(this);
 
         // need this only if yahoo get history stock does not work
@@ -654,6 +653,9 @@ public class ServiceAFweb {
                 String StFileName = FileLocalPath + sym + ".txt";
                 ArrayList<String> writeArray = new ArrayList();
                 FileUtil.FileReadTextArray(StFileName, writeArray);
+                if (writeArray.size() == 0) {
+                    continue;
+                }
                 ArrayList StockArray = new ArrayList();
                 for (int j = 0; j < writeArray.size(); j++) {
                     String st = writeArray.get(j);
@@ -735,19 +737,19 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
 
-        boolean flagTestNeuralnetTrain = false;
-        if (flagTestNeuralnetTrain == true) {
-            String symbol = "HOU.TO";
-
-            int nnTRN = ConstantKey.INT_TR_NN1;
-            String nnName = ConstantKey.TR_NN1;
-
-            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
-//            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
-            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
-            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
-        }
+//        boolean flagTestNeuralnetTrain = false;
+//        if (flagTestNeuralnetTrain == true) {
+//            String symbol = "HOU.TO";
+//
+//            int nnTRN = ConstantKey.INT_TR_NN1;
+//            String nnName = ConstantKey.TR_NN1;
+//
+//            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+////            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
+////            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
+//            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
+//            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
+//        }
 
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
@@ -973,14 +975,14 @@ public class ServiceAFweb {
         }
 
 //                        
-        boolean flagChart = false;
-        if (flagChart == true) {
-            //https://iiswebsrv.herokuapp.com/cust/admin1/acc/1/st/hou_to/tr/TR_nn1/tran/history/chartdisplay
-            String sym = "hou_to";
-//          getNNProcessImp().trainingNNdataAll(this, ConstantKey.INT_TR_NN1, 0);
-            ArrayList<NNInputDataObj> inputobj = NNProcessImp.trainingNNupdateMACD(this, sym);
-
-        }
+//        boolean flagChart = false;
+//        if (flagChart == true) {
+//            //https://iiswebsrv.herokuapp.com/cust/admin1/acc/1/st/hou_to/tr/TR_nn1/tran/history/chartdisplay
+//            String sym = "hou_to";
+////          getNNProcessImp().trainingNNdataAll(this, ConstantKey.INT_TR_NN1, 0);
+//            ArrayList<NNInputDataObj> inputobj = NNProcessImp.trainingNNupdateMACD(this, sym);
+//
+//        }
 
 //        boolean flagFund = false;
 //        if (flagFund == true) {
