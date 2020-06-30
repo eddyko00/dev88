@@ -5287,7 +5287,7 @@ public class ServiceAFweb {
     }
 
     public void InitSystemData() {
-        logger.info(">InitDB InitSystemData Stock to account ");
+        logger.info(">InitDB InitSystemData for Stock and account ");
         AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
 
         // make sure both ServiceAFweb.InitSystemData and StockImp.initStockDB are update
