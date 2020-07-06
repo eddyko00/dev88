@@ -476,6 +476,9 @@ public class ServiceAFweb {
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
+                    NNProcessData nnProc = new NNProcessData();
+                    nnProc.processNeuralNet(this);
+                    
                     processDebug();
 ///////////////////////////////////////////////////////////////////////////////////
                     logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
@@ -604,9 +607,6 @@ public class ServiceAFweb {
 
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-
-        NNProcessData nnProc = new NNProcessData();
-        nnProc.processNeuralNet(this);
 
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work        
@@ -750,7 +750,6 @@ public class ServiceAFweb {
 //            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
 //            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
 //        }
-
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
             /////////need manually enter the communication id
@@ -983,7 +982,6 @@ public class ServiceAFweb {
 //            ArrayList<NNInputDataObj> inputobj = NNProcessImp.trainingNNupdateMACD(this, sym);
 //
 //        }
-
 //        boolean flagFund = false;
 //        if (flagFund == true) {
 //            InitSystemFund(CKey.FUND_PORTFOLIO);
