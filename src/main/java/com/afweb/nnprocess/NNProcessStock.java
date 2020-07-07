@@ -7,6 +7,7 @@ package com.afweb.nnprocess;
 
 import com.afweb.util.CKey;
 import com.afweb.model.*;
+import com.afweb.model.account.StockTRHistoryObj;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 
@@ -58,12 +59,12 @@ public class NNProcessStock {
         String symbolL[] = ServiceAFweb.primaryStock;
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
-            ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
+            ArrayList<NNInputDataObj> InputList = getTrainingNNStdataProcess(serviceAFWeb, symbol, tr, offset);
         }
 
     }
 
-    public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
+    public ArrayList<NNInputDataObj> getTrainingNNStdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess " + symbol);
 
         boolean trainStock = false;
@@ -94,7 +95,7 @@ public class NNProcessStock {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
+            inputList = nn1.trainingNN1StdataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
             ProcessNN2 nn2 = new ProcessNN2();
@@ -207,4 +208,6 @@ public class NNProcessStock {
         return inputList;
     }
 
+  
+    
 }

@@ -132,6 +132,7 @@ public class ProcessNN2 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN2dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();        
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -173,7 +174,7 @@ public class ProcessNN2 {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = serviceAFWeb.getAccountStockTRListHistoryDataMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryDataMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
 
         return inputDatalist;
     }

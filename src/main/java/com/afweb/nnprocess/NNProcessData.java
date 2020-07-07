@@ -32,7 +32,7 @@ public class NNProcessData {
     public void processNeuralNet(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
 
-        boolean flagNeuralnetInput = true;
+        boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
