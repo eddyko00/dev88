@@ -1887,7 +1887,7 @@ public class TrandingSignalProcess {
         if (ServiceAFweb.forceNNReadFileflag == true) {
             inputlist = getTrainingInputFromFile(serviceAFWeb);
         } else {
-            ArrayList<NNInputDataObj> inputDatalist = serviceAFWeb.NeuralNetGetNN1InputfromStaticCode("");
+            ArrayList<NNInputDataObj> inputDatalist = TradingNNprocess.NeuralNetGetNN1InputfromStaticCode("");
             for (int i = 0; i < inputDatalist.size(); i++) {
                 NNInputDataObj inputDObj = inputDatalist.get(i);
                 NNInputOutObj inputObj = new NNInputOutObj();
