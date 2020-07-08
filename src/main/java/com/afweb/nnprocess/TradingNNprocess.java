@@ -1125,7 +1125,9 @@ public class TradingNNprocess {
 //        
         return nnTraining;
     }
- 
+
+    
+    // data history from  old to more recent
     public static double getNNnormalizeStOutput5Close(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
         if (thObjListMACD == null) {
             return -1;
@@ -1134,24 +1136,34 @@ public class TradingNNprocess {
         if (cIndex > thObjListMACD.size()) {
             return -1;
         }
-
+        StockTRHistoryObj thObjMV0 = thObjListMACD.get(index);
+        double closeOutput0 = thObjMV0.getClose();
         StockTRHistoryObj thObjMV5 = thObjListMACD.get(cIndex);
         double closeOutput = thObjMV5.getClose();
 
+        double closeOutputPer = (closeOutput - closeOutput0);
 
         ArrayList<Float> parm1NormalList = new ArrayList();  // close normalize
         for (int k = 0; k < 20; k++) {
             if ((index - k) < 0) {
                 break;
             }
+            if ((index - k - 5) < 0) {
+                break;
+            }
+            StockTRHistoryObj thObjMVtmp0 = thObjListMACD.get(index - k - 5);
+            float close0 = thObjMVtmp0.getClose();
+
             StockTRHistoryObj thObjMVtmp = thObjListMACD.get(index - k);
             float close = thObjMVtmp.getClose();
-            parm1NormalList.add(close);
+
+            double closePer = (close - close0);
+            parm1NormalList.add((float) closePer);
         }
         NNormalObj parm1Normal = new NNormalObj();
         parm1Normal.initHighLow(parm1NormalList);
 
-        double closef = parm1Normal.getNormalizeValue((float) closeOutput);
+        double closef = parm1Normal.getNormalizeValue((float) closeOutputPer);
         int temp = 0;
         temp = (int) closef;
         closef = temp;
@@ -1164,7 +1176,8 @@ public class TradingNNprocess {
         }
         return closef;
     }
-  public static ArrayList<Double> getNNnormalizeStInputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
+
+    public static ArrayList<Double> getNNnormalizeStInputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
         if (thObjListMACD == null) {
             return null;
         }
