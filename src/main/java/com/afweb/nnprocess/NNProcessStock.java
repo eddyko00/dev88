@@ -99,7 +99,7 @@ public class NNProcessStock {
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
             ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
+            inputList = nn2.trainingNN2StdataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
         }
 
         String BPname = CKey.NN_version + "_" + nnName;

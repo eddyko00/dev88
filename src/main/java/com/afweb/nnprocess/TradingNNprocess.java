@@ -1126,7 +1126,6 @@ public class TradingNNprocess {
         return nnTraining;
     }
 
-    
     // data history from  old to more recent
     public static double getNNnormalizeStOutput5Close(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
         if (thObjListMACD == null) {
@@ -1141,29 +1140,33 @@ public class TradingNNprocess {
         StockTRHistoryObj thObjMV5 = thObjListMACD.get(cIndex);
         double closeOutput = thObjMV5.getClose();
 
-        double closeOutputPer = (closeOutput - closeOutput0);
+        double closef = (closeOutput - closeOutput0) / closeOutput0;
+        closef = closef * 100*5;
+        closef = closef + 50;
 
-        ArrayList<Float> parm1NormalList = new ArrayList();  // close normalize
-        for (int k = 0; k < 20; k++) {
-            if ((index - k) < 0) {
-                break;
-            }
-            if ((index - k - 5) < 0) {
-                break;
-            }
-            StockTRHistoryObj thObjMVtmp0 = thObjListMACD.get(index - k - 5);
-            float close0 = thObjMVtmp0.getClose();
-
-            StockTRHistoryObj thObjMVtmp = thObjListMACD.get(index - k);
-            float close = thObjMVtmp.getClose();
-
-            double closePer = (close - close0);
-            parm1NormalList.add((float) closePer);
-        }
-        NNormalObj parm1Normal = new NNormalObj();
-        parm1Normal.initHighLow(parm1NormalList);
-
-        double closef = parm1Normal.getNormalizeValue((float) closeOutputPer);
+//        double closeOutputPer = (closeOutput - closeOutput0);
+//
+//        ArrayList<Float> parm1NormalList = new ArrayList();  // close normalize
+//        for (int k = 0; k < 20; k++) {
+//            if ((index - k) < 0) {
+//                break;
+//            }
+//            if ((index - k - 5) < 0) {
+//                break;
+//            }
+//            StockTRHistoryObj thObjMVtmp0 = thObjListMACD.get(index - k - 5);
+//            float close0 = thObjMVtmp0.getClose();
+//
+//            StockTRHistoryObj thObjMVtmp = thObjListMACD.get(index - k);
+//            float close = thObjMVtmp.getClose();
+//
+//            double closePer = (close - close0);
+//            parm1NormalList.add((float) closePer);
+//        }
+//        NNormalObj parm1Normal = new NNormalObj();
+//        parm1Normal.initHighLow(parm1NormalList);
+//
+//        double closef = parm1Normal.getNormalizeValue((float) closeOutputPer);
         int temp = 0;
         temp = (int) closef;
         closef = temp;
@@ -1189,7 +1192,7 @@ public class TradingNNprocess {
         float close_4 = 0;
 
         ArrayList<Float> parm1NormalList = new ArrayList();  // close normalize
-        for (int k = 0; k < 20; k++) { //k < 30; k++) { // 20; k++) { //25; k++) {
+        for (int k = 0; k < 7; k++) { //k < 30; k++) { // 20; k++) { //25; k++) {
             if ((index - k) < 0) {
                 break;
             }
