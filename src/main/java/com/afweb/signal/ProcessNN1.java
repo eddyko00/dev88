@@ -134,12 +134,11 @@ public class ProcessNN1 {
         return nn;
     }
 
-    
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN1dataMACD1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();        
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -273,43 +272,5 @@ public class ProcessNN1 {
             logger.info("> updateAdminTradingsignalnn2 Exception" + ex.getMessage());
         }
     }
-/////////////////////////////////////////
-        //StockArray assume recent date to old data
-    //StockArray assume recent date to old data
-    //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> trainingNN1StdataMACD1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();        
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-//        logger.info("> trainingNN ");
 
-        String username = CKey.ADMIN_USERNAME;
-        String accountid = "1";
-        String symbol = sym;
-//        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
-
-        NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN1);
-
-        TradingRuleObj trObjMACD1 = new TradingRuleObj();
-        trObjMACD1.setTrname(ConstantKey.TR_MACD1);
-        trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
-
-        trObjMACD1.setAccount(trObjMACD.getAccount());
-        trObjMACD1.setStockid(trObjMACD.getStockid());
-
-        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
-
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
-        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
-
-        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
-        ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
-
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
-
-        return inputDatalist;
-    }
-
-  
-    
 }

@@ -94,12 +94,12 @@ public class NNProcessStock {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-            ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1StdataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
+            ProcessNN4 nn1 = new ProcessNN4();
+            inputList = nn1.trainingNN4StdataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
-            ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2StdataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
+            ProcessNN4 nn2 = new ProcessNN4();
+            inputList = nn2.trainingNN4StdataMACD2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
         }
 
         String BPname = CKey.NN_version + "_" + nnName;
