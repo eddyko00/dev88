@@ -1128,11 +1128,12 @@ public class TradingNNprocess {
 
     // data history from  old to more recent
     public static double getNNnormalizeStOutput5Close(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
+
         if (thObjListMACD == null) {
             return -1;
         }
         int cIndex = index + 5;
-        if (cIndex > thObjListMACD.size()) {
+        if (cIndex >= thObjListMACD.size()) {
             return -1;
         }
         StockTRHistoryObj thObjMV0 = thObjListMACD.get(index);
@@ -1141,7 +1142,7 @@ public class TradingNNprocess {
         double closeOutput = thObjMV5.getClose();
 
         double closef = (closeOutput - closeOutput0) / closeOutput0;
-        closef = closef * 100*5;
+        closef = closef * 100 * 5;
         closef = closef + 50;
 
 //        double closeOutputPer = (closeOutput - closeOutput0);
@@ -1178,6 +1179,7 @@ public class TradingNNprocess {
             closef = 0.1;
         }
         return closef;
+
     }
 
     public static ArrayList<Double> getNNnormalizeStInputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
@@ -2030,58 +2032,58 @@ public class TradingNNprocess {
 
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList<NNInputDataObj>();
         NNInputDataObj objDataPrev = null;
+        try {
+            for (int i = 0; i < thObjListMACD.size(); i++) {
 
-        for (int i = 0; i < thObjListMACD.size(); i++) {
-
-            if (i + 1 == thObjListMACD.size()) {
-                if (lastDateOutput == true) {
-                    processLastDate = true;
+                if (i + 1 == thObjListMACD.size()) {
+                    if (lastDateOutput == true) {
+                        processLastDate = true;
+                    }
                 }
-            }
-            NNInputOutObj inputList = new NNInputOutObj();
+                NNInputOutObj inputList = new NNInputOutObj();
 
-            StockTRHistoryObj thObjMACD = thObjListMACD.get(i);
-            if (i == 0) {
-                prevThObj = thObjMACD;
-            }
-
-            int signal = thObjMACD.getTrsignal();
-            boolean contProcess = false;
-            if (signal != prevThObj.getTrsignal()) {
-                contProcess = true;
-            }
-            if (processLastDate == true) {
-                contProcess = true;
-            }
-
-            if (contProcess == true) {
-                inputList = getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
-
-                double parm1 = -1;
-                if (signal == ConstantKey.S_BUY) {
-                    parm1 = 0.9;
-                } else if (signal == ConstantKey.S_SELL) {
-                    parm1 = 0.1;
+                StockTRHistoryObj thObjMACD = thObjListMACD.get(i);
+                if (i == 0) {
+                    prevThObj = thObjMACD;
                 }
-                inputList.setInput1(parm1);
-                inputList.setTrsignal(signal);
-                ArrayList<Double> closeArray = getNNnormalizeStInputClose(i, thObjListMACD);
-                inputList.setInput6(closeArray.get(0));
-                inputList.setInput7(closeArray.get(1));
-                inputList.setInput8(closeArray.get(2));
-                inputList.setInput9(closeArray.get(3));
-                inputList.setInput10(closeArray.get(4));
 
-                double output = getNNnormalizeStOutput5Close(i, thObjListMACD);
+                int signal = thObjMACD.getTrsignal();
+                boolean contProcess = false;
+                if (signal != prevThObj.getTrsignal()) {
+                    contProcess = true;
+                }
+                if (processLastDate == true) {
+                    contProcess = true;
+                }
 
-                NNInputDataObj objDataCur = new NNInputDataObj();
-                objDataCur.setUpdatedatel(thObjMACD.getUpdateDatel());
-                objDataCur.setObj(inputList);
+                if (contProcess == true) {
+                    inputList = getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
 
-                if (objDataPrev != null) {
-                    objDataPrev.getObj().setOutput1(output);
-                    trInputList.add(objDataPrev.getObj());
-                    inputDatalist.add(objDataPrev);
+                    double parm1 = -1;
+                    if (signal == ConstantKey.S_BUY) {
+                        parm1 = 0.9;
+                    } else if (signal == ConstantKey.S_SELL) {
+                        parm1 = 0.1;
+                    }
+                    inputList.setInput1(parm1);
+                    inputList.setTrsignal(signal);
+                    ArrayList<Double> closeArray = getNNnormalizeStInputClose(i, thObjListMACD);
+                    inputList.setInput6(closeArray.get(0));
+                    inputList.setInput7(closeArray.get(1));
+                    inputList.setInput8(closeArray.get(2));
+                    inputList.setInput9(closeArray.get(3));
+                    inputList.setInput10(closeArray.get(4));
+
+                    double output = getNNnormalizeStOutput5Close(i, thObjListMACD);
+
+                    NNInputDataObj objDataCur = new NNInputDataObj();
+                    objDataCur.setUpdatedatel(thObjMACD.getUpdateDatel());
+                    objDataCur.setObj(inputList);
+
+                    if (objDataPrev != null) {
+                        objDataPrev.getObj().setOutput1(output);
+                        trInputList.add(objDataPrev.getObj());
+                        inputDatalist.add(objDataPrev);
 
 //                    if (getEnv.checkLocalPC() == true) {
 //                        if (CKey.NN_DEBUG == true) {
@@ -2097,24 +2099,26 @@ public class TradingNNprocess {
 //                            logger.info(i + "," + st);
 //                        }
 //                    }
+                    }
+                    prevThObj = thObjMACD;
+                    objDataPrev = objDataCur;
+
                 }
-                prevThObj = thObjMACD;
-                objDataPrev = objDataCur;
-
-            }
-        }// end of loop
-        if (objDataPrev != null) {
-            if (lastDateOutput == true) {
-                // eddy just for testing
+            }// end of loop
+            if (objDataPrev != null) {
+                if (lastDateOutput == true) {
+                    // eddy just for testing
 //                trInputList.clear(); // clear so that only the last one
+                }
+                trInputList.add(objDataPrev.getObj());
+                objDataPrev.getObj().setOutput1(0);
+                trInputList.add(objDataPrev.getObj());
+                inputDatalist.add(objDataPrev);
+
             }
-            trInputList.add(objDataPrev.getObj());
-            objDataPrev.getObj().setOutput1(0);
-            trInputList.add(objDataPrev.getObj());
-            inputDatalist.add(objDataPrev);
-
+        } catch (Exception ex) {
+            logger.info("> getAccountStockTRListHistoryStDataMACDNN " + ex.getMessage());
         }
-
         return inputDatalist;
     }
 

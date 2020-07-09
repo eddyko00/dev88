@@ -10,6 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import static com.afweb.nnprocess.NNProcessData.logger;
 
 import com.afweb.service.*;
 
@@ -38,6 +39,66 @@ public class NNProcessStock {
             NeuralNetInputStPredTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
 
         }
+        boolean flagNeuralnetTrain = false;
+        if (flagNeuralnetTrain == true) {
+            // start training
+            NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+
+        }
+
+    }
+
+    private void NeuralNetProcessTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
+        ///////////////////////////////////////////////////////////////////////////////////
+        // read new NN data
+        serviceAFWeb.forceNNReadFileflag = true; // should be true to get it from file instead from db
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        boolean initTrainNeuralNet = true;
+        if (initTrainNeuralNet == true) {
+
+            double errorNN = CKey.NN1_ERROR_THRESHOLD;
+            String nnName = ConstantKey.TR_NN4;
+
+            String BPname = CKey.NN_version + "_" + nnName;
+            // Not need to do neural net for NN2. Same NN weight for NN1 and NN2
+            if (TR_Name == ConstantKey.INT_TR_NN2) {
+                return;
+            }
+
+            boolean flagInit = true;
+            if (flagInit == true) {
+                AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
+                if (afNeuralNet == null) {
+                    afNeuralNet = new AFneuralNet();
+                    afNeuralNet.setName(BPname);
+                    afNeuralNet.setStatus(ConstantKey.OPEN);
+                    afNeuralNet.setType(0);
+                    Calendar dateDefault = TimeConvertion.getDefaultCalendar();
+                    afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
+                    afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
+                    String weightSt = (CKey.NN1_WEIGHT_0);
+                    afNeuralNet.setWeight(weightSt);
+                    serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN1_WEIGHT_0");
+                } else {
+                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
+                }
+            }
+
+            for (int i = 0; i < 20; i++) {
+                int retflag = 0;
+                if (TR_Name == ConstantKey.INT_TR_NN1) {
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnName, errorNN);
+                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
+                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnName, errorNN);
+                }
+                if (retflag == 1) {
+                    break;
+                }
+                logger.info(">>> initTrainNeuralNet " + i);
+            }
+        }
+
     }
 
     private void NeuralNetInputStPredTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
@@ -46,6 +107,7 @@ public class NNProcessStock {
             int sizeYr = 3;
             for (int j = 0; j < sizeYr; j++) { //4; j++) {
                 int size = 20 * CKey.MONTH_SIZE * j;
+                serviceAFWeb.initTrainNeuralNetNumber = j + 1;
                 trainingNNStPreddataAll(serviceAFWeb, TR_Name, size);
             }
         }
@@ -59,6 +121,8 @@ public class NNProcessStock {
         String symbolL[] = ServiceAFweb.primaryStock;
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
+            // debug
+//            symbol = "QQQ";
             ArrayList<NNInputDataObj> InputList = getTrainingNNStdataProcess(serviceAFWeb, symbol, tr, offset);
         }
 
@@ -208,6 +272,4 @@ public class NNProcessStock {
         return inputList;
     }
 
-  
-    
 }

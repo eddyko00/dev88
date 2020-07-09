@@ -140,9 +140,12 @@ public class ConstantKey {
 
     public static final String TR_NN3 = "TR_NN3"; //NN for MV
     public static final int INT_TR_NN3 = 6;
+    
+    public static final String TR_NN4 = "TR_NN4"; //NN for MV
+    public static final int INT_TR_NN4 = 7;    
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
-    public static final int SIZE_TR = 7;
+    public static final int SIZE_TR = 8;
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
 

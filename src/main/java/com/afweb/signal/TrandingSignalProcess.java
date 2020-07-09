@@ -859,12 +859,12 @@ public class TrandingSignalProcess {
                         //check time only when signal change
                         if (trHistory.getUpdateDatel() > date2yrBack) {
                             // add signal
-                            long endofDay =  TimeConvertion.addHours(trHistory.getUpdateDatel(), -5);
+                            long endofDay = TimeConvertion.addHours(trHistory.getUpdateDatel(), -5);
                             //// not sure why tran date is one day more (may be daylight saving?????????                            
                             //// not sure why tran date is one day more (may be daylight saving?????????    
                             //// not sure why tran date is one day more (may be daylight saving?????????                               
                             Calendar dateOffet = TimeConvertion.getCurrentCalendar(endofDay);
-                           
+
                             //Override the stockinfo for the price
                             AFstockInfo afstockInfo = trHistory.getAfstockInfo();
                             stock.setAfstockInfo(afstockInfo);
@@ -1707,6 +1707,9 @@ public class TrandingSignalProcess {
         logger.info("> TRtrainingNeuralNet " + BPnameSym + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
         String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
+        if (nnNameSym.equals(ConstantKey.TR_NN4)) {
+            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN4;
+        }
         return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnNameSym, nnError);
     }
 
@@ -1798,7 +1801,10 @@ public class TrandingSignalProcess {
             inputObj.setInput12(inputDObj.getObj().getInput12());
             inputObj.setInput13(inputDObj.getObj().getInput13());
             inputObj.setOutput1(inputDObj.getObj().getOutput1());
-
+            if (inputDObj.getObj().getOutput1() < 0) {
+                // ignore negative -1
+                continue;
+            }
             inputlist.add(inputObj);
         }
 
@@ -1882,6 +1888,9 @@ public class TrandingSignalProcess {
         boolean forceNN1flag = true;
         if (forceNN1flag == true) {
             BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
+            if (nnNameSym.equals(ConstantKey.TR_NN4)) {
+                BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN4;
+            }
         }
 
         if (ServiceAFweb.forceNNReadFileflag == true) {
@@ -2049,7 +2058,6 @@ public class TrandingSignalProcess {
 //        serviceAFWeb.removeNameLock(TestName, ConstantKey.NN_TR_LOCKTYPE);
 //
 //    }
-
     public boolean readTrainingNeuralNet1(ServiceAFweb serviceAFWeb, ArrayList<NNInputDataObj> inputlist, String nnName, String nnFileName) {
 
         ArrayList inputArray = new ArrayList();
@@ -2528,7 +2536,6 @@ public class TrandingSignalProcess {
 //        }
 //
 //    }
-
     //////////////////////////////////////// transaction order
     public int AddTransactionOrderWithComm(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate, boolean fromSystem) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
