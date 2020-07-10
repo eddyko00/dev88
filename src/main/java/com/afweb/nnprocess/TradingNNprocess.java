@@ -1192,7 +1192,7 @@ public class TradingNNprocess {
         float close_2 = 0;
         float close_3 = 0;
         float close_4 = 0;
-
+        float close_5 = 0;
         ArrayList<Float> parm1NormalList = new ArrayList();  // close normalize
         for (int k = 0; k < 7; k++) { //k < 30; k++) { // 20; k++) { //25; k++) {
             if ((index - k) < 0) {
@@ -1217,6 +1217,9 @@ public class TradingNNprocess {
                 case 4:
                     close_4 = close;
                     break;
+                case 5:
+                    close_5 = close;
+                    break;                    
                 default:
                     break;
             }
@@ -1281,6 +1284,18 @@ public class TradingNNprocess {
             closef = 0.1;
         }
         closeArray.add(closef);
+        closef = parm1Normal.getNormalizeValue(close_5);
+        temp = (int) closef;
+        closef = temp;
+        closef = closef / 100;
+        if (closef > 0.9) {
+            closef = 0.9;
+        }
+        if (closef < 0.1) {
+            closef = 0.1;
+        }
+        closeArray.add(closef);
+        
         return closeArray;
     }
 
@@ -2059,13 +2074,13 @@ public class TradingNNprocess {
                 if (contProcess == true) {
                     inputList = getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
 
-                    double parm1 = -1;
-                    if (signal == ConstantKey.S_BUY) {
-                        parm1 = 0.9;
-                    } else if (signal == ConstantKey.S_SELL) {
-                        parm1 = 0.1;
-                    }
-                    inputList.setInput1(parm1);
+//                    double parm1 = -1;
+//                    if (signal == ConstantKey.S_BUY) {
+//                        parm1 = 0.9;
+//                    } else if (signal == ConstantKey.S_SELL) {
+//                        parm1 = 0.1;
+//                    }
+//                    inputList.setInput1(parm1);   
                     inputList.setTrsignal(signal);
                     ArrayList<Double> closeArray = getNNnormalizeStInputClose(i, thObjListMACD);
                     inputList.setInput6(closeArray.get(0));
@@ -2073,7 +2088,8 @@ public class TradingNNprocess {
                     inputList.setInput8(closeArray.get(2));
                     inputList.setInput9(closeArray.get(3));
                     inputList.setInput10(closeArray.get(4));
-
+                    inputList.setInput1(closeArray.get(5));
+                    
                     double output = getNNnormalizeStOutput5Close(i, thObjListMACD);
 
                     NNInputDataObj objDataCur = new NNInputDataObj();

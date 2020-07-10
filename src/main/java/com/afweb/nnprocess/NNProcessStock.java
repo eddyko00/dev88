@@ -56,14 +56,10 @@ public class NNProcessStock {
         boolean initTrainNeuralNet = true;
         if (initTrainNeuralNet == true) {
 
-            double errorNN = CKey.NN1_ERROR_THRESHOLD;
+            double errorNN = CKey.NN4_ERROR_THRESHOLD;
             String nnName = ConstantKey.TR_NN4;
 
             String BPname = CKey.NN_version + "_" + nnName;
-            // Not need to do neural net for NN2. Same NN weight for NN1 and NN2
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                return;
-            }
 
             boolean flagInit = true;
             if (flagInit == true) {
@@ -87,15 +83,12 @@ public class NNProcessStock {
 
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
-                if (TR_Name == ConstantKey.INT_TR_NN1) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnName, errorNN);
-                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
-                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnName, errorNN);
-                }
+                retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnName, errorNN);
+
                 if (retflag == 1) {
                     break;
                 }
-                logger.info(">>> initTrainNeuralNet " + i);
+                logger.info(">>> NeuralNetProcessTesting " + i);
             }
         }
 
