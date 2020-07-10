@@ -1194,7 +1194,7 @@ public class TradingNNprocess {
         float close_4 = 0;
         float close_5 = 0;
         ArrayList<Float> parm1NormalList = new ArrayList();  // close normalize
-        for (int k = 0; k < 7; k++) { //k < 30; k++) { // 20; k++) { //25; k++) {
+        for (int k = 0; k < 8; k++) { //k < 30; k++) { // 20; k++) { //25; k++) {
             if ((index - k) < 0) {
                 break;
             }

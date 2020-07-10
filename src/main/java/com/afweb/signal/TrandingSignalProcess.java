@@ -2162,14 +2162,14 @@ public class TrandingSignalProcess {
         return 0;
     }
 
-    public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnNameMiddle, NNTrainObj nnTraining, double nnError) {
+    public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnName, NNTrainObj nnTraining, double nnError) {
         int inputListSize = CKey.NN_INPUT_SIZE; //12;
         int outputSize = 1;
         int middleSize = CKey.NN1_MIDDLE_SIZE;
 
-        if (nnNameMiddle.equals(ConstantKey.TR_NN2) == true) {
-            middleSize = CKey.NN2_MIDDLE_SIZE;
-        }
+//        if (nnName.equals(ConstantKey.TR_NN2) == true) {
+//            middleSize = CKey.NN2_MIDDLE_SIZE;
+//        }
         //
 
         double[][] inputpattern = null;
@@ -2253,7 +2253,7 @@ public class TrandingSignalProcess {
             response[i] = new double[outputSize];
         }
 
-        String nnName = afNeuralNet.getName();
+        String nNetName = afNeuralNet.getName();
         int repeatSize = 900000;
         double errorReturn = 1;
         if (nnError == 0) {
@@ -2262,7 +2262,7 @@ public class TrandingSignalProcess {
             if (CKey.NN_DEBUG == true) {
                 logger.info("> TrainingNNBP inputpattern " + inputpattern.length);
             }
-            errorReturn = nn.learn(nnName, inputpattern, targetpattern, response, repeatSize, nnError);
+            errorReturn = nn.learn(nNetName, inputpattern, targetpattern, response, repeatSize, nnError);
         }
 
         String weightSt1 = nn.getNetObjSt();
@@ -2329,7 +2329,11 @@ public class TrandingSignalProcess {
 
                         float delta = (float) (output[0] - rsp[0]);
                         delta = Math.abs(delta);
-                        if (delta > CKey.PREDICT_THRESHOLD) {
+                        float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
+                         if (nnName.equals(ConstantKey.TR_NN4) == true) {
+                             deltaCmp = (float) 0.09;
+                         }
+                        if (delta > deltaCmp) {
                             st += ",\"" + delta + "\"";
                         }
                         writeArray.add(st);

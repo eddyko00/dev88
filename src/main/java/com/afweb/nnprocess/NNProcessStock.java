@@ -77,6 +77,21 @@ public class NNProcessStock {
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN1_WEIGHT_0");
                 } else {
+                    String weightSt = afNeuralNet.getWeight();
+                    if ((weightSt == null) || (weightSt.length() == 0)) {
+                        AFneuralNet afNeuralNet0 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
+                        if (afNeuralNet0 != null) {
+                            weightSt = afNeuralNet0.getWeight();
+                            afNeuralNet.setName(BPname);
+                            afNeuralNet.setStatus(ConstantKey.OPEN);
+                            afNeuralNet.setType(0);
+                            Calendar dateDefault = TimeConvertion.getDefaultCalendar();
+                            afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
+                            afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
+                            afNeuralNet.setWeight(weightSt);
+                            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+                        }
+                    }
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
                 }
             }
