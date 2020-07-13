@@ -1219,7 +1219,7 @@ public class TradingNNprocess {
                     break;
                 case 5:
                     close_5 = close;
-                    break;                    
+                    break;
                 default:
                     break;
             }
@@ -1295,7 +1295,7 @@ public class TradingNNprocess {
             closef = 0.1;
         }
         closeArray.add(closef);
-        
+
         return closeArray;
     }
 
@@ -1961,6 +1961,7 @@ public class TradingNNprocess {
                 } else if (signal == ConstantKey.S_SELL) {
                     parm1 = 0.1;
                 }
+
                 inputList.setInput1(parm1);
                 inputList.setTrsignal(signal);
                 ArrayList<Double> closeArray = getNNnormalizeInputClose(i, thObjListMACD);
@@ -1969,6 +1970,14 @@ public class TradingNNprocess {
                 inputList.setInput8(closeArray.get(2));
                 inputList.setInput9(closeArray.get(3));
                 inputList.setInput10(closeArray.get(4));
+
+//                ArrayList<Double> closeArray = getNNnormalizeStInputClose(i, thObjListMACD);
+//                inputList.setInput6(closeArray.get(0));
+//                inputList.setInput7(closeArray.get(1));
+//                inputList.setInput8(closeArray.get(2));
+//                inputList.setInput9(closeArray.get(3));
+//                inputList.setInput10(closeArray.get(4));
+//                inputList.setInput1(closeArray.get(5));
 
                 int retDecision = checkNNsignalDecision(thObjMACD, prevThObj);
 
@@ -2089,7 +2098,7 @@ public class TradingNNprocess {
                     inputList.setInput9(closeArray.get(3));
                     inputList.setInput10(closeArray.get(4));
                     inputList.setInput1(closeArray.get(5));
-                    
+
                     double output = getNNnormalizeStOutput5Close(i, thObjListMACD);
 
                     NNInputDataObj objDataCur = new NNInputDataObj();

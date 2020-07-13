@@ -311,8 +311,9 @@ public class NNProcessData {
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
-
-            String fileN = ServiceAFweb.FileLocalDebugPath + "NNBP_V1_TR_NN1_nnWeight0.txt";
+            
+//TR_NN1_nnWeight0.txt
+            String fileN = ServiceAFweb.FileLocalDebugPath + "TR_NN1_nnWeight0.txt";
             if (FileUtil.FileTest(fileN) == false) {
                 return false;
             }
