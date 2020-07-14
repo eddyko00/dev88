@@ -49,10 +49,12 @@ public class NNProcessData {
             NeuralNetCreatJava(serviceAFWeb);
 
         }
-        boolean flaginpTrainData = false;
-        if (flaginpTrainData == true) {
-            initTrainingNeuralNetFile(serviceAFWeb, ConstantKey.INT_TR_NN1);
-        }
+        
+        
+//        boolean flaginpTrainData = true;
+//        if (flaginpTrainData == true) {
+//            initTrainingNeuralNetFile(serviceAFWeb, ConstantKey.INT_TR_NN1);
+//        }
 
 //        boolean retrainupdateinputflag = false;
 //        if (retrainupdateinputflag == true) {
@@ -311,7 +313,7 @@ public class NNProcessData {
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
-            
+
 //TR_NN1_nnWeight0.txt
             String fileN = ServiceAFweb.FileLocalDebugPath + "TR_NN1_nnWeight0.txt";
             if (FileUtil.FileTest(fileN) == false) {
@@ -395,37 +397,37 @@ public class NNProcessData {
         return false;
     }
 
-    public void initTrainingNeuralNetFile(ServiceAFweb serviceAFWeb, int TR_Name) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-        if (getEnv.checkLocalPC() == true) {
-            //get sample
-            String nnName = ConstantKey.TR_NN1;
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-            }
-
-            boolean flagClearInput = true;
-            if (flagClearInput == true) {
-                // delete TR nn1 transaction
-                String BPname = CKey.NN_version + "_" + nnName;
-                serviceAFWeb.getStockImp().deleteNeuralNetData(BPname);
-            }
-
-            ArrayList<NNInputDataObj> inputlist = new ArrayList();
-
-            for (int i = 1; i < 20; i++) {
-                String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + nnName + i + ".csv";
-                logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = TRprocessImp.readTrainingNeuralNet1(serviceAFWeb, inputlist, nnName, nnFileName);
-                if (i == 0) {
-                    continue;
-                }
-                if (ret == false) {
-                    break;
-                }
-            }
-        }
-    }
+//    public void initTrainingNeuralNetFile(ServiceAFweb serviceAFWeb, int TR_Name) {
+//        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//
+//        //get sample
+//        String nnName = ConstantKey.TR_NN1;
+//        if (TR_Name == ConstantKey.INT_TR_NN2) {
+//            nnName = ConstantKey.TR_NN2;
+//        }
+//
+//        boolean flagClearInput = false;
+//        if (flagClearInput == true) {
+//            // delete TR nn1 transaction
+//            String BPname = CKey.NN_version + "_" + nnName;
+//            serviceAFWeb.getStockImp().deleteNeuralNetData(BPname);
+//        }
+//
+//        ArrayList<NNInputDataObj> inputlist = new ArrayList();
+//
+//        for (int i = 1; i < 20; i++) {
+//            String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + nnName + i + ".csv";
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+//            boolean ret = TRprocessImp.readTrainingNeuralNet1(serviceAFWeb, inputlist, nnName, nnFileName);
+//            if (i == 0) {
+//                continue;
+//            }
+//            if (ret == false) {
+//                break;
+//            }
+//        }
+//
+//    }
 //
 //    public int updateDBneuralnetDataProcess(ServiceAFweb serviceAFWeb) {
 //        String tableName = "neuralnetdata";

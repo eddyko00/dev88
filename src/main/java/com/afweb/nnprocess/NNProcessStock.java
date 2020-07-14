@@ -39,13 +39,18 @@ public class NNProcessStock {
             NeuralNetInputStPredTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
 
         }
+
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
             // start training
             NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
-
         }
 
+        boolean flagNeuralnetCreateJava = false;
+        if (flagNeuralnetCreateJava == true) {
+            NeuralNetNN4CreatJava(serviceAFWeb, ConstantKey.TR_NN4);
+
+        }
     }
 
     private void NeuralNetProcessTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
@@ -278,6 +283,58 @@ public class NNProcessStock {
             logger.info("> getTrainingNNdataProcess " + BPname + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
         }
         return inputList;
+    }
+
+    private boolean NeuralNetNN4CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, stockInputMap);
+
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+
+            String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
+            if (FileUtil.FileTest(fileN) == false) {
+                return false;
+            }
+            StringBuffer msg1 = FileUtil.FileReadText(fileN);
+            String weightSt = msg1.toString();
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "\n"
+                    + "public class nnData {\n"
+                    + "\n"
+                    + "    public static String NN4_WEIGHT_0 = \"\"\n");
+            int sizeline = 1000;
+            int len = weightSt.length();
+            int beg = 0;
+            int end = sizeline;
+            while (true) {
+                String st = weightSt.substring(beg, end);
+                msgWrite.append("+ \"" + st + "\"\n");
+                if (end >= len) {
+                    break;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+            msgWrite.append(""
+                    + "            + \"\";\n");
+
+            fileN = ServiceAFweb.FileLocalDebugPath + "nn4Data.java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
     }
 
 }
