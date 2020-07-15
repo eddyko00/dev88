@@ -2039,6 +2039,8 @@ public class ServiceRemoteDB {
         }
         return inputStr.split("" + delimiter);
     }
+
+
 //////////////////////////
 //    private String sendRequest_Process_Ms_sql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)
 //            throws Exception {
@@ -2109,7 +2111,6 @@ public class ServiceRemoteDB {
 //        }
 //    }
 //////////////////////////
-
 //    private String sendRequest_remotesql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams) {
 //        try {
 //            if (subResourcePath.indexOf("https") != -1) {

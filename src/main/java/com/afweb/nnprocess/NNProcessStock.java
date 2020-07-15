@@ -306,7 +306,7 @@ public class NNProcessStock {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nnData {\n"
+                    + "public class nn4Data {\n"
                     + "\n"
                     + "    public static String NN4_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
@@ -328,7 +328,11 @@ public class NNProcessStock {
             }
             msgWrite.append(""
                     + "            + \"\";\n");
-
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
             fileN = ServiceAFweb.FileLocalDebugPath + "nn4Data.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
