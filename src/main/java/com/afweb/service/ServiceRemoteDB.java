@@ -1926,14 +1926,7 @@ public class ServiceRemoteDB {
                 }
 
             }
-            if (CKey.SEPARATE_STOCK_DB == true) {
-                if (bodyElement.indexOf(" stockinfo") != -1) {
-                    String tmpURL = CKey.REMOTEDB_MY_SQLURL + WEBPOST_MYSQL;
-                    if (getURL_PATH().equals(tmpURL)) {
-                        URLPath = CKey.REMOTEDB_MY_SQLURL + CKey.WEBPOST_HERO_STOCK_PHP;
-                    }
-                }
-            }
+
             URLPath += webResourceString;
             URL request = new URL(URLPath);
             //just for testing
@@ -1978,17 +1971,7 @@ public class ServiceRemoteDB {
             }
 
             int responseCode = con.getResponseCode();
-            if (CKey.SEPARATE_STOCK_DB == true) {
-                if (bodyElement.indexOf(" stockinfo") != -1) {
-                    String tmpURL = CKey.REMOTEDB_MY_SQLURL + WEBPOST_MYSQL;
-                    if (getURL_PATH().equals(tmpURL)) {
-                        if (CKey.NN_DEBUG == true) {
-                            System.out.println("stockinfo:: " + bodyElement);
-                        }
 
-                    }
-                }
-            }
             if (responseCode != 200) {
                 System.out.println("Response Code:: " + responseCode);
             }

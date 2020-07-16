@@ -5,8 +5,6 @@
  */
 package com.afweb.service;
 
-import com.afweb.model.ConstantKey;
-import com.afweb.model.account.*;
 
 import com.afweb.model.stock.*;
 import com.afweb.service.db.*;
@@ -42,9 +40,7 @@ import static org.apache.http.protocol.HTTP.USER_AGENT;
  */
 public class ServiceRemoteInfoDB {
 
-    private static ServiceAFweb serviceAFWeb = null;
-
-    public static Logger logger = Logger.getLogger("ServiceRemoteDB");
+    public static Logger logger = Logger.getLogger("ServiceRemoteInfoDB");
     public static String CMD = "cmd";
     public static String CMDPOST = "sqlreq";
 
@@ -82,19 +78,6 @@ public class ServiceRemoteInfoDB {
         URL_PATH = aURL_PATH;
     }
 
-    /**
-     * @return the serviceAFWeb
-     */
-    public static ServiceAFweb getServiceAFWeb() {
-        return serviceAFWeb;
-    }
-
-    /**
-     * @param aServiceAFWeb the serviceAFWeb to set
-     */
-    public static void setServiceAFWeb(ServiceAFweb aServiceAFWeb) {
-        serviceAFWeb = aServiceAFWeb;
-    }
 
     public int getExecuteRemoteListDB_Mysql(ArrayList<String> sqlCMDList) {
 //        log.info("postExecuteListRemoteDB_Mysql sqlCMDList " + sqlCMDList.size());
@@ -377,204 +360,6 @@ public class ServiceRemoteInfoDB {
         }
     }
 
-    private ArrayList<String> getAllNameSqlRemoteDB_Process(String output) {
-        if (output.equals("")) {
-            return null;
-        }
-        ArrayList<NameRDB> arrayDB = null;
-        ArrayList<String> arrayReturn = new ArrayList();
-        try {
-            NameRDB[] arrayItem = new ObjectMapper().readValue(output, NameRDB[].class);
-            List<NameRDB> listItem = Arrays.<NameRDB>asList(arrayItem);
-            arrayDB = new ArrayList<NameRDB>(listItem);
-
-            for (int i = 0; i < arrayDB.size(); i++) {
-                NameRDB nameRDB = arrayDB.get(i);
-                arrayReturn.add(nameRDB.getName());
-            }
-            return arrayReturn;
-        } catch (IOException ex) {
-            logger.info("getAllNameSqlRemoteDB exception " + output);
-            return null;
-        }
-    }
-
-    public ArrayList getAllSymbolSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
-
-        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-//        log.info("getAllSymbolSqlRemoteDB_RemoteMysql " + sqlCMD);
-        try {
-            String subResourcePath = WEBPOST;
-            HashMap newmap = new HashMap();
-            newmap.put(CMD, "1");
-
-            HashMap newbodymap = new HashMap();
-            newbodymap.put(CMDPOST, sqlCMD);
-
-            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
-
-            int beg = output.indexOf("~~ ");
-            int end = output.indexOf(" ~~");
-            // create hash map
-            if (beg > end) {
-                return null;
-            }
-            output = output.substring(beg + 3, end);
-            ArrayList<String> retArray = new ArrayList();
-            if (output.length() == 0) {
-                return retArray;
-            }
-
-//            String[] dataArray = output.split("~");
-            String[] dataArray = splitIncludeEmpty(output, '~');
-            output = "[";
-            int recSize = 1;
-            for (int i = 0; i < dataArray.length; i += recSize) {
-                output += "{";
-                output += "\"symbol\":\"" + dataArray[i] + "\"";
-                if (i + recSize >= dataArray.length) {
-                    output += "}";
-                } else {
-                    output += "},";
-                }
-            }
-            output += "]";
-            return getAllSymbolSqlRemoteDB_Process(output);
-
-        } catch (Exception ex) {
-            logger.info("getAllSymbolSqlRemoteDB_RemoteMysql exception " + ex);
-            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-            throw ex;
-        }
-    }
-
-    private ArrayList<String> getAllSymbolSqlRemoteDB_Process(String output) {
-        if (output.equals("")) {
-            return null;
-        }
-        ArrayList<SymbolRDB> arrayDB = null;
-        ArrayList<String> arrayReturn = new ArrayList();
-        try {
-            SymbolRDB[] arrayItem = new ObjectMapper().readValue(output, SymbolRDB[].class);
-            List<SymbolRDB> listItem = Arrays.<SymbolRDB>asList(arrayItem);
-            arrayDB = new ArrayList<SymbolRDB>(listItem);
-
-            for (int i = 0; i < arrayDB.size(); i++) {
-                SymbolRDB nameRDB = arrayDB.get(i);
-                arrayReturn.add(nameRDB.getSymbol());
-            }
-            return arrayReturn;
-        } catch (IOException ex) {
-            logger.info("getAllSymbolSqlRemoteDB exception " + output);
-            return null;
-        }
-    }
-
-    public ArrayList getAllIdSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
-
-        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-//        log.info("getAllIdSqlRemoteDB_RemoteMysql " + sqlCMD);
-        try {
-            String subResourcePath = WEBPOST;
-            HashMap newmap = new HashMap();
-            newmap.put(CMD, "1");
-
-            HashMap newbodymap = new HashMap();
-            newbodymap.put(CMDPOST, sqlCMD);
-
-            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
-
-            int beg = output.indexOf("~~ ");
-            int end = output.indexOf(" ~~");
-            // create hash map
-            if (beg > end) {
-                return null;
-            }
-            output = output.substring(beg + 3, end);
-            ArrayList<String> retArray = new ArrayList();
-            if (output.length() == 0) {
-                return retArray;
-            }
-
-//            String[] dataArray = output.split("~");
-            String[] dataArray = splitIncludeEmpty(output, '~');
-            output = "[";
-            int recSize = 1;
-            for (int i = 0; i < dataArray.length; i += recSize) {
-                output += "{";
-                output += "\"id\":\"" + dataArray[i] + "\"";
-                if (i + recSize >= dataArray.length) {
-                    output += "}";
-                } else {
-                    output += "},";
-                }
-            }
-            output += "]";
-            return getAllIdSqlRemoteDB_Process(output);
-
-        } catch (Exception ex) {
-            logger.info("getAllIdSqlRemoteDB_RemoteMysql exception " + ex);
-            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-            throw ex;
-        }
-    }
-
-    private ArrayList<String> getAllIdSqlRemoteDB_Process(String output) {
-        if (output.equals("")) {
-            return null;
-        }
-        ArrayList<IdRDB> arrayDB = null;
-        ArrayList<String> arrayReturn = new ArrayList();
-        try {
-            IdRDB[] arrayItem = new ObjectMapper().readValue(output, IdRDB[].class);
-            List<IdRDB> listItem = Arrays.<IdRDB>asList(arrayItem);
-            arrayDB = new ArrayList<IdRDB>(listItem);
-
-            for (int i = 0; i < arrayDB.size(); i++) {
-                IdRDB nameRDB = arrayDB.get(i);
-                arrayReturn.add(nameRDB.getId());
-            }
-            return arrayReturn;
-        } catch (IOException ex) {
-            logger.info("getAllIdSqlRemoteDB exception " + output);
-            return null;
-        }
-    }
-
-    public String getAllSQLqueryRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
-
-        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-//        log.info("getAccountStockTransactionListRemoteDB_RemoteMysql " + sqlCMD);
-        try {
-            String subResourcePath = WEBPOST;
-            HashMap newmap = new HashMap();
-            newmap.put(CMD, "1");
-
-            HashMap newbodymap = new HashMap();
-            newbodymap.put(CMDPOST, sqlCMD);
-
-            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
-
-            int beg = output.indexOf("~~ ");
-            int end = output.indexOf(" ~~");
-            // create hash map
-            if (beg > end) {
-                return null;
-            }
-            output = output.substring(beg + 3, end);
-            if (output.length() == 0) {
-                return null;
-            }
-
-            return output;
-
-        } catch (Exception ex) {
-            logger.info("getAllSQLqueryRemoteDB_RemoteMysql exception " + ex);
-            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-            throw ex;
-        }
-    }
-
     /////////////////////////////////////////////////////////////
     // operations names constants
     private static final String METHOD_POST = "post";
@@ -606,7 +391,7 @@ public class ServiceRemoteInfoDB {
 
             String URLPath = getURL_PATH() + subResourcePath;
             URLPath = CKey.REMOTEDB_MY_SQLURL + CKey.WEBPOST_HERO_STOCK_PHP;
-            
+
             String webResourceString = "";
             // assume only one param
             if (queryParams != null && !queryParams.isEmpty()) {
@@ -672,17 +457,11 @@ public class ServiceRemoteInfoDB {
             }
 
             int responseCode = con.getResponseCode();
-            if (CKey.SEPARATE_STOCK_DB == true) {
-                if (bodyElement.indexOf(" stockinfo") != -1) {
-                    String tmpURL = CKey.REMOTEDB_MY_SQLURL + WEBPOST_MYSQL;
-                    if (getURL_PATH().equals(tmpURL)) {
-                        if (CKey.NN_DEBUG == true) {
-                            System.out.println("stockinfo:: " + bodyElement);
-                        }
 
-                    }
-                }
-            }
+//            if (CKey.NN_DEBUG == true) {
+//                System.out.println("stockinfo:: " + bodyElement);
+//            }
+
             if (responseCode != 200) {
                 System.out.println("Response Code:: " + responseCode);
             }

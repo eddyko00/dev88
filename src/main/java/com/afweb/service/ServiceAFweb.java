@@ -797,6 +797,11 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////
         boolean initflag = false;
         if (initflag == true) {
+            
+//            if (CKey.SEPARATE_STOCK_DB == true) {
+//                StockInfoDB stockinfodb = new StockInfoDB();
+//                stockinfodb.initStockDB();
+//            }
 
 //
             String symbol = "HOU.TO";

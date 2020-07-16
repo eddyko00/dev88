@@ -80,9 +80,11 @@ public class StockImp {
 
     private StockDB stockdb = new StockDB();
 
+
     public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         stockdb.setJdbcTemplate(jdbcTemplate);
         stockdb.setDataSource(dataSource);
+
     }
 
     public ArrayList getAllDisableStockNameList(int length) {
@@ -140,7 +142,8 @@ public class StockImp {
         if (stock == null) {
             return null;
         }
-        ArrayList StockArray = stockdb.getStockInfo(stock, start, end);
+        ArrayList StockArray = null;
+        StockArray = stockdb.getStockInfo(stock, start, end);
         return StockArray;
     }
 
@@ -150,7 +153,8 @@ public class StockImp {
         if (stock == null) {
             return null;
         }
-        ArrayList StockArray = stockdb.getStockInfo(stock, length, dateNow);
+        ArrayList StockArray = null;
+        StockArray = stockdb.getStockInfo(stock, length, dateNow);
         return StockArray;
     }
 

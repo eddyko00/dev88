@@ -1556,6 +1556,9 @@ public class TrandingSignalProcess {
                 }
 
                 boolean primarySt = false;
+                if (CKey.SEPARATE_STOCK_DB == true) {
+                    primarySt = true;
+                }
 //                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
 //                    String stockN = ServiceAFweb.primaryStock[i];
 //                    if (stockN.equals(NormalizeSymbol.toUpperCase())) {
@@ -2171,7 +2174,6 @@ public class TrandingSignalProcess {
 //            middleSize = CKey.NN2_MIDDLE_SIZE;
 //        }
         //
-
         double[][] inputpattern = null;
         double[][] targetpattern = null;
         double[][] response = null;
@@ -2330,9 +2332,9 @@ public class TrandingSignalProcess {
                         float delta = (float) (output[0] - rsp[0]);
                         delta = Math.abs(delta);
                         float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-                         if (nnName.equals(ConstantKey.TR_NN4) == true) {
-                             deltaCmp = (float) 0.09;
-                         }
+                        if (nnName.equals(ConstantKey.TR_NN4) == true) {
+                            deltaCmp = (float) 0.09;
+                        }
                         if (delta > deltaCmp) {
                             st += ",\"" + delta + "\"";
                         }

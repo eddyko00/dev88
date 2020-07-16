@@ -58,6 +58,8 @@ public class StockDB {
     private static DataSource dataSource;
     private ServiceRemoteDB remoteDB = new ServiceRemoteDB();
 
+    private StockInfoDB stockinfodb = new StockInfoDB();
+
     /**
      * @return the dataSource
      */
@@ -76,6 +78,9 @@ public class StockDB {
      * @param jdbcTemplate the jdbcTemplate to set
      */
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        if (CKey.SEPARATE_STOCK_DB == true) {
+            stockinfodb.setJdbcTemplate(jdbcTemplate);
+        }
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -83,6 +88,9 @@ public class StockDB {
      * @param dataSource the dataSource to set
      */
     public void setDataSource(DataSource dataSource) {
+        if (CKey.SEPARATE_STOCK_DB == true) {
+            stockinfodb.setDataSource(dataSource);
+        }
         this.dataSource = dataSource;
     }
 
@@ -184,6 +192,9 @@ public class StockDB {
     }
 
     public int deleteStockInfo(AFstockInfo stockInfo) {
+        if (CKey.SEPARATE_STOCK_DB == true) {
+            return stockinfodb.deleteStockInfo(stockInfo);
+        }
         try {
             String deleteSQL = "delete from stockinfo where id=" + stockInfo.getId();
             return processUpdateDB(deleteSQL);
@@ -194,6 +205,9 @@ public class StockDB {
     }
 
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
+        if (CKey.SEPARATE_STOCK_DB == true) {
+            return stockinfodb.deleteStockInfoByStockId(stockObj);
+        }
         try {
             String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();
             return processUpdateDB(deleteSQL);
@@ -364,6 +378,9 @@ public class StockDB {
     }
 
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, long start, long end) {
+        if (CKey.SEPARATE_STOCK_DB == true) {
+            return stockinfodb.getStockInfo(stock, start, end);
+        }
         try {
             if (stock == null) {
                 return null;
@@ -384,7 +401,9 @@ public class StockDB {
     }
 
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-
+        if (CKey.SEPARATE_STOCK_DB == true) {
+            return stockinfodb.getStockInfo(stock, length, dateNow);
+        }
         if (dateNow == null) {
             dateNow = TimeConvertion.getCurrentCalendar();
         }
@@ -411,6 +430,9 @@ public class StockDB {
     }
 
     public String getAllStockInfoDBSQL(String sql) {
+        if (CKey.SEPARATE_STOCK_DB == true) {
+            return stockinfodb.getAllStockInfoDBSQL(sql);
+        }
         try {
             ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
             String nameST = new ObjectMapper().writeValueAsString(entries);
@@ -472,6 +494,7 @@ public class StockDB {
     }
 
     public int updateStockInfoTransaction(AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
+
 //        logger.info("> addStockInfoTransaction " + stock.getSymbol() + " - " + StockArray.size());
         try {
             if (stock == null) {
@@ -532,12 +555,18 @@ public class StockDB {
 
             }
             //must sepalate stock and stockinfo to exec one by one for 2 db 
-            int sqlResult = updateSQLArrayList(sqlTranList);
-            sqlTranList.clear();
+            int sqlResult = 0;
+            if (CKey.SEPARATE_STOCK_DB == true) {
+                sqlResult = stockinfodb.updateSQLArrayList(sqlTranList);
+            } else {
+                sqlResult = updateSQLArrayList(sqlTranList);
+            }
             
 //            if (getEnv.checkLocalPC() == true) {
 //                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
-//            }
+//            }            
+            ArrayList sqlStockTranList = new ArrayList();
+
             //clear Fail update count
             long dateNowLong = dateNow.getTimeInMillis();
             stock.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
@@ -548,9 +577,9 @@ public class StockDB {
                     = "update stock set substatus=" + stock.getSubstatus() + ", stockname='" + stock.getStockname()
                     + "', updatedatedisplay='" + stock.getUpdatedatedisplay() + "',updatedatel=" + stock.getUpdatedatel() + ", failedupdate="
                     + stock.getFailedupdate() + " where symbol='" + stock.getSymbol() + "'";
-            sqlTranList.add(sqlUpdateStockSQL);
+            sqlStockTranList.add(sqlUpdateStockSQL);
             // process all transaction
-            sqlResult = updateSQLArrayList(sqlTranList);
+            sqlResult = updateSQLArrayList(sqlStockTranList);
             if (sqlResult == 1) {
                 return 1; //resultAdd; 
             }
@@ -749,13 +778,6 @@ public class StockDB {
             }
 // sequency is important
 
-            if (CKey.SEPARATE_STOCK_DB == true) {
-                CKey.SEPARATE_STOCK_DB = false;
-                processExecuteDB("drop table if exists stockinfo");
-                CKey.SEPARATE_STOCK_DB = true;
-                processExecuteDB("drop table if exists stockinfo");
-            }
-
             ArrayList dropTableList = new ArrayList();
             dropTableList.add("drop table if exists dummy1");
             dropTableList.add("drop table if exists lockobject");
@@ -774,7 +796,7 @@ public class StockDB {
 //            
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
-            
+
             ArrayList createTableList = new ArrayList();
             if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
                 createTableList.add("create table dummy1 (id int identity not null, primary key (id))");
@@ -826,10 +848,14 @@ public class StockDB {
                 createTableList.add("alter table transationorder add constraint fktransation900454 foreign key (tradingruleid) references tradingrule (id)");
                 createTableList.add("alter table account add constraint fkaccount643453 foreign key (customerid) references customer (id)");
             }
-            
+
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultCreate = ExecuteSQLArrayList(createTableList);
 
+            if (CKey.SEPARATE_STOCK_DB == true) {
+                StockInfoDB stockinfodb = new StockInfoDB();
+                stockinfodb.initStockDB();
+            }
             logger.info("> InitStockDB Done - result " + resultCreate);
             total = getCountRowsInTable(getJdbcTemplate(), "stock");
             return 0;  // new database
