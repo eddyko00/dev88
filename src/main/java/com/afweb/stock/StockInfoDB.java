@@ -100,7 +100,7 @@ public class StockInfoDB {
     }
 
 
-    public static boolean checkCallRemoveSQL_Mysql() {
+    public static boolean checkCallRemoteSQL_Mysql() {
         boolean ret = false;
         if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
             ret = true;
@@ -167,7 +167,7 @@ public class StockInfoDB {
     }
 
     private ArrayList getStockInfoListSQL(String sql) {
-        if (checkCallRemoveSQL_Mysql() == true) {
+        if (checkCallRemoteSQL_Mysql() == true) {
             try {
                 ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
                 return AFstockObjArry;
@@ -175,14 +175,7 @@ public class StockInfoDB {
             }
             return null;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            try {
-                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
-                return AFstockObjArry;
-            } catch (Exception ex) {
-            }
-            return null;
-        }
+
         List<AFstockInfo> entries = new ArrayList<>();
         entries.clear();
         entries = this.jdbcTemplate.query(sql, new RowMapper() {
@@ -333,7 +326,7 @@ public class StockInfoDB {
 
     public int updateSQLArrayList(ArrayList SQLTran) {
 
-        if (checkCallRemoveSQL_Mysql() == true) {
+        if (checkCallRemoteSQL_Mysql() == true) {
             // just for testing
 //            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
 //                boolean result = ExecuteSQLArrayList(SQLTran);
@@ -349,13 +342,7 @@ public class StockInfoDB {
             }
             return 1;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
-            if (ret == 0) {
-                return 0;
-            }
-            return 1;
-        }
+
         try {
             for (int i = 0; i < SQLTran.size(); i++) {
                 String SQL = (String) SQLTran.get(i);
@@ -375,11 +362,7 @@ public class StockInfoDB {
 
     ///////////
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
-        if (checkCallRemoveSQL_Mysql() == true) {
-            int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
-            return count;
-        }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
+        if (checkCallRemoteSQL_Mysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
             return count;
         }
@@ -389,14 +372,11 @@ public class StockInfoDB {
     }
 
     public int processUpdateDB(String sqlCMD) throws Exception {
-        if (checkCallRemoveSQL_Mysql() == true) {
+        if (checkCallRemoteSQL_Mysql() == true) {
             int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return ret;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
-            return ret;
-        }
+
 //        logger.info("> processUpdateDB " + sqlCMD);
         getJdbcTemplate().update(sqlCMD);
         return 1;
@@ -405,7 +385,7 @@ public class StockInfoDB {
     public void processExecuteDB(String sqlCMD) throws Exception {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
-        if (checkCallRemoveSQL_Mysql() == true) {
+        if (checkCallRemoteSQL_Mysql() == true) {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return;
         }
@@ -419,9 +399,8 @@ public class StockInfoDB {
         try {
 
             processExecuteDB("drop table if exists eddy");
-            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-                processExecuteDB("create table eddy (id int identity not null, primary key (id))");
-            }
+            
+
             if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 processExecuteDB("create table eddy (id int(10) not null auto_increment, primary key (id))");
             }
@@ -435,11 +414,26 @@ public class StockInfoDB {
 
             dropTableList.add("drop table if exists stockinfo");
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
+            
+            
+//            dropTableList = new ArrayList();
+//            dropTableList.add("drop table if exists dummy1");
+//            dropTableList.add("drop table if exists lockobject");
+//            dropTableList.add("drop table if exists transationorder");
+//            dropTableList.add("drop table if exists tradingrule");
+//            dropTableList.add("drop table if exists stockinfo");
+//            dropTableList.add("drop table if exists performance");
+//            dropTableList.add("drop table if exists neuralnet");
+//            dropTableList.add("drop table if exists neuralnet1");
+//            dropTableList.add("drop table if exists neuralnetdata");
+//            dropTableList.add("drop table if exists comm");
+//            dropTableList.add("drop table if exists billing");
+//            dropTableList.add("drop table if exists stock");
+//            dropTableList.add("drop table if exists account");
+//            dropTableList.add("drop table if exists customer");
+//            resultDropList = ExecuteSQLArrayList(dropTableList);            
 
             ArrayList createTableList = new ArrayList();
-            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, stockid int not null, primary key (id))");
-            }
 
             if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, stockid int(10) not null, primary key (id))");
@@ -454,6 +448,34 @@ public class StockInfoDB {
             logger.info("> InitStockInfoDB Table exception " + e.getMessage());
         }
         return -1;
+    }
+
+    public ArrayList getAllIdSQL(String sql) {
+        
+        if (checkCallRemoteSQL_Mysql() == true) {
+            ArrayList nnList;
+            try {
+                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql);
+                return nnList;
+            } catch (Exception ex) {
+            }
+            return null;
+        }
+
+        try {
+            List<String> entries = new ArrayList<>();
+            entries.clear();
+            entries = this.jdbcTemplate.query(sql, new RowMapper() {
+                public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    String name = rs.getString("id");
+                    return name;
+                }
+            });
+            return (ArrayList) entries;
+        } catch (Exception e) {
+            logger.info("> getAllIdSQL exception " + e.getMessage());
+        }
+        return null;
     }
 
 }

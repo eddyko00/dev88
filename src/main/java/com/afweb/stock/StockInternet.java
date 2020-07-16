@@ -11,7 +11,6 @@ import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
@@ -30,7 +29,6 @@ import java.util.Calendar;
 
 import java.util.Date;
 import java.util.logging.Logger;
-
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -78,8 +76,12 @@ public class StockInternet {
             // always the earliest day first
             // always the earliest day first
             // always the earliest day first
-            StockArray = internetQuote.getHistoricalData(NormalizeSymbol, startDate, endDate);
-//            StockArray = getInternetHistoricalScreen(NormalizeSymbol, startDate, endDate);
+            if (CKey.GET_STOCKHISTORY_SCREEN == true) {
+                StockArray = getInternetHistoricalScreen(NormalizeSymbol, startDate, endDate);
+            } else {
+                StockArray = internetQuote.getHistoricalData(NormalizeSymbol, startDate, endDate);
+            }
+
 //            if (NormalizeSymbol.equals("HOU.TO")) {
 //                logger.info("GetStockHistoricalInternet  " + NormalizeSymbol + " " + StockArray.size());
 //            }
@@ -413,7 +415,6 @@ public class StockInternet {
 //        logger.info("getHistoricalScreen  " + symbol + " " + StockArray.size());
         return StockArray;
     }
-    
 
 ////////////////////////////////////////////////////        
     //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
@@ -510,6 +511,5 @@ public class StockInternet {
         }
         return true;
     }
-    
-    
+
 }

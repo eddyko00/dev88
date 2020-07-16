@@ -1447,13 +1447,14 @@ public class TrandingSignalProcess {
                 if (flagEnd == true) {
                     return 1;
                 }
+                 if (CKey.GET_STOCKHISTORY_SCREEN == true) {
                 // temporary fix the yahoo finance cannot get history
                 // temporary fix the yahoo finance cannot get history
                 // temporary fix the yahoo finance cannot get history
-//                if (internetHistoryLen == 0) {
-//                    return 0;
-//                }
-
+                if (internetHistoryLen == 0) {
+                         return 0;
+                     }
+                 }
                 // always the earliest day first
                 ArrayList<AFstockInfo> StockArray = stockInternet.GetStockHistoricalInternet(NormalizeSymbol, internetHistoryLen);
 

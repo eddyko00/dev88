@@ -738,63 +738,6 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
 
-//        boolean flagTestNeuralnetTrain = false;
-//        if (flagTestNeuralnetTrain == true) {
-//            String symbol = "HOU.TO";
-//
-//            int nnTRN = ConstantKey.INT_TR_NN1;
-//            String nnName = ConstantKey.TR_NN1;
-//
-//            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-////            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
-////            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
-//            NNProcessImp.inputStockNeuralNetData(this, nnTRN, symbol);
-//            NNProcessImp.stockTrainNeuralNet(this, nnTRN, symbol);
-//        }
-        boolean stocksplitflag = false;
-        if (stocksplitflag == true) {
-            /////////need manually enter the communication id
-            /////////need manually enter the communication id
-
-            int commid = 215; // 216; // 215;
-            CommObj commObj = getAccountImp().getCommObjByID(commid);
-            if (commObj != null) {
-                CommData commData = getAccountImp().getCommDataObj(commObj);
-                if (commData != null) {
-                    String sym = commData.getSymbol();
-                    boolean retBoolean = true;
-                    AFstockObj stock = getStockImp().getRealTimeStock(sym, null);
-//                    if (stock.getSubstatus() == ConstantKey.OPEN) {
-//                        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
-//                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-//                        ArrayList sqlList = new ArrayList();
-//                        sqlList.add(sockNameSQL);
-//                        SystemUpdateSQLList(sqlList);
-//                    }
-
-                    if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
-                        return;
-                    }
-                    String nnFileName = FileLocalPath + sym + ".csv";
-                    if (FileUtil.FileTest(nnFileName) == false) {
-                        logger.info("updateStockFile not found " + nnFileName);
-                        return;
-                    }
-
-                    getStockImp().deleteStockInfoByStockId(stock);
-                    // update file
-                    retBoolean = StockInternet.updateStockFile(this, sym);
-
-                    if (retBoolean == true) {
-                        processStockSplit(commData.getSymbol(), commData.getSplit());
-                    }
-                }
-            }
-
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////   
-        ///////////////////////////////////////////////////////////////////////////////////
         boolean initflag = false;
         if (initflag == true) {
             
@@ -849,6 +792,53 @@ public class ServiceAFweb {
             }
         }
 //        
+
+        ///////////////////////////////////////////////////////////////////////////////////   
+        ///////////////////////////////////////////////////////////////////////////////////
+        boolean stocksplitflag = false;
+        if (stocksplitflag == true) {
+            /////////need manually enter the communication id
+            /////////need manually enter the communication id
+
+            int commid = 215; // 216; // 215;
+            CommObj commObj = getAccountImp().getCommObjByID(commid);
+            if (commObj != null) {
+                CommData commData = getAccountImp().getCommDataObj(commObj);
+                if (commData != null) {
+                    String sym = commData.getSymbol();
+                    boolean retBoolean = true;
+                    AFstockObj stock = getStockImp().getRealTimeStock(sym, null);
+//                    if (stock.getSubstatus() == ConstantKey.OPEN) {
+//                        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
+//                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+//                        ArrayList sqlList = new ArrayList();
+//                        sqlList.add(sockNameSQL);
+//                        SystemUpdateSQLList(sqlList);
+//                    }
+
+                    if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
+                        return;
+                    }
+                    String nnFileName = FileLocalPath + sym + ".csv";
+                    if (FileUtil.FileTest(nnFileName) == false) {
+                        logger.info("updateStockFile not found " + nnFileName);
+                        return;
+                    }
+
+                    getStockImp().deleteStockInfoByStockId(stock);
+                    // update file
+                    retBoolean = StockInternet.updateStockFile(this, sym);
+
+                    if (retBoolean == true) {
+                        processStockSplit(commData.getSymbol(), commData.getSplit());
+                    }
+                }
+            }
+
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////   
+        ///////////////////////////////////////////////////////////////////////////////////
         boolean comtestflag = false;
         if (comtestflag == true) {
             AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);

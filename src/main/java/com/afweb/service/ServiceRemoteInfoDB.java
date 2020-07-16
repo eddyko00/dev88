@@ -359,7 +359,78 @@ public class ServiceRemoteInfoDB {
             return null;
         }
     }
+        public ArrayList getAllIdSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
 
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+//        log.info("getAllIdSqlRemoteDB_RemoteMysql " + sqlCMD);
+        try {
+            String subResourcePath = WEBPOST;
+            HashMap newmap = new HashMap();
+            newmap.put(CMD, "1");
+
+            HashMap newbodymap = new HashMap();
+            newbodymap.put(CMDPOST, sqlCMD);
+
+            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
+
+            int beg = output.indexOf("~~ ");
+            int end = output.indexOf(" ~~");
+            // create hash map
+            if (beg > end) {
+                return null;
+            }
+            output = output.substring(beg + 3, end);
+            ArrayList<String> retArray = new ArrayList();
+            if (output.length() == 0) {
+                return retArray;
+            }
+
+//            String[] dataArray = output.split("~");
+            String[] dataArray = splitIncludeEmpty(output, '~');
+            output = "[";
+            int recSize = 1;
+            for (int i = 0; i < dataArray.length; i += recSize) {
+                output += "{";
+                output += "\"id\":\"" + dataArray[i] + "\"";
+                if (i + recSize >= dataArray.length) {
+                    output += "}";
+                } else {
+                    output += "},";
+                }
+            }
+            output += "]";
+            return getAllIdSqlRemoteDB_Process(output);
+
+        } catch (Exception ex) {
+            logger.info("getAllIdSqlRemoteDB_RemoteMysql exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+            throw ex;
+        }
+    }
+
+    private ArrayList<String> getAllIdSqlRemoteDB_Process(String output) {
+        if (output.equals("")) {
+            return null;
+        }
+        ArrayList<IdRDB> arrayDB = null;
+        ArrayList<String> arrayReturn = new ArrayList();
+        try {
+            IdRDB[] arrayItem = new ObjectMapper().readValue(output, IdRDB[].class);
+            List<IdRDB> listItem = Arrays.<IdRDB>asList(arrayItem);
+            arrayDB = new ArrayList<IdRDB>(listItem);
+
+            for (int i = 0; i < arrayDB.size(); i++) {
+                IdRDB nameRDB = arrayDB.get(i);
+                arrayReturn.add(nameRDB.getId());
+            }
+            return arrayReturn;
+        } catch (IOException ex) {
+            logger.info("getAllIdSqlRemoteDB exception " + output);
+            return null;
+        }
+    }
+
+ 
     /////////////////////////////////////////////////////////////
     // operations names constants
     private static final String METHOD_POST = "post";

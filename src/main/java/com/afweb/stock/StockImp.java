@@ -205,6 +205,13 @@ public class StockImp {
     }
 
     public int updateSQLArrayList(ArrayList SQLTran) {
+        if (CKey.SEPARATE_STOCK_DB == true) {
+            String sql =(String) SQLTran.get(0);
+            if (sql.indexOf(" stockinfo ") != -1) {
+                StockInfoDB stockinfodb = new StockInfoDB();
+                return stockinfodb.updateSQLArrayList(SQLTran);
+            }
+        }
         return stockdb.updateSQLArrayList(SQLTran);
     }
 

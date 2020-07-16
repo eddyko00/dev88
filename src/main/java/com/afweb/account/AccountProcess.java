@@ -1186,6 +1186,8 @@ public class AccountProcess {
         if (ret == 0) {
             return false;
         }
+        restoreDBstockinfo();
+        
         restoreDBaccount();
         restoreDBstock();
         restoreDBaccountstock_tradingrule();
@@ -1195,7 +1197,7 @@ public class AccountProcess {
         restoreDBcomm();
         restoreDBbilling();
         restoreDBperformance();
-        restoreDBstockinfo();
+//        restoreDBstockinfo();
         restoreDBdummy();
 
         return true;
@@ -1634,6 +1636,7 @@ public class AccountProcess {
     public boolean downloadDBData(ServiceAFweb serviceAFWeb) {
         this.serviceAFWeb = serviceAFWeb;
 
+        saveDBstockinfo();        
         saveDBcustomer();
         saveDBaccount();
         saveDBaccountstock_tradingrule();
@@ -1643,7 +1646,7 @@ public class AccountProcess {
         saveDBbilling();
         saveDBperformance();
         saveDBstock();
-        saveDBstockinfo();
+//        saveDBstockinfo();
 
         return true;
     }
