@@ -7,10 +7,9 @@ package com.afweb.nnprocess;
 
 import com.afweb.util.CKey;
 import com.afweb.model.*;
-import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import static com.afweb.nnprocess.NNProcessData.logger;
+
 
 import com.afweb.service.*;
 
@@ -69,6 +68,7 @@ public class NNProcessStock {
             boolean flagInit = true;
             if (flagInit == true) {
                 AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
+
                 if (afNeuralNet == null) {
                     afNeuralNet = new AFneuralNet();
                     afNeuralNet.setName(BPname);

@@ -844,6 +844,18 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
+        
+
+        boolean flagNeural = false;
+        if (flagNeural == true) {
+//            SystemClearNNinput();
+
+            for (int k = 0; k < 20; k++) {
+                NNProcessImp.ProcessTrainNeuralNet(this);
+            }
+
+        }
+        
         boolean comtestflag = false;
         if (comtestflag == true) {
             AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
@@ -900,15 +912,6 @@ public class ServiceAFweb {
 
         }
 
-        boolean flagNeural = false;
-        if (flagNeural == true) {
-//            SystemClearNNinput();
-
-            for (int k = 0; k < 20; k++) {
-                NNProcessImp.ProcessTrainNeuralNet(this);
-            }
-
-        }
         boolean flagRetrainTest = false;
         if (flagRetrainTest == true) {
             String symbol = "HOU.TO";

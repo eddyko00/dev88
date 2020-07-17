@@ -1741,11 +1741,11 @@ public class TradingNNprocess {
                     if (stWeight0.length() > 0) {
 
                         String[] strNetArraySym = stWeight0.split(";");
-                        String versionSyim = strNetArraySym[0];
+                        String versionSym = strNetArraySym[0];
                         String middlelayerSym = strNetArraySym[4];
                         // reset to use TR Weight 0  if middel layer is different
                         // reset to use TR Weight 0  if middel layer is different 
-                        if (middlelayer.equals(middlelayerSym) && version.equals(versionSyim)) {
+                        if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
                             logger.info("> inputStockNeuralNetData create existing Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                             nnTemp.createNet(stWeight0);
                         } else {
@@ -2170,7 +2170,7 @@ public class TradingNNprocess {
             inputBuf.append(nnData.NN1_INPUTLIST9);
             inputBuf.append(nnData.NN1_INPUTLIST10);
             inputBuf.append(nnData.NN1_INPUTLIST11);
-            inputBuf.append(nnData.NN1_INPUTLIST12);
+
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

@@ -38,7 +38,7 @@ public class NNProcessData {
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
 
         }
-        boolean flagNeuralnetTrain = true;
+        boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
             // start training
             NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
@@ -270,6 +270,9 @@ public class NNProcessData {
             boolean flagInit = true;
             if (flagInit == true) {
                 AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
+                ////just for teting
+//                afNeuralNet = null;
+                ////just for teting                
                 if (afNeuralNet == null) {
                     afNeuralNet = new AFneuralNet();
                     afNeuralNet.setName(BPname);
