@@ -845,8 +845,7 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////
         boolean flagNeural = false;
         if (flagNeural == true) {
-//            SystemClearNNinput();
-
+            SystemClearNNinput();
             for (int k = 0; k < 20; k++) {
                 NNProcessImp.ProcessTrainNeuralNet(this);
             }

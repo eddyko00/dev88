@@ -82,7 +82,7 @@ public class TradingNNprocess {
         }
         if (lockReturn > 0) {
             long currentTime = System.currentTimeMillis();
-            long lockDate1Min = TimeConvertion.addMinutes(currentTime, 1);
+            long lockDate1Min = TimeConvertion.addMinutes(currentTime, 5);
 
             for (int i = 0; i < 10; i++) {
                 currentTime = System.currentTimeMillis();

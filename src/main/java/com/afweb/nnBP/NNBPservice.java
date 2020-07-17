@@ -159,7 +159,7 @@ public class NNBPservice {
         long currentTime = System.currentTimeMillis();
         int Min4 = 4;
         if (getEnv.checkLocalPC() == true) {
-            Min4 = 8;
+            Min4 = 10;
         }
         if (CKey.NN_DEBUG == true) {
             Min4 = 100;
