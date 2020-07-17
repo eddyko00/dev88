@@ -1557,7 +1557,7 @@ public class TrandingSignalProcess {
                 }
 
                 boolean primarySt = false;
-                if (CKey.SEPARATE_STOCK_DB == true) {
+                if (CKey.SEPARATE_STOCKINFO_DB == true) {
                     primarySt = true;
                 }
 //                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {

@@ -33,7 +33,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
@@ -591,7 +590,7 @@ public class ServiceAFweb {
                 NNProcessImp.ProcessTrainNeuralNet(this);
 
             } else {
-                NNProcessImp.ProcessInputNeuralNet(this);
+//                NNProcessImp.ProcessInputNeuralNet(this);
             }
 
         } catch (Exception ex) {
@@ -720,15 +719,22 @@ public class ServiceAFweb {
 
         boolean dbhero2opflag = false;
         if (dbhero2opflag == true) {
+            boolean prevOPSHIFT = CKey.OPENSHIFT_DB1;
+            boolean pervStockInfoDB = CKey.SEPARATE_STOCKINFO_DB;
+
             CKey.OPENSHIFT_DB1 = false;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
             backupSystem();
 //
+
             CKey.OPENSHIFT_DB1 = true;
+            CKey.SEPARATE_STOCKINFO_DB = false;
+
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
             restoreSystem();
             // restore original
-            CKey.OPENSHIFT_DB1 = false;
+            CKey.OPENSHIFT_DB1 = prevOPSHIFT;
+            CKey.SEPARATE_STOCKINFO_DB = pervStockInfoDB;
         }
 
         boolean flagTran_TR_ACC = false;
@@ -740,12 +746,11 @@ public class ServiceAFweb {
 
         boolean initflag = false;
         if (initflag == true) {
-            
+
 //            if (CKey.SEPARATE_STOCK_DB == true) {
 //                StockInfoDB stockinfodb = new StockInfoDB();
 //                stockinfodb.initStockDB();
 //            }
-
 //
             String symbol = "HOU.TO";
             AFstockObj stock = this.getRealTimeStockImp(symbol);
@@ -895,6 +900,15 @@ public class ServiceAFweb {
 
         }
 
+        boolean flagNeural = false;
+        if (flagNeural == true) {
+//            SystemClearNNinput();
+
+            for (int k = 0; k < 20; k++) {
+                NNProcessImp.ProcessTrainNeuralNet(this);
+            }
+
+        }
         boolean flagRetrainTest = false;
         if (flagRetrainTest == true) {
             String symbol = "HOU.TO";
@@ -990,16 +1004,6 @@ public class ServiceAFweb {
         boolean flagNeuralData = false;
         if (flagNeuralData == true) {
             SystemClearNNData();
-        }
-
-        boolean flagNeural = false;
-        if (flagNeural == true) {
-            SystemClearNNinput();
-            NNProcessImp.ProcessInputNeuralNet(this);
-            for (int k = 0; k < 20; k++) {
-                NNProcessImp.ProcessTrainNeuralNet(this);
-            }
-
         }
 
         boolean flagSig = false;

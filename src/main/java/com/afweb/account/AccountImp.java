@@ -58,7 +58,7 @@ public class AccountImp {
     }
 
     public ArrayList getAllIdSQL(String sql) {
-        if (CKey.SEPARATE_STOCK_DB == true) {
+        if (CKey.SEPARATE_STOCKINFO_DB == true) {
             if (sql.indexOf(" stockinfo ") != -1) {
                 StockInfoDB stockinfodb = new StockInfoDB();
                 return stockinfodb.getAllIdSQL(sql);
