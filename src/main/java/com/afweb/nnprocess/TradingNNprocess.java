@@ -122,6 +122,10 @@ public class TradingNNprocess {
                                 if (houFlag == true) {
                                     String BPnameHOU = CKey.NN_version + "_" + nnName + "_" + symbol;
                                     AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameHOU, 0);
+                                    if (nnObj1 == null) {
+                                        inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
+                                        continue;
+                                    }
                                     if (nnObj1 != null) {
                                         if (nnObj1.getStatus() == ConstantKey.INITIAL) {
                                             inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
