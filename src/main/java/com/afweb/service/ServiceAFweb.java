@@ -544,7 +544,7 @@ public class ServiceAFweb {
                     long lockNNinput = setLockNameProcess(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getServerName() + " ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
                     if (lockNNinput > 0) {
                         getServerObj().setAutoNNCnt(getServerObj().getAutoNNCnt() + 1);
-                        SystemClearNNinput();
+//                        SystemClearNNinput();
                         // no need to clear it
                     }
                 }
@@ -585,12 +585,11 @@ public class ServiceAFweb {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 
+            } else {
+//                NNProcessImp.ProcessInputNeuralNet(this);
                 ///Error R14 (Memory quota exceeded) in heroku
                 ///Error R14 (Memory quota exceeded) in heroku
                 NNProcessImp.ProcessTrainNeuralNet(this);
-
-            } else {
-//                NNProcessImp.ProcessInputNeuralNet(this);
             }
 
         } catch (Exception ex) {
@@ -844,8 +843,6 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-        
-
         boolean flagNeural = false;
         if (flagNeural == true) {
 //            SystemClearNNinput();
@@ -855,7 +852,7 @@ public class ServiceAFweb {
             }
 
         }
-        
+
         boolean comtestflag = false;
         if (comtestflag == true) {
             AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
