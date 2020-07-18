@@ -1657,6 +1657,7 @@ public class TradingNNprocess {
                         return 0;
                     }
                     nnTemp.createNet(CKey.NN1_WEIGHT_0);
+                    String weightSt = nnTemp.getNetObjSt();
                     String[] strNetArray = CKey.NN1_WEIGHT_0.split(";");
                     version = strNetArray[0];
                     middlelayer = strNetArray[4];

@@ -37,7 +37,9 @@ public class CKey {
     public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
-    ////////////////////// make this always true
+    ////////////////////// make this always true for HEROKU Env
+    ////////////////////// make this always true for HEROKU Env
+    ////////////////////// make this always true for HEROKU Env  
     public static boolean SEPARATE_STOCKINFO_DB = true; //false //true    
     public static String WEBPOST_HERO_STOCK_PHP = "/webgetresp_stock.php";
     /////////////////////
@@ -99,7 +101,12 @@ public class CKey {
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 120; //24; //18; //16;
     public static final int NN2_MIDDLE_SIZE = 120;
-    public static String version = "2.0528";
+    
+    
+    // must match to the nnData version
+    // must match to the nnData version
+    // must match to the nnData version  
+    public static String version = "2.0717";
     
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
     public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;
