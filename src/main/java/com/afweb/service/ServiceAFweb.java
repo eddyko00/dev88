@@ -575,7 +575,6 @@ public class ServiceAFweb {
                 getAccountProcessImp().ProcessSystemMaintance(this);
                 System.gc();
             } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
-//                NNProcessImp.ProcessReTrainNeuralNet(this);
                 
             } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
                 //10 Sec * 5 ~ 1 minutes
