@@ -1032,11 +1032,25 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
+                    if (CKey.NN_DEBUG == true) {
+                        ProcessNN4 nn4 = new ProcessNN4();
+                        int nn4Signal = nn4.ProcessTRHistoryOffsetNN4(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                        prevSignal = nn4Signal;
+                        break;
+                    }
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         ProcessNN3 nn3 = new ProcessNN3();
                         int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList);
                         prevSignal = nn3Signal;
+                    }
+                    break;
+                case ConstantKey.INT_TR_NN4:
+                    boolean nn4Flag = false;
+                    if (nn4Flag == true) {
+                        ProcessNN4 nn4 = new ProcessNN4();
+                        int nn4Signal = nn4.ProcessTRHistoryOffsetNN4(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                        prevSignal = nn4Signal;
                     }
                     break;
                 default:
@@ -1130,13 +1144,25 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
+                    if (CKey.NN_DEBUG == true) {
+                        ProcessNN4 nn4 = new ProcessNN4();
+                        nn4.updateAdminTradingsignalnn4(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+                        break;
+                    }
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         ProcessNN3 nn3 = new ProcessNN3();
                         nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
                     }
                     break;
+                case ConstantKey.INT_TR_NN4:
+                    boolean nn4Flag = false;
 
+                    if (nn4Flag == true) {
+                        ProcessNN4 nn4 = new ProcessNN4();
+                        nn4.updateAdminTradingsignalnn4(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+                    }
+                    break;
                 case ConstantKey.INT_TR_ACC:
                     trTradingACCObj = trObj;
                     break;
@@ -1447,14 +1473,14 @@ public class TrandingSignalProcess {
                 if (flagEnd == true) {
                     return 1;
                 }
-                 if (CKey.GET_STOCKHISTORY_SCREEN == true) {
-                // temporary fix the yahoo finance cannot get history
-                // temporary fix the yahoo finance cannot get history
-                // temporary fix the yahoo finance cannot get history
-                if (internetHistoryLen == 0) {
-                         return 0;
-                     }
-                 }
+                if (CKey.GET_STOCKHISTORY_SCREEN == true) {
+                    // temporary fix the yahoo finance cannot get history
+                    // temporary fix the yahoo finance cannot get history
+                    // temporary fix the yahoo finance cannot get history
+                    if (internetHistoryLen == 0) {
+                        return 0;
+                    }
+                }
                 // always the earliest day first
                 ArrayList<AFstockInfo> StockArray = stockInternet.GetStockHistoricalInternet(NormalizeSymbol, internetHistoryLen);
 

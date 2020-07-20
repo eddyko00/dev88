@@ -17,8 +17,8 @@ public class AFwebService extends ServiceAFweb{
 //public static String localTimerURL = "http://127.0.0.1:8082";
 //for Dev110
 public static String webPrefix ="";
-public static String localTimerURL = "http://127.0.0.1:8080"; 
-
+//public static String localTimerURL = "http://127.0.0.1:8080"; 
+public static String localTimerURL = "http://127.0.0.1:8090"; 
 
 
 

@@ -793,23 +793,6 @@ public class ServiceAFweb {
 
         }
 
-//        boolean flagRetrainData = false;
-//        if (flagRetrainData == true) {
-//            NNProcessImp.retrainStockNNprocessNameArray(this);
-//            NNProcessImp.ProcessReTrainNeuralNet(this);
-//
-////            NNProcessImp.inputReTrainStockNeuralNetData(this, ConstantKey.INT_TR_NN2, "HOU.TO");
-//        }
-
-//        boolean retrainflag = false;
-//        if (retrainflag == true) {
-//            ArrayList<NNInputOutObj> inputlist = new ArrayList();
-//            String symbol = "HOU.TO";
-//
-//            TradingNNprocess trainNN = new TradingNNprocess();
-//            ArrayList<NNInputDataObj> inputlistSym = trainNN.getReTrainingNNdataStock(this, symbol, ConstantKey.INT_TR_NN1, 0);
-//        }
-
 
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
@@ -911,6 +894,46 @@ public class ServiceAFweb {
 
         }
 
+        boolean flagNeuralData = false;
+        if (flagNeuralData == true) {
+            SystemClearNNData();
+        }
+
+        boolean flagSig = false;
+        if (flagSig == true) {
+
+            String symbol = "HOU.TO";
+            String nnName = ConstantKey.TR_NN4;
+    
+//          // will clear the transaction history  
+            AFstockObj stock = this.getRealTimeStockImp(symbol);
+            AccountObj accountAdminObj = this.getAdminObjFromCache();
+            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+//          update HOU current history of transaction
+            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
+//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+
+            // update HOU history of transaction
+//            AccountObj accountAObj = getAdminObjFromCache();
+//            TRprocessImp.upateAdminTransaction(this, accountAObj, symbol);
+        }
+
+    }
+
+    public void updateErrorStockYahooParseError(String symbol) {
+//        String symbol = "HOU.TO";
+        AFstockObj stock = this.getRealTimeStockImp(symbol);
+
+        stock.setStatus(ConstantKey.OPEN);
+        //send SQL update
+        String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
+        ArrayList sqlList = new ArrayList();
+        sqlList.add(sockUpdateSQL);
+        SystemUpdateSQLList(sqlList);
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TRprocessImp.updateRealTimeStockTest(this, stock);
+    }
+
 //        boolean flagRetrainTest = false;
 //        if (flagRetrainTest == true) {
 //            String symbol = "HOU.TO";
@@ -1003,68 +1026,6 @@ public class ServiceAFweb {
 //                TRprocessImp.UpdateAllStock(this);
 //            }
 //        }
-        boolean flagNeuralData = false;
-        if (flagNeuralData == true) {
-            SystemClearNNData();
-        }
-
-        boolean flagSig = false;
-        if (flagSig == true) {
-
-            String symbol = "HOU.TO";
-            symbol = "AAPL";
-            String nnName = ConstantKey.TR_MACD;
-
-// force manual signal
-//            AccountObj accountAdminObj = null;
-//            AccountObj accountObj = null;
-//
-//            ArrayList accountList = getAccountList(CKey.ADMIN_USERNAME, null);
-//            // do not clear the lock so that it not run by other tast immediately
-//            for (int i = 0; i < accountList.size(); i++) {
-//                AccountObj accountTmp = (AccountObj) accountList.get(i);
-//                if (accountTmp.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
-//                    accountAdminObj = accountTmp;
-//                } else if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-//                    accountObj = accountTmp;
-//                }
-//
-//            }
-//            String accountid = accountObj.getId()+"";
-//            String stockidsymbol = "HOU.TO";
-//
-//            int ret = addAccountStockTran(CKey.ADMIN_USERNAME,
-//                    null, accountid, stockidsymbol, "TR_ACC", 2);
-//            
-//          // will clear the transaction history  
-            AFstockObj stock = this.getRealTimeStockImp(symbol);
-            AccountObj accountAdminObj = this.getAdminObjFromCache();
-            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-//          update HOU current history of transaction
-            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-
-            // update HOU history of transaction
-//            AccountObj accountAObj = getAdminObjFromCache();
-//            TRprocessImp.upateAdminTransaction(this, accountAObj, symbol);
-        }
-
-    }
-
-    public void updateErrorStockYahooParseError(String symbol) {
-//        String symbol = "HOU.TO";
-        AFstockObj stock = this.getRealTimeStockImp(symbol);
-
-        stock.setStatus(ConstantKey.OPEN);
-        //send SQL update
-        String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
-        ArrayList sqlList = new ArrayList();
-        sqlList.add(sockUpdateSQL);
-        SystemUpdateSQLList(sqlList);
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-        TRprocessImp.updateRealTimeStockTest(this, stock);
-    }
-
     public void forceRemoveCustTest(String login, String pass) {
         CustomerObj custObj = getAccountImp().getCustomerPasswordForce(login, pass);
         if (custObj == null) {

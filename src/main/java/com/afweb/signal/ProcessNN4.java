@@ -36,13 +36,13 @@ public class ProcessNN4 {
         String stockidsymbol = stock.getSymbol();
         AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
-        String nnName = ConstantKey.TR_NN2;
+        String nnName = ConstantKey.TR_NN4;
         nnName = nnName + "_" + stockidsymbol;
         String BPname = CKey.NN_version + "_" + nnName;
 
         ArrayList<NNInputDataObj> inputList = null;
-        ProcessNN4 nn2 = new ProcessNN4();
-        inputList = nn2.trainingNN4StdataMACD2(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        ProcessNN4 nn4 = new ProcessNN4();
+        inputList = nn4.trainingNN4StdataMACD2(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
             logger.info(">NNpredict  error inpulist");
@@ -276,49 +276,48 @@ public class ProcessNN4 {
             TradingRuleObj trObj, ArrayList StockArray, int offset, ArrayList<TradingRuleObj> UpdateTRList, AFstockObj stock, ArrayList tradingRuleList) {
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
-//                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
                 int macdSignal = macdNN.trsignal;
                 int nnSignal = trObj.getTrsignal();
-                if (nnSignal == ConstantKey.S_NEUTRAL) {
-                    nnSignal = macdSignal;
-                }
-                if (macdSignal == nnSignal) {
-                    // test if suddent drop
-                    boolean testRule2 = true;
-                    if (testRule2 == true) {
-                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
-                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
-                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
-                        if (thList != null) {
-                            if (thList.size() > 0) {
-                                TransationOrderObj lastTH = thList.get(0);
-                                float thClose = lastTH.getAvgprice();
-                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
-                                float StClose = stockinfo.getFclose();
-                                float delta = specialRule1(thClose, StClose);
-                                if (delta > 0) {
-                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Delta Transactoin change > 15% Delta=" + delta);
-//                                    nnSignal = macdSignal;
-                                    int subStatus = stock.getSubstatus();
-                                    if (subStatus == 0) {
-                                        stock.setSubstatus(ConstantKey.STOCK_DELTA);
-                                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-                                        ArrayList sqlList = new ArrayList();
-                                        sqlList.add(sockNameSQL);
-                                        serviceAFWeb.SystemUpdateSQLList(sqlList);
-                                    }
-
-                                }
-
-                            }
-                        }
-                    }
-                    trObj.setTrsignal(macdSignal);
-                    UpdateTRList.add(trObj);
-                    return;
-                }
-                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
+//                if (nnSignal == ConstantKey.S_NEUTRAL) {
+//                    nnSignal = macdSignal;
+//                }
+//                if (macdSignal == nnSignal) {
+//                    // test if suddent drop
+//                    boolean testRule2 = true;
+//                    if (testRule2 == true) {
+//                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+//                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
+//                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
+//                        if (thList != null) {
+//                            if (thList.size() > 0) {
+//                                TransationOrderObj lastTH = thList.get(0);
+//                                float thClose = lastTH.getAvgprice();
+//                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+//                                float StClose = stockinfo.getFclose();
+//                                float delta = specialRule1(thClose, StClose);
+//                                if (delta > 0) {
+//                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Delta Transactoin change > 15% Delta=" + delta);
+////                                    nnSignal = macdSignal;
+//                                    int subStatus = stock.getSubstatus();
+//                                    if (subStatus == 0) {
+//                                        stock.setSubstatus(ConstantKey.STOCK_DELTA);
+//                                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+//                                        ArrayList sqlList = new ArrayList();
+//                                        sqlList.add(sockNameSQL);
+//                                        serviceAFWeb.SystemUpdateSQLList(sqlList);
+//                                    }
+//
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                    trObj.setTrsignal(macdSignal);
+//                    UpdateTRList.add(trObj);
+//                    return;
+//                }
+                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN4, accountObj, stock, tradingRuleList, StockArray, offset);
                 if (nn != null) {
                     nn.setTrsignal(nnSignal);
                     float predictionV = nn.getPrediction();

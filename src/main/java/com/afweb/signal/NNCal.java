@@ -45,6 +45,9 @@ public class NNCal {
             return ProcessNN2.NNpredictNN2(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
         } else if (TR_Name == ConstantKey.INT_TR_NN3) {
             return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+        } else if (TR_Name == ConstantKey.INT_TR_NN4) {
+            return ProcessNN4.NNpredictNN4(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+            
         }
         return nn;
     }
