@@ -2041,7 +2041,7 @@ public class TradingNNprocess {
         return inputDatalist;
     }
 
-    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryStDataMACDNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryStDataMACDNN4(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
 
         if ((thObjListMACD == null) || (thObjListMV == null)) {
             return null;
@@ -2092,13 +2092,13 @@ public class TradingNNprocess {
                 if (contProcess == true) {
                     inputList = getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
 
-//                    double parm1 = -1;
-//                    if (signal == ConstantKey.S_BUY) {
-//                        parm1 = 0.9;
-//                    } else if (signal == ConstantKey.S_SELL) {
-//                        parm1 = 0.1;
-//                    }
-//                    inputList.setInput1(parm1);   
+                    double parm1 = -1;
+                    if (signal == ConstantKey.S_BUY) {
+                        parm1 = 0.9;
+                    } else if (signal == ConstantKey.S_SELL) {
+                        parm1 = 0.1;
+                    }
+                    inputList.setInput1(parm1);   
                     inputList.setTrsignal(signal);
                     ArrayList<Double> closeArray = getNNnormalizeStInputClose(i, thObjListMACD);
                     inputList.setInput6(closeArray.get(0));
@@ -2106,7 +2106,7 @@ public class TradingNNprocess {
                     inputList.setInput8(closeArray.get(2));
                     inputList.setInput9(closeArray.get(3));
                     inputList.setInput10(closeArray.get(4));
-                    inputList.setInput1(closeArray.get(5));
+//                    inputList.setInput1(closeArray.get(5));
 
                     double output = getNNnormalizeStOutput5Close(i, thObjListMACD);
 

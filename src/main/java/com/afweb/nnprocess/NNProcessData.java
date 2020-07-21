@@ -365,7 +365,7 @@ public class NNProcessData {
             while (true) {
                 if (line == 0) {
                     msgWrite.append(""
-                            + "    public static String NN1_INPUTLIST" + index + " = \"\"\n"
+                            + "    public static String NN_INPUTLIST" + index + " = \"\"\n"
                             + "            + \"\"\n");
                 }
                 line++;

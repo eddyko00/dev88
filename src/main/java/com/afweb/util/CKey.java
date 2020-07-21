@@ -1,6 +1,7 @@
 package com.afweb.util;
 
-import com.afweb.nn.nnData;
+import com.afweb.nn.*;
+
 
 public class CKey {
 
@@ -97,7 +98,7 @@ public class CKey {
     public static double PREDICT_THRESHOLD = 0.6;
     public static double NN1_ERROR_THRESHOLD = 0.043; //0.045 for 110 node // 0.053 for 100 node; 
     public static double NN2_ERROR_THRESHOLD = 0.043;
-    public static double NN4_ERROR_THRESHOLD = 0.054; //0.035;    
+    public static double NN4_ERROR_THRESHOLD = 0.045; //0.035;    
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 120; //24; //18; //16;
     public static final int NN2_MIDDLE_SIZE = 120;
@@ -111,6 +112,7 @@ public class CKey {
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
     public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;
 
+    public static String NN4_WEIGHT_0 = nn4Data.TR_NN4_WEIGHT_0;    
     //////////////////////
     public static final int MSSQL = 1;/////// do not use //jdbc:sqlserver://sql.freeasphost.net\\MSSQL2016;databaseName=eddyko00_SampleDB
 
