@@ -299,7 +299,7 @@ public class NNProcessData {
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
                 if (TR_Name == ConstantKey.INT_TR_NN1) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnName, errorNN);
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnName, errorNN);
                 } else if (TR_Name == ConstantKey.INT_TR_NN2) {
                     retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnName, errorNN);
                 }

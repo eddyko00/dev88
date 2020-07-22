@@ -1900,7 +1900,7 @@ public class TradingNNprocess {
                 }
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN1) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnNameSym, errorNN);
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb,  ConstantKey.TR_NN1, nnNameSym, errorNN);
                 } else if (TR_NN == ConstantKey.INT_TR_NN2) {
                     retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnNameSym, errorNN);
                 }

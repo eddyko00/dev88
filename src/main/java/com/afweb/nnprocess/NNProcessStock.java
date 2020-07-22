@@ -53,7 +53,7 @@ public class NNProcessStock {
             NeuralNetNN4CreatJava(serviceAFWeb, ConstantKey.TR_NN4);
 
         }
-        
+
         boolean flagNeural = false;
         if (flagNeural == true) {
 //            serviceAFWeb.SystemClearNNinput();
@@ -115,7 +115,7 @@ public class NNProcessStock {
 
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
-                retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnName, errorNN);
+                retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb,nnName, nnName, errorNN);
 
                 if (retflag == 1) {
                     break;
@@ -490,7 +490,7 @@ public class NNProcessStock {
                         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
                         if (stock != null) {
 
-                            String LockStock = "NN_TR_" + symbol; // + "_" + trNN;
+                            String LockStock = "NN4_TR_" + symbol; // + "_" + trNN;
                             LockStock = LockStock.toUpperCase();
 
                             long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
@@ -554,7 +554,7 @@ public class NNProcessStock {
                 }
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN4) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnNameSym, errorNN);
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN4, nnNameSym, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;
@@ -602,45 +602,39 @@ public class NNProcessStock {
                 }
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
-                TradingNNprocess trainNN = new TradingNNprocess();
-//                ArrayList<NNInputDataObj> inputlistSym = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, TR_Name, 0);
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
-                ArrayList<NNInputDataObj> inputlistSym1 = new ArrayList();
-                ArrayList<NNInputDataObj> inputlistSym2 = new ArrayList();
-
-                inputlistSym1 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN4, 0);
-
-                inputlistSym.addAll(inputlistSym1);
-                inputlistSym.addAll(inputlistSym2);
+                inputlistSym = getTrainingNN4dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN4, 0);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
-                boolean trainInFile = true;
-                if (trainInFile == true) {
-                    inputL = NeuralNetGetNN4InputfromStaticCode(symbol);
-                    if (inputL != null) {
-                        if (inputL.size() > 0) {
-                            logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
-                            for (int k = 0; k < inputL.size(); k++) {
-                                NNInputDataObj inputLObj = inputL.get(k);
-                                for (int m = 0; m < inputlistSym.size(); m++) {
-                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
-                                    String inputLObD = inputLObj.getObj().getDateSt();
-                                    String inputSymObD = inputSymObj.getObj().getDateSt();
-                                    if (inputLObD.equals(inputSymObD)) {
-                                        inputlistSym.remove(m);
+                
+                inputL = NeuralNetGetNN4InputfromStaticCode(symbol);
+                if (inputL != null) {
+                    if (inputL.size() > 0) {
+                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
+                        for (int k = 0; k < inputL.size(); k++) {
+                            NNInputDataObj inputLObj = inputL.get(k);
+                            for (int m = 0; m < inputlistSym.size(); m++) {
+                                NNInputDataObj inputSymObj = inputlistSym.get(m);
+                                String inputLObD = inputLObj.getObj().getDateSt();
+                                String inputSymObD = inputSymObj.getObj().getDateSt();
+                                if (inputLObD.equals(inputSymObD)) {
+                                    inputlistSym.remove(m);
 //                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
-                                        break;
-                                    }
+                                    break;
                                 }
                             }
                         }
                     }
                 }
+
                 if (inputlistSym != null) {
                     //merge inputlistSym
 
                     for (int i = 0; i < inputlistSym.size(); i++) {
                         NNInputOutObj inputObj = inputlistSym.get(i).getObj();
+                        if (inputObj.getOutput1() < 0) {
+                            continue;
+                        }
                         inputlist.add(inputObj);
                         // save into db
                         // save into db
@@ -682,7 +676,6 @@ public class NNProcessStock {
                         }
                     }
                 }
-
                 String weightSt = nnTemp.getNetObjSt();
 //                
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
@@ -743,7 +736,7 @@ public class NNProcessStock {
         return null;
     }
 
-    public ArrayList<NNInputDataObj> getTrainingNNdataStock(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
+    public ArrayList<NNInputDataObj> getTrainingNN4dataStock(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> trainingNN ");
         int size1yearAll = 20 * 12 * 2 + (50 * 3);
 

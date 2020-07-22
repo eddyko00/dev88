@@ -16,6 +16,7 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.nn.*;
 
 import com.afweb.nnBP.NNBPservice;
+import com.afweb.nnprocess.*;
 
 import com.afweb.stock.*;
 
@@ -1704,7 +1705,7 @@ public class TrandingSignalProcess {
         return true;
     }
 
-    public int TRtrainingNN1NeuralNetData(ServiceAFweb serviceAFWeb, String nnNameSym, double nnError) {
+    public int TRtrainingNN1NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
 
         ///NeuralNetObj1 transition
@@ -1737,10 +1738,12 @@ public class TrandingSignalProcess {
         logger.info("> TRtrainingNeuralNet " + BPnameSym + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
         String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-        if (nnNameSym.equals(ConstantKey.TR_NN4)) {
+//        String nnName = ConstantKey.TR_NN1;
+
+        if (nnName.equals(ConstantKey.TR_NN4)) {
             BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN4;
         }
-        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnNameSym, nnError);
+        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, nnError);
     }
 
     public int TRtrainingNN2NeuralNetData(ServiceAFweb serviceAFWeb, String nnNameSym, double nnError) {
@@ -1771,7 +1774,8 @@ public class TrandingSignalProcess {
         logger.info("> TRtrainingNeuralNet " + BPname + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
         String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN2;
-        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnNameSym, nnError);
+        String nnName = ConstantKey.TR_NN2;
+        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, nnError);
     }
 
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String symbol) {
@@ -1912,13 +1916,13 @@ public class TrandingSignalProcess {
 //        /// start training or continue training
 //        return TrainingNNBP(serviceAFWeb, nnNameSym, nnTraining, nnError);
 //    }
-    private int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnNameSym, double nnError) {
+    private int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
         boolean forceNN1flag = true;
         if (forceNN1flag == true) {
             BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-            if (nnNameSym.equals(ConstantKey.TR_NN4)) {
+            if (nnName.equals(ConstantKey.TR_NN4)) {
                 BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN4;
             }
         }
@@ -1926,7 +1930,12 @@ public class TrandingSignalProcess {
         if (ServiceAFweb.forceNNReadFileflag == true) {
             inputlist = getTrainingInputFromFile(serviceAFWeb);
         } else {
-            ArrayList<NNInputDataObj> inputDatalist = TradingNNprocess.NeuralNetGetNN1InputfromStaticCode("");
+            ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
+            if (nnName.equals(ConstantKey.TR_NN4)) {
+                inputDatalist = NNProcessStock.NeuralNetGetNN4InputfromStaticCode("");
+            } else {
+                inputDatalist = TradingNNprocess.NeuralNetGetNN1InputfromStaticCode("");
+            }
             for (int i = 0; i < inputDatalist.size(); i++) {
                 NNInputDataObj inputDObj = inputDatalist.get(i);
                 NNInputOutObj inputObj = new NNInputOutObj();
