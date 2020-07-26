@@ -56,7 +56,8 @@ public class NNProcessStock {
 
         boolean flagNeural = false;
         if (flagNeural == true) {
-//            serviceAFWeb.SystemClearNNinput();
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN4);
             for (int k = 0; k < 20; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
             }
@@ -68,6 +69,10 @@ public class NNProcessStock {
         ///////////////////////////////////////////////////////////////////////////////////
         // read new NN data
         serviceAFWeb.forceNNReadFileflag = true; // should be true to get it from file instead from db
+        ///// just for testing
+//        serviceAFWeb.forceNNReadFileflag = false; // should be true to get it from file instead from db
+
+        ///// just for testing        
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         boolean initTrainNeuralNet = true;
         if (initTrainNeuralNet == true) {
@@ -89,10 +94,10 @@ public class NNProcessStock {
                     Calendar dateDefault = TimeConvertion.getDefaultCalendar();
                     afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-                    String weightSt = (CKey.NN1_WEIGHT_0);
+                    String weightSt = (CKey.NN4_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
-                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN1_WEIGHT_0");
+                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN4_WEIGHT_0");
                 } else {
                     String weightSt = afNeuralNet.getWeight();
                     if ((weightSt == null) || (weightSt.length() == 0)) {
@@ -115,7 +120,7 @@ public class NNProcessStock {
 
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
-                retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb,nnName, nnName, errorNN);
+                retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnName, nnName, errorNN);
 
                 if (retflag == 1) {
                     break;
@@ -606,7 +611,7 @@ public class NNProcessStock {
                 inputlistSym = getTrainingNN4dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN4, 0);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
-                
+
                 inputL = NeuralNetGetNN4InputfromStaticCode(symbol);
                 if (inputL != null) {
                     if (inputL.size() > 0) {

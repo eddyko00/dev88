@@ -1956,7 +1956,9 @@ public class TrandingSignalProcess {
                 inputObj.setInput12(inputDObj.getObj().getInput12());
                 inputObj.setInput13(inputDObj.getObj().getInput13());
                 inputObj.setOutput1(inputDObj.getObj().getOutput1());
-
+                if (inputObj.getOutput1() < 0) {
+                    continue;
+                }
                 inputlist.add(inputObj);
             }
             ArrayList<AFneuralNetData> objDataList = new ArrayList();
@@ -2138,27 +2140,30 @@ public class TrandingSignalProcess {
 //                obj.setInput11(Double.parseDouble(stList[14]));
 //                obj.setInput12(Double.parseDouble(stList[15]));
 
+                if (obj.getOutput1() < 0) {
+                    continue;
+                }
                 objData.setObj(obj);
                 inputlist.add(objData);
 //              
                 //////////do not update DB
                 //////////do not update DB                
-                boolean inputSaveFlag = false;
-                if (inputSaveFlag == true) {
-                    ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPname, stockId, objData.getUpdatedatel());
-                    if ((objList == null) || (objList.size() == 0)) {
-                        serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPname, stockId, objData);
-                        addTotal++;
-                        continue;
-                    }
-
-                    boolean flag = true;
-                    if (flag == true) {
-                        if (CKey.NN_DEBUG == true) {
-//                        logger.info("> readTrainingNeuralNet1 duplicate " + BPname + " " + stockId + " " + objData.getObj().getDateSt());
-                        }
-                    }
-                }
+//                boolean inputSaveFlag = false;
+//                if (inputSaveFlag == true) {
+//                    ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPname, stockId, objData.getUpdatedatel());
+//                    if ((objList == null) || (objList.size() == 0)) {
+//                        serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPname, stockId, objData);
+//                        addTotal++;
+//                        continue;
+//                    }
+//
+//                    boolean flag = true;
+//                    if (flag == true) {
+//                        if (CKey.NN_DEBUG == true) {
+////                        logger.info("> readTrainingNeuralNet1 duplicate " + BPname + " " + stockId + " " + objData.getObj().getDateSt());
+//                        }
+//                    }
+//                }
             }
             logger.info("> readTrainingNeuralNet1 done " + nnFileName + " " + BPname + " Size" + inputlist.size() + "  " + addTotal);
 
