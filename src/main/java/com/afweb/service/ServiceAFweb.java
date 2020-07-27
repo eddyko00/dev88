@@ -360,7 +360,7 @@ public class ServiceAFweb {
                             logger.info(">>>>>>> InitDBData Failed.....");
                             return getServerObj().getTimerCnt();
                         }
-
+ 
                     }
                     serverObj.setTimerInit(true);
                     setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName());

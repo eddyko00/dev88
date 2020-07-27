@@ -28,7 +28,7 @@ public class CKey {
 
     public static final int SQL_DATABASE = REMOTE_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
     public static final boolean SQL_RemoveServerDB = false; // need true and REMOTE_MYSQL using remote server not PHP 
-
+ 
     //
     //////////////////////
     //
