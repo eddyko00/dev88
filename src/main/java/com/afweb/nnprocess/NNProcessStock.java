@@ -58,7 +58,7 @@ public class NNProcessStock {
         if (flagNeural == true) {
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             int retSatus = NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN4);
-            for (int k = 0; k < 20; k++) {
+            for (int k = 0; k < 100; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
             }
 
