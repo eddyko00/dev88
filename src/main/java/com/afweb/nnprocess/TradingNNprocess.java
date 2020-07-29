@@ -118,26 +118,36 @@ public class TradingNNprocess {
                                 if (TR_NN == ConstantKey.INT_TR_NN2) {
                                     nnName = ConstantKey.TR_NN2;
                                 }
-                                boolean houFlag = true;
-                                if (houFlag == true) {
-                                    String BPnameHOU = CKey.NN_version + "_" + nnName + "_" + symbol;
-                                    AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameHOU, 0);
-                                    if (nnObj1 == null) {
+
+                                String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+                                AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+                                if (nnObj1 == null) {
+                                    inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
+                                    continue;
+                                }
+                                if (nnObj1 != null) {
+                                    if (nnObj1.getStatus() == ConstantKey.INITIAL) {
                                         inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
+                                    }
+                                    if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
+                                        stockNNprocessNameArray.remove(0);
                                         continue;
                                     }
+                                }
+
+                                stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
+                                serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+
+                                if (CKey.SEPARATE_STOCKINFO_DB == true) {
+                                    nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                                     if (nnObj1 != null) {
-                                        if (nnObj1.getStatus() == ConstantKey.INITIAL) {
-                                            inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
-                                        }
                                         if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                             stockNNprocessNameArray.remove(0);
-                                            continue;
+                                            /// need to create the table to reduce the memeory in DB
+                                            serviceAFWeb.getStockImp().deleteNeuralNet1Table();
                                         }
                                     }
                                 }
-                                stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
-                                serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                             }
                         }
                     }
@@ -249,7 +259,6 @@ public class TradingNNprocess {
 //        }
 ////        logger.info("> ProcessTrainNeuralNet ... done");
 //    }
-
     public void ProcessInputNeuralNet(ServiceAFweb serviceAFWeb) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> ProcessInputNeuralNet ");
@@ -680,7 +689,6 @@ public class TradingNNprocess {
 //        }
 //        return null;
 //    }
-
     public ArrayList<NNInputDataObj> getTrainingNNdataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> trainingNN ");
         this.serviceAFWeb = serviceAFWeb;
@@ -1900,7 +1908,7 @@ public class TradingNNprocess {
                 }
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN1) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb,  ConstantKey.TR_NN1, nnNameSym, errorNN);
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, errorNN);
                 } else if (TR_NN == ConstantKey.INT_TR_NN2) {
                     retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnNameSym, errorNN);
                 }
@@ -2098,7 +2106,7 @@ public class TradingNNprocess {
                     } else if (signal == ConstantKey.S_SELL) {
                         parm1 = 0.1;
                     }
-                    inputList.setInput1(parm1);   
+                    inputList.setInput1(parm1);
                     inputList.setTrsignal(signal);
                     ArrayList<Double> closeArray = getNNnormalizeStInputClose(i, thObjListMACD);
                     inputList.setInput6(closeArray.get(0));
@@ -2171,7 +2179,6 @@ public class TradingNNprocess {
             inputBuf.append(nnData.NN1_INPUTLIST9);
             inputBuf.append(nnData.NN1_INPUTLIST10);
             inputBuf.append(nnData.NN1_INPUTLIST11);
-
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

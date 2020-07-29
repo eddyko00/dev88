@@ -506,26 +506,34 @@ public class NNProcessStock {
                             if (lockReturnStock > 0) {
                                 String nnName = ConstantKey.TR_NN4;
 
-                                boolean houFlag = true;
-                                if (houFlag == true) {
-                                    String BPnameHOU = CKey.NN_version + "_" + nnName + "_" + symbol;
-                                    AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameHOU, 0);
-                                    if (nnObj1 == null) {
+                                String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+                                AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+                                if (nnObj1 == null) {
+                                    inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
+                                    continue;
+                                }
+                                if (nnObj1 != null) {
+                                    if (nnObj1.getStatus() == ConstantKey.INITIAL) {
                                         inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
+                                    }
+                                    if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
+                                        stockNNprocessNameArray.remove(0);
                                         continue;
                                     }
+                                }
+
+                                stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
+                                serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                                if (CKey.SEPARATE_STOCKINFO_DB == true) {
+                                    nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                                     if (nnObj1 != null) {
-                                        if (nnObj1.getStatus() == ConstantKey.INITIAL) {
-                                            inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
-                                        }
                                         if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                             stockNNprocessNameArray.remove(0);
-                                            continue;
+                                            /// need to create the table to reduce the memeory in DB
+                                            serviceAFWeb.getStockImp().deleteNeuralNet1Table();
                                         }
                                     }
                                 }
-                                stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
-                                serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                             }
                         }
                     }
