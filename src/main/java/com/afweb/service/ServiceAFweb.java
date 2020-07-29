@@ -731,6 +731,15 @@ public class ServiceAFweb {
             SystemClearNNtran();
         }        
         
+        boolean flagNeural = false;
+        if (flagNeural == true) {
+            SystemClearNNinput();
+            for (int k = 0; k < 100; k++) {
+                NNProcessImp.ProcessTrainNeuralNet(this);
+            }
+
+        }
+        
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
 
@@ -790,14 +799,6 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-        boolean flagNeural = false;
-        if (flagNeural == true) {
-            SystemClearNNinput();
-            for (int k = 0; k < 100; k++) {
-                NNProcessImp.ProcessTrainNeuralNet(this);
-            }
-
-        }
 
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
