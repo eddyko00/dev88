@@ -724,19 +724,18 @@ public class ServiceAFweb {
         if (flagTran_TR_ACC == true) {
             SystemClearNNtranAllAcc();
         }
-        
+
         /////other macd, mv, nn1, nn2
         boolean flagTran_TR_OTHER = false;
         if (flagTran_TR_OTHER == true) {
             SystemClearNNtran();
-        }        
-        
-        
+        }
+
         boolean flagClearNN1Table = false;
         if (flagClearNN1Table == true) {
             this.getStockImp().deleteNeuralNet1Table();
         }
-        
+
         boolean flagNeural = false;
         if (flagNeural == true) {
             SystemClearNNinput();
@@ -745,10 +744,9 @@ public class ServiceAFweb {
             }
 
         }
-        
-        ///////////////////////////////////////////////////////////////////////////////////   
-        ///////////////////////////////////////////////////////////////////////////////////   
 
+        ///////////////////////////////////////////////////////////////////////////////////   
+        ///////////////////////////////////////////////////////////////////////////////////   
         boolean initflag = false;
         if (initflag == true) {
 
@@ -805,7 +803,6 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-
         boolean stocksplitflag = false;
         if (stocksplitflag == true) {
             /////////need manually enter the communication id
@@ -3292,12 +3289,24 @@ public class ServiceAFweb {
         if (stock == null) {
             return null;
         }
-        int size1year = 20 * 10;
-        ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1year);
+        int sizeLen = 20 * 10;
+        ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
         if (StockArray == null) {
             return null;
         }
-
+        if (StockArray.size() > 0) {
+            float closeF = StockArray.get(0).getFclose();
+            float closeL = StockArray.get(StockArray.size() - 1).getFclose();
+            float perC = 100 * (closeF - closeL) / closeL;
+            perC = Math.abs(perC);
+            if (perC > 70) {
+                sizeLen = sizeLen / 3;
+                StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
+            } else if (perC > 50) {
+                sizeLen = sizeLen / 2;
+                StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
+            }
+        }
         Collections.reverse(StockArray);
         Collections.reverse(thList);
 
