@@ -315,6 +315,10 @@ public class StockImp {
         return stockdb.updateNeuralNetStatus0(name, status, type);
     }
 
+    public int deleteNeuralNet1Table() {
+        return stockdb.deleteNeuralNet1Table();
+    }
+    
     public int updateNeuralNetStatus1(String name, int status, int type) {
         return stockdb.updateNeuralNetStatus1(name, status, type);
     }

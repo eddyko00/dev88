@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 import java.util.TimeZone;
+import java.util.logging.Level;
 import javax.sql.DataSource;
 import java.util.logging.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -561,7 +562,7 @@ public class StockDB {
             } else {
                 sqlResult = updateSQLArrayList(sqlTranList);
             }
-            
+
 //            if (getEnv.checkLocalPC() == true) {
 //                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
 //            }            
@@ -777,7 +778,6 @@ public class StockDB {
                 return -1;
             }
 // sequency is important
-
             ArrayList dropTableList = new ArrayList();
             dropTableList.add("drop table if exists dummy1");
             dropTableList.add("drop table if exists lockobject");
@@ -1055,6 +1055,16 @@ public class StockDB {
     }
 
     ///////////////
+    public int deleteNeuralNet1Table() {
+        try {
+            processExecuteDB("drop table if exists neuralnet1");
+            processExecuteDB("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+            return 1;
+        } catch (Exception ex) {
+        }
+        return 0;
+    }
+
     int updateNeuralNetStatus0(String name, int status, int type) {
         try {
             String sqlCMD = "update neuralnet set status=" + status + ", type=" + type + " where name='" + name + "'";

@@ -731,6 +731,12 @@ public class ServiceAFweb {
             SystemClearNNtran();
         }        
         
+        
+        boolean flagClearNN1Table = false;
+        if (flagClearNN1Table == true) {
+            this.getStockImp().deleteNeuralNet1Table();
+        }
+        
         boolean flagNeural = false;
         if (flagNeural == true) {
             SystemClearNNinput();
