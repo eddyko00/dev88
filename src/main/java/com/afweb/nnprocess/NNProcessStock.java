@@ -524,11 +524,12 @@ public class NNProcessStock {
 
                                 stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
                                 serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-                                if (CKey.SEPARATE_STOCKINFO_DB == true) {
-                                    nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
-                                    if (nnObj1 != null) {
-                                        if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
-                                            stockNNprocessNameArray.remove(0);
+
+                                nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+                                if (nnObj1 != null) {
+                                    if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
+                                        stockNNprocessNameArray.remove(0);
+                                        if (CKey.SEPARATE_STOCKINFO_DB == true) {
                                             /// need to create the table to reduce the memeory in DB
                                             serviceAFWeb.getStockImp().deleteNeuralNet1Table();
                                         }
