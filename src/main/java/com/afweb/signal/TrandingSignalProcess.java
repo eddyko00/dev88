@@ -1078,9 +1078,6 @@ public class TrandingSignalProcess {
                 return;
             }
         }
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long endofDate = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
-        dateNow = TimeConvertion.getCurrentCalendar(endofDate);
 
         int size1year = 5 * 52;
         ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year * 4);

@@ -39,15 +39,17 @@ public class NNCal {
 
         NNObj nn = new NNObj();
 
-        if (TR_Name == ConstantKey.INT_TR_NN1) {
-            return ProcessNN1.NNpredictNN1(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
-        } else if (TR_Name == ConstantKey.INT_TR_NN2) {
-            return ProcessNN2.NNpredictNN2(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
-        } else if (TR_Name == ConstantKey.INT_TR_NN3) {
-            return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
-        } else if (TR_Name == ConstantKey.INT_TR_NN4) {
-            return ProcessNN4.NNpredictNN4(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
-            
+        switch (TR_Name) {
+            case ConstantKey.INT_TR_NN1:
+                return ProcessNN1.NNpredictNN1(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+            case ConstantKey.INT_TR_NN2:
+                return ProcessNN2.NNpredictNN2(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+            case ConstantKey.INT_TR_NN3:
+                return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+            case ConstantKey.INT_TR_NN4:
+                return ProcessNN4.NNpredictNN4(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+            default:
+                break;
         }
         return nn;
     }
