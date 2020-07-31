@@ -46,11 +46,9 @@ public class NNProcessData {
         }
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
-            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1 );
+            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
 
         }
-        
-        
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
@@ -291,7 +289,7 @@ public class NNProcessData {
                             afNeuralNet.setWeight(weightSt);
                             serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                         }
-                    }                    
+                    }
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
                 }
             }
@@ -405,7 +403,5 @@ public class NNProcessData {
         }
         return false;
     }
-
-
 
 }

@@ -2168,17 +2168,17 @@ public class TradingNNprocess {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nnData.NN1_INPUTLIST1);
-            inputBuf.append(nnData.NN1_INPUTLIST2);
-            inputBuf.append(nnData.NN1_INPUTLIST3);
-            inputBuf.append(nnData.NN1_INPUTLIST4);
-            inputBuf.append(nnData.NN1_INPUTLIST5);
-            inputBuf.append(nnData.NN1_INPUTLIST6);
-            inputBuf.append(nnData.NN1_INPUTLIST7);
-            inputBuf.append(nnData.NN1_INPUTLIST8);
-            inputBuf.append(nnData.NN1_INPUTLIST9);
-            inputBuf.append(nnData.NN1_INPUTLIST10);
-            inputBuf.append(nnData.NN1_INPUTLIST11);
+            inputBuf.append(nnData.NN_INPUTLIST1);
+            inputBuf.append(nnData.NN_INPUTLIST2);
+            inputBuf.append(nnData.NN_INPUTLIST3);
+            inputBuf.append(nnData.NN_INPUTLIST4);
+            inputBuf.append(nnData.NN_INPUTLIST5);
+            inputBuf.append(nnData.NN_INPUTLIST6);
+            inputBuf.append(nnData.NN_INPUTLIST7);
+            inputBuf.append(nnData.NN_INPUTLIST8);
+            inputBuf.append(nnData.NN_INPUTLIST9);
+            inputBuf.append(nnData.NN_INPUTLIST10);
+            inputBuf.append(nnData.NN_INPUTLIST11);
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
