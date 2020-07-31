@@ -46,7 +46,7 @@ public class NNProcessData {
         }
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
-            NeuralNetCreatJava(serviceAFWeb);
+            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1 );
 
         }
         
@@ -312,13 +312,13 @@ public class NNProcessData {
 
     }
 
-    private boolean NeuralNetCreatJava(ServiceAFweb serviceAFWeb) {
+    private boolean NeuralNetCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
-            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, stockInputMap);
+            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);

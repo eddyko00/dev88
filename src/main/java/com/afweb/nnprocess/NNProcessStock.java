@@ -326,7 +326,7 @@ public class NNProcessStock {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
-            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, stockInputMap);
+            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
