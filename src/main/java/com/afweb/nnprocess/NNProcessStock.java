@@ -68,11 +68,13 @@ public class NNProcessStock {
             AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
             String symbol = "HOU.TO";
 
-            getTrainingNNStdataProcess(serviceAFWeb, symbol, 0);
+//            ArrayList<NNInputDataObj> inputArray = getTrainingNNStdataProcess(serviceAFWeb, symbol, 0);
+//            NNInputDataObj input = inputArray.get(5);
+                    
 
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-            int size1year = 5 * 52;
-            ArrayList StockArray = serviceAFWeb.getStockHistorical(symbol, size1year * 4);
+            int size1year =20 * 12 * 2 + (50 * 3);
+            ArrayList StockArray = serviceAFWeb.getStockHistorical(symbol, size1year);
             // update Trading signal
             ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
             ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
@@ -209,7 +211,7 @@ public class NNProcessStock {
 //        }
         symbol = symbol.replace(".", "_");
 
-        int size1yearAll = 20 * 12 * 5 + (50 * 3);
+        int size1yearAll = 20 * 12 * 2 + (50 * 3);
 
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;

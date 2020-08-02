@@ -42,7 +42,8 @@ public class ProcessNN4 {
 
         ArrayList<NNInputDataObj> inputList = null;
         ProcessNN4 nn4 = new ProcessNN4();
-        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, 1);
+//        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, 1);
+        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.MONTH_SIZE + 2);
 
         if (inputList.size() == 0) {
             logger.info(">NNpredict  error inpulist");
@@ -56,7 +57,9 @@ public class ProcessNN4 {
         NNInputOutObj inputObj = inputList.get(0).getObj();
 
         ///////testing
-        inputObj = inputList.get(inputList.size()-1).getObj();
+        inputObj = inputList.get(5).getObj();
+        AFstockInfo AFstockInfo0 = StockRecArray.get(16);
+        float closeOutput0 = AFstockInfo0.getFclose();
         ///////
         inputTraininglist.add(inputObj);
 
@@ -119,7 +122,20 @@ public class ProcessNN4 {
         NNprediction = temp;
         NNprediction = NNprediction / 1000;
 
-        nn.setPrediction((float) NNprediction);
+        double closeP = NNprediction;
+        closeP = closeP*100;
+        closeP = closeP - 50;
+        closeP = closeP/(100 * 5);
+        double closeOutput = closeP* closeOutput0+closeOutput0;
+        
+        //     double closef = (closeOutput - closeOutput0) / closeOutput0;
+        //        closef = closef * 100 * 5;
+        //        closef = closef + 50;      
+        //        closef = closef / 100;
+
+        
+        nn.setPrediction((float) closeOutput);
+        
         nn.setTrsignal(inputObj.getTrsignal());
         String nameST;
         try {
