@@ -50,6 +50,15 @@ public class NNProcessData {
 
         }
 
+        boolean flagNeural = false;
+        if (flagNeural == true) {
+            serviceAFWeb.SystemClearNNinput();
+            for (int k = 0; k < 100; k++) {
+                NNProcessImp.ProcessTrainNeuralNet(serviceAFWeb);
+            }
+
+        }
+
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
         boolean flagTestNeuralnetTrain = false;
@@ -157,6 +166,7 @@ public class NNProcessData {
 
             String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
                     + "\",\"" + obj.getOutput1()
+                    + "\",\"" + obj.getOutput2()
                     + "\",\"" + obj.getInput1()
                     + "\",\"" + obj.getInput2()
                     + "\",\"" + obj.getInput3()
@@ -178,7 +188,8 @@ public class NNProcessData {
 
             if (i == 0) {
                 stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-                        + "\",\"" + "output"
+                        + "\",\"" + "output1"
+                        + "\",\"" + "output2"
                         + "\",\"" + "macd TSig"
                         + "\",\"" + "LTerm"
                         + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"

@@ -1080,7 +1080,7 @@ public class TradingNNprocess {
         // Make sure to update this when adding new input
         // Make sure to update this when adding new input         
         double[][] inputpattern = new double[inputListSize][inputSize];
-        double[] targetpattern = new double[inputListSize];
+        double[][] targetpattern = new double[inputListSize][outputSize];
         double[][] outputpattern = new double[inputListSize][outputSize];
         double[][] response = new double[inputListSize][outputSize];
         for (int i = 0; i < inputlist.size(); i++) {
@@ -1098,8 +1098,11 @@ public class TradingNNprocess {
 //            inputpattern[i][10] = obj.getInput11();
 //            inputpattern[i][11] = obj.getInput12();
 
-            targetpattern[i] = obj.getOutput1();
-            outputpattern[i][0] = obj.getOutput1();
+            targetpattern[i][0] = obj.getOutput1();
+            targetpattern[i][1] = obj.getOutput2();
+            
+            outputpattern[i][0] = obj.getOutput1();            
+            outputpattern[i][1] = obj.getOutput2();
         }
         NNTrainObj nnTraining = new NNTrainObj();
         nnTraining.setNameNN(CKey.NN_version);
@@ -1119,11 +1122,11 @@ public class TradingNNprocess {
         // Make sure to update this when adding new input
         // Make sure to update this when adding new input        
         int inputSize = CKey.NN_INPUT_SIZE;
-        int outputSize = 1;
+        int outputSize = CKey.NN_OUTPUT_SIZE;
         // Make sure to update this when adding new input
         // Make sure to update this when adding new input         
         double[][] inputpattern = new double[inputListSize][inputSize];
-        double[] targetpattern = new double[inputListSize];
+        double[][] targetpattern = new double[inputListSize][outputSize];
         double[][] outputpattern = new double[inputListSize][outputSize];
         double[][] response = new double[inputListSize][outputSize];
         for (int i = 0; i < inputlist.size(); i++) {
@@ -1141,8 +1144,14 @@ public class TradingNNprocess {
 //            inputpattern[i][10] = obj.getInput11();
 //            inputpattern[i][11] = obj.getInput12();
 
-            targetpattern[i] = obj.getOutput1();
+            //  remember to update this when output size change CKey.NN_OUTPUT_SIZE;   
+//            targetpattern[i] = obj.getOutput1();
+//            targetpattern[i] = obj.getOutput1();
+            targetpattern[i][0] = obj.getOutput1();
+            targetpattern[i][1] = obj.getOutput2(); 
+            
             outputpattern[i][0] = obj.getOutput1();
+            outputpattern[i][1] = obj.getOutput2();            
         }
         NNTrainObj nnTraining = new NNTrainObj();
         nnTraining.setNameNN(CKey.NN_version);
@@ -2010,7 +2019,13 @@ public class TradingNNprocess {
                 objDataCur.setObj(inputList);
 
                 if (objDataPrev != null) {
-                    objDataPrev.getObj().setOutput1(output);
+                    if (output == 0.9) {
+                        objDataPrev.getObj().setOutput1(output);
+                        objDataPrev.getObj().setOutput2(0.1);
+                    } else {
+                        objDataPrev.getObj().setOutput1(output);
+                        objDataPrev.getObj().setOutput2(0.9);
+                    }
                     trInputList.add(objDataPrev.getObj());
                     inputDatalist.add(objDataPrev);
 

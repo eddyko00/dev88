@@ -38,6 +38,8 @@ public class CKey {
     public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
+    /////
+    public static boolean NN4Testing = false;
     ////////////////////// make this always true for HEROKU Env
     ////////////////////// make this always true for HEROKU Env
     ////////////////////// make this always true for HEROKU Env  
@@ -96,9 +98,10 @@ public class CKey {
     public static int MONTH_SIZE = 14;
     public static int SHORT_MONTH_SIZE = 2;//3;
     public static double PREDICT_THRESHOLD = 0.6;
-    public static double NN1_ERROR_THRESHOLD = 0.043; //0.045 for 110 node // 0.053 for 100 node; 
-    public static double NN2_ERROR_THRESHOLD = 0.043;
+    public static double NN1_ERROR_THRESHOLD = 0.07; // 0.043; //0.045 for 110 node // 0.053 for 100 node; 
+    public static double NN2_ERROR_THRESHOLD = 0.07;
     public static double NN4_ERROR_THRESHOLD = 0.035; //0.035; //0.045;    
+    public static final int NN_OUTPUT_SIZE = 2;    
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 120; //24; //18; //16;
     public static final int NN2_MIDDLE_SIZE = 120;
@@ -107,7 +110,7 @@ public class CKey {
     // must match to the nnData version
     // must match to the nnData version
     // must match to the nnData version  
-    public static String version = "2.0717";
+    public static String version = "2.0804";
     
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
     public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;

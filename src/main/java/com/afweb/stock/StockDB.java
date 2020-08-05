@@ -1055,10 +1055,30 @@ public class StockDB {
     }
 
     ///////////////
+    public int deleteNeuralNet0Table() {
+        try {
+            processExecuteDB("drop table if exists neuralnet");
+            processExecuteDB("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+            return 1;
+        } catch (Exception ex) {
+        }
+        return 0;
+    }
+    
     public int deleteNeuralNet1Table() {
         try {
             processExecuteDB("drop table if exists neuralnet1");
             processExecuteDB("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+            return 1;
+        } catch (Exception ex) {
+        }
+        return 0;
+    }
+    
+    public int deleteNeuralNetDataTable() {
+        try {
+            processExecuteDB("drop table if exists neuralnetdata");
+            processExecuteDB("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
             return 1;
         } catch (Exception ex) {
         }

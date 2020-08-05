@@ -80,7 +80,6 @@ public class StockImp {
 
     private StockDB stockdb = new StockDB();
 
-
     public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         stockdb.setJdbcTemplate(jdbcTemplate);
         stockdb.setDataSource(dataSource);
@@ -206,7 +205,7 @@ public class StockImp {
 
     public int updateSQLArrayList(ArrayList SQLTran) {
         if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            String sql =(String) SQLTran.get(0);
+            String sql = (String) SQLTran.get(0);
             if (sql.indexOf(" stockinfo ") != -1) {
                 StockInfoDB stockinfodb = new StockInfoDB();
                 return stockinfodb.updateSQLArrayList(SQLTran);
@@ -314,11 +313,17 @@ public class StockImp {
     public int updateNeuralNetStatus0(String name, int status, int type) {
         return stockdb.updateNeuralNetStatus0(name, status, type);
     }
-
+    public int deleteNeuralNet0Table() {
+        return stockdb.deleteNeuralNet1Table();
+    }
     public int deleteNeuralNet1Table() {
         return stockdb.deleteNeuralNet1Table();
     }
-    
+
+    public int deleteNeuralNetDataTable() {
+        return stockdb.deleteNeuralNetDataTable();
+    }
+
     public int updateNeuralNetStatus1(String name, int status, int type) {
         return stockdb.updateNeuralNetStatus1(name, status, type);
     }

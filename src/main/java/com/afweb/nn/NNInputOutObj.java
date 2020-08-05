@@ -10,6 +10,20 @@ package com.afweb.nn;
  * @author eddy
  */
 public class NNInputOutObj {
+
+    /**
+     * @return the output2
+     */
+    public double getOutput2() {
+        return output2;
+    }
+
+    /**
+     * @param output2 the output2 to set
+     */
+    public void setOutput2(double output2) {
+        this.output2 = output2;
+    }
     private String dateSt;
     private float close;    
     private int trsignal;
@@ -29,7 +43,7 @@ public class NNInputOutObj {
     private double input13;
     
     private double output1;
-
+    private double output2;
     /**
      * @return the input1
      */

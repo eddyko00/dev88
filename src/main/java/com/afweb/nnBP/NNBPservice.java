@@ -165,7 +165,7 @@ public class NNBPservice {
             Min4 = 100;
             numberIteration = 9000000;
         }
-  
+
         long lockDate4Min = TimeConvertion.addMinutes(currentTime, Min4);
 
         int i = 0;
@@ -180,6 +180,10 @@ public class NNBPservice {
                     output = outputptr[j];
 
                     if (output[0] == 0) {
+                        learnLenght = learnLenght - 1;
+                        continue;
+                    }
+                    if (output[0] < 0) {
                         learnLenght = learnLenght - 1;
                         continue;
                     }
@@ -315,7 +319,6 @@ public class NNBPservice {
         private doubleArray[] outError;
         private neuronArray[] neu;
         /* # of neuron for each layer */
-
 
         private double inNormalize = 1;
         private double outNormalize = 1;
@@ -647,7 +650,7 @@ public class NNBPservice {
             }
 
             int icnt = 0;
-            if (strNetArray[icnt++].toString().equals(CKey.version) == false) {               
+            if (strNetArray[icnt++].toString().equals(CKey.version) == false) {
                 // disable because inputStockNeuralNetData need different version so reload the base network
 //                return;
             }

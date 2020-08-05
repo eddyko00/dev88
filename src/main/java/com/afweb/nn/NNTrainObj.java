@@ -16,6 +16,20 @@ import java.util.ArrayList;
  */
 public class NNTrainObj {
 
+    /**
+     * @return the targetpattern
+     */
+    public double[][] getTargetpattern() {
+        return targetpattern;
+    }
+
+    /**
+     * @param targetpattern the targetpattern to set
+     */
+    public void setTargetpattern(double[][] targetpattern) {
+        this.targetpattern = targetpattern;
+    }
+
     private String nameNN;
     private String symbol;
     private String trname;
@@ -25,24 +39,24 @@ public class NNTrainObj {
     private double[][] inputpattern;
     private double[][] outputpattern;
     private double[][] response;
-    private double[] targetpattern;
+    private double[][] targetpattern;
 
     public void printInputFile() {
         if (getEnv.checkLocalPC() == true) {
             ArrayList writeArray = new ArrayList();
             double[] input;
             double[] output;
-            double target;
+            double[] target;
             int testSampleSize = inputpattern.length;
             for (int j = 0; j < testSampleSize; j++) {
                 input = inputpattern[j];
                 output = outputpattern[j];
-                target = targetpattern[j];
+                target = getTargetpattern()[j];
                 String st = "";
                 for (int k = 0; k < input.length; k++) {
                     st += "\"" + input[k] + "\",";
                 }
-                st += "\"" + output[0] + "\"," + "\"" + target + "\" ";
+                st += "\"" + output[0] + "\",\"" + output[1] + "\",\"" + target[0] + "\",\"" + target[1] + "\" ";
                 writeArray.add(st);
             }
             FileUtil.FileWriteTextArray(FileLocalDebugPath + nameNN + ".csv", writeArray);
@@ -89,20 +103,6 @@ public class NNTrainObj {
      */
     public void setInputpattern(double[][] inputpattern) {
         this.inputpattern = inputpattern;
-    }
-
-    /**
-     * @return the targetpattern
-     */
-    public double[] getTargetpattern() {
-        return targetpattern;
-    }
-
-    /**
-     * @param targetpattern the targetpattern to set
-     */
-    public void setTargetpattern(double[] targetpattern) {
-        this.targetpattern = targetpattern;
     }
 
     /**
