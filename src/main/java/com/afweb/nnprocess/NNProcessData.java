@@ -7,6 +7,7 @@ package com.afweb.nnprocess;
 
 import com.afweb.util.CKey;
 import com.afweb.model.*;
+
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.service.*;
@@ -120,6 +121,9 @@ public class NNProcessData {
         symbol = symbol.replace(".", "_");
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
+        if (offset == 0) {
+            size1yearAll = size1yearAll / 2;
+        }
 
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
@@ -415,4 +419,5 @@ public class NNProcessData {
         return false;
     }
 
+//////////
 }

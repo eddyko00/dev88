@@ -1100,8 +1100,8 @@ public class TradingNNprocess {
 
             targetpattern[i][0] = obj.getOutput1();
             targetpattern[i][1] = obj.getOutput2();
-            
-            outputpattern[i][0] = obj.getOutput1();            
+
+            outputpattern[i][0] = obj.getOutput1();
             outputpattern[i][1] = obj.getOutput2();
         }
         NNTrainObj nnTraining = new NNTrainObj();
@@ -1114,7 +1114,7 @@ public class TradingNNprocess {
         return nnTraining;
     }
 
-    public static NNTrainObj trainingNNsetupTraining(ArrayList<NNInputOutObj> inputlist) {
+    public static NNTrainObj trainingNNsetupTraining(ArrayList<NNInputOutObj> inputlist, String nnName) {
 //        logger.info("> trainingNNsetupTraining ");
 
         int inputListSize = inputlist.size();
@@ -1123,6 +1123,9 @@ public class TradingNNprocess {
         // Make sure to update this when adding new input        
         int inputSize = CKey.NN_INPUT_SIZE;
         int outputSize = CKey.NN_OUTPUT_SIZE;
+        if (nnName.equals(ConstantKey.TR_NN4)) {
+            outputSize = 8;
+        }
         // Make sure to update this when adding new input
         // Make sure to update this when adding new input         
         double[][] inputpattern = new double[inputListSize][inputSize];
@@ -1148,10 +1151,26 @@ public class TradingNNprocess {
 //            targetpattern[i] = obj.getOutput1();
 //            targetpattern[i] = obj.getOutput1();
             targetpattern[i][0] = obj.getOutput1();
-            targetpattern[i][1] = obj.getOutput2(); 
-            
+            targetpattern[i][1] = obj.getOutput2();
+
             outputpattern[i][0] = obj.getOutput1();
-            outputpattern[i][1] = obj.getOutput2();            
+            outputpattern[i][1] = obj.getOutput2();
+            if (nnName.equals(ConstantKey.TR_NN4)) {
+                outputpattern[i][2] = obj.getOutput3();
+                outputpattern[i][3] = obj.getOutput4();
+                outputpattern[i][4] = obj.getOutput5();
+                outputpattern[i][5] = obj.getOutput6();
+                outputpattern[i][6] = obj.getOutput7();
+                outputpattern[i][7] = obj.getOutput8();
+
+                targetpattern[i][2] = obj.getOutput3();
+                targetpattern[i][3] = obj.getOutput4();
+                targetpattern[i][4] = obj.getOutput5();
+                targetpattern[i][5] = obj.getOutput6();
+                targetpattern[i][6] = obj.getOutput7();
+                targetpattern[i][7] = obj.getOutput8();
+
+            }
         }
         NNTrainObj nnTraining = new NNTrainObj();
         nnTraining.setNameNN(CKey.NN_version);
@@ -1179,41 +1198,28 @@ public class TradingNNprocess {
         double closeOutput = thObjMV5.getClose();
 
         double closef = (closeOutput - closeOutput0) / closeOutput0;
-        closef = closef * 100 * 5;
-        closef = closef + 50;
+        closef = closef * 100;
 
-//        double closeOutputPer = (closeOutput - closeOutput0);
-//
-//        ArrayList<Float> parm1NormalList = new ArrayList();  // close normalize
-//        for (int k = 0; k < 20; k++) {
-//            if ((index - k) < 0) {
-//                break;
-//            }
-//            if ((index - k - 5) < 0) {
-//                break;
-//            }
-//            StockTRHistoryObj thObjMVtmp0 = thObjListMACD.get(index - k - 5);
-//            float close0 = thObjMVtmp0.getClose();
-//
-//            StockTRHistoryObj thObjMVtmp = thObjListMACD.get(index - k);
-//            float close = thObjMVtmp.getClose();
-//
-//            double closePer = (close - close0);
-//            parm1NormalList.add((float) closePer);
-//        }
-//        NNormalObj parm1Normal = new NNormalObj();
-//        parm1Normal.initHighLow(parm1NormalList);
-//
-//        double closef = parm1Normal.getNormalizeValue((float) closeOutputPer);
+        closef = closef * 10;   // factore of 10 to make it more valid for NN
+
         int temp = 0;
         temp = (int) closef;
         closef = temp;
         closef = closef / 100;
-        if (closef > 0.9) {
-            closef = 0.9;
-        }
-        if (closef < 0.1) {
-            closef = 0.1;
+        if (closef > 0) {
+            if (closef > 0.9) {
+                closef = 0.9;
+            }
+            if (closef < 0.1) {
+                closef = 0.1;
+            }
+        } else {
+            if (closef < -0.9) {
+                closef = -0.9;
+            }
+            if (closef > -0.1) {
+                closef = -0.1;
+            }
         }
         return closef;
 
@@ -2130,15 +2136,55 @@ public class TradingNNprocess {
                     inputList.setInput9(closeArray.get(3));
                     inputList.setInput10(closeArray.get(4));
 //                    inputList.setInput1(closeArray.get(5));
-
                     double output = getNNnormalizeStOutput5Close(i, thObjListMACD);
 
+                    if ((output == -1) || (output == 0)) {
+                        inputList.setOutput1(-1);
+                        inputList.setOutput2(-1);
+                        inputList.setOutput3(-1);
+                        inputList.setOutput4(-1);
+                        inputList.setOutput5(-1);
+                        inputList.setOutput6(-1);
+                        inputList.setOutput7(-1);
+                        inputList.setOutput8(-1);
+                    } else {
+                        inputList.setOutput1(0.1);
+                        inputList.setOutput2(0.1);
+                        inputList.setOutput3(0.1);
+                        inputList.setOutput4(0.1);
+                        inputList.setOutput5(0.1);
+                        inputList.setOutput6(0.1);
+                        inputList.setOutput7(0.1);
+                        inputList.setOutput8(0.1);
+                        if (output > 0) {
+                            if (output > 0.8) {
+                                inputList.setOutput1(0.9);
+                            } else if (output > 0.6) {
+                                inputList.setOutput2(0.9);
+                            } else if (output > 0.4) {
+                                inputList.setOutput3(0.9);
+                            } else if (output > 0.2) {
+                                inputList.setOutput4(0.9);
+                            }
+
+                        } else {
+                            output = -output;
+                            if (output > 0.8) {
+                                inputList.setOutput8(0.9);
+                            } else if (output > 0.6) {
+                                inputList.setOutput7(0.9);
+                            } else if (output > 0.4) {
+                                inputList.setOutput6(0.9);
+                            } else if (output > 0.2) {
+                                inputList.setOutput5(0.9);
+                            }
+                        }
+                    }
                     NNInputDataObj objDataCur = new NNInputDataObj();
                     objDataCur.setUpdatedatel(thObjMACD.getUpdateDatel());
                     objDataCur.setObj(inputList);
 
                     if (objDataPrev != null) {
-                        objDataPrev.getObj().setOutput1(output);
                         trInputList.add(objDataPrev.getObj());
                         inputDatalist.add(objDataPrev);
 
@@ -2148,6 +2194,7 @@ public class TradingNNprocess {
 //                            NNInputOutObj objP = objDataPrev.getObj();
 //                            String st = "\"" + objP.getDateSt() + "\",\"" + objP.getClose() + "\",\"" + objP.getTrsignal()
 //                                    + "\",\"" + objP.getOutput1()
+//                                    + "\",\"" + objP.getOutput2()
 //                                    + "\",\"" + objP.getInput1() + "\",\"" + objP.getInput2() + "\",\"" + objP.getInput3()
 //                                    + "\",\"" + objP.getInput4() + "\",\"" + objP.getInput5() + "\",\"" + objP.getInput6()
 //                                    + "\",\"" + objP.getInput7() + "\",\"" + objP.getInput8()

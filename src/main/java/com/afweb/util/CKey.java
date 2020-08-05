@@ -34,9 +34,9 @@ public class CKey {
     //
     public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
-    public static boolean NN_DEBUG = false; //false; //true; 
+    public static boolean NN_DEBUG = true; //false; //true; 
     public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
-    public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
+    public static boolean UI_ONLY = true; //false Openshift; //true heroku;  
 
     /////
     public static boolean NN4Testing = false;
@@ -100,7 +100,7 @@ public class CKey {
     public static double PREDICT_THRESHOLD = 0.6;
     public static double NN1_ERROR_THRESHOLD = 0.07; // 0.043; //0.045 for 110 node // 0.053 for 100 node; 
     public static double NN2_ERROR_THRESHOLD = 0.07;
-    public static double NN4_ERROR_THRESHOLD = 0.035; //0.035; //0.045;    
+    public static double NN4_ERROR_THRESHOLD = 0.43; //0.035; //0.045;    
     public static final int NN_OUTPUT_SIZE = 2;    
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 120; //24; //18; //16;

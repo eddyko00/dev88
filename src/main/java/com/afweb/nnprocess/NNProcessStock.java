@@ -41,13 +41,13 @@ public class NNProcessStock {
             NeuralNetInputStPredTesting(serviceAFWeb);
         }
 
-        boolean flagNeuralnetTrain = false;
+        boolean flagNeuralnetTrain = true;
         if (flagNeuralnetTrain == true) {
             // start training
             NeuralNetProcessTesting(serviceAFWeb);
         }
 
-        boolean flagNeuralnetCreateJava = false;
+        boolean flagNeuralnetCreateJava = true;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetNN4CreatJava(serviceAFWeb, ConstantKey.TR_NN4);
 
@@ -70,10 +70,8 @@ public class NNProcessStock {
 
 //            ArrayList<NNInputDataObj> inputArray = getTrainingNNStdataProcess(serviceAFWeb, symbol, 0);
 //            NNInputDataObj input = inputArray.get(5);
-                    
-
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-            int size1year =20 * 12 * 2 + (50 * 3);
+            int size1year = 20 * 12 * 2 + (50 * 3);
             ArrayList StockArray = serviceAFWeb.getStockHistorical(symbol, size1year);
             // update Trading signal
             ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
@@ -129,7 +127,7 @@ public class NNProcessStock {
                     Calendar dateDefault = TimeConvertion.getDefaultCalendar();
                     afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-                    String weightSt = (CKey.NN4_WEIGHT_0);
+                    String weightSt = (CKey.NN4_WEIGHT_0);  
                     afNeuralNet.setWeight(weightSt);
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN4_WEIGHT_0");
@@ -195,23 +193,12 @@ public class NNProcessStock {
 
     public ArrayList<NNInputDataObj> getTrainingNNStdataProcess(ServiceAFweb serviceAFWeb, String symbol, int offset) {
         logger.info("> getTrainingNNdataProcess " + symbol);
-
-//        boolean trainStock = false;
-//        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
-//            String stockN = ServiceAFweb.neuralNetTrainStock[i];
-//            if (stockN.equals(symbol)) {
-//                trainStock = true;
-//                break;
-//            }
-//        }
-//        if (trainStock == false) {
-//            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
-//                return null;
-//            }
-//        }
         symbol = symbol.replace(".", "_");
 
-        int size1yearAll = 20 * 12 * 2 + (50 * 3);
+        int size1yearAll = 20 * 12 * 5 + (50 * 3);
+        if (offset == 0) {
+            size1yearAll = size1yearAll / 2;
+        }
 
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
@@ -247,6 +234,13 @@ public class NNProcessStock {
 
             String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
                     + "\",\"" + obj.getOutput1()
+                    + "\",\"" + obj.getOutput2()
+                    + "\",\"" + obj.getOutput3()
+                    + "\",\"" + obj.getOutput4()
+                    + "\",\"" + obj.getOutput5()
+                    + "\",\"" + obj.getOutput6()
+                    + "\",\"" + obj.getOutput7()
+                    + "\",\"" + obj.getOutput8()
                     + "\",\"" + obj.getInput1()
                     + "\",\"" + obj.getInput2()
                     + "\",\"" + obj.getInput3()
@@ -268,7 +262,14 @@ public class NNProcessStock {
 
             if (i == 0) {
                 stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-                        + "\",\"" + "output"
+                        + "\",\"" + "output1"
+                        + "\",\"" + "output2"
+                        + "\",\"" + "output3"
+                        + "\",\"" + "output4"
+                        + "\",\"" + "output5"
+                        + "\",\"" + "output6"
+                        + "\",\"" + "output7"
+                        + "\",\"" + "output8"
                         + "\",\"" + "macd TSig"
                         + "\",\"" + "LTerm"
                         + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"

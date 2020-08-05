@@ -56,7 +56,7 @@ public class ProcessNN2 {
         NNInputOutObj inputObj = inputList.get(0).getObj();
         inputTraininglist.add(inputObj);
 
-        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist);
+        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist, ConstantKey.TR_NN2);
 
         nnTraining.setNameNN(BPname);
         nnTraining.setSymbol(stockidsymbol);
