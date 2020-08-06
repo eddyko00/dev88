@@ -2392,13 +2392,8 @@ public class TrandingSignalProcess {
                             }
                             writeArray.add(stTitle);
                         }
-                        String st = "\"" + output[0]
-                                + "\",\"" + output[1]
-                                + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                                + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
-                                + "\",\"" + input[6] + "\",\"" + input[7]
-                                + "\",\"" + input[8] + "\",\"" + input[9]
-                                + "\",\"" + rsp[0] + "\",\"" + rsp[1] + "\"";
+
+                        String st = "";
 
                         if (nnName.equals(ConstantKey.TR_NN4)) {
                             st = "\"" + output[0]
@@ -2422,16 +2417,74 @@ public class TrandingSignalProcess {
                                     + "\",\"" + rsp[6]
                                     + "\",\"" + rsp[7] + "\"";
 
+                            if (output[0] > 0.5) {
+                                if (rsp[0] > 0.5) {
+                                    ;
+                                } else {
+                                    st += ",\"" + "0" + "\"";
+                                }
+                            } else if (output[1] > 0.5) {
+                                if (rsp[1] > 0.5) {
+                                    ;
+                                } else {
+                                    st += ",\"" + "1" + "\"";
+                                }
+                            } else if (output[2] > 0.5) {
+                                if (rsp[2] > 0.5) {
+                                    ;
+                                } else {
+                                    st += ",\"" + "2" + "\"";
+                                }
+                            } else if (output[3] > 0.5) {
+                                if (rsp[3] > 0.5) {
+                                    ;
+                                } else {
+                                    st += ",\"" + "3" + "\"";
+                                }
+                            } else if (output[4] > 0.5) {
+                                if (rsp[4] > 0.5) {
+                                    ;
+                                } else {
+                                    st += ",\"" + "4" + "\"";
+                                }
+                            } else if (output[5] > 0.5) {
+                                if (rsp[5] > 0.5) {
+                                    ;
+                                } else {
+                                    st += ",\"" + "5" + "\"";
+                                }
+                            } else if (output[6] > 0.5) {
+                                if (rsp[6] > 0.5) {
+                                    ;
+                                } else {
+                                    st += ",\"" + "6" + "\"";
+                                }
+                            } else if (output[7] > 0.5) {
+                                if (rsp[7] > 0.5) {
+                                    ;
+                                } else {
+                                    st += ",\"" + "7" + "\"";
+                                }
+                            }
+                        } else {
+                            st = "\"" + output[0]
+                                    + "\",\"" + output[1]
+                                    + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
+                                    + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
+                                    + "\",\"" + input[6] + "\",\"" + input[7]
+                                    + "\",\"" + input[8] + "\",\"" + input[9]
+                                    + "\",\"" + rsp[0] + "\",\"" + rsp[1] + "\"";
+                            float delta = (float) (output[0] - rsp[0]);
+                            delta = Math.abs(delta);
+                            float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
+                            if (nnName.equals(ConstantKey.TR_NN4) == true) {
+                                deltaCmp = (float) 0.09;
+                            }
+                            if (delta > deltaCmp) {
+                                st += ",\"" + delta + "\"";
+                            }
                         }
-                        float delta = (float) (output[0] - rsp[0]);
-                        delta = Math.abs(delta);
-                        float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-                        if (nnName.equals(ConstantKey.TR_NN4) == true) {
-                            deltaCmp = (float) 0.09;
-                        }
-                        if (delta > deltaCmp) {
-                            st += ",\"" + delta + "\"";
-                        }
+
                         writeArray.add(st);
                     }
                     if (getEnv.checkLocalPC() == true) {
@@ -2502,13 +2555,8 @@ public class TrandingSignalProcess {
                                 }
                                 writeArray.add(stTitle);
                             }
-                            String st = "\"" + output[0]
-                                    + "\",\"" + output[1]
-                                    + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                                    + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
-                                    + "\",\"" + input[6] + "\",\"" + input[7]
-                                    + "\",\"" + input[8] + "\",\"" + input[9]
-                                    + "\",\"" + rsp[0] + "\",\"" + rsp[1] + "\"";
+                            String st = "";
+
                             if (nnName.equals(ConstantKey.TR_NN4)) {
                                 st = "\"" + output[0]
                                         + "\",\"" + output[1]
@@ -2531,12 +2579,74 @@ public class TrandingSignalProcess {
                                         + "\",\"" + rsp[6]
                                         + "\",\"" + rsp[7] + "\"";
 
+                                if (output[0] > 0.5) {
+                                    if (rsp[0] > 0.5) {
+                                        ;
+                                    } else {
+                                        st += ",\"" + "0" + "\"";
+                                    }
+                                } else if (output[1] > 0.5) {
+                                    if (rsp[1] > 0.5) {
+                                        ;
+                                    } else {
+                                        st += ",\"" + "1" + "\"";
+                                    }
+                                } else if (output[2] > 0.5) {
+                                    if (rsp[2] > 0.5) {
+                                        ;
+                                    } else {
+                                        st += ",\"" + "2" + "\"";
+                                    }
+                                } else if (output[3] > 0.5) {
+                                    if (rsp[3] > 0.5) {
+                                        ;
+                                    } else {
+                                        st += ",\"" + "3" + "\"";
+                                    }
+                                } else if (output[4] > 0.5) {
+                                    if (rsp[4] > 0.5) {
+                                        ;
+                                    } else {
+                                        st += ",\"" + "4" + "\"";
+                                    }
+                                } else if (output[5] > 0.5) {
+                                    if (rsp[5] > 0.5) {
+                                        ;
+                                    } else {
+                                        st += ",\"" + "5" + "\"";
+                                    }
+                                } else if (output[6] > 0.5) {
+                                    if (rsp[6] > 0.5) {
+                                        ;
+                                    } else {
+                                        st += ",\"" + "6" + "\"";
+                                    }
+                                } else if (output[7] > 0.5) {
+                                    if (rsp[7] > 0.5) {
+                                        ;
+                                    } else {
+                                        st += ",\"" + "7" + "\"";
+                                    }
+                                }
+                            } else {
+                                st = "\"" + output[0]
+                                        + "\",\"" + output[1]
+                                        + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
+                                        + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
+                                        + "\",\"" + input[6] + "\",\"" + input[7]
+                                        + "\",\"" + input[8] + "\",\"" + input[9]
+                                        + "\",\"" + rsp[0] + "\",\"" + rsp[1] + "\"";
+                                float delta = (float) (output[0] - rsp[0]);
+                                delta = Math.abs(delta);
+                                float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
+                                if (nnName.equals(ConstantKey.TR_NN4) == true) {
+                                    deltaCmp = (float) 0.09;
+                                }
+                                if (delta > deltaCmp) {
+                                    st += ",\"" + delta + "\"";
+                                }
                             }
-                            float delta = (float) (output[0] - rsp[0]);
-                            delta = Math.abs(delta);
-                            if (delta > 0.5) {
-                                st += ",\"" + delta + "\"";
-                            }
+
                             writeArray.add(st);
                         }
                         FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnName + "_nnPredit.csv", writeArray);

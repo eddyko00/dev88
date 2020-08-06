@@ -739,7 +739,8 @@ public class NNProcessStock {
             inputBuf.append(nn4Data.TR_NN4_INPUTLIST8);
             inputBuf.append(nn4Data.TR_NN4_INPUTLIST9);
             inputBuf.append(nn4Data.TR_NN4_INPUTLIST10);
-
+            inputBuf.append(nn4Data.TR_NN4_INPUTLIST11);      // check nn4Data 
+            
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
