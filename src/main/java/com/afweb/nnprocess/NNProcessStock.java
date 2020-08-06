@@ -41,13 +41,13 @@ public class NNProcessStock {
             NeuralNetInputStPredTesting(serviceAFWeb);
         }
 
-        boolean flagNeuralnetTrain = true;
+        boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
             // start training
             NeuralNetProcessTesting(serviceAFWeb);
         }
 
-        boolean flagNeuralnetCreateJava = true;
+        boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetNN4CreatJava(serviceAFWeb, ConstantKey.TR_NN4);
 

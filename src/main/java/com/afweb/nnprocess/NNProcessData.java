@@ -45,7 +45,7 @@ public class NNProcessData {
             NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
 
         }
-        boolean flagNeuralnetCreateJava = false;
+        boolean flagNeuralnetCreateJava = true;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
 

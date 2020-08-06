@@ -1783,7 +1783,7 @@ public class TrandingSignalProcess {
             for (int i = 1; i < 20; i++) {
                 String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
 //                logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName);
+                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
                 if (i == 0) {
                     continue;
                 }
@@ -1798,7 +1798,7 @@ public class TrandingSignalProcess {
         for (int i = 1; i < 20; i++) {
             String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
 //            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-            boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName);
+            boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
             if (i == 0) {
                 continue;
             }
@@ -1810,7 +1810,7 @@ public class TrandingSignalProcess {
         for (int i = 1; i < 20; i++) {
             String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
 //            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-            boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName);
+            boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
             if (i == 0) {
                 continue;
             }
@@ -2105,7 +2105,7 @@ public class TrandingSignalProcess {
 //        serviceAFWeb.removeNameLock(TestName, ConstantKey.NN_TR_LOCKTYPE);
 //
 //    }
-    public boolean readTrainingNeuralNet(ServiceAFweb serviceAFWeb, ArrayList<NNInputDataObj> inputlist, String nnFileName) {
+    public boolean readTrainingNeuralNet(ServiceAFweb serviceAFWeb, ArrayList<NNInputDataObj> inputlist, String nnFileName, String nnName) {
 
         ArrayList inputArray = new ArrayList();
         if (FileUtil.FileTest(nnFileName) == false) {
@@ -2117,7 +2117,11 @@ public class TrandingSignalProcess {
             for (int i = 0; i < inputArray.size(); i++) {
                 String st = (String) inputArray.get(i);
                 String[] stList = st.split(",");
-                if (stList.length != (CKey.NN_INPUT_SIZE + 8 + CKey.NN_OUTPUT_SIZE + 3)) { //12) {
+                int outputN = CKey.NN_OUTPUT_SIZE;  //2
+                if (nnName.equals(ConstantKey.TR_NN4)) {
+                    outputN = 8;
+                }
+                if (stList.length != (CKey.NN_INPUT_SIZE + 2 + outputN + 3)) { //12) {
                     continue;
                 }
                 NNInputDataObj objData = new NNInputDataObj();
@@ -2132,13 +2136,14 @@ public class TrandingSignalProcess {
 
                 obj.setOutput1(Double.parseDouble(stList[j++]));
                 obj.setOutput2(Double.parseDouble(stList[j++]));
-                obj.setOutput3(Double.parseDouble(stList[j++]));
-                obj.setOutput4(Double.parseDouble(stList[j++]));
-                obj.setOutput5(Double.parseDouble(stList[j++]));
-                obj.setOutput6(Double.parseDouble(stList[j++]));
-                obj.setOutput7(Double.parseDouble(stList[j++]));
-                obj.setOutput8(Double.parseDouble(stList[j++]));
-
+                if (nnName.equals(ConstantKey.TR_NN4)) {
+                    obj.setOutput3(Double.parseDouble(stList[j++]));
+                    obj.setOutput4(Double.parseDouble(stList[j++]));
+                    obj.setOutput5(Double.parseDouble(stList[j++]));
+                    obj.setOutput6(Double.parseDouble(stList[j++]));
+                    obj.setOutput7(Double.parseDouble(stList[j++]));
+                    obj.setOutput8(Double.parseDouble(stList[j++]));
+                }
                 obj.setInput1(Double.parseDouble(stList[j++]));
                 obj.setInput2(Double.parseDouble(stList[j++]));
                 obj.setInput3(Double.parseDouble(stList[j++]));
