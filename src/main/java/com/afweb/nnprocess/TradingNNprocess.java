@@ -1124,7 +1124,7 @@ public class TradingNNprocess {
         int inputSize = CKey.NN_INPUT_SIZE;
         int outputSize = CKey.NN_OUTPUT_SIZE;
         if (nnName.equals(ConstantKey.TR_NN4)) {
-            outputSize = 8;
+            outputSize = 4;
         }
         // Make sure to update this when adding new input
         // Make sure to update this when adding new input         
@@ -1158,17 +1158,17 @@ public class TradingNNprocess {
             if (nnName.equals(ConstantKey.TR_NN4)) {
                 outputpattern[i][2] = obj.getOutput3();
                 outputpattern[i][3] = obj.getOutput4();
-                outputpattern[i][4] = obj.getOutput5();
-                outputpattern[i][5] = obj.getOutput6();
-                outputpattern[i][6] = obj.getOutput7();
-                outputpattern[i][7] = obj.getOutput8();
+//                outputpattern[i][4] = obj.getOutput5();
+//                outputpattern[i][5] = obj.getOutput6();
+//                outputpattern[i][6] = obj.getOutput7();
+//                outputpattern[i][7] = obj.getOutput8();
 
                 targetpattern[i][2] = obj.getOutput3();
                 targetpattern[i][3] = obj.getOutput4();
-                targetpattern[i][4] = obj.getOutput5();
-                targetpattern[i][5] = obj.getOutput6();
-                targetpattern[i][6] = obj.getOutput7();
-                targetpattern[i][7] = obj.getOutput8();
+//                targetpattern[i][4] = obj.getOutput5();
+//                targetpattern[i][5] = obj.getOutput6();
+//                targetpattern[i][6] = obj.getOutput7();
+//                targetpattern[i][7] = obj.getOutput8();
 
             }
         }
@@ -2143,40 +2143,32 @@ public class TradingNNprocess {
                         inputList.setOutput2(-1);
                         inputList.setOutput3(-1);
                         inputList.setOutput4(-1);
-                        inputList.setOutput5(-1);
-                        inputList.setOutput6(-1);
-                        inputList.setOutput7(-1);
-                        inputList.setOutput8(-1);
+//                        inputList.setOutput5(-1);
+//                        inputList.setOutput6(-1);
+//                        inputList.setOutput7(-1);
+//                        inputList.setOutput8(-1);
                     } else {
                         inputList.setOutput1(0.1);
                         inputList.setOutput2(0.1);
                         inputList.setOutput3(0.1);
                         inputList.setOutput4(0.1);
-                        inputList.setOutput5(0.1);
-                        inputList.setOutput6(0.1);
-                        inputList.setOutput7(0.1);
-                        inputList.setOutput8(0.1);
+//                        inputList.setOutput5(0.1);
+//                        inputList.setOutput6(0.1);
+//                        inputList.setOutput7(0.1);
+//                        inputList.setOutput8(0.1);
                         if (output > 0) {
-                            if (output > 0.8) {
+                            if (output > 0.6) {
                                 inputList.setOutput1(0.9);
-                            } else if (output > 0.6) {
-                                inputList.setOutput2(0.9);
-                            } else if (output > 0.4) {
-                                inputList.setOutput3(0.9);
                             } else if (output > 0.2) {
-                                inputList.setOutput4(0.9);
+                                inputList.setOutput2(0.9);
                             }
 
                         } else {
                             output = -output;
-                            if (output > 0.8) {
-                                inputList.setOutput8(0.9);
-                            } else if (output > 0.6) {
-                                inputList.setOutput7(0.9);
-                            } else if (output > 0.4) {
-                                inputList.setOutput6(0.9);
+                            if (output > 0.6) {
+                                inputList.setOutput3(0.9);
                             } else if (output > 0.2) {
-                                inputList.setOutput5(0.9);
+                                inputList.setOutput4(0.9);
                             }
                         }
                     }
@@ -2187,22 +2179,6 @@ public class TradingNNprocess {
                     if (objDataPrev != null) {
                         trInputList.add(objDataPrev.getObj());
                         inputDatalist.add(objDataPrev);
-
-//                    if (getEnv.checkLocalPC() == true) {
-//                        if (CKey.NN_DEBUG == true) {
-//
-//                            NNInputOutObj objP = objDataPrev.getObj();
-//                            String st = "\"" + objP.getDateSt() + "\",\"" + objP.getClose() + "\",\"" + objP.getTrsignal()
-//                                    + "\",\"" + objP.getOutput1()
-//                                    + "\",\"" + objP.getOutput2()
-//                                    + "\",\"" + objP.getInput1() + "\",\"" + objP.getInput2() + "\",\"" + objP.getInput3()
-//                                    + "\",\"" + objP.getInput4() + "\",\"" + objP.getInput5() + "\",\"" + objP.getInput6()
-//                                    + "\",\"" + objP.getInput7() + "\",\"" + objP.getInput8()
-//                                    + "\",\"" + objP.getInput9() + "\",\"" + objP.getInput10()
-//                                    + "\"";
-//                            logger.info(i + "," + st);
-//                        }
-//                    }
                     }
                     prevThObj = thObjMACD;
                     objDataPrev = objDataCur;
@@ -2242,7 +2218,7 @@ public class TradingNNprocess {
             inputBuf.append(nnData.NN_INPUTLIST10);
             inputBuf.append(nnData.NN_INPUTLIST11);
             inputBuf.append(nnData.NN_INPUTLIST12);     //need to check nnData file
-            
+
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);

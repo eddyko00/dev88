@@ -1851,10 +1851,10 @@ public class TrandingSignalProcess {
             inputObj.setOutput2(inputDObj.getObj().getOutput2());
             inputObj.setOutput3(inputDObj.getObj().getOutput3());
             inputObj.setOutput4(inputDObj.getObj().getOutput4());
-            inputObj.setOutput5(inputDObj.getObj().getOutput5());
-            inputObj.setOutput6(inputDObj.getObj().getOutput6());
-            inputObj.setOutput7(inputDObj.getObj().getOutput7());
-            inputObj.setOutput8(inputDObj.getObj().getOutput8());
+//            inputObj.setOutput5(inputDObj.getObj().getOutput5());
+//            inputObj.setOutput6(inputDObj.getObj().getOutput6());
+//            inputObj.setOutput7(inputDObj.getObj().getOutput7());
+//            inputObj.setOutput8(inputDObj.getObj().getOutput8());
             if (inputDObj.getObj().getOutput1() < 0) {
                 // ignore negative -1
                 continue;
@@ -1979,8 +1979,11 @@ public class TrandingSignalProcess {
                 inputObj.setInput11(inputDObj.getObj().getInput11());
                 inputObj.setInput12(inputDObj.getObj().getInput12());
                 inputObj.setInput13(inputDObj.getObj().getInput13());
+                //////
                 inputObj.setOutput1(inputDObj.getObj().getOutput1());
                 inputObj.setOutput2(inputDObj.getObj().getOutput2());
+                inputObj.setOutput3(inputDObj.getObj().getOutput3());
+                inputObj.setOutput4(inputDObj.getObj().getOutput4());
                 if (inputObj.getOutput1() < 0) {
                     continue;
                 }
@@ -2022,7 +2025,7 @@ public class TrandingSignalProcess {
 
         /// start training or continue training           
         /// start training or continue training
-        return TrainingNNBP(serviceAFWeb, nnNameSym, nnTraining, nnError);
+        return TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
     public void initTrainingNeuralNetData(ServiceAFweb serviceAFWeb, String nnName) {
@@ -2057,7 +2060,7 @@ public class TrandingSignalProcess {
             nnTraining.setSymbol(nnName);
             /// start training or continue training           
             /// start training or continue training
-            TrainingNNBP(serviceAFWeb, nnName, nnTraining, 0);
+            TrainingNNBP(serviceAFWeb, nnName, nnName, nnTraining, 0);
         }
     }
 //
@@ -2119,7 +2122,7 @@ public class TrandingSignalProcess {
                 String[] stList = st.split(",");
                 int outputN = CKey.NN_OUTPUT_SIZE;  //2
                 if (nnName.equals(ConstantKey.TR_NN4)) {
-                    outputN = 8;
+                    outputN = 4;
                 }
                 if (stList.length != (CKey.NN_INPUT_SIZE + 2 + outputN + 3)) { //12) {
                     continue;
@@ -2139,10 +2142,10 @@ public class TrandingSignalProcess {
                 if (nnName.equals(ConstantKey.TR_NN4)) {
                     obj.setOutput3(Double.parseDouble(stList[j++]));
                     obj.setOutput4(Double.parseDouble(stList[j++]));
-                    obj.setOutput5(Double.parseDouble(stList[j++]));
-                    obj.setOutput6(Double.parseDouble(stList[j++]));
-                    obj.setOutput7(Double.parseDouble(stList[j++]));
-                    obj.setOutput8(Double.parseDouble(stList[j++]));
+//                    obj.setOutput5(Double.parseDouble(stList[j++]));
+//                    obj.setOutput6(Double.parseDouble(stList[j++]));
+//                    obj.setOutput7(Double.parseDouble(stList[j++]));
+//                    obj.setOutput8(Double.parseDouble(stList[j++]));
                 }
                 obj.setInput1(Double.parseDouble(stList[j++]));
                 obj.setInput2(Double.parseDouble(stList[j++]));
@@ -2208,11 +2211,11 @@ public class TrandingSignalProcess {
         return 0;
     }
 
-    public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnName, NNTrainObj nnTraining, double nnError) {
+    public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnNameSym, String nnNAme, NNTrainObj nnTraining, double nnError) {
         int inputListSize = CKey.NN_INPUT_SIZE; //12;
         int outputSize = CKey.NN_OUTPUT_SIZE; //2;
-        if (nnName.equals(ConstantKey.TR_NN4)) {
-            outputSize = 8;
+        if (nnNAme.equals(ConstantKey.TR_NN4)) {
+            outputSize = 4;
         }
         int middleSize = CKey.NN1_MIDDLE_SIZE;
 
@@ -2332,7 +2335,7 @@ public class TrandingSignalProcess {
         if (getEnv.checkLocalPC() == true) {
             if (CKey.NN_DEBUG == true) {
                 StringBuffer msg1 = new StringBuffer(weightSt);
-                FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight1.txt", msg1);
+                FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight1.txt", msg1);
             }
         }
         int retFlag = 0;
@@ -2367,15 +2370,15 @@ public class TrandingSignalProcess {
                                     + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
                                     + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
                                     + "\",\"" + "predict0" + "\",\"" + "predict1" + "\"";
-                            if (nnName.equals(ConstantKey.TR_NN4)) {
+                            if (nnNameSym.equals(ConstantKey.TR_NN4)) {
                                 stTitle = "\"" + "output0"
                                         + "\",\"" + "output1"
                                         + "\",\"" + "output2"
                                         + "\",\"" + "output3"
-                                        + "\",\"" + "output4"
-                                        + "\",\"" + "output5"
-                                        + "\",\"" + "output6"
-                                        + "\",\"" + "output7"
+                                        //                                        + "\",\"" + "output4"
+                                        //                                        + "\",\"" + "output5"
+                                        //                                        + "\",\"" + "output6"
+                                        //                                        + "\",\"" + "output7"
                                         + "\",\"" + "macd TSig"
                                         + "\",\"" + "LTerm"
                                         + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
@@ -2384,10 +2387,11 @@ public class TrandingSignalProcess {
                                         + "\",\"" + "predict1"
                                         + "\",\"" + "predict2"
                                         + "\",\"" + "predict3"
-                                        + "\",\"" + "predict4"
-                                        + "\",\"" + "predict5"
-                                        + "\",\"" + "predict6"
-                                        + "\",\"" + "predict7" + "\"";
+                                        //                                        + "\",\"" + "predict4"
+                                        //                                        + "\",\"" + "predict5"
+                                        //                                        + "\",\"" + "predict6"
+                                        //                                        + "\",\"" + "predict7" 
+                                        + "\"";
 
                             }
                             writeArray.add(stTitle);
@@ -2395,15 +2399,15 @@ public class TrandingSignalProcess {
 
                         String st = "";
 
-                        if (nnName.equals(ConstantKey.TR_NN4)) {
+                        if (nnNameSym.equals(ConstantKey.TR_NN4)) {
                             st = "\"" + output[0]
                                     + "\",\"" + output[1]
                                     + "\",\"" + output[2]
                                     + "\",\"" + output[3]
-                                    + "\",\"" + output[4]
-                                    + "\",\"" + output[5]
-                                    + "\",\"" + output[6]
-                                    + "\",\"" + output[7]
+                                    //                                    + "\",\"" + output[4]
+                                    //                                    + "\",\"" + output[5]
+                                    //                                    + "\",\"" + output[6]
+                                    //                                    + "\",\"" + output[7]
                                     + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
                                     + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
                                     + "\",\"" + input[6] + "\",\"" + input[7]
@@ -2412,10 +2416,11 @@ public class TrandingSignalProcess {
                                     + "\",\"" + rsp[1]
                                     + "\",\"" + rsp[2]
                                     + "\",\"" + rsp[3]
-                                    + "\",\"" + rsp[4]
-                                    + "\",\"" + rsp[5]
-                                    + "\",\"" + rsp[6]
-                                    + "\",\"" + rsp[7] + "\"";
+                                    //                                    + "\",\"" + rsp[4]
+                                    //                                    + "\",\"" + rsp[5]
+                                    //                                    + "\",\"" + rsp[6]
+                                    //                                    + "\",\"" + rsp[7]
+                                    + "\"";
 
                             if (output[0] > 0.5) {
                                 if (rsp[0] > 0.5) {
@@ -2441,30 +2446,6 @@ public class TrandingSignalProcess {
                                 } else {
                                     st += ",\"" + "3" + "\"";
                                 }
-                            } else if (output[4] > 0.5) {
-                                if (rsp[4] > 0.5) {
-                                    ;
-                                } else {
-                                    st += ",\"" + "4" + "\"";
-                                }
-                            } else if (output[5] > 0.5) {
-                                if (rsp[5] > 0.5) {
-                                    ;
-                                } else {
-                                    st += ",\"" + "5" + "\"";
-                                }
-                            } else if (output[6] > 0.5) {
-                                if (rsp[6] > 0.5) {
-                                    ;
-                                } else {
-                                    st += ",\"" + "6" + "\"";
-                                }
-                            } else if (output[7] > 0.5) {
-                                if (rsp[7] > 0.5) {
-                                    ;
-                                } else {
-                                    st += ",\"" + "7" + "\"";
-                                }
                             }
                         } else {
                             st = "\"" + output[0]
@@ -2473,11 +2454,12 @@ public class TrandingSignalProcess {
                                     + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
                                     + "\",\"" + input[6] + "\",\"" + input[7]
                                     + "\",\"" + input[8] + "\",\"" + input[9]
-                                    + "\",\"" + rsp[0] + "\",\"" + rsp[1] + "\"";
+                                    + "\",\"" + rsp[0] + "\",\"" + rsp[1]
+                                    + "\"";
                             float delta = (float) (output[0] - rsp[0]);
                             delta = Math.abs(delta);
                             float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-                            if (nnName.equals(ConstantKey.TR_NN4) == true) {
+                            if (nnNameSym.equals(ConstantKey.TR_NN4) == true) {
                                 deltaCmp = (float) 0.09;
                             }
                             if (delta > deltaCmp) {
@@ -2489,10 +2471,10 @@ public class TrandingSignalProcess {
                     }
                     if (getEnv.checkLocalPC() == true) {
                         if (CKey.NN_DEBUG == true) {
-                            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnName + "_nnPredit.csv", writeArray);
+                            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
 
                             StringBuffer msg = new StringBuffer(weightSt0);
-                            FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt", msg);
+                            FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight0.txt", msg);
                         }
                     }
                 }
@@ -2530,15 +2512,15 @@ public class TrandingSignalProcess {
                                         + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
                                         + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
                                         + "\",\"" + "predict0" + "\",\"" + "predict1" + "\"";
-                                if (nnName.equals(ConstantKey.TR_NN4)) {
+                                if (nnNameSym.equals(ConstantKey.TR_NN4)) {
                                     stTitle = "\"" + "output0"
                                             + "\",\"" + "output1"
                                             + "\",\"" + "output2"
                                             + "\",\"" + "output3"
-                                            + "\",\"" + "output4"
-                                            + "\",\"" + "output5"
-                                            + "\",\"" + "output6"
-                                            + "\",\"" + "output7"
+                                            //                                            + "\",\"" + "output4"
+                                            //                                            + "\",\"" + "output5"
+                                            //                                            + "\",\"" + "output6"
+                                            //                                            + "\",\"" + "output7"
                                             + "\",\"" + "macd TSig"
                                             + "\",\"" + "LTerm"
                                             + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
@@ -2547,25 +2529,26 @@ public class TrandingSignalProcess {
                                             + "\",\"" + "predict1"
                                             + "\",\"" + "predict2"
                                             + "\",\"" + "predict3"
-                                            + "\",\"" + "predict4"
-                                            + "\",\"" + "predict5"
-                                            + "\",\"" + "predict6"
-                                            + "\",\"" + "predict7" + "\"";
+                                            //                                            + "\",\"" + "predict4"
+                                            //                                            + "\",\"" + "predict5"
+                                            //                                            + "\",\"" + "predict6"
+                                            //                                            + "\",\"" + "predict7" 
+                                            + "\"";
 
                                 }
                                 writeArray.add(stTitle);
                             }
                             String st = "";
 
-                            if (nnName.equals(ConstantKey.TR_NN4)) {
+                            if (nnNameSym.equals(ConstantKey.TR_NN4)) {
                                 st = "\"" + output[0]
                                         + "\",\"" + output[1]
                                         + "\",\"" + output[2]
                                         + "\",\"" + output[3]
-                                        + "\",\"" + output[4]
-                                        + "\",\"" + output[5]
-                                        + "\",\"" + output[6]
-                                        + "\",\"" + output[7]
+                                        //                                        + "\",\"" + output[4]
+                                        //                                        + "\",\"" + output[5]
+                                        //                                        + "\",\"" + output[6]
+                                        //                                        + "\",\"" + output[7]
                                         + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
                                         + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
                                         + "\",\"" + input[6] + "\",\"" + input[7]
@@ -2574,10 +2557,11 @@ public class TrandingSignalProcess {
                                         + "\",\"" + rsp[1]
                                         + "\",\"" + rsp[2]
                                         + "\",\"" + rsp[3]
-                                        + "\",\"" + rsp[4]
-                                        + "\",\"" + rsp[5]
-                                        + "\",\"" + rsp[6]
-                                        + "\",\"" + rsp[7] + "\"";
+                                        //                                        + "\",\"" + rsp[4]
+                                        //                                        + "\",\"" + rsp[5]
+                                        //                                        + "\",\"" + rsp[6]
+                                        //                                        + "\",\"" + rsp[7] 
+                                        + "\"";
 
                                 if (output[0] > 0.5) {
                                     if (rsp[0] > 0.5) {
@@ -2603,30 +2587,6 @@ public class TrandingSignalProcess {
                                     } else {
                                         st += ",\"" + "3" + "\"";
                                     }
-                                } else if (output[4] > 0.5) {
-                                    if (rsp[4] > 0.5) {
-                                        ;
-                                    } else {
-                                        st += ",\"" + "4" + "\"";
-                                    }
-                                } else if (output[5] > 0.5) {
-                                    if (rsp[5] > 0.5) {
-                                        ;
-                                    } else {
-                                        st += ",\"" + "5" + "\"";
-                                    }
-                                } else if (output[6] > 0.5) {
-                                    if (rsp[6] > 0.5) {
-                                        ;
-                                    } else {
-                                        st += ",\"" + "6" + "\"";
-                                    }
-                                } else if (output[7] > 0.5) {
-                                    if (rsp[7] > 0.5) {
-                                        ;
-                                    } else {
-                                        st += ",\"" + "7" + "\"";
-                                    }
                                 }
                             } else {
                                 st = "\"" + output[0]
@@ -2635,11 +2595,12 @@ public class TrandingSignalProcess {
                                         + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
                                         + "\",\"" + input[6] + "\",\"" + input[7]
                                         + "\",\"" + input[8] + "\",\"" + input[9]
-                                        + "\",\"" + rsp[0] + "\",\"" + rsp[1] + "\"";
+                                        + "\",\"" + rsp[0] + "\",\"" + rsp[1]
+                                        + "\"";
                                 float delta = (float) (output[0] - rsp[0]);
                                 delta = Math.abs(delta);
                                 float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-                                if (nnName.equals(ConstantKey.TR_NN4) == true) {
+                                if (nnNameSym.equals(ConstantKey.TR_NN4) == true) {
                                     deltaCmp = (float) 0.09;
                                 }
                                 if (delta > deltaCmp) {
@@ -2649,7 +2610,7 @@ public class TrandingSignalProcess {
 
                             writeArray.add(st);
                         }
-                        FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnName + "_nnPredit.csv", writeArray);
+                        FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
                     }
                 }
             }
