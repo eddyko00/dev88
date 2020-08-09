@@ -44,7 +44,7 @@ public class ProcessNN4 {
         ProcessNN4 nn4 = new ProcessNN4();
 //        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, 1);
 //        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.MONTH_SIZE + 2);
-        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.MONTH_SIZE/2);
+        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.MONTH_SIZE / 2);
 
         if (inputList.size() == 0) {
             logger.info(">NNpredict  error inpulist");
@@ -58,9 +58,13 @@ public class ProcessNN4 {
         NNInputOutObj inputObj = inputList.get(0).getObj();
 
         ///////testing
-        inputObj = inputList.get(5).getObj();
-        AFstockInfo AFstockInfo0 = StockRecArray.get(16);
+        inputObj = inputList.get(4).getObj();
+        AFstockInfo AFstockInfo0 = StockRecArray.get(13);
+        AFstockInfo AFstockInfo5 = StockRecArray.get(13 - 5);
+
         float closeOutput0 = AFstockInfo0.getFclose();
+        float closeOutput5 = AFstockInfo5.getFclose();
+
         ///////
         inputTraininglist.add(inputObj);
 
@@ -72,73 +76,34 @@ public class ProcessNN4 {
         if (retNN == 0) {
             return nn;
         }
+        double output = 0.1;
 
-        if (getEnv.checkLocalPC() == true) {
-            boolean flag = false;
-            if (flag == true) {
-                double[][] inputpattern = null;
-                double[][] targetpattern = null;
-                double[][] response = null;
-
-                inputpattern = nnTraining.getInputpattern();
-                targetpattern = nnTraining.getOutputpattern();
-                response = nnTraining.getResponse();
-                double[] input;
-                double[] output;
-                double[] rsp;
-                ArrayList writeArray = new ArrayList();
-                for (int j = 0; j < inputpattern.length; j++) {
-                    input = inputpattern[j];
-                    output = targetpattern[j];
-                    rsp = response[j];
-
-                    double NNprediction = rsp[0];
-                    int temp = 0;
-                    NNprediction = NNprediction * 1000;
-                    temp = (int) NNprediction;
-                    NNprediction = temp;
-                    NNprediction = NNprediction / 1000;
-
-                    String stDate = new java.sql.Date(stocktmp.getEntrydatel()).toString();
-                    String st = "\"" + stDate + "\",\"" + stocktmp.getFclose() + "\"";
-                    st += "\",\"" + NNprediction
-                            + "\",\"" + output[0]
-                            + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                            + "\",\"" + input[3] + "\",\"" + input[4]
-                            + "\",\"" + input[5] + "\",\"" + input[6] + "\",\"" + input[7]
-                            + "\",\"" + input[8] + "\",\"" + input[9]
-                            + "\"";
-
-                    writeArray.add(st);
-                    logger.info(">NNpredict " + st);
-                }
-                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + stockidsymbol + "_Predect.csv", writeArray);
-            }
-        }
         double[][] rsp = nnTraining.getResponse();
-        double NNprediction = rsp[0][0];
-        int temp = 0;
-        NNprediction = NNprediction * 1000;
-        temp = (int) NNprediction;
-        NNprediction = temp;
-        NNprediction = NNprediction / 1000;
+        if (rsp[0][0] > 0.5) {
+            output = 0.9;
+        } else if (rsp[0][1] > 0.5) {
+            output = 0.5;
+        } else if (rsp[0][2] > 0.5) {
+            output = -0.5;
+        } else if (rsp[0][3] > 0.5) {
+            output = -0.9;
+        }
 
-        double closeP = NNprediction;
-        closeP = closeP * 100;
-        closeP = closeP - 50;
-        closeP = closeP / (100 * 5);
+//        double closef = (closeOutput - closeOutput0) / closeOutput0;
+//        closef = closef * 100;
+//        closef = closef * 10;   // factore of 10 to make it more valid for NN
+        double closeP = output;
+        closeP = closeP / 10;
+        closeP = closeP / 100;
+
         double closeOutput = closeP * closeOutput0 + closeOutput0;
 
-        //     double closef = (closeOutput - closeOutput0) / closeOutput0;
-        //        closef = closef * 100 * 5;
-        //        closef = closef + 50;      
-        //        closef = closef / 100;
         nn.setPrediction((float) closeOutput);
 
         nn.setTrsignal(inputObj.getTrsignal());
         String nameST;
         try {
-            inputObj.setOutput1(NNprediction);
+            inputObj.setOutput1(output);
             nameST = new ObjectMapper().writeValueAsString(inputObj);
             nn.setComment(nameST);
         } catch (JsonProcessingException ex) {
@@ -294,47 +259,10 @@ public class ProcessNN4 {
             TradingRuleObj trObj, ArrayList StockArray, int offset, ArrayList<TradingRuleObj> UpdateTRList, AFstockObj stock, ArrayList tradingRuleList) {
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
-                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 int macdSignal = macdNN.trsignal;
                 int nnSignal = trObj.getTrsignal();
-//                if (nnSignal == ConstantKey.S_NEUTRAL) {
-//                    nnSignal = macdSignal;
-//                }
-//                if (macdSignal == nnSignal) {
-//                    // test if suddent drop
-//                    boolean testRule2 = true;
-//                    if (testRule2 == true) {
-//                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
-//                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
-//                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
-//                        if (thList != null) {
-//                            if (thList.size() > 0) {
-//                                TransationOrderObj lastTH = thList.get(0);
-//                                float thClose = lastTH.getAvgprice();
-//                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
-//                                float StClose = stockinfo.getFclose();
-//                                float delta = specialRule1(thClose, StClose);
-//                                if (delta > 0) {
-//                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Delta Transactoin change > 15% Delta=" + delta);
-////                                    nnSignal = macdSignal;
-//                                    int subStatus = stock.getSubstatus();
-//                                    if (subStatus == 0) {
-//                                        stock.setSubstatus(ConstantKey.STOCK_DELTA);
-//                                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-//                                        ArrayList sqlList = new ArrayList();
-//                                        sqlList.add(sockNameSQL);
-//                                        serviceAFWeb.SystemUpdateSQLList(sqlList);
-//                                    }
-//
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//                    trObj.setTrsignal(macdSignal);
-//                    UpdateTRList.add(trObj);
-//                    return;
-//                }
+
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN4, accountObj, stock, tradingRuleList, StockArray, offset);
                 if (nn != null) {
                     nn.setTrsignal(nnSignal);

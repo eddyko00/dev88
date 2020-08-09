@@ -204,8 +204,8 @@ public class NNProcessStock {
         ArrayList<NNInputDataObj> inputList = null;
 
         String nnName = ConstantKey.TR_NN1;
-        ProcessNN4 nn1 = new ProcessNN4();
-        inputList = nn1.trainingNN4StdataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
+        ProcessNN4 nn4 = new ProcessNN4();
+        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
 
         String BPname = CKey.NN_version + "_" + nnName;
         boolean forceNN2flag = true;
