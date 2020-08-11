@@ -2305,7 +2305,7 @@ public class TrandingSignalProcess {
         }
 
         String nNetName = afNeuralNet.getName();
-        int repeatSize = 900000;
+        int repeatSize = 100000;
         double errorReturn = 1;
         if (nnError == 0) {
             ;
