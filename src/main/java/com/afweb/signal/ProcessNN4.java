@@ -59,11 +59,18 @@ public class ProcessNN4 {
 
         ///////testing
         inputObj = inputList.get(4).getObj();
-        AFstockInfo AFstockInfo0 = StockRecArray.get(13);
-        AFstockInfo AFstockInfo5 = StockRecArray.get(13 - 5);
+        AFstockInfo AFstockInfo0 = StockRecArray.get(15);  // 2020 7 20
+        AFstockInfo AFstockInfo5 = StockRecArray.get(15 - 5);
+        DataOffset = 15;
+        
+        ///////
+        float closeOutput0 = inputObj.getClose();
 
-        float closeOutput0 = AFstockInfo0.getFclose();
-        float closeOutput5 = AFstockInfo5.getFclose();
+        ArrayList<AFstockInfo> StockPredArray = new ArrayList();
+        for (int i = DataOffset; i < StockRecArray.size(); i++) {
+            AFstockInfo AFstockI = StockRecArray.get(i);
+            StockPredArray.add(AFstockI);
+        }
 
         ///////
         inputTraininglist.add(inputObj);
@@ -92,15 +99,31 @@ public class ProcessNN4 {
 //        double closef = (closeOutput - closeOutput0) / closeOutput0;
 //        closef = closef * 100;
 //        closef = closef * 10;   // factore of 10 to make it more valid for NN
+//        closef = closef / 100;
         double closeP = output;
         closeP = closeP / 10;
-        closeP = closeP / 100;
-
         double closeOutput = closeP * closeOutput0 + closeOutput0;
 
+        float step = (float) ((closeOutput - closeOutput0) / 5);
+        ///predit 5 day
+        AFstockInfo AFstock0 = StockPredArray.get(0);
+        for (int j = 0; j < 5; j++) {
+            AFstockInfo AFstockI = new AFstockInfo();
+            float stepP = (j + 1) * step;
+            AFstockI.setFopen(AFstock0.getFopen() + stepP);
+            AFstockI.setFclose(AFstock0.getFclose() + stepP);
+            AFstockI.setVolume(AFstock0.getVolume());
+            long dat = AFstock0.getEntrydatel();
+            long nDat = TimeConvertion.addDays(dat, j + 1);
+            AFstockI.setEntrydatel(nDat);
+            AFstockI.setEntrydatedisplay(new java.sql.Date(nDat));
+            StockPredArray.add(0, AFstockI);
+        }
+        MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+        int macdSignal = macdNN.trsignal;
         nn.setPrediction((float) closeOutput);
 
-        nn.setTrsignal(inputObj.getTrsignal());
+        nn.setTrsignal(macdSignal);
         String nameST;
         try {
             inputObj.setOutput1(output);
@@ -264,32 +287,32 @@ public class ProcessNN4 {
                 int nnSignal = trObj.getTrsignal();
 
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN4, accountObj, stock, tradingRuleList, StockArray, offset);
-                if (nn != null) {
-                    nn.setTrsignal(nnSignal);
-                    float predictionV = nn.getPrediction();
-                    if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
-                        nnSignal = macdSignal;
-                    } else {
-                        // get the last transaction price
-                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
-                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
-                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
-                        if (thList != null) {
-                            if (thList.size() > 0) {
-                                TransationOrderObj lastTH = thList.get(0);
-                                float thClose = lastTH.getAvgprice();
-                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
-                                float StClose = stockinfo.getFclose();
-                                float delta = specialRule1(thClose, StClose);
-                                if (delta > 0) {
-                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override NN signal dela price > 15% Delta=" + delta);
-                                    nnSignal = macdSignal;
-                                }
-
-                            }
-                        }
-                    }
-                }
+//                if (nn != null) {
+//                    nn.setTrsignal(nnSignal);
+//                    float predictionV = nn.getPrediction();
+//                    if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
+//                        nnSignal = macdSignal;
+//                    } else {
+//                        // get the last transaction price
+//                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+//                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
+//                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
+//                        if (thList != null) {
+//                            if (thList.size() > 0) {
+//                                TransationOrderObj lastTH = thList.get(0);
+//                                float thClose = lastTH.getAvgprice();
+//                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+//                                float StClose = stockinfo.getFclose();
+//                                float delta = specialRule1(thClose, StClose);
+//                                if (delta > 0) {
+//                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override NN signal dela price > 15% Delta=" + delta);
+//                                    nnSignal = macdSignal;
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
                 trObj.setTrsignal(nnSignal);
                 UpdateTRList.add(trObj);
             }

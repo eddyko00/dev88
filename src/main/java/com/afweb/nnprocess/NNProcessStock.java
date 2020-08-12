@@ -705,6 +705,7 @@ public class NNProcessStock {
                         // reset to use TR Weight 0  if middel layer is different 
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
                             logger.info("> inputStockNeuralNetData create existing Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            ///just for testing
                             nnTemp.createNet(stWeight0);
                         } else {
                             logger.info("> inputStockNeuralNetData create Static Base NN1_WEIGHT " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
