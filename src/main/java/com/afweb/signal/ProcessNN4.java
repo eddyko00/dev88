@@ -34,7 +34,7 @@ public class ProcessNN4 {
         NNObj nn = new NNObj();
 
         String stockidsymbol = stock.getSymbol();
-        AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
+//        AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
         String nnName = ConstantKey.TR_NN4;
         nnName = nnName + "_" + stockidsymbol;
@@ -43,7 +43,6 @@ public class ProcessNN4 {
         ArrayList<NNInputDataObj> inputList = null;
         ProcessNN4 nn4 = new ProcessNN4();
 //        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, 1);
-//        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.MONTH_SIZE + 2);
         inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.MONTH_SIZE / 2);
 
         if (inputList.size() == 0) {
@@ -58,11 +57,10 @@ public class ProcessNN4 {
         NNInputOutObj inputObj = inputList.get(0).getObj();
 
         ///////testing
-        inputObj = inputList.get(4).getObj();
-        AFstockInfo AFstockInfo0 = StockRecArray.get(15);  // 2020 7 20
-        AFstockInfo AFstockInfo5 = StockRecArray.get(15 - 5);
-        DataOffset = 15;
-        
+//        inputObj = inputList.get(4).getObj();
+//        AFstockInfo AFstockInfo0 = StockRecArray.get(15);  // 2020 7 20
+//        AFstockInfo AFstockInfo5 = StockRecArray.get(15 - 5);
+//        DataOffset = 15;
         ///////
         float closeOutput0 = inputObj.getClose();
 
@@ -119,7 +117,7 @@ public class ProcessNN4 {
             AFstockI.setEntrydatedisplay(new java.sql.Date(nDat));
             StockPredArray.add(0, AFstockI);
         }
-        MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+        MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
         int macdSignal = macdNN.trsignal;
         nn.setPrediction((float) closeOutput);
 
@@ -213,8 +211,7 @@ public class ProcessNN4 {
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
         float prediction = -1;
-//      MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
-        MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+        MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
         macdSignal = macdNN.trsignal;
         if (CKey.NN_DEBUG == true) {
             logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal);
@@ -222,7 +219,7 @@ public class ProcessNN4 {
         if (CKey.NN_DEBUG == true) {
             boolean flag = false;
             if (flag == true) {
-                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
+                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN4, accountObj, stock, tradingRuleList, StockArray, offset);
                 trHistory.setParmSt1(nn.getComment());
             }
         }
@@ -234,30 +231,31 @@ public class ProcessNN4 {
 
         } else {
 
-            NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
+            NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN4, accountObj, stock, tradingRuleList, StockArray, offset);
             if (nn != null) {
-                nn.setTrsignal(nnSignal);
-                float predictionV = nn.getPrediction();
-                if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
-                    nnSignal = macdSignal;
-                } else {
-                    //
-                    if (writeArray.size() > 0) {
-                        for (int j = 0; j < writeArray.size(); j++) {
-                            StockTRHistoryObj lastTH = writeArray.get(writeArray.size() - 1 - j);
-                            if (lastTH.getTrsignal() != nnSignal) {
-                                float thClose = lastTH.getClose();
-                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
-                                float StClose = stockinfo.getFclose();
-                                float delta = specialRule1(thClose, StClose);
-                                if (delta > 0) {
-                                    nnSignal = macdSignal;
-                                }
-                            }
-                        }
-                    }
-
-                }
+                nnSignal = nn.getTrsignal();
+//                nn.setTrsignal(nnSignal);
+//                float predictionV = nn.getPrediction();
+//                if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
+//                    nnSignal = macdSignal;
+//                } else {
+//                    //
+//                    if (writeArray.size() > 0) {
+//                        for (int j = 0; j < writeArray.size(); j++) {
+//                            StockTRHistoryObj lastTH = writeArray.get(writeArray.size() - 1 - j);
+//                            if (lastTH.getTrsignal() != nnSignal) {
+//                                float thClose = lastTH.getClose();
+//                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+//                                float StClose = stockinfo.getFclose();
+//                                float delta = specialRule1(thClose, StClose);
+//                                if (delta > 0) {
+//                                    nnSignal = macdSignal;
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                }
                 trHistory.setParmSt1(nn.getComment());
                 if (CKey.NN_DEBUG == true) {
                     logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
@@ -287,7 +285,8 @@ public class ProcessNN4 {
                 int nnSignal = trObj.getTrsignal();
 
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN4, accountObj, stock, tradingRuleList, StockArray, offset);
-//                if (nn != null) {
+                if (nn != null) {
+                    nnSignal = nn.getTrsignal();
 //                    nn.setTrsignal(nnSignal);
 //                    float predictionV = nn.getPrediction();
 //                    if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
@@ -312,7 +311,7 @@ public class ProcessNN4 {
 //                            }
 //                        }
 //                    }
-//                }
+                }
                 trObj.setTrsignal(nnSignal);
                 UpdateTRList.add(trObj);
             }
@@ -321,12 +320,12 @@ public class ProcessNN4 {
         }
     }
 
-    public float specialRule1(float thClose, float StClose) {
-        float delPer = 100 * (StClose - thClose) / thClose;
-        delPer = Math.abs(delPer);
-        if (delPer > 15) {  // > 15% override the NN sigal and take the MACD signal
-            return delPer;
-        }
-        return 0;
-    }
+//    public float specialRule1(float thClose, float StClose) {
+//        float delPer = 100 * (StClose - thClose) / thClose;
+//        delPer = Math.abs(delPer);
+//        if (delPer > 15) {  // > 15% override the NN sigal and take the MACD signal
+//            return delPer;
+//        }
+//        return 0;
+//    }
 }

@@ -24,7 +24,7 @@ public class ProcessNN3 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
 
-    public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
+    public static NNObj NNpredictNN3_xxx(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
 
         if (DataOffset != 0) {
@@ -92,7 +92,7 @@ public class ProcessNN3 {
         return total;
     }
 
-    int ProcessTRHistoryOffsetNN3(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
+    int ProcessTRHistoryOffsetNN3_xxx(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList) {
         int nnSignal = prevSignal;
 
@@ -122,7 +122,7 @@ public class ProcessNN3 {
 
     }
 
-    public void updateAdminTradingsignalnn3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
+    public void updateAdminTradingsignalnn3_xxx(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
             TradingRuleObj trObj, ArrayList StockArray, int offset, ArrayList<TradingRuleObj> UpdateTRList, AFstockObj stock, ArrayList tradingRuleList) {
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
