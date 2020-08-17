@@ -41,6 +41,7 @@ public class NNProcessData {
         }
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
+            
             // start training
             NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
 
@@ -75,6 +76,107 @@ public class NNProcessData {
             NNProcessImp.inputStockNeuralNetData(serviceAFWeb, nnTRN, symbol);
             NNProcessImp.stockTrainNeuralNet(serviceAFWeb, nnTRN, symbol);
         }
+
+        boolean inputTest = false;
+        if (inputTest == true) {
+            ArrayList writeArray = new ArrayList();
+            ArrayList<NNInputOutObj> inputlist = new ArrayList();
+            String nnName = ConstantKey.TR_NN1;
+            TrandingSignalProcess TSignal = new TrandingSignalProcess();
+
+            inputlist = TSignal.getTrainingInputFromFile(serviceAFWeb, nnName);
+            for (int i = 0; i < inputlist.size(); i++) {
+                NNInputOutObj inputObj = inputlist.get(i);
+                String st = "";
+                st += inputObj.getDateSt();
+                st += "," + inputObj.getClose();
+                st += "," + inputObj.getTrsignal();
+                st += "," + inputObj.getInput1();
+                st += "," + inputObj.getInput2();
+                st += "," + inputObj.getInput3();
+                st += "," + inputObj.getInput4();
+                st += "," + inputObj.getInput5();
+                st += "," + inputObj.getInput6();
+                st += "," + inputObj.getInput7();
+                st += "," + inputObj.getInput8();
+                st += "," + inputObj.getInput9();
+                st += "," + inputObj.getInput10();
+                st += "," + inputObj.getOutput1();
+                st += "," + inputObj.getOutput2();
+                st += "," + inputObj.getOutput3();
+                st += "," + inputObj.getOutput4();
+                writeArray.add(st);
+            }
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + "test1.csv", writeArray);
+
+///////////
+            writeArray = new ArrayList();
+            inputlist = new ArrayList();
+            ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
+            if (nnName.equals(ConstantKey.TR_NN4)) {
+                inputDatalist = NNProcessStock.NeuralNetGetNN4InputfromStaticCode("");
+            } else {
+                inputDatalist = TradingNNprocess.NeuralNetGetNN1InputfromStaticCode("");
+            }
+            for (int i = 0; i < inputDatalist.size(); i++) {
+                NNInputDataObj inputDObj = inputDatalist.get(i);
+                NNInputOutObj inputObj = new NNInputOutObj();
+                inputObj.setDateSt(inputDObj.getObj().getDateSt());
+                inputObj.setClose(inputDObj.getObj().getClose());
+                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
+                inputObj.setInput1(inputDObj.getObj().getInput1());
+                inputObj.setInput2(inputDObj.getObj().getInput2());
+                inputObj.setInput3(inputDObj.getObj().getInput3());
+                inputObj.setInput4(inputDObj.getObj().getInput4());
+                inputObj.setInput5(inputDObj.getObj().getInput5());
+                inputObj.setInput6(inputDObj.getObj().getInput6());
+                inputObj.setInput7(inputDObj.getObj().getInput7());
+                inputObj.setInput8(inputDObj.getObj().getInput8());
+                inputObj.setInput9(inputDObj.getObj().getInput9());
+                inputObj.setInput10(inputDObj.getObj().getInput10());
+                inputObj.setInput11(inputDObj.getObj().getInput11());
+                inputObj.setInput12(inputDObj.getObj().getInput12());
+                inputObj.setInput13(inputDObj.getObj().getInput13());
+                //////
+                inputObj.setOutput1(inputDObj.getObj().getOutput1());
+                inputObj.setOutput2(inputDObj.getObj().getOutput2());
+                inputObj.setOutput3(inputDObj.getObj().getOutput3());
+                inputObj.setOutput4(inputDObj.getObj().getOutput4());
+                if (inputObj.getOutput1() < 0) {
+                    continue;
+                }
+                if (inputObj.getOutput2() < 0) {
+                    continue;
+                }
+                inputlist.add(inputObj);
+            }
+
+            for (int i = 0; i < inputlist.size(); i++) {
+                NNInputOutObj inputObj = inputlist.get(i);
+                String st = "";
+                st += inputObj.getDateSt();
+                st += "," + inputObj.getClose();
+                st += "," + inputObj.getTrsignal();
+                st += "," + inputObj.getInput1();
+                st += "," + inputObj.getInput2();
+                st += "," + inputObj.getInput3();
+                st += "," + inputObj.getInput4();
+                st += "," + inputObj.getInput5();
+                st += "," + inputObj.getInput6();
+                st += "," + inputObj.getInput7();
+                st += "," + inputObj.getInput8();
+                st += "," + inputObj.getInput9();
+                st += "," + inputObj.getInput10();
+                st += "," + inputObj.getOutput1();
+                st += "," + inputObj.getOutput2();
+                st += "," + inputObj.getOutput3();
+                st += "," + inputObj.getOutput4();
+                writeArray.add(st);
+            }
+            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + "test2.csv", writeArray);
+
+        }
+
     }
 
     // training neural net input data

@@ -24,7 +24,7 @@ import com.afweb.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.sql.Date;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -1950,7 +1950,9 @@ public class TrandingSignalProcess {
                 BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN4;
             }
         }
-
+        //just for testing
+//        ServiceAFweb.forceNNReadFileflag = false;
+        //just for testing 
         if (ServiceAFweb.forceNNReadFileflag == true) {
             inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);
         } else {
