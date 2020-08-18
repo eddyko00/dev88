@@ -54,6 +54,9 @@ public class NNProcessData {
 
         boolean flagNeural = false;
         if (flagNeural == true) {
+            // delete all data
+//            serviceAFWeb.getStockImp().deleteNeuralNetDataTable();
+            // delete all data
             serviceAFWeb.SystemClearNNinput();
             for (int k = 0; k < 100; k++) {
                 NNProcessImp.ProcessTrainNeuralNet(serviceAFWeb);

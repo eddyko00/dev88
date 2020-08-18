@@ -1702,6 +1702,7 @@ public class TradingNNprocess {
                 ArrayList<NNInputDataObj> inputlistSym1 = new ArrayList();
                 ArrayList<NNInputDataObj> inputlistSym2 = new ArrayList();
 
+                /// just for testing
                 inputlistSym1 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
                 inputlistSym2 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN2, 0);
 
@@ -1769,8 +1770,11 @@ public class TradingNNprocess {
                         String middlelayerSym = strNetArraySym[4];
                         // reset to use TR Weight 0  if middel layer is different
                         // reset to use TR Weight 0  if middel layer is different 
+                        // just for testing
+//                        versionSym = "";
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
                             logger.info("> inputStockNeuralNetData create existing Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            //just for testing                           
                             nnTemp.createNet(stWeight0);
                         } else {
                             logger.info("> inputStockNeuralNetData create Static Base NN1_WEIGHT " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
