@@ -148,7 +148,7 @@ public class ConstantKey {
     public static final int SIZE_TR = 8;
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
-
+   
     public static final String TR_MACD1 = "TR_MACD1";
     public static final int INT_TR_MACD1 = 100;
     public static final int INT_MACD1_6 = 6;

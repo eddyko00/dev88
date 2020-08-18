@@ -165,7 +165,15 @@ public class ProcessNN4 {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN4(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+        ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
+        ArrayList<NNInputDataObj> inputList1 = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN4(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+
+        ArrayList<NNInputDataObj> inputList2 = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN4Add2(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+        ArrayList<NNInputDataObj> inputList3 = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN4Sub2(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+
+        inputDatalist.addAll(inputList1);
+        inputDatalist.addAll(inputList2);
+        inputDatalist.addAll(inputList3);
 
         return inputDatalist;
     }
