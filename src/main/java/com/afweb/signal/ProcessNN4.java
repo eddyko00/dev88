@@ -172,10 +172,36 @@ public class ProcessNN4 {
         ArrayList<NNInputDataObj> inputList3 = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN4Sub2(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
 
         inputDatalist.addAll(inputList1);
-        inputDatalist.addAll(inputList2);
-        inputDatalist.addAll(inputList3);
+        checkduplicate(inputDatalist, inputList2);
+        checkduplicate(inputDatalist, inputList3);
 
         return inputDatalist;
+    }
+
+    private void checkduplicate(ArrayList<NNInputDataObj> inputDatalist, ArrayList<NNInputDataObj> Addinputlist) {
+        if (inputDatalist == null) {
+            return;
+        }
+        if (Addinputlist == null) {
+            return;
+        }
+        ArrayList<NNInputDataObj> NewinputDatalist = new ArrayList();
+
+        for (int i = 0; i < Addinputlist.size(); i++) {
+            NNInputDataObj input = Addinputlist.get(i);
+            boolean found = false;
+            for (int j = 0; j < inputDatalist.size(); j++) {
+                NNInputDataObj inputAdd = inputDatalist.get(j);
+                if (input.getObj().getDateSt().equals(inputAdd.getObj().getDateSt())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found == false) {
+                NewinputDatalist.add(input);
+            }
+        }
+        inputDatalist.addAll(NewinputDatalist);
     }
 
     //StockArray assume recent date to old data

@@ -127,7 +127,7 @@ public class NNProcessStock {
                     Calendar dateDefault = TimeConvertion.getDefaultCalendar();
                     afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-                    String weightSt = (CKey.NN4_WEIGHT_0);  
+                    String weightSt = (CKey.NN4_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN4_WEIGHT_0");
@@ -165,14 +165,14 @@ public class NNProcessStock {
     }
 
     private void NeuralNetInputStPredTesting(ServiceAFweb serviceAFWeb) {
-        boolean createTrain = true;
-        if (createTrain == true) {
-            int sizeYr = 3;
-            for (int j = 0; j < sizeYr; j++) { //4; j++) {
-                int size = 20 * CKey.MONTH_SIZE * j;
-                serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-                trainingNNStPreddataAll(serviceAFWeb, size);
-            }
+
+        int sizeCnt = 3;
+        sizeCnt = 1;
+        for (int j = 0; j < sizeCnt; j++) { //4; j++) {
+            int size = 20 * CKey.MONTH_SIZE * j;
+            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
+            trainingNNStPreddataAll(serviceAFWeb, size);
+
         }
         // create neural net input data
     }
@@ -237,10 +237,10 @@ public class NNProcessStock {
                     + "\",\"" + obj.getOutput2()
                     + "\",\"" + obj.getOutput3()
                     + "\",\"" + obj.getOutput4()
-//                    + "\",\"" + obj.getOutput5()
-//                    + "\",\"" + obj.getOutput6()
-//                    + "\",\"" + obj.getOutput7()
-//                    + "\",\"" + obj.getOutput8()
+                    //                    + "\",\"" + obj.getOutput5()
+                    //                    + "\",\"" + obj.getOutput6()
+                    //                    + "\",\"" + obj.getOutput7()
+                    //                    + "\",\"" + obj.getOutput8()
                     + "\",\"" + obj.getInput1()
                     + "\",\"" + obj.getInput2()
                     + "\",\"" + obj.getInput3()
@@ -266,10 +266,10 @@ public class NNProcessStock {
                         + "\",\"" + "output2"
                         + "\",\"" + "output3"
                         + "\",\"" + "output4"
-//                        + "\",\"" + "output5"
-//                        + "\",\"" + "output6"
-//                        + "\",\"" + "output7"
-//                        + "\",\"" + "output8"
+                        //                        + "\",\"" + "output5"
+                        //                        + "\",\"" + "output6"
+                        //                        + "\",\"" + "output7"
+                        //                        + "\",\"" + "output8"
                         + "\",\"" + "macd TSig"
                         + "\",\"" + "LTerm"
                         + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
@@ -741,7 +741,7 @@ public class NNProcessStock {
             inputBuf.append(nn4Data.TR_NN4_INPUTLIST9);
             inputBuf.append(nn4Data.TR_NN4_INPUTLIST10);
 //            inputBuf.append(nn4Data.TR_NN4_INPUTLIST11);      // check nn4Data 
-            
+
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);

@@ -2265,7 +2265,9 @@ public class TradingNNprocess {
                 if (contProcess == true) {
 
                     inputList = getNNnormalizeInput(i + 2, thObjListMACD, thObjListMV, thObjListRSI);
-
+                    if (inputList == null) {
+                        continue;
+                    }
                     double parm1 = -1;
                     if (signal == ConstantKey.S_BUY) {
                         parm1 = 0.9;
@@ -2401,7 +2403,9 @@ public class TradingNNprocess {
                 if (contProcess == true) {
 
                     inputList = getNNnormalizeInput(i - 2, thObjListMACD, thObjListMV, thObjListRSI);
-
+                    if (inputList == null) {
+                        continue;
+                    }
                     double parm1 = -1;
                     if (signal == ConstantKey.S_BUY) {
                         parm1 = 0.9;
