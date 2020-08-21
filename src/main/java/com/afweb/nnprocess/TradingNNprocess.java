@@ -119,6 +119,7 @@ public class TradingNNprocess {
                                     nnName = ConstantKey.TR_NN2;
                                 }
 
+                              
                                 String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
                                 AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                                 if (nnObj1 == null) {
@@ -134,6 +135,8 @@ public class TradingNNprocess {
                                         continue;
                                     }
                                 }
+
+
 
                                 stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
                                 serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
@@ -1723,6 +1726,11 @@ public class TradingNNprocess {
                                 NNInputDataObj inputLObj = inputL.get(k);
                                 for (int m = 0; m < inputlistSym.size(); m++) {
                                     NNInputDataObj inputSymObj = inputlistSym.get(m);
+                                    float output1 = (float) inputSymObj.getObj().getOutput1();
+                                    if ((output1 == 0) || (output1 == -1)) {
+                                        inputlistSym.remove(m);
+                                        break;
+                                    }
                                     String inputLObD = inputLObj.getObj().getDateSt();
                                     String inputSymObD = inputSymObj.getObj().getDateSt();
                                     if (inputLObD.equals(inputSymObD)) {
@@ -1775,6 +1783,7 @@ public class TradingNNprocess {
                         // reset to use TR Weight 0  if middel layer is different 
                         // just for testing
 //                        versionSym = "";
+                        // just for testing
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
                             logger.info("> inputStockNeuralNetData create existing Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                             //just for testing                           

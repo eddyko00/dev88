@@ -526,7 +526,7 @@ public class NNProcessStock {
                             }
                             if (lockReturnStock > 0) {
                                 String nnName = ConstantKey.TR_NN4;
-
+                                                               
                                 String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
                                 AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                                 if (nnObj1 == null) {
@@ -650,6 +650,11 @@ public class NNProcessStock {
                             NNInputDataObj inputLObj = inputL.get(k);
                             for (int m = 0; m < inputlistSym.size(); m++) {
                                 NNInputDataObj inputSymObj = inputlistSym.get(m);
+                                float output1 = (float) inputSymObj.getObj().getOutput1();
+                                if ((output1 == 0) || (output1 == -1)) {
+                                    inputlistSym.remove(m);
+                                    break;
+                                }
                                 String inputLObD = inputLObj.getObj().getDateSt();
                                 String inputSymObD = inputSymObj.getObj().getDateSt();
                                 if (inputLObD.equals(inputSymObD)) {
@@ -703,6 +708,8 @@ public class NNProcessStock {
                         String middlelayerSym = strNetArraySym[4];
                         // reset to use TR Weight 0  if middel layer is different
                         // reset to use TR Weight 0  if middel layer is different 
+                        //just for testing
+//                        versionSym="";
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
                             logger.info("> inputStockNeuralNetData create existing Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                             ///just for testing
@@ -739,7 +746,7 @@ public class NNProcessStock {
             inputBuf.append(nn4Data.TR_NN4_INPUTLIST7);
             inputBuf.append(nn4Data.TR_NN4_INPUTLIST8);
             inputBuf.append(nn4Data.TR_NN4_INPUTLIST9);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST10);
+//            inputBuf.append(nn4Data.TR_NN4_INPUTLIST10);
 //            inputBuf.append(nn4Data.TR_NN4_INPUTLIST11);      // check nn4Data 
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
@@ -795,9 +802,6 @@ public class NNProcessStock {
         if (len <= 2) {
             return null;
         }
-        inputList.remove(len - 1);
-        inputList.remove(0);
-
         return inputList;
     }
 
