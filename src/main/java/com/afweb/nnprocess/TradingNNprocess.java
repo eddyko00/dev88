@@ -119,7 +119,6 @@ public class TradingNNprocess {
                                     nnName = ConstantKey.TR_NN2;
                                 }
 
-                              
                                 String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
                                 AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                                 if (nnObj1 == null) {
@@ -135,8 +134,6 @@ public class TradingNNprocess {
                                         continue;
                                     }
                                 }
-
-
 
                                 stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
                                 serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
@@ -2003,7 +2000,9 @@ public class TradingNNprocess {
 
             if (contProcess == true) {
                 inputList = getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
-
+                if (inputList == null) {
+                    continue;
+                }
                 double parm1 = -1;
                 if (signal == ConstantKey.S_BUY) {
                     parm1 = 0.9;

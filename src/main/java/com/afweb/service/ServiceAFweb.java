@@ -2600,7 +2600,9 @@ public class ServiceAFweb {
             if (contProcess == true) {
 
                 inputList = NNProcessImp.getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
-
+                if (inputList == null) {
+                    continue;
+                }
                 double parm1 = -1;
                 if (signal == ConstantKey.S_BUY) {
                     parm1 = 0.9;
@@ -2746,7 +2748,9 @@ public class ServiceAFweb {
             if (contProcess == true) {
 
                 inputList = NNProcessImp.getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
-
+                if (inputList == null) {
+                    continue;
+                }
                 double parm1 = -1;
                 if (signal == ConstantKey.S_BUY) {
                     parm1 = 0.9;
