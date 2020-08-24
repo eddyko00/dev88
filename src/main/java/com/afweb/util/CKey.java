@@ -46,7 +46,7 @@ public class CKey {
     public static boolean SEPARATE_STOCKINFO_DB = true; //false //true    
     public static String WEBPOST_HERO_STOCK_PHP = "/webgetresp_stock.php";
     /////////////////////
-    public static boolean GET_STOCKHISTORY_SCREEN = true; //false //true    
+    public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
