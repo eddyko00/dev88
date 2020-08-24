@@ -41,9 +41,8 @@ public class ProcessNN4 {
         String BPname = CKey.NN_version + "_" + nnName;
 
         ArrayList<NNInputDataObj> inputList = null;
-        ProcessNN4 nn4 = new ProcessNN4();
-//        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, 1);
-        inputList = nn4.trainingNN4StdataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.MONTH_SIZE / 2);
+        ProcessNN4 nn4 =  new ProcessNN4();
+        inputList = nn4.trainingNN4StdataMACD1Predict(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.MONTH_SIZE / 2);
 
         if (inputList.size() == 0) {
             logger.info(">NNpredict  error inpulist");
@@ -137,6 +136,51 @@ public class ProcessNN4 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
 
+    public ArrayList<NNInputDataObj> trainingNN4StdataMACD1Predict(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//        logger.info("> trainingNN ");
+
+        String username = CKey.ADMIN_USERNAME;
+        String accountid = "1";
+        String symbol = sym;
+//        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
+
+        NNTrainObj nnTrSym = new NNTrainObj();
+        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN1);
+
+        TradingRuleObj trObjMACD1 = new TradingRuleObj();
+        trObjMACD1.setTrname(ConstantKey.TR_MACD1);
+        trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
+
+        trObjMACD1.setAccount(trObjMACD.getAccount());
+        trObjMACD1.setStockid(trObjMACD.getStockid());
+
+        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
+
+        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
+        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
+
+        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
+        ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
+
+        ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
+        ArrayList<NNInputDataObj> inputList1 = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN4(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+
+//        ArrayList<NNInputDataObj> inputList2 = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN4Add2(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+//        ArrayList<NNInputDataObj> inputList3 = NNProcessImp.getAccountStockTRListHistoryStDataMACDNN4Sub2(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+
+        inputDatalist.addAll(inputList1);
+//        checkduplicate(inputDatalist, inputList2);
+//        checkduplicate(inputDatalist, inputList3);
+
+        return inputDatalist;
+    }
+    
+    //StockArray assume recent date to old data
+    //StockArray assume recent date to old data
+    //StockArray assume recent date to old data   
+
     public ArrayList<NNInputDataObj> trainingNN4StdataMACD1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -201,7 +245,11 @@ public class ProcessNN4 {
                 NewinputDatalist.add(input);
             }
         }
+        Collections.reverse(inputDatalist);
         inputDatalist.addAll(NewinputDatalist);
+        // make sure the last one is the latest.
+        // the caller will do reverse to get the latest in array 0
+        Collections.reverse(inputDatalist); 
     }
 
     //StockArray assume recent date to old data
