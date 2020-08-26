@@ -3031,8 +3031,10 @@ public class ServiceAFweb {
         if (CKey.NN_DEBUG == true) {
 
             if (trname.equals(ConstantKey.TR_NN3)) {
-                //StockArray assume recent date to old data     
-                Collections.reverse(StockArray);
+                //StockArray assume recent date to old data 
+                int sizeNewLen = 20 * 24;
+                StockArray = this.getStockHistorical(stock.getSymbol(), sizeNewLen);
+
                 List<Date> compDate = new ArrayList<Date>();
                 List<Double> compD = new ArrayList<Double>();
                 AccountObj accountObj = this.getAdminObjFromCache();
@@ -3041,10 +3043,10 @@ public class ServiceAFweb {
 //                int sizeTR = 20 * CKey.MONTH_SIZE / 2; //20 * 14/2;
 //                StockArray = this.getStockHistorical(stock.getSymbol(), sizeTR);
 //                int start = StockArray.size() - sizeLen;
-                for (int j = 0; j < StockArray.size(); j++) {
+                for (int j = 0; j < sizeLen; j++) {
                     AFstockInfo stockinfoC = StockArray.get(j);
 
-                    if (j < 10) {
+                    if (j < 20) {
                         //StockArray assume recent date to old data     
                         NNObj nn = NNCal.NNpredict(this, ConstantKey.INT_TR_NN3, accountObj, stock, UpdateTRList, StockArray, j);
                         norClose = nn.getPrediction();

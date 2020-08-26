@@ -158,10 +158,12 @@ public class ChartService {
         series.setMarkerColor(Color.RED);
         return chart;
     }
+
     public XYChart addCompareChart(XYChart chart, List<Date> xData, List<Double> yNormalizeData) {
         XYSeries series = chart.addSeries("C", xData, yNormalizeData);
-        series.setMarker(SeriesMarkers.NONE);
-        series.setLineStyle(SeriesLines.DOT_DOT);
+
+        series.setLineStyle(SeriesLines.NONE);
+        series.setMarker(SeriesMarkers.CROSS);
         series.setMarkerColor(Color.GRAY);
         return chart;
     }
