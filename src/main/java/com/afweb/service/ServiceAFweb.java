@@ -734,12 +734,12 @@ public class ServiceAFweb {
         if (flagClearNN0Table == true) {
             this.getStockImp().deleteNeuralNet0Table();
         }
-        
+
         boolean flagClearNN1Table = false;
         if (flagClearNN1Table == true) {
             this.getStockImp().deleteNeuralNet1Table();
         }
-        
+
         boolean flagClearNNdataTable = false;
         if (flagClearNNdataTable == true) {
             this.getStockImp().deleteNeuralNetDataTable();
@@ -3027,6 +3027,44 @@ public class ServiceAFweb {
         float close = stockinfo.getFclose();
         double norClose = close;
         yD.add(norClose);
+
+        if (CKey.NN_DEBUG == true) {
+
+            if (trname.equals(ConstantKey.TR_NN3)) {
+                //StockArray assume recent date to old data     
+                Collections.reverse(StockArray);
+                List<Date> compDate = new ArrayList<Date>();
+                List<Double> compD = new ArrayList<Double>();
+                AccountObj accountObj = this.getAdminObjFromCache();
+                ArrayList UpdateTRList = this.SystemAccountStockListByAccountID(accountObj.getId(), stock.getSymbol());
+
+//                int sizeTR = 20 * CKey.MONTH_SIZE / 2; //20 * 14/2;
+//                StockArray = this.getStockHistorical(stock.getSymbol(), sizeTR);
+//                int start = StockArray.size() - sizeLen;
+                for (int j = 0; j < StockArray.size(); j++) {
+                    AFstockInfo stockinfoC = StockArray.get(j);
+
+                    if (j < 10) {
+                        //StockArray assume recent date to old data     
+                        NNObj nn = NNCal.NNpredict(this, ConstantKey.INT_TR_NN3, accountObj, stock, UpdateTRList, StockArray, j);
+                        norClose = nn.getPrediction();
+                        Date daC = new Date(stockinfoC.getEntrydatel());
+                        compDate.add(daC);
+//                        close = stockinfoC.getFclose();
+//                        norClose = close * 1.05;
+                        compD.add(norClose);
+                    }
+
+                }
+
+                ChartService chart = new ChartService();
+                byte[] ioStream = chart.streamCompareChartToByte(stockidsymbol + "_" + trname,
+                        xDate, yD, buyDate, buyD, sellDate, sellD, compDate, compD);
+
+                return ioStream;
+
+            }
+        }
 
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,

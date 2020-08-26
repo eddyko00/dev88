@@ -25,6 +25,43 @@ public class ChartService {
 
     protected static Logger logger = Logger.getLogger("ChartService");
 
+    public byte[] streamCompareChartToByte(String name, List<Date> xDate, List<Double> yNormalizeData,
+            List<Date> buyDate, List<Double> buyD,
+            List<Date> sellDate, List<Double> sellD,
+            List<Date> compDate, List<Double> compD) {
+        try {
+//            System.out.println("> streamChartToFile ");
+            if (yNormalizeData.size() == 0) {
+                return null;
+            }
+            if (xDate.size() == 0) {
+                return null;
+            }
+            XYChart chart = getlineChartBase(name, xDate, yNormalizeData);
+            if (compDate.size() != 0) {
+                addCompareChart(chart, compDate, compD);
+            } else {
+//                System.out.println("> saveChart exception sellDate");
+            }
+
+            if (buyDate.size() != 0) {
+                addBuyChart(chart, buyDate, buyD);
+            } else {
+//                System.out.println("> saveChart exception buyDate");
+            }
+            if (sellDate.size() != 0) {
+                addSellChart(chart, sellDate, sellD);
+            } else {
+//                System.out.println("> saveChart exception sellDate");
+            }
+
+            return BitmapEncoder.getBitmapBytes(chart, BitmapEncoder.BitmapFormat.JPG);
+        } catch (Exception ex) {
+            System.out.println("> saveChart exception" + ex.getMessage());
+        }
+        return null;
+    }
+
     public byte[] streamChartToByte(String name, List<Date> xDate, List<Double> yNormalizeData,
             List<Date> buyDate, List<Double> buyD, List<Date> sellDate, List<Double> sellD) {
         try {
@@ -36,7 +73,7 @@ public class ChartService {
                 return null;
             }
             XYChart chart = getlineChartBase(name, xDate, yNormalizeData);
-            
+
             if (buyDate.size() != 0) {
                 addBuyChart(chart, buyDate, buyD);
             } else {
@@ -119,6 +156,13 @@ public class ChartService {
         series.setLineStyle(SeriesLines.NONE);
         series.setMarker(SeriesMarkers.TRIANGLE_DOWN);
         series.setMarkerColor(Color.RED);
+        return chart;
+    }
+    public XYChart addCompareChart(XYChart chart, List<Date> xData, List<Double> yNormalizeData) {
+        XYSeries series = chart.addSeries("C", xData, yNormalizeData);
+        series.setMarker(SeriesMarkers.NONE);
+        series.setLineStyle(SeriesLines.DOT_DOT);
+        series.setMarkerColor(Color.GRAY);
         return chart;
     }
 
