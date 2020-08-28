@@ -3030,42 +3030,42 @@ public class ServiceAFweb {
 
         if (CKey.NN_DEBUG == true) {
 
-            if (trname.equals(ConstantKey.TR_NN3)) {
-                //StockArray assume recent date to old data 
-                int sizeNewLen = 20 * 24;
-                StockArray = this.getStockHistorical(stock.getSymbol(), sizeNewLen);
-
-                List<Date> compDate = new ArrayList<Date>();
-                List<Double> compD = new ArrayList<Double>();
-                AccountObj accountObj = this.getAdminObjFromCache();
-                ArrayList UpdateTRList = this.SystemAccountStockListByAccountID(accountObj.getId(), stock.getSymbol());
-
-//                int sizeTR = 20 * CKey.MONTH_SIZE / 2; //20 * 14/2;
-//                StockArray = this.getStockHistorical(stock.getSymbol(), sizeTR);
-//                int start = StockArray.size() - sizeLen;
-                for (int j = 0; j < sizeLen; j++) {
-                    AFstockInfo stockinfoC = StockArray.get(j);
-
-                    if (j < 20) {
-                        //StockArray assume recent date to old data     
-                        NNObj nn = NNCal.NNpredict(this, ConstantKey.INT_TR_NN3, accountObj, stock, UpdateTRList, StockArray, j);
-                        norClose = nn.getPrediction();
-                        Date daC = new Date(stockinfoC.getEntrydatel());
-                        compDate.add(daC);
-//                        close = stockinfoC.getFclose();
-//                        norClose = close * 1.05;
-                        compD.add(norClose);
-                    }
-
-                }
-
-                ChartService chart = new ChartService();
-                byte[] ioStream = chart.streamCompareChartToByte(stockidsymbol + "_" + trname,
-                        xDate, yD, buyDate, buyD, sellDate, sellD, compDate, compD);
-
-                return ioStream;
-
-            }
+//            if (trname.equals(ConstantKey.TR_NN3)) {
+//                //StockArray assume recent date to old data 
+//                int sizeNewLen = 20 * 24;
+//                StockArray = this.getStockHistorical(stock.getSymbol(), sizeNewLen);
+//
+//                List<Date> compDate = new ArrayList<Date>();
+//                List<Double> compD = new ArrayList<Double>();
+//                AccountObj accountObj = this.getAdminObjFromCache();
+//                ArrayList UpdateTRList = this.SystemAccountStockListByAccountID(accountObj.getId(), stock.getSymbol());
+//
+////                int sizeTR = 20 * CKey.MONTH_SIZE / 2; //20 * 14/2;
+////                StockArray = this.getStockHistorical(stock.getSymbol(), sizeTR);
+////                int start = StockArray.size() - sizeLen;
+//                for (int j = 0; j < sizeLen; j++) {
+//                    AFstockInfo stockinfoC = StockArray.get(j);
+//
+//                    if (j < 20) {
+//                        //StockArray assume recent date to old data     
+//                        NNObj nn = NNCal.NNpredict(this, ConstantKey.INT_TR_NN3, accountObj, stock, UpdateTRList, StockArray, j);
+//                        norClose = nn.getPrediction();
+//                        Date daC = new Date(stockinfoC.getEntrydatel());
+//                        compDate.add(daC);
+////                        close = stockinfoC.getFclose();
+////                        norClose = close * 1.05;
+//                        compD.add(norClose);
+//                    }
+//
+//                }
+//
+//                ChartService chart = new ChartService();
+//                byte[] ioStream = chart.streamCompareChartToByte(stockidsymbol + "_" + trname,
+//                        xDate, yD, buyDate, buyD, sellDate, sellD, compDate, compD);
+//
+//                return ioStream;
+//
+//            }
         }
 
         ChartService chart = new ChartService();

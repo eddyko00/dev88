@@ -1033,12 +1033,12 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
-                    if (CKey.NN4Testing == true) {
-                        ProcessNN4 nn4 = new ProcessNN4();
-                        int nn4Signal = nn4.ProcessTRHistoryOffsetNN4(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
-                        prevSignal = nn4Signal;
-                        break;
-                    }
+//                    if (CKey.NN4Testing == true) {
+//                        ProcessNN4 nn4 = new ProcessNN4();
+//                        int nn4Signal = nn4.ProcessTRHistoryOffsetNN4(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+//                        prevSignal = nn4Signal;
+//                        break;
+//                    }
 //                    boolean nn3Flag = true;
 //                    if (nn3Flag == true) {
 //                        ProcessNN3 nn3 = new ProcessNN3();
@@ -1142,11 +1142,11 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
-                    if (CKey.NN4Testing == true) {
-                        ProcessNN4 nn4 = new ProcessNN4();
-                        nn4.updateAdminTradingsignalnn4(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
-                        break;
-                    }
+//                    if (CKey.NN4Testing == true) {
+//                        ProcessNN4 nn4 = new ProcessNN4();
+//                        nn4.updateAdminTradingsignalnn4(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+//                        break;
+//                    }
 //                    boolean nn3Flag = true;
 //                    if (nn3Flag == true) {
 //                        ProcessNN3 nn3 = new ProcessNN3();
