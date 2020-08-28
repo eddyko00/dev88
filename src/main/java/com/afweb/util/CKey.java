@@ -59,7 +59,7 @@ public class CKey {
 //    //
 //    /////Openshift Login eddyko00  Pass eddyko100 -  using LOCAL_MYSQL  
     public static String WEBPOST_OP_PHP = "/health.php";
-    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web011.apps.us-west-1.starter.openshift-online.com"; //eddyko00     
+    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web012.apps.us-west-1.starter.openshift-online.com"; //eddyko00     
     public static final String URL_PATH_OP = "http://iisweb-web011.apps.us-west-1.starter.openshift-online.com";
 //
     public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DBDB_PHP;  //Heroku PHP DB4free too slow
