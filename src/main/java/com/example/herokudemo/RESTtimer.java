@@ -29,13 +29,16 @@ public class RESTtimer {
     public void RestTimerHandler() {
         if (CKey.UI_ONLY == true) {
             if (HerokuDemoApplication.timerSchCnt > 20) {
-                System.out.println("RestTimerHandler: UI_ONLY disabled");
+                if (HerokuDemoApplication.timerSchCnt == 21) {
+                    System.out.println("RestTimerHandler: UI_ONLY disabled");
+                }
                 serverURL_0 = "stop";
             }
         }
         if (getEnv.checkLocalPC() == true) {
             ;
         } else {
+
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long lockDateValue = dateNow.getTimeInMillis();
             String tzid = "America/New_York"; //EDT

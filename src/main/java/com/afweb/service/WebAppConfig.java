@@ -59,12 +59,13 @@ public class WebAppConfig {
 //$password = "5V7FaMjFWryhGXYcagw2";
 //$DBName = "bmppikx9mn79axgjlhh4";        
 //
-//            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//            dataSource.setUrl("jdbc:mysql://bmppikx9mn79axgjlhh4-mysql.services.clever-cloud.com:3306/bmppikx9mn79axgjlhh4?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
-//            dataSource.setUsername("uphyltwqsqsipjri");
-//            dataSource.setPassword("5V7FaMjFWryhGXYcagw2");    
+            if (CKey.OPENSHIFT_DB1 == false) {
+                dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+                dataSource.setUrl("jdbc:mysql://bmppikx9mn79axgjlhh4-mysql.services.clever-cloud.com:3306/bmppikx9mn79axgjlhh4?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
+                dataSource.setUsername("uphyltwqsqsipjri");
+                dataSource.setPassword("5V7FaMjFWryhGXYcagw2");
+            }
         }
-
         if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
             dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             dataSource.setUrl("jdbc:sqlserver://sql.freeasphost.net/MSSQL2016;databaseName=eddyko00_SampleDB");

@@ -511,11 +511,9 @@ public class ServiceAFweb {
 
 //            logger.info("> processTimer " + getServerObj().getProcessTimerCnt());
             if (getEnv.checkLocalPC() == true) {
-
-                NNProcessImp.ProcessTrainNeuralNet(this);
-
+                TRprocessImp.UpdateAllStock(this);
                 if (CKey.NN_DEBUG == true) {
-
+                    NNProcessImp.ProcessTrainNeuralNet(this);
                     TRprocessImp.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                     TRprocessImp.UpdateAllStock(this);
