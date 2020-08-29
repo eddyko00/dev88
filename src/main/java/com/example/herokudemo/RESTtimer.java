@@ -27,6 +27,12 @@ public class RESTtimer {
     public static String serverURL_0 = "";
 
     public void RestTimerHandler() {
+        if (CKey.UI_ONLY == true) {
+            if (HerokuDemoApplication.timerSchCnt > 20) {
+                System.out.println("RestTimerHandler: UI_ONLY disabled");
+                serverURL_0 = "stop";
+            }
+        }
         if (getEnv.checkLocalPC() == true) {
             ;
         } else {
