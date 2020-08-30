@@ -587,7 +587,7 @@ public class ServiceAFweb {
 //                NNProcessImp.ProcessInputNeuralNet(this);
                 ///Error R14 (Memory quota exceeded) in heroku
                 ///Error R14 (Memory quota exceeded) in heroku
-                NNProcessImp.ProcessTrainNeuralNet(this);
+//                NNProcessImp.ProcessTrainNeuralNet(this);
             }
 
         } catch (Exception ex) {
