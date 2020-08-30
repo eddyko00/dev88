@@ -1580,27 +1580,27 @@ public class TrandingSignalProcess {
 //                    return 0;
                 }
 
-                boolean primarySt = false;
-                if (CKey.SEPARATE_STOCKINFO_DB == true) {
-                    primarySt = true;
-                }
-//                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-//                    String stockN = ServiceAFweb.primaryStock[i];
-//                    if (stockN.equals(NormalizeSymbol.toUpperCase())) {
-//                        primarySt = true;
-//                        break;
-//                    }
+//                boolean primarySt = true;
+//                if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//                    primarySt = true;
 //                }
-                if (primarySt == false) {
-                    // assume yahoo finance is working.
-                    // save only the last 10 to save memory 10M only in Clever Cloud 
-                    ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
-                    for (int j = 0; j < 25; j++) {
-                        StockArrayTmp.add(StockArray.get(j));
-                    }
-                    StockArray = StockArrayTmp;
-
-                }
+////                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+////                    String stockN = ServiceAFweb.primaryStock[i];
+////                    if (stockN.equals(NormalizeSymbol.toUpperCase())) {
+////                        primarySt = true;
+////                        break;
+////                    }
+////                }
+//                if (primarySt == false) {
+//                    // assume yahoo finance is working.
+//                    // save only the last 10 to save memory 10M only in Clever Cloud 
+//                    ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
+//                    for (int j = 0; j < 25; j++) {
+//                        StockArrayTmp.add(StockArray.get(j));
+//                    }
+//                    StockArray = StockArrayTmp;
+//
+//                }
                 ArrayList<AFstockInfo> StockSendArray = new ArrayList();
                 int index = 0;
 
