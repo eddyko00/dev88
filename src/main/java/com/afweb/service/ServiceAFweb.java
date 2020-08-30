@@ -697,7 +697,7 @@ public class ServiceAFweb {
             }
         }
 
-        boolean dbhero2opflag = true;
+        boolean dbhero2opflag = false;
         if (dbhero2opflag == true) {
             boolean prevOPSHIFT = CKey.OPENSHIFT_DB1;
             boolean pervStockInfoDB = CKey.SEPARATE_STOCKINFO_DB;
