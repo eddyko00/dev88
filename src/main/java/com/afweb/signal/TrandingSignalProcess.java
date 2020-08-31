@@ -803,6 +803,7 @@ public class TrandingSignalProcess {
                 lockExit90M = TimeConvertion.addMinutes(lockExit90M, StockDB.MaxMinuteAdminSignalTrading - 20);  //90 minutes
 
                 if (subStatus == ConstantKey.INITIAL) {
+                    logger.info("> upateAdminTransaction INITIAL " + stock.getSymbol()+" "+trObj.getTrname());
                     serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), trObj.getTrname());
 
                     // get 2 year
