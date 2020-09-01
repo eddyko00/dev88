@@ -27,51 +27,51 @@ public class RESTtimer {
     public static String serverURL_0 = "";
 
     public void RestTimerHandler() {
-        if (CKey.UI_ONLY == true) {
-            if (HerokuDemoApplication.timerSchCnt > 20) {
-                if (HerokuDemoApplication.timerSchCnt == 21) {
-                    System.out.println("RestTimerHandler: UI_ONLY disabled");
-                }
-                serverURL_0 = "stop";
-            }
-        }
+
         if (getEnv.checkLocalPC() == true) {
             ;
         } else {
-
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            long lockDateValue = dateNow.getTimeInMillis();
-            String tzid = "America/New_York"; //EDT
-            TimeZone tz = TimeZone.getTimeZone(tzid);
-            java.util.Date d = new java.util.Date(lockDateValue);
-            DateFormat format = new SimpleDateFormat("M/dd/yyyy HH z");
-            format.setTimeZone(tz);
-            String ESTdate = format.format(d);  //4/03/2020 04:47 PM EDT
-            String[] arrOfStr = ESTdate.split(" ");
-            int hr = Integer.parseInt(arrOfStr[1]);
-            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
-                if ((hr >= 10) && (hr <= 11)) {
-                    serverURL_0 = "";
-                } else if ((hr >= 17) && (hr <= 18)) {
-                    serverURL_0 = "";
-                } else {
-                    if (HerokuDemoApplication.timerSchCnt > 5) {
-                        if (serverURL_0.equals("startop")) {
-                            ;
-                        } else {
-                            serverURL_0 = "stop";
-                        }
-                    }
+            //////// force to stop (free host has limited resource)
+            if (HerokuDemoApplication.timerSchCnt > 20) {
+                if (HerokuDemoApplication.timerSchCnt == 21) {
+                    System.out.println("RestTimerHandler: disabled");
                 }
-            } else if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO)) {
-                if ((hr >= 8) && (hr <= 20)) {
-                    serverURL_0 = "";
-                } else {
-//                    if (HerokuDemoApplication.timerSchCnt > 5) {
-//                        serverURL_0 = "stop";
-//                    }
-                }
+                serverURL_0 = "stop";
             }
+//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//            long lockDateValue = dateNow.getTimeInMillis();
+//            String tzid = "America/New_York"; //EDT
+//            TimeZone tz = TimeZone.getTimeZone(tzid);
+//            java.util.Date d = new java.util.Date(lockDateValue);
+//            DateFormat format = new SimpleDateFormat("M/dd/yyyy HH z");
+//            format.setTimeZone(tz);
+//            String ESTdate = format.format(d);  //4/03/2020 04:47 PM EDT
+//            String[] arrOfStr = ESTdate.split(" ");
+//            int hr = Integer.parseInt(arrOfStr[1]);
+//            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
+//                if ((hr >= 10) && (hr <= 11)) {
+//                    serverURL_0 = "";
+//                } else if ((hr >= 17) && (hr <= 18)) {
+//                    serverURL_0 = "";
+//                } else {
+//                    if (HerokuDemoApplication.timerSchCnt > 5) {
+//                        if (serverURL_0.equals("startop")) {
+//                            ;
+//                        } else {
+//                            serverURL_0 = "stop";
+//                        }
+//                    }
+//                }
+//            } else if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO)) {
+//                if ((hr >= 8) && (hr <= 20)) {
+//                    serverURL_0 = "";
+//                } else {
+////                    if (HerokuDemoApplication.timerSchCnt > 5) {
+////                        serverURL_0 = "stop";
+////                    }
+//                }
+//            }
+
         }
         RestTimerHandler0(CKey.SERVERDB_URL);
     }
