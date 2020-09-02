@@ -188,9 +188,9 @@ public class ProcessNN2 {
 //      MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
         MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
         macdSignal = macdNN.trsignal;
-        if (CKey.NN_DEBUG == true) {
-            logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal);
-        }
+//        if (CKey.NN_DEBUG == true) {
+//            logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal);
+//        }
         if (CKey.NN_DEBUG == true) {
             boolean flag = false;
             if (flag == true) {
@@ -231,9 +231,9 @@ public class ProcessNN2 {
 
                 }
                 trHistory.setParmSt1(nn.getComment());
-                if (CKey.NN_DEBUG == true) {
-                    logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
-                }
+//                if (CKey.NN_DEBUG == true) {
+//                    logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
+//                }
             }
 
         }

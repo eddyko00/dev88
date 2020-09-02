@@ -577,9 +577,8 @@ public class ServiceAFweb {
 
             } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
                 //10 Sec * 5 ~ 1 minutes
-                if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
-                    TRprocessImp.UpdateAllStock(this);
-                }
+                TRprocessImp.UpdateAllStock(this);
+
             } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
@@ -744,6 +743,14 @@ public class ServiceAFweb {
             this.getStockImp().deleteNeuralNetDataTable();
         }
 
+        boolean flagSignal = false;
+        if (flagSignal == true) {
+            for (int i = 0; i < 100; i++) {
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            }
+        }
+
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
         boolean initflag = false;
@@ -803,13 +810,14 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////   
         /// update stock split process
         ///////////////////////////////////////////////////////////////////////////////////
-        boolean stocksplitflag = true;
+        boolean stocksplitflag = false;
         if (stocksplitflag == true) {
             /////////need manually enter the communication id
             /////////need manually enter the communication id
 
             int commid = 1; // 216; // 215;
             CommObj commObj = getAccountImp().getCommObjByID(commid);
+            logger.info("stocksplitflag process commid " + commid);
             if (commObj != null) {
                 CommData commData = getAccountImp().getCommDataObj(commObj);
                 if (commData != null) {
@@ -1082,19 +1090,30 @@ public class ServiceAFweb {
                 ret = getAccountImp().updateTransactionOrder(transSQL);
             }
             if (ret == 1) {
-                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                    stock.setSubstatus(ConstantKey.OPEN);
-                    String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-                    ArrayList sqlList = new ArrayList();
-                    sqlList.add(sockNameSQL);
-                    SystemUpdateSQLList(sqlList);
-                    logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
-
-                }
-                //update performance
+//                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+//                    stock.setSubstatus(ConstantKey.OPEN);
+//                    String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+//                    ArrayList sqlList = new ArrayList();
+//                    sqlList.add(sockNameSQL);
+//                    SystemUpdateSQLList(sqlList);
+//                    logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
+//                }
+//
+                //udpate performance logic
+                //udpate performance logic
             }
 
-            logger.info("> processStockSplit no update " + accountObj.getAccountname());
+        }
+        logger.info("> processStockSplit no update " + symbol);
+        //clear stocksplit
+        stock = getStockImp().getRealTimeStock(symbol, null);
+        if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+            stock.setSubstatus(ConstantKey.OPEN);
+            String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+            ArrayList sqlList = new ArrayList();
+            sqlList.add(sockNameSQL);
+            SystemUpdateSQLList(sqlList);
+            logger.info("updateRealTimeStock " + symbol + " Stock Split cleared");
         }
 
         return 1;

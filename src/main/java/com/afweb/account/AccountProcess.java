@@ -737,7 +737,10 @@ public class AccountProcess {
                 if (lockDate2Min < currentTime) {
                     break;
                 }
-//                logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname());
+//                if (CKey.NN_DEBUG == true) {
+//                    logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname());
+//                }
+
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);
                     int ret = TRprocessImp.updateStockProcess(serviceAFWeb, symbol);
@@ -757,7 +760,7 @@ public class AccountProcess {
     }
 
     public void updateTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj, AccountObj accountObj, String symbol) {
-
+        logger.info("> updateTradingsignal " + symbol + " " + accountObj.getAccountname());
         // update Trading signal
         ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.SystemAccountStockListByAccountID(accountAdminObj.getId(), symbol);
 
@@ -911,6 +914,7 @@ public class AccountProcess {
     }
 
     public void upateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        logger.info("> upateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         try {
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -1187,7 +1191,7 @@ public class AccountProcess {
             return false;
         }
         restoreDBstockinfo();
-        
+
         restoreDBaccount();
         restoreDBstock();
         restoreDBaccountstock_tradingrule();
@@ -1636,7 +1640,7 @@ public class AccountProcess {
     public boolean downloadDBData(ServiceAFweb serviceAFWeb) {
         this.serviceAFWeb = serviceAFWeb;
 
-        saveDBstockinfo();        
+        saveDBstockinfo();
         saveDBcustomer();
         saveDBaccount();
         saveDBaccountstock_tradingrule();

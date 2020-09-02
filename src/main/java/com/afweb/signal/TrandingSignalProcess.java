@@ -105,10 +105,12 @@ public class TrandingSignalProcess {
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+                            logger.info("> ProcessAdminSignalTrading return stock split "+ symbol );
                             return;
                         }
                     }
                     if (stock == null) {
+                        logger.info("> ProcessAdminSignalTrading return stock null " );
                         continue;
                     }
 
@@ -131,7 +133,7 @@ public class TrandingSignalProcess {
 
                                 long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                                 if (lastUpdate5Min < curDateValue) {
-//                                    logger.info("> ProcessAdminSignalTrading " + symbol + " stocksize=" + stockSignalNameArray.size());
+                                    logger.info("> ProcessAdminSignalTrading " + symbol );
                                     updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
@@ -139,6 +141,7 @@ public class TrandingSignalProcess {
                             }
                         }
                         serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+                        logger.info("> ProcessAdminSignalTrading end " );
                     }
                 } catch (Exception ex) {
                     logger.info("> ProcessAdminSignalTrading Exception" + ex.getMessage());
@@ -753,6 +756,7 @@ public class TrandingSignalProcess {
                     return;
                 }
             }
+            logger.info("> upateAdminTransaction " + stock.getSymbol());
             ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
 

@@ -1108,9 +1108,9 @@ public class AccountDB {
                         + ", comment='" + tr.getComment() + "', linktradingruleid=" + tr.getLinktradingruleid()
                         + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and type=" + tr.getType();
                 processUpdateDB(sqlCMD);
-                if (CKey.NN_DEBUG == true) {
-                    logger.info("> updateAccountStockSignal cmd " + sqlCMD);
-                }
+//                if (CKey.NN_DEBUG == true) {
+//                    logger.info("> updateAccountStockSignal cmd " + sqlCMD);
+//                }
             }
             return 1;
         } catch (Exception ex) {

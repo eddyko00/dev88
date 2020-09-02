@@ -105,9 +105,9 @@ public class ProcessNN3 {
                     nnSignal = nn.getTrsignal();
                 }
                 trHistory.setParmSt1(nn.getComment());
-                if (CKey.NN_DEBUG == true) {
-                    logger.info("ProcessTRHistoryOffsetNN3 " + stdate + " nn=" + nnSignal + " " + nn.getComment());
-                }
+//                if (CKey.NN_DEBUG == true) {
+//                    logger.info("ProcessTRHistoryOffsetNN3 " + stdate + " nn=" + nnSignal + " " + nn.getComment());
+//                }
             }
         } catch (Exception ex) {
             logger.info("> ProcessTRHistoryOffsetNN3 Exception" + ex.getMessage());
