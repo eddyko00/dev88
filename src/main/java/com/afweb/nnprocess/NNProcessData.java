@@ -7,6 +7,8 @@ package com.afweb.nnprocess;
 
 import com.afweb.util.CKey;
 import com.afweb.model.*;
+import com.afweb.model.account.AccountObj;
+import com.afweb.model.account.TradingRuleObj;
 
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
@@ -41,13 +43,14 @@ public class NNProcessData {
         }
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
-            
             // start training
             NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
 
         }
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
+            // make sure you chenage the String version = "2.0903" each time
+            //must match to the nnData version
             NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
 
         }
@@ -66,6 +69,24 @@ public class NNProcessData {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   
+        boolean flagTestNNSignal = false;
+        if (flagTestNNSignal == true) {
+            String symbol = "HOU.TO";
+            AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+            int size1year = 5 * 52;
+            ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year * 4);
+            AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+            String trName = ConstantKey.TR_NN2;
+            ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accObj.getId(), symbol);
+            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
+            ProcessNN2 nn2 = new ProcessNN2();
+            int offset = 0;
+            ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
+            nn2.updateAdminTradingsignalnn2(serviceAFWeb, accObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+
+            logger.info("> flagTestNNSignal ");
+        }
+
         boolean flagTestNeuralnetTrain = false;
         if (flagTestNeuralnetTrain == true) {
             String symbol = "HOU.TO";
