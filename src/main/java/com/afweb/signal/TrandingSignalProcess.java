@@ -141,7 +141,7 @@ public class TrandingSignalProcess {
                             }
                         }
                         serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
-                        logger.info("> ProcessAdminSignalTrading end " );
+//                        logger.info("> ProcessAdminSignalTrading end " );
                     }
                 } catch (Exception ex) {
                     logger.info("> ProcessAdminSignalTrading Exception" + ex.getMessage());

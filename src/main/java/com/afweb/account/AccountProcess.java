@@ -685,7 +685,8 @@ public class AccountProcess {
     public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
         this.serviceAFWeb = serviceAFWeb;
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-        logger.info("> ProcessAllAccountTradingSignal ");
+//        logger.info("> ProcessAllAccountTradingSignal ");
+
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
@@ -746,7 +747,7 @@ public class AccountProcess {
                     int ret = TRprocessImp.updateStockProcess(serviceAFWeb, symbol);
                     if (ret > 0) {
                         updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
-                        upateTradingTransaction(serviceAFWeb, accountObj, symbol);
+                        updateTradingTransaction(serviceAFWeb, accountObj, symbol);
                     }
                 }
                 maxAccountCnt++;
@@ -913,8 +914,8 @@ public class AccountProcess {
         return 0;
     }
 
-    public void upateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
-        logger.info("> upateTradingTransaction " + symbol + " " + accountObj.getAccountname());
+    public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         try {
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -985,7 +986,7 @@ public class AccountProcess {
             }
 
         } catch (Exception ex) {
-            logger.info("> upateTradingTransaction Exception" + ex.getMessage());
+            logger.info("> updateTradingTransaction Exception" + ex.getMessage());
         }
     }
 
