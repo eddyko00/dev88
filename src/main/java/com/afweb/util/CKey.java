@@ -101,8 +101,8 @@ public class CKey {
     public static int MONTH_SIZE = 14;
     public static int SHORT_MONTH_SIZE = 2;//3;
     public static double PREDICT_THRESHOLD = 0.6;
-    public static double NN1_ERROR_THRESHOLD = 0.0825; //0.07; // 0.043; //0.045 for 110 node // 0.053 for 100 node; 
-    public static double NN2_ERROR_THRESHOLD = 0.0825; //0.07;
+    public static double NN1_ERROR_THRESHOLD = 0.082; //0.07; // 0.043; //0.045 for 110 node // 0.053 for 100 node; 
+    public static double NN2_ERROR_THRESHOLD = 0.082; //0.07;
     public static double NN4_ERROR_THRESHOLD = 0.345; //0.245; //0.43; //0.045;    
     public static final int NN_OUTPUT_SIZE = 2;    
     public static final int NN_INPUT_SIZE = 10;

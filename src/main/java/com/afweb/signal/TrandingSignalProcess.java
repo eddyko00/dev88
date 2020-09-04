@@ -30,9 +30,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TimeZone;
 
 import java.util.logging.Logger;
@@ -105,12 +107,12 @@ public class TrandingSignalProcess {
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                            logger.info("> ProcessAdminSignalTrading return stock split "+ symbol );
+                            logger.info("> ProcessAdminSignalTrading return stock split " + symbol);
                             return;
                         }
                     }
                     if (stock == null) {
-                        logger.info("> ProcessAdminSignalTrading return stock null " );
+                        logger.info("> ProcessAdminSignalTrading return stock null ");
                         continue;
                     }
 
@@ -133,7 +135,7 @@ public class TrandingSignalProcess {
 
                                 long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                                 if (lastUpdate5Min < curDateValue) {
-                                    logger.info("> ProcessAdminSignalTrading " + symbol );
+                                    logger.info("> ProcessAdminSignalTrading " + symbol);
                                     updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
@@ -807,7 +809,7 @@ public class TrandingSignalProcess {
                 lockExit90M = TimeConvertion.addMinutes(lockExit90M, StockDB.MaxMinuteAdminSignalTrading - 20);  //90 minutes
 
                 if (subStatus == ConstantKey.INITIAL) {
-                    logger.info("> upateAdminTransaction INITIAL " + stock.getSymbol()+" "+trObj.getTrname());
+                    logger.info("> upateAdminTransaction INITIAL " + stock.getSymbol() + " " + trObj.getTrname());
                     serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), trObj.getTrname());
 
                     // get 2 year
@@ -1958,10 +1960,52 @@ public class TrandingSignalProcess {
         //just for testing
 //        ServiceAFweb.forceNNReadFileflag = false;
         //just for testing 
+
+        ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
-            inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);
+//            inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);
+
+            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+            for (String sym : stockInputMap.keySet()) {
+                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
+                inputDatalist.addAll(inputL);
+            }
+            for (int i = 0; i < inputDatalist.size(); i++) {
+                NNInputDataObj inputDObj = inputDatalist.get(i);
+                NNInputOutObj inputObj = new NNInputOutObj();
+                inputObj.setDateSt(inputDObj.getObj().getDateSt());
+                inputObj.setClose(inputDObj.getObj().getClose());
+                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
+                inputObj.setInput1(inputDObj.getObj().getInput1());
+                inputObj.setInput2(inputDObj.getObj().getInput2());
+                inputObj.setInput3(inputDObj.getObj().getInput3());
+                inputObj.setInput4(inputDObj.getObj().getInput4());
+                inputObj.setInput5(inputDObj.getObj().getInput5());
+                inputObj.setInput6(inputDObj.getObj().getInput6());
+                inputObj.setInput7(inputDObj.getObj().getInput7());
+                inputObj.setInput8(inputDObj.getObj().getInput8());
+                inputObj.setInput9(inputDObj.getObj().getInput9());
+                inputObj.setInput10(inputDObj.getObj().getInput10());
+                inputObj.setInput11(inputDObj.getObj().getInput11());
+                inputObj.setInput12(inputDObj.getObj().getInput12());
+                inputObj.setInput13(inputDObj.getObj().getInput13());
+                //////
+                inputObj.setOutput1(inputDObj.getObj().getOutput1());
+                inputObj.setOutput2(inputDObj.getObj().getOutput2());
+                inputObj.setOutput3(inputDObj.getObj().getOutput3());
+                inputObj.setOutput4(inputDObj.getObj().getOutput4());
+                if (inputObj.getOutput1() < 0) {
+                    continue;
+                }
+                if (inputObj.getOutput2() < 0) {
+                    continue;
+                }
+                inputlist.add(inputObj);
+            }
         } else {
-            ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
+
             if (nnName.equals(ConstantKey.TR_NN4)) {
                 inputDatalist = NNProcessStock.NeuralNetGetNN4InputfromStaticCode("");
             } else {
