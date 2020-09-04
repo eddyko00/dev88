@@ -208,7 +208,7 @@ public class NNProcessData {
     // create neural net input data
     //     
     private void NeuralNetInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
-        int sizeYr = 3;
+        int sizeYr = 2;
         for (int j = 0; j < sizeYr; j++) { //4; j++) {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();

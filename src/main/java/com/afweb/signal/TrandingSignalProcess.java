@@ -1881,7 +1881,7 @@ public class TrandingSignalProcess {
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
 
         String symbol = "";
-        String symbolL[] = ServiceAFweb.neuralNetTrainStock;
+        String symbolL[] = ServiceAFweb.primaryStock;
 
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
@@ -2413,35 +2413,35 @@ public class TrandingSignalProcess {
                         rsp = response[j];
                         if (j == 0) {
 
-                            String stTitle = "\"" + "output0"
-                                    + "\",\"" + "output1"
-                                    + "\",\"" + "macd TSig"
-                                    + "\",\"" + "LTerm"
-                                    + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-                                    + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                                    + "\",\"" + "predict0" + "\",\"" + "predict1" + "\"";
+                            String stTitle = "" + "output0"
+                                    + "," + "output1"
+                                    + "," + "macd TSig"
+                                    + "," + "LTerm"
+                                    + "," + "ema2050" + "," + "macd" + "," + "rsi"
+                                    + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
+                                    + "," + "predict0" + "," + "predict1" + "";
                             if (nnNameSym.equals(ConstantKey.TR_NN4)) {
-                                stTitle = "\"" + "output0"
-                                        + "\",\"" + "output1"
-                                        + "\",\"" + "output2"
-                                        + "\",\"" + "output3"
-                                        //                                        + "\",\"" + "output4"
-                                        //                                        + "\",\"" + "output5"
-                                        //                                        + "\",\"" + "output6"
-                                        //                                        + "\",\"" + "output7"
-                                        + "\",\"" + "macd TSig"
-                                        + "\",\"" + "LTerm"
-                                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-                                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                                        + "\",\"" + "predict0"
-                                        + "\",\"" + "predict1"
-                                        + "\",\"" + "predict2"
-                                        + "\",\"" + "predict3"
-                                        //                                        + "\",\"" + "predict4"
-                                        //                                        + "\",\"" + "predict5"
-                                        //                                        + "\",\"" + "predict6"
-                                        //                                        + "\",\"" + "predict7" 
-                                        + "\"";
+                                stTitle = "" + "output0"
+                                        + "," + "output1"
+                                        + "," + "output2"
+                                        + "," + "output3"
+                                        //                                        + "," + "output4"
+                                        //                                        + "," + "output5"
+                                        //                                        + "," + "output6"
+                                        //                                        + "," + "output7"
+                                        + "," + "macd TSig"
+                                        + "," + "LTerm"
+                                        + "," + "ema2050" + "," + "macd" + "," + "rsi"
+                                        + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
+                                        + "," + "predict0"
+                                        + "," + "predict1"
+                                        + "," + "predict2"
+                                        + "," + "predict3"
+                                        //                                        + "," + "predict4"
+                                        //                                        + "," + "predict5"
+                                        //                                        + "," + "predict6"
+                                        //                                        + "," + "predict7" 
+                                        + "";
 
                             }
                             writeArray.add(stTitle);
@@ -2450,62 +2450,62 @@ public class TrandingSignalProcess {
                         String st = "";
 
                         if (nnNameSym.equals(ConstantKey.TR_NN4)) {
-                            st = "\"" + output[0]
-                                    + "\",\"" + output[1]
-                                    + "\",\"" + output[2]
-                                    + "\",\"" + output[3]
-                                    //                                    + "\",\"" + output[4]
-                                    //                                    + "\",\"" + output[5]
-                                    //                                    + "\",\"" + output[6]
-                                    //                                    + "\",\"" + output[7]
-                                    + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                                    + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
-                                    + "\",\"" + input[6] + "\",\"" + input[7]
-                                    + "\",\"" + input[8] + "\",\"" + input[9]
-                                    + "\",\"" + rsp[0]
-                                    + "\",\"" + rsp[1]
-                                    + "\",\"" + rsp[2]
-                                    + "\",\"" + rsp[3]
-                                    //                                    + "\",\"" + rsp[4]
-                                    //                                    + "\",\"" + rsp[5]
-                                    //                                    + "\",\"" + rsp[6]
-                                    //                                    + "\",\"" + rsp[7]
-                                    + "\"";
+                            st = "" + output[0]
+                                    + "," + output[1]
+                                    + "," + output[2]
+                                    + "," + output[3]
+                                    //                                    + "," + output[4]
+                                    //                                    + "," + output[5]
+                                    //                                    + "," + output[6]
+                                    //                                    + "," + output[7]
+                                    + "," + input[0] + "," + input[1] + "," + input[2]
+                                    + "," + input[3] + "," + input[4] + "," + input[5]
+                                    + "," + input[6] + "," + input[7]
+                                    + "," + input[8] + "," + input[9]
+                                    + "," + rsp[0]
+                                    + "," + rsp[1]
+                                    + "," + rsp[2]
+                                    + "," + rsp[3]
+                                    //                                    + "," + rsp[4]
+                                    //                                    + "," + rsp[5]
+                                    //                                    + "," + rsp[6]
+                                    //                                    + "," + rsp[7]
+                                    + "";
 
                             if (output[0] > 0.5) {
                                 if (rsp[0] > 0.5) {
                                     ;
                                 } else {
-                                    st += ",\"" + "0" + "\"";
+                                    st += "," + "0" + "";
                                 }
                             } else if (output[1] > 0.5) {
                                 if (rsp[1] > 0.5) {
                                     ;
                                 } else {
-                                    st += ",\"" + "1" + "\"";
+                                    st += "," + "1" + "";
                                 }
                             } else if (output[2] > 0.5) {
                                 if (rsp[2] > 0.5) {
                                     ;
                                 } else {
-                                    st += ",\"" + "2" + "\"";
+                                    st += "," + "2" + "";
                                 }
                             } else if (output[3] > 0.5) {
                                 if (rsp[3] > 0.5) {
                                     ;
                                 } else {
-                                    st += ",\"" + "3" + "\"";
+                                    st += "," + "3" + "";
                                 }
                             }
                         } else {
-                            st = "\"" + output[0]
-                                    + "\",\"" + output[1]
-                                    + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                                    + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
-                                    + "\",\"" + input[6] + "\",\"" + input[7]
-                                    + "\",\"" + input[8] + "\",\"" + input[9]
-                                    + "\",\"" + rsp[0] + "\",\"" + rsp[1]
-                                    + "\"";
+                            st = "" + output[0]
+                                    + "," + output[1]
+                                    + "," + input[0] + "," + input[1] + "," + input[2]
+                                    + "," + input[3] + "," + input[4] + "," + input[5]
+                                    + "," + input[6] + "," + input[7]
+                                    + "," + input[8] + "," + input[9]
+                                    + "," + rsp[0] + "," + rsp[1]
+                                    + "";
                             float delta = (float) (output[0] - rsp[0]);
                             delta = Math.abs(delta);
                             float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
@@ -2513,7 +2513,7 @@ public class TrandingSignalProcess {
                                 deltaCmp = (float) 0.09;
                             }
                             if (delta > deltaCmp) {
-                                st += ",\"" + delta + "\"";
+                                st += "," + delta + "";
                             }
                         }
 
@@ -2555,35 +2555,35 @@ public class TrandingSignalProcess {
                             rsp = response[j];
                             if (j == 0) {
 
-                                String stTitle = "\"" + "output0"
-                                        + "\",\"" + "output1"
-                                        + "\",\"" + "macd TSig"
-                                        + "\",\"" + "LTerm"
-                                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-                                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                                        + "\",\"" + "predict0" + "\",\"" + "predict1" + "\"";
+                                String stTitle = "" + "output0"
+                                        + "," + "output1"
+                                        + "," + "macd TSig"
+                                        + "," + "LTerm"
+                                        + "," + "ema2050" + "," + "macd" + "," + "rsi"
+                                        + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
+                                        + "," + "predict0" + "," + "predict1" + "";
                                 if (nnNameSym.equals(ConstantKey.TR_NN4)) {
-                                    stTitle = "\"" + "output0"
-                                            + "\",\"" + "output1"
-                                            + "\",\"" + "output2"
-                                            + "\",\"" + "output3"
-                                            //                                            + "\",\"" + "output4"
-                                            //                                            + "\",\"" + "output5"
-                                            //                                            + "\",\"" + "output6"
-                                            //                                            + "\",\"" + "output7"
-                                            + "\",\"" + "macd TSig"
-                                            + "\",\"" + "LTerm"
-                                            + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-                                            + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                                            + "\",\"" + "predict0"
-                                            + "\",\"" + "predict1"
-                                            + "\",\"" + "predict2"
-                                            + "\",\"" + "predict3"
-                                            //                                            + "\",\"" + "predict4"
-                                            //                                            + "\",\"" + "predict5"
-                                            //                                            + "\",\"" + "predict6"
-                                            //                                            + "\",\"" + "predict7" 
-                                            + "\"";
+                                    stTitle = "" + "output0"
+                                            + "," + "output1"
+                                            + "," + "output2"
+                                            + "," + "output3"
+                                            //                                            + "," + "output4"
+                                            //                                            + "," + "output5"
+                                            //                                            + "," + "output6"
+                                            //                                            + "," + "output7"
+                                            + "," + "macd TSig"
+                                            + "," + "LTerm"
+                                            + "," + "ema2050" + "," + "macd" + "," + "rsi"
+                                            + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
+                                            + "," + "predict0"
+                                            + "," + "predict1"
+                                            + "," + "predict2"
+                                            + "," + "predict3"
+                                            //                                            + "," + "predict4"
+                                            //                                            + "," + "predict5"
+                                            //                                            + "," + "predict6"
+                                            //                                            + "," + "predict7" 
+                                            + "";
 
                                 }
                                 writeArray.add(stTitle);
@@ -2591,62 +2591,62 @@ public class TrandingSignalProcess {
                             String st = "";
 
                             if (nnNameSym.equals(ConstantKey.TR_NN4)) {
-                                st = "\"" + output[0]
-                                        + "\",\"" + output[1]
-                                        + "\",\"" + output[2]
-                                        + "\",\"" + output[3]
-                                        //                                        + "\",\"" + output[4]
-                                        //                                        + "\",\"" + output[5]
-                                        //                                        + "\",\"" + output[6]
-                                        //                                        + "\",\"" + output[7]
-                                        + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                                        + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
-                                        + "\",\"" + input[6] + "\",\"" + input[7]
-                                        + "\",\"" + input[8] + "\",\"" + input[9]
-                                        + "\",\"" + rsp[0]
-                                        + "\",\"" + rsp[1]
-                                        + "\",\"" + rsp[2]
-                                        + "\",\"" + rsp[3]
-                                        //                                        + "\",\"" + rsp[4]
-                                        //                                        + "\",\"" + rsp[5]
-                                        //                                        + "\",\"" + rsp[6]
-                                        //                                        + "\",\"" + rsp[7] 
-                                        + "\"";
+                                st = "" + output[0]
+                                        + "," + output[1]
+                                        + "," + output[2]
+                                        + "," + output[3]
+                                        //                                        + "," + output[4]
+                                        //                                        + "," + output[5]
+                                        //                                        + "," + output[6]
+                                        //                                        + "," + output[7]
+                                        + "," + input[0] + "," + input[1] + "," + input[2]
+                                        + "," + input[3] + "," + input[4] + "," + input[5]
+                                        + "," + input[6] + "," + input[7]
+                                        + "," + input[8] + "," + input[9]
+                                        + "," + rsp[0]
+                                        + "," + rsp[1]
+                                        + "," + rsp[2]
+                                        + "," + rsp[3]
+                                        //                                        + "," + rsp[4]
+                                        //                                        + "," + rsp[5]
+                                        //                                        + "," + rsp[6]
+                                        //                                        + "," + rsp[7] 
+                                        + "";
 
                                 if (output[0] > 0.5) {
                                     if (rsp[0] > 0.5) {
                                         ;
                                     } else {
-                                        st += ",\"" + "0" + "\"";
+                                        st += "," + "0" + "";
                                     }
                                 } else if (output[1] > 0.5) {
                                     if (rsp[1] > 0.5) {
                                         ;
                                     } else {
-                                        st += ",\"" + "1" + "\"";
+                                        st += "," + "1" + "";
                                     }
                                 } else if (output[2] > 0.5) {
                                     if (rsp[2] > 0.5) {
                                         ;
                                     } else {
-                                        st += ",\"" + "2" + "\"";
+                                        st += "," + "2" + "";
                                     }
                                 } else if (output[3] > 0.5) {
                                     if (rsp[3] > 0.5) {
                                         ;
                                     } else {
-                                        st += ",\"" + "3" + "\"";
+                                        st += "," + "3" + "";
                                     }
                                 }
                             } else {
-                                st = "\"" + output[0]
-                                        + "\",\"" + output[1]
-                                        + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                                        + "\",\"" + input[3] + "\",\"" + input[4] + "\",\"" + input[5]
-                                        + "\",\"" + input[6] + "\",\"" + input[7]
-                                        + "\",\"" + input[8] + "\",\"" + input[9]
-                                        + "\",\"" + rsp[0] + "\",\"" + rsp[1]
-                                        + "\"";
+                                st = "" + output[0]
+                                        + "," + output[1]
+                                        + "," + input[0] + "," + input[1] + "," + input[2]
+                                        + "," + input[3] + "," + input[4] + "," + input[5]
+                                        + "," + input[6] + "," + input[7]
+                                        + "," + input[8] + "," + input[9]
+                                        + "," + rsp[0] + "," + rsp[1]
+                                        + "";
                                 float delta = (float) (output[0] - rsp[0]);
                                 delta = Math.abs(delta);
                                 float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
@@ -2654,7 +2654,7 @@ public class TrandingSignalProcess {
                                     deltaCmp = (float) 0.09;
                                 }
                                 if (delta > deltaCmp) {
-                                    st += ",\"" + delta + "\"";
+                                    st += "," + delta + "";
                                 }
                             }
 

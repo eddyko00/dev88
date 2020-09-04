@@ -748,6 +748,7 @@ public class ServiceAFweb {
             for (int i = 0; i < 100; i++) {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.ProcessAdminSignalTrading(this);
             }
         }
 
