@@ -2517,7 +2517,7 @@ public class TradingNNprocess {
             inputBuf.append(nnData.NN_INPUTLIST9);
             inputBuf.append(nnData.NN_INPUTLIST10);
             inputBuf.append(nnData.NN_INPUTLIST11);
-            inputBuf.append(nnData.NN_INPUTLIST12);     //need to check nnData file
+//            inputBuf.append(nnData.NN_INPUTLIST12);     //need to check nnData file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

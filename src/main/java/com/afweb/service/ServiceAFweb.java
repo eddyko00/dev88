@@ -82,8 +82,8 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
-    public static String primaryStock[] = {"HOU.TO", "AAPL", "SPY", "DIA", "QQQ", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
-    public static String neuralNetTrainStock[] = {"HOU.TO", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "FAS", "FAZ", "XIU.TO"};
+    public static String primaryStock[] = {"HOU.TO", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO"};
+    public static String neuralNetTrainStock[] = {"HOU.TO", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL"};
 
     /**
      * @return the cacheAccountAdminObj
