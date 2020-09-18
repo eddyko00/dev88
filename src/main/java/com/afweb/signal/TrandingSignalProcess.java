@@ -813,7 +813,7 @@ public class TrandingSignalProcess {
                     serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), trObj.getTrname());
 
                     // get 2 year
-//                    ArrayList<StockTRHistoryObj> trHistoryList = serviceAFWeb.SystemProcessTRHistory(trObj, 2);
+                    /// thObjList old first - recent last
                     ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2);
 
                     if ((trHistoryList == null) || (trHistoryList.size() == 0)) {
@@ -851,7 +851,8 @@ public class TrandingSignalProcess {
                     int lastSignal = 0;
                     long date2yrBack = TimeConvertion.addMonths(dateNow.getTimeInMillis(), -24); //2 yr before
 
-                    StockTRHistoryObj trHistory = trHistoryList.get(trHistoryList.size() - 1);
+//                    StockTRHistoryObj trHistory = trHistoryList.get(trHistoryList.size() - 1);
+                    StockTRHistoryObj trHistory = trHistoryList.get(0);
                     lastSignal = trHistory.getTrsignal();
 
                     logger.info("> upateAdminTransaction " + stock.getSymbol() + ", TR=" + trObj.getTrname() + ", Size=" + trHistoryList.size());
@@ -897,6 +898,7 @@ public class TrandingSignalProcess {
         }
     }
 
+    /// thObjList old first - recent last
     public ArrayList<StockTRHistoryObj> ProcessTRHistory(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, int lengthYr) {
 
         int size1year = 20 * 12 * lengthYr + (50 * 3);
@@ -909,6 +911,7 @@ public class TrandingSignalProcess {
         return thObjList;
     }
 
+    /// thObjList old first - recent last
     public ArrayList<StockTRHistoryObj> ProcessTRHistoryOffset(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize) {
 
         if (trObj == null) {
@@ -1875,7 +1878,6 @@ public class TrandingSignalProcess {
 //
 //        return inputlist;
 //    }
-
     public ArrayList<NNInputDataObj> getStaticJavaInputDataFromFile(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();

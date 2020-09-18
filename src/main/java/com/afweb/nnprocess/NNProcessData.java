@@ -8,20 +8,28 @@ package com.afweb.nnprocess;
 import com.afweb.util.CKey;
 import com.afweb.model.*;
 import com.afweb.model.account.AccountObj;
+import com.afweb.model.account.StockTRHistoryObj;
 import com.afweb.model.account.TradingRuleObj;
 
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.service.*;
+import static com.afweb.service.ServiceAFweb.FileLocalPath;
+import com.afweb.service.db.StockInfoRDB;
 
 import com.afweb.signal.*;
 import com.afweb.util.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -36,7 +44,7 @@ public class NNProcessData {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
 
         boolean flagNeuralnetInput = false;
-        if (flagNeuralnetInput == true) {            
+        if (flagNeuralnetInput == true) {
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
 
@@ -86,6 +94,84 @@ public class NNProcessData {
             nn2.updateAdminTradingsignalnn2(serviceAFWeb, accObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
 
             logger.info("> flagTestNNSignal ");
+        }
+//
+        boolean flagTestHistorySignal = false;
+        if (flagTestHistorySignal == true) {
+            String symbol = "HOU.TO";
+            AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+            int size1year = 20 * 12 * 4 + (50 * 3);
+            ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
+            AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+            String trName = ConstantKey.TR_NN2;
+            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
+
+            serviceAFWeb.SystemAccountStockClrTranByAccountID(accObj, stock.getId(), trObj.getTrname());
+            // get 2 year
+            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//            ArrayList<StockTRHistoryObj> trHistoryList = TRprocessImp.ProcessTRHistory(serviceAFWeb, trObj, 2);
+
+            int offset = 0;
+            ProcessNN2 nn2 = new ProcessNN2();
+//            ArrayList<NNInputDataObj> inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+
+            ArrayList<StockTRHistoryObj> trHistoryList = null;
+            String StFileName = FileLocalPath + "trHistory.txt";
+            boolean flagWrite = true;
+            if (flagWrite == true) {
+                trHistoryList = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, CKey.MONTH_SIZE);
+
+                try {
+                    String st = new ObjectMapper().writeValueAsString(trHistoryList);
+                    StringBuffer stBuf = new StringBuffer(st);
+                    FileUtil.FileWriteText(StFileName, stBuf);
+                } catch (JsonProcessingException ex) {
+                }
+            } else {
+                try {
+                    StringBuffer stBuf = FileUtil.FileReadText(StFileName);
+                    String st = stBuf.toString();
+                    StockTRHistoryObj[] arrayItem = new ObjectMapper().readValue(st, StockTRHistoryObj[].class);
+                    List<StockTRHistoryObj> listItem = Arrays.<StockTRHistoryObj>asList(arrayItem);
+                    trHistoryList = new ArrayList<StockTRHistoryObj>(listItem);
+                } catch (IOException ex) {
+                }
+            }
+            int lastSignal = 0;
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            long date2yrBack = TimeConvertion.addMonths(dateNow.getTimeInMillis(), -24); //2 yr before
+
+            StockTRHistoryObj trHistory = trHistoryList.get(0);
+            lastSignal = trHistory.getTrsignal();
+
+            logger.info("> upateAdminTransaction " + stock.getSymbol() + ", TR=" + trObj.getTrname() + ", Size=" + trHistoryList.size());
+
+            for (int k = 0; k < trHistoryList.size(); k++) {
+                trHistory = trHistoryList.get(k);
+                int signal = trHistory.getTrsignal();
+                if (lastSignal == signal) {
+                    continue;
+                }
+
+                lastSignal = signal;
+                //check time only when signal change
+                if (trHistory.getUpdateDatel() > date2yrBack) {
+                    // add signal
+                    long endofDay = TimeConvertion.addHours(trHistory.getUpdateDatel(), -5);
+                    //// not sure why tran date is one day more (may be daylight saving?????????                            
+                    //// not sure why tran date is one day more (may be daylight saving?????????    
+                    //// not sure why tran date is one day more (may be daylight saving?????????                               
+                    Calendar dateOffet = TimeConvertion.getCurrentCalendar(endofDay);
+
+                    //Override the stockinfo for the price
+                    AFstockInfo afstockInfo = trHistory.getAfstockInfo();
+                    stock.setAfstockInfo(afstockInfo);
+                    int ret = TRprocessImp.AddTransactionOrder(serviceAFWeb, accObj, stock, trObj.getTrname(), signal, dateOffet, true);
+
+                }
+            }
+
+            logger.info("> flagTestHistorySignal ");
         }
 
         boolean flagTestNeuralnetTrain = false;
@@ -201,7 +287,6 @@ public class NNProcessData {
 //            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + "test2.csv", writeArray);
 //
 //        }
-
     }
 
     // training neural net input data
@@ -262,7 +347,7 @@ public class NNProcessData {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
+            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
             ProcessNN2 nn2 = new ProcessNN2();

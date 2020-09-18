@@ -602,7 +602,6 @@ public class ServiceAFweb {
 
     private void processDebug() {
 
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         // need this only if yahoo get history stock does not work
