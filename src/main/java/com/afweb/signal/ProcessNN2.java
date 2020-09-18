@@ -65,48 +65,6 @@ public class ProcessNN2 {
             return nn;
         }
 
-        if (getEnv.checkLocalPC() == true) {
-            boolean flag = false;
-            if (flag == true) {
-                double[][] inputpattern = null;
-                double[][] targetpattern = null;
-                double[][] response = null;
-
-                inputpattern = nnTraining.getInputpattern();
-                targetpattern = nnTraining.getOutputpattern();
-                response = nnTraining.getResponse();
-                double[] input;
-                double[] output;
-                double[] rsp;
-                ArrayList writeArray = new ArrayList();
-                for (int j = 0; j < inputpattern.length; j++) {
-                    input = inputpattern[j];
-                    output = targetpattern[j];
-                    rsp = response[j];
-
-                    double NNprediction = rsp[0];
-                    int temp = 0;
-                    NNprediction = NNprediction * 1000;
-                    temp = (int) NNprediction;
-                    NNprediction = temp;
-                    NNprediction = NNprediction / 1000;
-
-                    String stDate = new java.sql.Date(stocktmp.getEntrydatel()).toString();
-                    String st = "\"" + stDate + "\",\"" + stocktmp.getFclose() + "\"";
-                    st += "\",\"" + NNprediction
-                            + "\",\"" + output[0]
-                            + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                            + "\",\"" + input[3] + "\",\"" + input[4]
-                            + "\",\"" + input[5] + "\",\"" + input[6] + "\",\"" + input[7]
-                            + "\",\"" + input[8] + "\",\"" + input[9]
-                            + "\"";
-
-                    writeArray.add(st);
-                    logger.info(">NNpredict " + st);
-                }
-                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + stockidsymbol + "_Predect.csv", writeArray);
-            }
-        }
         double[][] rsp = nnTraining.getResponse();
         double NNprediction = rsp[0][0];
         int temp = 0;
@@ -121,6 +79,7 @@ public class ProcessNN2 {
         try {
             inputObj.setOutput1(NNprediction);
             nameST = new ObjectMapper().writeValueAsString(inputObj);
+            nameST = StringTag.replaceAll("\"", "",nameST);
             nn.setComment(nameST);
         } catch (JsonProcessingException ex) {
         }
@@ -231,9 +190,13 @@ public class ProcessNN2 {
 
                 }
                 trHistory.setParmSt1(nn.getComment());
-//                if (CKey.NN_DEBUG == true) {
-//                    logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
-//                }
+
+                if (CKey.NN_DEBUG == true) {
+                    boolean flag = false;
+                    if (flag == true) {
+                        logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
+                    }
+                }
             }
 
         }

@@ -75,6 +75,14 @@ public class NNProcessData {
             }
 
         }
+        boolean flagReLeanInput = false;
+        if (flagReLeanInput == true) {
+            serviceAFWeb.SystemRetrainNN();
+            
+            for (int k = 0; k < 100; k++) {
+                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
+            }
+        }
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////   

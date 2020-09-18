@@ -553,13 +553,14 @@ public class ServiceAFweb {
                 if (systemNNFlag == true) {
                     logger.info("> processTimer retrainStockNNprocessNameArray every 3 hr");
 
-                    LockName = "LOCK_NN_RETRAIN";
-                    //H2_LOCKTYPE //100 minutes
-                    long lockNNinput = setLockNameProcess(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getServerName() + " ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
-                    if (lockNNinput > 0) {
-                        getServerObj().setAutoNNCnt(getServerObj().getAutoNNCnt() + 1);
-                        NNProcessImp.retrainStockNNprocessNameArray(this);
-                    }
+//                    LockName = "LOCK_NN_RETRAIN";
+//                    //H2_LOCKTYPE //100 minutes
+//                    long lockNNinput = setLockNameProcess(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getServerName() + " ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
+//                    if (lockNNinput > 0) {
+//                        getServerObj().setAutoNNCnt(getServerObj().getAutoNNCnt() + 1);
+//                        // retrain the stock input for NN2 NN1
+//                        NNProcessImp.reLearnInputStockNNprocessNameArray(this);
+//                    }
                 }
             }
             if ((getServerObj().getProcessTimerCnt() % 21) == 0) {
@@ -4709,7 +4710,7 @@ public class ServiceAFweb {
         int retSatus = 0;
         logger.info(">SystemRetrainNN retraining... ");
         TradingNNprocess trainNN = new TradingNNprocess();
-        trainNN.retrainStockNNprocessNameArray(this);
+        trainNN.reLearnInputStockNNprocessNameArray(this);
         return "" + retSatus;
     }
 
