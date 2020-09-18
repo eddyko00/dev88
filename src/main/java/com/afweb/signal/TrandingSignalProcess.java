@@ -2229,6 +2229,9 @@ public class TrandingSignalProcess {
         return false;
     }
 
+    public static AFneuralNet nnObjCache = null;
+    public static long lastUpdateTime = 0;
+
     public int OutputNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
         double[][] inputpattern = null;
         double[][] targetpattern = null;
@@ -2241,24 +2244,38 @@ public class TrandingSignalProcess {
         if (name == null) {
             return 0;
         }
+        AFneuralNet nnObj1 = null;
+        if (nnObjCache != null) {
+            if (nnObjCache.getName().equals(name)) {
 
-        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
-        if (nnObj1 == null) {
-            return 0;
-        }
-        if (nnObj1 != null) {
-            String weightSt1 = nnObj1.getWeight();
-            if (weightSt1.length() > 0) {
-                NNBPservice nn1 = new NNBPservice();
-                nn1.createNet(weightSt1);
-                inputpattern = nnTraining.getInputpattern();
-                targetpattern = nnTraining.getOutputpattern();
-                response = nnTraining.getResponse();
-                double nnError = 0.0001;
-                double errorReturn = nn1.predictTest(inputpattern, targetpattern, response, nnError);
-
-                return 1;
+                long date5Min = TimeConvertion.addMinutes(lastUpdateTime, 5);
+                long currentTime = System.currentTimeMillis();
+                if (date5Min > currentTime) {
+                    nnObj1 = nnObjCache;
+                }
             }
+        }
+
+        if (nnObj1 == null) {
+            nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+            if (nnObj1 == null) {
+                return 0;
+            }
+            nnObjCache = nnObj1;
+            lastUpdateTime = System.currentTimeMillis();
+        }
+
+        String weightSt1 = nnObj1.getWeight();
+        if (weightSt1.length() > 0) {
+            NNBPservice nn1 = new NNBPservice();
+            nn1.createNet(weightSt1);
+            inputpattern = nnTraining.getInputpattern();
+            targetpattern = nnTraining.getOutputpattern();
+            response = nnTraining.getResponse();
+            double nnError = 0.0001;
+            double errorReturn = nn1.predictTest(inputpattern, targetpattern, response, nnError);
+
+            return 1;
         }
         return 0;
     }
