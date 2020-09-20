@@ -2008,7 +2008,7 @@ public class TrandingSignalProcess {
         } else {
 
             if (nnName.equals(ConstantKey.TR_NN4)) {
-                inputDatalist = NNProcessStock.NeuralNetGetNN4InputfromStaticCode("");
+                inputDatalist = NNProcessByTrend.NeuralNetGetNN4InputfromStaticCode("");
             } else {
                 inputDatalist = TradingNNprocess.NeuralNetGetNN1InputfromStaticCode("");
             }

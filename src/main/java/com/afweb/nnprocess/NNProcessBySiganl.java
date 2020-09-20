@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  *
  * @author eddyko
  */
-public class NNProcessData {
+public class NNProcessBySiganl {
 
     public static Logger logger = Logger.getLogger("NNProcess");
 

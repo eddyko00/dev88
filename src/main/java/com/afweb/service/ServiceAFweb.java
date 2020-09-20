@@ -474,10 +474,10 @@ public class ServiceAFweb {
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
-                    NNProcessData nnProc = new NNProcessData();
-                    nnProc.processNeuralNet(this);
-                    NNProcessStock nnStProc = new NNProcessStock();
-                    nnStProc.processNeuralNetStPred(this);
+                    NNProcessBySiganl nnProcBySig = new NNProcessBySiganl();
+                    nnProcBySig.processNeuralNet(this);
+                    NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+                    nnStProcByTrend.processNeuralNetStPred(this);
 
                     processDebug();
 ///////////////////////////////////////////////////////////////////////////////////

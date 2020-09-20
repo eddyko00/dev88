@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  *
  * @author koed
  */
-public class NNProcessStock {
+public class NNProcessByTrend {
 
     public static Logger logger = Logger.getLogger("NNProcessStock");
 
