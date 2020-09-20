@@ -11,6 +11,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockObj;
 import com.afweb.stock.StockInfoDB;
 import com.afweb.util.CKey;
+import com.afweb.util.StringTag;
 import com.afweb.util.TimeConvertion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -174,6 +175,10 @@ public class AccountImp {
 
     public int removeCommByCommID(int id) {
         return accountdb.removeCommByCommID(id);
+    }
+
+    public int removeCommByCustID(int id) {
+        return accountdb.removeCommByCustID(id);
     }
 
     public int removeCustComm(CustomerObj custObj) {
@@ -930,7 +935,7 @@ public class AccountImp {
         if (commObj.getType() == ConstantKey.INT_COM_SPLIT) {
             String name = commObj.getData();
             if ((name != null) && (name.length() > 0)) {
-                name = name.replaceAll("#", "\"");
+                name = StringTag.replaceAll("#", "\"", name);
                 try {
                     CommData commData = new ObjectMapper().readValue(name, CommData.class);
                     return commData;
@@ -972,7 +977,7 @@ public class AccountImp {
             msg = new ObjectMapper().writeValueAsString(commDataObj);
         } catch (JsonProcessingException ex) {
         }
-        msg = msg.replaceAll("\"", "#");
+        msg = StringTag.replaceAll("\"", "#", msg);
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
@@ -994,6 +999,29 @@ public class AccountImp {
         message.setUpdatedatel(dateNowLong);
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
+    }
+
+    public int addCommByCustName(int custID, String name, String data) {
+        CommObj message = new CommObj();
+        message.setCustomerid(custID);
+        message.setAccountid(custID);
+        message.setName(name);
+        message.setType(ConstantKey.INT_COM_CFG);
+
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+        message.setUpdatedatel(dateNowLong);
+        message.setData(data);
+        return accountdb.insertAccountCommData(message);
+    }
+
+    public int updateCommByCustNameById(CommObj message) {
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+        message.setUpdatedatel(dateNowLong);
+        return accountdb.updateAccountCommDataById(message);
     }
 
     public ArrayList<BillingObj> getBillingObjByName(int accountID, String name) {

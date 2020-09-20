@@ -938,7 +938,6 @@ public class AccountDB {
 //                + "select tradingrule.*, stock.symbol as symbol from tradingrule inner join stock on "
 //                + "tradingrule.stockid = stock.id where tradingrule.status=" + ConstantKey.OPEN + " and tradingrule.accountid=" + AccountID;
 
-
         if (StockID != null) {
             sql += " and tradingrule.stockid=" + StockID;
         }
@@ -1275,6 +1274,17 @@ public class AccountDB {
         return sqlCMD;
     }
 
+    public int removeCommByCustID(int id) {
+        try {
+            String deleteSQL = "delete from comm where customerid=" + id;
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> removeCommByCustID exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int removeCommByCommID(int id) {
         try {
             String deleteSQL = "delete from comm where id=" + id;
@@ -1326,8 +1336,9 @@ public class AccountDB {
         return 0;
     }
 
-    public int updateAccountCommData(CommObj newA) {
-        String sqlCMD = "update comm set updatedatedisplay='" + new java.sql.Date(newA.getUpdatedatel()) + "', updatedatel=" + newA.getUpdatedatel() + ",data='" + newA.getData() + "' where id=" + newA.getId();
+    public int updateAccountCommDataById(CommObj newA) {
+        String sqlCMD = "update comm set updatedatedisplay='" + new java.sql.Date(newA.getUpdatedatel())
+                + "', updatedatel=" + newA.getUpdatedatel() + ",data='" + newA.getData() + "' where id=" + newA.getId();
         try {
             processExecuteDB(sqlCMD);
             return 1;

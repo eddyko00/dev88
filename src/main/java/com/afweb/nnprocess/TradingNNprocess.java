@@ -18,9 +18,11 @@ import com.afweb.signal.TrandingSignalProcess;
 
 import com.afweb.util.CKey;
 import com.afweb.util.FileUtil;
+import com.afweb.util.StringTag;
 
 import com.afweb.util.TimeConvertion;
 import com.afweb.util.getEnv;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.Timestamp;
@@ -42,7 +44,9 @@ public class TradingNNprocess {
     protected static Logger logger = Logger.getLogger("TradingNNprocess");
     private static ArrayList stockNNprocessNameArray = new ArrayList();
     private static ArrayList stockNNinputNameArray = new ArrayList();
-    private static ArrayList stockNNretrainprocessNameArray = new ArrayList();
+
+    public static String cfg_stockNNretrainNameArray = "cfg_stockNNretrainNameArray";
+    private static ArrayList stockNNretrainNameArray = new ArrayList();
     private ServiceAFweb serviceAFWeb = null;
 
     public void ProcessTrainNeuralNet(ServiceAFweb serviceAFWeb) {
@@ -170,8 +174,8 @@ public class TradingNNprocess {
     public ArrayList reLearnInputStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
         this.serviceAFWeb = serviceAFWeb;
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        if (stockNNretrainprocessNameArray != null && stockNNretrainprocessNameArray.size() > 0) {
-            return stockNNretrainprocessNameArray;
+        if (stockNNretrainNameArray != null && stockNNretrainNameArray.size() > 0) {
+            return stockNNretrainNameArray;
         }
 
         ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountAdminObj.getId());
@@ -189,22 +193,22 @@ public class TradingNNprocess {
                     stockTRNameArray.add(symTR);
                 }
             }
-            stockNNretrainprocessNameArray = stockTRNameArray;
+            setStockNNretrainNameArray(stockTRNameArray);
         }
-        return stockNNretrainprocessNameArray;
+        return stockNNretrainNameArray;
     }
 
     public void ProcessReLearnInputNeuralNet(ServiceAFweb serviceAFWeb) {
 
         this.serviceAFWeb = serviceAFWeb;
 
-        if (stockNNretrainprocessNameArray == null) {
+        if (stockNNretrainNameArray == null) {
             return;
         }
-        if (stockNNretrainprocessNameArray.size() == 0) {
+        if (stockNNretrainNameArray.size() == 0) {
             return;
         }
-        logger.info("> ProcessReTrainNeuralNet ");
+        logger.info("> ProcessReTrainNeuralNet stockNNretrainNameArray size " + stockNNretrainNameArray.size());
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
@@ -224,12 +228,12 @@ public class TradingNNprocess {
                 if (lockDate1Min < currentTime) {
                     break;
                 }
-                if (stockNNretrainprocessNameArray.size() == 0) {
+                if (stockNNretrainNameArray.size() == 0) {
                     break;
                 }
                 try {
-                    String symbolTR = (String) stockNNretrainprocessNameArray.get(0);
-                    stockNNretrainprocessNameArray.remove(0);
+                    String symbolTR = (String) stockNNretrainNameArray.get(0);
+                    stockNNretrainNameArray.remove(0);
 
                     String[] symbolArray = symbolTR.split("#");
                     if (symbolArray.length >= 0) {
@@ -251,6 +255,22 @@ public class TradingNNprocess {
                             if (lockReturnStock > 0) {
                                 inputReTrainStockNeuralNetData(serviceAFWeb, trNN, symbol);
                                 serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                                //////////
+                                int cfgId = 0;;
+                                String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
+                                ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
+                                if (commObjArry != null) {
+                                    CommObj commObj = commObjArry.get(0);
+                                    String dataSt = "";
+                                    try {
+                                        dataSt = new ObjectMapper().writeValueAsString(stockNNretrainNameArray);
+                                    } catch (JsonProcessingException ex) {
+                                    }
+                                    dataSt = StringTag.replaceAll("\"", "^", dataSt);
+                                    commObj.setData(dataSt);
+                                    serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
+                                }
+                                ////////////
                             }
                         }
                     }
@@ -2539,6 +2559,13 @@ public class TradingNNprocess {
             logger.info("> NeuralNetGetNN1InputfromStaticCode - exception " + ex);
         }
         return null;
+    }
+
+    /**
+     * @param aStockNNretrainNameArray the stockNNretrainNameArray to set
+     */
+    public static void setStockNNretrainNameArray(ArrayList aStockNNretrainNameArray) {
+        stockNNretrainNameArray = aStockNNretrainNameArray;
     }
 
 }

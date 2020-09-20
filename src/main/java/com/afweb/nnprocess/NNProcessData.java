@@ -8,14 +8,13 @@ package com.afweb.nnprocess;
 import com.afweb.util.CKey;
 import com.afweb.model.*;
 import com.afweb.model.account.AccountObj;
+import com.afweb.model.account.CommObj;
 import com.afweb.model.account.StockTRHistoryObj;
 import com.afweb.model.account.TradingRuleObj;
 
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.service.*;
-import static com.afweb.service.ServiceAFweb.FileLocalPath;
-import com.afweb.service.db.StockInfoRDB;
 
 import com.afweb.signal.*;
 import com.afweb.util.*;
@@ -29,7 +28,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -75,10 +73,60 @@ public class NNProcessData {
             }
 
         }
+
         boolean flagReLeanInput = false;
         if (flagReLeanInput == true) {
-            serviceAFWeb.SystemRetrainNN();
-            
+            TradingNNprocess trainNN = new TradingNNprocess();
+            int custId = 0;;
+            String Name = TradingNNprocess.cfg_stockNNretrainNameArray;
+            ArrayList stockNameArray = null;
+//
+//            serviceAFWeb.getAccountImp().removeCommByCustID(custId);
+//
+            ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(custId, Name);
+            if (commObjArry != null) {
+                if (commObjArry.size() > 0) {
+                    CommObj commObj = commObjArry.get(0);
+                    String stockNameArraySt = commObj.getData();
+                    try {
+                        stockNameArraySt = StringTag.replaceAll("^", "\"", stockNameArraySt);
+                        stockNameArray = new ObjectMapper().readValue(stockNameArraySt, ArrayList.class);
+                    } catch (Exception ex) {
+                    }
+                }
+            } else {
+                ArrayList stArray = new ArrayList();
+                String msg = "";
+                try {
+                    msg = new ObjectMapper().writeValueAsString(stArray);
+                } catch (JsonProcessingException ex) {
+                }
+                msg = StringTag.replaceAll("\"", "^", msg);
+
+                serviceAFWeb.getAccountImp().addCommByCustName(custId, Name, msg);
+            }
+            if ((stockNameArray == null) || (stockNameArray.size() == 0)) {
+
+                stockNameArray = trainNN.reLearnInputStockNNprocessNameArray(serviceAFWeb);
+            }
+            trainNN.setStockNNretrainNameArray(stockNameArray);
+
+//            //////////
+//            int cfgId = 0;;
+//            String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
+//            commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
+//            if (commObjArry != null) {
+//                CommObj commObj = commObjArry.get(0);
+//                String dataSt = "";
+//                try {
+//                    dataSt = new ObjectMapper().writeValueAsString(stockNameArray);
+//                } catch (JsonProcessingException ex) {
+//                }
+//                dataSt = StringTag.replaceAll("\"", "^", dataSt);
+//                commObj.setData(dataSt);
+//                serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
+//            }
+//            ////////////
             for (int k = 0; k < 100; k++) {
                 NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
             }
@@ -124,7 +172,7 @@ public class NNProcessData {
 //            ArrayList<NNInputDataObj> inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
             ArrayList<StockTRHistoryObj> trHistoryList = null;
-            String StFileName = FileLocalPath + "trHistory.txt";
+            String StFileName = serviceAFWeb.FileLocalPath + "trHistory.txt";
             boolean flagWrite = true;
             if (flagWrite == true) {
                 trHistoryList = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, CKey.MONTH_SIZE);
