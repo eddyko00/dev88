@@ -240,7 +240,7 @@ public class NNProcessBySiganl {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 //            getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
 //            NNProcessImp.inputReTrainStockNeuralNetData(this, nnTRN, symbol);
-            NNProcessImp.inputStockNeuralNetData(serviceAFWeb, nnTRN, symbol);
+            NNProcessImp.inputStockNeuralNetBySignal(serviceAFWeb, nnTRN, symbol);
             NNProcessImp.stockTrainNeuralNet(serviceAFWeb, nnTRN, symbol);
         }
 
@@ -407,7 +407,7 @@ public class NNProcessBySiganl {
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
             ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 2);
+            inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         String BPname = CKey.NN_version + "_" + nnName;

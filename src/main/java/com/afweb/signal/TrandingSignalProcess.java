@@ -1043,18 +1043,12 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
-//                    if (CKey.NN4Testing == true) {
-//                        ProcessNN4 nn4 = new ProcessNN4();
-//                        int nn4Signal = nn4.ProcessTRHistoryOffsetNN4(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
-//                        prevSignal = nn4Signal;
-//                        break;
-//                    }
-//                    boolean nn3Flag = true;
-//                    if (nn3Flag == true) {
-//                        ProcessNN3 nn3 = new ProcessNN3();
-//                        int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList);
-//                        prevSignal = nn3Signal;
-//                    }
+                    boolean nn3Flag = true;
+                    if (nn3Flag == true) {
+                        ProcessNN3 nn3 = new ProcessNN3();
+                        int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                        prevSignal = nn3Signal;
+                    }
                     break;
 //                case ConstantKey.INT_TR_NN4:
 //                    boolean nn4Flag = false;

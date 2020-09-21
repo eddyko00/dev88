@@ -9,20 +9,14 @@ import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
-import com.afweb.nn.*;
 
 import com.afweb.service.ServiceAFweb;
-import static com.afweb.signal.TrandingSignalProcess.duplicateTRObj;
 import com.afweb.util.CKey;
-import com.afweb.util.FileUtil;
-
 import com.afweb.util.TimeConvertion;
-import com.afweb.util.getEnv;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+
 import java.util.logging.Logger;
 
 /**
@@ -33,8 +27,7 @@ public class NNCal {
 
     protected static Logger logger = Logger.getLogger("NNCal");
 
-//    public static String NN1weight = CKey.NN1_WEIGHT_0;
-//    public static String NN2weight = CKey.NN2_WEIGHT_0;
+
     public static NNObj NNpredict(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
 
         NNObj nn = new NNObj();
@@ -45,30 +38,28 @@ public class NNCal {
             case ConstantKey.INT_TR_NN2:
                 return ProcessNN2.NNpredictNN2(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
             case ConstantKey.INT_TR_NN3:
-                if (CKey.NN4Testing == true) {
-                    return ProcessNN4.NNpredictNN4(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
-                }
-//                return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+
+                return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
             case ConstantKey.INT_TR_NN4:
-                return ProcessNN4.NNpredictNN4(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+//                return ProcessNN4.NNpredictNN4(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
             default:
                 break;
         }
         return nn;
     }
 
-    public static NNObj NNCaluclation(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
-        try {
-
-            NNObj nn = new NNObj();
-            return nn;
-
-        } catch (Exception ex) {
-            logger.info(">NNCaluclation  exception" + ex.getMessage());
-
-        }
-        return null;
-    }
+//    public static NNObj NNCaluclation(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
+//        try {
+//
+//            NNObj nn = new NNObj();
+//            return nn;
+//
+//        } catch (Exception ex) {
+//            logger.info(">NNCaluclation  exception" + ex.getMessage());
+//
+//        }
+//        return null;
+//    }
 
 //    public static NNObj SelectBestTR(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
 //        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -187,58 +178,58 @@ public class NNCal {
 //        }
 //        return null;
 //    }
-    public static TradingRuleObj ProcessTROffset(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> currTranOrderList, ArrayList<TradingRuleObj> currTranTRList, TradingRuleObj trObj, AccountObj accountObj, AFstockObj stock, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-        try {
-            ArrayList<StockTRHistoryObj> trHistoryList = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj, StockRecArray, DataOffset, CKey.MONTH_SIZE);
-            if ((trHistoryList == null) || (trHistoryList.size() == 0)) {
-                return null;
-            }
-            int lastSignal = 0;
-            long stockOffsetL = StockRecArray.get(DataOffset).getEntrydatel();
-
-            long date2yrBack = TimeConvertion.addMonths(stockOffsetL, -24); //2 yr before
-
-            StockTRHistoryObj trHistory = trHistoryList.get(trHistoryList.size() - 1);
-            lastSignal = trHistory.getTrsignal();
-
-            TradingRuleObj trObjNew = trObj;
-
-            for (int k = 0; k < trHistoryList.size(); k++) {
-                trHistory = trHistoryList.get(trHistoryList.size() - 1 - k);
-                int signal = trHistory.getTrsignal();
-                if (lastSignal == signal) {
-                    continue;
-                }
-
-                lastSignal = signal;
-                //check time only when signal change
-                if (trHistory.getUpdateDatel() > date2yrBack) {
-
-                    //Override the stockinfo for the price
-                    AFstockInfo afstockInfo = trHistory.getAfstockInfo();
-                    stock.setAfstockInfo(afstockInfo);
-                    Calendar tranDateOffet = TimeConvertion.getCurrentCalendar(trHistory.getUpdateDatel());
-
-                    ArrayList transObjList = TRprocessImp.AddTransactionOrderProcess(currTranOrderList, trObjNew, accountObj, stock, trObjNew.getTrname(), signal, tranDateOffet, true);
-                    if ((transObjList != null) && (transObjList.size() > 0)) {
-
-                        for (int i = 0; i < transObjList.size(); i += 2) {
-                            TransationOrderObj trOrder = (TransationOrderObj) transObjList.get(i);
-                            currTranOrderList.add(0, trOrder); // add first
-                            trObjNew = (TradingRuleObj) transObjList.get(i + 1);
-                            currTranTRList.add(0, trObjNew);
-                        }
-                    }
-                }
-            }
-            return trObjNew;
-        } catch (Exception ex) {
-            logger.info(">ProcessTROffset  exception" + ex.getMessage());
-
-        }
-        return null;
-    }
+//    public static TradingRuleObj ProcessTROffset(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> currTranOrderList, ArrayList<TradingRuleObj> currTranTRList, TradingRuleObj trObj, AccountObj accountObj, AFstockObj stock, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
+//        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//        try {
+//            ArrayList<StockTRHistoryObj> trHistoryList = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj, StockRecArray, DataOffset, CKey.MONTH_SIZE);
+//            if ((trHistoryList == null) || (trHistoryList.size() == 0)) {
+//                return null;
+//            }
+//            int lastSignal = 0;
+//            long stockOffsetL = StockRecArray.get(DataOffset).getEntrydatel();
+//
+//            long date2yrBack = TimeConvertion.addMonths(stockOffsetL, -24); //2 yr before
+//
+//            StockTRHistoryObj trHistory = trHistoryList.get(trHistoryList.size() - 1);
+//            lastSignal = trHistory.getTrsignal();
+//
+//            TradingRuleObj trObjNew = trObj;
+//
+//            for (int k = 0; k < trHistoryList.size(); k++) {
+//                trHistory = trHistoryList.get(trHistoryList.size() - 1 - k);
+//                int signal = trHistory.getTrsignal();
+//                if (lastSignal == signal) {
+//                    continue;
+//                }
+//
+//                lastSignal = signal;
+//                //check time only when signal change
+//                if (trHistory.getUpdateDatel() > date2yrBack) {
+//
+//                    //Override the stockinfo for the price
+//                    AFstockInfo afstockInfo = trHistory.getAfstockInfo();
+//                    stock.setAfstockInfo(afstockInfo);
+//                    Calendar tranDateOffet = TimeConvertion.getCurrentCalendar(trHistory.getUpdateDatel());
+//
+//                    ArrayList transObjList = TRprocessImp.AddTransactionOrderProcess(currTranOrderList, trObjNew, accountObj, stock, trObjNew.getTrname(), signal, tranDateOffet, true);
+//                    if ((transObjList != null) && (transObjList.size() > 0)) {
+//
+//                        for (int i = 0; i < transObjList.size(); i += 2) {
+//                            TransationOrderObj trOrder = (TransationOrderObj) transObjList.get(i);
+//                            currTranOrderList.add(0, trOrder); // add first
+//                            trObjNew = (TradingRuleObj) transObjList.get(i + 1);
+//                            currTranTRList.add(0, trObjNew);
+//                        }
+//                    }
+//                }
+//            }
+//            return trObjNew;
+//        } catch (Exception ex) {
+//            logger.info(">ProcessTROffset  exception" + ex.getMessage());
+//
+//        }
+//        return null;
+//    }
 
     ///////
 }
