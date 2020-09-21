@@ -915,7 +915,7 @@ public class AccountProcess {
     }
 
     public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
-        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
+//        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         try {
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);

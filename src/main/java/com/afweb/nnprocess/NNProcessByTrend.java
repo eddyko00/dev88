@@ -51,7 +51,7 @@ public class NNProcessByTrend {
 
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
-            NeuralNetNN4CreatJava(serviceAFWeb, ConstantKey.TR_NN4);
+            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN4);
 
         }
 
@@ -186,7 +186,6 @@ public class NNProcessByTrend {
         }
     }
 
-
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess " + symbol);
 
@@ -203,6 +202,8 @@ public class NNProcessByTrend {
                 return null;
             }
         }
+        ///// just for testing
+//        symbol = "DIA";
         symbol = symbol.replace(".", "_");
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
@@ -221,11 +222,11 @@ public class NNProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN31dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn3.trainingNN3dataMACD(serviceAFWeb, nnName, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN32dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn3.trainingNN3dataMACD(serviceAFWeb, nnName, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         String BPname = CKey.NN_version + "_" + nnName;
@@ -326,7 +327,7 @@ public class NNProcessByTrend {
 
         String nnName = ConstantKey.TR_NN1;
         ProcessNN3 nn3 = new ProcessNN3();
-        inputList = nn3.trainingNN31dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+        inputList = nn3.trainingNN3dataMACD(serviceAFWeb, nnName, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
         String BPname = CKey.NN_version + "_" + nnName;
         boolean forceNN2flag = true;
@@ -444,7 +445,7 @@ public class NNProcessByTrend {
         return inputList;
     }
 
-    private boolean NeuralNetNN4CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+    private boolean NeuralNetNN3CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -910,12 +911,13 @@ public class NNProcessByTrend {
         ArrayList<NNInputDataObj> inputList = null;
 
         if (tr == ConstantKey.INT_TR_NN3) {
+            String nnName = ConstantKey.TR_NN1;
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN31dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
+            inputList = nn3.trainingNN3dataMACD(serviceAFWeb, nnName, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
         }
 
         // ignor first and last

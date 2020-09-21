@@ -1207,12 +1207,15 @@ public class TradingNNprocess {
     }
 
     // data history from  old to more recent
-    public static double getNNnormalizeStOutput3Close(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
+    // get next 5 days close price
+    public static double getNNnormalizeStOutputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
 
         if (thObjListMACD == null) {
             return -1;
         }
-        int cIndex = index + 3;
+        int futureDay = 5;
+        int cIndex = index + futureDay;
+
         if (cIndex >= thObjListMACD.size()) {
             return -1;
         }
@@ -1224,7 +1227,7 @@ public class TradingNNprocess {
         double closef = (closeOutput - closeOutput0) / closeOutput0;
         closef = closef * 100;
 
-        closef = closef * 10;   // factore of 10 to make it more valid for NN
+        closef = closef * 15;   // factore of 15 to make it more valid for NN
 
         int temp = 0;
         temp = (int) closef;
@@ -2141,35 +2144,34 @@ public class TradingNNprocess {
                 inputList.setInput9(closeArray.get(3));
                 inputList.setInput10(closeArray.get(4));
 
-                double output = getNNnormalizeStOutput3Close(i, thObjListMACD);
+                double output = getNNnormalizeStOutputClose(i, thObjListMACD);
+                if ((output == -1) || (output == 0)) {
+                    inputList.setOutput1(-1);
+                    inputList.setOutput2(-1);
+                } else {
+                    inputList.setOutput1(0.1);
+                    inputList.setOutput2(0.1);
+                    if (output > 0) {
+                        if (output > 0.2) {
+                            inputList.setOutput1(0.9);
+                        }
+
+                    } else {  //if (output < 0) {
+                        output = -output;
+                        if (output > 0.2) {
+                            inputList.setOutput2(0.9);
+                        }
+                    }
+                }
 
                 NNInputDataObj objDataCur = new NNInputDataObj();
                 objDataCur.setUpdatedatel(thObjMACD.getUpdateDatel());
                 objDataCur.setObj(inputList);
-
                 if (objDataPrev != null) {
-
-                    if ((output == -1) || (output == 0)) {
-                        objDataPrev.getObj().setOutput1(-1);
-                        objDataPrev.getObj().setOutput2(-1);
-                    } else {
-                        objDataPrev.getObj().setOutput1(0.1);
-                        objDataPrev.getObj().setOutput2(0.1);
-                        if (output > 0) {
-                            if (output > 0.5) {
-                                objDataPrev.getObj().setOutput1(0.9);
-                            }
-
-                        } else {  //if (output < 0) {
-                            output = -output;
-                            if (output > 0.5) {
-                                objDataPrev.getObj().setOutput2(0.9);
-                            }
-                        }
-                    }
                     trInputList.add(objDataPrev.getObj());
                     inputDatalist.add(objDataPrev);
                 }
+
                 prevThObj = thObjMACD;
                 objDataPrev = objDataCur;
 
@@ -2599,7 +2601,6 @@ public class TradingNNprocess {
 //        }
 //        return inputDatalist;
 //    }
-
     public static ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(String symbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();

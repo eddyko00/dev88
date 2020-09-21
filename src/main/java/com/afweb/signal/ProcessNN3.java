@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 public class ProcessNN3 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
+
     public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -79,7 +80,7 @@ public class ProcessNN3 {
         try {
             inputObj.setOutput1(NNprediction);
             nameST = new ObjectMapper().writeValueAsString(inputObj);
-            nameST = StringTag.replaceAll("\"", "",nameST);
+            nameST = StringTag.replaceAll("\"", "", nameST);
             nn.setComment(nameST);
         } catch (JsonProcessingException ex) {
         }
@@ -90,7 +91,7 @@ public class ProcessNN3 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
-        public ArrayList<NNInputDataObj> trainingNN31dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+    public ArrayList<NNInputDataObj> trainingNN3dataMACD(ServiceAFweb serviceAFWeb, String nnName, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");
@@ -104,9 +105,13 @@ public class ProcessNN3 {
         TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN1);
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
-        trObjMACD1.setTrname(ConstantKey.TR_MACD);
-        trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
-
+        if (nnName.equals(ConstantKey.TR_NN1)) {
+            trObjMACD1.setTrname(ConstantKey.TR_MACD);
+            trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
+        } else {  //   if (nnName.equals(ConstantKey.TR_NN2)) {
+            trObjMACD1.setTrname(ConstantKey.TR_MACD);
+            trObjMACD1.setType(ConstantKey.INT_TR_MACD);
+        }
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
 
@@ -123,54 +128,6 @@ public class ProcessNN3 {
                         FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN3 + "_tran.csv", writeArray);
                     }
                     serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN3, null);
-                }
-            }
-        }
-
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
-        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
-
-        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
-        ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
-
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryDataMACDNN3(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
-
-        return inputDatalist;
-    }
-
-    public ArrayList<NNInputDataObj> trainingNN32dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-//        logger.info("> trainingNN ");
-
-        String username = CKey.ADMIN_USERNAME;
-        String accountid = "1";
-        String symbol = sym;
-//        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
-
-        NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN2);
-
-        TradingRuleObj trObjMACD1 = new TradingRuleObj();
-        trObjMACD1.setTrname(ConstantKey.TR_MACD);
-        trObjMACD1.setType(ConstantKey.INT_TR_MACD);
-
-        trObjMACD1.setAccount(trObjMACD.getAccount());
-        trObjMACD1.setStockid(trObjMACD.getStockid());
-
-        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
-
-        if (getEnv.checkLocalPC() == true) {
-            if (CKey.NN_DEBUG == true) {
-                if (monthSize > 5) {
-                    ArrayList<String> writeArray = new ArrayList();
-                    ArrayList<String> displayArray = new ArrayList();
-                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListMACD, writeArray, displayArray);
-                    boolean flagHis = false;
-                    if (flagHis == true) {
-                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN2 + "_tran.csv", writeArray);
-                    }
-                    serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN2, null);
                 }
             }
         }
@@ -350,6 +307,5 @@ public class ProcessNN3 {
         }
         return 0;
     }
-
 
 }
