@@ -2573,314 +2573,314 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList getAccountStockTRListHistoryNN(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, NNTrainObj nnTraining) {
-        ArrayList<StockTRHistoryObj> thObjListMACD = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, ConstantKey.TR_MACD);
-        ArrayList<StockTRHistoryObj> thObjListMV = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, ConstantKey.TR_MV);
-        ArrayList<StockTRHistoryObj> thObjListRSI = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, ConstantKey.TR_RSI);
-        return this.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, stockidsymbol, nnTraining, ConstantKey.TR_MACD, false);
-    }
-
-    public ArrayList getAccountStockTRListHistoryMACDNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        ArrayList<String> writeAllArray = new ArrayList();
-        if ((thObjListMACD == null) || (thObjListMV == null)) {
-            return writeAllArray;
-        }
-        if (thObjListMACD.size() != thObjListMV.size()) {
-            return writeAllArray;
-        }
-        if (thObjListRSI.size() != thObjListRSI.size()) {
-            return writeAllArray;
-        }
-        NNTrainObj nnTr = new NNTrainObj();
-        if (nnTraining != null) {
-            nnTr = nnTraining;
-        }
-        ArrayList<NNInputOutObj> trInputList = new ArrayList();
-        nnTr.setNnInputList(trInputList);
-
-        StockTRHistoryObj prevThObj = null;
-        NNInputOutObj prevInputList = null;
-
-        boolean processLastDate = false;
-        for (int i = 0; i < thObjListMV.size(); i++) {
-
-            if (i + 1 == thObjListMV.size()) {
-                if (lastDateOutput == true) {
-                    processLastDate = true;
-                }
-            }
-            NNInputOutObj inputList = new NNInputOutObj();
-
-            StockTRHistoryObj thObjMACD = thObjListMACD.get(i);
-            if (i == 0) {
-                prevThObj = thObjMACD;
-            }
-
-            int signal = thObjMACD.getTrsignal();
-            boolean contProcess = false;
-            if (signal != prevThObj.getTrsignal()) {
-                contProcess = true;
-            }
-            if (processLastDate == true) {
-                contProcess = true;
-            }
-
-            if (contProcess == true) {
-
-                inputList = NNProcessImp.getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
-                if (inputList == null) {
-                    continue;
-                }
-                double parm1 = -1;
-                if (signal == ConstantKey.S_BUY) {
-                    parm1 = 0.9;
-                } else if (signal == ConstantKey.S_SELL) {
-                    parm1 = 0.1;
-                }
-                inputList.setInput1(parm1);
-                inputList.setTrsignal(signal);
-                ArrayList<Double> closeArray = NNProcessImp.getNNnormalizeInputClose(i, thObjListMACD);
-                inputList.setInput6(closeArray.get(0));
-                inputList.setInput7(closeArray.get(1));
-                inputList.setInput8(closeArray.get(2));
-                inputList.setInput9(closeArray.get(3));
-                inputList.setInput10(closeArray.get(4));
-
-                int retDecision = NNProcessImp.checkNNsignalDecision(thObjMACD, prevThObj);
-
-                double output = 0;
-                if (retDecision == 1) {
-                    output = 0.9;
-                } else {
-                    output = 0.1;
-                }
-
-                if (prevInputList != null) {
-                    prevInputList.setOutput1(output);
-                    trInputList.add(prevInputList);
-                }
-                prevThObj = thObjMACD;
-                prevInputList = inputList;
-            }
-        }// end of loop
-        if (prevInputList != null) {
-            if (lastDateOutput == true) {
-                // eddy just for testing
-//                trInputList.clear(); // clear so that only the last one
-            }
-            trInputList.add(prevInputList);
-        }
-        ArrayList writeArray = new ArrayList();
-        String stTitle = "";
-        int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use        
-        for (int i = 0; i < trInputList.size(); i++) {
-            NNInputOutObj obj = trInputList.get(i);
-            String st = "\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
-                    + "\",\"" + obj.getOutput1()
-                    + "\",\"" + obj.getInput1()
-                    + "\",\"" + obj.getInput2()
-                    + "\",\"" + obj.getInput3()
-                    + "\",\"" + obj.getInput4()
-                    + "\",\"" + obj.getInput5()
-                    + "\",\"" + obj.getInput6()
-                    + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
-                    + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
-                    //                    + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
-                    + "\"";
-
-            if (i == 0) {
-                st += ",\"last\"";
-            }
-
-            if (i + 1 >= trInputList.size()) {
-                st += ",\"first\"";
-            }
-
-            if (i == 0) {
-                stTitle = "\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-                        + "\",\"" + "output"
-                        + "\",\"" + "macd TSig"
-                        + "\",\"" + "LTerm"
-                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                        + "\",\"" + stockidsymbol + "\"";
-
-            }
-            writeArray.add(st);
-            String stDispaly = st.replaceAll("\"", "");
-            writeAllArray.add(stDispaly);
-
-        }
-        writeArray.add(stTitle);
-        writeAllArray.add(stTitle.replaceAll("\"", ""));
-
-        Collections.reverse(writeArray);
-        Collections.reverse(writeAllArray);
-
-        if (getEnv.checkLocalPC() == true) {
-            String filename = FileLocalDebugPath + stockidsymbol + "_nn1_" + initTrainNeuralNetNumber + ".csv";
-            FileUtil.FileWriteTextArray(filename, writeArray);
-//            writeArrayNeuralNet.addAll(writeAllArray);
-        }
-        return writeAllArray;
-    }
-
-    public ArrayList getAccountStockTRListHistoryMVNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        ArrayList<String> writeAllArray = new ArrayList();
-        if ((thObjListMACD == null) || (thObjListMV == null)) {
-            return writeAllArray;
-        }
-        if (thObjListMACD.size() != thObjListMV.size()) {
-            return writeAllArray;
-        }
-
-        NNTrainObj nnTr = new NNTrainObj();
-        if (nnTraining != null) {
-            nnTr = nnTraining;
-        }
-        ArrayList<NNInputOutObj> trInputList = new ArrayList();
-        nnTr.setNnInputList(trInputList);
-
-        StockTRHistoryObj prevThObj = null;
-        NNInputOutObj prevInputList = null;
-
-//        Collections.reverse(thObjListMACD);
-//        Collections.reverse(thObjListMV);
-//        Collections.reverse(thObjListRSI);
-        boolean processLastDate = false;
-        for (int i = 0; i < thObjListMV.size(); i++) {
-
-            if (i + 1 == thObjListMV.size()) {
-                if (lastDateOutput == true) {
-                    processLastDate = true;
-                }
-            }
-            NNInputOutObj inputList = new NNInputOutObj();
-
-            StockTRHistoryObj thObjMV = thObjListMV.get(i);
-
-            if (i == 0) {
-                prevThObj = thObjMV;
-            }
-
-            int signal = thObjMV.getTrsignal();
-            boolean contProcess = false;
-            if (signal != prevThObj.getTrsignal()) {
-                contProcess = true;
-            }
-            if (processLastDate == true) {
-                contProcess = true;
-            }
-
-            if (contProcess == true) {
-
-                inputList = NNProcessImp.getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
-                if (inputList == null) {
-                    continue;
-                }
-                double parm1 = -1;
-                if (signal == ConstantKey.S_BUY) {
-                    parm1 = 0.9;
-                } else if (signal == ConstantKey.S_SELL) {
-                    parm1 = 0.1;
-                }
-                inputList.setInput1(parm1);
-                inputList.setTrsignal(signal);
-
-                ArrayList<Double> closeArray = NNProcessImp.getNNnormalizeInputClose(i, thObjListMACD);
-                inputList.setInput6(closeArray.get(0));
-                inputList.setInput7(closeArray.get(1));
-                inputList.setInput8(closeArray.get(2));
-                inputList.setInput9(closeArray.get(3));
-                inputList.setInput10(closeArray.get(4));
-
-                int retDecision = NNProcessImp.checkNNsignalDecision(thObjMV, prevThObj);
-
-                double output = 0;
-                if (retDecision == 1) {
-                    output = 0.9;
-                } else {
-                    output = 0.1;
-                }
-
-                if (prevInputList != null) {
-                    prevInputList.setOutput1(output);
-                    trInputList.add(prevInputList);
-                }
-                prevThObj = thObjMV;
-                prevInputList = inputList;
-            }
-        }// end of loop
-        if (prevInputList != null) {
-            if (lastDateOutput == true) {
-                // eddy just for testing
-//                trInputList.clear(); // clear so that only the last one
-            }
-            trInputList.add(prevInputList);
-        }
-        ArrayList writeArray = new ArrayList();
-        String stTitle = "";
-        int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use        
-        for (int i = 0; i < trInputList.size(); i++) {
-            NNInputOutObj obj = trInputList.get(i);
-            String st = "\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
-                    + "\",\"" + obj.getOutput1()
-                    + "\",\"" + obj.getInput1()
-                    + "\",\"" + obj.getInput2()
-                    + "\",\"" + obj.getInput3()
-                    + "\",\"" + obj.getInput4()
-                    + "\",\"" + obj.getInput5()
-                    + "\",\"" + obj.getInput6()
-                    + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
-                    + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
-                    //                    + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
-                    + "\"";
-
-            if (i == 0) {
-                // seems still good for MV graph. So, use this data
+//    public ArrayList getAccountStockTRListHistoryNN(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, NNTrainObj nnTraining) {
+//        ArrayList<StockTRHistoryObj> thObjListMACD = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, ConstantKey.TR_MACD);
+//        ArrayList<StockTRHistoryObj> thObjListMV = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, ConstantKey.TR_MV);
+//        ArrayList<StockTRHistoryObj> thObjListRSI = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, ConstantKey.TR_RSI);
+//        return this.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, stockidsymbol, nnTraining, ConstantKey.TR_MACD, false);
+//    }
+//
+//    public ArrayList getAccountStockTRListHistoryMACDNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
+//        TradingNNprocess NNProcessImp = new TradingNNprocess();
+//        ArrayList<String> writeAllArray = new ArrayList();
+//        if ((thObjListMACD == null) || (thObjListMV == null)) {
+//            return writeAllArray;
+//        }
+//        if (thObjListMACD.size() != thObjListMV.size()) {
+//            return writeAllArray;
+//        }
+//        if (thObjListRSI.size() != thObjListRSI.size()) {
+//            return writeAllArray;
+//        }
+//        NNTrainObj nnTr = new NNTrainObj();
+//        if (nnTraining != null) {
+//            nnTr = nnTraining;
+//        }
+//        ArrayList<NNInputOutObj> trInputList = new ArrayList();
+//        nnTr.setNnInputList(trInputList);
+//
+//        StockTRHistoryObj prevThObj = null;
+//        NNInputOutObj prevInputList = null;
+//
+//        boolean processLastDate = false;
+//        for (int i = 0; i < thObjListMV.size(); i++) {
+//
+//            if (i + 1 == thObjListMV.size()) {
+//                if (lastDateOutput == true) {
+//                    processLastDate = true;
+//                }
+//            }
+//            NNInputOutObj inputList = new NNInputOutObj();
+//
+//            StockTRHistoryObj thObjMACD = thObjListMACD.get(i);
+//            if (i == 0) {
+//                prevThObj = thObjMACD;
+//            }
+//
+//            int signal = thObjMACD.getTrsignal();
+//            boolean contProcess = false;
+//            if (signal != prevThObj.getTrsignal()) {
+//                contProcess = true;
+//            }
+//            if (processLastDate == true) {
+//                contProcess = true;
+//            }
+//
+//            if (contProcess == true) {
+//
+//                inputList = NNProcessImp.getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
+//                if (inputList == null) {
+//                    continue;
+//                }
+//                double parm1 = -1;
+//                if (signal == ConstantKey.S_BUY) {
+//                    parm1 = 0.9;
+//                } else if (signal == ConstantKey.S_SELL) {
+//                    parm1 = 0.1;
+//                }
+//                inputList.setInput1(parm1);
+//                inputList.setTrsignal(signal);
+//                ArrayList<Double> closeArray = NNProcessImp.getNNnormalizeInputClose(i, thObjListMACD);
+//                inputList.setInput6(closeArray.get(0));
+//                inputList.setInput7(closeArray.get(1));
+//                inputList.setInput8(closeArray.get(2));
+//                inputList.setInput9(closeArray.get(3));
+//                inputList.setInput10(closeArray.get(4));
+//
+//                int retDecision = NNProcessImp.checkNNsignalDecision(thObjMACD, prevThObj);
+//
+//                double output = 0;
+//                if (retDecision == 1) {
+//                    output = 0.9;
+//                } else {
+//                    output = 0.1;
+//                }
+//
+//                if (prevInputList != null) {
+//                    prevInputList.setOutput1(output);
+//                    trInputList.add(prevInputList);
+//                }
+//                prevThObj = thObjMACD;
+//                prevInputList = inputList;
+//            }
+//        }// end of loop
+//        if (prevInputList != null) {
+//            if (lastDateOutput == true) {
+//                // eddy just for testing
+////                trInputList.clear(); // clear so that only the last one
+//            }
+//            trInputList.add(prevInputList);
+//        }
+//        ArrayList writeArray = new ArrayList();
+//        String stTitle = "";
+//        int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use        
+//        for (int i = 0; i < trInputList.size(); i++) {
+//            NNInputOutObj obj = trInputList.get(i);
+//            String st = "\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+//                    + "\",\"" + obj.getOutput1()
+//                    + "\",\"" + obj.getInput1()
+//                    + "\",\"" + obj.getInput2()
+//                    + "\",\"" + obj.getInput3()
+//                    + "\",\"" + obj.getInput4()
+//                    + "\",\"" + obj.getInput5()
+//                    + "\",\"" + obj.getInput6()
+//                    + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+//                    + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+//                    //                    + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
+//                    + "\"";
+//
+//            if (i == 0) {
 //                st += ",\"last\"";
-            }
+//            }
+//
+//            if (i + 1 >= trInputList.size()) {
+//                st += ",\"first\"";
+//            }
+//
+//            if (i == 0) {
+//                stTitle = "\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+//                        + "\",\"" + "output"
+//                        + "\",\"" + "macd TSig"
+//                        + "\",\"" + "LTerm"
+//                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+//                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+//                        + "\",\"" + stockidsymbol + "\"";
+//
+//            }
+//            writeArray.add(st);
+//            String stDispaly = st.replaceAll("\"", "");
+//            writeAllArray.add(stDispaly);
+//
+//        }
+//        writeArray.add(stTitle);
+//        writeAllArray.add(stTitle.replaceAll("\"", ""));
+//
+//        Collections.reverse(writeArray);
+//        Collections.reverse(writeAllArray);
+//
+//        if (getEnv.checkLocalPC() == true) {
+//            String filename = FileLocalDebugPath + stockidsymbol + "_nn1_" + initTrainNeuralNetNumber + ".csv";
+//            FileUtil.FileWriteTextArray(filename, writeArray);
+////            writeArrayNeuralNet.addAll(writeAllArray);
+//        }
+//        return writeAllArray;
+//    }
 
-            if (i + 1 >= trInputList.size()) {
-                st += ",\"first\"";
-            }
+//    public ArrayList getAccountStockTRListHistoryMVNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
+//        TradingNNprocess NNProcessImp = new TradingNNprocess();
+//        ArrayList<String> writeAllArray = new ArrayList();
+//        if ((thObjListMACD == null) || (thObjListMV == null)) {
+//            return writeAllArray;
+//        }
+//        if (thObjListMACD.size() != thObjListMV.size()) {
+//            return writeAllArray;
+//        }
+//
+//        NNTrainObj nnTr = new NNTrainObj();
+//        if (nnTraining != null) {
+//            nnTr = nnTraining;
+//        }
+//        ArrayList<NNInputOutObj> trInputList = new ArrayList();
+//        nnTr.setNnInputList(trInputList);
+//
+//        StockTRHistoryObj prevThObj = null;
+//        NNInputOutObj prevInputList = null;
+//
+////        Collections.reverse(thObjListMACD);
+////        Collections.reverse(thObjListMV);
+////        Collections.reverse(thObjListRSI);
+//        boolean processLastDate = false;
+//        for (int i = 0; i < thObjListMV.size(); i++) {
+//
+//            if (i + 1 == thObjListMV.size()) {
+//                if (lastDateOutput == true) {
+//                    processLastDate = true;
+//                }
+//            }
+//            NNInputOutObj inputList = new NNInputOutObj();
+//
+//            StockTRHistoryObj thObjMV = thObjListMV.get(i);
+//
+//            if (i == 0) {
+//                prevThObj = thObjMV;
+//            }
+//
+//            int signal = thObjMV.getTrsignal();
+//            boolean contProcess = false;
+//            if (signal != prevThObj.getTrsignal()) {
+//                contProcess = true;
+//            }
+//            if (processLastDate == true) {
+//                contProcess = true;
+//            }
+//
+//            if (contProcess == true) {
+//
+//                inputList = NNProcessImp.getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
+//                if (inputList == null) {
+//                    continue;
+//                }
+//                double parm1 = -1;
+//                if (signal == ConstantKey.S_BUY) {
+//                    parm1 = 0.9;
+//                } else if (signal == ConstantKey.S_SELL) {
+//                    parm1 = 0.1;
+//                }
+//                inputList.setInput1(parm1);
+//                inputList.setTrsignal(signal);
+//
+//                ArrayList<Double> closeArray = NNProcessImp.getNNnormalizeInputClose(i, thObjListMACD);
+//                inputList.setInput6(closeArray.get(0));
+//                inputList.setInput7(closeArray.get(1));
+//                inputList.setInput8(closeArray.get(2));
+//                inputList.setInput9(closeArray.get(3));
+//                inputList.setInput10(closeArray.get(4));
+//
+//                int retDecision = NNProcessImp.checkNNsignalDecision(thObjMV, prevThObj);
+//
+//                double output = 0;
+//                if (retDecision == 1) {
+//                    output = 0.9;
+//                } else {
+//                    output = 0.1;
+//                }
+//
+//                if (prevInputList != null) {
+//                    prevInputList.setOutput1(output);
+//                    trInputList.add(prevInputList);
+//                }
+//                prevThObj = thObjMV;
+//                prevInputList = inputList;
+//            }
+//        }// end of loop
+//        if (prevInputList != null) {
+//            if (lastDateOutput == true) {
+//                // eddy just for testing
+////                trInputList.clear(); // clear so that only the last one
+//            }
+//            trInputList.add(prevInputList);
+//        }
+//        ArrayList writeArray = new ArrayList();
+//        String stTitle = "";
+//        int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use        
+//        for (int i = 0; i < trInputList.size(); i++) {
+//            NNInputOutObj obj = trInputList.get(i);
+//            String st = "\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+//                    + "\",\"" + obj.getOutput1()
+//                    + "\",\"" + obj.getInput1()
+//                    + "\",\"" + obj.getInput2()
+//                    + "\",\"" + obj.getInput3()
+//                    + "\",\"" + obj.getInput4()
+//                    + "\",\"" + obj.getInput5()
+//                    + "\",\"" + obj.getInput6()
+//                    + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+//                    + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+//                    //                    + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
+//                    + "\"";
+//
+//            if (i == 0) {
+//                // seems still good for MV graph. So, use this data
+////                st += ",\"last\"";
+//            }
+//
+//            if (i + 1 >= trInputList.size()) {
+//                st += ",\"first\"";
+//            }
+//
+//            if (i == 0) {
+//                stTitle = "\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+//                        + "\",\"" + "output"
+//                        + "\",\"" + "MV TSig"
+//                        + "\",\"" + "LTerm"
+//                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+//                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+//                        + "\",\"" + stockidsymbol + "\"";
+//
+//            }
+//            writeArray.add(st);
+//            String stDispaly = st.replaceAll("\"", "");
+//            writeAllArray.add(stDispaly);
+//
+//        }
+//        writeArray.add(stTitle);
+//        writeAllArray.add(stTitle.replaceAll("\"", ""));
+//
+//        Collections.reverse(writeArray);
+//        Collections.reverse(writeAllArray);
+//
+//        if (getEnv.checkLocalPC() == true) {
+//            String filename = FileLocalDebugPath + stockidsymbol + "_nn2_" + initTrainNeuralNetNumber + ".csv";
+//            FileUtil.FileWriteTextArray(filename, writeArray);
+////            writeArrayNeuralNet.addAll(writeAllArray);
+//        }
+//        return writeAllArray;
+//    }
 
-            if (i == 0) {
-                stTitle = "\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-                        + "\",\"" + "output"
-                        + "\",\"" + "MV TSig"
-                        + "\",\"" + "LTerm"
-                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                        + "\",\"" + stockidsymbol + "\"";
-
-            }
-            writeArray.add(st);
-            String stDispaly = st.replaceAll("\"", "");
-            writeAllArray.add(stDispaly);
-
-        }
-        writeArray.add(stTitle);
-        writeAllArray.add(stTitle.replaceAll("\"", ""));
-
-        Collections.reverse(writeArray);
-        Collections.reverse(writeAllArray);
-
-        if (getEnv.checkLocalPC() == true) {
-            String filename = FileLocalDebugPath + stockidsymbol + "_nn2_" + initTrainNeuralNetNumber + ".csv";
-            FileUtil.FileWriteTextArray(filename, writeArray);
-//            writeArrayNeuralNet.addAll(writeAllArray);
-        }
-        return writeAllArray;
-    }
-
-    public String getAccountStockTRListHistoryChart(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
-        ArrayList<StockTRHistoryObj> thObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
-        return getAccountStockTRListHistoryChartProcess(thObjList, stockidsymbol, trname, pathSt);
-
-    }
+//    public String getAccountStockTRListHistoryChart(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
+//        ArrayList<StockTRHistoryObj> thObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
+//        return getAccountStockTRListHistoryChartProcess(thObjList, stockidsymbol, trname, pathSt);
+//
+//    }
 
     public String getAccountStockTRListHistoryChartProcess(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
         try {

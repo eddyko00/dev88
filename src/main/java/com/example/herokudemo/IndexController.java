@@ -851,25 +851,25 @@ public class IndexController {
         return ret;
     }
 
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/nn", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getAccountStockHistoryNN(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @PathVariable("stockidsymbol") String stockidsymbol,
-            @PathVariable("trname") String trname,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        ArrayList ret = afWebService.getAccountStockTRListHistoryNN(username, null, accountid, stockidsymbol, null);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-
-        return ret;
-    }
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/nn", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList getAccountStockHistoryNN(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @PathVariable("stockidsymbol") String stockidsymbol,
+//            @PathVariable("trname") String trname,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return null;
+//        }
+//        ArrayList ret = afWebService.getAccountStockTRListHistoryNN(username, null, accountid, stockidsymbol, null);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//
+//        return ret;
+//    }
 
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/clear", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

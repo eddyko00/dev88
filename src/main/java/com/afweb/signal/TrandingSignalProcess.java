@@ -2287,9 +2287,9 @@ public class TrandingSignalProcess {
         int outputSize = CKey.NN_OUTPUT_SIZE; //2;
         int middleSize = CKey.NN1_MIDDLE_SIZE;
 
-//        if (nnName.equals(ConstantKey.TR_NN2) == true) {
-//            middleSize = CKey.NN2_MIDDLE_SIZE;
-//        }
+        if (nnNAme.equals(ConstantKey.TR_NN3) == true) {
+            middleSize = CKey.NN3_MIDDLE_SIZE;
+        }
         //
         double[][] inputpattern = null;
         double[][] targetpattern = null;

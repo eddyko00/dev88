@@ -1588,7 +1588,16 @@ public class TradingNNprocess {
         }
         int retDecision = -1;
         int pervSignal = prevThObj.getTrsignal();
-
+        
+        float pricePrev =prevThObj.getClose();
+        float price = thObj.getClose();
+        float percent = (price-pricePrev)/pricePrev;
+        percent = percent *100* 15;
+        float percentAbs = Math.abs(percent);
+        if (percentAbs < 30) { //20){
+            return -1;
+        }
+        
         if (pervSignal == ConstantKey.S_BUY) {
             retDecision = 0;
             if (thObj.getClose() > prevThObj.getClose()) {
@@ -1603,6 +1612,7 @@ public class TradingNNprocess {
             }
             return retDecision;
         }
+        
         return -1;
     }
 
@@ -2001,24 +2011,23 @@ public class TradingNNprocess {
 //                inputList.setInput1(closeArray.get(5));
                 int retDecision = checkNNsignalDecision(thObjMACD, prevThObj);
 
-                double output = 0;
-                if (retDecision == 1) {
-                    output = 0.9;
-                } else {
-                    output = 0.1;
-                }
+                double output = retDecision;
+
 
                 NNInputDataObj objDataCur = new NNInputDataObj();
                 objDataCur.setUpdatedatel(thObjMACD.getUpdateDatel());
                 objDataCur.setObj(inputList);
 
                 if (objDataPrev != null) {
-                    if (output == 0.9) {
-                        objDataPrev.getObj().setOutput1(output);
+                    if (output == 1) {
+                        objDataPrev.getObj().setOutput1(0.9);
                         objDataPrev.getObj().setOutput2(0.1);
-                    } else {
-                        objDataPrev.getObj().setOutput1(output);
+                    } else if (output == 0) {
+                        objDataPrev.getObj().setOutput1(0.1);
                         objDataPrev.getObj().setOutput2(0.9);
+                    } else {
+                        objDataPrev.getObj().setOutput1(0.1);
+                        objDataPrev.getObj().setOutput2(0.1);
                     }
                     trInputList.add(objDataPrev.getObj());
                     inputDatalist.add(objDataPrev);
@@ -2187,10 +2196,8 @@ public class TradingNNprocess {
             inputBuf.append(nnData.NN_INPUTLIST6);
             inputBuf.append(nnData.NN_INPUTLIST7);
             inputBuf.append(nnData.NN_INPUTLIST8);
-            inputBuf.append(nnData.NN_INPUTLIST9);
-//            inputBuf.append(nnData.NN_INPUTLIST10);
-//            inputBuf.append(nnData.NN_INPUTLIST11);
-//            inputBuf.append(nnData.NN_INPUTLIST12);     //need to check nnData file
+//            inputBuf.append(nnData.NN_INPUTLIST9); //need to check nnData file
+
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
