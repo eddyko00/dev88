@@ -354,20 +354,16 @@ public class NNProcessBySiganl {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            trainingNNdataAll(serviceAFWeb, TR_Name, size);
+
+            String symbol = "";
+            String symbolL[] = ServiceAFweb.primaryStock;
+            for (int i = 0; i < symbolL.length; i++) {
+                symbol = symbolL[i];
+                ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, TR_Name, size);
+            }
         }
     }
 
-    public void trainingNNdataAll(ServiceAFweb serviceAFWeb, int tr, int offset) {
-        logger.info("> trainingNNdataAll ");
-        String symbol = "";
-        String symbolL[] = ServiceAFweb.primaryStock;
-        for (int i = 0; i < symbolL.length; i++) {
-            symbol = symbolL[i];
-            ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, tr, offset);
-        }
-
-    }
 
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess " + symbol);

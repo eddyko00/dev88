@@ -162,8 +162,8 @@ public class NNBPservice {
             Min4 = 10;
         }
         if (CKey.NN_DEBUG == true) {
-            Min4 = 100;
-            numberIteration = 9000000;
+            Min4 = 40;
+            numberIteration = 100000;
         }
 
         long lockDate4Min = TimeConvertion.addMinutes(currentTime, Min4);

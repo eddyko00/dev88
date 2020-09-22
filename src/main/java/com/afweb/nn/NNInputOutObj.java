@@ -47,10 +47,7 @@ public class NNInputOutObj {
     private double output2;
     private double output3;
     private double output4;
-    private double output5;
-    private double output6;
-    private double output7;
-    private double output8;    
+  
     /**
      * @return the input1
      */
@@ -316,61 +313,4 @@ public class NNInputOutObj {
     public void setOutput4(double output4) {
         this.output4 = output4;
     }
-
-    /**
-     * @return the output5
-     */
-    public double getOutput5() {
-        return output5;
-    }
-
-    /**
-     * @param output5 the output5 to set
-     */
-    public void setOutput5(double output5) {
-        this.output5 = output5;
-    }
-
-    /**
-     * @return the output6
-     */
-    public double getOutput6() {
-        return output6;
-    }
-
-    /**
-     * @param output6 the output6 to set
-     */
-    public void setOutput6(double output6) {
-        this.output6 = output6;
-    }
-
-    /**
-     * @return the output7
-     */
-    public double getOutput7() {
-        return output7;
-    }
-
-    /**
-     * @param output7 the output7 to set
-     */
-    public void setOutput7(double output7) {
-        this.output7 = output7;
-    }
-
-    /**
-     * @return the output8
-     */
-    public double getOutput8() {
-        return output8;
-    }
-
-    /**
-     * @param output8 the output8 to set
-     */
-    public void setOutput8(double output8) {
-        this.output8 = output8;
-    }
-
 }

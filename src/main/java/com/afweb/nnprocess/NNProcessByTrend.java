@@ -51,7 +51,7 @@ public class NNProcessByTrend {
 
         boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN4);
+            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
 
         }
 
@@ -112,8 +112,8 @@ public class NNProcessByTrend {
         boolean initTrainNeuralNet = true;
         if (initTrainNeuralNet == true) {
 
-            double errorNN = CKey.NN4_ERROR_THRESHOLD;
-            String nnName = ConstantKey.TR_NN4;
+            double errorNN = CKey.NN3_ERROR_THRESHOLD;
+            String nnName = ConstantKey.TR_NN3;
 
             String BPname = CKey.NN_version + "_" + nnName;
 
@@ -129,10 +129,10 @@ public class NNProcessByTrend {
                     Calendar dateDefault = TimeConvertion.getDefaultCalendar();
                     afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-                    String weightSt = (CKey.NN4_WEIGHT_0);
+                    String weightSt = (CKey.NN3_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
-                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN4_WEIGHT_0");
+                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN3_WEIGHT_0");
                 } else {
                     String weightSt = afNeuralNet.getWeight();
                     if ((weightSt == null) || (weightSt.length() == 0)) {
@@ -466,7 +466,7 @@ public class NNProcessByTrend {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nn4Data {\n"
+                    + "public class nn3Data {\n"
                     + "\n"
                     + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
@@ -530,7 +530,7 @@ public class NNProcessByTrend {
                     ///
                     + ""
             );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nn4Data.java";
+            fileN = ServiceAFweb.FileLocalDebugPath + "nn3Data.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -538,20 +538,7 @@ public class NNProcessByTrend {
         return false;
     }
 
-//            msgWrite.append(""
-//                    + "            + \"\";\n");
-//            msgWrite.append(""
-//                    + "}\n"
-//                    ///
-//                    + ""
-//            );
-//            fileN = ServiceAFweb.FileLocalDebugPath + "nn4Data.java";
-//            FileUtil.FileWriteText(fileN, msgWrite);
-//            return true;
-//        } catch (Exception ex) {
-//        }
-//        return false;
-//    }
+
     //////////////////////////////////////////////////
     private static ArrayList stockNNprocessNameArray = new ArrayList();
     private static ArrayList stockNNinputNameArray = new ArrayList();
@@ -697,7 +684,7 @@ public class NNProcessByTrend {
         boolean nnsymTrain = true;
         if (nnsymTrain == true) {
             String nnName = ConstantKey.TR_NN4;
-            double errorNN = CKey.NN4_ERROR_THRESHOLD;
+            double errorNN = CKey.NN3_ERROR_THRESHOLD;
 
             String nnNameSym = nnName + "_" + symbol;
             String BPname = CKey.NN_version + "_" + nnNameSym;
@@ -747,24 +734,24 @@ public class NNProcessByTrend {
 
                 String middlelayer = "";
                 String version = "";
-                if (TR_Name == ConstantKey.INT_TR_NN4) {
-                    if (CKey.NN4_WEIGHT_0.length() == 0) {
+                if (TR_Name == ConstantKey.INT_TR_NN3) {
+                    if (CKey.NN3_WEIGHT_0.length() == 0) {
                         return 0;
                     }
-                    nnTemp.createNet(CKey.NN4_WEIGHT_0);
+                    nnTemp.createNet(CKey.NN3_WEIGHT_0);
                     String weightSt = nnTemp.getNetObjSt();
-                    String[] strNetArray = CKey.NN4_WEIGHT_0.split(";");
+                    String[] strNetArray = CKey.NN3_WEIGHT_0.split(";");
                     version = strNetArray[0];
                     middlelayer = strNetArray[4];
                 }
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
-                inputlistSym = getTrainingNN3dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN4, 0);
+                inputlistSym = getTrainingNN3dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN3, 0);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
 
-                inputL = NeuralNetGetNN4InputfromStaticCode(symbol);
+                inputL = NeuralNetGetNN3InputfromStaticCode(symbol);
                 if (inputL != null) {
                     if (inputL.size() > 0) {
                         logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
@@ -855,21 +842,20 @@ public class NNProcessByTrend {
 
     }
 
-    public static ArrayList<NNInputDataObj> NeuralNetGetNN4InputfromStaticCode(String symbol) {
+    public static ArrayList<NNInputDataObj> NeuralNetGetNN3InputfromStaticCode(String symbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST1);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST2);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST3);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST4);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST5);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST6);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST7);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST8);
-            inputBuf.append(nn4Data.TR_NN4_INPUTLIST9);
-//            inputBuf.append(nn4Data.TR_NN4_INPUTLIST10);
-//            inputBuf.append(nn4Data.TR_NN4_INPUTLIST11);      // check nn4Data 
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST1);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST2);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST3);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST4);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST5);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST6);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST7);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST8);
+//            inputBuf.append(nn3Data.TR_NN3_INPUTLIST9); // check nn3 data
+
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

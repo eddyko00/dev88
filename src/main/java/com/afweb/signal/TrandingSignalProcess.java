@@ -1740,8 +1740,8 @@ public class TrandingSignalProcess {
         String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
 //        String nnName = ConstantKey.TR_NN1;
 
-        if (nnName.equals(ConstantKey.TR_NN4)) {
-            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN4;
+        if (nnName.equals(ConstantKey.TR_NN3)) {
+            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN3;
         }
         return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, nnError);
     }
@@ -1782,11 +1782,13 @@ public class TrandingSignalProcess {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
 
-        if (nnName.equals(ConstantKey.TR_NN4)) {
-            String nnIndex = "_nn4_";
+        if (nnName.equals(ConstantKey.TR_NN3)) {
+
+            String nnIndex = "_nn31_";
+
             for (int i = 1; i < 20; i++) {
                 String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//                logger.info("> initTrainingNeuralNet1 " + nnFileName);
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
                 boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
                 if (i == 0) {
                     continue;
@@ -1795,8 +1797,24 @@ public class TrandingSignalProcess {
                     break;
                 }
             }
+            nnIndex = "_nn32_";
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
+
             return inputDatalist;
-        }
+        } 
+        /////////////////////////////
+        // if (nnName.equals(ConstantKey.TR_NN1 or TR_NN2)) 
+        /////////////////////////////
         String nnIndex = "_nn1_";
 
         for (int i = 1; i < 20; i++) {
@@ -1948,8 +1966,8 @@ public class TrandingSignalProcess {
         boolean forceNN1flag = true;
         if (forceNN1flag == true) {
             BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-            if (nnName.equals(ConstantKey.TR_NN4)) {
-                BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN4;
+            if (nnName.equals(ConstantKey.TR_NN3)) {
+                BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN3;
             }
         }
         //just for testing
@@ -2001,8 +2019,8 @@ public class TrandingSignalProcess {
             }
         } else {
 
-            if (nnName.equals(ConstantKey.TR_NN4)) {
-                inputDatalist = NNProcessByTrend.NeuralNetGetNN4InputfromStaticCode("");
+            if (nnName.equals(ConstantKey.TR_NN3)) {
+                inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("");
             } else {
                 inputDatalist = TradingNNprocess.NeuralNetGetNN1InputfromStaticCode("");
             }
@@ -2277,9 +2295,6 @@ public class TrandingSignalProcess {
     public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnNameSym, String nnNAme, NNTrainObj nnTraining, double nnError) {
         int inputListSize = CKey.NN_INPUT_SIZE; //12;
         int outputSize = CKey.NN_OUTPUT_SIZE; //2;
-        if (nnNAme.equals(ConstantKey.TR_NN4)) {
-            outputSize = 4;
-        }
         int middleSize = CKey.NN1_MIDDLE_SIZE;
 
 //        if (nnName.equals(ConstantKey.TR_NN2) == true) {

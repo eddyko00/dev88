@@ -35,7 +35,6 @@ public class ProcessNN3 {
         NNObj nn = new NNObj();
 
         String stockidsymbol = stock.getSymbol();
-        AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
         String nnName = ConstantKey.TR_NN2;
         nnName = nnName + "_" + stockidsymbol;
@@ -138,7 +137,7 @@ public class ProcessNN3 {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryDataMACDNN3(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN3(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
 
         return inputDatalist;
     }
