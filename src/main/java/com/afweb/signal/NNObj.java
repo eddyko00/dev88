@@ -10,12 +10,42 @@ package com.afweb.signal;
  * @author eddy
  */
 public class NNObj {
+
+    /**
+     * @return the output1
+     */
+    public float getOutput1() {
+        return output1;
+    }
+
+    /**
+     * @param output1 the output1 to set
+     */
+    public void setOutput1(float output1) {
+        this.output1 = output1;
+    }
+
+    /**
+     * @return the output2
+     */
+    public float getOutput2() {
+        return output2;
+    }
+
+    /**
+     * @param output2 the output2 to set
+     */
+    public void setOutput2(float output2) {
+        this.output2 = output2;
+    }
     
     private int trsignal;
     private String trNameLink;
     private float rating;
     private float grossprofit;
     private float prediction;
+    private float output1;
+    private float output2;    
     private String comment="";
 
     /**

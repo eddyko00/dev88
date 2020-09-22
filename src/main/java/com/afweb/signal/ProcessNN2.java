@@ -66,6 +66,9 @@ public class ProcessNN2 {
         }
 
         double[][] rsp = nnTraining.getResponse();
+        nn.setOutput1((float) rsp[0][0]);
+        nn.setOutput2((float) rsp[0][1]);
+
         double NNprediction = rsp[0][0];
         int temp = 0;
         NNprediction = NNprediction * 1000;
@@ -79,7 +82,7 @@ public class ProcessNN2 {
         try {
             inputObj.setOutput1(NNprediction);
             nameST = new ObjectMapper().writeValueAsString(inputObj);
-            nameST = StringTag.replaceAll("\"", "",nameST);
+            nameST = StringTag.replaceAll("\"", "", nameST);
             nn.setComment(nameST);
         } catch (JsonProcessingException ex) {
         }
@@ -150,13 +153,13 @@ public class ProcessNN2 {
 //        if (CKey.NN_DEBUG == true) {
 //            logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal);
 //        }
-        if (CKey.NN_DEBUG == true) {
-            boolean flag = false;
-            if (flag == true) {
-                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
-                trHistory.setParmSt1(nn.getComment());
-            }
-        }
+//        if (CKey.NN_DEBUG == true) {
+//            boolean flag = false;
+//            if (flag == true) {
+//                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
+//                trHistory.setParmSt1(nn.getComment());
+//            }
+//        }
         if (nnSignal == ConstantKey.S_NEUTRAL) {
             nnSignal = macdSignal;
         }
@@ -180,9 +183,19 @@ public class ProcessNN2 {
                                 float thClose = lastTH.getClose();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                float delta = specialRule1(thClose, StClose);
+                                float delta = specialOverrideRule1(thClose, StClose);
                                 if (delta > 0) {
+
+                                    logger.info("> ProcessTRHistoryOffsetNN2 " + stock.getSymbol() + " Override1 signal dela price > 15% Delta=" + delta);
                                     nnSignal = macdSignal;
+                                } else {
+                                    long lastTHLong = lastTH.getUpdateDatel();
+                                    long curSGLong = stockinfo.getEntrydatel();
+                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    if (delta > 0) {
+                                        logger.info("> ProcessTRHistoryOffsetNN2 " + stock.getSymbol() + " Override2 signal date from last signal > 15 date");
+                                        nnSignal = macdSignal;
+                                    }
                                 }
                             }
                         }
@@ -237,7 +250,7 @@ public class ProcessNN2 {
                                 float thClose = lastTH.getAvgprice();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                float delta = specialRule1(thClose, StClose);
+                                float delta = specialOverrideRule1(thClose, StClose);
                                 if (delta > 0) {
                                     logger.info("> updateAdminTradingsignalnn2 " + symbol + " Delta Transactoin change > 15% Delta=" + delta);
 //                                    nnSignal = macdSignal;
@@ -276,10 +289,18 @@ public class ProcessNN2 {
                                 float thClose = lastTH.getAvgprice();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                float delta = specialRule1(thClose, StClose);
+                                float delta = specialOverrideRule1(thClose, StClose);
                                 if (delta > 0) {
-                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override NN signal dela price > 15% Delta=" + delta);
+                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override1 signal dela price > 15% Delta=" + delta);
                                     nnSignal = macdSignal;
+                                } else {
+                                    long lastTHLong = lastTH.getEntrydatel();
+                                    long curSGLong = stockinfo.getEntrydatel();
+                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    if (delta > 0) {
+                                        logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override2 signal date from last signal > 15 date");
+                                        nnSignal = macdSignal;
+                                    }
                                 }
 
                             }
@@ -294,7 +315,7 @@ public class ProcessNN2 {
         }
     }
 
-    public float specialRule1(float thClose, float StClose) {
+    public float specialOverrideRule1(float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
         delPer = Math.abs(delPer);
         if (delPer > 15) {  // > 15% override the NN sigal and take the MACD signal
@@ -303,5 +324,17 @@ public class ProcessNN2 {
         return 0;
     }
 
-
+    public float specialOverrideRule2(NNObj nn, long lastTHLong, long curSGLong) {
+        float output1 = nn.getOutput1();
+        float output2 = nn.getOutput2();
+        float threshold = (float) 0.4;
+        //both 0.1 and 0.1
+        if ((threshold > output1) && (threshold > output2)) {
+            long next15date = TimeConvertion.addDays(lastTHLong, 15);  // check if last tran > 15 days
+            if (next15date < curSGLong) {
+                return 1;
+            }
+        }
+        return 0;
+    }
 }

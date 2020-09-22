@@ -114,6 +114,9 @@ public class ProcessNN1 {
             }
         }
         double[][] rsp = nnTraining.getResponse();
+        nn.setOutput1((float) rsp[0][0]);
+        nn.setOutput2((float) rsp[0][1]);
+
         double NNprediction = rsp[0][0];
         int temp = 0;
         NNprediction = NNprediction * 1000;
@@ -186,7 +189,7 @@ public class ProcessNN1 {
     }
 
     int ProcessTRHistoryOffsetNN1(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
-            int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList) {
+            int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
 
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
@@ -197,13 +200,13 @@ public class ProcessNN1 {
 //        if (CKey.NN_DEBUG == true) {
 //            logger.info("ProcessTRHistoryOffsetNN1 " + stdate + " macdTR=" + macdSignal);
 //        }
-        if (CKey.NN_DEBUG == true) {
-            boolean flag = false;
-            if (flag == true) {
-                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
-                trHistory.setParmSt1(nn.getComment());
-            }
-        }
+//        if (CKey.NN_DEBUG == true) {
+//            boolean flag = false;
+//            if (flag == true) {
+//                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
+//                trHistory.setParmSt1(nn.getComment());
+//            }
+//        }
         if (nnSignal == ConstantKey.S_NEUTRAL) {
             nnSignal = macdSignal;
         }
@@ -216,8 +219,33 @@ public class ProcessNN1 {
             if (nn != null) {
                 nn.setTrsignal(nnSignal);
                 float predictionV = nn.getPrediction();
-                if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
+                if (predictionV > CKey.PREDICT_THRESHOLD) { //0.6) {
                     nnSignal = macdSignal;
+                } else {
+                    //
+                    if (writeArray.size() > 0) {
+                        for (int j = 0; j < writeArray.size(); j++) {
+                            StockTRHistoryObj lastTH = writeArray.get(writeArray.size() - 1 - j);
+                            if (lastTH.getTrsignal() != nnSignal) {
+                                float thClose = lastTH.getClose();
+                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+                                float StClose = stockinfo.getFclose();
+                                float delta = specialOverrideRule1(thClose, StClose);
+                                if (delta > 0) {
+                                    logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " Override1 signal dela price > 15% Delta=" + delta);
+                                    nnSignal = macdSignal;
+                                } else {
+                                    long lastTHLong = lastTH.getUpdateDatel();
+                                    long curSGLong = stockinfo.getEntrydatel();
+                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    if (delta > 0) {
+                                        logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " Override2 signal date from last signal > 15 date");
+                                        nnSignal = macdSignal;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 trHistory.setParmSt1(nn.getComment());
 //                if (CKey.NN_DEBUG == true) {
@@ -263,14 +291,63 @@ public class ProcessNN1 {
                     float predictionV = nn.getPrediction();
                     if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
                         nnSignal = macdSignal;
+                    } else {
+                        // get the last transaction price
+                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
+                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
+                        if (thList != null) {
+                            if (thList.size() > 0) {
+                                TransationOrderObj lastTH = thList.get(0);
+                                float thClose = lastTH.getAvgprice();
+                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+                                float StClose = stockinfo.getFclose();
+                                float delta = specialOverrideRule1(thClose, StClose);
+                                if (delta > 0) {
+                                    logger.info("> updateAdminTradingsignalnn1 " + symbol + " Override1 signal dela price > 15% Delta=" + delta);
+                                    nnSignal = macdSignal;
+                                } else {
+                                    long lastTHLong = lastTH.getEntrydatel();
+                                    long curSGLong = stockinfo.getEntrydatel();
+                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    if (delta > 0) {
+                                        logger.info("> updateAdminTradingsignalnn1 " + symbol + " Override2 signal date from last signal > 15 date");
+                                        nnSignal = macdSignal;
+                                    }
+
+                                }
+                            }
+                        }
                     }
                 }
                 trObj.setTrsignal(nnSignal);
                 UpdateTRList.add(trObj);
             }
         } catch (Exception ex) {
-            logger.info("> updateAdminTradingsignalnn2 Exception" + ex.getMessage());
+            logger.info("> updateAdminTradingsignalnn1 Exception" + ex.getMessage());
         }
     }
 
+    public float specialOverrideRule1(float thClose, float StClose) {
+        float delPer = 100 * (StClose - thClose) / thClose;
+        delPer = Math.abs(delPer);
+        if (delPer > 15) {  // > 15% override the NN sigal and take the MACD signal
+            return delPer;
+        }
+        return 0;
+    }
+
+    public float specialOverrideRule2(NNObj nn, long lastTHLong, long curSGLong) {
+        float output1 = nn.getOutput1();
+        float output2 = nn.getOutput2();
+        float threshold = (float) 0.4;
+        //both 0.1 and 0.1
+        if ((threshold > output1) && (threshold > output2)) {
+            long next15date = TimeConvertion.addDays(lastTHLong, 15);
+            if (next15date < curSGLong) {
+                return 1;
+            }
+        }
+        return 0;
+    }
 }

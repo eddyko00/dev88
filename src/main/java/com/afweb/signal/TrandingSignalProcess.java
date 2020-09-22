@@ -1030,7 +1030,7 @@ public class TrandingSignalProcess {
                     boolean nn1Flag = true;
                     if (nn1Flag == true) {
                         ProcessNN1 nn1 = new ProcessNN1();
-                        int nn1Signal = nn1.ProcessTRHistoryOffsetNN1(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList);
+                        int nn1Signal = nn1.ProcessTRHistoryOffsetNN1(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn1Signal;
                     }
                     break;
