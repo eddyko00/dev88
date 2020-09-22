@@ -1811,7 +1811,7 @@ public class TrandingSignalProcess {
             }
 
             return inputDatalist;
-        } 
+        }
         /////////////////////////////
         // if (nnName.equals(ConstantKey.TR_NN1 or TR_NN2)) 
         /////////////////////////////
@@ -2185,9 +2185,6 @@ public class TrandingSignalProcess {
                 String st = (String) inputArray.get(i);
                 String[] stList = st.split(",");
                 int outputN = CKey.NN_OUTPUT_SIZE;  //2
-                if (nnName.equals(ConstantKey.TR_NN4)) {
-                    outputN = 4;
-                }
                 if (stList.length != (CKey.NN_INPUT_SIZE + 2 + outputN + 3)) { //12) {
                     continue;
                 }
@@ -2203,14 +2200,7 @@ public class TrandingSignalProcess {
 
                 obj.setOutput1(Double.parseDouble(stList[j++]));
                 obj.setOutput2(Double.parseDouble(stList[j++]));
-                if (nnName.equals(ConstantKey.TR_NN4)) {
-                    obj.setOutput3(Double.parseDouble(stList[j++]));
-                    obj.setOutput4(Double.parseDouble(stList[j++]));
-//                    obj.setOutput5(Double.parseDouble(stList[j++]));
-//                    obj.setOutput6(Double.parseDouble(stList[j++]));
-//                    obj.setOutput7(Double.parseDouble(stList[j++]));
-//                    obj.setOutput8(Double.parseDouble(stList[j++]));
-                }
+
                 obj.setInput1(Double.parseDouble(stList[j++]));
                 obj.setInput2(Double.parseDouble(stList[j++]));
                 obj.setInput3(Double.parseDouble(stList[j++]));
@@ -2448,101 +2438,25 @@ public class TrandingSignalProcess {
                                     + "," + "ema2050" + "," + "macd" + "," + "rsi"
                                     + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
                                     + "," + "predict0" + "," + "predict1" + "";
-                            if (nnNameSym.equals(ConstantKey.TR_NN4)) {
-                                stTitle = "" + "output0"
-                                        + "," + "output1"
-                                        + "," + "output2"
-                                        + "," + "output3"
-                                        //                                        + "," + "output4"
-                                        //                                        + "," + "output5"
-                                        //                                        + "," + "output6"
-                                        //                                        + "," + "output7"
-                                        + "," + "macd TSig"
-                                        + "," + "LTerm"
-                                        + "," + "ema2050" + "," + "macd" + "," + "rsi"
-                                        + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
-                                        + "," + "predict0"
-                                        + "," + "predict1"
-                                        + "," + "predict2"
-                                        + "," + "predict3"
-                                        //                                        + "," + "predict4"
-                                        //                                        + "," + "predict5"
-                                        //                                        + "," + "predict6"
-                                        //                                        + "," + "predict7" 
-                                        + "";
-
-                            }
                             writeArray.add(stTitle);
                         }
 
                         String st = "";
 
-                        if (nnNameSym.equals(ConstantKey.TR_NN4)) {
-                            st = "" + output[0]
-                                    + "," + output[1]
-                                    + "," + output[2]
-                                    + "," + output[3]
-                                    //                                    + "," + output[4]
-                                    //                                    + "," + output[5]
-                                    //                                    + "," + output[6]
-                                    //                                    + "," + output[7]
-                                    + "," + input[0] + "," + input[1] + "," + input[2]
-                                    + "," + input[3] + "," + input[4] + "," + input[5]
-                                    + "," + input[6] + "," + input[7]
-                                    + "," + input[8] + "," + input[9]
-                                    + "," + rsp[0]
-                                    + "," + rsp[1]
-                                    + "," + rsp[2]
-                                    + "," + rsp[3]
-                                    //                                    + "," + rsp[4]
-                                    //                                    + "," + rsp[5]
-                                    //                                    + "," + rsp[6]
-                                    //                                    + "," + rsp[7]
-                                    + "";
-
-                            if (output[0] > 0.5) {
-                                if (rsp[0] > 0.5) {
-                                    ;
-                                } else {
-                                    st += "," + "0" + "";
-                                }
-                            } else if (output[1] > 0.5) {
-                                if (rsp[1] > 0.5) {
-                                    ;
-                                } else {
-                                    st += "," + "1" + "";
-                                }
-                            } else if (output[2] > 0.5) {
-                                if (rsp[2] > 0.5) {
-                                    ;
-                                } else {
-                                    st += "," + "2" + "";
-                                }
-                            } else if (output[3] > 0.5) {
-                                if (rsp[3] > 0.5) {
-                                    ;
-                                } else {
-                                    st += "," + "3" + "";
-                                }
-                            }
-                        } else {
-                            st = "" + output[0]
-                                    + "," + output[1]
-                                    + "," + input[0] + "," + input[1] + "," + input[2]
-                                    + "," + input[3] + "," + input[4] + "," + input[5]
-                                    + "," + input[6] + "," + input[7]
-                                    + "," + input[8] + "," + input[9]
-                                    + "," + rsp[0] + "," + rsp[1]
-                                    + "";
-                            float delta = (float) (output[0] - rsp[0]);
-                            delta = Math.abs(delta);
-                            float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-                            if (nnNameSym.equals(ConstantKey.TR_NN4) == true) {
-                                deltaCmp = (float) 0.09;
-                            }
-                            if (delta > deltaCmp) {
-                                st += "," + delta + "";
-                            }
+                        st = "" + output[0]
+                                + "," + output[1]
+                                + "," + input[0] + "," + input[1] + "," + input[2]
+                                + "," + input[3] + "," + input[4] + "," + input[5]
+                                + "," + input[6] + "," + input[7]
+                                + "," + input[8] + "," + input[9]
+                                + "," + rsp[0] + "," + rsp[1]
+                                + "";
+                        float delta = (float) (output[0] - rsp[0]);
+                        delta = Math.abs(delta);
+                        float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
+   
+                        if (delta > deltaCmp) {
+                            st += "," + delta + "";
                         }
 
                         writeArray.add(st);
@@ -2590,100 +2504,25 @@ public class TrandingSignalProcess {
                                         + "," + "ema2050" + "," + "macd" + "," + "rsi"
                                         + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
                                         + "," + "predict0" + "," + "predict1" + "";
-                                if (nnNameSym.equals(ConstantKey.TR_NN4)) {
-                                    stTitle = "" + "output0"
-                                            + "," + "output1"
-                                            + "," + "output2"
-                                            + "," + "output3"
-                                            //                                            + "," + "output4"
-                                            //                                            + "," + "output5"
-                                            //                                            + "," + "output6"
-                                            //                                            + "," + "output7"
-                                            + "," + "macd TSig"
-                                            + "," + "LTerm"
-                                            + "," + "ema2050" + "," + "macd" + "," + "rsi"
-                                            + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
-                                            + "," + "predict0"
-                                            + "," + "predict1"
-                                            + "," + "predict2"
-                                            + "," + "predict3"
-                                            //                                            + "," + "predict4"
-                                            //                                            + "," + "predict5"
-                                            //                                            + "," + "predict6"
-                                            //                                            + "," + "predict7" 
-                                            + "";
 
-                                }
                                 writeArray.add(stTitle);
                             }
                             String st = "";
 
-                            if (nnNameSym.equals(ConstantKey.TR_NN4)) {
-                                st = "" + output[0]
-                                        + "," + output[1]
-                                        + "," + output[2]
-                                        + "," + output[3]
-                                        //                                        + "," + output[4]
-                                        //                                        + "," + output[5]
-                                        //                                        + "," + output[6]
-                                        //                                        + "," + output[7]
-                                        + "," + input[0] + "," + input[1] + "," + input[2]
-                                        + "," + input[3] + "," + input[4] + "," + input[5]
-                                        + "," + input[6] + "," + input[7]
-                                        + "," + input[8] + "," + input[9]
-                                        + "," + rsp[0]
-                                        + "," + rsp[1]
-                                        + "," + rsp[2]
-                                        + "," + rsp[3]
-                                        //                                        + "," + rsp[4]
-                                        //                                        + "," + rsp[5]
-                                        //                                        + "," + rsp[6]
-                                        //                                        + "," + rsp[7] 
-                                        + "";
-
-                                if (output[0] > 0.5) {
-                                    if (rsp[0] > 0.5) {
-                                        ;
-                                    } else {
-                                        st += "," + "0" + "";
-                                    }
-                                } else if (output[1] > 0.5) {
-                                    if (rsp[1] > 0.5) {
-                                        ;
-                                    } else {
-                                        st += "," + "1" + "";
-                                    }
-                                } else if (output[2] > 0.5) {
-                                    if (rsp[2] > 0.5) {
-                                        ;
-                                    } else {
-                                        st += "," + "2" + "";
-                                    }
-                                } else if (output[3] > 0.5) {
-                                    if (rsp[3] > 0.5) {
-                                        ;
-                                    } else {
-                                        st += "," + "3" + "";
-                                    }
-                                }
-                            } else {
-                                st = "" + output[0]
-                                        + "," + output[1]
-                                        + "," + input[0] + "," + input[1] + "," + input[2]
-                                        + "," + input[3] + "," + input[4] + "," + input[5]
-                                        + "," + input[6] + "," + input[7]
-                                        + "," + input[8] + "," + input[9]
-                                        + "," + rsp[0] + "," + rsp[1]
-                                        + "";
-                                float delta = (float) (output[0] - rsp[0]);
-                                delta = Math.abs(delta);
-                                float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-                                if (nnNameSym.equals(ConstantKey.TR_NN4) == true) {
-                                    deltaCmp = (float) 0.09;
-                                }
-                                if (delta > deltaCmp) {
-                                    st += "," + delta + "";
-                                }
+                            st = "" + output[0]
+                                    + "," + output[1]
+                                    + "," + input[0] + "," + input[1] + "," + input[2]
+                                    + "," + input[3] + "," + input[4] + "," + input[5]
+                                    + "," + input[6] + "," + input[7]
+                                    + "," + input[8] + "," + input[9]
+                                    + "," + rsp[0] + "," + rsp[1]
+                                    + "";
+                            float delta = (float) (output[0] - rsp[0]);
+                            delta = Math.abs(delta);
+                            float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
+    
+                            if (delta > deltaCmp) {
+                                st += "," + delta + "";
                             }
 
                             writeArray.add(st);

@@ -58,7 +58,7 @@ public class NNProcessByTrend {
         boolean flagNeural = false;
         if (flagNeural == true) {
             TradingNNprocess NNProcessImp = new TradingNNprocess();
-            int retSatus = NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN4);
+            int retSatus = NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
             for (int k = 0; k < 100; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
             }
@@ -538,7 +538,6 @@ public class NNProcessByTrend {
         return false;
     }
 
-
     //////////////////////////////////////////////////
     private static ArrayList stockNNprocessNameArray = new ArrayList();
     private static ArrayList stockNNinputNameArray = new ArrayList();
@@ -634,7 +633,7 @@ public class NNProcessByTrend {
                                 lockReturnStock = 1;
                             }
                             if (lockReturnStock > 0) {
-                                String nnName = ConstantKey.TR_NN4;
+                                String nnName = ConstantKey.TR_NN3;
 
                                 String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
                                 AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
@@ -683,7 +682,7 @@ public class NNProcessByTrend {
 
         boolean nnsymTrain = true;
         if (nnsymTrain == true) {
-            String nnName = ConstantKey.TR_NN4;
+            String nnName = ConstantKey.TR_NN3;
             double errorNN = CKey.NN3_ERROR_THRESHOLD;
 
             String nnNameSym = nnName + "_" + symbol;
@@ -697,8 +696,8 @@ public class NNProcessByTrend {
                     }
                 }
                 int retflag = 0;
-                if (TR_NN == ConstantKey.INT_TR_NN4) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN4, nnNameSym, errorNN);
+                if (TR_NN == ConstantKey.INT_TR_NN3) {
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;
@@ -714,7 +713,7 @@ public class NNProcessByTrend {
         if (nnsym == true) {
             int totalAdd = 0;
             int totalDup = 0;
-            String nnName = ConstantKey.TR_NN4;
+            String nnName = ConstantKey.TR_NN3;
 
             String nnNameSym = nnName + "_" + symbol;
 
@@ -855,7 +854,6 @@ public class NNProcessByTrend {
             inputBuf.append(nn3Data.TR_NN3_INPUTLIST7);
             inputBuf.append(nn3Data.TR_NN3_INPUTLIST8);
 //            inputBuf.append(nn3Data.TR_NN3_INPUTLIST9); // check nn3 data
-
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
