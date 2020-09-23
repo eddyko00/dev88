@@ -137,6 +137,7 @@ public class NNProcessBySiganl {
         boolean flagTestNNSignal = false;
         if (flagTestNNSignal == true) {
             String symbol = "HOU.TO";
+
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
             int size1year = 5 * 52;
             ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year * 4);
@@ -155,6 +156,7 @@ public class NNProcessBySiganl {
         boolean flagTestHistorySignal = false;
         if (flagTestHistorySignal == true) {
             String symbol = "HOU.TO";
+            symbol = "SPY";
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
             int size1year = 20 * 12 * 4 + (50 * 3);
             ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
@@ -363,7 +365,6 @@ public class NNProcessBySiganl {
             }
         }
     }
-
 
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess " + symbol);

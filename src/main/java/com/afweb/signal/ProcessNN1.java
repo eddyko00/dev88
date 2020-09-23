@@ -231,18 +231,19 @@ public class ProcessNN1 {
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
                                 float delta = specialOverrideRule1(thClose, StClose);
+                                long lastTHLong = lastTH.getUpdateDatel();
+                                long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-                                    logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " Override1 signal dela price > 15% Delta=" + delta);
+                                    logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " Override1 signal " + lastTHLong + " " + curSGLong + " dela price > 15% Delta=" + delta);
                                     nnSignal = macdSignal;
                                 } else {
-                                    long lastTHLong = lastTH.getUpdateDatel();
-                                    long curSGLong = stockinfo.getEntrydatel();
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
-                                        logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " Override2 signal date from last signal > 15 date");
+                                        logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " Override2 signal  " + lastTHLong + " " + curSGLong + " date from last signal > 15 date");
                                         nnSignal = macdSignal;
                                     }
                                 }
+                                break; // for loop
                             }
                         }
                     }
@@ -303,19 +304,20 @@ public class ProcessNN1 {
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
                                 float delta = specialOverrideRule1(thClose, StClose);
+                                long lastTHLong = lastTH.getEntrydatel();
+                                long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-                                    logger.info("> updateAdminTradingsignalnn1 " + symbol + " Override1 signal dela price > 15% Delta=" + delta);
+                                    logger.info("> updateAdminTradingsignalnn1 " + symbol + " Override1 signal " + lastTHLong + " " + curSGLong + " dela price > 15% Delta=" + delta);
                                     nnSignal = macdSignal;
                                 } else {
-                                    long lastTHLong = lastTH.getEntrydatel();
-                                    long curSGLong = stockinfo.getEntrydatel();
+
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
-                                        logger.info("> updateAdminTradingsignalnn1 " + symbol + " Override2 signal date from last signal > 15 date");
+                                        logger.info("> updateAdminTradingsignalnn1 " + symbol + " Override2 signal " + lastTHLong + " " + curSGLong + " date from last signal > 15 date");
                                         nnSignal = macdSignal;
                                     }
-
                                 }
+
                             }
                         }
                     }
