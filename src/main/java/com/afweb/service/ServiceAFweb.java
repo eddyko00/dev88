@@ -474,7 +474,7 @@ public class ServiceAFweb {
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
-                    NNProcessBySiganl nnProcBySig = new NNProcessBySiganl();
+                    NNProcessBySignal nnProcBySig = new NNProcessBySignal();
                     nnProcBySig.processNeuralNet(this);
                     NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
                     nnStProcByTrend.processNeuralNetStPred(this);
@@ -514,7 +514,6 @@ public class ServiceAFweb {
 
                 if (CKey.NN_DEBUG == true) {
                     TRprocessImp.UpdateAllStock(this);
-                    NNProcessImp.ProcessTrainNeuralNet(this);
                     TRprocessImp.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                     TRprocessImp.UpdateAllStock(this);

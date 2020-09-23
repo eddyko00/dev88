@@ -2017,7 +2017,7 @@ public class TrandingSignalProcess {
             if (nnName.equals(ConstantKey.TR_NN3)) {
                 inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("");
             } else {
-                inputDatalist = TradingNNprocess.NeuralNetGetNN1InputfromStaticCode("");
+                inputDatalist = NNProcessBySignal.NeuralNetGetNN1InputfromStaticCode("");
             }
             for (int i = 0; i < inputDatalist.size(); i++) {
                 NNInputDataObj inputDObj = inputDatalist.get(i);
