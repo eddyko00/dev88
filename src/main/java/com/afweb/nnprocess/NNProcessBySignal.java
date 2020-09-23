@@ -686,7 +686,6 @@ public class NNProcessBySignal {
     private static ArrayList stockNNprocessNameArray = new ArrayList();
     private static ArrayList stockNNinputNameArray = new ArrayList();
 
-
     private ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         if (stockNNprocessNameArray != null && stockNNprocessNameArray.size() > 0) {
             return stockNNprocessNameArray;
@@ -758,10 +757,13 @@ public class NNProcessBySignal {
             long lockDate1Min = TimeConvertion.addMinutes(currentTime, 5);
 
             for (int i = 0; i < 10; i++) {
-                currentTime = System.currentTimeMillis();
-                if (lockDate1Min < currentTime) {
-                    break;
+                if (CKey.NN_DEBUG != true) {
+                    currentTime = System.currentTimeMillis();
+                    if (lockDate1Min < currentTime) {
+                        break;
+                    }
                 }
+
                 if (stockNNprocessNameArray.size() == 0) {
                     break;
                 }

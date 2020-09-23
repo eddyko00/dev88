@@ -1146,11 +1146,11 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
-//                    boolean nn3Flag = true;
-//                    if (nn3Flag == true) {
-//                        ProcessNN3 nn3 = new ProcessNN3();
-//                        nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
-//                    }
+                    boolean nn3Flag = true;
+                    if (nn3Flag == true) {
+                        ProcessNN3 nn3 = new ProcessNN3();
+                        nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+                    }
                     break;
 //                case ConstantKey.INT_TR_NN4:
 //                    boolean nn4Flag = false;
