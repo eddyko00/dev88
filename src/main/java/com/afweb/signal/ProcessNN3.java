@@ -156,9 +156,13 @@ public class ProcessNN3 {
         TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN1);
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
-        trObjMACD1.setTrname(ConstantKey.TR_MACD1);
-        trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
-
+        if (nnName.equals(ConstantKey.TR_NN2)) {
+            trObjMACD1.setTrname(ConstantKey.TR_MACD);
+            trObjMACD1.setType(ConstantKey.INT_TR_MACD);
+        } else {
+            trObjMACD1.setTrname(ConstantKey.TR_MACD1);
+            trObjMACD1.setType(ConstantKey.INT_TR_MACD1);            
+        }
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
 

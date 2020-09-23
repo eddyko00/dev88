@@ -159,11 +159,11 @@ public class ConstantKey {
     public static final int INT_MACD1_12 = 12;
     public static final int INT_MACD1_4 = 4;
 
-    public static final String TR_MACD2 = "TR_MACD2";
-    public static final int INT_TR_MACD2 = 101;
-    public static final int INT_MACD2_24 = 24;
-    public static final int INT_MACD2_48 = 48;
-    public static final int INT_MACD2_18 = 18;
+//    public static final String TR_MACD2 = "TR_MACD2";
+//    public static final int INT_TR_MACD2 = 101;
+//    public static final int INT_MACD2_24 = 24;
+//    public static final int INT_MACD2_48 = 48;
+//    public static final int INT_MACD2_18 = 18;
 
     public static int getTRtypeByName(String trname) {
         trname = trname.toUpperCase();

@@ -1010,15 +1010,15 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) macd.diff);
                     break;
                 }
-                case ConstantKey.INT_TR_MACD2: {
-                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
-                    trObj.setTrsignal(macd.trsignal);
-                    trHistory.setTrsignal(trObj.getTrsignal());
-                    trHistory.setParm1((float) macd.macd);
-                    trHistory.setParm2((float) macd.signal);
-                    trHistory.setParm3((float) macd.diff);
-                    break;
-                }
+//                case ConstantKey.INT_TR_MACD2: {
+//                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
+//                    trObj.setTrsignal(macd.trsignal);
+//                    trHistory.setTrsignal(trObj.getTrsignal());
+//                    trHistory.setParm1((float) macd.macd);
+//                    trHistory.setParm2((float) macd.signal);
+//                    trHistory.setParm3((float) macd.diff);
+//                    break;
+//                }
                 case ConstantKey.INT_TR_RSI:
                     RSIObj rsi = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
                     trObj.setTrsignal(rsi.trsignal);
@@ -1120,11 +1120,11 @@ public class TrandingSignalProcess {
                     trObj.setTrsignal(macd1.trsignal);
                     UpdateTRList.add(trObj);
                     break;
-                case ConstantKey.INT_TR_MACD2:
-                    MACDObj macd2 = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
-                    trObj.setTrsignal(macd2.trsignal);
-                    UpdateTRList.add(trObj);
-                    break;
+//                case ConstantKey.INT_TR_MACD2:
+//                    MACDObj macd2 = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
+//                    trObj.setTrsignal(macd2.trsignal);
+//                    UpdateTRList.add(trObj);
+//                    break;
                 case ConstantKey.INT_TR_RSI:
                     RSIObj rsi = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
                     trObj.setTrsignal(rsi.trsignal);
@@ -1146,11 +1146,6 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
-//                    if (CKey.NN4Testing == true) {
-//                        ProcessNN4 nn4 = new ProcessNN4();
-//                        nn4.updateAdminTradingsignalnn4(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
-//                        break;
-//                    }
 //                    boolean nn3Flag = true;
 //                    if (nn3Flag == true) {
 //                        ProcessNN3 nn3 = new ProcessNN3();

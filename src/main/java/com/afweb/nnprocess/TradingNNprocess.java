@@ -1041,57 +1041,6 @@ public class TradingNNprocess {
         return inputDatalist;
     }
 
-    //StockArray assume recent date to old data
-    //StockArray assume recent date to old data
-    //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> trainingNN1dataMACD2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-//        logger.info("> trainingNN ");
-        this.serviceAFWeb = serviceAFWeb;
-        String username = CKey.ADMIN_USERNAME;
-        String accountid = "1";
-        String symbol = sym;
-//        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
-
-        NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN1);
-
-        TradingRuleObj trObjMACD1 = new TradingRuleObj();
-        trObjMACD1.setTrname(ConstantKey.TR_MACD2);
-        trObjMACD1.setType(ConstantKey.INT_TR_MACD2);
-
-        trObjMACD1.setAccount(trObjMACD.getAccount());
-        trObjMACD1.setStockid(trObjMACD.getStockid());
-
-        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
-
-        if (getEnv.checkLocalPC() == true) {
-            if (CKey.NN_DEBUG == true) {
-                if (monthSize > 5) {
-                    ArrayList<String> writeArray = new ArrayList();
-                    ArrayList<String> displayArray = new ArrayList();
-                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListMACD, writeArray, displayArray);
-                    boolean flagHis = false;
-                    if (flagHis == true) {
-                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN1 + "_tran.csv", writeArray);
-                    }
-                    serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN1, null);
-                }
-            }
-        }
-
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
-        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
-
-        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
-        ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
-
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
-
-        return inputDatalist;
-    }
-
     public static NNTrainObj trainingNNdataSetupTraining(ArrayList<NNInputDataObj> inputlist) {
 //        logger.info("> trainingNNsetupTraining ");
 
@@ -1588,16 +1537,16 @@ public class TradingNNprocess {
         }
         int retDecision = -1;
         int pervSignal = prevThObj.getTrsignal();
-        
-        float pricePrev =prevThObj.getClose();
+
+        float pricePrev = prevThObj.getClose();
         float price = thObj.getClose();
-        float percent = (price-pricePrev)/pricePrev;
-        percent = percent *100* 15;
+        float percent = (price - pricePrev) / pricePrev;
+        percent = percent * 100 * 15;
         float percentAbs = Math.abs(percent);
         if (percentAbs < 30) { //20){
             return -1;
         }
-        
+
         if (pervSignal == ConstantKey.S_BUY) {
             retDecision = 0;
             if (thObj.getClose() > prevThObj.getClose()) {
@@ -1612,7 +1561,7 @@ public class TradingNNprocess {
             }
             return retDecision;
         }
-        
+
         return -1;
     }
 
@@ -2013,7 +1962,6 @@ public class TradingNNprocess {
 
                 double output = retDecision;
 
-
                 NNInputDataObj objDataCur = new NNInputDataObj();
                 objDataCur.setUpdatedatel(thObjMACD.getUpdateDatel());
                 objDataCur.setObj(inputList);
@@ -2141,16 +2089,19 @@ public class TradingNNprocess {
                     inputList.setOutput1(-1);
                     inputList.setOutput2(-1);
                 } else {
+                    //if output < 0.2
                     inputList.setOutput1(0.1);
                     inputList.setOutput2(0.1);
                     if (output > 0) {
                         if (output > 0.2) {
                             inputList.setOutput1(0.9);
+                            inputList.setOutput2(0.1);
                         }
 
                     } else {  //if (output < 0) {
                         output = -output;
                         if (output > 0.2) {
+                            inputList.setOutput1(0.1);
                             inputList.setOutput2(0.9);
                         }
                     }
@@ -2197,7 +2148,6 @@ public class TradingNNprocess {
             inputBuf.append(nnData.NN_INPUTLIST7);
             inputBuf.append(nnData.NN_INPUTLIST8);
 //            inputBuf.append(nnData.NN_INPUTLIST9); //need to check nnData file
-
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
