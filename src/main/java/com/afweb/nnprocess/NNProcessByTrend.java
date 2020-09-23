@@ -543,7 +543,7 @@ public class NNProcessByTrend {
     private static ArrayList stockNNinputNameArray = new ArrayList();
     private static ArrayList stockNNretrainprocessNameArray = new ArrayList();
 
-    private ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
+    private ArrayList UpdateStockNN3processNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         if (stockNNprocessNameArray != null && stockNNprocessNameArray.size() > 0) {
             return stockNNprocessNameArray;
         }
@@ -560,7 +560,7 @@ public class NNProcessByTrend {
             ArrayList stockTRNameArray = new ArrayList();
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String sym = (String) stockNameArray.get(i);
-                String symTR = sym + "#" + ConstantKey.INT_TR_NN4;
+                String symTR = sym + "#" + ConstantKey.INT_TR_NN3;
                 stockTRNameArray.add(symTR);
             }
 
@@ -581,7 +581,7 @@ public class NNProcessByTrend {
             }
         }
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        UpdateStockNNprocessNameArray(serviceAFWeb, accountAdminObj);
+        UpdateStockNN3processNameArray(serviceAFWeb, accountAdminObj);
         if (stockNNprocessNameArray == null) {
             return;
         }
@@ -593,7 +593,7 @@ public class NNProcessByTrend {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
-        LockName = "NN4_" + ServiceAFweb.getServerObj().getServerName();
+        LockName = "NN3_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         if (CKey.NN_DEBUG == true) {
@@ -624,7 +624,7 @@ public class NNProcessByTrend {
                         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
                         if (stock != null) {
 
-                            String LockStock = "NN4_TR_" + symbol; // + "_" + trNN;
+                            String LockStock = "NN3_TR_" + symbol; // + "_" + trNN;
                             LockStock = LockStock.toUpperCase();
 
                             long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();

@@ -345,7 +345,7 @@ public class ProcessNN1 {
         float threshold = (float) 0.4;
         //both 0.1 and 0.1
         if ((threshold > output1) && (threshold > output2)) {
-            long next15date = TimeConvertion.addDays(lastTHLong, 15);
+            long next15date = TimeConvertion.addDays(lastTHLong, 20);
             if (next15date < curSGLong) {
                 return 1;
             }
