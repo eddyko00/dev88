@@ -827,7 +827,7 @@ public class TrandingSignalProcess {
                     }
 
                     if (CKey.NN_DEBUG == true) {
-                        boolean flag = true;
+                        boolean flag = false;
                         if (flag == true) {
                             ArrayList<String> writeArray = new ArrayList();
                             ArrayList<String> displayArray = new ArrayList();
