@@ -33,12 +33,12 @@ public class ProcessNN1 {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         NNObj nn = new NNObj();
 
-        String stockidsymbol = stock.getSymbol();
+        String symbol = stock.getSymbol();
         AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
         String nnName = ConstantKey.TR_NN1;
 
-        nnName = nnName + "_" + stockidsymbol;
+        nnName = nnName + "_" + symbol;
         String BPname = CKey.NN_version + "_" + nnName;
 
         ArrayList<NNInputDataObj> inputList = null;
@@ -48,7 +48,7 @@ public class ProcessNN1 {
         //trainingNN1dataMACD will return oldest first to new date
         //trainingNN1dataMACD will return oldest first to new date
         ProcessNN1 nn1 = new ProcessNN1();
-        inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
             logger.info(">NNpredict  error inpulist");
@@ -65,7 +65,7 @@ public class ProcessNN1 {
         NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist, ConstantKey.TR_NN1);
 
         nnTraining.setNameNN(BPname);
-        nnTraining.setSymbol(stockidsymbol);
+        nnTraining.setSymbol(symbol);
         int retNN = TRprocessImp.OutputNNBP(serviceAFWeb, nnTraining);
         if (retNN == 0) {
             return nn;
@@ -110,13 +110,15 @@ public class ProcessNN1 {
                     writeArray.add(st);
                     logger.info(">NNpredict " + st);
                 }
-                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + stockidsymbol + "_Predect.csv", writeArray);
+                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + symbol + "_Predect.csv", writeArray);
             }
         }
         double[][] rsp = nnTraining.getResponse();
         nn.setOutput1((float) rsp[0][0]);
         nn.setOutput2((float) rsp[0][1]);
-
+        inputObj.setOutput1((float) rsp[0][0]);
+        inputObj.setOutput2((float) rsp[0][1]);
+        
         double NNprediction = rsp[0][0];
         int temp = 0;
         NNprediction = NNprediction * 1000;

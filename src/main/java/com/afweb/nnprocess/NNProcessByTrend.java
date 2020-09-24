@@ -8,6 +8,7 @@ package com.afweb.nnprocess;
 import com.afweb.util.CKey;
 import com.afweb.model.*;
 import com.afweb.model.account.AccountObj;
+import com.afweb.model.account.StockTRHistoryObj;
 import com.afweb.model.account.TradingRuleObj;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
@@ -65,13 +66,26 @@ public class NNProcessByTrend {
         }
 
         //////////////////////////////////////////////////////////
-        boolean nn4Flag = false;
-        if (nn4Flag == true) {
+        boolean flagTestNNHistory = false;
+        if (flagTestNNHistory == true) {
+            AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
+            String symbol = "HOU.TO";
+            AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+            String nnName = ConstantKey.TR_NN3;
+            serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), nnName);
+            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), nnName);
+            // get 2 year
+            /// thObjList old first - recent last
+            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            ArrayList<StockTRHistoryObj> trHistoryList = TRprocessImp.ProcessTRHistory(serviceAFWeb, trObj, 2);
+            logger.info("trHistoryList size=" + trHistoryList.size());
+        }
+
+        boolean flagTestNNSignal = false;
+        if (flagTestNNSignal == true) {
             AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
             String symbol = "HOU.TO";
 
-//            ArrayList<NNInputDataObj> inputArray = getTrainingNNStdataProcess(serviceAFWeb, symbol, 0);
-//            NNInputDataObj input = inputArray.get(5);
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
             int size1year = 20 * 12 * 2 + (50 * 3);
             ArrayList StockArray = serviceAFWeb.getStockHistorical(symbol, size1year);

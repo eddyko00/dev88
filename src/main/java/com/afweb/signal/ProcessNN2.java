@@ -33,16 +33,16 @@ public class ProcessNN2 {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         NNObj nn = new NNObj();
 
-        String stockidsymbol = stock.getSymbol();
+        String symbol = stock.getSymbol();
         AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
         String nnName = ConstantKey.TR_NN2;
-        nnName = nnName + "_" + stockidsymbol;
+        nnName = nnName + "_" + symbol;
         String BPname = CKey.NN_version + "_" + nnName;
 
         ArrayList<NNInputDataObj> inputList = null;
         ProcessNN2 nn2 = new ProcessNN2();
-        inputList = nn2.trainingNN2dataMACD(serviceAFWeb, stockidsymbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
             logger.info(">NNpredict  error inpulist");
@@ -59,7 +59,7 @@ public class ProcessNN2 {
         NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist, ConstantKey.TR_NN2);
 
         nnTraining.setNameNN(BPname);
-        nnTraining.setSymbol(stockidsymbol);
+        nnTraining.setSymbol(symbol);
         int retNN = TRprocessImp.OutputNNBP(serviceAFWeb, nnTraining);
         if (retNN == 0) {
             return nn;
@@ -68,7 +68,9 @@ public class ProcessNN2 {
         double[][] rsp = nnTraining.getResponse();
         nn.setOutput1((float) rsp[0][0]);
         nn.setOutput2((float) rsp[0][1]);
-
+        inputObj.setOutput1((float) rsp[0][0]);
+        inputObj.setOutput2((float) rsp[0][1]);
+        
         double NNprediction = rsp[0][0];
         int temp = 0;
         NNprediction = NNprediction * 1000;
