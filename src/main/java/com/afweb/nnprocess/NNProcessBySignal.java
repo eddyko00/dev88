@@ -7,10 +7,7 @@ package com.afweb.nnprocess;
 
 import com.afweb.util.CKey;
 import com.afweb.model.*;
-import com.afweb.model.account.AccountObj;
-import com.afweb.model.account.CommObj;
-import com.afweb.model.account.StockTRHistoryObj;
-import com.afweb.model.account.TradingRuleObj;
+import com.afweb.model.account.*;
 
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
