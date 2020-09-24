@@ -30,11 +30,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.TimeZone;
 
 import java.util.logging.Logger;
@@ -135,7 +133,7 @@ public class TrandingSignalProcess {
 
                                 long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                                 if (lastUpdate5Min < curDateValue) {
-                                    logger.info("> ProcessAdminSignalTrading " + symbol);
+//                                    logger.info("> ProcessAdminSignalTrading " + symbol);
                                     updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
@@ -762,7 +760,7 @@ public class TrandingSignalProcess {
             ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
 
-            TradingRuleObj NN_TR2Obj = null;
+
             for (int j = 0; j < tradingRuleList.size(); j++) {
                 TradingRuleObj trObj = (TradingRuleObj) tradingRuleList.get(j);
                 if (trObj.getType() == ConstantKey.INT_TR_ACC) {
@@ -771,30 +769,27 @@ public class TrandingSignalProcess {
                 int subStatus = trObj.getSubstatus();
 
                 if (trObj.getType() == ConstantKey.INT_TR_NN1) {
-                    AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, trObj.getType(), symbol);
+                    AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN1, symbol);
                     if (nnObj0 == null) {
                         continue;
                     }
-
                     if (nnObj0.getStatus() != ConstantKey.OPEN) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN2) {
-
-                    AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, trObj.getType(), symbol);
+                    AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN1, symbol);
                     if (nnObj0 == null) {
                         continue;
                     }
-
                     if (nnObj0.getStatus() != ConstantKey.OPEN) {
                         continue;
                     }
-                    NN_TR2Obj = trObj;
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                    if (NN_TR2Obj == null) {
+                    AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN3, symbol);
+                    if (nnObj0 == null) {
                         continue;
                     }
-                    if (NN_TR2Obj.getStatus() != ConstantKey.OPEN) {
+                    if (nnObj0.getStatus() != ConstantKey.OPEN) {
                         continue;
                     }
                 }
@@ -2449,7 +2444,7 @@ public class TrandingSignalProcess {
                         float delta = (float) (output[0] - rsp[0]);
                         delta = Math.abs(delta);
                         float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-   
+
                         if (delta > deltaCmp) {
                             st += "," + delta + "";
                         }
@@ -2515,7 +2510,7 @@ public class TrandingSignalProcess {
                             float delta = (float) (output[0] - rsp[0]);
                             delta = Math.abs(delta);
                             float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-    
+
                             if (delta > deltaCmp) {
                                 st += "," + delta + "";
                             }

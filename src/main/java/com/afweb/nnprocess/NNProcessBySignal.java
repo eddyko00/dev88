@@ -520,10 +520,10 @@ public class NNProcessBySignal {
 
             double errorNN = CKey.NN1_ERROR_THRESHOLD;
             String nnName = ConstantKey.TR_NN1;
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-                errorNN = CKey.NN2_ERROR_THRESHOLD;
-            }
+//            if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                nnName = ConstantKey.TR_NN2;
+//                errorNN = CKey.NN2_ERROR_THRESHOLD;
+//            }
             String BPname = CKey.NN_version + "_" + nnName;
             // Not need to do neural net for NN2. Same NN weight for NN1 and NN2
             if (TR_Name == ConstantKey.INT_TR_NN2) {
@@ -572,8 +572,8 @@ public class NNProcessBySignal {
                 int retflag = 0;
                 if (TR_Name == ConstantKey.INT_TR_NN1) {
                     retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnName, errorNN);
-                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
-                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnName, errorNN);
+//                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnName, errorNN);
                 }
                 if (retflag == 1) {
                     break;
@@ -1002,10 +1002,10 @@ public class NNProcessBySignal {
         if (nnsymTrain == true) {
             String nnName = ConstantKey.TR_NN1;
             double errorNN = CKey.NN1_ERROR_THRESHOLD;
-            if (TR_NN == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-                errorNN = CKey.NN2_ERROR_THRESHOLD;
-            }
+//            if (TR_NN == ConstantKey.INT_TR_NN2) {
+//                nnName = ConstantKey.TR_NN2;
+//                errorNN = CKey.NN2_ERROR_THRESHOLD;
+//            }
             String nnNameSym = nnName + "_" + symbol;
             String BPname = CKey.NN_version + "_" + nnNameSym;
             try {
@@ -1019,8 +1019,8 @@ public class NNProcessBySignal {
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN1) {
                     retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, errorNN);
-                } else if (TR_NN == ConstantKey.INT_TR_NN2) {
-                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnNameSym, errorNN);
+//                } else if (TR_NN == ConstantKey.INT_TR_NN2) {
+//                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnNameSym, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;
