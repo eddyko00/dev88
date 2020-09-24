@@ -876,8 +876,6 @@ public class StockDB {
         String name = CKey.NN_version + "_" + ConstantKey.TR_NN1;
         int ret = setCreateNeuralNetObj0(name, CKey.NN1_WEIGHT_0);
 
-        name = CKey.NN_version + "_" + ConstantKey.TR_NN2;
-        ret = setCreateNeuralNetObj0(name, CKey.NN2_WEIGHT_0);
 
         return ret;
     }

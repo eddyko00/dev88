@@ -705,11 +705,11 @@ public class NNProcessBySignal {
                 String sym = (String) stockNameArray.get(i);
                 String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                 stockTRNameArray.add(symTR);
-                boolean NN2flag = true;
-                if (NN2flag == true) {
-                    symTR = sym + "#" + ConstantKey.INT_TR_NN2;
-                    stockTRNameArray.add(symTR);
-                }
+//                boolean NN2flag = true;
+//                if (NN2flag == true) {
+//                    symTR = sym + "#" + ConstantKey.INT_TR_NN2;
+//                    stockTRNameArray.add(symTR);
+//                }
             }
 
             stockNNprocessNameArray = stockTRNameArray;
@@ -775,7 +775,7 @@ public class NNProcessBySignal {
                     if (symbolArray.length >= 0) {
 
                         String symbol = symbolArray[0];
-                        int TR_NN = Integer.parseInt(symbolArray[1]);
+                        int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
 
                         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
 
@@ -798,9 +798,9 @@ public class NNProcessBySignal {
                         }
                         if (lockReturnStock > 0) {
                             String nnName = ConstantKey.TR_NN1;
-                            if (TR_NN == ConstantKey.INT_TR_NN2) {
-                                nnName = ConstantKey.TR_NN2;
-                            }
+//                            if (TR_NN == ConstantKey.INT_TR_NN2) {
+//                                nnName = ConstantKey.TR_NN2;
+//                            }
 
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
                             AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
@@ -879,15 +879,15 @@ public class NNProcessBySignal {
                     String[] strNetArray = CKey.NN1_WEIGHT_0.split(";");
                     version = strNetArray[0];
                     middlelayer = strNetArray[4];
-                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
-                    if (CKey.NN2_WEIGHT_0.length() == 0) {
-                        return 0;
-                    }
-                    nnTemp.createNet(CKey.NN2_WEIGHT_0);
-                    String weightSt = nnTemp.getNetObjSt();
-                    String[] strNetArray = CKey.NN2_WEIGHT_0.split(";");
-                    version = strNetArray[0];
-                    middlelayer = strNetArray[4];
+//                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                    if (CKey.NN2_WEIGHT_0.length() == 0) {
+//                        return 0;
+//                    }
+//                    nnTemp.createNet(CKey.NN2_WEIGHT_0);
+//                    String weightSt = nnTemp.getNetObjSt();
+//                    String[] strNetArray = CKey.NN2_WEIGHT_0.split(";");
+//                    version = strNetArray[0];
+//                    middlelayer = strNetArray[4];
                 }
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 

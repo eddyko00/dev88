@@ -59,11 +59,11 @@ public class TradingNNprocess {
                 String sym = (String) stockNameArray.get(i);
                 String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                 stockTRNameArray.add(symTR);
-                boolean NN2flag = true;
-                if (NN2flag == true) {
-                    symTR = sym + "#" + ConstantKey.INT_TR_NN2;
-                    stockTRNameArray.add(symTR);
-                }
+//                boolean NN2flag = true;
+//                if (NN2flag == true) {
+//                    symTR = sym + "#" + ConstantKey.INT_TR_NN2;
+//                    stockTRNameArray.add(symTR);
+//                }
             }
             setStockNNretrainNameArray(stockTRNameArray);
         }
@@ -1301,9 +1301,9 @@ public class TradingNNprocess {
             int totalAdd = 0;
             int totalDup = 0;
             String nnName = ConstantKey.TR_NN1;
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-            }
+//            if (TR_Name == ConstantKey.INT_TR_NN2) {
+//                nnName = ConstantKey.TR_NN2;
+//            }
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
@@ -1379,14 +1379,12 @@ public class TradingNNprocess {
                 logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
 
                 if (getEnv.checkLocalPC() == true) {
-                    String nn12 = "_nn1_retarin_";
-                    if (TR_Name == ConstantKey.INT_TR_NN2) {
-                        nn12 = "_nn2_retrain_";
+                    boolean flag = false;
+                    if (flag == true) {
+                        String nn12 = "_nn1_retarin_";
+                        String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ".csv";
+                        FileUtil.FileWriteTextArray(filename, writeArray);
                     }
-                    String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ".csv";
-
-                    FileUtil.FileWriteTextArray(filename, writeArray);
-
                 }
                 return 1;
             } catch (Exception e) {

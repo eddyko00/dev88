@@ -115,7 +115,7 @@ public class CKey {
     public static String version = "3.0922";
     
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
-    public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;
+//    public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;
 
     public static String NN3_WEIGHT_0 = nn3Data.TR_NN3_WEIGHT_0;    
     //////////////////////

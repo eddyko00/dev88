@@ -36,9 +36,7 @@ public class ProcessNN2 {
         String symbol = stock.getSymbol();
         AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
-        String nnName = ConstantKey.TR_NN2;
-        nnName = nnName + "_" + symbol;
-        String BPname = CKey.NN_version + "_" + nnName;
+        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1 + "_" + symbol;
 
         ArrayList<NNInputDataObj> inputList = null;
         ProcessNN2 nn2 = new ProcessNN2();

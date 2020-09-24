@@ -36,10 +36,7 @@ public class ProcessNN1 {
         String symbol = stock.getSymbol();
         AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
-        String nnName = ConstantKey.TR_NN1;
-
-        nnName = nnName + "_" + symbol;
-        String BPname = CKey.NN_version + "_" + nnName;
+        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1 + "_" + symbol;
 
         ArrayList<NNInputDataObj> inputList = null;
 
@@ -118,7 +115,7 @@ public class ProcessNN1 {
         nn.setOutput2((float) rsp[0][1]);
         inputObj.setOutput1((float) rsp[0][0]);
         inputObj.setOutput2((float) rsp[0][1]);
-        
+
         double NNprediction = rsp[0][0];
         int temp = 0;
         NNprediction = NNprediction * 1000;
@@ -345,7 +342,7 @@ public class ProcessNN1 {
         // ignore rule 2
         if (true) {
             return 0;
-        }        
+        }
         float output1 = nn.getOutput1();
         float output2 = nn.getOutput2();
         float threshold = (float) 0.4;
