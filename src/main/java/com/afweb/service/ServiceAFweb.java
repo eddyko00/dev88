@@ -929,7 +929,8 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            String nnName = ConstantKey.TR_NN2;
+            symbol ="AAPL";
+            String nnName = ConstantKey.TR_NN3;
 
 //          // will clear the transaction history  
             AFstockObj stock = this.getRealTimeStockImp(symbol);

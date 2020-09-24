@@ -335,13 +335,17 @@ public class ProcessNN1 {
     public float specialOverrideRule1(float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
         delPer = Math.abs(delPer);
-        if (delPer > 15) {  // > 15% override the NN sigal and take the MACD signal
+        if (delPer > 20) {  // > 15% override the NN sigal and take the MACD signal
             return delPer;
         }
         return 0;
     }
 
     public float specialOverrideRule2(NNObj nn, long lastTHLong, long curSGLong) {
+        // ignore rule 2
+        if (true) {
+            return 0;
+        }        
         float output1 = nn.getOutput1();
         float output2 = nn.getOutput2();
         float threshold = (float) 0.4;

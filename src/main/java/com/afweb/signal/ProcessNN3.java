@@ -289,6 +289,11 @@ public class ProcessNN3 {
                                 if (delta > 0) {
                                     logger.info("> ProcessTRHistoryOffsetNN3 " + stock.getSymbol() + " Override1 signal " + lastTHLong + " " + curSGLong + " dela price > 15% Delta=" + delta);
                                     nnSignal = macdSignal;
+                                    int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+                                    //override the previous NN1 prediction
+                                    if (nnSignal != trendSignal) {
+                                        logger.info("> updateAdminTradingsignalnn3 " + stock.getSymbol() + " Override3 signal " + curSGLong + " TrendSignal" + trendSignal);
+                                    }
                                 } else {
 
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
@@ -380,6 +385,11 @@ public class ProcessNN3 {
                                 if (delta > 0) {
                                     logger.info("> updateAdminTradingsignalnn3 " + symbol + " Override1 signal " + lastTHLong + " " + curSGLong + " dela price > 15% Delta=" + delta);
                                     nnSignal = macdSignal;
+                                    int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+                                    //override the previous NN1 prediction
+                                    if (nnSignal != trendSignal) {
+                                        logger.info("> updateAdminTradingsignalnn3 " + stock.getSymbol() + " Override3 signal " + curSGLong + " TrendSignal" + trendSignal);
+                                    }                                    
                                 } else {
 
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
@@ -405,13 +415,17 @@ public class ProcessNN3 {
     public float specialOverrideRule1(float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
         delPer = Math.abs(delPer);
-        if (delPer > 15) {  // > 15% override the NN sigal and take the MACD signal
+        if (delPer > 20) {  // > 15% override the NN sigal and take the MACD signal
             return delPer;
         }
         return 0;
     }
 
     public float specialOverrideRule2(NNObj nn, long lastTHLong, long curSGLong) {
+        // ignore rule 2
+        if (true) {
+            return 0;
+        }
         float output1 = nn.getOutput1();
         float output2 = nn.getOutput2();
         float threshold = (float) 0.4;
@@ -419,6 +433,7 @@ public class ProcessNN3 {
         if ((threshold > output1) && (threshold > output2)) {
             long next15date = TimeConvertion.addDays(lastTHLong, 20);
             if (next15date < curSGLong) {
+
                 return 1;
             }
         }

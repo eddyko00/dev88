@@ -69,16 +69,21 @@ public class NNProcessByTrend {
         boolean flagTestNNHistory = false;
         if (flagTestNNHistory == true) {
             AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
+            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             String symbol = "HOU.TO";
+            symbol = "AAPL";
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
             String nnName = ConstantKey.TR_NN3;
             serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), nnName);
-            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), nnName);
+
+            TRprocessImp.testUpdateAdminTradingsignal(serviceAFWeb, symbol);
+            TRprocessImp.testUpdateAdminTradingsignal(serviceAFWeb, symbol);
+            
             // get 2 year
             /// thObjList old first - recent last
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            ArrayList<StockTRHistoryObj> trHistoryList = TRprocessImp.ProcessTRHistory(serviceAFWeb, trObj, 2);
-            logger.info("trHistoryList size=" + trHistoryList.size());
+//            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), nnName);
+//            ArrayList<StockTRHistoryObj> trHistoryList = TRprocessImp.ProcessTRHistory(serviceAFWeb, trObj, 2);
+            logger.info("trHistoryList ");
         }
 
         boolean flagTestNNSignal = false;
