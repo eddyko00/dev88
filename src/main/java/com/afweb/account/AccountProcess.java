@@ -709,6 +709,7 @@ public class AccountProcess {
         if (CKey.NN_DEBUG == true) {
             lockReturn = 1;
         }
+        logger.info("ProcessAllAccountTradingSignal " + LockName + " LockName " + lockReturn);
 
         if (lockReturn > 0) {
             int maxAccountCnt = 0;
@@ -758,7 +759,7 @@ public class AccountProcess {
                 }
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.SIGNAL_LOCKTYPE);
-
+            logger.info("ProcessAllAccountTradingSignal " + LockName + " unlock LockName ");
         }
 
     }
