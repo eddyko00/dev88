@@ -78,8 +78,8 @@ public class CKey {
 //*********** 
 // server timerhandler
 // server timerhandler    
-    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-//    public static final String SERVERDB_URL = URL_PATH_OP;
+//    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
+    public static final String SERVERDB_URL = URL_PATH_OP;
 //
 //**********    
 //*********** 
