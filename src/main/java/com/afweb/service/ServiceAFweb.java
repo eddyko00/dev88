@@ -375,9 +375,9 @@ public class ServiceAFweb {
                 // final initialization
             } else {
                 if (timerThreadMsg != null) {
-                    if (timerThreadMsg.indexOf("adminsignal") == -1) {
+                    if (timerThreadMsg.indexOf("adminsignal") != -1) {
                         processTimer("adminsignal");
-                    } else if (timerThreadMsg.indexOf("starttimer") == -1) {
+                    } else if (timerThreadMsg.indexOf("starttimer") != -1) {
                         processTimer("starttimer");
                     }
                 }
