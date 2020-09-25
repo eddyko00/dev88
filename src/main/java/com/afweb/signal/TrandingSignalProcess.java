@@ -84,7 +84,7 @@ public class TrandingSignalProcess {
 
         boolean testing = false;
         if (testing == true) {
-            lockReturn =1;
+            lockReturn = 1;
         }
         if (lockReturn > 0) {
 

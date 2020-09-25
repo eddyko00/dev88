@@ -60,7 +60,7 @@ public class NNProcessBySignal {
 
         }
 
-        boolean flagNeural = false;
+        boolean flagNeural = true;
         if (flagNeural == true) {
             // delete all data
 //            serviceAFWeb.getStockImp().deleteNeuralNetDataTable();

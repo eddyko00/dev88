@@ -518,7 +518,8 @@ public class ServiceAFweb {
 
 //            logger.info("> processTimer " + getServerObj().getProcessTimerCnt());
             if (getEnv.checkLocalPC() == true) {
-
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 if (CKey.NN_DEBUG == true) {
                     TRprocessImp.UpdateAllStock(this);
                     TRprocessImp.ProcessAdminSignalTrading(this);
@@ -536,7 +537,7 @@ public class ServiceAFweb {
                     RESTtimer.serverURL_0 = "";
                     HerokuDemoApplication.timerSchCnt = 0;
                 }
-                
+
                 removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
             }
             ////////////
