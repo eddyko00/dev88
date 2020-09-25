@@ -37,7 +37,6 @@ public class NNProcessBySignal {
     public static Logger logger = Logger.getLogger("NNProcess");
 
     public void processNeuralNet(ServiceAFweb serviceAFWeb) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
 
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
@@ -60,7 +59,7 @@ public class NNProcessBySignal {
 
         }
 
-        boolean flagNeural = true;
+        boolean flagNeural = false;
         if (flagNeural == true) {
             // delete all data
 //            serviceAFWeb.getStockImp().deleteNeuralNetDataTable();
@@ -810,31 +809,13 @@ public class NNProcessBySignal {
                         logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
                         if (lockReturnStock > 0) {
                             String nnName = ConstantKey.TR_NN1;
-//                            if (TR_NN == ConstantKey.INT_TR_NN2) {
-//                                nnName = ConstantKey.TR_NN2;
-//                            }
-
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-                            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
-                            if (nnObj1 == null) {
-                                inputStockNeuralNetBySignal(serviceAFWeb, TR_NN, symbol);
-                                continue;
-                            }
-                            if (nnObj1 != null) {
-                                if (nnObj1.getStatus() == ConstantKey.INITIAL) {
-                                    inputStockNeuralNetBySignal(serviceAFWeb, TR_NN, symbol);
-                                }
-                                if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
-                                    stockNNprocessNameArray.remove(0);
-                                    continue;
-                                }
-                            }
+                            this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
 
-                            stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
                             serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                             logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
-                            
-                            nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+
+                            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                     stockNNprocessNameArray.remove(0);
@@ -855,6 +836,23 @@ public class NNProcessBySignal {
             logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
 //        logger.info("> ProcessTrainNeuralNet ... done");
+    }
+
+    private void Process1TrainNeuralNet(ServiceAFweb serviceAFWeb, int TR_NN, String BPnameSym, String symbol) {
+
+        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+        if (nnObj1 == null) {
+            inputStockNeuralNetBySignal(serviceAFWeb, TR_NN, symbol);
+            return;
+        }
+        if (nnObj1.getStatus() == ConstantKey.INITIAL) {
+            inputStockNeuralNetBySignal(serviceAFWeb, TR_NN, symbol);
+        }
+        if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
+            stockNNprocessNameArray.remove(0);
+            return;
+        }
+        stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
     }
 
     public int inputStockNeuralNetBySignal(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {

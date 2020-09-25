@@ -76,7 +76,7 @@ public class NNProcessByTrend {
 
             TRprocessImp.testUpdateAdminTradingsignal(serviceAFWeb, symbol);
             TRprocessImp.testUpdateAdminTradingsignal(serviceAFWeb, symbol);
-            
+
             // get 2 year
             /// thObjList old first - recent last
 //            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), nnName);
@@ -613,9 +613,11 @@ public class NNProcessByTrend {
         LockName = "NN3_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
-        if (CKey.NN_DEBUG == true) {
+        boolean testing = false;
+        if (testing == true) {
             lockReturn = 1;
         }
+        logger.info("ProcessTrainNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long currentTime = System.currentTimeMillis();
             long lockDate1Min = TimeConvertion.addMinutes(currentTime, 5);
@@ -656,32 +658,20 @@ public class NNProcessByTrend {
 
                         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                         long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
-                        if (CKey.NN_DEBUG == true) {
-                            lockReturnStock = 1;
+
+                        if (testing == true) {
+                            lockReturn = 1;
                         }
+                        logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+
                         if (lockReturnStock > 0) {
                             String nnName = ConstantKey.TR_NN3;
-
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-                            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
-                            if (nnObj1 == null) {
-                                inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
-                                continue;
-                            }
-                            if (nnObj1 != null) {
-                                if (nnObj1.getStatus() == ConstantKey.INITIAL) {
-                                    inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
-                                }
-                                if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
-                                    stockNNprocessNameArray.remove(0);
-                                    continue;
-                                }
-                            }
+                            this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
 
-                            stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
                             serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-
-                            nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+                            logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
+                            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                     stockNNprocessNameArray.remove(0);
@@ -699,8 +689,26 @@ public class NNProcessByTrend {
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
+            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
 //        logger.info("> ProcessTrainNeuralNet ... done");
+    }
+
+    private void Process1TrainNeuralNet(ServiceAFweb serviceAFWeb, int TR_NN, String BPnameSym, String symbol) {
+
+        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+        if (nnObj1 == null) {
+            inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
+            return;
+        }
+        if (nnObj1.getStatus() == ConstantKey.INITIAL) {
+            inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
+        }
+        if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
+            stockNNprocessNameArray.remove(0);
+            return;
+        }
+        stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
     }
 
     public int stockTrainNeuralNet(ServiceAFweb serviceAFWeb, int TR_NN, String symbol) {
