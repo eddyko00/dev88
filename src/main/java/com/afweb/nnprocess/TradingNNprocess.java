@@ -86,9 +86,11 @@ public class TradingNNprocess {
         LockName = "NNRE_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
-        if (CKey.NN_DEBUG == true) {
+        boolean testing = false;
+        if (testing == true) {
             lockReturn = 1;
         }
+        logger.info("ProcessReLearnInputNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long currentTime = System.currentTimeMillis();
             long lockDate1Min = TimeConvertion.addMinutes(currentTime, 1);
@@ -119,12 +121,14 @@ public class TradingNNprocess {
 
                             long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                             long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
-                            if (CKey.NN_DEBUG == true) {
+                            if (testing == true) {
                                 lockReturnStock = 1;
                             }
+                            logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
                             if (lockReturnStock > 0) {
                                 inputReTrainStockNeuralNetData(serviceAFWeb, trNN, symbol);
                                 serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                                logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
                                 //////////
                                 int cfgId = 0;;
                                 String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
@@ -145,10 +149,11 @@ public class TradingNNprocess {
                         }
                     }
                 } catch (Exception ex) {
-                    logger.info("> ProcessReTrainNeuralNet Exception" + ex.getMessage());
+                    logger.info("> ProcessReLearnInputNeuralNet Exception" + ex.getMessage());
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
+            logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
         }
 //        logger.info("> ProcessTrainNeuralNet ... done");
     }

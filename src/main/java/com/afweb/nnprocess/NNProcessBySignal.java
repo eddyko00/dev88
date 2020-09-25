@@ -75,7 +75,7 @@ public class NNProcessBySignal {
         boolean flagReLeanInput = false;
         if (flagReLeanInput == true) {
             ProcessReLeanInput(serviceAFWeb);
-            
+
         }
 
         ///////////////////////////////////////////////////////////////////////////////////   
@@ -757,15 +757,17 @@ public class NNProcessBySignal {
         LockName = "NN_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
-        if (CKey.NN_DEBUG == true) {
+        boolean testing = false;
+        if (testing == true) {
             lockReturn = 1;
         }
+        logger.info("ProcessTrainNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long currentTime = System.currentTimeMillis();
             long lockDate1Min = TimeConvertion.addMinutes(currentTime, 5);
 
             for (int i = 0; i < 10; i++) {
-                if (CKey.NN_DEBUG != true) {
+                if (testing == true) {
                     currentTime = System.currentTimeMillis();
                     if (lockDate1Min < currentTime) {
                         break;
@@ -801,9 +803,11 @@ public class NNProcessBySignal {
 
                         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                         long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
-                        if (CKey.NN_DEBUG == true) {
-                            lockReturnStock = 1;
+
+                        if (testing == true) {
+                            lockReturn = 1;
                         }
+                        logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
                         if (lockReturnStock > 0) {
                             String nnName = ConstantKey.TR_NN1;
 //                            if (TR_NN == ConstantKey.INT_TR_NN2) {
@@ -828,7 +832,8 @@ public class NNProcessBySignal {
 
                             stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
                             serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-
+                            logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
+                            
                             nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
@@ -847,6 +852,7 @@ public class NNProcessBySignal {
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
+            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
 //        logger.info("> ProcessTrainNeuralNet ... done");
     }
