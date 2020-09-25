@@ -145,16 +145,15 @@ public class TrandingSignalProcess {
                                 }
                             }
                         }
-                        if (getEnv.checkLocalPC() == false) {
-                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
-                            logger.info("ProcessAdminSignalTrading " + LockStock + " unLock LockStock ");
-                        }
+
+                        serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+                        logger.info("ProcessAdminSignalTrading " + LockStock + " unLock LockStock ");
 //                        logger.info("> ProcessAdminSignalTrading end " );
                     }
                 } catch (Exception ex) {
                     logger.info("> ProcessAdminSignalTrading Exception" + ex.getMessage());
                 }
-            }            
+            }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
             logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
         }
