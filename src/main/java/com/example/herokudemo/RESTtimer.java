@@ -23,7 +23,6 @@ public class RESTtimer {
 
     private static String timerMsg = null;
 
-    public static String serverURL_1 = "";
     public static String serverURL_0 = "";
 
     public void RestTimerHandler() {
