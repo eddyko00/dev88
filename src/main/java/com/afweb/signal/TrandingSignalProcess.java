@@ -80,8 +80,11 @@ public class TrandingSignalProcess {
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
 
         long lockReturn = 1;
-        if (getEnv.checkLocalPC() == false) {
-            lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
+        lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
+
+        boolean testing = false;
+        if (testing == true) {
+            lockReturn =1;
         }
         if (lockReturn > 0) {
 
@@ -119,7 +122,7 @@ public class TrandingSignalProcess {
 
                     long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                     long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
-                    if (CKey.NN_DEBUG == true) {
+                    if (testing == true) {
                         lockReturnStock = 1;
                     }
                     if (lockReturnStock > 0) {
@@ -1954,17 +1957,15 @@ public class TrandingSignalProcess {
     private int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
-        boolean forceNN1flag = true;
-        if (forceNN1flag == true) {
-            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-            if (nnName.equals(ConstantKey.TR_NN3)) {
-                BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN3;
-            }
+
+        BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
+        if (nnName.equals(ConstantKey.TR_NN3)) {
+            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN3;
         }
+
         //just for testing
 //        ServiceAFweb.forceNNReadFileflag = false;
         //just for testing 
-
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
 //            inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);

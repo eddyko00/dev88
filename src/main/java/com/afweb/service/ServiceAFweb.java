@@ -496,7 +496,6 @@ public class ServiceAFweb {
         if (CKey.UI_ONLY == true) {
             return;
         }
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         String LockName = null;
         try {
@@ -532,12 +531,12 @@ public class ServiceAFweb {
             if (cmd.length() > 0) {
                 if (cmd.equals("adminsignal")) {
                     TRprocessImp.ProcessAdminSignalTrading(this);
-
+                    getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 } else if (cmd.equals("starttimer")) {
                     RESTtimer.serverURL_0 = "";
                     HerokuDemoApplication.timerSchCnt = 0;
-
                 }
+                
                 removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
             }
             ////////////

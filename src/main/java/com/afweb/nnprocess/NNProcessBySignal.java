@@ -74,60 +74,8 @@ public class NNProcessBySignal {
 
         boolean flagReLeanInput = false;
         if (flagReLeanInput == true) {
-            TradingNNprocess trainNN = new TradingNNprocess();
-            int custId = 0;;
-            String Name = TradingNNprocess.cfg_stockNNretrainNameArray;
-            ArrayList stockNameArray = null;
-//
-//            serviceAFWeb.getAccountImp().removeCommByCustID(custId);
-//
-            ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(custId, Name);
-            if (commObjArry != null) {
-                if (commObjArry.size() > 0) {
-                    CommObj commObj = commObjArry.get(0);
-                    String stockNameArraySt = commObj.getData();
-                    try {
-                        stockNameArraySt = StringTag.replaceAll("^", "\"", stockNameArraySt);
-                        stockNameArray = new ObjectMapper().readValue(stockNameArraySt, ArrayList.class);
-                    } catch (Exception ex) {
-                    }
-                }
-            } else {
-                ArrayList stArray = new ArrayList();
-                String msg = "";
-                try {
-                    msg = new ObjectMapper().writeValueAsString(stArray);
-                } catch (JsonProcessingException ex) {
-                }
-                msg = StringTag.replaceAll("\"", "^", msg);
-
-                serviceAFWeb.getAccountImp().addCommByCustName(custId, Name, msg);
-            }
-            if ((stockNameArray == null) || (stockNameArray.size() == 0)) {
-
-                stockNameArray = trainNN.reLearnInputStockNNprocessNameArray(serviceAFWeb);
-            }
-            trainNN.setStockNNretrainNameArray(stockNameArray);
-
-//            //////////
-//            int cfgId = 0;;
-//            String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
-//            commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
-//            if (commObjArry != null) {
-//                CommObj commObj = commObjArry.get(0);
-//                String dataSt = "";
-//                try {
-//                    dataSt = new ObjectMapper().writeValueAsString(stockNameArray);
-//                } catch (JsonProcessingException ex) {
-//                }
-//                dataSt = StringTag.replaceAll("\"", "^", dataSt);
-//                commObj.setData(dataSt);
-//                serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
-//            }
-//            ////////////
-            for (int k = 0; k < 100; k++) {
-                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
-            }
+            ProcessReLeanInput(serviceAFWeb);
+            
         }
 
         ///////////////////////////////////////////////////////////////////////////////////   
@@ -340,6 +288,69 @@ public class NNProcessBySignal {
 //            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + "test2.csv", writeArray);
 //
 //        }
+    }
+
+    /////////////////////////////////////////////////////////
+    public void ProcessReLeanInput(ServiceAFweb serviceAFWeb) {
+        boolean flagReLeanInput = false;
+        if (flagReLeanInput == true) {
+            TradingNNprocess trainNN = new TradingNNprocess();
+            int custId = 0;;
+            String Name = TradingNNprocess.cfg_stockNNretrainNameArray;
+            ArrayList stockNameArray = null;
+//
+//            serviceAFWeb.getAccountImp().removeCommByCustID(custId);
+//
+            ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(custId, Name);
+            if (commObjArry != null) {
+                if (commObjArry.size() > 0) {
+                    CommObj commObj = commObjArry.get(0);
+                    String stockNameArraySt = commObj.getData();
+                    try {
+                        stockNameArraySt = StringTag.replaceAll("^", "\"", stockNameArraySt);
+                        stockNameArray = new ObjectMapper().readValue(stockNameArraySt, ArrayList.class);
+                    } catch (Exception ex) {
+                    }
+                }
+            } else {
+                ArrayList stArray = new ArrayList();
+                String msg = "";
+                try {
+                    msg = new ObjectMapper().writeValueAsString(stArray);
+                } catch (JsonProcessingException ex) {
+                }
+                msg = StringTag.replaceAll("\"", "^", msg);
+
+                serviceAFWeb.getAccountImp().addCommByCustName(custId, Name, msg);
+            }
+            if ((stockNameArray == null) || (stockNameArray.size() == 0)) {
+
+                stockNameArray = trainNN.reLearnInputStockNNprocessNameArray(serviceAFWeb);
+            }
+            trainNN.setStockNNretrainNameArray(stockNameArray);
+
+//            //////////
+//            int cfgId = 0;;
+//            String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
+//            commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
+//            if (commObjArry != null) {
+//                CommObj commObj = commObjArry.get(0);
+//                String dataSt = "";
+//                try {
+//                    dataSt = new ObjectMapper().writeValueAsString(stockNameArray);
+//                } catch (JsonProcessingException ex) {
+//                }
+//                dataSt = StringTag.replaceAll("\"", "^", dataSt);
+//                commObj.setData(dataSt);
+//                serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
+//            }
+//            ////////////
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            for (int k = 0; k < 100; k++) {
+                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
+            }
+        }
+
     }
 
     // training neural net input data
@@ -720,15 +731,15 @@ public class NNProcessBySignal {
 //            return;
 //        }        
 //        logger.info("> ProcessTrainNeuralNet ");
-        if (getEnv.checkLocalPC() != true) {
-            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {
-                ///Error R14 (Memory quota exceeded) in heroku
-                ///Error R14 (Memory quota exceeded) in heroku
-                if (ServiceAFweb.NN_AllowTraingStockFlag == false) {
-                    return;
-                }
-            }
-        }
+//        if (getEnv.checkLocalPC() != true) {
+//            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {
+//                ///Error R14 (Memory quota exceeded) in heroku
+//                ///Error R14 (Memory quota exceeded) in heroku
+//                if (ServiceAFweb.NN_AllowTraingStockFlag == false) {
+//                    return;
+//                }
+//            }
+//        }
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         UpdateStockNNprocessNameArray(serviceAFWeb, accountAdminObj);
