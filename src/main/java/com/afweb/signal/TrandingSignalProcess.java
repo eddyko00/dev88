@@ -79,9 +79,9 @@ public class TrandingSignalProcess {
         LockName = "ADM_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
 
-        long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
-        if (CKey.NN_DEBUG == true) {
-            lockReturn = 1;
+        long lockReturn = 1;
+        if (getEnv.checkLocalPC() == false) {
+            lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
         }
         if (lockReturn > 0) {
 
@@ -140,7 +140,9 @@ public class TrandingSignalProcess {
                                 }
                             }
                         }
-                        serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+                        if (getEnv.checkLocalPC() == false) {
+                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+                        }
 //                        logger.info("> ProcessAdminSignalTrading end " );
                     }
                 } catch (Exception ex) {
@@ -759,7 +761,6 @@ public class TrandingSignalProcess {
             logger.info("> upateAdminTransaction " + stock.getSymbol());
             ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
-
 
             for (int j = 0; j < tradingRuleList.size(); j++) {
                 TradingRuleObj trObj = (TradingRuleObj) tradingRuleList.get(j);

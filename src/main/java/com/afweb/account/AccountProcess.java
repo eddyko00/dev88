@@ -704,10 +704,12 @@ public class AccountProcess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ALL_SIGNAL";
-        long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
+        long lockReturn = 1;
+        lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
         if (CKey.NN_DEBUG == true) {
             lockReturn = 1;
         }
+
         if (lockReturn > 0) {
             int maxAccountCnt = 0;
             long LastServUpdateTimer = System.currentTimeMillis();
@@ -756,6 +758,7 @@ public class AccountProcess {
                 }
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.SIGNAL_LOCKTYPE);
+
         }
 
     }

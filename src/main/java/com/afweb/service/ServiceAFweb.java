@@ -16,6 +16,8 @@ import com.afweb.nn.*;
 import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
+import com.example.herokudemo.HerokuDemoApplication;
+import com.example.herokudemo.RESTtimer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -372,8 +374,14 @@ public class ServiceAFweb {
                 }
                 // final initialization
             } else {
-
-                processTimer();
+                if (timerThreadMsg != null) {
+                    if (timerThreadMsg.indexOf("adminsignal") == -1) {
+                        processTimer("adminsignal");
+                    } else if (timerThreadMsg.indexOf("starttimer") == -1) {
+                        processTimer("starttimer");
+                    }
+                }
+                processTimer("");
             }
 
         } catch (Exception ex) {
@@ -440,7 +448,7 @@ public class ServiceAFweb {
 
     public boolean systemNNFlag = false;
 
-    private void processTimer() {
+    private void processTimer(String cmd) {
 
         if (getEnv.checkLocalPC() == true) {
             if (CKey.NN_DEBUG == true) {
@@ -520,6 +528,19 @@ public class ServiceAFweb {
                     getAccountProcessImp().ProcessSystemMaintance(this);
                 }
             }
+            //////////// special command            
+            if (cmd.length() > 0) {
+                if (cmd.equals("adminsignal")) {
+                    TRprocessImp.ProcessAdminSignalTrading(this);
+
+                } else if (cmd.equals("starttimer")) {
+                    RESTtimer.serverURL_0 = "";
+                    HerokuDemoApplication.timerSchCnt = 0;
+
+                }
+                removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
+            }
+            ////////////
             if (((getServerObj().getProcessTimerCnt() % 27) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
                 long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
                 if (result == 0) {
@@ -929,7 +950,7 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol ="AAPL";
+            symbol = "AAPL";
             String nnName = ConstantKey.TR_NN3;
 
 //          // will clear the transaction history  
@@ -2725,7 +2746,6 @@ public class ServiceAFweb {
 //        }
 //        return writeAllArray;
 //    }
-
 //    public ArrayList getAccountStockTRListHistoryMVNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
 //        TradingNNprocess NNProcessImp = new TradingNNprocess();
 //        ArrayList<String> writeAllArray = new ArrayList();
@@ -2875,13 +2895,11 @@ public class ServiceAFweb {
 //        }
 //        return writeAllArray;
 //    }
-
 //    public String getAccountStockTRListHistoryChart(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
 //        ArrayList<StockTRHistoryObj> thObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
 //        return getAccountStockTRListHistoryChartProcess(thObjList, stockidsymbol, trname, pathSt);
 //
 //    }
-
     public String getAccountStockTRListHistoryChartProcess(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
         try {
             if (thObjListMain == null) {
