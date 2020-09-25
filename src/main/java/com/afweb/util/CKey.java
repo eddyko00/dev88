@@ -68,19 +68,20 @@ public class CKey {
 //    public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DB_PHP;  //Heroku PHP DB interface  
 //***********    
 //*********** 
+// server timerhandler
+// server timerhandler    
+//    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
+    public static final String SERVERDB_URL = URL_PATH_OP;
+//
+//***********    
+//*********** 
 //***********    
 //*********** 
 // PHP DB server
 // PHP DB server  
-//    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;   
-    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
-//***********    
-//*********** 
-// server timerhandler
-// server timerhandler    
-    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-//    public static final String SERVERDB_URL = URL_PATH_OP;
-//
+    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;   
+//    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
+
 //**********    
 //*********** 
 //    public static final String SERVER_TIMER_URL = "https://iiswebtimer.herokuapp.com";  // server timerhandler    
