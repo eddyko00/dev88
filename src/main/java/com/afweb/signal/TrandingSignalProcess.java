@@ -829,7 +829,7 @@ public class TrandingSignalProcess {
                     }
 
                     if (CKey.NN_DEBUG == true) {
-                        boolean flag = false;
+                        boolean flag = true;
                         if (flag == true) {
                             ArrayList<String> writeArray = new ArrayList();
                             ArrayList<String> displayArray = new ArrayList();
@@ -1048,6 +1048,9 @@ public class TrandingSignalProcess {
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         ProcessNN3 nn3 = new ProcessNN3();
+                        if (offset < 82) {
+                            nn3Flag = true;
+                        }
                         int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn3Signal;
                     }
