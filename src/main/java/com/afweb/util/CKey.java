@@ -103,17 +103,17 @@ public class CKey {
     public static double PREDICT_THRESHOLD = 0.6;
     public static double NN1_ERROR_THRESHOLD = 0.130; //0.122; //0.08; 
 //    public static double NN2_ERROR_THRESHOLD = 0.17; //0.08;  
-    public static double NN3_ERROR_THRESHOLD = 0.134; //0.345; 
+    public static double NN3_ERROR_THRESHOLD = 0.24; // 0.134; //0.345; 
     public static final int NN_OUTPUT_SIZE = 2;    
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 80; //120; 
-    public static final int NN3_MIDDLE_SIZE = 80; //120; 
+    public static final int NN3_MIDDLE_SIZE = 90; //120; 
     
     
     // must match to the nnData version
     // must match to the nnData version
     // must match to the nnData version  
-    public static String version = "3.0925";
+    public static String version = "2.0927";
     
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
 //    public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;

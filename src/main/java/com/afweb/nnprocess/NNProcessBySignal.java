@@ -38,11 +38,14 @@ public class NNProcessBySignal {
 
     public void processNeuralNet(ServiceAFweb serviceAFWeb) {
 
+        TrandingSignalProcess.forceToGenerateNewNN=false;
+        
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
-
+            // need to debug to generate the java first time
+            TrandingSignalProcess.forceToGenerateNewNN=true;
         }
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
@@ -65,7 +68,7 @@ public class NNProcessBySignal {
 //            serviceAFWeb.getStockImp().deleteNeuralNetDataTable();
             // delete all data
             serviceAFWeb.SystemClearNNinput();
-            for (int k = 0; k < 100; k++) {
+            for (int k = 0; k < 50; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
             }
 
@@ -804,7 +807,7 @@ public class NNProcessBySignal {
                         long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
 
                         if (testing == true) {
-                            lockReturn = 1;
+                            lockReturnStock = 1;
                         }
                         logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
                         if (lockReturnStock > 0) {

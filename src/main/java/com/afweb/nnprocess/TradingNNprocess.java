@@ -544,7 +544,7 @@ public class TradingNNprocess {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym,  true);
 
         return inputDatalist;
     }
@@ -595,7 +595,7 @@ public class TradingNNprocess {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, ConstantKey.TR_MACD, true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym,  true);
 
         return inputDatalist;
     }
@@ -703,16 +703,24 @@ public class TradingNNprocess {
         if (thObjListMACD == null) {
             return -1;
         }
+        // need to match specialOverrideRule3 futureDay
         int futureDay = 5;
         int cIndex = index + futureDay;
 
         if (cIndex >= thObjListMACD.size()) {
             return -1;
         }
-        StockTRHistoryObj thObjMV0 = thObjListMACD.get(index);
-        double closeOutput0 = thObjMV0.getClose();
-        StockTRHistoryObj thObjMV5 = thObjListMACD.get(cIndex);
-        double closeOutput = thObjMV5.getClose();
+
+        float close = 0;
+        close = thObjListMACD.get(index).getClose();
+        close += thObjListMACD.get(index - 1).getClose();
+        close += thObjListMACD.get(index - 2).getClose();
+        float closeOutput0 = close / 3;
+
+        close = thObjListMACD.get(cIndex).getClose();
+        close += thObjListMACD.get(cIndex - 1).getClose();
+        close += thObjListMACD.get(cIndex - 2).getClose();
+        float closeOutput = close / 3;
 
         double closef = (closeOutput - closeOutput0) / closeOutput0;
         closef = closef * 100;
@@ -742,6 +750,49 @@ public class TradingNNprocess {
 
     }
 
+//    public static double getNNnormalizeStOutputCloseOld(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
+//
+//        if (thObjListMACD == null) {
+//            return -1;
+//        }
+//        int futureDay = 5;
+//        int cIndex = index + futureDay;
+//
+//        if (cIndex >= thObjListMACD.size()) {
+//            return -1;
+//        }
+//        StockTRHistoryObj thObjMV0 = thObjListMACD.get(index);
+//        double closeOutput0 = thObjMV0.getClose();
+//        StockTRHistoryObj thObjMV5 = thObjListMACD.get(cIndex);
+//        double closeOutput = thObjMV5.getClose();
+//
+//        double closef = (closeOutput - closeOutput0) / closeOutput0;
+//        closef = closef * 100;
+//
+//        closef = closef * 15;   // factore of 15 to make it more valid for NN
+//
+//        int temp = 0;
+//        temp = (int) closef;
+//        closef = temp;
+//        closef = closef / 100;
+//        if (closef > 0) {
+//            if (closef > 0.9) {
+//                closef = 0.9;
+//            }
+//            if (closef < 0.1) {
+//                closef = 0.1;
+//            }
+//        } else {
+//            if (closef < -0.9) {
+//                closef = -0.9;
+//            }
+//            if (closef > -0.1) {
+//                closef = -0.1;
+//            }
+//        }
+//        return closef;
+//
+//    }
     public static ArrayList<Double> getNNnormalizeStInputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
         if (thObjListMACD == null) {
             return null;
@@ -1436,7 +1487,8 @@ public class TradingNNprocess {
 //        return -1;
 //    }
     //////////////
-    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
+            String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
 
         if ((thObjListMACD == null) || (thObjListMV == null)) {
             return null;
@@ -1569,7 +1621,8 @@ public class TradingNNprocess {
         return inputDatalist;
     }
 
-    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN3(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI, String stockidsymbol, NNTrainObj nnTraining, String TRoutput, boolean lastDateOutput) {
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN3(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
+            String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
 
         if ((thObjListMACD == null) || (thObjListMV == null)) {
             return null;

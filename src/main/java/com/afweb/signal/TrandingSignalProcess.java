@@ -1012,15 +1012,15 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) macd.diff);
                     break;
                 }
-//                case ConstantKey.INT_TR_MACD2: {
-//                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
-//                    trObj.setTrsignal(macd.trsignal);
-//                    trHistory.setTrsignal(trObj.getTrsignal());
-//                    trHistory.setParm1((float) macd.macd);
-//                    trHistory.setParm2((float) macd.signal);
-//                    trHistory.setParm3((float) macd.diff);
-//                    break;
-//                }
+                case ConstantKey.INT_TR_MACD0: {
+                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD0_3, ConstantKey.INT_MACD0_6, ConstantKey.INT_MACD0_2);
+                    trObj.setTrsignal(macd.trsignal);
+                    trHistory.setTrsignal(trObj.getTrsignal());
+                    trHistory.setParm1((float) macd.macd);
+                    trHistory.setParm2((float) macd.signal);
+                    trHistory.setParm3((float) macd.diff);
+                    break;
+                }
                 case ConstantKey.INT_TR_RSI:
                     RSIObj rsi = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
                     trObj.setTrsignal(rsi.trsignal);
@@ -1727,14 +1727,7 @@ public class TrandingSignalProcess {
 
         }
         int exitNN = 8;
-        if (getEnv.checkLocalPC() == true) {
-            exitNN = 12;
-        }
-        if (nnObj1.getType() > exitNN) {
-            // exit if over 4 times training
-            // force to end training
-            nnError = 999;
-        }
+
         logger.info("> TRtrainingNeuralNet " + BPnameSym + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
         String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
@@ -2279,6 +2272,8 @@ public class TrandingSignalProcess {
         }
         return 0;
     }
+    
+    public static boolean forceToGenerateNewNN = false;
 
     public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnNameSym, String nnNAme, NNTrainObj nnTraining, double nnError) {
         int inputListSize = CKey.NN_INPUT_SIZE; //12;
@@ -2311,7 +2306,11 @@ public class TrandingSignalProcess {
         ///NeuralNetObj0 release
 
         AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
-
+        if (forceToGenerateNewNN == true) {
+            // force to save new NN
+            afNeuralNet=null;
+            nnError=1;
+        }
         if (afNeuralNet != null) {
             String weightSt = afNeuralNet.getWeight();
 

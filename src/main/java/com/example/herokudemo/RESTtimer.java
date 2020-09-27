@@ -31,8 +31,8 @@ public class RESTtimer {
             ;
         } else {
             //////// force to stop (free host has limited resource)
-            if (HerokuDemoApplication.timerSchCnt > 20) {
-                if (HerokuDemoApplication.timerSchCnt == 21) {
+            if (HerokuDemoApplication.timerSchCnt > 40) {
+                if (HerokuDemoApplication.timerSchCnt == 41) {
                     System.out.println("RestTimerHandler: disabled");
                 }
                 serverURL_0 = "stop";

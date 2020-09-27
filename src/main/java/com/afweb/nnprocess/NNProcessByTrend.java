@@ -35,12 +35,21 @@ public class NNProcessByTrend {
     public static Logger logger = Logger.getLogger("NNProcessStock");
 
     public void processNeuralNetStPred(ServiceAFweb serviceAFWeb) {
+
+        TrandingSignalProcess.forceToGenerateNewNN = false;
+
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
+            // need to debug to generate the java first time before NN training
+            TrandingSignalProcess.forceToGenerateNewNN = true;
 
         }
+        
+// only need this first time        
+//        TrandingSignalProcess.forceToGenerateNewNN = true;
+// only need this first time      
 
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
@@ -58,7 +67,7 @@ public class NNProcessByTrend {
         if (flagNeural == true) {
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             int retSatus = NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
-            for (int k = 0; k < 100; k++) {
+            for (int k = 0; k < 50; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
             }
         }
@@ -243,7 +252,7 @@ public class NNProcessByTrend {
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN32dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn3.trainingNN30dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         String BPname = CKey.NN_version + "_" + nnName;
@@ -614,6 +623,8 @@ public class NNProcessByTrend {
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
+        // just for testing
+        testing=false;
         if (testing == true) {
             lockReturn = 1;
         }
@@ -660,7 +671,7 @@ public class NNProcessByTrend {
                         long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
 
                         if (testing == true) {
-                            lockReturn = 1;
+                            lockReturnStock = 1;
                         }
                         logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
 
@@ -888,6 +899,14 @@ public class NNProcessByTrend {
             inputBuf.append(nn3Data.TR_NN3_INPUTLIST6);
             inputBuf.append(nn3Data.TR_NN3_INPUTLIST7);
             inputBuf.append(nn3Data.TR_NN3_INPUTLIST8);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST9);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST10);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST11);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST12);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST13);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST14);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST15);
+//            inputBuf.append(nn3Data.TR_NN3_INPUTLIST8);
 //            inputBuf.append(nn3Data.TR_NN3_INPUTLIST9); // check nn3 data
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
@@ -935,7 +954,7 @@ public class NNProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN31dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
+            inputList = nn3.trainingNN30dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
         }
 
         // ignor first and last

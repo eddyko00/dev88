@@ -49,10 +49,10 @@ public class ConstantKey {
 
     public static final String MSG_DISABLE = "DISABLE";
     public static final int DISABLE = 1;
-    
+
     public static final String MSG_PENDING = "PENDING";
     public static final int PENDING = 2;
-    
+
     public static final String MSG_NO_ACTIVE = "NO_ACTIVATE";
     public static final int NOACT = 4;
 
@@ -75,15 +75,13 @@ public class ConstantKey {
     public static final String MSG_STOCK_DELTA = "STOCK_DELTA";
     public static final int STOCK_DELTA = 12;
 //// communication type
-    public static final int INT_COM_CFG = -1;    
-    
+    public static final int INT_COM_CFG = -1;
+
     public static final String COM_SIGNAL = "MSG_SIG";
     public static final int INT_COM_SIGNAL = 0;
 
     public static final String COM_SPLIT = "MSG_SPLIT";
     public static final int INT_COM_SPLIT = 2;
-    
-
 
     public static final String BILLING = "BILLING";
     public static final int INT_BILLING = 10;
@@ -144,15 +142,21 @@ public class ConstantKey {
 
     public static final String TR_NN3 = "TR_NN3"; //NN for MV
     public static final int INT_TR_NN3 = 6;
-    
+
     public static final String TR_NN4 = "TR_NN4"; //NN for MV
-    public static final int INT_TR_NN4 = 7;    
+    public static final int INT_TR_NN4 = 7;
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final int SIZE_TR = 8;
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
-   
+
+    public static final String TR_MACD0 = "TR_MACD0";
+    public static final int INT_TR_MACD0 = 102;
+    public static final int INT_MACD0_3 = 3;
+    public static final int INT_MACD0_6 = 6;
+    public static final int INT_MACD0_2 = 2;
+
     public static final String TR_MACD1 = "TR_MACD1";
     public static final int INT_TR_MACD1 = 100;
     public static final int INT_MACD1_6 = 6;
@@ -164,7 +168,6 @@ public class ConstantKey {
 //    public static final int INT_MACD2_24 = 24;
 //    public static final int INT_MACD2_48 = 48;
 //    public static final int INT_MACD2_18 = 18;
-
     public static int getTRtypeByName(String trname) {
         trname = trname.toUpperCase();
         if (trname.equals(TR_ACC)) {
