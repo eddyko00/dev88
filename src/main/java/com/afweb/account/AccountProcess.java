@@ -1593,7 +1593,7 @@ public class AccountProcess {
                         return 0;
                     }
                     writeSQLArray.clear();
-                    logger.info("> restoreDBtransationorder " + fileName + " total=" + writeArray.size() + " index=" + i);
+                    logger.info("> restoreDBtransationorder total=" + writeArray.size() + " index=" + i);
 
                     ServiceAFweb.AFSleep();
                 }
