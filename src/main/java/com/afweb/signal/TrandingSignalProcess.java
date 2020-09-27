@@ -126,7 +126,7 @@ public class TrandingSignalProcess {
                     if (testing == true) {
                         lockReturnStock = 1;
                     }
-                    logger.info("ProcessAdminSignalTrading " + LockStock + " LockStock " + lockReturnStock);
+//                    logger.info("ProcessAdminSignalTrading " + LockStock + " LockStock " + lockReturnStock);
                     if (lockReturnStock > 0) {
                         int ret = updateStockProcess(serviceAFWeb, symbol);
                         if (ret > 0) {
@@ -147,8 +147,7 @@ public class TrandingSignalProcess {
                         }
 
                         serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
-                        logger.info("ProcessAdminSignalTrading " + LockStock + " unLock LockStock ");
-//                        logger.info("> ProcessAdminSignalTrading end " );
+//                        logger.info("ProcessAdminSignalTrading " + LockStock + " unLock LockStock ");
                     }
                 } catch (Exception ex) {
                     logger.info("> ProcessAdminSignalTrading Exception" + ex.getMessage());
