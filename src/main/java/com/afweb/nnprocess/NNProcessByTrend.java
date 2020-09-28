@@ -624,7 +624,7 @@ public class NNProcessByTrend {
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
         // just for testing
-        testing=false;
+//        testing=true;
         if (testing == true) {
             lockReturn = 1;
         }
