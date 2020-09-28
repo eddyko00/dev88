@@ -90,12 +90,15 @@ public class TrandingSignalProcess {
         if (lockReturn > 0) {
 
             long currentTime = System.currentTimeMillis();
-            long lockDate2Min = TimeConvertion.addMinutes(currentTime, 2);
-            logger.info("ProcessAdminSignalTrading for 2 minutes stocksize=" + stockSignalNameArray.size());
+            long lockDate5Min = TimeConvertion.addMinutes(currentTime, 5);
+            logger.info("ProcessAdminSignalTrading for 3 minutes stocksize=" + stockSignalNameArray.size());
 
             for (int i = 0; i < 10; i++) {
                 currentTime = System.currentTimeMillis();
-                if (lockDate2Min < currentTime) {
+                if (CKey.NN_DEBUG == true) {
+                    currentTime = 0;
+                }
+                if (lockDate5Min < currentTime) {
                     break;
                 }
                 if (stockSignalNameArray.size() == 0) {
@@ -137,7 +140,12 @@ public class TrandingSignalProcess {
                                 long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);
 
                                 long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+                                if (CKey.NN_DEBUG == true) {
+                                    curDateValue = 0;
+                                }
                                 if (lastUpdate5Min < curDateValue) {
+                                    ;
+                                } else {
 //                                    logger.info("> ProcessAdminSignalTrading " + symbol);
                                     updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);

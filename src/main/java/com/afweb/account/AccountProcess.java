@@ -734,11 +734,11 @@ public class AccountProcess {
                     continue;
                 }
                 long currentTime = System.currentTimeMillis();
-                long lockDate2Min = TimeConvertion.addMinutes(LastServUpdateTimer, 2); // add 2 minutes
+                long lockDate3Min = TimeConvertion.addMinutes(LastServUpdateTimer, 3); // add 3 minutes
                 if (CKey.NN_DEBUG == true) {
                     currentTime = 0;
                 }
-                if (lockDate2Min < currentTime) {
+                if (lockDate3Min < currentTime) {
                     break;
                 }
 //                if (CKey.NN_DEBUG == true) {
