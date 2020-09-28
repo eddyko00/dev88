@@ -46,11 +46,10 @@ public class NNProcessByTrend {
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
         }
-        
+
 // only need this first time        
 //        TrandingSignalProcess.forceToGenerateNewNN = true;
 // only need this first time      
-
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
             // start training
@@ -239,7 +238,7 @@ public class NNProcessByTrend {
 
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
-
+        ProcessNN00 nn00 = new ProcessNN00();
         String nnName = ConstantKey.TR_NN1;
         if (tr == ConstantKey.INT_TR_NN1) {
             nnName = ConstantKey.TR_NN1;
@@ -247,12 +246,12 @@ public class NNProcessByTrend {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-            ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN31dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+
+            inputList = nn00.trainingNN00_1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
-            ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN30dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+
+            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         String BPname = CKey.NN_version + "_" + nnName;
@@ -352,8 +351,8 @@ public class NNProcessByTrend {
         ArrayList<NNInputDataObj> inputList = null;
 
         String nnName = ConstantKey.TR_NN1;
-        ProcessNN3 nn3 = new ProcessNN3();
-        inputList = nn3.trainingNN31dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+        ProcessNN00 nn00 = new ProcessNN00();
+        inputList = nn00.trainingNN00_1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
         String BPname = CKey.NN_version + "_" + nnName;
         boolean forceNN2flag = true;
@@ -953,8 +952,8 @@ public class NNProcessByTrend {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-            ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN30dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
+            ProcessNN00 nn00 = new ProcessNN00();
+            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
         }
 
         // ignor first and last

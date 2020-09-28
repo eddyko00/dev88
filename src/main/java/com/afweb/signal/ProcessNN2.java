@@ -195,7 +195,7 @@ public class ProcessNN2 {
                                 long curSGLong = stockinfo.getEntrydatel();
 
                                 if (delta > 0) {
-                                    logger.info("> ProcessTRHistoryOffsetNN2 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 15% Delta=" + delta);
+                                    logger.info("> ProcessTRHistoryOffsetNN2 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     nnSignal = macdSignal;
                                 } else {
 
@@ -290,7 +290,7 @@ public class ProcessNN2 {
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 15% Delta=" + delta);
+                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     nnSignal = macdSignal;
                                 } else {
 
@@ -351,7 +351,7 @@ public class ProcessNN2 {
     }
 
     public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
-        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN3, accountObj, stock, tradingRuleList, StockArray, offset);
+        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN00, accountObj, stock, tradingRuleList, StockArray, offset);
         if (nn != null) {
 
             float output1 = nn.getOutput1();
@@ -363,7 +363,7 @@ public class ProcessNN2 {
 //                logger.info("> specialOverrideRule3 " + symbol + " try pervious 5 trnd " + da.toString());
                 for (int i = 0; i < 5; i++) {
                     //StockArray recent to old date
-                    NNObj nn1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN3, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
+                    NNObj nn1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN00, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
                     if (nn1 != null) {
                         output1 = nn1.getOutput1();
                         output2 = nn1.getOutput2();

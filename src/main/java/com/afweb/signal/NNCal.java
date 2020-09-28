@@ -11,11 +11,8 @@ import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.util.CKey;
-import com.afweb.util.TimeConvertion;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import java.util.logging.Logger;
 
@@ -27,7 +24,6 @@ public class NNCal {
 
     protected static Logger logger = Logger.getLogger("NNCal");
 
-
     public static NNObj NNpredict(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
 
         NNObj nn = new NNObj();
@@ -37,11 +33,9 @@ public class NNCal {
                 return ProcessNN1.NNpredictNN1(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
             case ConstantKey.INT_TR_NN2:
                 return ProcessNN2.NNpredictNN2(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
-            case ConstantKey.INT_TR_NN3:
 
-                return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
-            case ConstantKey.INT_TR_NN4:
-//                return ProcessNN4.NNpredictNN4(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+            case ConstantKey.INT_TR_NN00:
+                return ProcessNN00.NNpredictNN00(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
             default:
                 break;
         }
@@ -60,7 +54,6 @@ public class NNCal {
 //        }
 //        return null;
 //    }
-
 //    public static NNObj SelectBestTR(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
 //        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        try {
@@ -230,6 +223,5 @@ public class NNCal {
 //        }
 //        return null;
 //    }
-
     ///////
 }
