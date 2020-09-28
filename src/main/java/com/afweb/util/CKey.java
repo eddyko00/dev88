@@ -70,8 +70,8 @@ public class CKey {
 //*********** 
 // server timerhandler
 // server timerhandler    
-    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-//    public static final String SERVERDB_URL = URL_PATH_OP;
+//    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
+    public static final String SERVERDB_URL = URL_PATH_OP;
 //
 //***********    
 //*********** 
@@ -79,8 +79,8 @@ public class CKey {
 //*********** 
 // PHP DB server
 // PHP DB server  
-//    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;   
-    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
+    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;   
+//    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
 
 //**********    
 //*********** 
