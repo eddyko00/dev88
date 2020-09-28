@@ -1047,7 +1047,10 @@ public class TrandingSignalProcess {
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         ProcessNN3 nn3 = new ProcessNN3();
-                        if (offset < 82) {
+                        if (offset < 82) { // Jun 1
+                            nn3Flag = true;
+                        }
+                        if (offset < 33) { // Aug 10 Acutual sell signal at Aug 12
                             nn3Flag = true;
                         }
                         int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
@@ -2271,7 +2274,7 @@ public class TrandingSignalProcess {
         }
         return 0;
     }
-    
+
     public static boolean forceToGenerateNewNN = false;
 
     public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnNameSym, String nnNAme, NNTrainObj nnTraining, double nnError) {
@@ -2307,8 +2310,8 @@ public class TrandingSignalProcess {
         AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
         if (forceToGenerateNewNN == true) {
             // force to save new NN
-            afNeuralNet=null;
-            nnError=1;
+            afNeuralNet = null;
+            nnError = 1;
         }
         if (afNeuralNet != null) {
             String weightSt = afNeuralNet.getWeight();

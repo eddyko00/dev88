@@ -764,10 +764,10 @@ public class ServiceAFweb {
         boolean flagSignal = false;
         if (flagSignal == true) {
             //
-//            SystemClearNNtranAllAcc();
-//            SystemClearNNtran();
+            SystemClearNNtranAllAcc();
+            SystemClearNNtran();
             //
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10; i++) {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
