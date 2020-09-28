@@ -334,9 +334,9 @@ public class ProcessNN2 {
 
     public float specialOverrideRule2(NNObj nn, long lastTHLong, long curSGLong) {
         // ignore rule 2
-//        if (true) {
-//            return 0;
-//        }
+        if (true) {
+            return 0;
+        }
         float output1 = nn.getOutput1();
         float output2 = nn.getOutput2();
         float threshold = (float) 0.4;

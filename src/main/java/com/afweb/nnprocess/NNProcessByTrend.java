@@ -79,7 +79,7 @@ public class NNProcessByTrend {
             String symbol = "HOU.TO";
             symbol = "AAPL";
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-            String nnName = ConstantKey.TR_NN3;
+            String nnName =  ConstantKey.TR_NN3;
             serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), nnName);
 
             TRprocessImp.testUpdateAdminTradingsignal(serviceAFWeb, symbol);

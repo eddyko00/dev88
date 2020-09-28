@@ -2997,7 +2997,7 @@ public class ServiceAFweb {
             float perC = 100 * (closeF - closeL) / closeL;
             perC = Math.abs(perC);
             if (perC > 70) {
-                sizeLen = sizeLen / 3;
+                sizeLen = sizeLen / 2;
                 StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
             } else if (perC > 50) {
                 sizeLen = sizeLen / 2;

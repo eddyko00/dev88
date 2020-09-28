@@ -224,13 +224,13 @@ public class ProcessNN3 {
 //
 //        return inputDatalist;
 //    }
-
     int ProcessTRHistoryOffsetNN3(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
         float prediction = -1;
-        MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+//        MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+        MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD0_3, ConstantKey.INT_MACD0_6, ConstantKey.INT_MACD0_2);
         macdSignal = macdNN.trsignal;
 
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -242,6 +242,7 @@ public class ProcessNN3 {
             trObj.setTrsignal(nnSignal);
 
         } else {
+
             NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
             if (nn != null) {
                 float output1 = nn.getOutput1();
@@ -313,9 +314,9 @@ public class ProcessNN3 {
             TradingRuleObj trObj, ArrayList StockArray, int offset, ArrayList<TradingRuleObj> UpdateTRList, AFstockObj stock, ArrayList tradingRuleList) {
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
-//                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
-                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
-//                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+//                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD0_3, ConstantKey.INT_MACD0_6, ConstantKey.INT_MACD0_2);
+
                 int macdSignal = macdNN.trsignal;
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
                 Date stockDate = new Date(stockinfoT.getEntrydatel());
@@ -390,6 +391,9 @@ public class ProcessNN3 {
     }
 
     public float specialOverrideRule1(float thClose, float StClose) {
+        if (true) {
+            return 0;
+        }
         float delPer = 100 * (StClose - thClose) / thClose;
         delPer = Math.abs(delPer);
         if (delPer > 20) {  // > 20% override the NN sigal and take the MACD signal
@@ -400,9 +404,9 @@ public class ProcessNN3 {
 
     public float specialOverrideRule2(NNObj nn, long lastTHLong, long curSGLong) {
 //        // ignore rule 2
-//        if (true) {
-//            return 0;
-//        }
+        if (true) {
+            return 0;
+        }
         float output1 = nn.getOutput1();
         float output2 = nn.getOutput2();
         float threshold = (float) 0.4;
