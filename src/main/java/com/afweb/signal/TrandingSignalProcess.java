@@ -144,11 +144,11 @@ public class TrandingSignalProcess {
 
                                 long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                                 if (CKey.NN_DEBUG == true) {
-                                    curDateValue = 0;
+                                    lastUpdate5Min = 0;
                                 }
                                 if (lastUpdate5Min < curDateValue) {
-                                    ;
-                                } else {
+                                    // process only if after 5 minutes after last update
+                                    // so that it will not do it so often
 //                                    logger.info("> ProcessAdminSignalTrading " + symbol);
 //                                    if (symbol.equals("XCH.TO")) {
 //                                        curDateValue = 0;
