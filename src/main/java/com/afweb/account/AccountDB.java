@@ -846,7 +846,7 @@ public class AccountDB {
                 = "update tradingrule set status=" + tr.getStatus() + ", substatus=" + tr.getSubstatus() + ", trsignal=" + tr.getTrsignal()
                 + ",updatedatedisplay='" + tr.getUpdatedatedisplay() + "', updatedatel=" + tr.getUpdatedatel()
                 + ", investment=" + tr.getInvestment() + ", balance=" + tr.getBalance() + ",longshare=" + tr.getLongshare() + ",longamount=" + tr.getLongamount() + ", shortshare=" + tr.getShortshare() + ", shortamount=" + tr.getShortamount()
-                + ", linktradingruleid=" + tr.getLinktradingruleid() 
+                + ", linktradingruleid=" + tr.getLinktradingruleid()
                 + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and id=" + tr.getId();
 
         try {
@@ -1147,7 +1147,9 @@ public class AccountDB {
 
                 if (tradingRuleObj.getStatus() == ConstantKey.CLOSE) {
 
-                    String sqlCMD = "update tradingrule set status=" + ConstantKey.OPEN + ", substatus=" + ConstantKey.INITIAL
+                    String sqlCMD = "update tradingrule set trsignal=" + ConstantKey.S_NEUTRAL + ", status=" + ConstantKey.OPEN + ", substatus=" + ConstantKey.INITIAL
+                            + ", investment=0, balance=0,longshare=0,longamount=0, shortshare=0, shortamount=0"
+                            + ", comment=' ', linktradingruleid=" + tr.getLinktradingruleid()
                             + " where accountid=" + tradingRuleObj.getAccountid() + " and stockid=" + tradingRuleObj.getStockid() + " and type=" + tr.getType();
                     processUpdateDB(sqlCMD);
                     logger.info("> addAccountStock " + sqlCMD);

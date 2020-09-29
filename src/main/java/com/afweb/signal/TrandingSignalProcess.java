@@ -150,6 +150,9 @@ public class TrandingSignalProcess {
                                     ;
                                 } else {
 //                                    logger.info("> ProcessAdminSignalTrading " + symbol);
+//                                    if (symbol.equals("XCH.TO")) {
+//                                        curDateValue = 0;
+//                                    }
                                     updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);

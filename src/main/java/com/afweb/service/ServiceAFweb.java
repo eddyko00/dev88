@@ -496,6 +496,7 @@ public class ServiceAFweb {
             }
         }
         if (CKey.UI_ONLY == true) {
+
             return;
         }
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
