@@ -255,31 +255,42 @@ public class ProcessNN3 {
                     }
                 } else {
                     //
-                    if (writeArray.size() > 0) {
-                        for (int j = 0; j < writeArray.size(); j++) {
-                            StockTRHistoryObj lastTH = writeArray.get(writeArray.size() - 1 - j);
-                            if (lastTH.getTrsignal() != nnSignal) {
-                                float thClose = lastTH.getClose();
-                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
-                                float StClose = stockinfo.getFclose();
-                                float delta = specialOverrideRule1(thClose, StClose);
-                                long lastTHLong = lastTH.getUpdateDatel();
-                                long curSGLong = stockinfo.getEntrydatel();
-                                if (delta > 0) {
-                                    logger.info("> ProcessTRHistoryOffsetNN3 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
-                                    nnSignal = macdSignal;
-                                } else {
-                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                    if (nnSignal != macdSignal) {
+                        // signal change double check wiht NN trend
+                        int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+                        //override the previous NN1 prediction
+
+                        if (nnSignal != trendSignal) {
+                            logger.info("> ProcessTRHistoryOffsetNN3 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
+                        }
+                        nnSignal = trendSignal;
+                    }
+                    if (nnSignal != macdSignal) {
+                        if (writeArray.size() > 0) {
+                            for (int j = 0; j < writeArray.size(); j++) {
+                                StockTRHistoryObj lastTH = writeArray.get(writeArray.size() - 1 - j);
+                                if (lastTH.getTrsignal() != nnSignal) {
+                                    float thClose = lastTH.getClose();
+                                    AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+                                    float StClose = stockinfo.getFclose();
+                                    float delta = specialOverrideRule1(thClose, StClose);
+                                    long lastTHLong = lastTH.getUpdateDatel();
+                                    long curSGLong = stockinfo.getEntrydatel();
                                     if (delta > 0) {
-                                        logger.info("> ProcessTRHistoryOffsetNN3 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
+                                        logger.info("> ProcessTRHistoryOffsetNN3 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                         nnSignal = macdSignal;
+                                    } else {
+                                        delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                        if (delta > 0) {
+                                            logger.info("> ProcessTRHistoryOffsetNN3 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
+                                            nnSignal = macdSignal;
+                                        }
                                     }
+                                    break; // for loop
                                 }
-                                break; // for loop
                             }
                         }
                     }
-
                 }
                 trHistory.setParmSt1(nn.getComment());
 //                if (CKey.NN_DEBUG == true) {

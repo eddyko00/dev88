@@ -1071,7 +1071,7 @@ public class TrandingSignalProcess {
                         if (offset < 82) { // Jun 1
                             nn3Flag = true;
                         }
-                        if (offset < 33) { // Aug 10 Acutual sell signal at Aug 12
+                        if (offset < 35) { // Aug 10 Acutual sell signal at Aug 12
                             nn3Flag = true;
                         }
                         int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
