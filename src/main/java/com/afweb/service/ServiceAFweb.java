@@ -764,7 +764,6 @@ public class ServiceAFweb {
         boolean flagSignal = false;
         if (flagSignal == true) {
             //
-            SystemClearNNtranAllAcc();
             SystemClearNNtran();
             //
             for (int i = 0; i < 10; i++) {
