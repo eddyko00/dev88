@@ -766,6 +766,25 @@ public class TrandingSignalProcess {
     }
 
     ///////////////////////////////////////////////////////
+    private boolean checkNNReady(ServiceAFweb serviceAFWeb, String symbol) {
+        boolean retF = true;
+        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN1, symbol);
+        if (nnObj0 == null) {
+            retF = false;
+        }
+        if (nnObj0.getStatus() != ConstantKey.OPEN) {
+            retF = false;
+        }
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN3, symbol);
+        if (nnObj0 == null) {
+            retF = false;
+        }
+        if (nnObj0.getStatus() != ConstantKey.OPEN) {
+            retF = false;
+        }
+        return retF;
+    }
+
     public void upateAdminTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         try {
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -786,27 +805,15 @@ public class TrandingSignalProcess {
                 int subStatus = trObj.getSubstatus();
 
                 if (trObj.getType() == ConstantKey.INT_TR_NN1) {
-                    AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN1, symbol);
-                    if (nnObj0 == null) {
-                        continue;
-                    }
-                    if (nnObj0.getStatus() != ConstantKey.OPEN) {
+                    if (checkNNReady(serviceAFWeb, symbol) == false) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN2) {
-                    AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN1, symbol);
-                    if (nnObj0 == null) {
-                        continue;
-                    }
-                    if (nnObj0.getStatus() != ConstantKey.OPEN) {
+                    if (checkNNReady(serviceAFWeb, symbol) == false) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                    AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN3, symbol);
-                    if (nnObj0 == null) {
-                        continue;
-                    }
-                    if (nnObj0.getStatus() != ConstantKey.OPEN) {
+                    if (checkNNReady(serviceAFWeb, symbol) == false) {
                         continue;
                     }
                 }

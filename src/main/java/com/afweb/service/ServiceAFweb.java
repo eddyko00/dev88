@@ -761,6 +761,7 @@ public class ServiceAFweb {
             this.getStockImp().deleteNeuralNetDataTable();
         }
 
+        
         boolean flagSignal = false;
         if (flagSignal == true) {
             //
