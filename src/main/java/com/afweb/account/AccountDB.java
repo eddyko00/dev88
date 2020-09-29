@@ -846,6 +846,7 @@ public class AccountDB {
                 = "update tradingrule set status=" + tr.getStatus() + ", substatus=" + tr.getSubstatus() + ", trsignal=" + tr.getTrsignal()
                 + ",updatedatedisplay='" + tr.getUpdatedatedisplay() + "', updatedatel=" + tr.getUpdatedatel()
                 + ", investment=" + tr.getInvestment() + ", balance=" + tr.getBalance() + ",longshare=" + tr.getLongshare() + ",longamount=" + tr.getLongamount() + ", shortshare=" + tr.getShortshare() + ", shortamount=" + tr.getShortamount()
+                + ", linktradingruleid=" + tr.getLinktradingruleid() 
                 + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and id=" + tr.getId();
 
         try {

@@ -488,6 +488,12 @@ public class AccountImp {
         if (tr == null) {
             return 0;
         }
+        
+        boolean TRlinkflag =false;
+        if (TRlinkflag == true) {
+            tr.setLinktradingruleid(ConstantKey.INT_TR_NN1);
+        }
+        
         if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
             return accountdb.getAccountStockClrTranByAccountID(accountObj.getId() + "", stockID + "", tr);
         }
