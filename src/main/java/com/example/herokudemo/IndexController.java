@@ -119,7 +119,9 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/autonntrain");
         arrayString.add("/cust/{username}/sys/autonntrain/enable");        
         arrayString.add("/cust/{username}/sys/autonntrain/disable");         
-        arrayString.add("/cust/{username}/sys/fundmgr");         
+        arrayString.add("/cust/{username}/sys/fundmgr");   
+        arrayString.add("/cust/{username}/sys/processfundmgr");         
+         
         //DB Backup
         arrayString.add("/cust/{username}/sys/downloaddb");
 
@@ -1371,6 +1373,33 @@ public class IndexController {
         return null;
     }
 
+    @RequestMapping(value = "/cust/{username}/sys/processfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus getProcessFundMgr(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                
+                msg.setResponse("" + afWebService.SystemPocessFundMgr());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+    
     @RequestMapping(value = "/cust/{username}/sys/autonntrain/enable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus setSystemNNTrainEnableFlag(@PathVariable("username") String username) {

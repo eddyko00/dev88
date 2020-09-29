@@ -459,12 +459,15 @@ public class ServiceAFweb {
 // Window -> Debugging -> Breakpoints Select all, the delete
 //
 ///////////////////////////////////////////////////////////////////////////////////
-//                    
+// use /cust/{username}/sys/fundmgr
+// Fund Manger only do once a month                    
+
                     boolean fundMgrFlag = false;
                     if (fundMgrFlag == true) {
                         SystemFundMgr();
                     }
-
+// use /cust/{username}/sys/processfundmgr                    }
+// Fund Manger only do once a month   
                     boolean fundFlag = false;
                     if (fundFlag == true) {
 
@@ -477,8 +480,7 @@ public class ServiceAFweb {
 //                        newCustomer.setPassword("passw0rd");
 //                        newCustomer.setType(CustomerObj.INT_FUND_USER);
 //                        getAccountImp().addCustomer(newCustomer);
-                        getAccountProcessImp().ProcessFundAccount(this);
-
+                        SystemPocessFundMgr();
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -761,7 +763,6 @@ public class ServiceAFweb {
             this.getStockImp().deleteNeuralNetDataTable();
         }
 
-        
         boolean flagSignal = false;
         if (flagSignal == true) {
             //
@@ -772,8 +773,8 @@ public class ServiceAFweb {
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
-                 logger.info("process ProcessAdminSignalTrading cycle " + i);
-                
+                logger.info("process ProcessAdminSignalTrading cycle " + i);
+
             }
         }
 
@@ -4684,6 +4685,11 @@ public class ServiceAFweb {
         FundMgrProcess fundmgr = new FundMgrProcess();
         fundmgr.ProcessIISWebGlobalFundMgr(this);
         fundmgr.ProcessFundMgrAccount(this);
+        return true;
+    }
+
+    public boolean SystemPocessFundMgr() {
+        getAccountProcessImp().ProcessFundAccount(this);
         return true;
     }
 
