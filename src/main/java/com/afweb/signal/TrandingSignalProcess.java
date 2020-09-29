@@ -771,14 +771,14 @@ public class TrandingSignalProcess {
     ///////////////////////////////////////////////////////
     private boolean checkNNReady(ServiceAFweb serviceAFWeb, String symbol) {
         boolean retF = true;
-        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN1, symbol);
+        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
         if (nnObj0 == null) {
             retF = false;
         }
         if (nnObj0.getStatus() != ConstantKey.OPEN) {
             retF = false;
         }
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.INT_TR_NN3, symbol);
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
         if (nnObj0 == null) {
             retF = false;
         }
@@ -1705,11 +1705,7 @@ public class TrandingSignalProcess {
         }
     }
 
-    public AFneuralNet testNeuralNet0Symbol(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
-        String nnName = ConstantKey.TR_NN1;
-        if (TR_Name == ConstantKey.INT_TR_NN2) {
-            nnName = ConstantKey.TR_NN2;
-        }
+    public AFneuralNet testNeuralNet0Symbol(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         String BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
         AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
         if (nnObj0 == null) {
