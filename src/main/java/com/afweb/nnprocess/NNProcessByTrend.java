@@ -68,6 +68,7 @@ public class NNProcessByTrend {
             int retSatus = NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
             for (int k = 0; k < 50; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
+                logger.info("> ProcessTrainNeuralNet NN3 cycle " + k);
             }
         }
 

@@ -38,14 +38,14 @@ public class NNProcessBySignal {
 
     public void processNeuralNet(ServiceAFweb serviceAFWeb) {
 
-        TrandingSignalProcess.forceToGenerateNewNN=false;
-        
+        TrandingSignalProcess.forceToGenerateNewNN = false;
+
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
             // need to debug to generate the java first time
-            TrandingSignalProcess.forceToGenerateNewNN=true;
+            TrandingSignalProcess.forceToGenerateNewNN = true;
         }
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
@@ -70,6 +70,7 @@ public class NNProcessBySignal {
             serviceAFWeb.SystemClearNNinput();
             for (int k = 0; k < 50; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
+                logger.info("> ProcessTrainNeuralNet NN1 cycle " + k);
             }
 
         }
