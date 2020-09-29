@@ -131,7 +131,10 @@ public class TrandingSignalProcess {
                     }
 //                    logger.info("ProcessAdminSignalTrading " + LockStock + " LockStock " + lockReturnStock);
                     if (lockReturnStock > 0) {
-                        int ret = updateStockProcess(serviceAFWeb, symbol);
+                        int ret = 1;
+                        if (CKey.NN_DEBUG == false) {
+                            ret = updateStockProcess(serviceAFWeb, symbol);
+                        }
                         if (ret > 0) {
 
                             TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_MACD);

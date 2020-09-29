@@ -772,6 +772,8 @@ public class ServiceAFweb {
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
+                 logger.info("process ProcessAdminSignalTrading cycle " + i);
+                
             }
         }
 
