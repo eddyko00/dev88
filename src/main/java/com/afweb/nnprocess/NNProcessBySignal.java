@@ -68,7 +68,7 @@ public class NNProcessBySignal {
 //            serviceAFWeb.getStockImp().deleteNeuralNetDataTable();
             // delete all data
             serviceAFWeb.SystemClearNNinput();
-            for (int k = 0; k < 50; k++) {
+            for (int k = 0; k < 10; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet NN1 cycle " + k);
             }

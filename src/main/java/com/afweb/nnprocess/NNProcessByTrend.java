@@ -66,7 +66,7 @@ public class NNProcessByTrend {
         if (flagNeural == true) {
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             int retSatus = NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
-            for (int k = 0; k < 50; k++) {
+            for (int k = 0; k < 10; k++) {
                 ProcessTrainNeuralNet(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet NN3 cycle " + k);
             }
