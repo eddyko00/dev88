@@ -570,7 +570,8 @@ public class AccountImp {
                 if (tr.getTrname().equals(ConstantKey.TR_ACC)) {
                     //default to MACD
 //                    tr.setLinktradingruleid(ConstantKey.INT_TR_MACD);
-                    tr.setLinktradingruleid(ConstantKey.INT_TR_NN2);
+//                    tr.setLinktradingruleid(ConstantKey.INT_TR_NN2);
+                    tr.setLinktradingruleid(ConstantKey.INT_TR_NN1);                    
                 }
                 accountdb.addAccountStock(accountObj.getId(), StockID, tr);
             }
