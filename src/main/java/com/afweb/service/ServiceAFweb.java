@@ -4684,13 +4684,17 @@ public class ServiceAFweb {
 
     public boolean SystemFundMgr() {
         FundMgrProcess fundmgr = new FundMgrProcess();
+        logger.info(">SystemFundMgr start ");
         fundmgr.ProcessIISWebGlobalFundMgr(this);
         fundmgr.ProcessFundMgrAccount(this);
+        logger.info(">SystemFundMgr end ");
         return true;
     }
 
     public boolean SystemPocessFundMgr() {
+        logger.info(">SystemPocessFundMgr start ");
         getAccountProcessImp().ProcessFundAccount(this);
+        logger.info(">SystemPocessFundMgr end ");
         return true;
     }
 

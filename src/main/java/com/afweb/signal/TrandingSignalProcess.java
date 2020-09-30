@@ -770,22 +770,22 @@ public class TrandingSignalProcess {
 
     ///////////////////////////////////////////////////////
     private boolean checkNNReady(ServiceAFweb serviceAFWeb, String symbol) {
-        boolean retF = true;
+
         AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
         if (nnObj0 == null) {
-            retF = false;
+            return false;
         }
         if (nnObj0.getStatus() != ConstantKey.OPEN) {
-            retF = false;
+            return false;
         }
         nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
         if (nnObj0 == null) {
-            retF = false;
+            return false;
         }
         if (nnObj0.getStatus() != ConstantKey.OPEN) {
-            retF = false;
+            return false;
         }
-        return retF;
+        return true;
     }
 
     public void upateAdminTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
@@ -916,7 +916,7 @@ public class TrandingSignalProcess {
                 }
             }  // loop
         } catch (Exception ex) {
-            logger.info("> upateAdminTransaction Exception" + ex.getMessage());
+            logger.info("> upateAdminTransaction Exception " + ex.getMessage());
         }
     }
 
