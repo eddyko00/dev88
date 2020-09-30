@@ -340,7 +340,9 @@ public class ProcessNN1 {
                     //override the previous NN1 prediction
 
                     if (nnSignal != trendSignal) {
-                        logger.info("> updateAdminTradingsignalnn1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
+                        if (CKey.NN_DEBUG == true) {
+                            logger.info("> updateAdminTradingsignalnn1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
+                        }
                     }
                     nnSignal = trendSignal;
                 }
