@@ -80,7 +80,7 @@ public class NNProcessByTrend {
             String symbol = "HOU.TO";
             symbol = "AAPL";
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-            String nnName =  ConstantKey.TR_NN3;
+            String nnName = ConstantKey.TR_NN3;
             serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), nnName);
 
             TRprocessImp.testUpdateAdminTradingsignal(serviceAFWeb, symbol);
@@ -668,20 +668,24 @@ public class NNProcessByTrend {
                         LockStock = LockStock.toUpperCase();
 
                         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                        long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
 
-                        if (testing == true) {
-                            lockReturnStock = 1;
-                        }
-                        logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+                        long lockReturnStock = 1;
+                   
+//                        lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+//
+//                        if (testing == true) {
+//                            lockReturnStock = 1;
+//                        }
+//                        logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
 
                         if (lockReturnStock > 0) {
                             String nnName = ConstantKey.TR_NN3;
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
                             this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
 
-                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-                            logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
+//                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+//                            logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
+
                             AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
