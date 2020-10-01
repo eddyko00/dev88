@@ -40,6 +40,44 @@ public class NNProcessBySignal {
 
         TrandingSignalProcess.forceToGenerateNewNN = false;
 
+        boolean flagNNLearning = false;
+        if (flagNNLearning == true) {
+            int k = 0;
+            NNProcessByTrend nntrend = new NNProcessByTrend();
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+
+            while (true) {
+                k++;
+                long currentTime = System.currentTimeMillis();
+                long lockDate1Hour = TimeConvertion.addHours(currentTime, 2);
+                logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
+                NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
+                NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
+                ProcessTrainNeuralNetBySign(serviceAFWeb);
+                logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
+                NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
+                nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
+
+                while (true) {
+                    currentTime = System.currentTimeMillis();
+                    if (lockDate1Hour < currentTime) {
+                        break;
+                    }
+                    // check every 10 minutes
+                    try {
+                        Thread.sleep(60 * 10 * 1000);
+                    } catch (Exception ex) {
+                    }
+                }
+            }
+        }
+
+        boolean flagReLeanInput = false;
+        if (flagReLeanInput == true) {
+            ProcessReLeanInput(serviceAFWeb);
+
+        }
+
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
@@ -69,15 +107,9 @@ public class NNProcessBySignal {
             // delete all data
             serviceAFWeb.SystemClearNNinput();
             for (int k = 0; k < 10; k++) {
-                ProcessTrainNeuralNet(serviceAFWeb);
+                ProcessTrainNeuralNetBySign(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet NN1 cycle " + k);
             }
-
-        }
-
-        boolean flagReLeanInput = false;
-        if (flagReLeanInput == true) {
-            ProcessReLeanInput(serviceAFWeb);
 
         }
 
@@ -728,7 +760,7 @@ public class NNProcessBySignal {
         return stockNNprocessNameArray;
     }
 
-    public void ProcessTrainNeuralNet(ServiceAFweb serviceAFWeb) {
+    public void ProcessTrainNeuralNetBySign(ServiceAFweb serviceAFWeb) {
 //        boolean flag =true;
 //        if (flag == true) {
 //            return;

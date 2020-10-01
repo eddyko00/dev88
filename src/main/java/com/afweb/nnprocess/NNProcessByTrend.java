@@ -67,7 +67,7 @@ public class NNProcessByTrend {
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             int retSatus = NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
             for (int k = 0; k < 10; k++) {
-                ProcessTrainNeuralNet(serviceAFWeb);
+                ProcessTrainNeuralNetByTrend(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet NN3 cycle " + k);
             }
         }
@@ -595,7 +595,7 @@ public class NNProcessByTrend {
         return stockNNprocessNameArray;
     }
 
-    public void ProcessTrainNeuralNet(ServiceAFweb serviceAFWeb) {
+    public void ProcessTrainNeuralNetByTrend(ServiceAFweb serviceAFWeb) {
 //        logger.info("> ProcessTrainNeuralNet ");
         if (getEnv.checkLocalPC() != true) {
             if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {

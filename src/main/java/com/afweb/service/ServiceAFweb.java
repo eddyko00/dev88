@@ -1151,9 +1151,9 @@ public class ServiceAFweb {
 //////////////////////////////////////////////////
     public static void AFSleepSec(int sec) {
         // delay seems causing openshif not working        
-        if (true) {
-            return;
-        }
+//        if (true) {
+//            return;
+//        }
         try {
             Thread.sleep(sec * 1000);
         } catch (Exception ex) {
@@ -1162,9 +1162,9 @@ public class ServiceAFweb {
 
     public static void AFSleep() {
         // delay seems causing openshif not working        
-        if (true) {
-            return;
-        }
+//        if (true) {
+//            return;
+//        }
         try {
             Thread.sleep(10);
         } catch (Exception ex) {
