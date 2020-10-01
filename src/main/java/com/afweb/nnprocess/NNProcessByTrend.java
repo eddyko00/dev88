@@ -623,8 +623,9 @@ public class NNProcessByTrend {
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
-        // just for testing
-//        testing=true;
+        if (CKey.NN_DEBUG == true) {
+            testing=true;
+        }
         if (testing == true) {
             lockReturn = 1;
         }
@@ -668,7 +669,6 @@ public class NNProcessByTrend {
                         LockStock = LockStock.toUpperCase();
 
                         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-
                         long lockReturnStock = 1;
 
 //                        lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");

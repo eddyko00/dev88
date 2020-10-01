@@ -952,7 +952,7 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol = "AAPL";
+            symbol = "IWM";
             String nnName = ConstantKey.TR_NN3;
 
 //          // will clear the transaction history  
