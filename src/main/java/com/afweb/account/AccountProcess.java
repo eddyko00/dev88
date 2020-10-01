@@ -742,9 +742,11 @@ public class AccountProcess {
                     break;
                 }
 //                if (CKey.NN_DEBUG == true) {
-//                    logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname());
+                    logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname());
 //                }
-
+//                if (accountId == 4){
+//                     logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname());
+//                }
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);
                     int ret = TRprocessImp.updateStockProcess(serviceAFWeb, symbol);

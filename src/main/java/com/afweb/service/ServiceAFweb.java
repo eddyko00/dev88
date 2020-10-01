@@ -496,12 +496,19 @@ public class ServiceAFweb {
                 }
             }
         }
-        if (CKey.UI_ONLY == true) {
-
-            return;
-        }
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         String LockName = null;
+        if (CKey.UI_ONLY == true) {
+            if (cmd.length() > 0) {
+                if (cmd.equals("adminsignal")) {
+//                    TRprocessImp.ProcessAdminSignalTrading(this);
+                    getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                }
+            }
+            //////
+            return;
+        }
+
         try {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long lockDateValue = dateNow.getTimeInMillis();
@@ -533,8 +540,8 @@ public class ServiceAFweb {
             //////////// special command            
             if (cmd.length() > 0) {
                 if (cmd.equals("adminsignal")) {
-                    TRprocessImp.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                    TRprocessImp.ProcessAdminSignalTrading(this);
                 } else if (cmd.equals("starttimer")) {
                     RESTtimer.serverURL_0 = "";
                     HerokuDemoApplication.timerSchCnt = 0;
@@ -597,15 +604,14 @@ public class ServiceAFweb {
                 getAccountProcessImp().ProcessSystemMaintance(this);
                 System.gc();
             } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
-
-            } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
                 //10 Sec * 5 ~ 1 minutes
                 TRprocessImp.UpdateAllStock(this);
+            } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
 
-            } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-                TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-
+            } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
+                
+                TRprocessImp.ProcessAdminSignalTrading(this);
             } else {
 //                NNProcessImp.ProcessInputNeuralNet(this);
                 ///Error R14 (Memory quota exceeded) in heroku
@@ -1524,8 +1530,7 @@ public class ServiceAFweb {
             }
 
             try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class
-                );
+                NameList = new ObjectMapper().readValue(output, ArrayList.class);
             } catch (Exception ex) {
                 logger.info("> SystemAllOpenAccountIDList exception " + ex.getMessage());
             }
