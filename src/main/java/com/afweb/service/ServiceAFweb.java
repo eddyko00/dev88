@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.logging.Level;
 
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -1156,18 +1157,20 @@ public class ServiceAFweb {
 //        }
         try {
             Thread.sleep(sec * 1000);
-        } catch (Exception ex) {
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
         }
     }
 
     public static void AFSleep() {
-        // delay seems causing openshif not working        
+        try {
+            // delay seems causing openshif not working
 //        if (true) {
 //            return;
 //        }
-        try {
             Thread.sleep(10);
-        } catch (Exception ex) {
+        } catch (InterruptedException ex) {
+
         }
     }
 

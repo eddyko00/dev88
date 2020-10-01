@@ -64,9 +64,11 @@ public class NNProcessBySignal {
                         break;
                     }
                     // check every 10 minutes
+
                     try {
                         Thread.sleep(60 * 10 * 1000);
-                    } catch (Exception ex) {
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
@@ -842,7 +844,7 @@ public class NNProcessBySignal {
 
                         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                         long lockReturnStock = 1;
-                        
+
 //                        lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
 //                        if (testing == true) {
 //                            lockReturnStock = 1;
@@ -855,7 +857,6 @@ public class NNProcessBySignal {
 
 //                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //                            logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
-
                             AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
