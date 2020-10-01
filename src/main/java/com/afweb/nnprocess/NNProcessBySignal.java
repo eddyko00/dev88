@@ -74,7 +74,7 @@ public class NNProcessBySignal {
             }
         }
 
-        boolean flagReLeanInput = false;
+        boolean flagReLeanInput = true;
         if (flagReLeanInput == true) {
             ProcessReLeanInput(serviceAFWeb);
 
@@ -383,9 +383,8 @@ public class NNProcessBySignal {
 //            }
 //            ////////////
             TradingNNprocess NNProcessImp = new TradingNNprocess();
-            for (int k = 0; k < 100; k++) {
-                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
-            }
+            NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
+
         }
 
     }
@@ -807,7 +806,8 @@ public class NNProcessBySignal {
             long currentTime = System.currentTimeMillis();
             long lockDate1Min = TimeConvertion.addMinutes(currentTime, 5);
 
-            for (int i = 0; i < 10; i++) {
+//            for (int i = 0; i < 10; i++) {
+            while (true) {
                 if (CKey.NN_DEBUG != true) {
                     currentTime = System.currentTimeMillis();
                     if (lockDate1Min < currentTime) {

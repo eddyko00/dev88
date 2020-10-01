@@ -95,10 +95,13 @@ public class TradingNNprocess {
             long currentTime = System.currentTimeMillis();
             long lockDate1Min = TimeConvertion.addMinutes(currentTime, 1);
 
-            for (int i = 0; i < 10; i++) {
-                currentTime = System.currentTimeMillis();
-                if (lockDate1Min < currentTime) {
-                    break;
+//            for (int i = 0; i < 10; i++) {
+            while (true) {
+                if (CKey.NN_DEBUG != true) {
+                    currentTime = System.currentTimeMillis();
+                    if (lockDate1Min < currentTime) {
+                        break;
+                    }
                 }
                 if (stockNNretrainNameArray.size() == 0) {
                     break;
@@ -544,7 +547,7 @@ public class TradingNNprocess {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym,  true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
 
         return inputDatalist;
     }
@@ -595,7 +598,7 @@ public class TradingNNprocess {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym,  true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
 
         return inputDatalist;
     }

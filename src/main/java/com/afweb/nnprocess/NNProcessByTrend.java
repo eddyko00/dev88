@@ -624,7 +624,7 @@ public class NNProcessByTrend {
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
         if (CKey.NN_DEBUG == true) {
-            testing=true;
+            testing = true;
         }
         if (testing == true) {
             lockReturn = 1;
@@ -634,7 +634,8 @@ public class NNProcessByTrend {
             long currentTime = System.currentTimeMillis();
             long lockDate1Min = TimeConvertion.addMinutes(currentTime, 5);
 
-            for (int i = 0; i < 10; i++) {
+//            for (int i = 0; i < 10; i++) {
+            while (true) {
                 if (CKey.NN_DEBUG != true) {
                     currentTime = System.currentTimeMillis();
                     if (lockDate1Min < currentTime) {
