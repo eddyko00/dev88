@@ -199,7 +199,9 @@ public class FundMgrProcess {
                     String Password = null;
                     String AccountIDSt = "" + accObj.getId();
                     String stockidsymbol = stockN;
-                    String trName = ConstantKey.TR_NN2;
+                    // assume default NN1
+                    // assume default NN1                    
+                    String trName = ConstantKey.TR_NN1; 
                     int length = 1;
                     ArrayList<PerformanceObj> stockPerList = serviceAFWeb.getAccountStockPerfHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
                     if (stockPerList != null) {
