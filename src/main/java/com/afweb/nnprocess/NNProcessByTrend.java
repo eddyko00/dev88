@@ -670,14 +670,13 @@ public class NNProcessByTrend {
                         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
 
                         long lockReturnStock = 1;
-                   
+
 //                        lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
 //
 //                        if (testing == true) {
 //                            lockReturnStock = 1;
 //                        }
 //                        logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
-
                         if (lockReturnStock > 0) {
                             String nnName = ConstantKey.TR_NN3;
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
@@ -685,15 +684,13 @@ public class NNProcessByTrend {
 
 //                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //                            logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
-
                             AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                     stockNNprocessNameArray.remove(0);
-                                    if (CKey.SEPARATE_STOCKINFO_DB == true) {
-                                        /// need to create the table to reduce the memeory in DB
-                                        serviceAFWeb.getStockImp().deleteNeuralNet1Table();
-                                    }
+
+                                    /// need to create the table to reduce the memeory in DB
+                                    serviceAFWeb.getStockImp().deleteNeuralNet1Table();
                                 }
                             }
                         }
