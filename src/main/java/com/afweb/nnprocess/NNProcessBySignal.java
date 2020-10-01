@@ -57,7 +57,7 @@ public class NNProcessBySignal {
                 logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
                 NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
                 nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
-
+                logger.info("> ProcessTrainNeuralNet end... cycle " + k);
                 while (true) {
                     currentTime = System.currentTimeMillis();
                     if (lockDate1Hour < currentTime) {
@@ -76,8 +76,9 @@ public class NNProcessBySignal {
 
         boolean flagReLeanInput = true;
         if (flagReLeanInput == true) {
+            logger.info("> ProcessReLeanInput NN 1 ");
             ProcessReLeanInput(serviceAFWeb);
-
+            logger.info("> ProcessReLeanInput end... ");
         }
 
         boolean flagNeuralnetInput = false;
