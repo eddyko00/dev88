@@ -603,7 +603,6 @@ public class ServiceAFweb {
 
             } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
                 getAccountProcessImp().ProcessSystemMaintance(this);
-                TRprocessImp.UpdateAllStock(this);
                 System.gc();
             } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
                 //10 Sec * 5 ~ 1 minutes
