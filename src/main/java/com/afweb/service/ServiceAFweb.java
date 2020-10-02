@@ -611,7 +611,7 @@ public class ServiceAFweb {
 
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-                
+
                 TRprocessImp.ProcessAdminSignalTrading(this);
             } else {
 //                NNProcessImp.ProcessInputNeuralNet(this);

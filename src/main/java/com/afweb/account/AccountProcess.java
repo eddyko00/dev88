@@ -724,6 +724,7 @@ public class AccountProcess {
                 if (accountId == accountAdminObj.getId()) {
                     continue;
                 }
+//                logger.info("> ProcessAllAccountTradingSignal id " + accountId);
                 AccountObj accountObj = serviceAFWeb.SystemAccountObjByAccountID(accountId);
                 if (accountObj == null) {
                     continue;
@@ -733,20 +734,19 @@ public class AccountProcess {
                 if (stockNameArray == null) {
                     continue;
                 }
+//                logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
                 long currentTime = System.currentTimeMillis();
-                long lockDate3Min = TimeConvertion.addMinutes(LastServUpdateTimer, 3); // add 3 minutes
+                long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 5); // add 3 minutes
                 if (CKey.NN_DEBUG == true) {
                     currentTime = 0;
                 }
-                if (lockDate3Min < currentTime) {
+                if (lockDate5Min < currentTime) {
                     break;
                 }
 //                if (CKey.NN_DEBUG == true) {
                 logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
 //                }
-//                if (accountId == 4){
-//                     logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname());
-//                }
+
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);
                     boolean ret = TRprocessImp.checkStock(serviceAFWeb, symbol);
@@ -757,7 +757,7 @@ public class AccountProcess {
                     }
                 }
                 maxAccountCnt++;
-                if (maxAccountCnt > 10) {
+                if (maxAccountCnt > 15) {
                     break;
                 }
             }
