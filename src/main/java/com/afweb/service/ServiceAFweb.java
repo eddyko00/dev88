@@ -502,19 +502,20 @@ public class ServiceAFweb {
         }
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         String LockName = null;
-        if (CKey.UI_ONLY == true) {
-            //////           
-            if (cmd.length() > 0) {
-                if (cmd.equals("adminsignal")) {
+        //////           
+        if (cmd.length() > 0) {
+            if (cmd.equals("adminsignal")) {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);
-                    getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                } else if (cmd.equals("updatestock")) {
-                    TRprocessImp.UpdateAllStock(this);
-                } else if (cmd.equals("debugtest")) {
-                    debugtest();
-                }
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            } else if (cmd.equals("updatestock")) {
+                TRprocessImp.UpdateAllStock(this);
+            } else if (cmd.equals("debugtest")) {
+                debugtest();
             }
-            //////
+        }
+        //////        
+        if (CKey.UI_ONLY == true) {
+
             return;
         }
 
@@ -546,22 +547,7 @@ public class ServiceAFweb {
                     getAccountProcessImp().ProcessSystemMaintance(this);
                 }
             }
-            //////////// special command            
-            if (cmd.length() > 0) {
-                if (cmd.equals("adminsignal")) {
-                    getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                    TRprocessImp.ProcessAdminSignalTrading(this);
-                } else if (cmd.equals("updatestock")) {
-                    TRprocessImp.UpdateAllStock(this);
-                } else if (cmd.equals("starttimer")) {
-                    RESTtimer.serverURL_0 = "";
-                    HerokuDemoApplication.timerSchCnt = 0;
-                } else if (cmd.equals("debugtest")) {
-                    debugtest();
-                }
 
-                removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
-            }
             ////////////
             if (((getServerObj().getProcessTimerCnt() % 27) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
                 long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
