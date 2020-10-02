@@ -74,7 +74,7 @@ public class NNProcessBySignal {
             }
         }
 
-        boolean flagReLeanInput = true;
+        boolean flagReLeanInput = false;
         if (flagReLeanInput == true) {
             logger.info("> ProcessReLeanInput NN 1 ");
             ProcessReLeanInput(serviceAFWeb);
