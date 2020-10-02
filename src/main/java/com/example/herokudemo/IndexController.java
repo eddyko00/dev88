@@ -1053,26 +1053,7 @@ public class IndexController {
         return stockInfoList;
     }
 
-    @RequestMapping(value = "/st/{symbol}/history/display", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getStockHistoryD(
-            @PathVariable("symbol") String symbol,
-            @RequestParam(value = "length", required = false) String lengthSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        int length = 0; //20;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-        }
-        ArrayList stockInfoList = afWebService.getStockHistoricalDisplay(symbol, length);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return stockInfoList;
-    }
+
 
     @RequestMapping(value = "/st/add/{symbol}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

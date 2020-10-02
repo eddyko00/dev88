@@ -3774,29 +3774,29 @@ public class ServiceAFweb {
         return stockInfoArray;
     }
 
-    /////recent day first and the old data last////////////
-    public ArrayList<AFstockInfoDisplay> getStockHistoricalDisplay(String symbol, int length) {
-
-        ArrayList<AFstockInfoDisplay> dspList = new ArrayList();
-        ArrayList<AFstockInfo> stockInfList = getStockHistorical(symbol, length);
-        for (int i = 0; i < stockInfList.size(); i++) {
-            AFstockInfo stockInf = stockInfList.get(i);
-            AFstockInfoDisplay dsp = new AFstockInfoDisplay();
-            dsp.setStockInfoObj(stockInf);
-
-            String tzid = "America/New_York"; //EDT
-            TimeZone tz = TimeZone.getTimeZone(tzid);
-            Date d = new Date(stockInf.getEntrydatel());
-            DateFormat format = new SimpleDateFormat("M/dd/yyyy");
-            format.setTimeZone(tz);
-            String ESTdate = format.format(d);
-            dsp.setUpdateDateD(ESTdate);
-            dspList.add(dsp);
-        }
-
-        return dspList;
-
-    }
+//    /////recent day first and the old data last////////////
+//    public ArrayList<AFstockInfoDisplay> getStockHistoricalDisplay(String symbol, int length) {
+//
+//        ArrayList<AFstockInfoDisplay> dspList = new ArrayList();
+//        ArrayList<AFstockInfo> stockInfList = getStockHistorical(symbol, length);
+//        for (int i = 0; i < stockInfList.size(); i++) {
+//            AFstockInfo stockInf = stockInfList.get(i);
+//            AFstockInfoDisplay dsp = new AFstockInfoDisplay();
+//            dsp.setStockInfoObj(stockInf);
+//
+//            String tzid = "America/New_York"; //EDT
+//            TimeZone tz = TimeZone.getTimeZone(tzid);
+//            Date d = new Date(stockInf.getEntrydatel());
+//            DateFormat format = new SimpleDateFormat("M/dd/yyyy");
+//            format.setTimeZone(tz);
+//            String ESTdate = format.format(d);
+//            dsp.setUpdateDateD(ESTdate);
+//            dspList.add(dsp);
+//        }
+//
+//        return dspList;
+//
+//    }
 
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(String symbol, int length) {
@@ -3814,7 +3814,11 @@ public class ServiceAFweb {
 
         List<AFstockInfo> mergedList = new ArrayList();
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long endDay = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
+        //////some bug in Heroku to get the current day actually missing the first date
+        ///// may be the server time
+        ///// work around to add one more day
+        long workaround = TimeConvertion.addDays(dateNow.getTimeInMillis(), 1);
+        long endDay = TimeConvertion.endOfDayInMillis(workaround);
         long start = endDay;
         long end = 0;
 
