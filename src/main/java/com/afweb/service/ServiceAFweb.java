@@ -499,6 +499,7 @@ public class ServiceAFweb {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         String LockName = null;
         if (CKey.UI_ONLY == true) {
+            //////           
             if (cmd.length() > 0) {
                 if (cmd.equals("adminsignal")) {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);

@@ -131,11 +131,9 @@ public class TrandingSignalProcess {
                     }
 //                    logger.info("ProcessAdminSignalTrading " + LockStock + " LockStock " + lockReturnStock);
                     if (lockReturnStock > 0) {
-                        int ret = 1;
-                        if (CKey.NN_DEBUG == false) {
-                            ret = updateStockProcess(serviceAFWeb, symbol);
-                        }
-                        if (ret > 0) {
+
+                        boolean ret = this.checkStock(serviceAFWeb, symbol);
+                        if (ret == true) {
 
                             TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_MACD);
                             if (trObj != null) {
@@ -1352,6 +1350,20 @@ public class TrandingSignalProcess {
         return result;
     }
 
+    public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+        if (stock == null) {
+            return false;
+        }
+        if (stock.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+        if (stock.getAfstockInfo() == null) {
+            return false;
+        }
+        return true;
+    }
+
     public int updateStockProcess(ServiceAFweb serviceAFWebObj, String NormalizeSymbol) {
         this.serviceAFWeb = serviceAFWebObj;
         return updateAllStockProcess(NormalizeSymbol);
@@ -1363,10 +1375,7 @@ public class TrandingSignalProcess {
         AFstockObj stock = null;
         // eddy testing
         // yahoo crumb fail not working
-        boolean flagEnd = false;
-        if (flagEnd == true) {
-            return 0;
-        }
+
         try {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long currentdate = dateNow.getTimeInMillis();
@@ -1382,7 +1391,8 @@ public class TrandingSignalProcess {
             long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);
 
             long lockDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-            if (CKey.NN_DEBUG == true) {
+            boolean flagEnd = false;
+            if (flagEnd == true) {
                 lastUpdate5Min = 0;
             }
             if (lastUpdate5Min < lockDateValue) {

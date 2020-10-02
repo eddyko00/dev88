@@ -742,15 +742,16 @@ public class AccountProcess {
                     break;
                 }
 //                if (CKey.NN_DEBUG == true) {
-                    logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname());
+                logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
 //                }
 //                if (accountId == 4){
 //                     logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname());
 //                }
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);
-                    int ret = TRprocessImp.updateStockProcess(serviceAFWeb, symbol);
-                    if (ret > 0) {
+                    boolean ret = TRprocessImp.checkStock(serviceAFWeb, symbol);
+
+                    if (ret == true) {
                         updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
                         updateTradingTransaction(serviceAFWeb, accountObj, symbol);
                     }
