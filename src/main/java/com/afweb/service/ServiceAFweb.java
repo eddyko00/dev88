@@ -378,6 +378,8 @@ public class ServiceAFweb {
                 if (timerThreadMsg != null) {
                     if (timerThreadMsg.indexOf("adminsignal") != -1) {
                         processTimer("adminsignal");
+                    } else if (timerThreadMsg.indexOf("updatestock") != -1) {
+                        processTimer("updatestock");
                     } else if (timerThreadMsg.indexOf("starttimer") != -1) {
                         processTimer("starttimer");
                     }
@@ -504,6 +506,8 @@ public class ServiceAFweb {
                 if (cmd.equals("adminsignal")) {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                } else if (cmd.equals("updatestock")) {
+                    TRprocessImp.UpdateAllStock(this);
                 }
             }
             //////
@@ -543,6 +547,8 @@ public class ServiceAFweb {
                 if (cmd.equals("adminsignal")) {
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                     TRprocessImp.ProcessAdminSignalTrading(this);
+                } else if (cmd.equals("updatestock")) {
+                    TRprocessImp.UpdateAllStock(this);
                 } else if (cmd.equals("starttimer")) {
                     RESTtimer.serverURL_0 = "";
                     HerokuDemoApplication.timerSchCnt = 0;
