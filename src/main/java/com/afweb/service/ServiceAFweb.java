@@ -597,12 +597,13 @@ public class ServiceAFweb {
                 // add or remove stock in Mutual fund account based on all stocks in the system
                 getAccountProcessImp().ProcessFundAccount(this);
 
-            } else if ((getServerObj().getProcessTimerCnt() % 13) == 0) {
+            } else if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
                 // not stable -  slave cannot call Master in Openshift ???? 
                 TRprocessImp.UpdateAllStock(this);
 
             } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
                 getAccountProcessImp().ProcessSystemMaintance(this);
+                TRprocessImp.UpdateAllStock(this);
                 System.gc();
             } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
                 //10 Sec * 5 ~ 1 minutes
