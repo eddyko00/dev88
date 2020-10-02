@@ -32,11 +32,11 @@ public class CKey {
     //
     //////////////////////
     //
-    public static boolean PROXY = true; //false; //true; 
+    public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
-    public static boolean NN_DEBUG = true; //false; //true; 
+    public static boolean NN_DEBUG = false; //false; //true; 
     public static boolean OPENSHIFT_DB1 = true; //false; using HEROKU //true; using openshift // release
-    public static boolean UI_ONLY = true; //false Openshift; //true heroku;  
+    public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     /////
     ////////////////////// make this always true for HEROKU Env
@@ -77,10 +77,6 @@ public class CKey {
 //*********** 
 //***********    
 //*********** 
-// PHP DB server
-// PHP DB server  
-//    public static final String SERVERDB_REMOTE_URL = URL_PATH_HERO;  //LocalPCflag = false;   
-    public static final String SERVERDB_REMOTE_URL = URL_PATH_OP_DB_PHP1;  //LocalPCflag = false;
 
 //**********    
 //*********** 
