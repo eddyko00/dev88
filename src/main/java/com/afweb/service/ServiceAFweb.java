@@ -382,6 +382,8 @@ public class ServiceAFweb {
                         processTimer("updatestock");
                     } else if (timerThreadMsg.indexOf("starttimer") != -1) {
                         processTimer("starttimer");
+                    } else if (timerThreadMsg.indexOf("debugtest") != -1) {
+                        processTimer("debugtest");
                     }
                 }
                 processTimer("");
@@ -508,6 +510,8 @@ public class ServiceAFweb {
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 } else if (cmd.equals("updatestock")) {
                     TRprocessImp.UpdateAllStock(this);
+                } else if (cmd.equals("debugtest")) {
+                    debugtest();
                 }
             }
             //////
@@ -982,6 +986,20 @@ public class ServiceAFweb {
 //            TRprocessImp.upateAdminTransaction(this, accountAObj, symbol);
         }
 
+    }
+
+    public void debugtest() {
+        AFstockObj stock = getStockImp().getRealTimeStock("AAPL", null);
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+
+        long endDay = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
+        long start = endDay;
+        long end = 0;
+        logger.info("debugtest>>> dateNow " + dateNow.getTimeInMillis() + ", start " + start);
+
+        String sql = "select * from stockinfo where stockid = " + stock.getId();
+        sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
+        logger.info("debugtest>>> sql " + sql);
     }
 
     public void updateErrorStockYahooParseError(String symbol) {
@@ -3797,7 +3815,6 @@ public class ServiceAFweb {
 //        return dspList;
 //
 //    }
-
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(String symbol, int length) {
         if (length == 0) {

@@ -1281,6 +1281,7 @@ public class TrandingSignalProcess {
         return stockUpdateNameArray;
     }
 
+    
     public int UpdateAllStock(ServiceAFweb serviceAFWeb) {
         this.serviceAFWeb = serviceAFWeb;
 
