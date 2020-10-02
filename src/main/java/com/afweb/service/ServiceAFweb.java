@@ -556,6 +556,8 @@ public class ServiceAFweb {
                 } else if (cmd.equals("starttimer")) {
                     RESTtimer.serverURL_0 = "";
                     HerokuDemoApplication.timerSchCnt = 0;
+                } else if (cmd.equals("debugtest")) {
+                    debugtest();
                 }
 
                 removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
@@ -992,7 +994,8 @@ public class ServiceAFweb {
         AFstockObj stock = getStockImp().getRealTimeStock("AAPL", null);
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
 
-        long endDay = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
+        long workaround = TimeConvertion.workaround_endOfDayInMillis(dateNow.getTimeInMillis());
+        long endDay = workaround;
         long start = endDay;
         long end = 0;
         logger.info("debugtest>>> dateNow " + dateNow.getTimeInMillis() + ", start " + start);
@@ -3832,10 +3835,9 @@ public class ServiceAFweb {
         List<AFstockInfo> mergedList = new ArrayList();
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         //////some bug in Heroku to get the current day actually missing the first date
-        ///// may be the server time
-        ///// work around to add one more day
-        long workaround = TimeConvertion.addDays(dateNow.getTimeInMillis(), 1);
-        long endDay = TimeConvertion.endOfDayInMillis(workaround);
+        ///// may be the server time - 2hr when try to do end of day not working in this case.
+        ///// so, need work around to move to next begining of day
+        long endDay = TimeConvertion.workaround_endOfDayInMillis(dateNow.getTimeInMillis());
         long start = endDay;
         long end = 0;
 
