@@ -27,7 +27,6 @@ public class CKey {
     public static final int MYSQL = 0;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
 
     public static final int SQL_DATABASE = REMOTE_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
-    public static final boolean SQL_RemoveServerDB = false; // need true and REMOTE_MYSQL using remote server not PHP 
  
     //
     //////////////////////
