@@ -330,7 +330,7 @@ public class NNProcessBySignal {
 
     /////////////////////////////////////////////////////////
     public void ProcessReLeanInput(ServiceAFweb serviceAFWeb) {
-        boolean flagReLeanInput = false;
+        boolean flagReLeanInput = true;
         if (flagReLeanInput == true) {
             TradingNNprocess trainNN = new TradingNNprocess();
             int custId = 0;;
