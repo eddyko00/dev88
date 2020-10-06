@@ -597,20 +597,22 @@ public class ServiceAFweb {
 
             } else if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
                 // not stable -  slave cannot call Master in Openshift ???? 
-                TRprocessImp.UpdateAllStock(this);
+
 
             } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-                getAccountProcessImp().ProcessSystemMaintance(this);
                 System.gc();
+                
             } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
                 //10 Sec * 5 ~ 1 minutes
                 TRprocessImp.UpdateAllStock(this);
             } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
 
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.UpdateAllStock(this);
             } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
 
                 TRprocessImp.ProcessAdminSignalTrading(this);
+                TRprocessImp.UpdateAllStock(this);
             } else {
 //                NNProcessImp.ProcessInputNeuralNet(this);
                 ///Error R14 (Memory quota exceeded) in heroku
