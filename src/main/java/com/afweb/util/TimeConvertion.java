@@ -275,15 +275,11 @@ public class TimeConvertion {
             return calendar.getTimeInMillis();
         }
     }
-    public static long workaround_endOfDayInMillis(long date) {
+    public static long workaround_nextday_endOfDayInMillis(long date) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
             calendar.add(Calendar.DAY_OF_MONTH, 1);            
-            calendar.set(Calendar.HOUR_OF_DAY, 0);  //23 try this for end of day
-            calendar.set(Calendar.MILLISECOND, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MINUTE, 0); 
             return calendar.getTimeInMillis();
         }
     }

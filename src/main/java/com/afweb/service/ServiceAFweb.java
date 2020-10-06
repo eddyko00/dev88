@@ -982,7 +982,7 @@ public class ServiceAFweb {
         AFstockObj stock = getStockImp().getRealTimeStock("AAPL", null);
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
 
-        long workaround = TimeConvertion.workaround_endOfDayInMillis(dateNow.getTimeInMillis());
+        long workaround = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
         long endDay = workaround;
         long start = endDay;
         long end = 0;
@@ -3825,7 +3825,7 @@ public class ServiceAFweb {
         //////some bug in Heroku to get the current day actually missing the first date
         ///// may be the server time - 2hr when try to do end of day not working in this case.
         ///// so, need work around to move to next begining of day
-        long endDay = TimeConvertion.workaround_endOfDayInMillis(dateNow.getTimeInMillis());
+        long endDay = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
         long start = endDay;
         long end = 0;
 
