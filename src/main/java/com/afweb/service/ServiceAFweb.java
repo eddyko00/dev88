@@ -598,10 +598,9 @@ public class ServiceAFweb {
             } else if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
                 // not stable -  slave cannot call Master in Openshift ???? 
 
-
             } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
                 System.gc();
-                
+
             } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
                 //10 Sec * 5 ~ 1 minutes
                 TRprocessImp.UpdateAllStock(this);
@@ -653,6 +652,9 @@ public class ServiceAFweb {
                 int size1year = 5 * 52;
                 ArrayList StockArray = getStockHistorical(sym, size1year * 4);
                 if (StockArray == null) {
+                    continue;
+                }
+                if (StockArray.size() == 0) {
                     continue;
                 }
                 String StFileName = FileLocalPath + sym + ".txt";
@@ -979,18 +981,22 @@ public class ServiceAFweb {
     }
 
     public void debugtest() {
-        AFstockObj stock = getStockImp().getRealTimeStock("AAPL", null);
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        String symbol = "IWM";
+        AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
+        int size1yearAll = 20 * 12 * 5 + (50 * 3);
+        ArrayList<AFstockInfo> StockArray = getStockHistorical(symbol, size1yearAll);
 
-        long workaround = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
-        long endDay = workaround;
-        long start = endDay;
-        long end = 0;
-        logger.info("debugtest>>> dateNow " + dateNow.getTimeInMillis() + ", start " + start);
-
-        String sql = "select * from stockinfo where stockid = " + stock.getId();
-        sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
-        logger.info("debugtest>>> sql " + sql);
+//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//
+//        long workaround = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
+//        long endDay = workaround;
+//        long start = endDay;
+//        long end = 0;
+//        logger.info("debugtest>>> dateNow " + dateNow.getTimeInMillis() + ", start " + start);
+//
+//        String sql = "select * from stockinfo where stockid = " + stock.getId();
+//        sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
+//        logger.info("debugtest>>> sql " + sql);
     }
 
     public void updateErrorStockYahooParseError(String symbol) {
