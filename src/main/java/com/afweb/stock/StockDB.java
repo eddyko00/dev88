@@ -406,7 +406,9 @@ public class StockDB {
             return stockinfodb.getStockInfo(stock, length, dateNow);
         }
         if (dateNow == null) {
-            dateNow = TimeConvertion.getCurrentCalendar();
+//            dateNow = TimeConvertion.getCurrentCalendar();
+            long date = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+            dateNow = TimeConvertion.workaround_nextday_endOfDate(date);
         }
         try {
             if (stock == null) {

@@ -283,6 +283,15 @@ public class TimeConvertion {
             return calendar.getTimeInMillis();
         }
     }
+    public static Calendar workaround_nextday_endOfDate(long date) {
+        Calendar calendar = getCalendar();
+        synchronized (calendar) {
+            calendar.setTimeInMillis(date);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);      
+            return calendar;
+        }
+    }
+    
     /**
      * Returns the day after <code>date</code>.
      *
