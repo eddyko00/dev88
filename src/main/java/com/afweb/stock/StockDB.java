@@ -356,7 +356,7 @@ public class StockDB {
                 if (stock.getStatus() == ConstantKey.OPEN) {
                     if (stock.getSubstatus() != ConstantKey.INITIAL) {
 
-                        ArrayList StockArray = getStockInfo(stock, 2, dateNow);
+                        ArrayList StockArray = getStockInfo_workaround(stock, 2, dateNow);
                         if (StockArray != null) {
                             if (StockArray.size() >= 2) {
                                 AFstockInfo stocktmp = (AFstockInfo) StockArray.get(0);
@@ -392,6 +392,37 @@ public class StockDB {
 
             String sql = "select * from stockinfo where stockid = " + stock.getId();
             sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
+
+            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
+            return (ArrayList) entries;
+        } catch (Exception e) {
+            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
+        }
+        return null;
+    }
+
+    // Heuoku cannot get the date of the first stockinfo????
+    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
+
+        try {
+            if (stock == null) {
+                return null;
+            }
+            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+                return null;
+            }
+
+            String sql = "";
+            if (dateNow == null) {
+                sql = "select * from stockinfo where stockid = " + stock.getId();
+                sql += " order by entrydatel desc";
+
+            } else {
+                long stockInfoEndday = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
+                sql = "select * from stockinfo where stockid = " + stock.getId();
+                sql += " and entrydatel <= " + stockInfoEndday + " order by entrydatel desc";
+            }
+            sql = ServiceAFweb.getSQLLengh(sql, length);
 
             ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
             return (ArrayList) entries;
@@ -511,7 +542,7 @@ public class StockDB {
             }
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long stockinfoDBEndDay = 0;
-            ArrayList stockinfoDBArray = getStockInfo(stock, 1, dateNow);
+            ArrayList stockinfoDBArray = getStockInfo_workaround(stock, 1, dateNow);
             if (stockinfoDBArray != null && stockinfoDBArray.size() == 1) {
                 AFstockInfo stockinfoDB = (AFstockInfo) stockinfoDBArray.get(0);
                 stockinfoDBEndDay = stockinfoDB.getEntrydatel();
@@ -877,7 +908,6 @@ public class StockDB {
         }
         String name = CKey.NN_version + "_" + ConstantKey.TR_NN1;
         int ret = setCreateNeuralNetObj0(name, CKey.NN1_WEIGHT_0);
-
 
         return ret;
     }

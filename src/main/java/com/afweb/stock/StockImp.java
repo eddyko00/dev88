@@ -153,7 +153,7 @@ public class StockImp {
             return null;
         }
         ArrayList StockArray = null;
-        StockArray = stockdb.getStockInfo(stock, length, dateNow);
+        StockArray = stockdb.getStockInfo_workaround(stock, length, dateNow);
         return StockArray;
     }
 
