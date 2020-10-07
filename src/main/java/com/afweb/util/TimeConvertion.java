@@ -279,7 +279,7 @@ public class TimeConvertion {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
-            calendar.add(Calendar.DAY_OF_MONTH, 1);            
+            calendar.add(Calendar.DAY_OF_MONTH, 2);            
             return calendar.getTimeInMillis();
         }
     }
@@ -287,7 +287,7 @@ public class TimeConvertion {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
-            calendar.add(Calendar.DAY_OF_MONTH, 1);      
+            calendar.add(Calendar.DAY_OF_MONTH, 2);      
             return calendar;
         }
     }
