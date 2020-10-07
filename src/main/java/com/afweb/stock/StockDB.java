@@ -413,15 +413,9 @@ public class StockDB {
             }
 
             String sql = "";
-            if (dateNow == null) {
-                sql = "select * from stockinfo where stockid = " + stock.getId();
-                sql += " order by entrydatel desc";
+            sql = "select * from stockinfo where stockid = " + stock.getId();
+            sql += " order by entrydatel desc";
 
-            } else {
-                long stockInfoEndday = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
-                sql = "select * from stockinfo where stockid = " + stock.getId();
-                sql += " and entrydatel <= " + stockInfoEndday + " order by entrydatel desc";
-            }
             sql = ServiceAFweb.getSQLLengh(sql, length);
 
             ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
