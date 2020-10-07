@@ -200,7 +200,7 @@ public class ProcessNN1 {
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
         Date stockDate = new Date(stockinfoT.getEntrydatel());
         // just for testing
-        logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " " + stockDate.toString());
+//        logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " " + stockDate.toString());
 
         if (nnSignal == ConstantKey.S_NEUTRAL) {
             nnSignal = macdSignal;
