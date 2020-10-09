@@ -995,6 +995,7 @@ public class TrandingSignalProcess {
             trHistory.setUpdateDateD(stdate);
             trHistory.setUpdateDatel(stockinfo.getEntrydatel());
             trHistory.setClose(stockinfo.getFclose());
+            trHistory.setVolume(stockinfo.getVolume());
             trHistory.setAfstockInfo(stockinfo);
             trHistory.setParmSt1("");
 
@@ -1281,7 +1282,6 @@ public class TrandingSignalProcess {
         return stockUpdateNameArray;
     }
 
-    
     public int UpdateAllStock(ServiceAFweb serviceAFWeb) {
         this.serviceAFWeb = serviceAFWeb;
 
@@ -2304,6 +2304,7 @@ public class TrandingSignalProcess {
     }
 
     public static boolean forceToGenerateNewNN = false;
+    public static boolean forceToErrorNewNN = false;
 
     public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnNameSym, String nnNAme, NNTrainObj nnTraining, double nnError) {
         int inputListSize = CKey.NN_INPUT_SIZE; //12;
@@ -2336,11 +2337,15 @@ public class TrandingSignalProcess {
         ///NeuralNetObj0 release
 
         AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
+        if (forceToErrorNewNN == true) {
+            nnError = nnError - 0.001;
+        }        
         if (forceToGenerateNewNN == true) {
             // force to save new NN
             afNeuralNet = null;
             nnError = 1;
         }
+        
         if (afNeuralNet != null) {
             String weightSt = afNeuralNet.getWeight();
 

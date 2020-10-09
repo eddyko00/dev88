@@ -15,6 +15,20 @@ import java.util.ArrayList;
  */
 public class StockTRHistoryObj {
 
+    /**
+     * @return the volume
+     */
+    public float getVolume() {
+        return volume;
+    }
+
+    /**
+     * @param volume the volume to set
+     */
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
     private String symbol;
     private String trname;
     private int type;
@@ -28,6 +42,7 @@ public class StockTRHistoryObj {
     private float parm8;      
     private String parmSt1;     
     private float close;    
+    private float volume;   
     private int trsignal;
     private long updateDatel;
     private String updateDateD = "";

@@ -40,7 +40,9 @@ public class NNProcessByTrend {
 
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
+            logger.info("> NeuralnetInput TR NN1... ");            
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+            logger.info("> NeuralnetInput TR NN2... ");            
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
             // need to debug to generate the java first time before NN training
             TrandingSignalProcess.forceToGenerateNewNN = true;
@@ -50,13 +52,14 @@ public class NNProcessByTrend {
 // only need this first time        
 //        TrandingSignalProcess.forceToGenerateNewNN = true;
 // only need this first time      
-        boolean flagNeuralnetTrain = false;
+        boolean flagNeuralnetTrain = true;
         if (flagNeuralnetTrain == true) {
+            TrandingSignalProcess.forceToErrorNewNN = true;            
             // start training
             NeuralNetProcessTesting(serviceAFWeb);
         }
 
-        boolean flagNeuralnetCreateJava = false;
+        boolean flagNeuralnetCreateJava = true;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
 
@@ -202,6 +205,7 @@ public class NNProcessByTrend {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
+            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
 
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;

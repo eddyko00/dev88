@@ -37,6 +37,8 @@ public class CKey {
     public static boolean OPENSHIFT_DB1 = false; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
+    
+    public static boolean TEST_VOL = false;    
     /////
     ////////////////////// make this always true for HEROKU Env
     ////////////////////// make this always true for HEROKU Env

@@ -83,13 +83,16 @@ public class NNProcessBySignal {
 
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
+            logger.info("> NeuralnetInput TR NN1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+            logger.info("> NeuralnetInput TR NN2... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
         }
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
+            TrandingSignalProcess.forceToErrorNewNN = true;
             // start training
             // TrainingNNBP inputpattern 1748
             NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
@@ -399,7 +402,7 @@ public class NNProcessBySignal {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-
+            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
             for (int i = 0; i < symbolL.length; i++) {
@@ -1101,6 +1104,7 @@ public class NNProcessBySignal {
             inputBuf.append(nnData.NN_INPUTLIST7);
             inputBuf.append(nnData.NN_INPUTLIST8);
 //            inputBuf.append(nnData.NN_INPUTLIST9); //need to check nnData file
+//            inputBuf.append(nnData.NN_INPUTLIST10);
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

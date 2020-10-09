@@ -84,8 +84,10 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
-    public static String primaryStock[] = {"HOU.TO", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO"};
-    public static String neuralNetTrainStock[] = {"HOU.TO", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL"};
+//    public static String primaryStock[] = {"HOU.TO", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO"};
+//    public static String neuralNetTrainStock[] = {"HOU.TO", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL"};
+    public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO"};
+    public static String neuralNetTrainStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL"};
 
     /**
      * @return the cacheAccountAdminObj
@@ -4953,6 +4955,11 @@ public class ServiceAFweb {
             result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
             stock = getStockImp().getRealTimeStock("AAPL", null);
             result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+            stock = getStockImp().getRealTimeStock("IWM", null);
+            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+            stock = getStockImp().getRealTimeStock("AMZN", null);
+            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);            
+         
         }
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         TRprocessImp.InitSystemData();

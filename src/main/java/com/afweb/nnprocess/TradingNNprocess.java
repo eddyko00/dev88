@@ -913,6 +913,93 @@ public class TradingNNprocess {
         return closeArray;
     }
 
+    public static ArrayList<Double> getNNnormalizeInputVolume(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
+        if (thObjListMACD == null) {
+            return null;
+        }
+
+        float vol_0 = 0;
+        float vol_1 = 0;
+        float vol_2 = 0;
+        float vol_3 = 0;
+
+        ArrayList<Float> parm1NormalList = new ArrayList();  // close normalize
+        for (int k = 0; k < 7; k++) {
+            if ((index - k) < 0) {
+                break;
+            }
+            StockTRHistoryObj thObjMVtmp = thObjListMACD.get(index - k);
+            float vol = thObjMVtmp.getVolume();
+            parm1NormalList.add(vol);
+            switch (k) {
+                case 0:
+                    vol_0 = vol;
+                    break;
+                case 1:
+                    vol_1 = vol;
+                    break;
+                case 2:
+                    vol_2 = vol;
+                    break;
+                case 3:
+                    vol_3 = vol;
+                    break;
+                default:
+                    break;
+            }
+        }
+        NNormalObj parm1Normal = new NNormalObj();
+        parm1Normal.initHighLow(parm1NormalList);
+
+        ArrayList closeArray = new ArrayList();
+        double closef = parm1Normal.getNormalizeValue(vol_0);
+        int temp = 0;
+        temp = (int) closef;
+        closef = temp;
+        closef = closef / 100;
+        if (closef > 0.9) {
+            closef = 0.9;
+        }
+        if (closef < 0.1) {
+            closef = 0.1;
+        }
+        closeArray.add(closef);
+        closef = parm1Normal.getNormalizeValue(vol_1);
+        temp = (int) closef;
+        closef = temp;
+        closef = closef / 100;
+        if (closef > 0.9) {
+            closef = 0.9;
+        }
+        if (closef < 0.1) {
+            closef = 0.1;
+        }
+        closeArray.add(closef);
+        closef = parm1Normal.getNormalizeValue(vol_2);
+        temp = (int) closef;
+        closef = temp;
+        closef = closef / 100;
+        if (closef > 0.9) {
+            closef = 0.9;
+        }
+        if (closef < 0.1) {
+            closef = 0.1;
+        }
+        closeArray.add(closef);
+        closef = parm1Normal.getNormalizeValue(vol_3);
+        temp = (int) closef;
+        closef = temp;
+        closef = closef / 100;
+        if (closef > 0.9) {
+            closef = 0.9;
+        }
+        if (closef < 0.1) {
+            closef = 0.1;
+        }
+        closeArray.add(closef);
+        return closeArray;
+    }
+
     public static ArrayList<Double> getNNnormalizeInputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
         if (thObjListMACD == null) {
             return null;
@@ -1559,6 +1646,12 @@ public class TradingNNprocess {
                 inputList.setInput8(closeArray.get(2));
                 inputList.setInput9(closeArray.get(3));
                 inputList.setInput10(closeArray.get(4));
+                if (CKey.TEST_VOL == true) {
+                    ArrayList<Double> volumeArray = getNNnormalizeInputVolume(i, thObjListMACD);
+                    // override close normalize
+//                    inputList.setInput9(volumeArray.get(0));
+                    inputList.setInput10(volumeArray.get(1));
+                }
 
 //                ArrayList<Double> closeArray = getNNnormalizeStInputClose(i, thObjListMACD);
 //                inputList.setInput6(closeArray.get(0));
@@ -1693,7 +1786,12 @@ public class TradingNNprocess {
                 inputList.setInput8(closeArray.get(2));
                 inputList.setInput9(closeArray.get(3));
                 inputList.setInput10(closeArray.get(4));
-
+                if (CKey.TEST_VOL == true) {
+                    ArrayList<Double> volumeArray = getNNnormalizeInputVolume(i, thObjListMACD);
+                    // override close normalize
+//                    inputList.setInput9(volumeArray.get(0));
+                    inputList.setInput10(volumeArray.get(1));
+                }
                 double output = getNNnormalizeStOutputClose(i, thObjListMACD);
                 if ((output == -1) || (output == 0)) {
                     inputList.setOutput1(-1);
