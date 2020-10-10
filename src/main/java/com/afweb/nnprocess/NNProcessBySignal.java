@@ -79,6 +79,11 @@ public class NNProcessBySignal {
             logger.info("> ProcessReLeanInput NN 1 ");
             ProcessReLeanInput(serviceAFWeb);
             logger.info("> ProcessReLeanInput end... ");
+            logger.info("> SystemPocessFundMgr start... ");
+            serviceAFWeb.SystemPocessFundMgr();
+            logger.info("> SystemFundMgr start... ");
+            serviceAFWeb.SystemFundMgr();
+            logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
         }
 
         boolean flagNeuralnetInput = false;
