@@ -38,7 +38,7 @@ public class CKey {
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     
-    public static boolean TEST_VOL = false;    
+//    public static boolean TEST_VOL = true;    
     /////
     ////////////////////// make this always true for HEROKU Env
     ////////////////////// make this always true for HEROKU Env
@@ -97,9 +97,9 @@ public class CKey {
     public static int MONTH_SIZE = 14;
     public static int SHORT_MONTH_SIZE = 2;//3;
     public static double PREDICT_THRESHOLD = 0.6;
-    public static double NN1_ERROR_THRESHOLD = 0.131; //0.122; //0.08; 
-//    public static double NN2_ERROR_THRESHOLD = 0.17; //0.08;  
-    public static double NN3_ERROR_THRESHOLD = 0.245; // 0.134; //0.345; 
+    public static double NN1_ERROR_THRESHOLD = 0.172; //0.131; 
+    public static double NN3_ERROR_THRESHOLD = 0.259; //0.245; // 0.134; //0.345; 
+//
     public static final int NN_OUTPUT_SIZE = 2;    
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 80; //120; 

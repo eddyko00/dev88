@@ -52,14 +52,14 @@ public class NNProcessByTrend {
 // only need this first time        
 //        TrandingSignalProcess.forceToGenerateNewNN = true;
 // only need this first time      
-        boolean flagNeuralnetTrain = true;
+        boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
             TrandingSignalProcess.forceToErrorNewNN = true;            
             // start training
             NeuralNetProcessTesting(serviceAFWeb);
         }
 
-        boolean flagNeuralnetCreateJava = true;
+        boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
 

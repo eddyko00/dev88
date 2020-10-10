@@ -1646,7 +1646,7 @@ public class TradingNNprocess {
                 inputList.setInput8(closeArray.get(2));
                 inputList.setInput9(closeArray.get(3));
                 inputList.setInput10(closeArray.get(4));
-                if (CKey.TEST_VOL == true) {
+                if (true) {
                     ArrayList<Double> volumeArray = getNNnormalizeInputVolume(i, thObjListMACD);
                     // override close normalize
 //                    inputList.setInput9(volumeArray.get(0));
@@ -1786,12 +1786,12 @@ public class TradingNNprocess {
                 inputList.setInput8(closeArray.get(2));
                 inputList.setInput9(closeArray.get(3));
                 inputList.setInput10(closeArray.get(4));
-                if (CKey.TEST_VOL == true) {
-                    ArrayList<Double> volumeArray = getNNnormalizeInputVolume(i, thObjListMACD);
-                    // override close normalize
-//                    inputList.setInput9(volumeArray.get(0));
-                    inputList.setInput10(volumeArray.get(1));
-                }
+//                if (CKey.TEST_VOL == true) {
+//                    ArrayList<Double> volumeArray = getNNnormalizeInputVolume(i, thObjListMACD);
+//                    // override close normalize
+////                    inputList.setInput9(volumeArray.get(0));
+//                    inputList.setInput10(volumeArray.get(1));
+//                }
                 double output = getNNnormalizeStOutputClose(i, thObjListMACD);
                 if ((output == -1) || (output == 0)) {
                     inputList.setOutput1(-1);
