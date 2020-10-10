@@ -40,9 +40,9 @@ public class NNProcessByTrend {
 
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
-            logger.info("> NeuralnetInput TR NN1... ");            
+            logger.info("> NeuralnetInput TR NN1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
-            logger.info("> NeuralnetInput TR NN2... ");            
+            logger.info("> NeuralnetInput TR NN2... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
             // need to debug to generate the java first time before NN training
             TrandingSignalProcess.forceToGenerateNewNN = true;
@@ -54,7 +54,7 @@ public class NNProcessByTrend {
 // only need this first time      
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
-            TrandingSignalProcess.forceToErrorNewNN = true;            
+            TrandingSignalProcess.forceToErrorNewNN = true;
             // start training
             NeuralNetProcessTesting(serviceAFWeb);
         }
@@ -912,8 +912,10 @@ public class NNProcessByTrend {
             inputBuf.append(nn3Data.TR_NN3_INPUTLIST13);
             inputBuf.append(nn3Data.TR_NN3_INPUTLIST14);
             inputBuf.append(nn3Data.TR_NN3_INPUTLIST15);
-//            inputBuf.append(nn3Data.TR_NN3_INPUTLIST8);
-//            inputBuf.append(nn3Data.TR_NN3_INPUTLIST9); // check nn3 data
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST16);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST17);
+            inputBuf.append(nn3Data.TR_NN3_INPUTLIST18);
+//            inputBuf.append(nn3Data.TR_NN3_INPUTLIST19); // check nn3 data
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
