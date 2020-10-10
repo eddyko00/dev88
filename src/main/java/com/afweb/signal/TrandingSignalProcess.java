@@ -2338,7 +2338,7 @@ public class TrandingSignalProcess {
 
         AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
         if (forceToErrorNewNN == true) {
-            nnError = nnError - 0.001;
+            nnError = nnError - 0.002;
         }        
         if (forceToGenerateNewNN == true) {
             // force to save new NN
