@@ -137,15 +137,17 @@ public class TradingNNprocess {
                                 String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
                                 ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
                                 if (commObjArry != null) {
-                                    CommObj commObj = commObjArry.get(0);
-                                    String dataSt = "";
-                                    try {
-                                        dataSt = new ObjectMapper().writeValueAsString(stockNNretrainNameArray);
-                                    } catch (JsonProcessingException ex) {
+                                    if (commObjArry.size() > 0) {
+                                        CommObj commObj = commObjArry.get(0);
+                                        String dataSt = "";
+                                        try {
+                                            dataSt = new ObjectMapper().writeValueAsString(stockNNretrainNameArray);
+                                        } catch (JsonProcessingException ex) {
+                                        }
+                                        dataSt = StringTag.replaceAll("\"", "^", dataSt);
+                                        commObj.setData(dataSt);
+                                        serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
                                     }
-                                    dataSt = StringTag.replaceAll("\"", "^", dataSt);
-                                    commObj.setData(dataSt);
-                                    serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
                                 }
                                 ////////////
                             }

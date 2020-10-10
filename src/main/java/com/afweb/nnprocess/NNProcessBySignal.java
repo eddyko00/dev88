@@ -38,13 +38,16 @@ public class NNProcessBySignal {
 
     public void processNeuralNet(ServiceAFweb serviceAFWeb) {
 
-        TrandingSignalProcess.forceToGenerateNewNN = false;
+        TrandingSignalProcess.forceToGenerateNewNN = false;       
+        
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+
+        
 
         boolean flagNNLearning = false;
         if (flagNNLearning == true) {
             int k = 0;
             NNProcessByTrend nntrend = new NNProcessByTrend();
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
 
             while (true) {
                 k++;
@@ -145,6 +148,9 @@ public class NNProcessBySignal {
             logger.info("> flagTestNNSignal ");
         }
 //
+//
+//        NNProcessImp.inputReTrainStockNeuralNetData(serviceAFWeb, ConstantKey.INT_TR_NN3, "IWM");
+
         boolean flagTestHistorySignal = false;
         if (flagTestHistorySignal == true) {
             String symbol = "HOU.TO";
