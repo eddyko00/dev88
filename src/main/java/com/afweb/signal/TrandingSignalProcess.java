@@ -45,7 +45,7 @@ public class TrandingSignalProcess {
 
     protected static Logger logger = Logger.getLogger("TrandingSignalProcess");
 
-    private ServiceAFweb serviceAFWeb = null;
+//    private ServiceAFweb serviceAFWeb = null;
     private static int timerCnt = 0;
     private static ArrayList stockUpdateNameArray = new ArrayList();
     private static ArrayList stockSignalNameArray = new ArrayList();
@@ -58,13 +58,13 @@ public class TrandingSignalProcess {
 
     public void ProcessAdminSignalTrading(ServiceAFweb serviceAFWeb) {
 //        logger.info("> ProcessAdminSignalTrading ");
-        this.serviceAFWeb = serviceAFWeb;
+//        this.serviceAFWeb = serviceAFWeb;
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }
 
-        UpdateStockSignalNameArray(accountAdminObj);
+        UpdateStockSignalNameArray(serviceAFWeb, accountAdminObj);
         if (stockSignalNameArray == null) {
             return;
         }
@@ -1094,7 +1094,7 @@ public class TrandingSignalProcess {
     }
 
     public void testUpdateAdminTradingsignal(ServiceAFweb serviceAFWeb, String symbol) {
-        this.serviceAFWeb = serviceAFWeb;
+//        this.serviceAFWeb = serviceAFWeb;
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
         upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
@@ -1221,7 +1221,7 @@ public class TrandingSignalProcess {
         serviceAFWeb.updateAccountStockSignal(stockTRObj);
     }
 
-    private ArrayList UpdateStockSignalNameArray(AccountObj accountObj) {
+    private ArrayList UpdateStockSignalNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         if (stockSignalNameArray != null && stockSignalNameArray.size() > 0) {
             return stockSignalNameArray;
         }
@@ -1237,7 +1237,7 @@ public class TrandingSignalProcess {
         return stockSignalNameArray;
     }
 
-    public int calculateTrend(AFstockObj stock, long dateNowL) {
+    public int calculateTrend(ServiceAFweb serviceAFWeb, AFstockObj stock, long dateNowL) {
         if (stock == null) {
             return 0;
         }
@@ -1265,12 +1265,12 @@ public class TrandingSignalProcess {
 ///////////////
 
     public void ResetStockUpdateNameArray(ServiceAFweb serviceAFWeb) {
-        this.serviceAFWeb = serviceAFWeb;
+//        this.serviceAFWeb = serviceAFWeb;
         stockUpdateNameArray.clear();
-        updateStockUpdateNameArray();
+        updateStockUpdateNameArray(serviceAFWeb);
     }
 
-    private ArrayList updateStockUpdateNameArray() {
+    private ArrayList updateStockUpdateNameArray(ServiceAFweb serviceAFWeb) {
         if (stockUpdateNameArray != null && stockUpdateNameArray.size() > 0) {
             return stockUpdateNameArray;
         }
@@ -1283,7 +1283,7 @@ public class TrandingSignalProcess {
     }
 
     public int UpdateAllStock(ServiceAFweb serviceAFWeb) {
-        this.serviceAFWeb = serviceAFWeb;
+//        this.serviceAFWeb = serviceAFWeb;
 
         //SimpleDateFormat etDf = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -1319,7 +1319,7 @@ public class TrandingSignalProcess {
             }
             logger.info("UpdateAllStock marke close " + hr);
         }
-        updateStockUpdateNameArray();
+        updateStockUpdateNameArray(serviceAFWeb);
         int result = 0;
         try {
             if ((stockUpdateNameArray == null) || (stockUpdateNameArray.size() == 0)) {
@@ -1343,7 +1343,7 @@ public class TrandingSignalProcess {
 
                 String NormalizeSymbol = (String) stockUpdateNameArray.get(0);
                 stockUpdateNameArray.remove(0);
-                result = updateAllStockProcess(NormalizeSymbol);
+                result = updateAllStockProcess(serviceAFWeb, NormalizeSymbol);
 
             }
         } catch (Exception ex) {
@@ -1365,12 +1365,12 @@ public class TrandingSignalProcess {
         return true;
     }
 
-    public int updateStockProcess(ServiceAFweb serviceAFWebObj, String NormalizeSymbol) {
-        this.serviceAFWeb = serviceAFWebObj;
-        return updateAllStockProcess(NormalizeSymbol);
+    public int updateStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+//        this.serviceAFWeb = serviceAFWebObj;
+        return updateAllStockProcess(serviceAFWeb, NormalizeSymbol);
     }
 
-    private int updateAllStockProcess(String NormalizeSymbol) {
+    private int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
 
 //        logger.warning("> updateAllStock " + NormalizeSymbol);
         AFstockObj stock = null;
@@ -1406,7 +1406,7 @@ public class TrandingSignalProcess {
 //                    logger.info("updateAllStockProcess =" + NormalizeSymbol);
 
                     // get real time stock from internet and update shock DB
-                    int resultUpdate = updateRealTimeStock(stock);
+                    int resultUpdate = updateRealTimeStock(serviceAFWeb, stock);
 
                     stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
                     if (stock == null) {
@@ -1421,7 +1421,7 @@ public class TrandingSignalProcess {
 
                         if (lastUpdate5Day > currentdate) {
                             //////// Update Long and short term trend 
-                            int resultCalcuate = calculateTrend(stock, 0);
+                            int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
                             if (resultCalcuate == 1) {
                                 // send SQL update
                                 String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
@@ -1461,11 +1461,11 @@ public class TrandingSignalProcess {
     }
 
     public int updateRealTimeStockTest(ServiceAFweb serviceAFWeb, AFstockObj stock) {
-        this.serviceAFWeb = serviceAFWeb;
-        return updateRealTimeStock(stock);
+//        this.serviceAFWeb = serviceAFWeb;
+        return updateRealTimeStock(serviceAFWeb, stock);
     }
 
-    public int updateRealTimeStock(AFstockObj stock) {
+    public int updateRealTimeStock(ServiceAFweb serviceAFWeb, AFstockObj stock) {
 //        logger.warning("> updateRealTimeStock ");
 
         if (stock == null) {
