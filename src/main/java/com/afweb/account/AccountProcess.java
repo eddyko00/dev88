@@ -38,7 +38,7 @@ public class AccountProcess {
 
     protected static Logger logger = Logger.getLogger("AccountProcess");
 
-    private ServiceAFweb serviceAFWeb = null;
+//    private ServiceAFweb serviceAFWeb = null;
     private int timerCnt = 0;
     public static String LocalPCSignalPath = "T:/Netbean/signal/";
     private static ArrayList accountIdNameArray = new ArrayList();
@@ -51,7 +51,7 @@ public class AccountProcess {
     }
 
     public void ProcessSystemMaintance(ServiceAFweb serviceAFWeb) {
-        this.serviceAFWeb = serviceAFWeb;
+//        this.serviceAFWeb = serviceAFWeb;
 
         timerCnt++;
         if (timerCnt < 0) {
@@ -67,23 +67,23 @@ public class AccountProcess {
             // 2 minute evey 2 minutes
             if (timerCnt % 2 == 0) {
                 // delete stock based on all customer account exclude the ADMIN_USERNAME account 
-                ProcessStockkMaintance();
+                ProcessStockkMaintance(serviceAFWeb);
 
                 // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
                 ProcessAdminAccount(serviceAFWeb);
 
                 // cleanup Lock entry pass 30 min
-                ProcessAllLockCleanup();
+                ProcessAllLockCleanup(serviceAFWeb);
                 // cleanup Lock entry pass 30 min
             } else if (timerCnt % 5 == 0) {
                 // disable cusotmer with no activity in 2 days
-                ProcessCustomerDisableMaintance();
+                ProcessCustomerDisableMaintance(serviceAFWeb);
 
                 // reomve customer with no activity in 4 days  
-                ProcessCustomerRemoveMaintance();
+                ProcessCustomerRemoveMaintance(serviceAFWeb);
 
                 //delete stock if disable
-                ProcessStockInfodeleteMaintance();
+                ProcessStockInfodeleteMaintance(serviceAFWeb);
             }
         }
         serviceAFWeb.removeNameLock(LockName, ConstantKey.ACC_LOCKTYPE);
@@ -91,7 +91,7 @@ public class AccountProcess {
     }
     //////////////////////////////////////////////
 
-    private void ProcessStockInfodeleteMaintance() {
+    private void ProcessStockInfodeleteMaintance(ServiceAFweb serviceAFWeb) {
         //delete stock if disable
         ArrayList stockNameList = serviceAFWeb.getExpiredStockNameList(20);
         if (stockNameList == null) {
@@ -109,7 +109,7 @@ public class AccountProcess {
         }
     }
 
-    private void ProcessCustomerRemoveMaintance() {
+    private void ProcessCustomerRemoveMaintance(ServiceAFweb serviceAFWeb) {
         // reomve customer with no activity in 4 days        
         ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
         if (custList == null) {
@@ -148,11 +148,11 @@ public class AccountProcess {
     }
 
     public void ProcessCustomerDisableMaintanceTest(ServiceAFweb serviceAFWeb) {
-        this.serviceAFWeb = serviceAFWeb;
-        ProcessCustomerDisableMaintance();
+//        this.serviceAFWeb = serviceAFWeb;
+        ProcessCustomerDisableMaintance(serviceAFWeb);
     }
 
-    private void ProcessCustomerDisableMaintance() {
+    private void ProcessCustomerDisableMaintance(ServiceAFweb serviceAFWeb) {
         // disable cusotmer with no activity in 2 days
         ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
 
@@ -197,7 +197,7 @@ public class AccountProcess {
     }
 //////////////////
 
-    private void ProcessAllLockCleanup() {
+    private void ProcessAllLockCleanup(ServiceAFweb serviceAFWeb) {
         // clean up old lock name
         // clean Lock entry pass 30 min
         ArrayList<AFLockObject> lockArray = serviceAFWeb.getAllLock();
@@ -224,7 +224,7 @@ public class AccountProcess {
         }
     }
 
-    private void ProcessStockkMaintance() {
+    private void ProcessStockkMaintance(ServiceAFweb serviceAFWeb) {
         // delete stock based on all customer account exclude the ADMIN_USERNAME account 
         // do Simulation trading
         logger.info("> ProcessStockkMaintance ");
@@ -265,8 +265,7 @@ public class AccountProcess {
         // add or remove stock in mutual fund account based on all stocks in the system
         //        logger.info("> ProcessFundAccount ......... ");
 
-        this.serviceAFWeb = serviceAFWeb;
-
+//        this.serviceAFWeb = serviceAFWeb;
 //        logger.info("> UpdateAccountSignal ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
@@ -683,7 +682,7 @@ public class AccountProcess {
 
     // for all account 
     public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
-        this.serviceAFWeb = serviceAFWeb;
+//        this.serviceAFWeb = serviceAFWeb;
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> ProcessAllAccountTradingSignal ");
 
@@ -1188,35 +1187,35 @@ public class AccountProcess {
 ////////////////////////////////////////    
 //    public static String ServiceAFweb.FileLocalPath = "T:/Netbean/db/";
     public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
-        this.serviceAFWeb = serviceAFWeb;
+//        this.serviceAFWeb = serviceAFWeb;
 
         if (FileUtil.FileTest(ServiceAFweb.FileLocalPath + "customer.txt") == false) {
             return false;
         }
 
-        int ret = restoreDBcustomer();
+        int ret = restoreDBcustomer(serviceAFWeb);
         if (ret == 0) {
             return false;
         }
-        restoreDBstockinfo();
+        restoreDBstockinfo(serviceAFWeb);
 
-        restoreDBaccount();
-        restoreDBstock();
-        restoreDBaccountstock_tradingrule();
-        restoreDBneuralnet();
+        restoreDBaccount(serviceAFWeb);
+        restoreDBstock(serviceAFWeb);
+        restoreDBaccountstock_tradingrule(serviceAFWeb);
+        restoreDBneuralnet(serviceAFWeb);
 
-        restoreDBtransationorder();
-        restoreDBcomm();
-        restoreDBbilling();
-        restoreDBperformance();
+        restoreDBtransationorder(serviceAFWeb);
+        restoreDBcomm(serviceAFWeb);
+        restoreDBbilling(serviceAFWeb);
+        restoreDBperformance(serviceAFWeb);
 //        restoreDBstockinfo();
-        restoreDBdummy();
+        restoreDBdummy(serviceAFWeb);
 
         return true;
 
     }
 
-    private int restoreDBdummy() {
+    private int restoreDBdummy(ServiceAFweb serviceAFWeb) {
 
         logger.info("> restoreDBdummy ");
         ArrayList<String> writeSQLArray = new ArrayList();
@@ -1239,15 +1238,15 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBneuralnet() {
+    private int restoreDBneuralnet(ServiceAFweb serviceAFWeb) {
 
-        int ret = restoreDBneuralnetProcess("neuralnet");
-        ret = restoreDBneuralnetProcess("neuralnet1");
-        ret = restoreDBneuralnetDataProcess("neuralnetdata");
+        int ret = restoreDBneuralnetProcess(serviceAFWeb, "neuralnet");
+        ret = restoreDBneuralnetProcess(serviceAFWeb, "neuralnet1");
+        ret = restoreDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
         return ret;
     }
 
-    private int restoreDBneuralnetProcess(String tableName) {
+    private int restoreDBneuralnetProcess(ServiceAFweb serviceAFWeb, String tableName) {
 
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1267,7 +1266,7 @@ public class AccountProcess {
                 index++;
                 if (index > 5) {
                     index = 0;
-                    int ret = sendRequestObj(writeSQLArray);
+                    int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1276,7 +1275,7 @@ public class AccountProcess {
                 }
 
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBneuralnetProcess - exception " + ex);
@@ -1284,7 +1283,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBneuralnetDataProcess(String tableName) {
+    private int restoreDBneuralnetDataProcess(ServiceAFweb serviceAFWeb, String tableName) {
 
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1304,7 +1303,7 @@ public class AccountProcess {
                 index++;
                 if (index > 500) {
                     index = 0;
-                    int ret = sendRequestObj(writeSQLArray);
+                    int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1313,7 +1312,7 @@ public class AccountProcess {
                 }
 
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBneuralnetDataProcess - exception " + ex);
@@ -1321,7 +1320,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBstockinfo() {
+    private int restoreDBstockinfo(ServiceAFweb serviceAFWeb) {
         int fileCont = 0;
         String tableName = "stockinfo";
         int ret = 0;
@@ -1330,13 +1329,13 @@ public class AccountProcess {
             if (FileUtil.FileTest(fileName) == false) {
                 break;
             }
-            ret = restoreDBstockinfo(fileCont);
+            ret = restoreDBstockinfo(serviceAFWeb, fileCont);
             fileCont++;
         }
         return ret;
     }
 
-    private int restoreDBstockinfo(int fileCont) {
+    private int restoreDBstockinfo(ServiceAFweb serviceAFWeb, int fileCont) {
         String tableName = "stockinfo";
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1354,7 +1353,7 @@ public class AccountProcess {
                 index++;
                 if (index > 500) {  //500) {
                     index = 0;
-                    int ret = sendRequestObj(writeSQLArray);
+                    int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1365,7 +1364,7 @@ public class AccountProcess {
                 }
 
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBaccount - exception " + ex);
@@ -1373,7 +1372,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int sendRequestObj(ArrayList<String> writeSQLArray) {
+    private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
         try {
             if (writeSQLArray.size() == 0) {
@@ -1395,7 +1394,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBstock() {
+    private int restoreDBstock(ServiceAFweb serviceAFWeb) {
         String tableName = "stock";
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1409,7 +1408,7 @@ public class AccountProcess {
                 writeSQLArray.add(sql);
 
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBaccount - exception " + ex);
@@ -1417,7 +1416,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBaccount() {
+    private int restoreDBaccount(ServiceAFweb serviceAFWeb) {
         String tableName = "account";
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1430,7 +1429,7 @@ public class AccountProcess {
                 String sql = AccountDB.insertAccountObj(item);
                 writeSQLArray.add(sql);
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBaccount - exception " + ex);
@@ -1438,7 +1437,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBcustomer() {
+    private int restoreDBcustomer(ServiceAFweb serviceAFWeb) {
         String tableName = "customer";
         try {
 
@@ -1452,7 +1451,7 @@ public class AccountProcess {
                 String sql = AccountDB.insertCustomer(item);
                 writeSQLArray.add(sql);
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBcustomer - exception " + ex);
@@ -1460,7 +1459,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBaccountstock_tradingrule() {
+    private int restoreDBaccountstock_tradingrule(ServiceAFweb serviceAFWeb) {
         String tableName = "tradingrule";
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1476,7 +1475,7 @@ public class AccountProcess {
                 index++;
                 if (index > 500) {
                     index = 0;
-                    int ret = sendRequestObj(writeSQLArray);
+                    int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1485,7 +1484,7 @@ public class AccountProcess {
                 }
 
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBaccountstock - exception " + ex);
@@ -1493,7 +1492,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBbilling() {
+    private int restoreDBbilling(ServiceAFweb serviceAFWeb) {
         String tableName = "billing";
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1513,7 +1512,7 @@ public class AccountProcess {
                 index++;
                 if (index > 500) {
                     index = 0;
-                    int ret = sendRequestObj(writeSQLArray);
+                    int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1524,7 +1523,7 @@ public class AccountProcess {
                 }
 
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBbilling - exception " + ex);
@@ -1532,7 +1531,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBcomm() {
+    private int restoreDBcomm(ServiceAFweb serviceAFWeb) {
         String tableName = "comm";
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1552,7 +1551,7 @@ public class AccountProcess {
                 index++;
                 if (index > 500) {
                     index = 0;
-                    int ret = sendRequestObj(writeSQLArray);
+                    int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1563,7 +1562,7 @@ public class AccountProcess {
                 }
 
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBcomm - exception " + ex);
@@ -1571,7 +1570,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBtransationorder() {
+    private int restoreDBtransationorder(ServiceAFweb serviceAFWeb) {
         String tableName = "transationorder";
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1591,7 +1590,7 @@ public class AccountProcess {
                 index++;
                 if (index > 500) {
                     index = 0;
-                    int ret = sendRequestObj(writeSQLArray);
+                    int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1602,7 +1601,7 @@ public class AccountProcess {
                 }
 
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBtransationorder - exception " + ex);
@@ -1610,7 +1609,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int restoreDBperformance() {
+    private int restoreDBperformance(ServiceAFweb serviceAFWeb) {
         String tableName = "performance";
         try {
             ArrayList<String> writeArray = new ArrayList();
@@ -1627,7 +1626,7 @@ public class AccountProcess {
                 String sql = AccountDB.insertPerformance(item);
                 writeSQLArray.add(sql);
             }
-            return sendRequestObj(writeSQLArray);
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
 
         } catch (IOException ex) {
             logger.info("> restoreDBperformance - exception " + ex);
@@ -1640,33 +1639,33 @@ public class AccountProcess {
     ///////////////downloadDBData//////////////////////////////////////////// 
     /////////////////////////////////////////////////////////// 
     public boolean downloadDBDataTest(ServiceAFweb serviceAFWeb) {
-        this.serviceAFWeb = serviceAFWeb;
-        saveDBneuralnetDataProcess("neuralnetdata");
+//        this.serviceAFWeb = serviceAFWeb;
+        saveDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
         return true;
     }
 
     public boolean downloadDBData(ServiceAFweb serviceAFWeb) {
-        this.serviceAFWeb = serviceAFWeb;
+//        this.serviceAFWeb = serviceAFWeb;
 
-        saveDBstockinfo();
-        saveDBcustomer();
-        saveDBaccount();
-        saveDBaccountstock_tradingrule();
-        saveDBneuralnet();
-        saveDBtransationorder();
-        saveDBcomm();
-        saveDBbilling();
-        saveDBperformance();
-        saveDBstock();
+        saveDBstockinfo(serviceAFWeb);
+        saveDBcustomer(serviceAFWeb);
+        saveDBaccount(serviceAFWeb);
+        saveDBaccountstock_tradingrule(serviceAFWeb);
+        saveDBneuralnet(serviceAFWeb);
+        saveDBtransationorder(serviceAFWeb);
+        saveDBcomm(serviceAFWeb);
+        saveDBbilling(serviceAFWeb);
+        saveDBperformance(serviceAFWeb);
+        saveDBstock(serviceAFWeb);
 //        saveDBstockinfo();
 
         return true;
     }
 
-    private int saveDBperformance() {
+    private int saveDBperformance(ServiceAFweb serviceAFWeb) {
 
         String tableName = "performance";
-        ArrayList<String> idList = getDBDataTableId(tableName);
+        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
 
@@ -1675,7 +1674,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = saveDBperformance(tableName, first, last, writeArray);
+                    int ret = saveDBperformance(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1684,7 +1683,7 @@ public class AccountProcess {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBperformance(tableName, first, last, writeArray);
+                    int ret = saveDBperformance(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1699,7 +1698,7 @@ public class AccountProcess {
 
     }
 
-    private int saveDBperformance(String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBperformance(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBperformance - " + first + " " + last);
             RequestObj sqlObj = new RequestObj();
@@ -1736,10 +1735,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBbilling() {
+    private int saveDBbilling(ServiceAFweb serviceAFWeb) {
 
         String tableName = "billing";
-        ArrayList<String> idList = getDBDataTableId(tableName);
+        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
 
@@ -1748,7 +1747,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = saveDBbilling(tableName, first, last, writeArray);
+                    int ret = saveDBbilling(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1757,7 +1756,7 @@ public class AccountProcess {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBbilling(tableName, first, last, writeArray);
+                    int ret = saveDBbilling(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1772,7 +1771,7 @@ public class AccountProcess {
 
     }
 
-    private int saveDBbilling(String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBbilling(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
 
         try {
             logger.info("> saveDBbilling - " + first + " " + last);
@@ -1810,10 +1809,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBcomm() {
+    private int saveDBcomm(ServiceAFweb serviceAFWeb) {
 
         String tableName = "comm";
-        ArrayList<String> idList = getDBDataTableId(tableName);
+        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
 
@@ -1822,7 +1821,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = saveDBcomm(tableName, first, last, writeArray);
+                    int ret = saveDBcomm(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1831,7 +1830,7 @@ public class AccountProcess {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBcomm(tableName, first, last, writeArray);
+                    int ret = saveDBcomm(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1846,7 +1845,7 @@ public class AccountProcess {
 
     }
 
-    private int saveDBcomm(String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBcomm(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
 
         try {
             logger.info("> saveDBcomm - " + first + " " + last);
@@ -1885,10 +1884,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBtransationorder() {
+    private int saveDBtransationorder(ServiceAFweb serviceAFWeb) {
 
         String tableName = "transationorder";
-        ArrayList<String> idList = getDBDataTableId(tableName);
+        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
 
@@ -1897,7 +1896,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = saveDBtransationorder(tableName, first, last, writeArray);
+                    int ret = saveDBtransationorder(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1906,7 +1905,7 @@ public class AccountProcess {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBtransationorder(tableName, first, last, writeArray);
+                    int ret = saveDBtransationorder(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1921,7 +1920,7 @@ public class AccountProcess {
 
     }
 
-    private int saveDBtransationorder(String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBtransationorder(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
 
         try {
             logger.info("> saveDBtransationorder - " + first + " " + last);
@@ -1959,10 +1958,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBaccountstock_tradingrule() {
+    private int saveDBaccountstock_tradingrule(ServiceAFweb serviceAFWeb) {
 
         String tableName = "tradingrule";
-        ArrayList<String> idList = getDBDataTableId(tableName);
+        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
 
@@ -1971,7 +1970,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = saveDBaccountstock(tableName, first, last, writeArray);
+                    int ret = saveDBaccountstock(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1980,7 +1979,7 @@ public class AccountProcess {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBaccountstock(tableName, first, last, writeArray);
+                    int ret = saveDBaccountstock(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -1995,7 +1994,7 @@ public class AccountProcess {
 
     }
 
-    private int saveDBaccountstock(String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBaccountstock(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
 
         try {
 
@@ -2032,10 +2031,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBaccount() {
+    private int saveDBaccount(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "account";
-            ArrayList<String> idList = getDBDataTableId(tableName);
+            ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
             int len = idList.size();
             if (len > 0) {
                 String first = idList.get(0);
@@ -2074,10 +2073,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBcustomer() {
+    private int saveDBcustomer(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "customer";
-            ArrayList<String> idList = getDBDataTableId(tableName);
+            ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
             int len = idList.size();
             if (len > 0) {
                 String first = idList.get(0);
@@ -2116,16 +2115,16 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBneuralnet() {
-        int ret = saveDBneuralnetProcess("neuralnet");
-        ret = saveDBneuralnetProcess("neuralnet1");
-        ret = saveDBneuralnetDataProcess("neuralnetdata");
+    private int saveDBneuralnet(ServiceAFweb serviceAFWeb) {
+        int ret = saveDBneuralnetProcess(serviceAFWeb, "neuralnet");
+        ret = saveDBneuralnetProcess(serviceAFWeb, "neuralnet1");
+        ret = saveDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
         return ret;
     }
 
-    private int saveDBneuralnetProcess(String tableName) {
+    private int saveDBneuralnetProcess(ServiceAFweb serviceAFWeb, String tableName) {
 
-        ArrayList<String> idList = getDBDataTableId(tableName);
+        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
         if (len > 0) {
@@ -2133,7 +2132,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 5) < len) {
                     String last = idList.get(id - 1 + 5);
-                    int ret = saveDBneuralnet(tableName, first, last, writeArray);
+                    int ret = saveDBneuralnet(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2142,7 +2141,7 @@ public class AccountProcess {
                 }
                 if ((id + 5) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBneuralnet(tableName, first, last, writeArray);
+                    int ret = saveDBneuralnet(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2156,7 +2155,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBneuralnet(String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBneuralnet(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBneuralnet - " + tableName + " " + first + " " + last);
 
@@ -2191,9 +2190,9 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBneuralnetDataProcess(String tableName) {
+    private int saveDBneuralnetDataProcess(ServiceAFweb serviceAFWeb, String tableName) {
 
-        ArrayList<String> idList = getDBDataTableId(tableName);
+        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
         if (len > 0) {
@@ -2201,7 +2200,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = saveDBneuralnetData(tableName, first, last, writeArray);
+                    int ret = saveDBneuralnetData(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2210,7 +2209,7 @@ public class AccountProcess {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBneuralnetData(tableName, first, last, writeArray);
+                    int ret = saveDBneuralnetData(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2224,7 +2223,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBneuralnetData(String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBneuralnetData(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBneuralnetData - " + tableName + " " + first + " " + last);
 
@@ -2259,10 +2258,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBstockinfo() {
+    private int saveDBstockinfo(ServiceAFweb serviceAFWeb) {
 
         String tableName = "stockinfo";
-        ArrayList<String> idList = getDBDataTableId(tableName);
+        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
         logger.info("> saveDBstockinfo " + len);
@@ -2273,7 +2272,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = saveDBstockinfo(tableName, first, last, writeArray);
+                    int ret = saveDBstockinfo(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2281,7 +2280,7 @@ public class AccountProcess {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBstockinfo(tableName, first, last, writeArray);
+                    int ret = saveDBstockinfo(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2302,7 +2301,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBstockinfo(String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBstockinfo(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBstockinfo - " + first + " " + last);
 
@@ -2337,10 +2336,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBstock() {
+    private int saveDBstock(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "stock";
-            ArrayList<String> idList = getDBDataTableId(tableName);
+            ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
             int len = idList.size();
             if (len > 0) {
                 String first = idList.get(0);
@@ -2379,10 +2378,10 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBlockobject() {
+    private int saveDBlockobject(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "lockobject";
-            ArrayList<String> idList = getDBDataTableId(tableName);
+            ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
             int len = idList.size();
             if (len > 0) {
                 String first = idList.get(0);
@@ -2421,7 +2420,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private ArrayList<String> getDBDataTableId(String table) {
+    private ArrayList<String> getDBDataTableId(ServiceAFweb serviceAFWeb, String table) {
         try {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllId + "");
