@@ -1461,16 +1461,17 @@ public class ServiceRemoteDB {
 //"create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, 
 //weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
 
-            int recSize = 7;
+            int recSize = 8;
             for (int i = 0; i < dataArray.length; i += recSize) {
                 output += "{";
                 output += "\"id\":\"" + dataArray[i] + "\",";
                 output += "\"name\":\"" + dataArray[i + 1] + "\",";
-                output += "\"status\":\"" + dataArray[i + 2] + "\",";
-                output += "\"type\":\"" + dataArray[i + 3] + "\",";
-                output += "\"weight\":\"" + dataArray[i + 4] + "\",";
-                output += "\"updatedatedisplay\":\"" + dataArray[i + 5] + "\",";
-                output += "\"updatedatel\":\"" + dataArray[i + 6] + "\"";
+                output += "\"refname\":\"" + dataArray[i + 2] + "\",";
+                output += "\"status\":\"" + dataArray[i + 3] + "\",";
+                output += "\"type\":\"" + dataArray[i + 4] + "\",";
+                output += "\"weight\":\"" + dataArray[i + 5] + "\",";
+                output += "\"updatedatedisplay\":\"" + dataArray[i + 6] + "\",";
+                output += "\"updatedatel\":\"" + dataArray[i + 7] + "\"";
 
                 if (i + recSize >= dataArray.length) {
                     output += "}";
@@ -1541,6 +1542,7 @@ public class ServiceRemoteDB {
                 AFneuralNet nn = new AFneuralNet();
                 nn.setId(Integer.parseInt(rs.getId()));
                 nn.setName(rs.getName());
+                nn.setRefname(rs.getRefname());
                 nn.setStatus(Integer.parseInt(rs.getStatus()));
                 nn.setType(Integer.parseInt(rs.getType()));
                 nn.setWeight(rs.getWeight());
@@ -2022,7 +2024,6 @@ public class ServiceRemoteDB {
         }
         return inputStr.split("" + delimiter);
     }
-
 
 //////////////////////////
 //    private String sendRequest_Process_Ms_sql(String method, String subResourcePath, Map<String, String> queryParams, Map<String, String> bodyParams)

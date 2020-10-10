@@ -2,8 +2,23 @@ package com.vpumlmodel.afweb;
 
 public class neuralNet {
 
+    /**
+     * @return the refname
+     */
+    public String getRefname() {
+        return refname;
+    }
+
+    /**
+     * @param refname the refname to set
+     */
+    public void setRefname(String refname) {
+        this.refname = refname;
+    }
+
 	private int id;
 	private String name;
+	private String refname;        
 	private int status;
 	private int type;
 	private String weight;

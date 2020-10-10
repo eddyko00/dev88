@@ -838,8 +838,8 @@ public class StockDB {
                 createTableList.add("create table performance (id int identity not null, name text null, type int not null, startdate date null, updatedatedisplay date null, updatedatel bigint not null, investment float(10) not null, balance float(10) not null, rating float(10) not null, netprofit float(10) not null, grossprofit float(10) not null, numtrade int not null"
                         + ", accountid int not null, stockid int not null, tradingruleid int not null, primary key (id))");
 
-                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
                 createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
 
                 createTableList.add("create table comm (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, data text null, accountid int not null, customerid int not null, primary key (id))");
@@ -863,8 +863,8 @@ public class StockDB {
                 createTableList.add("create table performance (id int(10) not null auto_increment, name text, type int(10) not null, startdate date, updatedatedisplay date, updatedatel bigint(20) not null, investment float not null, balance float not null, rating float not null, netprofit float not null, grossprofit float not null, numtrade int(10) not null"
                         + ", accountid int(10) not null, stockid int not null, tradingruleid int(10) not null, primary key (id))");
 
-                createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-                createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+                createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+                createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
                 createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
 
                 createTableList.add("create table comm (id int(10) not null auto_increment, name varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, data text, accountid int(10) not null, customerid int(10) not null, primary key (id))");
@@ -1082,7 +1082,7 @@ public class StockDB {
     public int deleteNeuralNet0Table() {
         try {
             processExecuteDB("drop table if exists neuralnet");
-            processExecuteDB("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+            processExecuteDB("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null,status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
             return 1;
         } catch (Exception ex) {
         }
@@ -1092,7 +1092,7 @@ public class StockDB {
     public int deleteNeuralNet1Table() {
         try {
             processExecuteDB("drop table if exists neuralnet1");
-            processExecuteDB("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+            processExecuteDB("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
             return 1;
         } catch (Exception ex) {
         }
@@ -1135,8 +1135,8 @@ public class StockDB {
     public static String insertNeuralNet(String table, AFneuralNet newN) {
 
         newN.setUpdatedatedisplay(new java.sql.Date(newN.getUpdatedatel()));
-        String sqlCMD = "insert into " + table + " (name, status, type, weight, updatedatedisplay, updatedatel, id) VALUES "
-                + "('" + newN.getName() + "'," + newN.getStatus() + "," + newN.getType() + ",'" + newN.getWeight() + "'"
+        String sqlCMD = "insert into " + table + " (name, refname, status, type, weight, updatedatedisplay, updatedatel, id) VALUES "
+                + "('" + newN.getName() + "','" + newN.getRefname() + "'," + newN.getStatus() + "," + newN.getType() + ",'" + newN.getWeight() + "'"
                 + ",'" + newN.getUpdatedatedisplay() + "'," + newN.getUpdatedatel() + "," + newN.getId() + ")";
         return sqlCMD;
     }
@@ -1193,8 +1193,8 @@ public class StockDB {
     private int insertNeuralNetObject0(String name, String weight) {
         try {
             Calendar dateDefault = TimeConvertion.getDefaultCalendar();
-            String sqlCMD = "insert into neuralnet(name, status, type, weight, updatedatedisplay, updatedatel) VALUES "
-                    + "('" + name + "'," + ConstantKey.OPEN + "," + ConstantKey.OPEN + ",'" + weight + "'"
+            String sqlCMD = "insert into neuralnet(name, refname, status, type, weight, updatedatedisplay, updatedatel) VALUES "
+                    + "('" + name + "',''," + ConstantKey.OPEN + "," + ConstantKey.OPEN + ",'" + weight + "'"
                     + ",'" + new java.sql.Date(dateDefault.getTimeInMillis()) + "'," + dateDefault.getTimeInMillis() + ")";
             return processUpdateDB(sqlCMD);
 
@@ -1207,8 +1207,8 @@ public class StockDB {
     private int insertNeuralNetObject1(String name, String weight) {
         try {
             Calendar dateDefault = TimeConvertion.getDefaultCalendar();
-            String sqlCMD = "insert into neuralnet1(name, status, type, weight, updatedatedisplay, updatedatel) VALUES "
-                    + "('" + name + "'," + ConstantKey.OPEN + "," + 0 + ",'" + weight + "'"
+            String sqlCMD = "insert into neuralnet1(name, refname, status, type, weight, updatedatedisplay, updatedatel) VALUES "
+                    + "('" + name + "',''," + ConstantKey.OPEN + "," + 0 + ",'" + weight + "'"
                     + ",'" + new java.sql.Date(dateDefault.getTimeInMillis()) + "'," + dateDefault.getTimeInMillis() + ")";
             return processUpdateDB(sqlCMD);
 
@@ -1396,6 +1396,7 @@ public class StockDB {
                     AFneuralNet nn = new AFneuralNet();
                     nn.setId(rs.getInt("id"));
                     nn.setName(rs.getString("name"));
+                    nn.setRefname(rs.getString("refname"));
                     nn.setStatus(rs.getInt("status"));
                     nn.setType(rs.getInt("type"));
                     nn.setWeight(rs.getString("weight"));
