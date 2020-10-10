@@ -98,7 +98,7 @@ public class NNProcessBySignal {
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
         }
-        boolean flagNeuralnetTrain = true;
+        boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
             TrandingSignalProcess.forceToErrorNewNN = true;
             // start training
@@ -106,7 +106,7 @@ public class NNProcessBySignal {
             NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
 
         }
-        boolean flagNeuralnetCreateJava = true;
+        boolean flagNeuralnetCreateJava = false;
         if (flagNeuralnetCreateJava == true) {
             // make sure you chenage the String version = "2.0903" each time
             //must match to the nnData version
