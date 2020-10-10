@@ -601,7 +601,7 @@ public class ServiceAFweb {
 
             } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
                 System.gc();
-
+                getAccountProcessImp().ProcessAdminAccount(this);
             } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
                 //10 Sec * 5 ~ 1 minutes
                 TRprocessImp.UpdateAllStock(this);
@@ -4958,8 +4958,8 @@ public class ServiceAFweb {
             stock = getStockImp().getRealTimeStock("IWM", null);
             result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
             stock = getStockImp().getRealTimeStock("AMZN", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);            
-         
+            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+
         }
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         TRprocessImp.InitSystemData();
