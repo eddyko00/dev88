@@ -347,7 +347,7 @@ public class StockImp {
                 stockdb.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
 
                 String refname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-                if (name.indexOf(ConstantKey.TR_NN1) != -1) {
+                if (name.indexOf(ConstantKey.TR_NN3) != -1) {
                     refname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
                 }
                 setCreateNeuralNetObjSameObj1(name, refname, "");

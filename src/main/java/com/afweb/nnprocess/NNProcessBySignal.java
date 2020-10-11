@@ -44,7 +44,7 @@ public class NNProcessBySignal {
 
         
 
-        boolean flagNNLearning = false;
+        boolean flagNNLearning = true;
         if (flagNNLearning == true) {
             int k = 0;
             NNProcessByTrend nntrend = new NNProcessByTrend();
