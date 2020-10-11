@@ -695,7 +695,7 @@ public class NNProcessByTrend {
                                     stockNNprocessNameArray.remove(0);
 
                                     /// need to create the table to reduce the memeory in DB
-                                    serviceAFWeb.getStockImp().deleteNeuralNet1Table();
+//                                    serviceAFWeb.getStockImp().deleteNeuralNet1Table();
                                 }
                             }
                         }
@@ -881,7 +881,10 @@ public class NNProcessByTrend {
                 }
                 String weightSt = nnTemp.getNetObjSt();
 //                
-                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
+                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
+                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPnameSym, refname, weightSt);
+
+//                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
 

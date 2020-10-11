@@ -1785,14 +1785,14 @@ public class TrandingSignalProcess {
                 return 1;
             }
         }
-        int exitNN = 8;
+        int exitNN = 2;
         if (getEnv.checkLocalPC() == true) {
-            exitNN = 12;
+            exitNN = 4;
         }
         if (nnObj1.getType() > exitNN) {
-            // exit if over 4 times training
+            // exit if over 2 times training
             // force to end training
-            nnError = 999;
+            nnError = 1;
         }
         logger.info("> TRtrainingNeuralNet " + BPname + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
@@ -2339,13 +2339,12 @@ public class TrandingSignalProcess {
         AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
         if (forceToErrorNewNN == true) {
             nnError = nnError - 0.002;
-        }        
+        }
         if (forceToGenerateNewNN == true) {
             // force to save new NN
             afNeuralNet = null;
             nnError = 1;
         }
-        
         if (afNeuralNet != null) {
             String weightSt = afNeuralNet.getWeight();
 
@@ -2403,6 +2402,7 @@ public class TrandingSignalProcess {
         for (int i = 0; i < targetLength; i++) {
             response[i] = new double[outputSize];
         }
+
 
         String nNetName = afNeuralNet.getName();
         int repeatSize = 100000;

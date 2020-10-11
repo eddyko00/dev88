@@ -1242,6 +1242,46 @@ public class StockDB {
         return 0;
     }
 
+    public int setCreateNeuralNetObjSameObj1(String name, String refname, String weight) {
+//        logger.info("> DB setCreateNeuralNetObjSameObj1 " + name + " - " + refname);
+        try {
+            if (weight == null) {
+                weight = "";
+            }
+            weight = weight.trim();
+            AFneuralNet nnObj1 = getNeuralNetObjWeightRefname1(refname);
+            Calendar dateDefault = TimeConvertion.getCurrentCalendar();
+            if (nnObj1 == null) {
+                return insertNeuralNetObjectSameObj1(name, refname, weight);
+            }
+
+            String sqlCMD = "update neuralnet1 set weight='" + weight + "'";
+            sqlCMD += ",name='" + name + "'";
+            sqlCMD += ",updatedatedisplay='" + new java.sql.Date(dateDefault.getTimeInMillis()) + "', updatedatel=" + dateDefault.getTimeInMillis();
+            sqlCMD += " where id=" + nnObj1.getId();
+            return processUpdateDB(sqlCMD);
+
+        } catch (Exception ex) {
+            logger.info("> setCreateNeuralNetObjSameObj1 exception " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    private int insertNeuralNetObjectSameObj1(String name, String refname, String weight) {
+        try {
+            logger.info("> DB insertNeuralNetObjectSameObj1 " + name + " - " + refname);
+            Calendar dateDefault = TimeConvertion.getDefaultCalendar();
+            String sqlCMD = "insert into neuralnet1(name, refname, status, type, weight, updatedatedisplay, updatedatel) VALUES "
+                    + "('" + name + "','" + refname + "'," + ConstantKey.OPEN + "," + 0 + ",'" + weight + "'"
+                    + ",'" + new java.sql.Date(dateDefault.getTimeInMillis()) + "'," + dateDefault.getTimeInMillis() + ")";
+            return processUpdateDB(sqlCMD);
+
+        } catch (Exception e) {
+            logger.info("> insertNeuralNetObject exception " + name + " - " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int setCreateNeuralNetObj1(String name, String weight) {
         try {
             if (weight == null) {
@@ -1256,12 +1296,13 @@ public class StockDB {
             }
 
             String sqlCMD = "update neuralnet1 set weight='" + weight + "'";
+            sqlCMD += ",type=" + 0;
             sqlCMD += ",updatedatedisplay='" + new java.sql.Date(dateDefault.getTimeInMillis()) + "', updatedatel=" + dateDefault.getTimeInMillis();
             sqlCMD += " where name='" + name + "'";
             return processUpdateDB(sqlCMD);
 
         } catch (Exception ex) {
-            logger.info("> setCreateNeuralNetObj0 exception " + ex.getMessage());
+            logger.info("> setCreateNeuralNetObj1 exception " + ex.getMessage());
         }
         return 0;
     }
@@ -1415,6 +1456,18 @@ public class StockDB {
 
     public AFneuralNet getNeuralNetObjWeight0(String name) {
         String sql = "select * from neuralnet where name='" + name + "'";
+        ArrayList entries = getAllNeuralNetSQL(sql);
+        if (entries != null) {
+            if (entries.size() == 1) {
+                AFneuralNet nn = (AFneuralNet) entries.get(0);
+                return nn;
+            }
+        }
+        return null;
+    }
+
+    public AFneuralNet getNeuralNetObjWeightRefname1(String refname) {
+        String sql = "select * from neuralnet1 where refname='" + refname + "'";
         ArrayList entries = getAllNeuralNetSQL(sql);
         if (entries != null) {
             if (entries.size() == 1) {

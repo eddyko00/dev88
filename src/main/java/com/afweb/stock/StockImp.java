@@ -313,9 +313,11 @@ public class StockImp {
     public int updateNeuralNetStatus0(String name, int status, int type) {
         return stockdb.updateNeuralNetStatus0(name, status, type);
     }
+
     public int deleteNeuralNet0Table() {
         return stockdb.deleteNeuralNet1Table();
     }
+
     public int deleteNeuralNet1Table() {
         return stockdb.deleteNeuralNet1Table();
     }
@@ -392,6 +394,15 @@ public class StockImp {
 
     public int setCreateNeuralNetObj0(String name, String weight) {
         return stockdb.setCreateNeuralNetObj0(name, weight);
+    }
+
+    public int setCreateNeuralNetObjSameObj1(String name, String refname, String weight) {
+//        logger.info("> setCreateNeuralNetObjSameObj1 " + name + " - " + refname);
+        int ret = stockdb.setCreateNeuralNetObjSameObj1(name, refname, weight);
+        if (ret == 1) {
+            return stockdb.updateNeuralNetStatus1(name, ConstantKey.OPEN, 0);
+        }
+        return 0;
     }
 
     public int setCreateNeuralNetObj1(String name, String weight) {
