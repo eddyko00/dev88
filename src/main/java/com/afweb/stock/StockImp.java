@@ -346,7 +346,12 @@ public class StockImp {
             if (ret == 1) {
                 stockdb.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
 
-                setCreateNeuralNetObj1(name, "");
+                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
+                if (name.indexOf(ConstantKey.TR_NN1) != -1) {
+                    refname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
+                }
+                setCreateNeuralNetObjSameObj1(name, refname, "");
+//                setCreateNeuralNetObj1(name, "");
                 return stockdb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
             }
         }
