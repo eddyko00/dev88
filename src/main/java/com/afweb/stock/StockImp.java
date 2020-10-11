@@ -336,21 +336,19 @@ public class StockImp {
         ///NeuralNetObj0 release
         String nameSt = stockdb.getNeuralNetName1(name);
         if (nameSt != null) {
-            AFneuralNet nnObj = getNeuralNetObjWeight1(name);
+            AFneuralNet nnObj1 = getNeuralNetObjWeight1(name);
             NNBPservice nnTemp = new NNBPservice();
-            nnTemp.createNet(nnObj.getWeight());
+            nnTemp.createNet(nnObj1.getWeight());
             nnTemp.setInputpattern(null);
             nnTemp.setOutputpattern(null);
             String weightSt = nnTemp.getNetObjSt();
             int ret = setCreateNeuralNetObj0(name, weightSt);
             if (ret == 1) {
                 stockdb.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
-
-                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-                if (name.indexOf(ConstantKey.TR_NN3) != -1) {
-                    refname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
-                }
+/////////////
+                String refname = nnObj1.getRefname();
                 setCreateNeuralNetObjSameObj1(name, refname, "");
+
 //                setCreateNeuralNetObj1(name, "");
                 return stockdb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
             }

@@ -160,7 +160,10 @@ public class NNProcessByTrend {
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
                     String weightSt = (CKey.NN3_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
-                    serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
+                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
+
+//                    serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN3_WEIGHT_0");
                 } else {
                     String weightSt = afNeuralNet.getWeight();
@@ -175,7 +178,10 @@ public class NNProcessByTrend {
                             afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                             afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
                             afNeuralNet.setWeight(weightSt);
-                            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+//
+                            String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
+                            serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
+//                            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                         }
                     }
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");

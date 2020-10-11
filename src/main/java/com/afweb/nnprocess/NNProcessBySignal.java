@@ -38,11 +38,9 @@ public class NNProcessBySignal {
 
     public void processNeuralNet(ServiceAFweb serviceAFWeb) {
 
-        TrandingSignalProcess.forceToGenerateNewNN = false;       
-        
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        TrandingSignalProcess.forceToGenerateNewNN = false;
 
-        
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
 
         boolean flagNNLearning = false;
         if (flagNNLearning == true) {
@@ -608,7 +606,11 @@ public class NNProcessBySignal {
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
                     String weightSt = (CKey.NN1_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
-                    serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+
+                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
+                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
+
+//                    serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN1_WEIGHT_0");
                 } else {
                     String weightSt = afNeuralNet.getWeight();
@@ -623,7 +625,9 @@ public class NNProcessBySignal {
                             afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                             afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
                             afNeuralNet.setWeight(weightSt);
-                            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+                            String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
+                            serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
+//                            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                         }
                     }
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");

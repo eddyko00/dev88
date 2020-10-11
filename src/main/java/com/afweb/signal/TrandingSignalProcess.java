@@ -1756,7 +1756,6 @@ public class TrandingSignalProcess {
             }
 
         }
-        int exitNN = 8;
 
         logger.info("> TRtrainingNeuralNet " + BPnameSym + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
@@ -2403,10 +2402,15 @@ public class TrandingSignalProcess {
             response[i] = new double[outputSize];
         }
 
-
         String nNetName = afNeuralNet.getName();
         int repeatSize = 100000;
         double errorReturn = 1;
+
+        /// exit when tried repeatSize without reaching the error threshold
+        if (afNeuralNet.getType() > 1) {
+            nnError = 1;
+        }
+
         if (nnError == 0) {
             ;
         } else {
