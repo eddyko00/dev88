@@ -52,14 +52,14 @@ public class NNProcessByTrend {
 // only need this first time        
 //        TrandingSignalProcess.forceToGenerateNewNN = true;
 // only need this first time      
-        boolean flagNeuralnetTrain = false;
+        boolean flagNeuralnetTrain = true;
         if (flagNeuralnetTrain == true) {
             TrandingSignalProcess.forceToErrorNewNN = true;
             // start training
             NeuralNetProcessTesting(serviceAFWeb);
         }
 
-        boolean flagNeuralnetCreateJava = false;
+        boolean flagNeuralnetCreateJava = true;
         if (flagNeuralnetCreateJava == true) {
             NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
 
@@ -190,7 +190,7 @@ public class NNProcessByTrend {
 
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
-                retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnName, nnName, errorNN);
+                retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, nnName, nnName, "", errorNN);
 
                 if (retflag == 1) {
                     break;
@@ -225,19 +225,19 @@ public class NNProcessByTrend {
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
 
-        boolean trainStock = false;
-        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
-            String stockN = ServiceAFweb.neuralNetTrainStock[i];
-            if (stockN.equals(symbol)) {
-                trainStock = true;
-                break;
-            }
-        }
-        if (trainStock == false) {
-            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
-                return null;
-            }
-        }
+//        boolean trainStock = false;
+//        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
+//            String stockN = ServiceAFweb.neuralNetTrainStock[i];
+//            if (stockN.equals(symbol)) {
+//                trainStock = true;
+//                break;
+//            }
+//        }
+//        if (trainStock == false) {
+//            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
+//                return null;
+//            }
+//        }
         ///// just for testing
 //        symbol = "DIA";
         symbol = symbol.replace(".", "_");
@@ -755,7 +755,7 @@ public class NNProcessByTrend {
                 }
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN3) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, errorNN);
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, symbol, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;
@@ -808,7 +808,7 @@ public class NNProcessByTrend {
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
 
-                inputL = NeuralNetGetNN3InputfromStaticCode(symbol);
+                inputL = NeuralNetGetNN3InputfromStaticCode(symbol, null);
                 if (inputL != null) {
                     if (inputL.size() > 0) {
                         logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
@@ -902,7 +902,7 @@ public class NNProcessByTrend {
 
     }
 
-    public static ArrayList<NNInputDataObj> NeuralNetGetNN3InputfromStaticCode(String symbol) {
+    public static ArrayList<NNInputDataObj> NeuralNetGetNN3InputfromStaticCode(String symbol, String subSymbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
@@ -942,6 +942,11 @@ public class NNProcessByTrend {
             }
 
             for (String sym : stockInputMap.keySet()) {
+                if (subSymbol != null) {
+                    if (subSymbol.equals(sym)) {
+                        continue;
+                    }
+                }
                 ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
                 String inputListRawSt = new ObjectMapper().writeValueAsString(inputL);
                 NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);

@@ -1735,7 +1735,7 @@ public class TrandingSignalProcess {
 //        }
 //        return true;
 //    }
-    public int TRtrainingNN1NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, double nnError) {
+    public int TRtrainingNN1NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
 
         ///NeuralNetObj1 transition
@@ -1765,40 +1765,40 @@ public class TrandingSignalProcess {
         if (nnName.equals(ConstantKey.TR_NN3)) {
             BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN3;
         }
-        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, nnError);
+        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
     }
-
-    public int TRtrainingNN2NeuralNetData(ServiceAFweb serviceAFWeb, String nnNameSym, double nnError) {
-        String BPname = CKey.NN_version + "_" + nnNameSym;
-
-        ///NeuralNetObj1 transition
-        ///NeuralNetObj0 release        
-        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
-        if (nnObj1 == null) {
-            return 0;
-        }
-
-        if (nnObj1.getStatus() != ConstantKey.OPEN) {
-            boolean flag = true;
-            if (flag == true) {
-                return 1;
-            }
-        }
-        int exitNN = 2;
-        if (getEnv.checkLocalPC() == true) {
-            exitNN = 4;
-        }
-        if (nnObj1.getType() > exitNN) {
-            // exit if over 2 times training
-            // force to end training
-            nnError = 1;
-        }
-        logger.info("> TRtrainingNeuralNet " + BPname + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
-
-        String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN2;
-        String nnName = ConstantKey.TR_NN2;
-        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, nnError);
-    }
+//
+//    public int TRtrainingNN2NeuralNetData(ServiceAFweb serviceAFWeb, String nnNameSym, double nnError) {
+//        String BPname = CKey.NN_version + "_" + nnNameSym;
+//
+//        ///NeuralNetObj1 transition
+//        ///NeuralNetObj0 release        
+//        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
+//        if (nnObj1 == null) {
+//            return 0;
+//        }
+//
+//        if (nnObj1.getStatus() != ConstantKey.OPEN) {
+//            boolean flag = true;
+//            if (flag == true) {
+//                return 1;
+//            }
+//        }
+//        int exitNN = 2;
+//        if (getEnv.checkLocalPC() == true) {
+//            exitNN = 4;
+//        }
+//        if (nnObj1.getType() > exitNN) {
+//            // exit if over 2 times training
+//            // force to end training
+//            nnError = 1;
+//        }
+//        logger.info("> TRtrainingNeuralNet " + BPname + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
+//
+//        String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN2;
+//        String nnName = ConstantKey.TR_NN2;
+//        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, nnError);
+//    }
 
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
@@ -1982,7 +1982,7 @@ public class TrandingSignalProcess {
 //        /// start training or continue training
 //        return TrainingNNBP(serviceAFWeb, nnNameSym, nnTraining, nnError);
 //    }
-    private int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, double nnError) {
+    private int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
@@ -2038,11 +2038,22 @@ public class TrandingSignalProcess {
                 inputlist.add(inputObj);
             }
         } else {
-
+            /// new stock difficult to train need to remove the T.TO to see if it helps
+            String subSymbol = null;
+            if (symbol.length() != 0) {
+                subSymbol = "T.TO";
+                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+                    String stockN = ServiceAFweb.primaryStock[i];
+                    if (stockN.equals(symbol)) {
+                        subSymbol = null;
+                        break;
+                    }
+                }
+            }
             if (nnName.equals(ConstantKey.TR_NN3)) {
-                inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("");
+                inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("", subSymbol);
             } else {
-                inputDatalist = NNProcessBySignal.NeuralNetGetNN1InputfromStaticCode("");
+                inputDatalist = NNProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
             }
             for (int i = 0; i < inputDatalist.size(); i++) {
                 NNInputDataObj inputDObj = inputDatalist.get(i);

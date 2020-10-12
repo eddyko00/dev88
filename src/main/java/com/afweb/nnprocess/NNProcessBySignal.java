@@ -427,19 +427,19 @@ public class NNProcessBySignal {
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
 
-        boolean trainStock = false;
-        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
-            String stockN = ServiceAFweb.neuralNetTrainStock[i];
-            if (stockN.equals(symbol)) {
-                trainStock = true;
-                break;
-            }
-        }
-        if (trainStock == false) {
-            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
-                return null;
-            }
-        }
+//        boolean trainStock = false;
+//        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
+//            String stockN = ServiceAFweb.neuralNetTrainStock[i];
+//            if (stockN.equals(symbol)) {
+//                trainStock = true;
+//                break;
+//            }
+//        }
+//        if (trainStock == false) {
+//            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
+//                return null;
+//            }
+//        }
         symbol = symbol.replace(".", "_");
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
@@ -640,7 +640,7 @@ public class NNProcessBySignal {
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
                 if (TR_Name == ConstantKey.INT_TR_NN1) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnName, errorNN);
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnName, "", errorNN);
 //                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
 //                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnName, errorNN);
                 }
@@ -982,7 +982,7 @@ public class NNProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NeuralNetGetNN1InputfromStaticCode(symbol);
+                    inputL = NeuralNetGetNN1InputfromStaticCode(symbol, null);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
@@ -1097,7 +1097,7 @@ public class NNProcessBySignal {
                 }
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN1) {
-                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, errorNN);
+                    retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, symbol, errorNN);
 //                } else if (TR_NN == ConstantKey.INT_TR_NN2) {
 //                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnNameSym, errorNN);
                 }
@@ -1110,7 +1110,7 @@ public class NNProcessBySignal {
         return -1;
     }
 
-    public static ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(String symbol) {
+    public static ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(String symbol, String subSymbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
@@ -1141,6 +1141,11 @@ public class NNProcessBySignal {
             }
 
             for (String sym : stockInputMap.keySet()) {
+                if (subSymbol != null) {
+                    if (subSymbol.equals(sym)) {
+                        continue;
+                    }
+                }
                 ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
                 String inputListRawSt = new ObjectMapper().writeValueAsString(inputL);
                 NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
