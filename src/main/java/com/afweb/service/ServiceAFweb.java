@@ -549,20 +549,10 @@ public class ServiceAFweb {
                 }
             }
 
-            ////////////
-            if (((getServerObj().getProcessTimerCnt() % 27) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
-                long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
-                if (result == 0) {
-                    Calendar dateNow1 = TimeConvertion.getCurrentCalendar();
-                    long lockDateValue1 = dateNow1.getTimeInMillis();
-                    setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue1, serverObj.getSrvProjName());
-                }
-            }
             if ((getServerObj().getProcessTimerCnt() % 500) == 0) {
                 //30 sec per tick ~ 24h 60 s*60 *24 / 30
                 systemNNFlag = true;
             }
-
             if ((getServerObj().getProcessTimerCnt() % (280 * 2)) == 0) {
                 // 30 sec per tick ~ 5 hour   60 s*60 * 4/ 30 
                 if (systemNNFlag == true) {
@@ -576,59 +566,69 @@ public class ServiceAFweb {
                         // no need to clear it
                     }
                 }
-            }
-            if ((getServerObj().getProcessTimerCnt() % (200 * 2)) == 0) {
-                // 30 sec per tick ~  for 3 hour   60 s*60 *3 /30 
-                if (systemNNFlag == true) {
-                    logger.info("> processTimer retrainStockNNprocessNameArray every 3 hr");
 
+//                if (systemNNFlag == true) {
+//                    logger.info("> processTimer retrainStockNNprocessNameArray every 3 hr");
+//
 //                    LockName = "LOCK_NN_RETRAIN";
 //                    //H2_LOCKTYPE //100 minutes
 //                    long lockNNinput = setLockNameProcess(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getServerName() + " ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
 //                    if (lockNNinput > 0) {
 //                        getServerObj().setAutoNNCnt(getServerObj().getAutoNNCnt() + 1);
 //                        // retrain the stock input for NN2 NN1
+//                        TradingNNprocess NNProcessImp = new TradingNNprocess();
 //                        NNProcessImp.reLearnInputStockNNprocessNameArray(this);
 //                    }
-                }
+//                }
             }
-
-            //2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
-            if ((getServerObj().getProcessTimerCnt() % 23) == 0) {
-                // add or remove stock in Mutual fund account based on all stocks in the system
-
-            } else if ((getServerObj().getProcessTimerCnt() % 13) == 0) {
-                getAccountProcessImp().ProcessFundAccount(this);
-
-            } else if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
-                getAccountProcessImp().ProcessSystemMaintance(this);
-
-            } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-                System.gc();
-                getAccountProcessImp().ProcessAdminAccount(this);
-                
-            } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
-                //10 Sec * 5 ~ 1 minutes
-                TRprocessImp.UpdateAllStock(this);
-            } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                TRprocessImp.UpdateAllStock(this);
-            } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                TRprocessImp.UpdateAllStock(this);
-            } else {
-//                NNProcessImp.ProcessInputNeuralNet(this);
-                ///Error R14 (Memory quota exceeded) in heroku
-                ///Error R14 (Memory quota exceeded) in heroku
-//                NNProcessImp.ProcessTrainNeuralNet(this);
-            }
-
+            /////// main execution
+            AFwebExec();
+            ///////
         } catch (Exception ex) {
             logger.info("> processTimer Exception" + ex.getMessage());
         }
         removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
+    }
+
+    void AFwebExec() {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        ////////////
+        if (((getServerObj().getProcessTimerCnt() % 29) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
+            long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
+            if (result == 0) {
+                Calendar dateNow1 = TimeConvertion.getCurrentCalendar();
+                long lockDateValue1 = dateNow1.getTimeInMillis();
+                setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue1, serverObj.getSrvProjName());
+            }
+        }
+
+        //2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
+        if ((getServerObj().getProcessTimerCnt() % 23) == 0) {
+            // add or remove stock in Mutual fund account based on all stocks in the system
+
+        } else if ((getServerObj().getProcessTimerCnt() % 13) == 0) {
+            getAccountProcessImp().ProcessFundAccount(this);
+            return;
+
+        } else if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
+            getAccountProcessImp().ProcessSystemMaintance(this);
+
+        } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
+            System.gc();
+            getAccountProcessImp().ProcessAdminAccount(this);
+
+        } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
+            //10 Sec * 5 ~ 1 minutes
+            TRprocessImp.UpdateAllStock(this);
+        } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
+
+            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            TRprocessImp.UpdateAllStock(this);
+        } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
+
+            TRprocessImp.ProcessAdminSignalTrading(this);
+            TRprocessImp.UpdateAllStock(this);
+        }
     }
 
     public static String debugSymbol = "HOU.TO";
