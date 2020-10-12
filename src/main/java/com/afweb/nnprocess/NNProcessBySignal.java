@@ -86,7 +86,9 @@ public class NNProcessBySignal {
             serviceAFWeb.SystemFundMgr();
             logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
         }
-
+        ////////////////////////////////////////////
+        ////////////////////////////////////////////
+        ////////////////////////////////////////////
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
             logger.info("> NeuralnetInput TR NN1... ");
@@ -96,6 +98,7 @@ public class NNProcessBySignal {
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
         }
+
         boolean flagNeuralnetTrain = false;
         if (flagNeuralnetTrain == true) {
             TrandingSignalProcess.forceToErrorNewNN = true;
@@ -422,7 +425,7 @@ public class NNProcessBySignal {
     }
 
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
-        logger.info("> getTrainingNNdataProcess " + symbol);
+        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
 
         boolean trainStock = false;
         for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {

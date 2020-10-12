@@ -11,6 +11,7 @@ package com.afweb.nn;
  */
 public class NNInputOutObj {
 
+
     /**
      * @return the output2
      */
@@ -48,6 +49,7 @@ public class NNInputOutObj {
     private double output3;
     private double output4;
   
+    private int index;
     /**
      * @return the input1
      */
@@ -312,5 +314,19 @@ public class NNInputOutObj {
      */
     public void setOutput4(double output4) {
         this.output4 = output4;
+    }
+
+    /**
+     * @return the index
+     */
+    public int getIndex() {
+        return index;
+    }
+
+    /**
+     * @param index the index to set
+     */
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
