@@ -1054,11 +1054,11 @@ public class NNProcessBySignal {
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
                         } else {
-                            logger.info("> inputStockNeuralNetData create Static Base NN1 weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                         }
                     }
                 } else {
-                    logger.info("> inputStockNeuralNetData create Static Base NN1 weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                    logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                 }
 
                 String weightSt = nnTemp.getNetObjSt();

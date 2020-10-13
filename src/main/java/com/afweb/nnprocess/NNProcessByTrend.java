@@ -884,9 +884,12 @@ public class NNProcessByTrend {
                             ///just for testing
                             nnTemp.createNet(stWeight0);
                         } else {
-                            logger.info("> inputStockNeuralNetData create Static Base NN1_WEIGHT " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                         }
                     }
+                } else {
+                    logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+
                 }
                 String weightSt = nnTemp.getNetObjSt();
 //                
