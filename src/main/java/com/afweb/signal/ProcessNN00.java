@@ -52,7 +52,8 @@ public class ProcessNN00 {
         ProcessNN00 nn00 = new ProcessNN00();
         inputList = nn00.trainingNN00_1dataMACD(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
         if (inputList.size() == 0) {
-            logger.info(">NNpredict  error inpulist");
+            // it is okay for input relearning
+//            logger.info(">NNpredict  error inpulist");
             return nn;
         }
 

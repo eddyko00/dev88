@@ -44,7 +44,8 @@ public class ProcessNN2 {
         inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
-            logger.info(">NNpredict  error inpulist");
+            // it is okay for input relearning
+//            logger.info(">NNpredict  error inpulist");
             return nn;
         }
 
