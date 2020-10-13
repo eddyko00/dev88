@@ -38,6 +38,8 @@ public class NNProcessByTrend {
 
         TrandingSignalProcess.forceToGenerateNewNN = false;
 
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
             logger.info("> NeuralnetInput TR NN1... ");
@@ -64,6 +66,8 @@ public class NNProcessByTrend {
             NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
 
         }
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
 
         boolean flagNeural = false;
         if (flagNeural == true) {
@@ -75,7 +79,6 @@ public class NNProcessByTrend {
             }
         }
 
-        //////////////////////////////////////////////////////////
         boolean flagTestNNHistory = false;
         if (flagTestNNHistory == true) {
             AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();

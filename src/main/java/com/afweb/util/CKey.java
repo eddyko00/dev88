@@ -98,18 +98,18 @@ public class CKey {
     public static int SHORT_MONTH_SIZE = 2;//3;
     public static double PREDICT_THRESHOLD = 0.6;
     public static double NN1_ERROR_THRESHOLD = 0.159; //0.172; //0.131; 
-    public static double NN3_ERROR_THRESHOLD = 0.28; // 0.26; //0.245; 
+    public static double NN3_ERROR_THRESHOLD = 0.276; // 0.26; //0.245; 
 //
     public static final int NN_OUTPUT_SIZE = 2;    
     public static final int NN_INPUT_SIZE = 10;
-    public static final int NN1_MIDDLE_SIZE = 90; //120; 
-    public static final int NN3_MIDDLE_SIZE = 90; //120; 
+    public static final int NN1_MIDDLE_SIZE = 100; //120; 
+    public static final int NN3_MIDDLE_SIZE = 100; //120; 
     
     
 
     // must match to the nnData and nn3Data version  make sure both 
     // must match to the nnData and nn3Data version  make sure both 
-    public static String version = "2.1012";
+    public static String version = "2.1013";
     
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
 //    public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;

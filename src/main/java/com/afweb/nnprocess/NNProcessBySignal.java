@@ -42,7 +42,6 @@ public class NNProcessBySignal {
 
         TradingNNprocess NNProcessImp = new TradingNNprocess();
 
-        
 /////////////////////////////////////////////////////////////////////////////        
         boolean flagNNLearning = false;
         if (flagNNLearning == true) {
@@ -116,7 +115,7 @@ public class NNProcessBySignal {
             NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
 
         }
-
+//////////////////////////////////////////////////
         boolean flagNeural = false;
         if (flagNeural == true) {
             // delete all data
@@ -1055,9 +1054,11 @@ public class NNProcessBySignal {
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
                         } else {
-                            logger.info("> inputStockNeuralNetData create Static Base NN1_WEIGHT " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            logger.info("> inputStockNeuralNetData create Static Base NN1 weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                         }
                     }
+                } else {
+                    logger.info("> inputStockNeuralNetData create Static Base NN1 weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                 }
 
                 String weightSt = nnTemp.getNetObjSt();

@@ -1712,10 +1712,18 @@ public class TradingNNprocess {
                                 }
                                 NNInputDataObj inputDaObj = new NNInputDataObj();
                                 NNInputOutObj inputList = new NNInputOutObj();
-
-//                                StockTRHistoryObj thObjMACD = thObjListMACD.get(i);
-//                                int signal = thObjMACD.getTrsignal();
+                                
                                 int signal = inputDaObj0.getObj().getTrsignal();
+                                
+                                for (int k = index; k < index1; k++) {
+                                    StockTRHistoryObj thObjMACD = thObjListMACD.get(index);
+                                    int signalIndex = thObjMACD.getTrsignal();
+                                    if (signalIndex == signal) {
+                                        index = k;
+                                        break;
+                                    }
+                                }
+
                                 inputList = this.setupInput(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
                                 if (inputList == null) {
                                     continue;
@@ -1822,13 +1830,12 @@ public class TradingNNprocess {
             }
 
             if (contProcess == true) {
-                
+
                 // setup input parameter in inputList
                 inputList = this.setupInputNN3(i, signal, thObjListMACD, thObjListMV, thObjListRSI);
                 if (inputList == null) {
                     continue;
                 }
-
 
                 double output = getNNnormalizeStOutputClose(i, thObjListMACD);
                 if ((output == -1) || (output == 0)) {
@@ -1902,10 +1909,18 @@ public class TradingNNprocess {
                                 }
                                 NNInputDataObj inputDaObj = new NNInputDataObj();
                                 NNInputOutObj inputList = new NNInputOutObj();
-
-//                                StockTRHistoryObj thObjMACD = thObjListMACD.get(i);
-//                                int signal = thObjMACD.getTrsignal();
+                                
                                 int signal = inputDaObj0.getObj().getTrsignal();
+                                
+                                for (int k = index; k < index1; k++) {
+                                    StockTRHistoryObj thObjMACD = thObjListMACD.get(index);
+                                    int signalIndex = thObjMACD.getTrsignal();
+                                    if (signalIndex == signal) {
+                                        index = k;
+                                        break;
+                                    }
+                                }
+
                                 inputList = this.setupInput(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
                                 if (inputList == null) {
                                     continue;
@@ -1930,7 +1945,7 @@ public class TradingNNprocess {
         return inputDatalist;
     }
 
-   private NNInputOutObj setupInputNN3(int i, int signal, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
+    private NNInputOutObj setupInputNN3(int i, int signal, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
         NNInputOutObj inputList = new NNInputOutObj();
         inputList = getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
         if (inputList == null) {

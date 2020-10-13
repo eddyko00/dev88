@@ -2041,7 +2041,7 @@ public class TrandingSignalProcess {
             /// new stock difficult to train need to remove the T.TO to see if it helps
             String subSymbol = null;
             if (symbol.length() != 0) {
-                subSymbol = "T.TO";
+                subSymbol = "RY.TO";
                 for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                     String stockN = ServiceAFweb.primaryStock[i];
                     if (stockN.equals(symbol)) {

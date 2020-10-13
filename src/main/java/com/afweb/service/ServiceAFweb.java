@@ -83,8 +83,8 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
-    public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO"};
-//    public static String neuralNetTrainStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL"};
+    public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
+//    public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO"};
 
     /**
      * @return the cacheAccountAdminObj
@@ -3792,29 +3792,69 @@ public class ServiceAFweb {
         return stockInfoArray;
     }
 
-//    /////recent day first and the old data last////////////
-//    public ArrayList<AFstockInfoDisplay> getStockHistoricalDisplay(String symbol, int length) {
+//    public ArrayList<AFstockInfo> getStockHistoricalFromDB(String symbol, int length) {
 //
-//        ArrayList<AFstockInfoDisplay> dspList = new ArrayList();
-//        ArrayList<AFstockInfo> stockInfList = getStockHistorical(symbol, length);
-//        for (int i = 0; i < stockInfList.size(); i++) {
-//            AFstockInfo stockInf = stockInfList.get(i);
-//            AFstockInfoDisplay dsp = new AFstockInfoDisplay();
-//            dsp.setStockInfoObj(stockInf);
+//        SymbolNameObj symObj = new SymbolNameObj(symbol);
+//        String NormalizeSymbol = symObj.getYahooSymbol();
 //
-//            String tzid = "America/New_York"; //EDT
-//            TimeZone tz = TimeZone.getTimeZone(tzid);
-//            Date d = new Date(stockInf.getEntrydatel());
-//            DateFormat format = new SimpleDateFormat("M/dd/yyyy");
-//            format.setTimeZone(tz);
-//            String ESTdate = format.format(d);
-//            dsp.setUpdateDateD(ESTdate);
-//            dspList.add(dsp);
+//        List<AFstockInfo> mergedList = new ArrayList();
+//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//        //////some bug in Heroku to get the current day actually missing the first date
+//        ///// may be the server time - 2hr when try to do end of day not working in this case.
+//        ///// so, need work around to move to next begining of day
+//        long endDay = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
+//        long start = endDay;
+//        long end = 0;
+//
+//        while (mergedList.size() < length) {
+//            long endDay100 = TimeConvertion.addDays(start, -100);
+//            end = TimeConvertion.endOfDayInMillis(endDay100);
+//            ArrayList<AFstockInfo> stockInfoArray = getStockHistoricalRange(NormalizeSymbol, start, end);
+//            if (stockInfoArray == null) {
+//                break;
+//            }
+//            if (stockInfoArray.size() == 0) {
+//                break;
+//            }
+//            mergedList.addAll(stockInfoArray);
+//            start = TimeConvertion.addMiniSeconds(end, -10);
+//        }
+//        if (mergedList.size() == 0) {
+//            return (ArrayList) mergedList;
+//        }
+//        if (length < 22) {
+//            ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
+//            ArrayList<AFstockInfo> retArray = new ArrayList();
+//            for (int i = 0; i < length; i++) {
+//                AFstockInfo sInfo = sockInfoArray.get(i);
+//                retArray.add(sInfo);
+//            }
+//            return retArray;
 //        }
 //
-//        return dspList;
 //
+//        ////////////////error in HEROKU and Local not sure why?????? //////////////
+//        ////////////////error in HEROKU and Local not sure why?????? //////////////
+//        ////////////////error in HEROKU and Local not sure why?????? //////////////
+//        if (mergedList.size() > 1) {
+//
+////           AFstockInfo first = mergedList.get(0);
+////           AFstockInfo first1 = mergedList.get(1);
+////           logger.info(symbol + "getStockHistorical first " + first.getEntrydatel() + " first-1 " + first1.getEntrydatel());
+//            AFstockInfo last = mergedList.get(mergedList.size() - 1);
+//            AFstockInfo last1 = mergedList.get(mergedList.size() - 2);
+//
+//            if (last.getEntrydatel() > last1.getEntrydatel()) {
+////                logger.info(symbol + " getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
+//                //drop the last become only the last one become the current day (not happen in local) 
+//                mergedList.remove(last);
+//
+//            }
+//        }
+//        return (ArrayList) mergedList;
 //    }
+//    
+     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(String symbol, int length) {
         if (length == 0) {
