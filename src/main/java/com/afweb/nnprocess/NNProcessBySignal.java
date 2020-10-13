@@ -42,7 +42,9 @@ public class NNProcessBySignal {
 
         TradingNNprocess NNProcessImp = new TradingNNprocess();
 
-        boolean flagNNLearning = false;
+        
+/////////////////////////////////////////////////////////////////////////////        
+        boolean flagNNLearning = true;
         if (flagNNLearning == true) {
             int k = 0;
             NNProcessByTrend nntrend = new NNProcessByTrend();
