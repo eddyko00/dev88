@@ -97,7 +97,7 @@ public class CKey {
     public static int MONTH_SIZE = 14;
     public static int SHORT_MONTH_SIZE = 2;//3;
     public static double PREDICT_THRESHOLD = 0.6;
-    public static double NN1_ERROR_THRESHOLD = 0.158; //0.172; //0.131; 
+    public static double NN1_ERROR_THRESHOLD = 0.159; //0.172; //0.131; 
     public static double NN3_ERROR_THRESHOLD = 0.28; // 0.26; //0.245; 
 //
     public static final int NN_OUTPUT_SIZE = 2;    
