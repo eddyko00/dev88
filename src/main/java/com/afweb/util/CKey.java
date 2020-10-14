@@ -38,7 +38,7 @@ public class CKey {
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     
-//    public static boolean TEST_VOL = true;    
+    public static boolean SPECIAL1_VOL = true;   // always true 
     /////
     ////////////////////// make this always true for HEROKU Env
     ////////////////////// make this always true for HEROKU Env

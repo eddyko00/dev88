@@ -549,7 +549,7 @@ public class TradingNNprocess {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN1(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
 
         return inputDatalist;
     }
@@ -600,7 +600,7 @@ public class TradingNNprocess {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryMACDNN1(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
 
         return inputDatalist;
     }
@@ -1579,7 +1579,7 @@ public class TradingNNprocess {
 //        return -1;
 //    }
     //////////////
-    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN1(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
 
         if ((thObjListMACD == null) || (thObjListMV == null)) {
@@ -1630,7 +1630,7 @@ public class TradingNNprocess {
 
             if (contProcess == true) {
                 // setup input parameter in inputList
-                inputList = this.setupInput(i, signal, thObjListMACD, thObjListMV, thObjListRSI);
+                inputList = this.setupInputNN1(i, signal, thObjListMACD, thObjListMV, thObjListRSI);
                 if (inputList == null) {
                     continue;
                 }
@@ -1687,7 +1687,7 @@ public class TradingNNprocess {
             inputDatalist.add(objDataPrev);
 
         }
-        if (true) {
+         if (CKey.SPECIAL1_VOL == true) {
             ArrayList<NNInputDataObj> inputRetDatalist = new ArrayList<NNInputDataObj>();
             if (inputDatalist != null) {
                 if (inputDatalist.size() > 1) {
@@ -1712,9 +1712,9 @@ public class TradingNNprocess {
                                 }
                                 NNInputDataObj inputDaObj = new NNInputDataObj();
                                 NNInputOutObj inputList = new NNInputOutObj();
-                                
+
                                 int signal = inputDaObj0.getObj().getTrsignal();
-                                
+
                                 for (int k = index; k < index1; k++) {
                                     StockTRHistoryObj thObjMACD = thObjListMACD.get(index);
                                     int signalIndex = thObjMACD.getTrsignal();
@@ -1724,7 +1724,7 @@ public class TradingNNprocess {
                                     }
                                 }
 
-                                inputList = this.setupInput(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
+                                inputList = this.setupInputNN1(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
                                 if (inputList == null) {
                                     continue;
                                 }
@@ -1749,7 +1749,7 @@ public class TradingNNprocess {
         return inputDatalist;
     }
 
-    private NNInputOutObj setupInput(int i, int signal, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
+    private NNInputOutObj setupInputNN1(int i, int signal, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
         NNInputOutObj inputList = new NNInputOutObj();
         inputList = getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
         if (inputList == null) {
@@ -1771,7 +1771,7 @@ public class TradingNNprocess {
         inputList.setInput8(closeArray.get(2));
         inputList.setInput9(closeArray.get(3));
         inputList.setInput10(closeArray.get(4));
-        if (true) {
+        if (CKey.SPECIAL1_VOL == true) {
             ArrayList<Double> volumeArray = getNNnormalizeInputVolume(i, thObjListMACD);
             // override close normalize
 //          inputList.setInput9(volumeArray.get(0));
@@ -1884,7 +1884,7 @@ public class TradingNNprocess {
             inputDatalist.add(objDataPrev);
 
         }
-        if (true) {
+         if (CKey.SPECIAL1_VOL == true) {
             ArrayList<NNInputDataObj> inputRetDatalist = new ArrayList<NNInputDataObj>();
             if (inputDatalist != null) {
                 if (inputDatalist.size() > 1) {
@@ -1909,9 +1909,9 @@ public class TradingNNprocess {
                                 }
                                 NNInputDataObj inputDaObj = new NNInputDataObj();
                                 NNInputOutObj inputList = new NNInputOutObj();
-                                
+
                                 int signal = inputDaObj0.getObj().getTrsignal();
-                                
+
                                 for (int k = index; k < index1; k++) {
                                     StockTRHistoryObj thObjMACD = thObjListMACD.get(index);
                                     int signalIndex = thObjMACD.getTrsignal();
@@ -1921,7 +1921,7 @@ public class TradingNNprocess {
                                     }
                                 }
 
-                                inputList = this.setupInput(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
+                                inputList = this.setupInputNN1(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
                                 if (inputList == null) {
                                     continue;
                                 }

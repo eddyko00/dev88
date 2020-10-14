@@ -37,7 +37,37 @@ public class NNProcessByTrend {
     public void processNeuralNetStPred(ServiceAFweb serviceAFWeb) {
 
         TrandingSignalProcess.forceToGenerateNewNN = false;
+        ////////////////////////////////////////////
+        ////////////////////////////////////////////
+        boolean flagIntitNN3Input = true;
+        if (flagIntitNN3Input == true) {
+            TrandingSignalProcess.forceToGenerateNewNN = false;
+            logger.info("> flagIntitNN3Input TR NN1... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+            logger.info("> flagIntitNN3Input TR NN2... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
+            // need to debug to generate the java first time
+            TrandingSignalProcess.forceToGenerateNewNN = true;
 
+            TrandingSignalProcess.forceToErrorNewNN = true;
+            // start training
+            // TrainingNNBP inputpattern 1748
+            NeuralNetProcessTesting(serviceAFWeb);
+            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
+
+            TrandingSignalProcess.forceToGenerateNewNN = false;
+            // start training
+            // TrainingNNBP inputpattern 1748
+            NeuralNetProcessTesting(serviceAFWeb);
+            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
+            NeuralNetProcessTesting(serviceAFWeb);
+            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
+            logger.info("> flagIntitNN3Input TR NN3 end....... ");
+
+        }
+
+        ////////////////////////////////////////////
+        ////////////////////////////////////////////
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
         boolean flagNeuralnetInput = false;
