@@ -734,7 +734,7 @@ public class NNProcessByTrend {
                                     stockNNprocessNameArray.remove(0);
 
                                     /// need to create the table to reduce the memeory in DB
-//                                    serviceAFWeb.getStockImp().deleteNeuralNet1Table();
+                                    serviceAFWeb.getStockImp().deleteNeuralNet1Table();
                                 }
                             }
                         }
