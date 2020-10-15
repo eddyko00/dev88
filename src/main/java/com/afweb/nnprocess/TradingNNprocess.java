@@ -10,7 +10,6 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.nn.*;
-import com.afweb.nnBP.NNBPservice;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.ProcessNN1;
 import com.afweb.signal.ProcessNN2;

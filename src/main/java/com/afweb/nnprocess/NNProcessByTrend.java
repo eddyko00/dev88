@@ -39,7 +39,7 @@ public class NNProcessByTrend {
         TrandingSignalProcess.forceToGenerateNewNN = false;
         ////////////////////////////////////////////
         ////////////////////////////////////////////
-        boolean flagIntitNN3Input = true;
+        boolean flagIntitNN3Input = false;
         if (flagIntitNN3Input == true) {
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> flagIntitNN3Input TR NN1... ");
