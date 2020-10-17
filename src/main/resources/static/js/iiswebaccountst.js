@@ -47,7 +47,7 @@ var app = {
         htmlhead += '<div class="ui-block-a"><strong>Sym</strong></div>';
         htmlhead += '<div class="ui-block-b" style="width:20%">Sig</div>';
         htmlhead += '<div class="ui-block-c">Trend</div>';
-        htmlhead += '<div class="ui-block-d">Percent</div>';
+        htmlhead += '<div class="ui-block-d">Daily %</div>';
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
