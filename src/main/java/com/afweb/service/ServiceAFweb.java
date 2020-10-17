@@ -965,20 +965,24 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol = "IWM";
-            String nnName = ConstantKey.TR_NN3;
+            symbol = "AAPL";
+            String nnName = ConstantKey.TR_MV;
 
-//          // will clear the transaction history  
-            AFstockObj stock = this.getRealTimeStockImp(symbol);
             AccountObj accountAdminObj = this.getAdminObjFromCache();
-            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-//          update HOU current history of transaction
-            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 
-            // update HOU history of transaction
-//            AccountObj accountAObj = getAdminObjFromCache();
-//            TRprocessImp.upateAdminTransaction(this, accountAObj, symbol);
+            
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+            
+//            AFstockObj stock = this.getRealTimeStockImp(symbol);
+////          // will clear the transaction history  
+//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+////          update HOU current history of transaction
+//            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
+////            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+//
+//            // update HOU history of transaction
+////            AccountObj accountAObj = getAdminObjFromCache();
+////            TRprocessImp.upateAdminTransaction(this, accountAObj, symbol);
         }
 
     }
@@ -2174,10 +2178,20 @@ public class ServiceAFweb {
                     String NormalizeSymbol = (String) stockNameList.get(i);
                     AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
                     if (stock != null) {
-                        TradingRuleObj trObj = getAccountImp().getAccountStockIDByTRname(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
-                        if (trObj != null) {
-                            stock.setTRsignal(trObj.getTrsignal());
+                        ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockListByAccountID(accountObj.getId(), stock.getId());
+                        if (trObjList != null) {
+                            for (int j = 0; j < trObjList.size(); j++) {
+                                TradingRuleObj trObj = trObjList.get(j);
+                                if (trObj.getTrname().equals(ConstantKey.TR_ACC)) {
+                                    stock.setTRsignal(trObj.getTrsignal());
+                                } else if (trObj.getTrname().equals(ConstantKey.TR_NN1)) {
+                                    float balace = trObj.getBalance();
+                                    float per = 100 * balace / CKey.TRADING_AMOUNT;
+                                    stock.setPerform(per);
+                                }
+                            }
                         }
+
                         returnStockList.add(stock);
                     }
                 }
@@ -3854,7 +3868,7 @@ public class ServiceAFweb {
 //        return (ArrayList) mergedList;
 //    }
 //    
-     /////recent day first and the old data last////////////
+    /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(String symbol, int length) {
         if (length == 0) {

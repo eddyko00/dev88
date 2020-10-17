@@ -383,21 +383,24 @@ var app = {
                                 var perfStart = PerfObj.performData.fromdate;
                                 var perfEnd = PerfObj.updatedatedisplay;
 
-                                var balance = PerfObj.balance+PerfObj.netprofit;
+                                var balance = PerfObj.balance;
                                 var shareAmount = 0;
                                 if (trsignal == 1) {
                                     shareAmount = PerfObj.performData.share * PerfObj.performData.close;
-//                                    balance += shareAmount;
+                                    balance += shareAmount;
                                 }
                                 if (trsignal == 2) {
                                     shareAmount = PerfObj.performData.share * PerfObj.performData.close;
-//                                    balance += shareAmount;
+                                    balance += shareAmount;
                                 }
+                                // so that to show the balacne positive
+                                balance += PerfObj.investment;
+                                
                                 var balanceSt = Number(balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                                var netprofitSt = Number(PerfObj.netprofit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                                var netprofitSt = Number(PerfObj.grossprofit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                                 var investmentSt = Number(shareAmount).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                                 
-                                var percent = 100 * (PerfObj.netprofit / PerfObj.investment);
+                                var percent = 100 * (PerfObj.grossprofit / TRADING_AMOUNT);
                                 var percentSt = Number(percent.toFixed(2)).toLocaleString('en');
 
                                 var htmlName = "";
@@ -419,7 +422,7 @@ var app = {
 
                                 htmlName += '<div class="ui-grid-a">';
                                 htmlName += '<div class="ui-block-a" >' + 'rating: ' + PerfObj.rating.toFixed(2) + '</div>';
-                                htmlName += '<div class="ui-block-b" >' + 'numtrade: ' + PerfObj.numtrade + ' x 2</div>';
+                                htmlName += '<div class="ui-block-b" >' + 'numtrade: ' + PerfObj.numtrade + '</div>';
                                 htmlName += '</div>';
                                 htmlName += '<br>';
 

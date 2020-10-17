@@ -1,0 +1,48 @@
+VERSION BUILD=1010 RECORDER=CR
+URL GOTO=https://iiswebsrv.herokuapp.com/index.html
+WAIT SECONDS=5
+TAG POS=1 TYPE=A ATTR=TXT:Introduction
+WAIT SECONDS=10
+TAG POS=3 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/index.html#page-index
+WAIT SECONDS=5
+TAG POS=1 TYPE=A ATTR=TXT:Sign<SP>In
+WAIT SECONDS=10
+TAG POS=1 TYPE=BUTTON ATTR=ID:btn-login
+WAIT SECONDS=10
+TAG POS=1 TYPE=A ATTR=TXT:Start<SP>date:<SP>2020-10-08Account:<SP>acc-2-TradingPlan:*
+WAIT SECONDS=20
+TAG POS=1 TYPE=STRONG ATTR=TXT:SPY
+WAIT SECONDS=10
+TAG POS=1 TYPE=A ATTR=ID:5
+WAIT SECONDS=30
+TAG POS=2 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr.html#page-index
+WAIT SECONDS=10
+TAG POS=2 TYPE=A ATTR=ID:5
+WAIT SECONDS=10
+TAG POS=3 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr.html#page-index
+WAIT SECONDS=10
+TAG POS=1 TYPE=STRONG ATTR=TXT:TR_NN1
+WAIT SECONDS=10
+TAG POS=1 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr_1.html
+WAIT SECONDS=10
+TAG POS=1 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountst_1.html
+WAIT SECONDS=20
+TAG POS=1 TYPE=STRONG ATTR=TXT:DIA
+WAIT SECONDS=10
+TAG POS=1 TYPE=A ATTR=ID:12
+WAIT SECONDS=30
+TAG POS=2 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr.html#page-index
+WAIT SECONDS=10
+TAG POS=2 TYPE=A ATTR=ID:12
+WAIT SECONDS=10
+TAG POS=3 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr.html#page-index
+WAIT SECONDS=10
+TAG POS=1 TYPE=STRONG ATTR=TXT:TR_NN1
+WAIT SECONDS=10
+TAG POS=1 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr_1.html
+WAIT SECONDS=10
+TAG POS=1 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountst_1.html
+WAIT SECONDS=20
+TAG POS=1 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/account_1.html
+WAIT SECONDS=10
+TAG POS=1 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/index.html

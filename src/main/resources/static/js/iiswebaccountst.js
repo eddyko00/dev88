@@ -43,11 +43,12 @@ var app = {
 
         $("#accheader").html("Account " + accObj.accountname);
 
-        var htmlhead = '<div class="ui-grid-c">';
+        var htmlhead = '<div class="ui-grid-d">';
         htmlhead += '<div class="ui-block-a"><strong>Sym</strong></div>';
-        htmlhead += '<div class="ui-block-b" style="width:20%">Sig</div>';
+        htmlhead += '<div class="ui-block-b" style="width:15%">Sig</div>';
         htmlhead += '<div class="ui-block-c">Trend</div>';
         htmlhead += '<div class="ui-block-d">Daily %</div>';
+        htmlhead += '<div class="ui-block-e">Per %</div>';
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -58,8 +59,8 @@ var app = {
 //            name += " TR:"+ stockObj.trsignal+" L:"+stockObj.longterm; 
 
 //https://demos.jquerymobile.com/1.1.2/docs/content/content-grids.html
-            var htmlName = '<div class="ui-grid-c">';
-            htmlName += '<div class="ui-block-a"><strong>' + stockObj.symbol +'</strong></div>';
+            var htmlName = '<div class="ui-grid-d">';
+            htmlName += '<div class="ui-block-a"><strong>' + stockObj.symbol + '</strong></div>';
             var signal = "B";
             if (stockObj.trsignal == 1) {
                 signal = "B";
@@ -69,19 +70,23 @@ var app = {
                 signal = "E";
             }
 
-            htmlName += '<div class="ui-block-b" style="width:20%">:' + signal + '</div>';
+            htmlName += '<div class="ui-block-b" style="width:15%">:' + signal + '</div>';
             htmlName += '<div class="ui-block-c">T: ' + stockObj.longterm + '</div>';
             var percentSt = "";
+            var perSt = "";
             var close = 0;
             var preClose = 0;
             if (stockObj.afstockInfo != null) {
                 close = stockObj.afstockInfo.fclose;
                 preClose = stockObj.prevClose;
                 var percent = 100 * (close - preClose) / preClose;
-                percentSt = percent.toFixed(2) + '%';
-            }
-            htmlName += '<div class="ui-block-d">P: ' + percentSt + '</div>';
+                percentSt = percent.toFixed(2); // + '%';
+                var perform = stockObj.perform;
+                perSt = perform.toFixed(1); // + '%';
 
+            }
+            htmlName += '<div class="ui-block-d">Pr: ' + percentSt + '</div>';
+            htmlName += '<div class="ui-block-e">' + perSt + '</div>';
             htmlName += '</div>';
 
             var nameId = stockObj.id;

@@ -406,13 +406,14 @@ public class TrandingSignalProcess {
                     pObj.setBalance(pObj.getBalance() - invest);
                 } else {
                     pObj.setInvestment(pObj.getInvestment() + invest);
+                    pObj.setBalance(pObj.getBalance() - invest);
                 }
 
                 perfData.setClose(tranObj.getAvgprice());
                 perfData.setShare(tranObj.getShare());
                 pObj.setNumtrade(pObj.getNumtrade() + 1);
 
-                float fProfit = pObj.getBalance() + invest - pObj.getInvestment();
+                float fProfit = pObj.getBalance() + pObj.getInvestment();
                 pObj.setGrossprofit(fProfit);
                 float nProfit = fProfit - (pObj.getNumtrade() * CKey.TRADING_COMMISSION);
                 pObj.setNetprofit(nProfit);
@@ -421,11 +422,12 @@ public class TrandingSignalProcess {
 
                 float invest = tranObj.getShare() * tranObj.getAvgprice();
                 pObj.setBalance(pObj.getBalance() + invest);
+                pObj.setInvestment(0);
                 perfData.setClose(tranObj.getAvgprice());
                 perfData.setShare(0);
                 pObj.setNumtrade(pObj.getNumtrade() + 1);
                 // calculate numWin performance
-                float fProfit = pObj.getBalance() - pObj.getInvestment();
+                float fProfit = pObj.getBalance() + pObj.getInvestment();
                 pObj.setGrossprofit(fProfit);
                 float nProfit = fProfit - (pObj.getNumtrade() * CKey.TRADING_COMMISSION);
                 pObj.setNetprofit(nProfit);
@@ -481,12 +483,13 @@ public class TrandingSignalProcess {
                     pObj.setBalance(pObj.getBalance() - invest);
                 } else {
                     pObj.setInvestment(pObj.getInvestment() + invest);
+                    pObj.setBalance(pObj.getBalance() - invest);
                 }
                 perfData.setClose(tranObj.getAvgprice());
                 perfData.setShare(tranObj.getShare());
                 pObj.setNumtrade(pObj.getNumtrade() + 1);
 
-                float fProfit = pObj.getBalance() + invest - pObj.getInvestment();
+                float fProfit = pObj.getBalance() + pObj.getInvestment();
 
                 pObj.setGrossprofit(fProfit);
                 float nProfit = fProfit - (pObj.getNumtrade() * CKey.TRADING_COMMISSION);
@@ -501,11 +504,13 @@ public class TrandingSignalProcess {
                 float invest = tranObj.getShare() * netPrice;
 
                 pObj.setBalance(pObj.getBalance() + invest);
+                pObj.setInvestment(0);
                 perfData.setClose(tranObj.getAvgprice());
                 perfData.setShare(0);
                 pObj.setNumtrade(pObj.getNumtrade() + 1);
+
                 // calculate numWin performance
-                float fProfit = pObj.getBalance() - pObj.getInvestment();
+                float fProfit = pObj.getBalance() + pObj.getInvestment();
 
                 pObj.setGrossprofit(fProfit);
                 float nProfit = fProfit - (pObj.getNumtrade() * CKey.TRADING_COMMISSION);

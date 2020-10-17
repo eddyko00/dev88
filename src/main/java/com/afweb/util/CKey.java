@@ -131,7 +131,7 @@ public class CKey {
     public static final int FAIL_STOCK_CNT = 160;
 
     public static final float TRADING_AMOUNT = 6000;
-    public static final float TRADING_COMMISSION = 6;
+    public static final float TRADING_COMMISSION = 7;
 
 ////////////////////////////////////////////////////////////////////////////////    
 //    public static final String MSG_PENDING = "PENDING";

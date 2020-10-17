@@ -13,9 +13,24 @@ import com.vpumlmodel.stock.stock;
  */
 public class AFstockObj extends stock {
 
+    /**
+     * @return the perform
+     */
+    public float getPerform() {
+        return perform;
+    }
+
+    /**
+     * @param perform the perform to set
+     */
+    public void setPerform(float perform) {
+        this.perform = perform;
+    }
+
     private AFstockInfo afstockInfo=null;
     private float prevClose;
     private int TRsignal=0;
+    private float perform=0;
     private String updateDateD = "";
 
     /**

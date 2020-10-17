@@ -2,7 +2,6 @@
 
 var iisurl_HERO = "https://iiswebsrv.herokuapp.com/";
 var iisurl_OP = "https://iisweb-web012.apps.us-west-1.starter.openshift-online.com/";
-//var iisurl_LOCAL = "http://localhost:8070/";
 var iisurl_LOCAL = "http://localhost:8080/";
 var iisurl = iisurl_HERO; // iisurl_LOCAL; // iisurl_HERO;  //http does not work in OP
 var S_PENDING = -1;     // no trade
@@ -18,3 +17,4 @@ var S_STOPLOSS_SELL = 4; // stop loss sell
 var S_EXIT_LONG = 5;
 var S_EXIT_SHORT = 6;
 var S_EXIT = 8;
+var TRADING_AMOUNT = 6000;
