@@ -38,17 +38,20 @@ var app = {
             window.location.href = "index.html";
         }
 
+        var physicalScreenWidth = window.screen.width * window.devicePixelRatio;
+        var physicalScreenHeight = window.screen.height * window.devicePixelRatio;
+        
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
 
         $("#accheader").html("Account " + accObj.accountname);
 
         var htmlhead = '<div class="ui-grid-d">';
-        htmlhead += '<div class="ui-block-a"><strong>Sym</strong></div>';
-        htmlhead += '<div class="ui-block-b" style="width:15%">Sig</div>';
-        htmlhead += '<div class="ui-block-c">Trend</div>';
-        htmlhead += '<div class="ui-block-d">Daily %</div>';
-        htmlhead += '<div class="ui-block-e">Per %</div>';
+        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym</strong></div>';
+        htmlhead += '<div class="ui-block-b" style="width:20%">Sig</div>';
+        htmlhead += '<div class="ui-block-c" style="width:20%">Trend</div>';
+        htmlhead += '<div class="ui-block-d" style="width:20%">Daily %</div>';
+        htmlhead += '<div class="ui-block-e" style="width:20%">Per %</div>';
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -60,7 +63,7 @@ var app = {
 
 //https://demos.jquerymobile.com/1.1.2/docs/content/content-grids.html
             var htmlName = '<div class="ui-grid-d">';
-            htmlName += '<div class="ui-block-a"><strong>' + stockObj.symbol + '</strong></div>';
+            htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + stockObj.symbol + '</strong></div>';
             var signal = "B";
             if (stockObj.trsignal == 1) {
                 signal = "B";
@@ -70,8 +73,8 @@ var app = {
                 signal = "E";
             }
 
-            htmlName += '<div class="ui-block-b" style="width:15%">:' + signal + '</div>';
-            htmlName += '<div class="ui-block-c">T: ' + stockObj.longterm + '</div>';
+            htmlName += '<div class="ui-block-b" style="width:20%">:' + signal + '</div>';
+            htmlName += '<div class="ui-block-c" style="width:20%">T:' + stockObj.longterm + '</div>';
             var percentSt = "";
             var perSt = "";
             var close = 0;
@@ -80,13 +83,13 @@ var app = {
                 close = stockObj.afstockInfo.fclose;
                 preClose = stockObj.prevClose;
                 var percent = 100 * (close - preClose) / preClose;
-                percentSt = percent.toFixed(2); // + '%';
+                percentSt = percent.toFixed(1); // + '%';
                 var perform = stockObj.perform;
-                perSt = perform.toFixed(1); // + '%';
+                perSt = perform.toFixed(0); // + '%';
 
             }
-            htmlName += '<div class="ui-block-d">Pr: ' + percentSt + '</div>';
-            htmlName += '<div class="ui-block-e">' + perSt + '</div>';
+            htmlName += '<div class="ui-block-d" style="width:20%">P:' + percentSt + ' </div>';
+            htmlName += '<div class="ui-block-e" style="width:20%">:' + perSt + '</div>';
             htmlName += '</div>';
 
             var nameId = stockObj.id;
