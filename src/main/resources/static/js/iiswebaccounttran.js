@@ -102,8 +102,12 @@ var app = {
                 signal = "B";
             } else if (tranObj.trsignal == 2) {
                 signal = "S";
+                // assume buy only and no short selling
+                prevTranObj = tranObj;
+                continue;
             } else {
                 signal = "E";
+
             }
             htmlName += '<div class="ui-block-b" style="width:10%" >:' + signal + '</div>';
             htmlName += '<div class="ui-block-c">P:' + tranObj.avgprice + '</div>';
@@ -120,12 +124,14 @@ var app = {
                     if (prevTranObj.trsignal == 2) {
                         diff = -diff;
                         // assume buy only and no short selling
-                        diff =0;
+                        diff = 0;
+                        prevTranObj = tranObj;
+                        continue;
                     }
                     total += diff;
 //                    var totalSt = total.toFixed(2);
-                    var totalSt = Number(total).toLocaleString('en-US', {style:'currency', currency:'USD'});
-                    var diffSt = Number(diff).toLocaleString('en-US', {style:'currency', currency:'USD'});
+                    var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     htmlName += 'Transaction: ' + diffSt + ' Total: ' + totalSt;
                 }
             } else {
@@ -138,12 +144,14 @@ var app = {
                     if (tranObj.trsignal == 2) {
                         diff = -diff;
                         // assume buy only and no short selling
-                        diff =0;                        
+                        diff = 0;
+                        prevTranObj = tranObj;
+                        continue;
                     }
                     total += diff;
 //                    var totalSt = total.toFixed(2);
-                    var totalSt = Number(total).toLocaleString('en-US', {style:'currency', currency:'USD'});
-                    var diffSt = Number(diff).toLocaleString('en-US', {style:'currency', currency:'USD'});
+                    var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     htmlName += 'Tran on close: ' + diffSt + ' Total: ' + totalSt;
                 }
             }
