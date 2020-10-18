@@ -193,10 +193,11 @@ public class NNProcessByTrend {
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
                     String weightSt = (CKey.NN3_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
-                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
-                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
 
-//                    serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+//                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
+//                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
+                    serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN3_WEIGHT_0");
                 } else {
                     String weightSt = afNeuralNet.getWeight();
@@ -212,9 +213,9 @@ public class NNProcessByTrend {
                             afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
                             afNeuralNet.setWeight(weightSt);
 //
-                            String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
-                            serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
-//                            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+//                            String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
+//                            serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
+                            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                         }
                     }
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
@@ -925,10 +926,10 @@ public class NNProcessByTrend {
                 }
                 String weightSt = nnTemp.getNetObjSt();
 //                
-                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
-                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPnameSym, refname, weightSt);
+//                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
+//                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPnameSym, refname, weightSt);
 
-//                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
+                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
 

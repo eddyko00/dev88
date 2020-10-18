@@ -347,7 +347,8 @@ public class StockImp {
                 stockdb.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
 /////////////
                 String refname = nnObj1.getRefname();
-                setCreateNeuralNetObjSameObj1(name, refname, "");
+                setCreateNeuralNetObj1 (name, "");
+//                setCreateNeuralNetObjSameObj1(name, refname, "");
 
 //                setCreateNeuralNetObj1(name, "");
                 return stockdb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
@@ -399,7 +400,7 @@ public class StockImp {
         return stockdb.setCreateNeuralNetObj0(name, weight);
     }
 
-    public int setCreateNeuralNetObjSameObj1(String name, String refname, String weight) {
+    public int setCreateNeuralNetObjSameObj1_temp(String name, String refname, String weight) {
 //        logger.info("> setCreateNeuralNetObjSameObj1 " + name + " - " + refname);
         int ret = stockdb.setCreateNeuralNetObjSameObj1(name, refname, weight);
         if (ret == 1) {
