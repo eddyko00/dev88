@@ -979,6 +979,12 @@ public class NNProcessByTrend {
 
             for (String sym : stockInputMap.keySet()) {
                 if (subSymbol != null) {
+//                    if (subSymbol.equals("AAPL")) {
+//                        continue;
+//                    }
+//                    if (subSymbol.equals("RY.TO")) {
+//                        continue;
+//                    }                    
                     if (subSymbol.equals(sym)) {
                         continue;
                     }
@@ -1012,7 +1018,9 @@ public class NNProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN00 nn00 = new ProcessNN00();
-            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
+            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
+
+//            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
         }
 
         // ignor first and last
