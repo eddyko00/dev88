@@ -732,9 +732,11 @@ public class NNProcessByTrend {
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                     stockNNprocessNameArray.remove(0);
+                                    if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
+                                        /// need to create the table to reduce the memeory in DB
+                                        serviceAFWeb.getStockImp().deleteNeuralNet1Table();
+                                    }
 
-                                    /// need to create the table to reduce the memeory in DB
-                                    serviceAFWeb.getStockImp().deleteNeuralNet1Table();
                                 }
                             }
                         }
