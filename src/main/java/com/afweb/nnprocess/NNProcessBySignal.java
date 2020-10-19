@@ -56,10 +56,25 @@ public class NNProcessBySignal {
                 NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
                 NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
                 ProcessTrainNeuralNetBySign(serviceAFWeb);
+//////////////////////////                
                 logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
                 NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
                 nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet end... cycle " + k);
+///////////////////////////
+                int custId = 0;;
+                serviceAFWeb.getAccountImp().removeCommByCustID(custId);
+
+                logger.info("> ProcessReLeanInput NN 1 ");
+                ProcessReLeanInput(serviceAFWeb);
+                logger.info("> ProcessReLeanInput end... ");
+                logger.info("> SystemPocessFundMgr start... ");
+                serviceAFWeb.SystemPocessFundMgr();
+                logger.info("> SystemFundMgr start... ");
+                serviceAFWeb.SystemFundMgr();
+                logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
+
+                logger.info("> Waiting 1 hr........");
                 while (true) {
                     currentTime = System.currentTimeMillis();
                     if (lockDate1Hour < currentTime) {
