@@ -4818,7 +4818,7 @@ public class ServiceAFweb {
         int retSatus = 0;
         if (getServerObj().isLocalDBservice() == true) {
             retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN1);
-            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
+//            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
 
         }
         return "" + retSatus;

@@ -982,12 +982,12 @@ public class NNProcessByTrend {
 
             for (String sym : stockInputMap.keySet()) {
                 if (subSymbol != null) {
-//                    if (subSymbol.equals("AAPL")) {
-//                        continue;
-//                    }
-//                    if (subSymbol.equals("RY.TO")) {
-//                        continue;
-//                    }                    
+                    if (sym.equals("AAPL")) {
+                        continue;
+                    }
+                    if (sym.equals("RY.TO")) {
+                        continue;
+                    }                    
                     if (subSymbol.equals(sym)) {
                         continue;
                     }

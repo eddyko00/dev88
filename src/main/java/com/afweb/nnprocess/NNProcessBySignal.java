@@ -54,7 +54,7 @@ public class NNProcessBySignal {
                 long lockDate1Hour = TimeConvertion.addHours(currentTime, 2);
                 logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
                 NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
-                NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
+//                NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
                 ProcessTrainNeuralNetBySign(serviceAFWeb);
 //////////////////////////                
                 logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
@@ -1193,6 +1193,12 @@ public class NNProcessBySignal {
 
             for (String sym : stockInputMap.keySet()) {
                 if (subSymbol != null) {
+                    if (sym.equals("AAPL")) {
+                        continue;
+                    }
+                    if (sym.equals("RY.TO")) {
+                        continue;
+                    }                      
                     if (subSymbol.equals(sym)) {
                         continue;
                     }
