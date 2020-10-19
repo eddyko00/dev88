@@ -11,7 +11,6 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockDB;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -196,13 +195,13 @@ public class ProcessNN2 {
                                 long curSGLong = stockinfo.getEntrydatel();
 
                                 if (delta > 0) {
-                                    logger.info("> ProcessTRHistoryOffsetNN2 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
+                                    logger.info("> ProcessTRH NN2 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     nnSignal = macdSignal;
                                 } else {
 
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
-                                        logger.info("> ProcessTRHistoryOffsetNN2 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
+                                        logger.info("> ProcessTRH NN2 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = macdSignal;
                                     }
                                 }
@@ -217,7 +216,7 @@ public class ProcessNN2 {
                 if (CKey.NN_DEBUG == true) {
                     boolean flag = false;
                     if (flag == true) {
-                        logger.info("ProcessTRHistoryOffsetNN2 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
+                        logger.info("ProcessTRH NN2 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
                     }
                 }
             }
@@ -229,7 +228,7 @@ public class ProcessNN2 {
             //override the previous NN1 prediction
 
             if (nnSignal != trendSignal) {
-                logger.info("> ProcessTRHistoryOffsetNN2 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
+                logger.info("> ProcessTRH NN2 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
             }
             nnSignal = trendSignal;
         }
@@ -291,13 +290,13 @@ public class ProcessNN2 {
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-                                    logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
+                                    logger.info("> updateAdminTR nn2 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     nnSignal = macdSignal;
                                 } else {
 
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
-                                        logger.info("> updateAdminTradingsignalnn2 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
+                                        logger.info("> updateAdminTR nn2 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = macdSignal;
                                     }
                                 }
@@ -313,7 +312,7 @@ public class ProcessNN2 {
 
                     if (nnSignal != trendSignal) {
                         if (CKey.NN_DEBUG == true) {
-                            logger.info("> updateAdminTradingsignalnn2 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
+                            logger.info("> updateAdminTR nn2 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
                         }
                     }
                     nnSignal = trendSignal;
