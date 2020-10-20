@@ -60,7 +60,7 @@ var app = {
 
         $("#adminid").html(htmlAdmin);
         if (custObj.type == 99) {
-            var htmlAdmin = '<br><br><button id="sysbtn" >System Status</button>';         
+            var htmlAdmin = '<br><br><button id="sysbtn" >System Status</button>';
             htmlAdmin += '<button id="admsgbtn"  >Admin Msg</button>';
 
             $("#adminid").append(htmlAdmin);
@@ -75,7 +75,8 @@ var app = {
             var accName = accObj.accountname;
             var accId = accObj.id;
 
-            var htmlName = '<li id="' + accId + '"><a href="#">Start date: ' + accObj.startdate;
+            var htmlName = '';
+            htmlName += '<li id="' + accId + '"><a href="#">';
             htmlName += '<br>Account: ' + accName;
             if (accObj.type == 110) { //INT_TRADING_ACCOUNT           
                 var pp = "Basic Plan - Max 5 stocks";
@@ -88,6 +89,8 @@ var app = {
                 }
 
                 htmlName += '<br>Plan: ' + pp;
+
+                htmlName += '<br>Date: ' + accObj.startdate;
                 htmlName += '<br>Bal: $' + custObj.balance.toFixed(2)
                         + ' Amount due: $' + custObj.payment.toFixed(2);
 
