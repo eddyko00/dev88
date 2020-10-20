@@ -1734,7 +1734,7 @@ public class TradingNNprocess {
                                 inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
                                 inputDaObj.setObj(inputList);
                                 inputRetDatalist.add(inputDaObj);
-                                logger.info("> getAccountStockTRListHistoryMACDNN add " + inputDaObj.getObj().getDateSt());
+                                logger.info("> getAccountStockTR MACD NN1 add " + inputDaObj.getObj().getDateSt());
 
                             }
                         }
@@ -1931,7 +1931,7 @@ public class TradingNNprocess {
                                 inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
                                 inputDaObj.setObj(inputList);
                                 inputRetDatalist.add(inputDaObj);
-                                logger.info("> getAccountStockTRListHistoryMACDNN3 add " + inputDaObj.getObj().getDateSt());
+                                logger.info("> getAccountStockTR MACD NN3 add " + inputDaObj.getObj().getDateSt());
 
                             }
                         }
