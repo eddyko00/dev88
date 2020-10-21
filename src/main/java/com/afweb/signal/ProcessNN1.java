@@ -277,8 +277,9 @@ public class ProcessNN1 {
 
     }
 
-    public void updateAdminTradingsignalnn1(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
-            TradingRuleObj trObj, ArrayList StockArray, int offset, ArrayList<TradingRuleObj> UpdateTRList, AFstockObj stock, ArrayList tradingRuleList) {
+    public NNObj updateAdminTradingsignalnn1(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
+            TradingRuleObj trObj, ArrayList StockArray, int offset,  AFstockObj stock, ArrayList tradingRuleList) {
+        NNObj nnRet = new NNObj();
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 //                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
@@ -293,9 +294,8 @@ public class ProcessNN1 {
                     nnSignal = macdSignal;
                 }
                 if (macdSignal == nnSignal) {
-                    trObj.setTrsignal(macdSignal);
-                    UpdateTRList.add(trObj);
-                    return;
+                    nnRet.setTrsignal(macdSignal);
+                    return nnRet;
                 }
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
 
@@ -350,12 +350,13 @@ public class ProcessNN1 {
                     }
                     nnSignal = trendSignal;
                 }
-                trObj.setTrsignal(nnSignal);
-                UpdateTRList.add(trObj);
+                nnRet.setTrsignal(nnSignal);
+                return nnRet;
             }
         } catch (Exception ex) {
             logger.info("> updateAdminTradingsignalnn1 Exception" + ex.getMessage());
         }
+        return null;
     }
 
     public float specialOverrideRule1(float thClose, float StClose) {

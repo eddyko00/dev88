@@ -138,7 +138,7 @@ public class NNProcessByTrend {
             int size1year = 20 * 12 * 2 + (50 * 3);
             ArrayList StockArray = serviceAFWeb.getStockHistorical(symbol, size1year);
             // update Trading signal
-            ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
+
             ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
             int offset = 0;
 
@@ -149,7 +149,7 @@ public class NNProcessByTrend {
                 switch (trObj.getType()) {
                     case ConstantKey.INT_TR_NN3:
                         ProcessNN3 nn3 = new ProcessNN3();
-                        nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+                        nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         break;
 
                     default:

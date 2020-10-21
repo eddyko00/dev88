@@ -1071,13 +1071,8 @@ public class TrandingSignalProcess {
                 case ConstantKey.INT_TR_NN3:
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
+
                         ProcessNN3 nn3 = new ProcessNN3();
-                        if (offset < 82) { // Jun 1
-                            nn3Flag = true;
-                        }
-                        if (offset < 35) { // Aug 10 Acutual sell signal at Aug 12
-                            nn3Flag = true;
-                        }
                         int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn3Signal;
                     }
@@ -1167,21 +1162,34 @@ public class TrandingSignalProcess {
                     boolean nn1Flag = true;
                     if (nn1Flag == true) {
                         ProcessNN1 nn1 = new ProcessNN1();
-                        nn1.updateAdminTradingsignalnn1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+                        NNObj nn = nn1.updateAdminTradingsignalnn1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                        if (nn != null) {
+                            trObj.setTrsignal(nn.getTrsignal());
+                            UpdateTRList.add(trObj);
+                        }
                     }
                     break;
                 case ConstantKey.INT_TR_NN2:
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
                         ProcessNN2 nn2 = new ProcessNN2();
-                        nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+                        NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                        if (nn != null) {
+                            trObj.setTrsignal(nn.getTrsignal());
+                            UpdateTRList.add(trObj);
+                        }
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         ProcessNN3 nn3 = new ProcessNN3();
-                        nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+                        NNObj nn = nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                        if (nn != null) {
+                            trObj.setTrsignal(nn.getTrsignal());
+                            UpdateTRList.add(trObj);
+                        }
+
                     }
                     break;
 //                case ConstantKey.INT_TR_NN4:

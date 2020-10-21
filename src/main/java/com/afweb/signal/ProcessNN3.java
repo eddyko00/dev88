@@ -9,12 +9,11 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.nnprocess.TradingNNprocess;
+
 import com.afweb.service.ServiceAFweb;
 
 import com.afweb.util.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.sql.Date;
 
 import java.util.ArrayList;
@@ -126,8 +125,9 @@ public class ProcessNN3 {
 
     }
 
-    public void updateAdminTradingsignalnn3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
-            TradingRuleObj trObj, ArrayList StockArray, int offset, ArrayList<TradingRuleObj> UpdateTRList, AFstockObj stock, ArrayList tradingRuleList) {
+    public NNObj updateAdminTradingsignalnn3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
+            TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
+        NNObj nnRet = new NNObj();
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
                 MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
@@ -142,9 +142,8 @@ public class ProcessNN3 {
                     nnSignal = macdSignal;
                 }
                 if (macdSignal == nnSignal) {
-                    trObj.setTrsignal(macdSignal);
-                    UpdateTRList.add(trObj);
-                    return;
+                    nnRet.setTrsignal(macdSignal);
+                    return nnRet;
                 }
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
 
@@ -199,13 +198,13 @@ public class ProcessNN3 {
                     }
                     nnSignal = trendSignal;
                 }
-                trObj.setTrsignal(nnSignal);
-                UpdateTRList.add(trObj);
+                nnRet.setTrsignal(nnSignal);
+                return nnRet;
             }
         } catch (Exception ex) {
             logger.info("> updateAdminTradingsignalnn3 Exception" + ex.getMessage());
         }
-
+        return null;
     }
 
     public float specialOverrideRule1(float thClose, float StClose) {

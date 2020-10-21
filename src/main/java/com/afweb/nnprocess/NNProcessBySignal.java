@@ -187,8 +187,7 @@ public class NNProcessBySignal {
             TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
             ProcessNN2 nn2 = new ProcessNN2();
             int offset = 0;
-            ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
-            nn2.updateAdminTradingsignalnn2(serviceAFWeb, accObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
+            nn2.updateAdminTradingsignalnn2(serviceAFWeb, accObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
 
             logger.info("> flagTestNNSignal ");
         }
@@ -1110,7 +1109,7 @@ public class NNProcessBySignal {
 //                
 //                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
 //                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPnameSym, refname, weightSt);
-                
+
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
@@ -1198,7 +1197,7 @@ public class NNProcessBySignal {
                     }
                     if (sym.equals("RY.TO")) {
                         continue;
-                    }                      
+                    }
                     if (subSymbol.equals(sym)) {
                         continue;
                     }
