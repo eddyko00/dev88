@@ -2275,7 +2275,8 @@ public class TrandingSignalProcess {
         return false;
     }
 
-    public static AFneuralNet nnObjCache = null;
+    public static AFneuralNet nn3ObjCache = null;
+    public static AFneuralNet nn1ObjCache = null;
     public static long lastUpdateTime = 0;
 
     public int OutputNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
@@ -2291,26 +2292,48 @@ public class TrandingSignalProcess {
             return 0;
         }
         AFneuralNet nnObj1 = null;
-        if (nnObjCache != null) {
-            if (nnObjCache.getName().equals(name)) {
+        
+        if (nnTraining.getTrname().equals(ConstantKey.TR_NN1)) {
+            if (nn1ObjCache != null) {
+                if (nn1ObjCache.getName().equals(name)) {
 
-                long date5Min = TimeConvertion.addMinutes(lastUpdateTime, 5);
-                long currentTime = System.currentTimeMillis();
-                if (date5Min > currentTime) {
-                    nnObj1 = nnObjCache;
+                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime, 10);
+                    long currentTime = System.currentTimeMillis();
+                    if (date5Min > currentTime) {
+                        nnObj1 = nn1ObjCache;
+                    }
                 }
             }
-        }
 
-        if (nnObj1 == null) {
-            nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
             if (nnObj1 == null) {
-                return 0;
+                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+                if (nnObj1 == null) {
+                    return 0;
+                }
+                nn1ObjCache = nnObj1;
+                lastUpdateTime = System.currentTimeMillis();
             }
-            nnObjCache = nnObj1;
-            lastUpdateTime = System.currentTimeMillis();
-        }
+        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN3)) {
+            if (nn3ObjCache != null) {
+                if (nn3ObjCache.getName().equals(name)) {
 
+                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime, 10);
+                    long currentTime = System.currentTimeMillis();
+                    if (date5Min > currentTime) {
+                        nnObj1 = nn3ObjCache;
+                    }
+                }
+            }
+
+            if (nnObj1 == null) {
+                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+                if (nnObj1 == null) {
+                    return 0;
+                }
+                nn3ObjCache = nnObj1;
+                lastUpdateTime = System.currentTimeMillis();
+            }
+        }
         String weightSt1 = nnObj1.getWeight();
         if (weightSt1.length() > 0) {
             NNBPservice nn1 = new NNBPservice();
