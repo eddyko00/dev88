@@ -786,7 +786,9 @@ public class ServiceAFweb {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 logger.info("process ProcessAdminSignalTrading cycle " + i);
 
             }
@@ -796,18 +798,22 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////   
         boolean initflag = false;
         if (initflag == true) {
-
+             for (int m = 0; m < 20; m++) {
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            }
 //            if (CKey.SEPARATE_STOCK_DB == true) {
 //                StockInfoDB stockinfodb = new StockInfoDB();
 //                stockinfodb.initStockDB();
 //            }
 //
-            String symbol = "HOU.TO";
-            AFstockObj stock = this.getRealTimeStockImp(symbol);
-            TRprocessImp.updateRealTimeStockTest(this, stock);
-            for (int k = 0; k < 20; k++) {
-                TRprocessImp.UpdateAllStock(this);
-            }
+
+//            String symbol = "HOU.TO";
+//            AFstockObj stock = this.getRealTimeStockImp(symbol);
+//            TRprocessImp.updateRealTimeStockTest(this, stock);
+//            for (int k = 0; k < 20; k++) {
+//                TRprocessImp.UpdateAllStock(this);
+//            }
+
             //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy
 //            forceRemoveCustTest("EDDY-KO00-GMAIL-COM", "pass");
 //            int ret = InitDBData();  // init DB Adding customer account
@@ -970,9 +976,8 @@ public class ServiceAFweb {
 
             AccountObj accountAdminObj = this.getAdminObjFromCache();
 
-            
             TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-            
+
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);
 ////          // will clear the transaction history  
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);

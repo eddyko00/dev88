@@ -743,7 +743,10 @@ public class AccountProcess {
                     break;
                 }
 //                if (CKey.NN_DEBUG == true) {
-                logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
+                if (("acc-3-MutualFund".equals(accountObj.getAccountname())) 
+                        || ("acc-4-MutualFund".equals(accountObj.getAccountname()))) {
+                    logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
+                }
 //                }
 
                 for (int j = 0; j < stockNameArray.size(); j++) {
