@@ -617,13 +617,14 @@ public class ServiceAFweb {
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
             //10 Sec * 5 ~ 1 minutes
             TRprocessImp.UpdateAllStock(this);
+            
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            TRprocessImp.UpdateAllStock(this);
+            
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-
-            TRprocessImp.ProcessAdminSignalTrading(this);
+            TRprocessImp.ProcessAdminSignalTrading(this);            
+            
+        } else {
             TRprocessImp.UpdateAllStock(this);
         }
     }
