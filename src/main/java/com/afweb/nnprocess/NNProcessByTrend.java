@@ -899,12 +899,14 @@ public class NNProcessByTrend {
                     }
                 }
 
+                String refName="";
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj0 != null) {
                     String stWeight0 = nnObj0.getWeight();
 
                     if (stWeight0.length() > 0) {
-
+                        refName = nnObj0.getRefname();
+                        
                         String[] strNetArraySym = stWeight0.split(";");
                         String versionSym = strNetArraySym[0];
                         String middlelayerSym = strNetArraySym[4];
@@ -930,6 +932,9 @@ public class NNProcessByTrend {
 //                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPnameSym, refname, weightSt);
 
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
+                if (refName.length()> 0) {
+                    serviceAFWeb.getStockImp().updateNeuralNetRef1(nnName, refName);
+                }
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
 

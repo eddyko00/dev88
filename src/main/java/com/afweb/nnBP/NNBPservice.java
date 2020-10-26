@@ -167,6 +167,7 @@ public class NNBPservice {
         }
 
         long lockDate4Min = TimeConvertion.addMinutes(currentTime, Min4);
+        double minError = 100;
 
         int i = 0;
         try {
@@ -194,6 +195,10 @@ public class NNBPservice {
                     totalError += BPnet.netError;
                 }
                 totalError = totalError / learnLenght;
+
+                if (minError > totalError) {
+                    minError = totalError;
+                }
 
                 if (i % 4000 == 0) { //4000 == 0) {
                     if (CKey.NN_DEBUG == true) {
@@ -223,7 +228,8 @@ public class NNBPservice {
         if (numberIteration > 1000) {
             logger.info("> learn  " + i + " " + name + "  threshold=" + errorIteration + "  Error=" + totalError);
         }
-        return totalError;
+        return minError;
+//        return totalError;
     }
 
     public String getNetObjSt() {

@@ -321,7 +321,9 @@ public class StockImp {
     public int deleteNeuralNet1Table() {
         return stockdb.deleteNeuralNet1Table();
     }
-
+    public int deleteNeuralNet1(String name) {
+        return stockdb.deleteNeuralNet1Table();
+    }
     public int deleteNeuralNetDataTable() {
         return stockdb.deleteNeuralNetDataTable();
     }
@@ -345,18 +347,22 @@ public class StockImp {
             int ret = setCreateNeuralNetObj0(name, weightSt);
             if (ret == 1) {
                 stockdb.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
-/////////////
-                String refname = nnObj1.getRefname();
+                
                 setCreateNeuralNetObj1 (name, "");
-//                setCreateNeuralNetObjSameObj1(name, refname, "");
-
-//                setCreateNeuralNetObj1(name, "");
                 return stockdb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
             }
         }
         return 0;
     }
 
+   public int updateNeuralNetRef0(String name, String refname) {
+       return stockdb.updateNeuralNetRef0(name, refname);
+   }
+   public int updateNeuralNetRef1(String name, String refname) {
+       return stockdb.updateNeuralNetRef1(name, refname);
+   }
+
+       
     public int initNeuralNetBPObj() {
         return stockdb.initNeuralNetBPObj();
     }
@@ -400,14 +406,14 @@ public class StockImp {
         return stockdb.setCreateNeuralNetObj0(name, weight);
     }
 
-    public int setCreateNeuralNetObjSameObj1_temp(String name, String refname, String weight) {
-//        logger.info("> setCreateNeuralNetObjSameObj1 " + name + " - " + refname);
-        int ret = stockdb.setCreateNeuralNetObjSameObj1(name, refname, weight);
-        if (ret == 1) {
-            return stockdb.updateNeuralNetStatus1(name, ConstantKey.OPEN, 0);
-        }
-        return 0;
-    }
+//    public int setCreateNeuralNetObjSameObj1_temp(String name, String refname, String weight) {
+////        logger.info("> setCreateNeuralNetObjSameObj1 " + name + " - " + refname);
+//        int ret = stockdb.setCreateNeuralNetObjSameObj1(name, refname, weight);
+//        if (ret == 1) {
+//            return stockdb.updateNeuralNetStatus1(name, ConstantKey.OPEN, 0);
+//        }
+//        return 0;
+//    }
 
     public int setCreateNeuralNetObj1(String name, String weight) {
         int ret = stockdb.setCreateNeuralNetObj1(name, weight);

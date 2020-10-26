@@ -2292,7 +2292,7 @@ public class TrandingSignalProcess {
             return 0;
         }
         AFneuralNet nnObj1 = null;
-        
+
         if (nnTraining.getTrname().equals(ConstantKey.TR_NN1)) {
             if (nn1ObjCache != null) {
                 if (nn1ObjCache.getName().equals(name)) {
@@ -2451,6 +2451,7 @@ public class TrandingSignalProcess {
 
         String nNetName = afNeuralNet.getName();
         int repeatSize = 100000;
+        
         double errorReturn = 1;
 
         /// exit when tried repeatSize without reaching the error threshold
@@ -2495,6 +2496,12 @@ public class TrandingSignalProcess {
             retFlag = 1;
             //////////// training completed and release the NN
             serviceAFWeb.releaseNeuralNetObj(name);
+
+            if (nnError == 1) {
+                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, errorReturn + "");
+                logger.info("> TrainingNNBP override new error " + name + " " + errorReturn);
+
+            }
 
             AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
             if (nnObj0 != null) {

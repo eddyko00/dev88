@@ -891,6 +891,7 @@ public class NNProcessBySignal {
                     if (symbolArray.length >= 0) {
 
                         String symbol = symbolArray[0];
+                        
                         int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
 
                         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -930,6 +931,8 @@ public class NNProcessBySignal {
                                     if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
                                         /// need to create the table to reduce the memeory in DB
                                         serviceAFWeb.getStockImp().deleteNeuralNet1Table();
+                                    } else {
+                                        serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
                                     }
                                 }
                             }
@@ -1079,6 +1082,7 @@ public class NNProcessBySignal {
                     }
                 }
 
+                String refName ="";
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj0 != null) {
                     String stWeight0 = nnObj0.getWeight();
@@ -1097,7 +1101,8 @@ public class NNProcessBySignal {
                             logger.info("> inputStockNeuralNetData create existing Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
-                        } else {
+                            refName = nnObj0.getRefname();
+                        } else {                            
                             logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                         }
                     }
@@ -1106,11 +1111,11 @@ public class NNProcessBySignal {
                 }
 
                 String weightSt = nnTemp.getNetObjSt();
-//                
-//                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-//                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPnameSym, refname, weightSt);
-
-                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
+                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);                
+                serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+                if (refName.length()> 0) {
+                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refError " + refName);
+                }
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
 
@@ -1142,6 +1147,16 @@ public class NNProcessBySignal {
                 if (nnObj1 != null) {
                     if (nnObj1.getStatus() != ConstantKey.OPEN) {
                         return -1;
+                    }
+                }
+                String refName = nnObj1.getRefname();
+                if (refName.length() > 0) {
+                    try {
+                        double refError = Double.parseDouble(refName);
+                        errorNN = refError+0.0001;
+                        logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
+                    } catch (Exception ex) {
+
                     }
                 }
                 int retflag = 0;
