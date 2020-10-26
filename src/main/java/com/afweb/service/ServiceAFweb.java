@@ -798,7 +798,7 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////   
         boolean initflag = false;
         if (initflag == true) {
-             for (int m = 0; m < 20; m++) {
+            for (int m = 0; m < 20; m++) {
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             }
 //            if (CKey.SEPARATE_STOCK_DB == true) {
@@ -813,13 +813,11 @@ public class ServiceAFweb {
 //            for (int k = 0; k < 20; k++) {
 //                TRprocessImp.UpdateAllStock(this);
 //            }
-
             //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy
 //            forceRemoveCustTest("EDDY-KO00-GMAIL-COM", "pass");
 //            int ret = InitDBData();  // init DB Adding customer account
 //            getAccountProcessImp().ProcessCustomerDisableMaintanceTest(this);
 //
-
 //
         }
 
@@ -2191,7 +2189,15 @@ public class ServiceAFweb {
                                     stock.setTRsignal(trObj.getTrsignal());
                                 } else if (trObj.getTrname().equals(ConstantKey.TR_NN1)) {
                                     float balace = trObj.getBalance();
-                                    float per = 100 * balace / CKey.TRADING_AMOUNT;
+                                    
+                                    float sharebalance = 0;
+                                    if (trObj.getTrsignal() == ConstantKey.S_BUY) {
+                                        sharebalance = trObj.getLongamount();
+                                    } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
+                                        sharebalance = trObj.getShortamount();
+                                    }
+                                    
+                                    float per = 100 * (balace + sharebalance) / sharebalance;
                                     stock.setPerform(per);
                                 }
                             }
