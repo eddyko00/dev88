@@ -893,18 +893,18 @@ public class StockDB {
         return -1;
     }
 
-    public int initNeuralNetBPObj() {
-
-        ///NeuralNetObj1 transition
-        ///NeuralNetObj0 release
-        if (CKey.NN1_WEIGHT_0.length() == 0) {
-            return 0;
-        }
-        String name = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-        int ret = setCreateNeuralNetObj0(name, CKey.NN1_WEIGHT_0);
-
-        return ret;
-    }
+//    public int initNeuralNetBPObj() {
+//
+//        ///NeuralNetObj1 transition
+//        ///NeuralNetObj0 release
+//        if (CKey.NN1_WEIGHT_0.length() == 0) {
+//            return 0;
+//        }
+//        String name = CKey.NN_version + "_" + ConstantKey.TR_NN1;
+//        int ret = setCreateNeuralNetObj0(name, CKey.NN1_WEIGHT_0);
+//
+//        return ret;
+//    }
 
     ////////////////////////
     public int deleteAllLock() {

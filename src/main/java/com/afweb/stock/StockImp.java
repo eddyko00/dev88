@@ -363,9 +363,9 @@ public class StockImp {
    }
 
        
-    public int initNeuralNetBPObj() {
-        return stockdb.initNeuralNetBPObj();
-    }
+//    public int initNeuralNetBPObj() {
+//        return stockdb.initNeuralNetBPObj();
+//    }
 //
 //    public int releaseNeuralNetObj(String name) {
 //
@@ -465,14 +465,8 @@ public class StockImp {
                     stockdb.addStock(stockN);
                 }
                 if (result == 0) {
-                    initNeuralNetBPObj();
-                    // make sure both ServiceAFweb.InitSystemData and StockImp.initStockDB are update
-                    //    public static String primaryStock[] = {"AAPL","SPY","DIA","QQQ","HOU.TO","HOD.TO","T.TO","FAS","FAZ","RY.TO","XIU.TO"};
+//                    initNeuralNetBPObj();
 
-//                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-//                        String stockN = ServiceAFweb.primaryStock[i];
-//                        stockdb.addStock(stockN);
-//                    }
                     return 0; // new db
 
                 }

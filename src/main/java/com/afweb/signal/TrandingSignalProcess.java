@@ -2389,7 +2389,7 @@ public class TrandingSignalProcess {
         if (forceToGenerateNewNN == true) {
             // force to save new NN
             afNeuralNet = null;
-            nnError = 1;
+            nnError = 2;
         }
         if (afNeuralNet != null) {
             String weightSt = afNeuralNet.getWeight();
@@ -2451,7 +2451,7 @@ public class TrandingSignalProcess {
 
         String nNetName = afNeuralNet.getName();
         int repeatSize = 100000;
-        
+
         double errorReturn = 1;
 
         /// exit when tried repeatSize without reaching the error threshold
@@ -2459,14 +2459,8 @@ public class TrandingSignalProcess {
             nnError = 1;
         }
 
-        if (nnError == 0) {
-            ;
-        } else {
-            if (CKey.NN_DEBUG == true) {
-                logger.info("> TrainingNNBP inputpattern " + inputpattern.length);
-            }
-            errorReturn = nn.learn(nNetName, inputpattern, targetpattern, response, repeatSize, nnError);
-        }
+        logger.info("> TrainingNNBP inputpattern " + inputpattern.length);
+        errorReturn = nn.learn(nNetName, inputpattern, targetpattern, response, repeatSize, nnError);
 
         String weightSt1 = nn.getNetObjSt();
         //Weight too large when save. So, alway empty
