@@ -608,24 +608,27 @@ public class ServiceAFweb {
             return;
 
         } else if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
+            TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             System.gc();
+            TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
             //10 Sec * 5 ~ 1 minutes
             TRprocessImp.UpdateAllStock(this);
-            
+            TRprocessImp.ProcessAdminSignalTrading(this);
+
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            
-        } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-            TRprocessImp.ProcessAdminSignalTrading(this);            
-            
-        } else {
             TRprocessImp.UpdateAllStock(this);
+            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+
+        } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
+
+        } else {
+//            TRprocessImp.UpdateAllStock(this);
         }
     }
 
@@ -2190,14 +2193,14 @@ public class ServiceAFweb {
                                     stock.setTRsignal(trObj.getTrsignal());
                                 } else if (trObj.getTrname().equals(ConstantKey.TR_NN1)) {
                                     float balace = trObj.getBalance();
-                                    
+
                                     float sharebalance = 0;
                                     if (trObj.getTrsignal() == ConstantKey.S_BUY) {
                                         sharebalance = trObj.getLongamount();
                                     } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
                                         sharebalance = trObj.getShortamount();
                                     }
-                                    balace = (balace + sharebalance)-trObj.getInvestment();
+                                    balace = (balace + sharebalance) - trObj.getInvestment();
                                     float per = 100 * (balace) / sharebalance;
                                     stock.setPerform(per);
                                 }
