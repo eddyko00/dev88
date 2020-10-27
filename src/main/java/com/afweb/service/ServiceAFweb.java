@@ -608,9 +608,10 @@ public class ServiceAFweb {
             
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);
+            TRprocessImp.ProcessAdminSignalTrading(this);
+            getAccountProcessImp().ProcessAdminAccount(this);  
             
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
-            //10 Sec * 5 ~ 1 minutes
             TRprocessImp.UpdateAllStock(this);
             TRprocessImp.ProcessAdminSignalTrading(this);
             getAccountProcessImp().ProcessAdminAccount(this);             
