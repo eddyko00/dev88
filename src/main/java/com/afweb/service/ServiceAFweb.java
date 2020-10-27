@@ -600,35 +600,30 @@ public class ServiceAFweb {
         }
 
         //2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
-        if ((getServerObj().getProcessTimerCnt() % 23) == 0) {
+        if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
             // add or remove stock in Mutual fund account based on all stocks in the system
-
-        } else if ((getServerObj().getProcessTimerCnt() % 13) == 0) {
+            System.gc();            
+            TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessFundAccount(this);
-            return;
-
-        } else if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
-            TRprocessImp.UpdateAllStock(this);
-            getAccountProcessImp().ProcessSystemMaintance(this);
-
+            
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-            System.gc();
             TRprocessImp.UpdateAllStock(this);
-            getAccountProcessImp().ProcessAdminAccount(this);
-
+            
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
             //10 Sec * 5 ~ 1 minutes
             TRprocessImp.UpdateAllStock(this);
             TRprocessImp.ProcessAdminSignalTrading(this);
+            getAccountProcessImp().ProcessAdminAccount(this);             
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            getAccountProcessImp().ProcessAdminAccount(this);            
 
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
 
         } else {
-//            TRprocessImp.UpdateAllStock(this);
+
         }
     }
 
