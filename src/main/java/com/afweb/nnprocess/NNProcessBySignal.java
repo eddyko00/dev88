@@ -106,6 +106,8 @@ public class NNProcessBySignal {
         ////////////////////////////////////////////
         boolean flagIntitNN1Input = false;
         if (flagIntitNN1Input == true) {
+            
+            TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> flagIntitNN1Input TR NN1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
@@ -891,7 +893,7 @@ public class NNProcessBySignal {
                     if (symbolArray.length >= 0) {
 
                         String symbol = symbolArray[0];
-                        
+
                         int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
 
                         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -1021,9 +1023,11 @@ public class NNProcessBySignal {
                 ArrayList<NNInputDataObj> inputlistSym2 = new ArrayList();
 
                 /// just for testing
-                inputlistSym1 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
-                inputlistSym2 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN2, 0);
-
+                boolean flag = true;
+                if (flag == true) {
+                    inputlistSym1 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
+                    inputlistSym2 = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN2, 0);
+                }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
 
@@ -1073,16 +1077,15 @@ public class NNProcessBySignal {
                             continue;
                         }
                         totalDup++;
-                        boolean flag = false;
-                        if (flag == true) {
-                            if (CKey.NN_DEBUG == true) {
-                                logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
-                            }
+
+                        if (CKey.NN_DEBUG == true) {
+                            logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
                         }
+
                     }
                 }
 
-                String refName ="";
+                String refName = "";
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj0 != null) {
                     String stWeight0 = nnObj0.getWeight();
@@ -1102,7 +1105,7 @@ public class NNProcessBySignal {
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
                             refName = nnObj0.getRefname();
-                        } else {                            
+                        } else {
                             logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                         }
                     }
@@ -1111,11 +1114,15 @@ public class NNProcessBySignal {
                 }
 
                 String weightSt = nnTemp.getNetObjSt();
-                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);                
-                serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
-                if (refName.length()> 0) {
+                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
+
+                if (refName.length() > 0) {
+                    // just for testing
+//                    refName = "" + CKey.NN1_ERROR_THRESHOLD;
                     logger.info("> inputStockNeuralNet  " + BPnameSym + " refError " + refName);
+                    serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
                 }
+
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
 
@@ -1153,7 +1160,7 @@ public class NNProcessBySignal {
                 if (refName.length() > 0) {
                     try {
                         double refError = Double.parseDouble(refName);
-                        errorNN = refError+0.0001;
+                        errorNN = refError + 0.0001;
                         logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
                     } catch (Exception ex) {
 

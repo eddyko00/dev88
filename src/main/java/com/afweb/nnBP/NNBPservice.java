@@ -9,6 +9,7 @@
 package com.afweb.nnBP;
 
 import com.afweb.service.ServiceAFweb;
+import com.afweb.signal.TrandingSignalProcess;
 import com.afweb.util.CKey;
 import com.afweb.util.FileUtil;
 import com.afweb.util.TimeConvertion;
@@ -159,23 +160,19 @@ public class NNBPservice {
         long currentTime = System.currentTimeMillis();
         int Min4 = 4;
         if (getEnv.checkLocalPC() == true) {
-            Min4 = 10;
-        }
-        if (CKey.NN_DEBUG == true) {
             Min4 = 40;
-            numberIteration = 100000;
         }
 
         long lockDate4Min = TimeConvertion.addMinutes(currentTime, Min4);
         double minError = 100;
 
-        int i = 0;
+        int k = 0;
         try {
 
-            for (i = 0; i < numberIteration; i++) {
+            for (int i = 0; i < numberIteration; i++) {
                 totalError = 0;
                 int learnLenght = inputptr.length;
-
+                k++;
                 for (int j = 0; j < inputptr.length; j++) {
                     input = inputptr[j];
                     output = outputptr[j];
@@ -190,6 +187,7 @@ public class NNBPservice {
                     }
                     rsp = rspptr[j];
                     if (BPnet.Learn(input, output, rsp) == false) {
+                        logger.info("> learn  error...");
                         return totalError;
                     }
                     totalError += BPnet.netError;
@@ -202,7 +200,7 @@ public class NNBPservice {
 
                 if (i % 4000 == 0) { //4000 == 0) {
                     if (CKey.NN_DEBUG == true) {
-                        System.out.println(i + " " + name + "  threshold=" + errorIteration + "  Error=" + totalError);
+                        System.out.println(k + " " + name + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
                     }
                 }
                 if (delaySecond != 0) {
@@ -225,9 +223,9 @@ public class NNBPservice {
         } catch (Exception ex) {
             logger.info("> learn  " + ex);
         }
-        if (numberIteration > 1000) {
-            logger.info("> learn  " + i + " " + name + "  threshold=" + errorIteration + "  Error=" + totalError);
-        }
+
+        logger.info("> learn  exit " + k + " " + name + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
+
         return minError;
 //        return totalError;
     }

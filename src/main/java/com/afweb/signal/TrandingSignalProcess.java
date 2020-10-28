@@ -2349,6 +2349,7 @@ public class TrandingSignalProcess {
         return 0;
     }
 
+    public static boolean forceToInitleaningNewNN = false;
     public static boolean forceToGenerateNewNN = false;
     public static boolean forceToErrorNewNN = false;
 
@@ -2450,7 +2451,11 @@ public class TrandingSignalProcess {
         }
 
         String nNetName = afNeuralNet.getName();
-        int repeatSize = 100000;
+        int repeatSize = 50000;
+
+        if (TrandingSignalProcess.forceToInitleaningNewNN == true) {
+            repeatSize = 100000;
+        }
 
         double errorReturn = 1;
 

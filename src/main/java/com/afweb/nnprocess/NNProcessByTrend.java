@@ -41,6 +41,8 @@ public class NNProcessByTrend {
         ////////////////////////////////////////////
         boolean flagIntitNN3Input = false;
         if (flagIntitNN3Input == true) {
+
+            TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> flagIntitNN3Input TR NN1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
@@ -899,14 +901,14 @@ public class NNProcessByTrend {
                     }
                 }
 
-                String refName="";
+                String refName = "";
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj0 != null) {
                     String stWeight0 = nnObj0.getWeight();
 
                     if (stWeight0.length() > 0) {
                         refName = nnObj0.getRefname();
-                        
+
                         String[] strNetArraySym = stWeight0.split(";");
                         String versionSym = strNetArraySym[0];
                         String middlelayerSym = strNetArraySym[4];
@@ -932,7 +934,7 @@ public class NNProcessByTrend {
 //                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPnameSym, refname, weightSt);
 
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
-                if (refName.length()> 0) {
+                if (refName.length() > 0) {
                     serviceAFWeb.getStockImp().updateNeuralNetRef1(nnName, refName);
                 }
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
@@ -992,7 +994,7 @@ public class NNProcessByTrend {
                     }
                     if (sym.equals("RY.TO")) {
                         continue;
-                    }                    
+                    }
                     if (subSymbol.equals(sym)) {
                         continue;
                     }
