@@ -2891,6 +2891,9 @@ public class TrandingSignalProcess {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
         shareTmp += 0.5;
+        if (shareTmp == 0) {
+            shareTmp = 1;
+        }
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 
@@ -2981,6 +2984,9 @@ public class TrandingSignalProcess {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
         shareTmp += 0.5;
+        if (shareTmp == 0) {
+            shareTmp = 1;
+        }
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 

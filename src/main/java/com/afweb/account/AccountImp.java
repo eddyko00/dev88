@@ -488,12 +488,12 @@ public class AccountImp {
         if (tr == null) {
             return 0;
         }
-        
-        boolean TRlinkflag =false;
+
+        boolean TRlinkflag = false;
         if (TRlinkflag == true) {
             tr.setLinktradingruleid(ConstantKey.INT_TR_NN1);
         }
-        
+
         if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
             return accountdb.getAccountStockClrTranByAccountID(accountObj.getId() + "", stockID + "", tr);
         }
@@ -577,7 +577,7 @@ public class AccountImp {
                     //default to MACD
 //                    tr.setLinktradingruleid(ConstantKey.INT_TR_MACD);
 //                    tr.setLinktradingruleid(ConstantKey.INT_TR_NN2);
-                    tr.setLinktradingruleid(ConstantKey.INT_TR_NN1);                    
+                    tr.setLinktradingruleid(ConstantKey.INT_TR_NN1);
                 }
                 accountdb.addAccountStock(accountObj.getId(), StockID, tr);
             }
@@ -798,6 +798,9 @@ public class AccountImp {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
         shareTmp += 0.5;
+        if (shareTmp == 0) {
+            shareTmp = 1;
+        }
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 
@@ -881,7 +884,10 @@ public class AccountImp {
     private int TransactionOrderLONG_BUY(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
-        shareTmp += 0.5;        
+        shareTmp += 0.5;
+        if (shareTmp == 0) {
+            shareTmp = 1;
+        }
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 
