@@ -171,13 +171,13 @@ public class ProcessNN3 {
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-                                    logger.info("> updateAdminTR nn3 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
+//                                    logger.info("> updateAdminTR nn3 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     nnSignal = macdSignal;
                                 } else {
 
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
-                                        logger.info("> updateAdminTR nn3 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
+//                                        logger.info("> updateAdminTR nn3 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = macdSignal;
                                     }
                                 }
@@ -193,7 +193,7 @@ public class ProcessNN3 {
 
                     if (nnSignal != trendSignal) {
                         if (CKey.NN_DEBUG == true) {
-                            logger.info("> updateAdminTR nn3 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
+//                            logger.info("> updateAdminTR nn3 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
                         }
                     }
                     nnSignal = trendSignal;

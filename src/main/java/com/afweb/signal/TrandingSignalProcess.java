@@ -1069,7 +1069,7 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
-                    boolean nn3Flag = true;
+                    boolean nn3Flag = false;
                     if (nn3Flag == true) {
 
                         ProcessNN3 nn3 = new ProcessNN3();
@@ -1181,7 +1181,7 @@ public class TrandingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
-                    boolean nn3Flag = true;
+                    boolean nn3Flag = false;
                     if (nn3Flag == true) {
                         ProcessNN3 nn3 = new ProcessNN3();
                         NNObj nn = nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
@@ -2496,61 +2496,64 @@ public class TrandingSignalProcess {
                 logger.info("> TrainingNNBP override new error " + name + " " + errorReturn);
 
             }
+            if (getEnv.checkLocalPC() == true) {
+                if (CKey.NN_DEBUG == true) {
+                    AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+                    if (nnObj0 != null) {
+                        String weightSt0 = nnObj0.getWeight();
+                        if (weightSt0.length() > 0) {
+                            NNBPservice nn0 = new NNBPservice();
+                            nn0.createNet(weightSt0);
+                            errorReturn = nn0.predictTest(inputpattern, targetpattern, response, nnError);
 
-            AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
-            if (nnObj0 != null) {
-                String weightSt0 = nnObj0.getWeight();
-                if (weightSt0.length() > 0) {
-                    NNBPservice nn0 = new NNBPservice();
-                    nn0.createNet(weightSt0);
-                    errorReturn = nn0.predictTest(inputpattern, targetpattern, response, nnError);
+                            double[] input;
+                            double[] output;
+                            double[] rsp;
+                            ArrayList writeArray = new ArrayList();
+                            int numErr = 0;
+                            for (int j = 0; j < inputpattern.length; j++) {
+                                input = inputpattern[j];
+                                output = targetpattern[j];
+                                rsp = response[j];
+                                if (j == 0) {
 
-                    double[] input;
-                    double[] output;
-                    double[] rsp;
-                    ArrayList writeArray = new ArrayList();
-                    for (int j = 0; j < inputpattern.length; j++) {
-                        input = inputpattern[j];
-                        output = targetpattern[j];
-                        rsp = response[j];
-                        if (j == 0) {
+                                    String stTitle = "" + "output0"
+                                            + "," + "output1"
+                                            + "," + "macd TSig"
+                                            + "," + "LTerm"
+                                            + "," + "ema2050" + "," + "macd" + "," + "rsi"
+                                            + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
+                                            + "," + "predict0" + "," + "predict1" + "";
+                                    writeArray.add(stTitle);
+                                }
 
-                            String stTitle = "" + "output0"
-                                    + "," + "output1"
-                                    + "," + "macd TSig"
-                                    + "," + "LTerm"
-                                    + "," + "ema2050" + "," + "macd" + "," + "rsi"
-                                    + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
-                                    + "," + "predict0" + "," + "predict1" + "";
-                            writeArray.add(stTitle);
-                        }
+                                String st = "";
 
-                        String st = "";
+                                st = "" + output[0]
+                                        + "," + output[1]
+                                        + "," + input[0] + "," + input[1] + "," + input[2]
+                                        + "," + input[3] + "," + input[4] + "," + input[5]
+                                        + "," + input[6] + "," + input[7]
+                                        + "," + input[8] + "," + input[9]
+                                        + "," + rsp[0] + "," + rsp[1]
+                                        + "";
+                                float delta = (float) (output[0] - rsp[0]);
+                                delta = Math.abs(delta);
+                                float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
 
-                        st = "" + output[0]
-                                + "," + output[1]
-                                + "," + input[0] + "," + input[1] + "," + input[2]
-                                + "," + input[3] + "," + input[4] + "," + input[5]
-                                + "," + input[6] + "," + input[7]
-                                + "," + input[8] + "," + input[9]
-                                + "," + rsp[0] + "," + rsp[1]
-                                + "";
-                        float delta = (float) (output[0] - rsp[0]);
-                        delta = Math.abs(delta);
-                        float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
+                                if (delta > deltaCmp) {
+                                    st += "," + delta + "";
+                                    numErr++;
+                                }
 
-                        if (delta > deltaCmp) {
-                            st += "," + delta + "";
-                        }
+                                writeArray.add(st);
+                            }
 
-                        writeArray.add(st);
-                    }
-                    if (getEnv.checkLocalPC() == true) {
-                        if (CKey.NN_DEBUG == true) {
                             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
 
                             StringBuffer msg = new StringBuffer(weightSt0);
                             FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight0.txt", msg);
+                            logger.info("> predictTest numErr " + numErr);
                         }
                     }
                 }
@@ -2575,6 +2578,7 @@ public class TrandingSignalProcess {
                         double[] output;
                         double[] rsp;
                         ArrayList writeArray = new ArrayList();
+                        int numErr = 0;
                         for (int j = 0; j < inputpattern.length; j++) {
                             input = inputpattern[j];
                             output = targetpattern[j];
@@ -2607,11 +2611,13 @@ public class TrandingSignalProcess {
 
                             if (delta > deltaCmp) {
                                 st += "," + delta + "";
+                                numErr++;
                             }
 
                             writeArray.add(st);
                         }
                         FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
+                        logger.info("> predictTest numErr " + numErr);
                     }
                 }
             }
