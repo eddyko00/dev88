@@ -1686,6 +1686,8 @@ public class TradingNNprocess {
             inputDatalist.add(objDataPrev);
 
         }
+        /// adding extra in betreen signal in case buy and sell is large > 10 day. 
+        //  so, just add day 5 as extra signal
          if (CKey.SPECIAL1_VOL == true) {
             ArrayList<NNInputDataObj> inputRetDatalist = new ArrayList<NNInputDataObj>();
             if (inputDatalist != null) {
@@ -1734,7 +1736,7 @@ public class TradingNNprocess {
                                 inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
                                 inputDaObj.setObj(inputList);
                                 inputRetDatalist.add(inputDaObj);
-                                logger.info("> getAccountStockTR MACD NN1 add " + inputDaObj.getObj().getDateSt());
+//                                logger.info("> getAccountStockTR MACD NN1 add " + inputDaObj.getObj().getDateSt());
 
                             }
                         }
