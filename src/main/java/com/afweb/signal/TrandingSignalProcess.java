@@ -2558,7 +2558,7 @@ public class TrandingSignalProcess {
 
                             StringBuffer msg = new StringBuffer(weightSt0);
                             FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight0.txt", msg);
-                            logger.info("> predictTest numErr " + numErr);
+                            logger.info("> predictTest release numErr " + numErr);
                         }
                     }
                 }

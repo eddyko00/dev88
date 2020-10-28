@@ -1106,6 +1106,7 @@ public class NNProcessBySignal {
                             nnTemp.createNet(stWeight0);
                             refName = nnObj0.getRefname();
                         } else {
+                            
                             logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                         }
                     }
