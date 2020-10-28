@@ -797,6 +797,7 @@ public class AccountImp {
     private int TransactionOrderSHORT_SELL(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
+        shareTmp += 0.5;
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 
@@ -880,6 +881,7 @@ public class AccountImp {
     private int TransactionOrderLONG_BUY(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
+        shareTmp += 0.5;        
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 

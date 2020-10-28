@@ -2620,142 +2620,6 @@ public class TrandingSignalProcess {
 
     }
 
-//    public void TrainingNN(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
-//        double[][] inputpattern = null;
-//        double[] targetpattern = null;
-//        double[] response = null;
-//        NeuralNetwork nn = null;
-//
-//        if (nnTraining == null) {
-//            return;
-//        }
-//
-//        String name = nnTraining.getNameNN();
-//        if (name == null) {
-//            return;
-//        }
-//
-//        nn = new NeuralNetwork();
-//        nn.create(7, 8, 1);
-//
-//        inputpattern = nnTraining.getInputpattern();
-//        targetpattern = nnTraining.getTargetpattern();
-//
-//        nn.setInput(inputpattern);
-//        nn.setTarget(targetpattern);
-//
-//        response = new double[targetpattern.length];
-//
-//        double nnError = 0.00001;
-//        for (int i = 0; i < 100; i++) {
-//            double errorReturn = nn.learn(inputpattern, targetpattern, response, 1000000, nnError);
-//        }
-//    }
-//
-//    public void testxor(String name) {
-//
-//        double[][] inputpattern = null;
-//        double[] targetpattern = null;
-//        double[] response = null;
-//
-//        NeuralNetwork nn = null;
-//
-//        AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
-//        if (afNeuralNet != null) {
-//            String weightSt = afNeuralNet.getWeight();
-//            if (weightSt.length() > 0) {
-//                nn = new NeuralNetwork();
-//                nn.createNeuralNetbyWeight(weightSt);
-//
-//                inputpattern = nn.getInput();
-//                targetpattern = nn.getTarget();
-//            } else {
-//                Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//                long currentdate = dateNow.getTimeInMillis();
-//                long lastupdate1 = afNeuralNet.getUpdatedatel();
-//                long lastUpdateNextDay = TimeConvertion.addDays(lastupdate1, 2); // 1 days
-//                if (lastUpdateNextDay > currentdate) {
-//                    return;
-//                }
-//            }
-//        } else {
-//            //Get again
-//
-//            afNeuralNet = new AFneuralNet();
-//            afNeuralNet.setName(name);
-//            afNeuralNet.setStatus(ConstantKey.OPEN);
-//            afNeuralNet.setType(0);
-//            Calendar dateDefault = TimeConvertion.getDefaultCalendar();
-//            afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
-//            afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-//            afNeuralNet.setWeight("");
-//            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
-//        }
-//
-//        if (nn == null) {
-//            nn = new NeuralNetwork();
-//            nn.create(2, 2, 1);
-//
-//            inputpattern = new double[4][2];
-//
-//            inputpattern[0][0] = 0.1;
-//            inputpattern[0][1] = 0.1;
-//
-//            inputpattern[1][0] = 0.1;
-//            inputpattern[1][1] = 0.9;
-//
-//            inputpattern[2][0] = 0.9;
-//            inputpattern[2][1] = 0.1;
-//
-//            inputpattern[3][0] = 0.9;
-//            inputpattern[3][1] = 0.9;
-//
-//            targetpattern = new double[4];
-//
-//            targetpattern[0] = 0.1;
-//            targetpattern[1] = 0.9;
-//            targetpattern[2] = 0.9;
-//            targetpattern[3] = 0.1;
-//
-//            nn.setInput(inputpattern);
-//            nn.setTarget(targetpattern);
-//        }
-//        response = new double[targetpattern.length];
-//
-//        double nnError = 0.00001;
-//        double errorReturn = nn.learn(inputpattern, targetpattern, response, 1000000, nnError);
-//
-//        String weightSt = nn.getNeuralNetObjSt();
-//        afNeuralNet.setWeight(weightSt);
-//        afNeuralNet.setType(afNeuralNet.getType() + 1);
-//        serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
-//
-//        if (errorReturn < nnError) {
-//            serviceAFWeb.releaseNeuralNetObj(name);
-//        }
-//        double[] input = new double[2];
-//        input[0] = 0.1;
-//        input[1] = 0.1;
-//
-//        nn.predict(input, response);
-//        logger.info("> ProcessNeuralNet predict 0.1 0.1 output=" + response[0]);
-//
-//        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight0("xor", 0);
-//        if (nnObj1 != null) {
-//            String weightSt1 = nnObj1.getWeight();
-//            if (weightSt1.length() > 0) {
-//                NeuralNetwork nn1 = new NeuralNetwork();
-//                nn1.createNeuralNetbyWeight(weightSt1);
-//                input[0] = 0.1;
-//                input[1] = 0.9;
-//
-//                nn1.predict(input, response);
-//                logger.info("> ProcessNeuralNet predict 0.1 0.9 output=" + response[0]);
-//
-//            }
-//        }
-//
-//    }
     //////////////////////////////////////// transaction order
     public int AddTransactionOrderWithComm(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate, boolean fromSystem) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -3020,6 +2884,7 @@ public class TrandingSignalProcess {
     private int TransactionOrderSHORT_SELL(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
+        shareTmp += 0.5;
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 
@@ -3109,6 +2974,7 @@ public class TrandingSignalProcess {
     private int TransactionOrderLONG_BUY(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
+        shareTmp += 0.5;
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 
