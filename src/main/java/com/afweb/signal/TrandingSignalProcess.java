@@ -2459,10 +2459,10 @@ public class TrandingSignalProcess {
 
         double errorReturn = 1;
 
-        /// exit when tried repeatSize without reaching the error threshold
-        if (afNeuralNet.getType() > 1) {
-            nnError = 1;
-        }
+//        /// exit when tried repeatSize without reaching the error threshold
+//        if (afNeuralNet.getType() > 1) {
+//            nnError = 1;
+//        }
 
         logger.info("> TrainingNNBP inputpattern " + inputpattern.length);
         errorReturn = nn.learn(nNetName, inputpattern, targetpattern, response, repeatSize, nnError);
@@ -2490,6 +2490,13 @@ public class TrandingSignalProcess {
             }
         }
         int retFlag = 0;
+
+        if (errorReturn > nnError) {
+            /// force to release if type =2;
+            if (afNeuralNet.getType() > 1) {
+                nnError = 1;
+            }
+        }
         if (errorReturn < nnError) {
 
             retFlag = 1;
