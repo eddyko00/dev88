@@ -777,6 +777,7 @@ public class ServiceAFweb {
             this.getStockImp().deleteNeuralNetDataTable();
         }
 
+        /// reset NN1 NN2 transaction and graph
         boolean flagSignal = false;
         if (flagSignal == true) {
             //
