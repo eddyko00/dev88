@@ -2463,7 +2463,6 @@ public class TrandingSignalProcess {
 //        if (afNeuralNet.getType() > 1) {
 //            nnError = 1;
 //        }
-
         logger.info("> TrainingNNBP inputpattern " + inputpattern.length);
         errorReturn = nn.learn(nNetName, inputpattern, targetpattern, response, repeatSize, nnError);
 
@@ -2522,7 +2521,8 @@ public class TrandingSignalProcess {
                             double[] output;
                             double[] rsp;
                             ArrayList writeArray = new ArrayList();
-                            int numErr = 0;
+                            int num0Err = 0;
+                            int num1Err = 0;
                             for (int j = 0; j < inputpattern.length; j++) {
                                 input = inputpattern[j];
                                 output = targetpattern[j];
@@ -2555,9 +2555,15 @@ public class TrandingSignalProcess {
 
                                 if (delta > deltaCmp) {
                                     st += "," + delta + "";
-                                    numErr++;
+                                    num0Err++;
                                 }
+                                float delta1 = (float) (output[1] - rsp[1]);
+                                delta1 = Math.abs(delta1);
 
+                                if (delta1 > deltaCmp) {
+                                    st += "," + delta1 + "";
+                                    num1Err++;
+                                }
                                 writeArray.add(st);
                             }
 
@@ -2565,7 +2571,7 @@ public class TrandingSignalProcess {
 
                             StringBuffer msg = new StringBuffer(weightSt0);
                             FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight0.txt", msg);
-                            logger.info("> predictTest release numErr " + numErr);
+                            logger.info("> predictTest release num0Err=" + num0Err + " num1Err=" + num1Err);
                         }
                     }
                 }

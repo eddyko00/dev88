@@ -1933,7 +1933,7 @@ public class TradingNNprocess {
                                 inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
                                 inputDaObj.setObj(inputList);
                                 inputRetDatalist.add(inputDaObj);
-                                logger.info("> getAccountStockTR MACD NN3 add " + inputDaObj.getObj().getDateSt());
+//                                logger.info("> getAccountStockTR MACD NN3 add " + inputDaObj.getObj().getDateSt());
 
                             }
                         }
