@@ -1079,7 +1079,7 @@ public class NNProcessBySignal {
                         totalDup++;
 
                         if (CKey.NN_DEBUG == true) {
-                            logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
+//                            logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
                         }
 
                     }

@@ -895,7 +895,7 @@ public class NNProcessByTrend {
                         boolean flag = false;
                         if (flag == true) {
                             if (CKey.NN_DEBUG == true) {
-                                logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
+//                                logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
                             }
                         }
                     }

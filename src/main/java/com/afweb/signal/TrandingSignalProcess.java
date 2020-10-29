@@ -2576,6 +2576,7 @@ public class TrandingSignalProcess {
                     }
                 }
             }
+            return retFlag;
         } // training completed and release the NN
 
         if (nnError == 0) {
@@ -2596,46 +2597,30 @@ public class TrandingSignalProcess {
                         double[] output;
                         double[] rsp;
                         ArrayList writeArray = new ArrayList();
-                        int numErr = 0;
+                        int num0Err = 0;
+                        int num1Err = 0;
                         for (int j = 0; j < inputpattern.length; j++) {
                             input = inputpattern[j];
                             output = targetpattern[j];
                             rsp = response[j];
-                            if (j == 0) {
 
-                                String stTitle = "" + "output0"
-                                        + "," + "output1"
-                                        + "," + "macd TSig"
-                                        + "," + "LTerm"
-                                        + "," + "ema2050" + "," + "macd" + "," + "rsi"
-                                        + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
-                                        + "," + "predict0" + "," + "predict1" + "";
-
-                                writeArray.add(stTitle);
-                            }
-                            String st = "";
-
-                            st = "" + output[0]
-                                    + "," + output[1]
-                                    + "," + input[0] + "," + input[1] + "," + input[2]
-                                    + "," + input[3] + "," + input[4] + "," + input[5]
-                                    + "," + input[6] + "," + input[7]
-                                    + "," + input[8] + "," + input[9]
-                                    + "," + rsp[0] + "," + rsp[1]
-                                    + "";
                             float delta = (float) (output[0] - rsp[0]);
                             delta = Math.abs(delta);
                             float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
 
                             if (delta > deltaCmp) {
-                                st += "," + delta + "";
-                                numErr++;
-                            }
 
-                            writeArray.add(st);
+                                num0Err++;
+                            }
+                            float delta1 = (float) (output[1] - rsp[1]);
+                            delta1 = Math.abs(delta1);
+
+                            if (delta1 > deltaCmp) {
+
+                                num1Err++;
+                            }
                         }
-                        FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
-                        logger.info("> predictTest numErr " + numErr);
+                        logger.info("> predictTest nnObj1 num0Err=" + num0Err + " num1Err=" + num1Err);
                     }
                 }
             }
