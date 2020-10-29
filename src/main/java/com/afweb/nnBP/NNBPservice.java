@@ -143,7 +143,6 @@ public class NNBPservice {
         return totalError;
 
     }
-    public static long delaySecond = 0;
 
     // exit after 3 minutes
     public double learn(String name, double[][] inputptr, double[][] outputptr,
@@ -203,11 +202,13 @@ public class NNBPservice {
                         System.out.println(k + " " + name + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
                     }
                 }
-                if (delaySecond != 0) {
+
+                if (getEnv.checkLocalPC() == false) {
                     if (i % 50 == 0) {
                         ServiceAFweb.AFSleep();
                     }
                 }
+
                 if (i % 1000 == 0) {
                     // 0.001 limit
                     if (totalError < errorIteration) {
