@@ -29,6 +29,8 @@ public class NNBPservice {
     public static long randseed = 568731;
     protected static Logger logger = Logger.getLogger("NeuralUtil");
 
+    public double minError = 100;  // save for the caller
+
     public static double getRandom() {
         int randvalue;
         randseed = 15625L * randseed + 22221L;
@@ -163,7 +165,7 @@ public class NNBPservice {
         }
 
         long lockDate4Min = TimeConvertion.addMinutes(currentTime, Min4);
-        double minError = 100;
+        minError = 100;
 
         int k = 0;
         try {
@@ -227,8 +229,8 @@ public class NNBPservice {
 
         logger.info("> learn  exit " + k + " " + name + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
 
-        return minError;
-//        return totalError;
+//        return minError;
+        return totalError;
     }
 
     public String getNetObjSt() {

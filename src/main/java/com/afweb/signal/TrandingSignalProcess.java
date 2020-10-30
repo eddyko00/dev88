@@ -2465,7 +2465,8 @@ public class TrandingSignalProcess {
 //        }
         logger.info("> TrainingNNBP inputpattern " + inputpattern.length);
         errorReturn = nn.learn(nNetName, inputpattern, targetpattern, response, repeatSize, nnError);
-
+        double minError = nn.minError;
+        
         String weightSt1 = nn.getNetObjSt();
         //Weight too large when save. So, alway empty
         //Weight too large when save. So, alway empty
@@ -2503,8 +2504,8 @@ public class TrandingSignalProcess {
             serviceAFWeb.releaseNeuralNetObj(name);
 
             if (nnError == 1) {
-                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, errorReturn + "");
-                logger.info("> TrainingNNBP override new error " + name + " " + errorReturn);
+                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, minError + "");
+                logger.info("> TrainingNNBP override new minError " + name + " " + minError);
 
             }
             if (getEnv.checkLocalPC() == true) {
