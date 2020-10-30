@@ -1189,7 +1189,7 @@ public class ServiceAFweb {
     }
 
 //////////////////////////////////////////////////
-    public static void AFSleepSec(int sec) {
+    public static void AFSleep1Sec(int sec) {
         // delay seems causing openshif not working        
 //        if (true) {
 //            return;

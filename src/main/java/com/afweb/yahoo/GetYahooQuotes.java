@@ -382,7 +382,7 @@ public class GetYahooQuotes {
         ///// some issue in the weekend get error essage
         // <!doctype html public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
         ///// some issue in the weekend get error essage
-        ServiceAFweb.AFSleepSec(5);
+        ServiceAFweb.AFSleep1Sec(5);
         ///// some issue in the weekend get error essage
         ///// some issue in the weekend get error essage
         
@@ -398,7 +398,7 @@ public class GetYahooQuotes {
         }
         ///// some issue in the weekend get error essage
         ///// some issue in the weekend get error essage
-        ServiceAFweb.AFSleepSec(5);        
+        ServiceAFweb.AFSleep1Sec(5);        
         ///// some issue in the weekend get error essage
         ///// some issue in the weekend get error essage
         String url = String.format("https://query1.finance.yahoo.com/v7/finance/download/%s?period1=%s&period2=%s&interval=1d&events=history&crumb=%s", symbol, startDate, endDate, crumb);

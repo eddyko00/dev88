@@ -1,5 +1,6 @@
 package com.example.herokudemo;
 
+import com.afweb.service.Javamain;
 import com.afweb.util.CKey;
 import com.afweb.util.getEnv;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +17,19 @@ public class HerokuDemoApplication {
     private static RESTtimer restTimer = new RESTtimer();
 
     public static void main(String[] args) {
-        SpringApplication.run(HerokuDemoApplication.class, args);
+        boolean webapp = true;
+        if (args.length > 0) {
+            String cmd = args[0];
+            if (cmd.indexOf("javamain") != -1) {
+                webapp = false;
+            }
+        }
+        if (webapp == true) {
+            SpringApplication.run(HerokuDemoApplication.class, args);
+        } else {
+            Javamain.javamain(args);
+        }        
+
     }
     public static int timerSchCnt = 0;
     public static boolean init = false;
