@@ -16,7 +16,7 @@ public class javamain {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void javamain(String[] args) {
         // TODO code application logic here
         ServiceAFweb srv = new ServiceAFweb();
    
