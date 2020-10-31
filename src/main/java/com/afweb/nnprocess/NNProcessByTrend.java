@@ -34,12 +34,9 @@ public class NNProcessByTrend {
 
     public static Logger logger = Logger.getLogger("NNProcessStock");
 
-    public void processNeuralNetStPred(ServiceAFweb serviceAFWeb) {
-
-        TrandingSignalProcess.forceToGenerateNewNN = false;
+    public void processInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
-        ////////////////////////////////////////////
-        boolean flagIntitNN3Input = false;
+        boolean flagIntitNN3Input = true;
         if (flagIntitNN3Input == true) {
 
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning
@@ -68,6 +65,12 @@ public class NNProcessByTrend {
 
         }
 
+        ////////////////////////////////////////////
+    }
+
+    public void processNeuralNetStPred(ServiceAFweb serviceAFWeb) {
+
+        TrandingSignalProcess.forceToGenerateNewNN = false;
         ////////////////////////////////////////////
         ////////////////////////////////////////////
 ////////////////////////////////////////////////////

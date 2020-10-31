@@ -487,12 +487,7 @@ public class ServiceAFweb {
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
-                    NNProcessBySignal nnProcBySig = new NNProcessBySignal();
-                    nnProcBySig.processNeuralNet(this);
-                    NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
-                    nnStProcByTrend.processNeuralNetStPred(this);
-
-                    processDebug();
+                    AFprocessDebug();
 ///////////////////////////////////////////////////////////////////////////////////
                     logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
                 }
@@ -602,24 +597,24 @@ public class ServiceAFweb {
         //2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
         if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
             // add or remove stock in Mutual fund account based on all stocks in the system
-            System.gc();            
+            System.gc();
             TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessFundAccount(this);
-            
+
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);
 //            TRprocessImp.ProcessAdminSignalTrading(this);
-            getAccountProcessImp().ProcessAdminAccount(this);  
-            
+            getAccountProcessImp().ProcessAdminAccount(this);
+
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
             TRprocessImp.UpdateAllStock(this);
             TRprocessImp.ProcessAdminSignalTrading(this);
-            getAccountProcessImp().ProcessAdminAccount(this);             
+            getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            getAccountProcessImp().ProcessAdminAccount(this);            
+            getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
 
@@ -632,9 +627,25 @@ public class ServiceAFweb {
 
     public static boolean forceNNReadFileflag = false;
 
-    private void processDebug() {
+    private void AFprocessDebug() {
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+        NNProcessBySignal nnProcBySig = new NNProcessBySignal();
+
+        nnProcBySig.processNeuralNet(this);
+        nnStProcByTrend.processNeuralNetStPred(this);
+
+        boolean processinputTrainflag = false;
+        if (processinputTrainflag == true) {
+            nnProcBySig.processNeuralNetTrain(this);
+        }
+
+        boolean processinputflag = false;
+        if (processinputflag == true) {
+            nnProcBySig.processInputNeuralNet(this);
+            nnStProcByTrend.processInputNeuralNetTrend(this);
+        }
 
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work        

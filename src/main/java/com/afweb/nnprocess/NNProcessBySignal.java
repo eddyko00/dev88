@@ -36,14 +36,12 @@ public class NNProcessBySignal {
 
     public static Logger logger = Logger.getLogger("NNProcess");
 
-    public void processNeuralNet(ServiceAFweb serviceAFWeb) {
+    public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
 
         TrandingSignalProcess.forceToGenerateNewNN = false;
 
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-
-/////////////////////////////////////////////////////////////////////////////        
-        boolean flagNNLearning = false;
+        boolean flagNNLearning = true;
         if (flagNNLearning == true) {
             int k = 0;
             NNProcessByTrend nntrend = new NNProcessByTrend();
@@ -91,22 +89,13 @@ public class NNProcessBySignal {
             }
         }
 
-        boolean flagReLeanInput = false;
-        if (flagReLeanInput == true) {
-            logger.info("> ProcessReLeanInput NN 1 ");
-            ProcessReLeanInput(serviceAFWeb);
-            logger.info("> ProcessReLeanInput end... ");
-            logger.info("> SystemPocessFundMgr start... ");
-            serviceAFWeb.SystemPocessFundMgr();
-            logger.info("> SystemFundMgr start... ");
-            serviceAFWeb.SystemFundMgr();
-            logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
-        }
+    }
+
+    public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
-        ////////////////////////////////////////////
-        boolean flagIntitNN1Input = false;
+        boolean flagIntitNN1Input = true;
         if (flagIntitNN1Input == true) {
-            
+
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> flagIntitNN1Input TR NN1... ");
@@ -133,6 +122,23 @@ public class NNProcessBySignal {
 
         }
 
+        ////////////////////////////////////////////
+    }
+
+    public void processNeuralNet(ServiceAFweb serviceAFWeb) {
+
+/////////////////////////////////////////////////////////////////////////////        
+        boolean flagReLeanInput = false;
+        if (flagReLeanInput == true) {
+            logger.info("> ProcessReLeanInput NN 1 ");
+            ProcessReLeanInput(serviceAFWeb);
+            logger.info("> ProcessReLeanInput end... ");
+            logger.info("> SystemPocessFundMgr start... ");
+            serviceAFWeb.SystemPocessFundMgr();
+            logger.info("> SystemFundMgr start... ");
+            serviceAFWeb.SystemFundMgr();
+            logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
+        }
         ////////////////////////////////////////////
         ////////////////////////////////////////////
         boolean flagNeuralnetInput = false;
@@ -1106,7 +1112,7 @@ public class NNProcessBySignal {
                             nnTemp.createNet(stWeight0);
                             refName = nnObj0.getRefname();
                         } else {
-                            
+
                             logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
                         }
                     }
