@@ -226,9 +226,10 @@ public class NNBPservice {
             logger.info("> learn  " + ex);
         }
 
-        logger.info("> learn  exit " + k + " " + name + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
+//        logger.info("> learn  exit " + k + " " + name + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
+        logger.info("> learn  exit " + k + " " + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
 
-//        return minError;
+
         return totalError;
     }
 
