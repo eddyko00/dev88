@@ -647,6 +647,30 @@ public class ServiceAFweb {
             nnStProcByTrend.processInputNeuralNetTrend(this);
         }
 
+        /// reset NN1 NN2 transaction and graph
+        boolean flagSignal = false;
+        if (flagSignal == true) {
+            //
+            SystemClearNNtran();
+            //
+            for (int i = 0; i < 10; i++) {
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                logger.info("process ProcessAdminSignalTrading cycle " + i);
+
+            }
+        }
+
+        ///// only acc reset
+        boolean flagTran_TR_ACC = false;
+        if (flagTran_TR_ACC == true) {
+            SystemClearNNtranAllAcc();
+        }
+
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work        
         boolean flaginputStock = false;
@@ -762,12 +786,6 @@ public class ServiceAFweb {
             CKey.SEPARATE_STOCKINFO_DB = pervStockInfoDB;
         }
 
-        ///// only acc reset
-        boolean flagTran_TR_ACC = false;
-        if (flagTran_TR_ACC == true) {
-            SystemClearNNtranAllAcc();
-        }
-
         /////other macd, mv, nn1, nn2
         boolean flagTran_TR_OTHER = false;
         if (flagTran_TR_OTHER == true) {
@@ -786,24 +804,6 @@ public class ServiceAFweb {
         boolean flagClearNNdataTable = false;
         if (flagClearNNdataTable == true) {
             this.getStockImp().deleteNeuralNetDataTable();
-        }
-
-        /// reset NN1 NN2 transaction and graph
-        boolean flagSignal = false;
-        if (flagSignal == true) {
-            //
-            SystemClearNNtran();
-            //
-            for (int i = 0; i < 10; i++) {
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                logger.info("process ProcessAdminSignalTrading cycle " + i);
-
-            }
         }
 
         ///////////////////////////////////////////////////////////////////////////////////   
