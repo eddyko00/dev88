@@ -634,15 +634,26 @@ public class ServiceAFweb {
         NNProcessBySignal nnProcBySig = new NNProcessBySignal();
 
         nnProcBySig.processNeuralNet(this);
-        nnStProcByTrend.processNeuralNetStPred(this);
+        nnStProcByTrend.processNeuralNetTrendPred(this);
 
+///////////////////////////////////////////////////////////////////////////////        
+
+//        TrandingSignalProcess.forceToGenerateNewNN = false;
+//        // start training
+//        // TrainingNNBP inputpattern 1748
+//        nnStProcByTrend.NeuralNetProcessTesting(this);
+//        nnStProcByTrend.NeuralNetNN3CreatJava(this, ConstantKey.TR_NN3);
+
+        // Main training nn and trend
         boolean processinputTrainflag = false;
         if (processinputTrainflag == true) {
             nnProcBySig.processNeuralNetTrain(this);
         }
 
-        boolean processinputflag = false;
-        if (processinputflag == true) {
+        /// reset weight0 and use latest stock
+        /// remember to update nnData and nn3Data and version
+        boolean processRestinputflag = false;
+        if (processRestinputflag == true) {
             nnProcBySig.processInputNeuralNet(this);
             nnStProcByTrend.processInputNeuralNetTrend(this);
         }

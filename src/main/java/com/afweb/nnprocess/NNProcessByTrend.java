@@ -68,7 +68,7 @@ public class NNProcessByTrend {
         ////////////////////////////////////////////
     }
 
-    public void processNeuralNetStPred(ServiceAFweb serviceAFWeb) {
+    public void processNeuralNetTrendPred(ServiceAFweb serviceAFWeb) {
 
         TrandingSignalProcess.forceToGenerateNewNN = false;
         ////////////////////////////////////////////
@@ -167,7 +167,7 @@ public class NNProcessByTrend {
         ////////
     }
 
-    private void NeuralNetProcessTesting(ServiceAFweb serviceAFWeb) {
+    public void NeuralNetProcessTesting(ServiceAFweb serviceAFWeb) {
         ///////////////////////////////////////////////////////////////////////////////////
         // read new NN data
         serviceAFWeb.forceNNReadFileflag = true; // should be true to get it from file instead from db
@@ -520,7 +520,7 @@ public class NNProcessByTrend {
         return inputList;
     }
 
-    private boolean NeuralNetNN3CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+    public boolean NeuralNetNN3CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -920,17 +920,18 @@ public class NNProcessByTrend {
                         //just for testing
 //                        versionSym="";
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
-                            logger.info("> inputStockNeuralNetData create existing Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            logger.info("> inputStockNeuralNetData create existing Symbol ");
                             ///just for testing
                             nnTemp.createNet(stWeight0);
                         } else {
-                            logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            logger.info("> inputStockNeuralNetData create Static Base ");
                         }
                     }
                 } else {
-                    logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
-
+                    logger.info("> inputStockNeuralNetData create Static Base ");
                 }
+                logger.info("> inputStockNeuralNetData ver " + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+
                 String weightSt = nnTemp.getNetObjSt();
 //                
 //                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN3;

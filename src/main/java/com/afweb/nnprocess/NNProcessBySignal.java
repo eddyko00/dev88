@@ -72,20 +72,27 @@ public class NNProcessBySignal {
                 serviceAFWeb.SystemFundMgr();
                 logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
 
-                logger.info("> Waiting 1 hr........");
-                while (true) {
-                    currentTime = System.currentTimeMillis();
-                    if (lockDate1Hour < currentTime) {
-                        break;
-                    }
-                    // check every 10 minutes
-
-                    try {
-                        Thread.sleep(60 * 10 * 1000);
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
+                logger.info("> Waiting 2 min........");
+                try {
+                    Thread.sleep(2 * 60 * 1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
                 }
+
+//                logger.info("> Waiting 1 hr........");
+//                while (true) {
+//                    currentTime = System.currentTimeMillis();
+//                    if (lockDate1Hour < currentTime) {
+//                        break;
+//                    }
+//                    // check every 10 minutes
+//
+//                    try {
+//                        Thread.sleep(60 * 10 * 1000);
+//                    } catch (InterruptedException ex) {
+//                        Thread.currentThread().interrupt();
+//                    }
+//                }
             }
         }
 
@@ -402,53 +409,43 @@ public class NNProcessBySignal {
             int custId = 0;;
             String Name = TradingNNprocess.cfg_stockNNretrainNameArray;
             ArrayList stockNameArray = null;
-//
-//            serviceAFWeb.getAccountImp().removeCommByCustID(custId);
-//
-            ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(custId, Name);
-            if (commObjArry != null) {
-                if (commObjArry.size() > 0) {
-                    CommObj commObj = commObjArry.get(0);
-                    String stockNameArraySt = commObj.getData();
-                    try {
-                        stockNameArraySt = StringTag.replaceAll("^", "\"", stockNameArraySt);
-                        stockNameArray = new ObjectMapper().readValue(stockNameArraySt, ArrayList.class);
-                    } catch (Exception ex) {
-                    }
-                }
-            } else {
-                ArrayList stArray = new ArrayList();
-                String msg = "";
-                try {
-                    msg = new ObjectMapper().writeValueAsString(stArray);
-                } catch (JsonProcessingException ex) {
-                }
-                msg = StringTag.replaceAll("\"", "^", msg);
 
-                serviceAFWeb.getAccountImp().addCommByCustName(custId, Name, msg);
+            //// just for testing, always clear reset
+            boolean resetflag = true;
+            //// just for testing, always clear reset
+            if (resetflag == false) {
+
+                ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(custId, Name);
+
+                if (commObjArry != null) {
+                    if (commObjArry.size() > 0) {
+                        CommObj commObj = commObjArry.get(0);
+                        String stockNameArraySt = commObj.getData();
+                        try {
+                            stockNameArraySt = StringTag.replaceAll("^", "\"", stockNameArraySt);
+                            stockNameArray = new ObjectMapper().readValue(stockNameArraySt, ArrayList.class);
+                        } catch (Exception ex) {
+                        }
+                    }
+                } else {
+                    ArrayList stArray = new ArrayList();
+                    String msg = "";
+                    try {
+                        msg = new ObjectMapper().writeValueAsString(stArray);
+                    } catch (JsonProcessingException ex) {
+                    }
+                    msg = StringTag.replaceAll("\"", "^", msg);
+
+                    serviceAFWeb.getAccountImp().addCommByCustName(custId, Name, msg);
+                }
             }
+
             if ((stockNameArray == null) || (stockNameArray.size() == 0)) {
 
                 stockNameArray = trainNN.reLearnInputStockNNprocessNameArray(serviceAFWeb);
             }
             trainNN.setStockNNretrainNameArray(stockNameArray);
 
-//            //////////
-//            int cfgId = 0;;
-//            String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
-//            commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
-//            if (commObjArry != null) {
-//                CommObj commObj = commObjArry.get(0);
-//                String dataSt = "";
-//                try {
-//                    dataSt = new ObjectMapper().writeValueAsString(stockNameArray);
-//                } catch (JsonProcessingException ex) {
-//                }
-//                dataSt = StringTag.replaceAll("\"", "^", dataSt);
-//                commObj.setData(dataSt);
-//                serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
-//            }
-//            ////////////
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
 
@@ -1091,6 +1088,7 @@ public class NNProcessBySignal {
                     }
                 }
 
+             
                 String refName = "";
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj0 != null) {
@@ -1107,18 +1105,18 @@ public class NNProcessBySignal {
 //                        versionSym = "";
                         // just for testing
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
-                            logger.info("> inputStockNeuralNetData create existing Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            logger.info("> inputStockNeuralNetData create existing Symbol ");
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
                             refName = nnObj0.getRefname();
                         } else {
-
-                            logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                            logger.info("> inputStockNeuralNetData create Static Base ");
                         }
                     }
                 } else {
-                    logger.info("> inputStockNeuralNetData create Static Base " + nnName + " weight " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                    logger.info("> inputStockNeuralNetData create Static Base ");
                 }
+                logger.info("> inputStockNeuralNetData ver " + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);

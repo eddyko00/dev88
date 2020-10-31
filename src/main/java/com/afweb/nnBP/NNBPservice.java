@@ -9,7 +9,6 @@
 package com.afweb.nnBP;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.signal.TrandingSignalProcess;
 import com.afweb.util.CKey;
 import com.afweb.util.FileUtil;
 import com.afweb.util.TimeConvertion;
