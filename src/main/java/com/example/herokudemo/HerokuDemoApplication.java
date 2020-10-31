@@ -3,6 +3,7 @@ package com.example.herokudemo;
 import com.afweb.service.Javamain;
 import com.afweb.util.CKey;
 import com.afweb.util.getEnv;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,20 +16,17 @@ public class HerokuDemoApplication {
 
     private static AFwebService afWebService = new AFwebService();
     private static RESTtimer restTimer = new RESTtimer();
+    public static boolean webapp = true;
 
     public static void main(String[] args) {
-        boolean webapp = true;
+
         if (args.length > 0) {
             String cmd = args[0];
             if (cmd.indexOf("javamain") != -1) {
                 webapp = false;
             }
         }
-        if (webapp == true) {
-            SpringApplication.run(HerokuDemoApplication.class, args);
-        } else {
-            Javamain.javamain(args);
-        }        
+        SpringApplication.run(HerokuDemoApplication.class, args);
 
     }
     public static int timerSchCnt = 0;
@@ -42,7 +40,9 @@ public class HerokuDemoApplication {
         if (timerSchCnt < 0) {
             timerSchCnt = 100;
         }
-
+        if (webapp == true) {
+            Javamain.javamain(null);
+        }
         try {
             if (getEnv.checkLocalPC() == true) {
                 restTimer.RestTimerHandler();
