@@ -2466,7 +2466,7 @@ public class TrandingSignalProcess {
         logger.info("> TrainingNNBP inputpattern " + inputpattern.length);
         errorReturn = nn.learn(nNetName, inputpattern, targetpattern, response, repeatSize, nnError);
         double minError = nn.minError;
-        
+
         String weightSt1 = nn.getNetObjSt();
         //Weight too large when save. So, alway empty
         //Weight too large when save. So, alway empty
@@ -2522,6 +2522,8 @@ public class TrandingSignalProcess {
                             double[] output;
                             double[] rsp;
                             ArrayList writeArray = new ArrayList();
+                            int num0 = 0;
+                            int num1 = 0;
                             int num0Err = 0;
                             int num1Err = 0;
                             for (int j = 0; j < inputpattern.length; j++) {
@@ -2550,6 +2552,12 @@ public class TrandingSignalProcess {
                                         + "," + input[8] + "," + input[9]
                                         + "," + rsp[0] + "," + rsp[1]
                                         + "";
+                                if (output[0] > CKey.PREDICT_THRESHOLD) {
+                                    num0++;
+                                }
+                                if (output[0] > CKey.PREDICT_THRESHOLD) {
+                                    num1++;
+                                }
                                 float delta = (float) (output[0] - rsp[0]);
                                 delta = Math.abs(delta);
                                 float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
@@ -2572,7 +2580,7 @@ public class TrandingSignalProcess {
 
                             StringBuffer msg = new StringBuffer(weightSt0);
                             FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight0.txt", msg);
-                            logger.info("> predictTest release num0Err=" + num0Err + " num1Err=" + num1Err);
+                            logger.info("> predictTest release " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
                         }
                     }
                 }
@@ -2598,6 +2606,8 @@ public class TrandingSignalProcess {
                         double[] output;
                         double[] rsp;
                         ArrayList writeArray = new ArrayList();
+                        int num0 = 0;
+                        int num1 = 0;
                         int num0Err = 0;
                         int num1Err = 0;
                         for (int j = 0; j < inputpattern.length; j++) {
@@ -2605,12 +2615,17 @@ public class TrandingSignalProcess {
                             output = targetpattern[j];
                             rsp = response[j];
 
+                            if (output[0] > CKey.PREDICT_THRESHOLD) {
+                                num0++;
+                            }
+                            if (output[0] > CKey.PREDICT_THRESHOLD) {
+                                num1++;
+                            }
                             float delta = (float) (output[0] - rsp[0]);
                             delta = Math.abs(delta);
                             float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
 
                             if (delta > deltaCmp) {
-
                                 num0Err++;
                             }
                             float delta1 = (float) (output[1] - rsp[1]);
@@ -2621,7 +2636,8 @@ public class TrandingSignalProcess {
                                 num1Err++;
                             }
                         }
-                        logger.info("> predictTest nnObj1 num0Err=" + num0Err + " num1Err=" + num1Err);
+                        logger.info("> predictTest nnObj1 " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
+
                     }
                 }
             }

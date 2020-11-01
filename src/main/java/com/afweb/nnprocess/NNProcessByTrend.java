@@ -930,7 +930,7 @@ public class NNProcessByTrend {
                 } else {
                     logger.info("> inputStockNeuralNetData create Static Base ");
                 }
-                logger.info("> inputStockNeuralNetData ver " + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                logger.info("> inputStockNeuralNetData v" + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  toAdd=" + totalAdd + " toDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();
 //                
