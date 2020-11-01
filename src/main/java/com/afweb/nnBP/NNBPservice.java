@@ -169,7 +169,7 @@ public class NNBPservice {
         int k = 0;
         try {
 
-            for (int i = 0; i < numberIteration; i++) {
+            for (int i = 1; i < numberIteration; i++) {
                 totalError = 0;
                 int learnLenght = inputptr.length;
                 k++;
@@ -187,7 +187,7 @@ public class NNBPservice {
                     }
                     rsp = rspptr[j];
                     if (BPnet.Learn(input, output, rsp) == false) {
-                        logger.info("> learn  error...");
+                        logger.info("> learn error...");
                         return totalError;
                     }
                     totalError += BPnet.netError;
@@ -200,7 +200,7 @@ public class NNBPservice {
 
                 if (i % 4000 == 0) { //4000 == 0) {
                     if (CKey.NN_DEBUG == true) {
-                        System.out.println(k + " " + name + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
+                        System.out.println(k + " " + name + "  threshold=" + errorIteration + "  minErr=" + minError + "  Err=" + totalError);
                     }
                 }
 
@@ -210,7 +210,7 @@ public class NNBPservice {
                     }
                 }
 
-                if (i % 1000 == 0) {
+                if (i % 2000 == 0) {
                     // 0.001 limit
                     if (totalError < errorIteration) {
                         break;
@@ -227,7 +227,7 @@ public class NNBPservice {
         }
 
 //        logger.info("> learn  exit " + k + " " + name + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
-        logger.info("> learn  exit " + k + " " + "  threshold=" + errorIteration + "  minError=" + minError + "  Error=" + totalError);
+        logger.info("> learn exit " + k + " " + "  threshold=" + errorIteration + "  minErr=" + minError + "  Err=" + totalError);
 
 
         return totalError;
