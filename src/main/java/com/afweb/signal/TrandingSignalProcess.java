@@ -2555,7 +2555,7 @@ public class TrandingSignalProcess {
                                 if (output[0] > CKey.PREDICT_THRESHOLD) {
                                     num0++;
                                 }
-                                if (output[0] > CKey.PREDICT_THRESHOLD) {
+                                if (output[1] > CKey.PREDICT_THRESHOLD) {
                                     num1++;
                                 }
                                 float delta = (float) (output[0] - rsp[0]);
@@ -2618,7 +2618,7 @@ public class TrandingSignalProcess {
                             if (output[0] > CKey.PREDICT_THRESHOLD) {
                                 num0++;
                             }
-                            if (output[0] > CKey.PREDICT_THRESHOLD) {
+                            if (output[1] > CKey.PREDICT_THRESHOLD) {
                                 num1++;
                             }
                             float delta = (float) (output[0] - rsp[0]);

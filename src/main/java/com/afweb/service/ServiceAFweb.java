@@ -637,13 +637,11 @@ public class ServiceAFweb {
         nnStProcByTrend.processNeuralNetTrendPred(this);
 
 ///////////////////////////////////////////////////////////////////////////////        
-
 //        TrandingSignalProcess.forceToGenerateNewNN = false;
 //        // start training
 //        // TrainingNNBP inputpattern 1748
 //        nnStProcByTrend.NeuralNetProcessTesting(this);
 //        nnStProcByTrend.NeuralNetNN3CreatJava(this, ConstantKey.TR_NN3);
-
         // Main training nn and trend
         boolean processinputTrainflag = false;
         if (processinputTrainflag == true) {
@@ -3658,14 +3656,21 @@ public class ServiceAFweb {
             // save only the last 10 to save memory 10M only in Clever Cloud 
             // always the earliest day first
             StockInternet internet = new StockInternet();
-            ArrayList<AFstockInfo> StockArray = internet.GetStockHistoricalInternet(NormalizeSymbol, length);
+            ArrayList<AFstockInfo> StockArray = null;
+            try {
+                StockArray = internet.GetStockHistoricalInternet(NormalizeSymbol, length);
+            } catch (Exception ex) {
+
+            }
             if (StockArray == null) {
                 ///////seems internet error
-                logger.info("getStockHistorical internet error " + NormalizeSymbol);
-                return null;
+//                logger.info("getStockHistorical internet error " + NormalizeSymbol);
+                return (ArrayList) mergedList;
+//                return null;
             }
             if (StockArray.size() == 0) {
-                return StockArray;
+                return (ArrayList) mergedList;
+//                return StockArray;
             }
 
             AFstockInfo mergeInfo = mergedList.get(0);
