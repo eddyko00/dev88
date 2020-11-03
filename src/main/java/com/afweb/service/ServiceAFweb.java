@@ -661,6 +661,7 @@ public class ServiceAFweb {
         if (flagSignal == true) {
             //
             SystemClearNNtran();
+//            SystemClearNNtran("IWM");
             //
             for (int i = 0; i < 10; i++) {
                 TRprocessImp.ProcessAdminSignalTrading(this);
@@ -2218,10 +2219,10 @@ public class ServiceAFweb {
                                         sharebalance = trObj.getShortamount();
                                     }
                                     balace = (balace + sharebalance) - trObj.getInvestment();
-                                   
+
                                     if (sharebalance == 0) {
                                         sharebalance = CKey.TRADING_AMOUNT;
-                                    }                                    
+                                    }
                                     float per = 100 * (balace) / sharebalance;
                                     stock.setPerform(per);
                                 }
@@ -4585,6 +4586,20 @@ public class ServiceAFweb {
         return "" + retSatus;
     }
 //    
+
+    public String SystemClearNNtran(String sym) {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        int retSatus = 0;
+        if (getServerObj().isLocalDBservice() == true) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
+        }
+        return "" + retSatus;
+    }
 
     public String SystemClearNNtran() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
