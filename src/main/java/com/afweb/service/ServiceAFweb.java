@@ -2218,6 +2218,10 @@ public class ServiceAFweb {
                                         sharebalance = trObj.getShortamount();
                                     }
                                     balace = (balace + sharebalance) - trObj.getInvestment();
+                                   
+                                    if (sharebalance == 0) {
+                                        sharebalance = CKey.TRADING_AMOUNT;
+                                    }                                    
                                     float per = 100 * (balace) / sharebalance;
                                     stock.setPerform(per);
                                 }
