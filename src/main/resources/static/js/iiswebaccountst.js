@@ -40,7 +40,7 @@ var app = {
 
         var physicalScreenWidth = window.screen.width * window.devicePixelRatio;
         var physicalScreenHeight = window.screen.height * window.devicePixelRatio;
-        
+
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
 
@@ -51,7 +51,7 @@ var app = {
         htmlhead += '<div class="ui-block-b" style="width:20%">Sig</div>';
         htmlhead += '<div class="ui-block-c" style="width:20%">Trend</div>';
         htmlhead += '<div class="ui-block-d" style="width:20%">Daily %</div>';
-        htmlhead += '<div class="ui-block-e" style="width:20%">NN1 %</div>';
+        htmlhead += '<div class="ui-block-e" style="width:20%">Per %</div>';
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -63,17 +63,21 @@ var app = {
 
 //https://demos.jquerymobile.com/1.1.2/docs/content/content-grids.html
             var htmlName = '<div class="ui-grid-d">';
-            htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + stockObj.symbol + '</strong></div>';
             var signal = "B";
             if (stockObj.trsignal == 1) {
                 signal = "B";
+                htmlName += '<div class="ui-block-a" style="color:green;width:20%"><strong>' + stockObj.symbol + '</strong></div>';
+                htmlName += '<div class="ui-block-b" style="color:green;width:20%">:' + signal + '</div>';
             } else if (stockObj.trsignal == 2) {
                 signal = "S";
+                htmlName += '<div class="ui-block-a" style="color:red;width:20%"><strong>' + stockObj.symbol + '</strong></div>';
+                htmlName += '<div class="ui-block-b" style="color:red;width:20%">:' + signal + '</div>';
             } else {
                 signal = "E";
+                htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + stockObj.symbol + '</strong></div>';
+                htmlName += '<div class="ui-block-b" style="width:20%">:' + signal + '</div>';
             }
 
-            htmlName += '<div class="ui-block-b" style="width:20%">:' + signal + '</div>';
             htmlName += '<div class="ui-block-c" style="width:20%">T:' + stockObj.longterm + '</div>';
             var percentSt = "";
             var perSt = "";

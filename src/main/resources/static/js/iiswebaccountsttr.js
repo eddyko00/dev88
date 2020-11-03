@@ -132,25 +132,32 @@ var app = {
             if (trObj.trname === "TR_ACC") {
                 var status = trObj.status;
                 if (status == 2) { //int PENDING = 2;
-                    dispName = "Deleting"
+                    dispName = 'PENDING'
+                    htmlName += '<div class="ui-block-a" style="color:red" ><strong> ' + dispName + '</strong></div>';
                 } else {
                     dispName = "ACCOUNT"
+                    htmlName += '<div class="ui-block-a" ><strong>' + dispName + '</strong></div>';
                 }
+            } else {
+                htmlName += '<div class="ui-block-a" ><strong>' + dispName + '</strong></div>';
             }
 
-            htmlName += '<div class="ui-block-a" ><strong>' + dispName + '</strong></div>';
+
             var sharebalance = 0;
             var signal = "B";
             if (trObj.trsignal == S_BUY) {
                 sharebalance = trObj.longamount;
                 signal = "B";
+                htmlName += '<div class="ui-block-b" style="color:green;width:20%">:' + signal + '</div>';
             } else if (trObj.trsignal == S_SELL) {
                 signal = "S";
                 sharebalance = trObj.shortamount;
+                htmlName += '<div class="ui-block-b" style="color:red;width:20%">:' + signal + '</div>';
             } else {
                 signal = "E";
+                htmlName += '<div class="ui-block-b" style="width:20%">:' + signal + '</div>';
             }
-            htmlName += '<div class="ui-block-b" style="width:20%">:' + signal + '</div>';
+
             var total = trObj.balance + sharebalance;
             total = total - trObj.investment;
             var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
@@ -183,6 +190,10 @@ var app = {
             htmlBtn += '</div>';
 
             htmlName += htmlBtn;
+            var status = trObj.status;
+            if (status == 2) { //int PENDING = 2;
+                htmlName += 'Pending on delete when the signal is exited. <br>'
+            }
             if (trObj.trname === "TR_NN1") {
                 htmlName += 'Auto Trading Signal using AI Model';
             } else if (trObj.trname === "TR_NN2") {
@@ -395,11 +406,11 @@ var app = {
                                 }
                                 // so that to show the balacne positive
                                 balance += PerfObj.investment;
-                                
+
                                 var balanceSt = Number(balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                                 var netprofitSt = Number(PerfObj.grossprofit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                                 var investmentSt = Number(shareAmount).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                                
+
                                 var percent = 100 * (PerfObj.grossprofit / TRADING_AMOUNT);
                                 var percentSt = Number(percent.toFixed(2)).toLocaleString('en');
 
