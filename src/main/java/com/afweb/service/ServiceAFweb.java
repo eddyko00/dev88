@@ -335,7 +335,13 @@ public class ServiceAFweb {
                     return getServerObj().getTimerCnt();
 
                 }
+                boolean restoreNNonlyFlag = false;
+                if (restoreNNonlyFlag == true) {
+                    restoreNNonlySystem();
+                    serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
+                    return getServerObj().getTimerCnt();
 
+                }
                 if (CKey.UI_ONLY == false) {
                     String sysPortfolio = "";
                     // make sure not request during DB initialize
@@ -418,6 +424,30 @@ public class ServiceAFweb {
         }
     }
 
+    private void restoreNNonlySystem() {
+        getServerObj().setSysMaintenance(true);
+        serverObj.setTimerInit(true);
+        if (CKey.NN_DEBUG == true) {
+            if (CKey.LocalPCflag == true) {
+                if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+                    if ((CKey.OPENSHIFT_DB1 == true)) {
+                        logger.info(">>>>> SystemRestoreDBData to Openshift");
+                    } else {
+                        logger.info(">>>>> SystemRestoreDBData to Heroku");
+                    }
+                } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+                    logger.info(">>>>> SystemRestoreDBData form to My SQL");
+                }
+                String retSt = SystemCleanNNonlyDBData();
+                if (retSt.equals("true")) {
+                    SystemRestoreNNonlyDBData();
+                    getServerObj().setSysMaintenance(true);
+                    logger.info(">>>>> SystemRestoreDBData done");
+                }
+
+            }
+        }
+    }        
     private void restoreSystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
@@ -4482,6 +4512,22 @@ public class ServiceAFweb {
         return "SystemDownloadDBData " + retSatus;
     }
 
+    
+    public String SystemRestoreNNonlyDBData() {
+        boolean retSatus = false;
+
+        serverObj.setSysMaintenance(true);
+        retSatus = getAccountProcessImp().restoreNNonlyDBData(this);
+        if (retSatus == true) {
+            serverObj.setSysMaintenance(true);
+            serverObj.setTimerInit(false);
+            serverObj.setTimerQueueCnt(0);
+            serverObj.setTimerCnt(0);
+        }
+
+        return "SystemUploadDBData " + retSatus;
+    }
+            
     ///// Restore DB need the following
     ////  SystemStop
     ////  SystemCleanDBData
@@ -4525,6 +4571,15 @@ public class ServiceAFweb {
         return true;
     }
 
+    public String SystemCleanNNonlyDBData() {
+        boolean retSatus = false;
+        if (getServerObj().isLocalDBservice() == true) {
+            serverObj.setSysMaintenance(true);
+            retSatus = getStockImp().cleanNNonlyStockDB();
+        }
+        return "" + retSatus;
+    }
+        
     public String SystemCleanDBData() {
         boolean retSatus = false;
         if (getServerObj().isLocalDBservice() == true) {

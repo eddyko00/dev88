@@ -1188,6 +1188,12 @@ public class AccountProcess {
 ////////////////uploadDBData////////////////////////    
 ////////////////uploadDBData////////////////////////        
 ////////////////////////////////////////    
+    
+   public boolean restoreNNonlyDBData(ServiceAFweb serviceAFWeb) {
+        restoreDBneuralnet(serviceAFWeb);
+        return true;
+    }
+        
 //    public static String ServiceAFweb.FileLocalPath = "T:/Netbean/db/";
     public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;

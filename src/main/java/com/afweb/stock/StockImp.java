@@ -460,6 +460,10 @@ public class StockImp {
         return stockdb.restStockDB();
     }
 
+    public boolean cleanNNonlyStockDB() {
+        return stockdb.cleanNNonlyStockDB();
+    }
+        
     public boolean cleanStockDB() {
         return stockdb.cleanStockDB();
     }
