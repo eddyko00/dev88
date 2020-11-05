@@ -855,7 +855,13 @@ public class NNProcessBySignal {
         if (stockNNprocessNameArray.size() == 0) {
             return;
         }
-
+        
+        String printName = "";
+        for (int i = 0; i < stockNNprocessNameArray.size(); i++) {
+            printName += stockNNprocessNameArray.get(i) + ",";
+        }
+        logger.info("ProcessTrainNeuralNetBySign " + printName);
+        
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
@@ -1088,7 +1094,6 @@ public class NNProcessBySignal {
                     }
                 }
 
-             
                 String refName = "";
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj0 != null) {
