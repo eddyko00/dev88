@@ -673,7 +673,7 @@ public class ServiceAFweb {
 //        nnStProcByTrend.NeuralNetProcessTesting(this);
 //        nnStProcByTrend.NeuralNetNN3CreatJava(this, ConstantKey.TR_NN3);
         // Main training nn and trend
-        boolean processinputTrainflag = true;
+        boolean processinputTrainflag = false;
         if (processinputTrainflag == true) {
             nnProcBySig.processNeuralNetTrain(this);
         }
