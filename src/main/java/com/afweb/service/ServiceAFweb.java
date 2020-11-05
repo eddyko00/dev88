@@ -690,7 +690,7 @@ public class ServiceAFweb {
         boolean flagSignal = false;
         if (flagSignal == true) {
             //
-            SystemClearNNtran();
+//            SystemClearNNtran();
 //            SystemClearNNtran("IWM");
             //
             for (int i = 0; i < 10; i++) {
