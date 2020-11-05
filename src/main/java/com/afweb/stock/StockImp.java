@@ -397,33 +397,37 @@ public class StockImp {
 
     public AFneuralNet getNeuralNetObjWeight0(String name) {
         AFneuralNet nn = stockdb.getNeuralNetObjWeight0(name);
-        if (CKey.WEIGHT_COMPASS == true) {
+//        if (CKey.WEIGHT_COMPASS == true) {
             if (nn != null) {
                 String weightSt = nn.getWeight();
                 if (weightSt != null) {
                     if (weightSt.length() > 0) {
-                        weightSt = ServiceAFweb.decompress(weightSt);
+                        if (weightSt.indexOf("%1F%C2") != -1) {
+                            weightSt = ServiceAFweb.decompress(weightSt);
+                        }
                         nn.setWeight(weightSt);
                     }
                 }
             }
-        }
+//        }
         return nn;
     }
 
     public AFneuralNet getNeuralNetObjWeight1(String name) {
         AFneuralNet nn = stockdb.getNeuralNetObjWeight1(name);
-        if (CKey.WEIGHT_COMPASS == true) {
+//        if (CKey.WEIGHT_COMPASS == true) {
             if (nn != null) {
                 String weightSt = nn.getWeight();
                 if (weightSt != null) {
                     if (weightSt.length() > 0) {
-                        weightSt = ServiceAFweb.decompress(weightSt);
+                        if (weightSt.indexOf("%1F%C2") != -1) {
+                            weightSt = ServiceAFweb.decompress(weightSt);
+                        }                        
                         nn.setWeight(weightSt);
                     }
                 }
             }
-        }
+//        }
         return nn;
     }
 
@@ -463,7 +467,7 @@ public class StockImp {
     public boolean cleanNNonlyStockDB() {
         return stockdb.cleanNNonlyStockDB();
     }
-        
+
     public boolean cleanStockDB() {
         return stockdb.cleanStockDB();
     }
