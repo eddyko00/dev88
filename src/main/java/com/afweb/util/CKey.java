@@ -105,7 +105,7 @@ public class CKey {
     public static final int NN1_MIDDLE_SIZE = 110; //120; 
     public static final int NN3_MIDDLE_SIZE = 110; //120; 
     
-    public static final boolean WEIGHT_COMPASS = true;
+    public static final boolean WEIGHT_COMPASS = false;
 
     // must match to the nnData and nn3Data version  make sure both 
     // must match to the nnData and nn3Data version  make sure both 
