@@ -696,10 +696,13 @@ public class ServiceAFweb {
             for (int i = 0; i < 10; i++) {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.UpdateAllStock(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.UpdateAllStock(this);
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.UpdateAllStock(this);
                 logger.info("process ProcessAdminSignalTrading cycle " + i);
 
             }
