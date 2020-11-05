@@ -743,7 +743,7 @@ public class AccountProcess {
                     break;
                 }
 //                if (CKey.NN_DEBUG == true) {
-                if (("acc-3-MutualFund".equals(accountObj.getAccountname())) 
+                if (("acc-3-MutualFund".equals(accountObj.getAccountname()))
                         || ("acc-4-MutualFund".equals(accountObj.getAccountname()))) {
                     logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
                 }
@@ -1188,12 +1188,11 @@ public class AccountProcess {
 ////////////////uploadDBData////////////////////////    
 ////////////////uploadDBData////////////////////////        
 ////////////////////////////////////////    
-    
-   public boolean restoreNNonlyDBData(ServiceAFweb serviceAFWeb) {
-        restoreDBneuralnet(serviceAFWeb);
+    public boolean restoreNNonlyDBData(ServiceAFweb serviceAFWeb) {
+        int ret = restoreDBneuralnetProcess(serviceAFWeb, "neuralnet");
         return true;
     }
-        
+
 //    public static String ServiceAFweb.FileLocalPath = "T:/Netbean/db/";
     public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
