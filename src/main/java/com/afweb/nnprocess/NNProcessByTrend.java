@@ -664,6 +664,12 @@ public class NNProcessByTrend {
             return;
         }
 
+        String printName = "";
+        for (int i = 0; i < stockNNprocessNameArray.size(); i++) {
+            printName += stockNNprocessNameArray.get(i) + ",";
+        }
+        logger.info("ProcessTrainNeuralNet " + printName);
+        
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
