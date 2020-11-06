@@ -705,7 +705,8 @@ public class AccountProcess {
         String LockName = "ALL_SIGNAL";
         long lockReturn = 1;
         lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
-        if (CKey.NN_DEBUG == true) {
+        boolean testing = false;
+        if (testing == true) {
             lockReturn = 1;
         }
         logger.info("ProcessAllAccountTradingSignal " + LockName + " LockName " + lockReturn);
@@ -713,7 +714,7 @@ public class AccountProcess {
         if (lockReturn > 0) {
             int maxAccountCnt = 0;
             long LastServUpdateTimer = System.currentTimeMillis();
-
+            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 5); // add 3 minutes
             // update Trading signal
             while (accountIdNameArray.size() > 0) {
                 String accountIDSt = (String) accountIdNameArray.get(0);
@@ -735,19 +736,17 @@ public class AccountProcess {
                 }
 //                logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
                 long currentTime = System.currentTimeMillis();
-                long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 5); // add 3 minutes
-                if (CKey.NN_DEBUG == true) {
+                if (testing == true) {
                     currentTime = 0;
                 }
                 if (lockDate5Min < currentTime) {
                     break;
                 }
-//                if (CKey.NN_DEBUG == true) {
+
                 if (("acc-3-MutualFund".equals(accountObj.getAccountname()))
                         || ("acc-4-MutualFund".equals(accountObj.getAccountname()))) {
                     logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
                 }
-//                }
 
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);

@@ -38,21 +38,18 @@ public class NNProcessBySignal {
 
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-
+        NNProcessByTrend nntrend = new NNProcessByTrend();
         TrandingSignalProcess.forceToGenerateNewNN = false;
 
         boolean flagNNLearning = true;
         if (flagNNLearning == true) {
             int k = 0;
-            NNProcessByTrend nntrend = new NNProcessByTrend();
 
             while (true) {
                 k++;
-                long currentTime = System.currentTimeMillis();
-                long lockDate1Hour = TimeConvertion.addHours(currentTime, 2);
+
                 logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
                 NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
-//                NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
                 ProcessTrainNeuralNetBySign(serviceAFWeb);
 //////////////////////////                
                 logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
@@ -60,39 +57,24 @@ public class NNProcessBySignal {
                 nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet end... cycle " + k);
 ///////////////////////////
-                int custId = 0;;
-                serviceAFWeb.getAccountImp().removeCommByCustID(custId);
-
-                logger.info("> ProcessReLeanInput NN 1 ");
+//                int custId = 0;;
+//                serviceAFWeb.getAccountImp().removeCommByCustID(custId);
+//
+                logger.info("> ProcessReLeanInput NN 1 cycle " + k);
                 ProcessReLeanInput(serviceAFWeb);
-                logger.info("> ProcessReLeanInput end... ");
-                logger.info("> SystemPocessFundMgr start... ");
-                serviceAFWeb.SystemPocessFundMgr();
-                logger.info("> SystemFundMgr start... ");
-                serviceAFWeb.SystemFundMgr();
-                logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
+                logger.info("> ProcessReLeanInput end... cycle " + k);
+//                logger.info("> SystemPocessFundMgr start... ");
+//                serviceAFWeb.SystemPocessFundMgr();
+//                logger.info("> SystemFundMgr start... ");
+//                serviceAFWeb.SystemFundMgr();
+//                logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
 
                 logger.info("> Waiting 2 min........");
                 try {
-                    Thread.sleep(2 * 60 * 1000);
+                    Thread.sleep(60 * 1000);
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
-
-//                logger.info("> Waiting 1 hr........");
-//                while (true) {
-//                    currentTime = System.currentTimeMillis();
-//                    if (lockDate1Hour < currentTime) {
-//                        break;
-//                    }
-//                    // check every 10 minutes
-//
-//                    try {
-//                        Thread.sleep(60 * 10 * 1000);
-//                    } catch (InterruptedException ex) {
-//                        Thread.currentThread().interrupt();
-//                    }
-//                }
             }
         }
 
@@ -402,55 +384,98 @@ public class NNProcessBySignal {
     }
 
     /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     public void ProcessReLeanInput(ServiceAFweb serviceAFWeb) {
         boolean flagReLeanInput = true;
         if (flagReLeanInput == true) {
-            TradingNNprocess trainNN = new TradingNNprocess();
-            int custId = 0;;
-            String Name = TradingNNprocess.cfg_stockNNretrainNameArray;
-            ArrayList stockNameArray = null;
+            String LockName = null;
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            long lockDateValue = dateNow.getTimeInMillis();
 
-            //// just for testing, always clear reset
-            boolean resetflag = true;
-            //// just for testing, always clear reset
-            if (resetflag == false) {
+            LockName = "ReLean_NN";
+            long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+            boolean testing = false;
+            if (testing == true) {
+                lockReturn = 1;
+            }
+            logger.info("ProcessReLeanInput " + LockName + " LockName " + lockReturn);
+            if (lockReturn > 0) {
+                long LastServUpdateTimer = System.currentTimeMillis();
+                long lockDate10Min = TimeConvertion.addMinutes(LastServUpdateTimer, 10); // add 3 minutes
 
-                ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(custId, Name);
-
-                if (commObjArry != null) {
-                    if (commObjArry.size() > 0) {
-                        CommObj commObj = commObjArry.get(0);
-                        String stockNameArraySt = commObj.getData();
-                        try {
-                            stockNameArraySt = StringTag.replaceAll("^", "\"", stockNameArraySt);
-                            stockNameArray = new ObjectMapper().readValue(stockNameArraySt, ArrayList.class);
-                        } catch (Exception ex) {
-                        }
+//            for (int i = 0; i < 10; i++) {
+                while (true) {
+                    long currentTime = System.currentTimeMillis();
+                    if (testing == true) {
+                        currentTime = 0;
                     }
-                } else {
-                    ArrayList stArray = new ArrayList();
-                    String msg = "";
-                    try {
-                        msg = new ObjectMapper().writeValueAsString(stArray);
-                    } catch (JsonProcessingException ex) {
+                    if (lockDate10Min < currentTime) {
+                        logger.info("ProcessReLeanInput exit after 5 minutes");
+                        break;
                     }
-                    msg = StringTag.replaceAll("\"", "^", msg);
-
-                    serviceAFWeb.getAccountImp().addCommByCustName(custId, Name, msg);
+                    ProcessReLeanInput1(serviceAFWeb);
                 }
+                serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
+                logger.info("ProcessReLeanInput " + LockName + " unlock LockName");
+
             }
-
-            if ((stockNameArray == null) || (stockNameArray.size() == 0)) {
-
-                stockNameArray = trainNN.reLearnInputStockNNprocessNameArray(serviceAFWeb);
-            }
-            trainNN.setStockNNretrainNameArray(stockNameArray);
-
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-            NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
 
         }
 
+    }
+//
+
+    private void ProcessReLeanInput1(ServiceAFweb serviceAFWeb) {
+        try {
+            boolean flagReLeanInput = true;
+            if (flagReLeanInput == true) {
+                TradingNNprocess trainNN = new TradingNNprocess();
+                int custId = 0;;
+                String Name = TradingNNprocess.cfg_stockNNretrainNameArray;
+                ArrayList stockNameArray = null;
+
+                //// just for testing, always clear reset
+                boolean resetflag = true;
+                //// just for testing, always clear reset
+                if (resetflag == false) {
+
+                    ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(custId, Name);
+
+                    if (commObjArry != null) {
+                        if (commObjArry.size() > 0) {
+                            CommObj commObj = commObjArry.get(0);
+                            String stockNameArraySt = commObj.getData();
+                            try {
+                                stockNameArraySt = StringTag.replaceAll("^", "\"", stockNameArraySt);
+                                stockNameArray = new ObjectMapper().readValue(stockNameArraySt, ArrayList.class);
+                            } catch (Exception ex) {
+                            }
+                        }
+                    } else {
+                        ArrayList stArray = new ArrayList();
+                        String msg = "";
+                        try {
+                            msg = new ObjectMapper().writeValueAsString(stArray);
+                        } catch (JsonProcessingException ex) {
+                        }
+                        msg = StringTag.replaceAll("\"", "^", msg);
+
+                        serviceAFWeb.getAccountImp().addCommByCustName(custId, Name, msg);
+                    }
+                }
+
+                if ((stockNameArray == null) || (stockNameArray.size() == 0)) {
+
+                    stockNameArray = trainNN.reLearnInputStockNNprocessNameArray(serviceAFWeb);
+                }
+                trainNN.setStockNNretrainNameArray(stockNameArray);
+
+                TradingNNprocess NNProcessImp = new TradingNNprocess();
+                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
+            }
+        } catch (Exception ex) {
+
+        }
     }
 
     // training neural net input data
@@ -832,20 +857,6 @@ public class NNProcessBySignal {
     }
 
     public void ProcessTrainNeuralNetBySign(ServiceAFweb serviceAFWeb) {
-//        boolean flag =true;
-//        if (flag == true) {
-//            return;
-//        }        
-//        logger.info("> ProcessTrainNeuralNet ");
-//        if (getEnv.checkLocalPC() != true) {
-//            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {
-//                ///Error R14 (Memory quota exceeded) in heroku
-//                ///Error R14 (Memory quota exceeded) in heroku
-//                if (ServiceAFweb.NN_AllowTraingStockFlag == false) {
-//                    return;
-//                }
-//            }
-//        }
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         UpdateStockNNprocessNameArray(serviceAFWeb, accountAdminObj);
@@ -855,109 +866,117 @@ public class NNProcessBySignal {
         if (stockNNprocessNameArray.size() == 0) {
             return;
         }
-        
+
         String printName = "";
         for (int i = 0; i < stockNNprocessNameArray.size(); i++) {
             printName += stockNNprocessNameArray.get(i) + ",";
         }
         logger.info("ProcessTrainNeuralNetBySign " + printName);
-        
+
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
-        LockName = "NN_" + ServiceAFweb.getServerObj().getServerName();
+        LockName = "NN1_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
-        if (CKey.NN_DEBUG == true) {
-            testing = true;
-        }
         if (testing == true) {
             lockReturn = 1;
         }
 
         logger.info("ProcessTrainNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
-            long currentTime = System.currentTimeMillis();
-            long lockDate1Min = TimeConvertion.addMinutes(currentTime, 5);
+            long LastServUpdateTimer = System.currentTimeMillis();
+            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 10); // add 3 minutes
 
 //            for (int i = 0; i < 10; i++) {
             while (true) {
-                if (CKey.NN_DEBUG != true) {
-                    currentTime = System.currentTimeMillis();
-                    if (lockDate1Min < currentTime) {
-                        break;
-                    }
+                long currentTime = System.currentTimeMillis();
+                if (testing == true) {
+                    currentTime = 0;
+                }
+                if (lockDate5Min < currentTime) {
+                    logger.info("ProcessTrainNeuralNet exit after 10 minutes");
+                    break;
                 }
 
                 if (stockNNprocessNameArray.size() == 0) {
                     break;
                 }
-                try {
-                    String symbolTR = (String) stockNNprocessNameArray.get(0);
+
+                String symbolTR = (String) stockNNprocessNameArray.get(0);
 //                    stockNNprocessNameArray.remove(0);
 
-                    String[] symbolArray = symbolTR.split("#");
-                    if (symbolArray.length >= 0) {
+                String[] symbolArray = symbolTR.split("#");
+                if (symbolArray.length >= 0) {
 
-                        String symbol = symbolArray[0];
+                    String symbol = symbolArray[0];
 
-                        int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
+                    int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
 
-                        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
 
-                        if (stock == null) {
-                            stockNNprocessNameArray.remove(0);
-                            continue;
-                        }
-                        if (stock.getAfstockInfo() == null) {
-                            stockNNprocessNameArray.remove(0);
-                            continue;
-                        }
+                    if (stock == null) {
+                        stockNNprocessNameArray.remove(0);
+                        continue;
+                    }
+                    if (stock.getAfstockInfo() == null) {
+                        stockNNprocessNameArray.remove(0);
+                        continue;
+                    }
 
-                        String LockStock = "NN_TR_" + symbol; // + "_" + trNN;
-                        LockStock = LockStock.toUpperCase();
+                    String LockStock = "NN1_TR_" + symbol; // + "_" + trNN;
+                    LockStock = LockStock.toUpperCase();
 
-                        long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                        long lockReturnStock = 1;
+                    long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+                    long lockReturnStock = 1;
 
-//                        lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
-//                        if (testing == true) {
-//                            lockReturnStock = 1;
-//                        }
-//                        logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
-                        if (lockReturnStock > 0) {
+                    lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+                    if (testing == true) {
+                        lockReturnStock = 1;
+                    }
+                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+                    if (lockReturnStock == 0) {
+                        stockNNprocessNameArray.remove(0);
+                        continue;
+                    }
+
+                    if (lockReturnStock > 0) {
+                        try {
                             String nnName = ConstantKey.TR_NN1;
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
                             this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
+                            // first one is initial and the second one is to execute
+                            this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
 
-//                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-//                            logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
                             AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                     stockNNprocessNameArray.remove(0);
+                                    serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
 
-                                    if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
-                                        /// need to create the table to reduce the memeory in DB
-                                        serviceAFWeb.getStockImp().deleteNeuralNet1Table();
-                                    } else {
-                                        serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
-                                    }
+//                                    if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
+//                                        /// need to create the table to reduce the memeory in DB
+//                                        serviceAFWeb.getStockImp().deleteNeuralNet1Table();
+//                                    } else {
+//                                        serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
+//                                    }
                                 }
                             }
-                        }
 
+                        } catch (Exception ex) {
+                            logger.info("> ProcessTrainNeuralNet Exception" + ex.getMessage());
+                        }
+                        serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                        logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
                     }
-                } catch (Exception ex) {
-                    logger.info("> ProcessTrainNeuralNet Exception" + ex.getMessage());
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
             logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
-//        logger.info("> ProcessTrainNeuralNet ... done");
+        logger.info("> ProcessTrainNeuralNet ... done");
     }
 
     private void Process1TrainNeuralNet(ServiceAFweb serviceAFWeb, int TR_NN, String BPnameSym, String symbol) {

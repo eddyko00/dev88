@@ -749,7 +749,7 @@ public class StockDB {
         }
         return false;
     }
-    
+
     public boolean cleanStockDB() {
         try {
             processExecuteDB("drop table if exists dummy1");
@@ -925,7 +925,6 @@ public class StockDB {
 //
 //        return ret;
 //    }
-
     ////////////////////////
     public int deleteAllLock() {
 
@@ -1064,6 +1063,8 @@ public class StockDB {
                 allowTime = 3; // 3 minutes for stock timeout
             } else if (type == ConstantKey.SRV_LOCKTYPE) {
                 allowTime = 10; // 10 minutes for stock timeout
+            } else if (type == ConstantKey.NN_TR_LOCKTYPE) {
+                allowTime = 15; // 10 minutes for stock timeout                
             } else if (type == ConstantKey.ADMIN_SIGNAL_LOCKTYPE) {
                 allowTime = MaxMinuteAdminSignalTrading; // 90 minutes for stock timeout                
             } else if (type == ConstantKey.NN_LOCKTYPE) {
@@ -1244,7 +1245,7 @@ public class StockDB {
 
     private int insertNeuralNetObject0(String name, String weight) {
         try {
-           
+
             Calendar dateDefault = TimeConvertion.getDefaultCalendar();
             String sqlCMD = "insert into neuralnet(name, refname, status, type, weight, updatedatedisplay, updatedatel) VALUES "
                     + "('" + name + "',''," + ConstantKey.OPEN + "," + ConstantKey.OPEN + ",'" + weight + "'"
@@ -1284,8 +1285,7 @@ public class StockDB {
             if (nameSt == null) {
                 return insertNeuralNetObject0(name, weight);
             }
-            
-  
+
             String sqlCMD = "update neuralnet set weight='" + weight + "'";
             sqlCMD += ",updatedatedisplay='" + new java.sql.Date(dateDefault.getTimeInMillis()) + "', updatedatel=" + dateDefault.getTimeInMillis();
             sqlCMD += " where name='" + name + "'";
@@ -1296,7 +1296,6 @@ public class StockDB {
         }
         return 0;
     }
-
 
     public int setCreateNeuralNetObj1(String name, String weight) {
         try {

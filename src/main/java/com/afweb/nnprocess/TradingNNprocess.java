@@ -91,16 +91,17 @@ public class TradingNNprocess {
         }
         logger.info("ProcessReLearnInputNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
-            long currentTime = System.currentTimeMillis();
-            long lockDate1Min = TimeConvertion.addMinutes(currentTime, 1);
+            long LastServUpdateTimer = System.currentTimeMillis();
+            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 5); // add 3 minutes
 
 //            for (int i = 0; i < 10; i++) {
             while (true) {
-                if (CKey.NN_DEBUG != true) {
-                    currentTime = System.currentTimeMillis();
-                    if (lockDate1Min < currentTime) {
-                        break;
-                    }
+                long currentTime = System.currentTimeMillis();
+                if (testing == true) {
+                    currentTime = 0;
+                }
+                if (lockDate5Min < currentTime) {
+                    break;
                 }
                 if (stockNNretrainNameArray.size() == 0) {
                     break;
@@ -325,14 +326,14 @@ public class TradingNNprocess {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE+10); // 14
+            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
         } else if (tr == ConstantKey.INT_TR_NN2) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date 
             ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE+10);
+            inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10);
         }
 
         // ignor first and last
@@ -1688,7 +1689,7 @@ public class TradingNNprocess {
         }
         /// adding extra in betreen signal in case buy and sell is large > 10 day. 
         //  so, just add day 5 as extra signal
-         if (CKey.SPECIAL1_VOL == true) {
+        if (CKey.SPECIAL1_VOL == true) {
             ArrayList<NNInputDataObj> inputRetDatalist = new ArrayList<NNInputDataObj>();
             if (inputDatalist != null) {
                 if (inputDatalist.size() > 1) {
@@ -1885,7 +1886,7 @@ public class TradingNNprocess {
             inputDatalist.add(objDataPrev);
 
         }
-         if (CKey.SPECIAL1_VOL == true) {
+        if (CKey.SPECIAL1_VOL == true) {
             ArrayList<NNInputDataObj> inputRetDatalist = new ArrayList<NNInputDataObj>();
             if (inputDatalist != null) {
                 if (inputDatalist.size() > 1) {

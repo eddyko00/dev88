@@ -95,7 +95,7 @@ public class TrandingSignalProcess {
 
             for (int i = 0; i < 10; i++) {
                 currentTime = System.currentTimeMillis();
-                if (CKey.NN_DEBUG == true) {
+                if (testing == true) {
                     currentTime = 0;
                 }
                 if (lockDate5Min < currentTime) {
@@ -141,16 +141,12 @@ public class TrandingSignalProcess {
                                 long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);
 
                                 long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                                if (CKey.NN_DEBUG == true) {
+                                if (testing == true) {
                                     lastUpdate5Min = 0;
                                 }
                                 if (lastUpdate5Min < curDateValue) {
-                                    // process only if after 5 minutes after last update
+                                    // process only if within 5 minutes on the last update
                                     // so that it will not do it so often
-//                                    logger.info("> ProcessAdminSignalTrading " + symbol);
-//                                    if (symbol.equals("XCH.TO")) {
-//                                        curDateValue = 0;
-//                                    }
                                     updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
