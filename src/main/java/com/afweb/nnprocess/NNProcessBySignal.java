@@ -69,7 +69,7 @@ public class NNProcessBySignal {
 //                serviceAFWeb.SystemFundMgr();
 //                logger.info("> SystemPocessFundMgr SystemFundMgr end... ");
 
-                logger.info("> Waiting 2 min........");
+                logger.info("> Waiting 1 min........");
                 try {
                     Thread.sleep(60 * 1000);
                 } catch (InterruptedException ex) {

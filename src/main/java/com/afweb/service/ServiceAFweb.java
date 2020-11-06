@@ -447,7 +447,8 @@ public class ServiceAFweb {
 
             }
         }
-    }        
+    }
+
     private void restoreSystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
@@ -693,7 +694,10 @@ public class ServiceAFweb {
 //            SystemClearNNtran();
 //            SystemClearNNtran("IWM");
             //
-            for (int i = 0; i < 10; i++) {
+            int i = 0;
+            while (true) {
+                i++;
+                logger.info("process ProcessAdminSignalTrading start cycle " + i);
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 TRprocessImp.UpdateAllStock(this);
@@ -703,8 +707,13 @@ public class ServiceAFweb {
                 TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 TRprocessImp.UpdateAllStock(this);
-                logger.info("process ProcessAdminSignalTrading cycle " + i);
-
+                logger.info("process ProcessAdminSignalTrading end... cycle " + i);
+                logger.info("> Waiting 1 min........");
+                try {
+                    Thread.sleep(60 * 1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
 
@@ -4515,7 +4524,6 @@ public class ServiceAFweb {
         return "SystemDownloadDBData " + retSatus;
     }
 
-    
     public String SystemRestoreNNonlyDBData() {
         boolean retSatus = false;
 
@@ -4530,7 +4538,7 @@ public class ServiceAFweb {
 
         return "SystemUploadDBData " + retSatus;
     }
-            
+
     ///// Restore DB need the following
     ////  SystemStop
     ////  SystemCleanDBData
@@ -4582,7 +4590,7 @@ public class ServiceAFweb {
         }
         return "" + retSatus;
     }
-        
+
     public String SystemCleanDBData() {
         boolean retSatus = false;
         if (getServerObj().isLocalDBservice() == true) {
