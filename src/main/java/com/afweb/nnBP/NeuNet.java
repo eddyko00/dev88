@@ -11,13 +11,14 @@ package com.afweb.nnBP;
 import com.afweb.util.CKey;
 import com.afweb.util.FileUtil;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  *
  * @author vm1
  */
 public class NeuNet {
-
+    protected static Logger logger = Logger.getLogger("NeuNet");
     public static final String NET_Path = "T:/Netbean/debug/";
     public static final String RELEASE_Path = "T:/Netbean/debug";
     public static int INNET_SIZE = 8;
@@ -131,7 +132,7 @@ public class NeuNet {
 
             }
         } catch (NumberFormatException ex) {
-            System.out.println(ex.getMessage());
+            logger.info(ex.getMessage());
         }
         return false;
     }

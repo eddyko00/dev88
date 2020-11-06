@@ -2779,7 +2779,7 @@ public class ServiceAFweb {
                     xDate, yD, buyDate, buyD, sellDate, sellD);
             return "Save in " + filepath;
         } catch (Exception ex) {
-            System.out.println("> getAccountStockTRListHistoryChartProcess exception" + ex.getMessage());
+            logger.info("> getAccountStockTRListHistoryChartProcess exception" + ex.getMessage());
         }
         return "Save failed";
 
@@ -3198,7 +3198,7 @@ public class ServiceAFweb {
                     xDate, yD, buyDate, buyD, sellDate, sellD);
             return "Save in " + filepath;
         } catch (Exception ex) {
-            System.out.println("> getAccountStockTRLIstCurrentChartFile exception" + ex.getMessage());
+            logger.info("> getAccountStockTRLIstCurrentChartFile exception" + ex.getMessage());
         }
         return "Save failed";
     }

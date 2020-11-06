@@ -38,7 +38,6 @@ import java.util.Collections;
 
 import java.util.List;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
@@ -105,8 +104,8 @@ public class GetYahooQuotes {
             HttpClientUtils.closeQuietly(response);
             return rtn;
         } catch (Exception ex) {
-            System.out.println("Exception");
-            System.out.println(ex);
+            StockInfoUtils.logger.info("Exception:" + ex.getMessage());
+
         }
 //        System.out.println("returning from getPage");
         ServiceAFweb.getServerObj().setCntInterException(ServiceAFweb.getServerObj().getCntInterException() + 1);
@@ -385,7 +384,7 @@ public class GetYahooQuotes {
         ServiceAFweb.AFSleep1Sec(5);
         ///// some issue in the weekend get error essage
         ///// some issue in the weekend get error essage
-        
+
         // try to get the max 6 year
         int Max6YrStock = CKey.DATA6YEAR;
         String crumb = getCrumb(symbol);
@@ -398,7 +397,7 @@ public class GetYahooQuotes {
         }
         ///// some issue in the weekend get error essage
         ///// some issue in the weekend get error essage
-        ServiceAFweb.AFSleep1Sec(5);        
+        ServiceAFweb.AFSleep1Sec(5);
         ///// some issue in the weekend get error essage
         ///// some issue in the weekend get error essage
         String url = String.format("https://query1.finance.yahoo.com/v7/finance/download/%s?period1=%s&period2=%s&interval=1d&events=history&crumb=%s", symbol, startDate, endDate, crumb);

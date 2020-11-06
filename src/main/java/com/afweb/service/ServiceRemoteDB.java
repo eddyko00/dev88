@@ -1941,7 +1941,7 @@ public class ServiceRemoteDB {
                 flagD = false;
             }
             if (flagD == true) {
-                System.out.println("Request Code:: " + bodyElement);
+                logger.info("Request Code:: " + bodyElement);
             }
             HttpURLConnection con = null; //(HttpURLConnection) request.openConnection();
             if (CKey.PROXY == true) {
@@ -1975,13 +1975,13 @@ public class ServiceRemoteDB {
             int responseCode = con.getResponseCode();
 
             if (responseCode != 200) {
-                System.out.println("Response Code:: " + responseCode);
+                logger.info("Response Code:: " + responseCode);
             }
             if (responseCode >= 200 && responseCode < 300) {
                 ;
             } else {
-                System.out.println("Response Code:: " + responseCode);
-                System.out.println("bodyElement :: " + bodyElement);
+                logger.info("Response Code:: " + responseCode);
+                logger.info("bodyElement :: " + bodyElement);
                 return null;
             }
             if (responseCode == HttpURLConnection.HTTP_OK) { //success

@@ -1658,7 +1658,7 @@ public class AccountDB {
             dbConnection.commit();
             return 1;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
             dbConnection.rollback();
             return 0;
         } finally {

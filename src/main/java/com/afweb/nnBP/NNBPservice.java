@@ -200,7 +200,7 @@ public class NNBPservice {
 
                 if (i % 4000 == 0) { //4000 == 0) {
                     if (CKey.NN_DEBUG == true) {
-                        System.out.println(k + " " + name + "  threshold=" + errorIteration + "  minErr=" + minError + "  Err=" + totalError);
+                        logger.info(k + " " + name + "  threshold=" + errorIteration + "  minErr=" + minError + "  Err=" + totalError);
                     }
                 }
 
@@ -776,7 +776,7 @@ public class NNBPservice {
             rspptr[i] = new double[1];
         }
         double error = afneural.learn("XOR", inData, outData, rspptr, 1000000, 0.001);
-        System.out.println("Error is " + error);
+        logger.info("Error is " + error);
         afneural.writeNet("T:/Netbean/debug/netFile.net");
         afneural = new NNBPservice();
         afneural.readNet("T:/Netbean/debug/netFile.net");

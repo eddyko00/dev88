@@ -57,7 +57,7 @@ public class ChartService {
 
             return BitmapEncoder.getBitmapBytes(chart, BitmapEncoder.BitmapFormat.JPG);
         } catch (Exception ex) {
-            System.out.println("> saveChart exception" + ex.getMessage());
+            logger.info("> saveChart exception" + ex.getMessage());
         }
         return null;
     }
@@ -86,7 +86,7 @@ public class ChartService {
             }
             return BitmapEncoder.getBitmapBytes(chart, BitmapEncoder.BitmapFormat.JPG);
         } catch (Exception ex) {
-            System.out.println("> saveChart exception" + ex.getMessage());
+            logger.info("> saveChart exception" + ex.getMessage());
         }
         return null;
     }
@@ -107,18 +107,18 @@ public class ChartService {
             if (buyDate.size() != 0) {
                 addBuyChart(chart, buyDate, buyD);
             } else {
-                System.out.println("> saveChart exception buyDate");
+                logger.info("> saveChart exception buyDate");
             }
             if (sellDate.size() != 0) {
                 addSellChart(chart, sellDate, sellD);
             } else {
-                System.out.println("> saveChart exception sellDate");
+                logger.info("> saveChart exception sellDate");
             }
 
             saveChart(chart, filepath);
             return true;
         } catch (Exception ex) {
-            System.out.println("> saveChartToFile exception" + ex.getMessage());
+            logger.info("> saveChartToFile exception" + ex.getMessage());
         }
         return false;
     }
@@ -222,7 +222,7 @@ public class ChartService {
 //        BitmapEncoder.saveBitmap(chart, "./Sample_Chart", BitmapFormat.GIF);      
             return 1;
         } catch (IOException ex) {
-            System.out.println("> saveChart exception" + ex.getMessage());
+            logger.info("> saveChart exception" + ex.getMessage());
         }
 
         return 0;

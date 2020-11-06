@@ -42,7 +42,7 @@ import static org.apache.http.protocol.HTTP.USER_AGENT;
  */
 public class ServiceAFwebREST {
 
-    public static Logger log = Logger.getLogger("ServiceAFwebREST");
+    public static Logger logger = Logger.getLogger("ServiceAFwebREST");
 
     public static String ResourcePath = "";
 
@@ -68,7 +68,7 @@ public class ServiceAFwebREST {
             return loginObj;
 
         } catch (Exception ex) {
-            log.info("addCustomerPassword exception " + ex);
+            logger.info("addCustomerPassword exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
 
         }
@@ -88,7 +88,7 @@ public class ServiceAFwebREST {
             return custObj;
 
         } catch (Exception ex) {
-            log.info("getCustomerPassword exception " + ex);
+            logger.info("getCustomerPassword exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
 
@@ -111,7 +111,7 @@ public class ServiceAFwebREST {
             return loginObj;
 
         } catch (Exception ex) {
-            log.info("getCustomerLogin exception " + ex);
+            logger.info("getCustomerLogin exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
 
@@ -134,7 +134,7 @@ public class ServiceAFwebREST {
             return loginObj;
 
         } catch (Exception ex) {
-            log.info("getCustomerLogin exception " + ex);
+            logger.info("getCustomerLogin exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
 
@@ -161,7 +161,7 @@ public class ServiceAFwebREST {
             }
             return stockNameArray;
         } catch (Exception ex) {
-            log.info("getExpiredStockNameList exception " + ex);
+            logger.info("getExpiredStockNameList exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -186,7 +186,7 @@ public class ServiceAFwebREST {
             }
             return custObjArray;
         } catch (Exception ex) {
-            log.info("getCustomerList exception " + ex);
+            logger.info("getCustomerList exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -211,7 +211,7 @@ public class ServiceAFwebREST {
             }
             return custObjArray;
         } catch (Exception ex) {
-            log.info("getCustomerList exception " + ex);
+            logger.info("getCustomerList exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -241,7 +241,7 @@ public class ServiceAFwebREST {
 
             return accountObjArray;
         } catch (Exception ex) {
-            log.info("getAccountList exception " + ex);
+            logger.info("getAccountList exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -259,7 +259,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("updateAccountStatusByAccountID exception " + ex);
+            logger.info("updateAccountStatusByAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -278,7 +278,7 @@ public class ServiceAFwebREST {
             return accObj;
 
         } catch (Exception ex) {
-            log.info("getAccountByAccountID exception " + ex);
+            logger.info("getAccountByAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -294,7 +294,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("removeCommByCustomerAccountID exception " + ex);
+            logger.info("removeCommByCustomerAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -310,7 +310,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("removeCommByCustomerAccountID exception " + ex);
+            logger.info("removeCommByCustomerAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -326,7 +326,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("removeCommByCustomerAccountID exception " + ex);
+            logger.info("removeCommByCustomerAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -351,7 +351,7 @@ public class ServiceAFwebREST {
 
             return stockArray;
         } catch (Exception ex) {
-            log.info("getBillingByCustomerAccountID exception " + ex);
+            logger.info("getBillingByCustomerAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -376,7 +376,7 @@ public class ServiceAFwebREST {
 
             return stockArray;
         } catch (Exception ex) {
-            log.info("getBillingByCustomerAccountID exception " + ex);
+            logger.info("getBillingByCustomerAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -401,7 +401,7 @@ public class ServiceAFwebREST {
 
             return stockArray;
         } catch (Exception ex) {
-            log.info("getStock_AccountStockList_StockByAccountID exception " + ex);
+            logger.info("getStock_AccountStockList_StockByAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -439,7 +439,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("addAccountStock exception " + ex);
+            logger.info("addAccountStock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -459,7 +459,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("removeAccountStock exception " + ex);
+            logger.info("removeAccountStock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -477,7 +477,7 @@ public class ServiceAFwebREST {
 //            stockObj.setUpdateDateDisplay(new java.sql.Date(stockObj.getUpdateDateL()));
             return stockObj;
         } catch (Exception ex) {
-            log.info("getStock_AccountStockList_ByStockID exception " + ex);
+            logger.info("getStock_AccountStockList_ByStockID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -495,7 +495,7 @@ public class ServiceAFwebREST {
 
             return tr;
         } catch (Exception ex) {
-            log.info("getAccountStockByTRname exception " + ex);
+            logger.info("getAccountStockByTRname exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -520,7 +520,7 @@ public class ServiceAFwebREST {
             }
             return trArray;
         } catch (Exception ex) {
-            log.info("getAccountStockListByAccountID exception " + ex);
+            logger.info("getAccountStockListByAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -545,7 +545,7 @@ public class ServiceAFwebREST {
             }
             return trArray;
         } catch (Exception ex) {
-            log.info("getAccountStockListByAccountID exception " + ex);
+            logger.info("getAccountStockListByAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -562,7 +562,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("setAccountStockTran exception " + ex);
+            logger.info("setAccountStockTran exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -579,7 +579,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("getAccountStockClrTranByAccountID exception " + ex);
+            logger.info("getAccountStockClrTranByAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -597,7 +597,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("setAccountStockTRoption exception " + ex);
+            logger.info("setAccountStockTRoption exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -621,7 +621,7 @@ public class ServiceAFwebREST {
             }
             return trArray;
         } catch (Exception ex) {
-            log.info("getAccountStockPerfList exception " + ex);
+            logger.info("getAccountStockPerfList exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -645,7 +645,7 @@ public class ServiceAFwebREST {
             }
             return trArray;
         } catch (Exception ex) {
-            log.info("getAccountStockTranByAccountID exception " + ex);
+            logger.info("getAccountStockTranByAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -668,7 +668,7 @@ public class ServiceAFwebREST {
             }
             return stockArray;
         } catch (Exception ex) {
-            log.info("getStock_AccountStockList_StockByAccountID exception " + ex);
+            logger.info("getStock_AccountStockList_StockByAccountID exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -688,7 +688,7 @@ public class ServiceAFwebREST {
 
             return stock;
         } catch (Exception ex) {
-            log.info("GetRealTimeStockImp exception " + ex);
+            logger.info("GetRealTimeStockImp exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -714,7 +714,7 @@ public class ServiceAFwebREST {
             }
             return stockInfoArray;
         } catch (Exception ex) {
-            log.info("GetStockHistoricalImp exception " + ex);
+            logger.info("GetStockHistoricalImp exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -735,7 +735,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("addStock exception " + ex);
+            logger.info("addStock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -755,7 +755,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("addStock exception " + ex);
+            logger.info("addStock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -775,7 +775,7 @@ public class ServiceAFwebREST {
             return stockNameList;
 
         } catch (Exception ex) {
-            log.info("getAllStockArray exception " + ex);
+            logger.info("getAllStockArray exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -794,7 +794,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("DeleteStockInfo exception " + ex);
+            logger.info("DeleteStockInfo exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -813,7 +813,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("removeStock exception " + ex);
+            logger.info("removeStock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -837,7 +837,7 @@ public class ServiceAFwebREST {
 
             return lockArray;
         } catch (Exception ex) {
-            log.info("getAllLock exception " + ex);
+            logger.info("getAllLock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -860,7 +860,7 @@ public class ServiceAFwebREST {
             return lockObj;
 
         } catch (Exception ex) {
-            log.info("GetLockName exception " + ex);
+            logger.info("GetLockName exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -883,7 +883,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("setRenewLock exception " + ex);
+            logger.info("setRenewLock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
 
         }
@@ -909,7 +909,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("removestockLock exception " + ex);
+            logger.info("removestockLock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -933,7 +933,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("setStockLock exception " + ex);
+            logger.info("setStockLock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -952,7 +952,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("getNeuralNetObj exception " + ex);
+            logger.info("getNeuralNetObj exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -969,7 +969,7 @@ public class ServiceAFwebREST {
             return nnObj;
 
         } catch (Exception ex) {
-            log.info("getNeuralNetObj exception " + ex);
+            logger.info("getNeuralNetObj exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -986,7 +986,7 @@ public class ServiceAFwebREST {
             return nnObj;
 
         } catch (Exception ex) {
-            log.info("getNeuralNetObj exception " + ex);
+            logger.info("getNeuralNetObj exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -1006,7 +1006,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("setStockLock exception " + ex);
+            logger.info("setStockLock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -1025,7 +1025,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("setStockLock exception " + ex);
+            logger.info("setStockLock exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -1045,7 +1045,7 @@ public class ServiceAFwebREST {
             RequestObj sqlResp = new ObjectMapper().readValue(output, RequestObj.class);
             return sqlResp;
         } catch (Exception ex) {
-            log.info("getSQLRequest exception " + ex);
+            logger.info("getSQLRequest exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -1066,7 +1066,7 @@ public class ServiceAFwebREST {
             int result = new ObjectMapper().readValue(output, Integer.class);
             return result;
         } catch (Exception ex) {
-            log.info("updateStockInfoTransaction exception " + ex);
+            logger.info("updateStockInfoTransaction exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
 
         }
@@ -1085,7 +1085,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("removeCustomer exception " + ex);
+            logger.info("removeCustomer exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -1104,7 +1104,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("removeCustomer exception " + ex);
+            logger.info("removeCustomer exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -1123,7 +1123,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            log.info("removeCustomer exception " + ex);
+            logger.info("removeCustomer exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;
@@ -1142,7 +1142,7 @@ public class ServiceAFwebREST {
 
             return stockNameList;
         } catch (Exception ex) {
-            log.info("getAllAccountStockNameListExceptionAdmin exception " + ex);
+            logger.info("getAllAccountStockNameListExceptionAdmin exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -1162,7 +1162,7 @@ public class ServiceAFwebREST {
             return stockNameList;
 
         } catch (Exception ex) {
-            log.info("getAccountStockNameList exception " + ex);
+            logger.info("getAccountStockNameList exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -1186,7 +1186,7 @@ public class ServiceAFwebREST {
             }
             return serverArray;
         } catch (Exception ex) {
-            log.info("getServerList exception " + ex);
+            logger.info("getServerList exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
@@ -1369,7 +1369,7 @@ public class ServiceAFwebREST {
 
             int responseCode = con.getResponseCode();
             if (responseCode != 200) {
-                System.out.println("Response Code:: " + responseCode);
+                logger.info("Response Code:: " + responseCode);
             }
             if (responseCode >= 200 && responseCode < 300) {
                 ;
@@ -1395,7 +1395,7 @@ public class ServiceAFwebREST {
                 // print result
                 return response.toString();
             } else {
-                System.out.println("POST request not worked");
+                logger.info("POST request not worked");
             }
 
         } catch (Exception e) {
@@ -1467,7 +1467,7 @@ public class ServiceAFwebREST {
 
             int responseCode = con.getResponseCode();
             if (responseCode != 200) {
-                System.out.println("Response Code:: " + responseCode);
+                logger.info("Response Code:: " + responseCode);
             }
             if (responseCode >= 200 && responseCode < 300) {
                 ;
@@ -1491,7 +1491,7 @@ public class ServiceAFwebREST {
                 // print result
                 return response.toString();
             } else {
-                System.out.println("POST request not worked");
+                logger.info("POST request not worked");
             }
 
         } catch (Exception e) {
@@ -1508,7 +1508,7 @@ public class ServiceAFwebREST {
         String subResourcePath = CKey.SERVERDB_URL + "/cust/" + CKey.ADMIN_USERNAME + "/sys/mysql";
 
         if (sqlObj.getReq().length() < 3) {
-            log.info("getSQLRequest not correct num " + sendNum + " sql " + sqlObj.getReq());
+            logger.info("getSQLRequest not correct num " + sendNum + " sql " + sqlObj.getReq());
             return "";
         }
 
@@ -1518,11 +1518,11 @@ public class ServiceAFwebREST {
             String output = sendRequest_2(METHOD_POST, subResourcePath, null, sqlSt);
             sendNum++;
             if ((sendNum % 10) == 0) {
-                log.info("getSQLRequest sendNum " + sendNum);
+                logger.info("getSQLRequest sendNum " + sendNum);
             }
             return output;
         } catch (Exception ex) {
-            log.info("getSQLRequest exception " + ex);
+            logger.info("getSQLRequest exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
 
@@ -1541,7 +1541,7 @@ public class ServiceAFwebREST {
 
             }
 
-            System.out.println("sendRequest " + subResourcePath + " Rety " + (i + 1));
+            logger.info("sendRequest " + subResourcePath + " Rety " + (i + 1));
         }
         response = sendRequest_Process_2(method, subResourcePath, queryParams, bodyParams);
         return response;
@@ -1597,7 +1597,7 @@ public class ServiceAFwebREST {
             if (responseCode >= 200 && responseCode < 300) {
                 ;
             } else {
-                System.out.println("bodyElement :: " + bodyElement);
+                logger.info("bodyElement :: " + bodyElement);
                 return null;
             }
             if (responseCode == HttpURLConnection.HTTP_OK) { //success
@@ -1613,11 +1613,11 @@ public class ServiceAFwebREST {
                 // print result
                 return response.toString();
             } else {
-                log.info("POST request not worked");
+                logger.info("POST request not worked");
             }
 
         } catch (Exception e) {
-            log.info("Error sending REST request:" + e);
+            logger.info("Error sending REST request:" + e);
             throw e;
         }
         return null;

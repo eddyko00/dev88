@@ -411,8 +411,7 @@ public class StockInfoUtils {
             stockInfo.setVolume(volume);
             return stockInfo;
         } catch (Exception ex) {
-            System.out.println("Exception:" + line);
-            System.out.println(ex);
+            StockInfoUtils.logger.info("Exception:" + line +" "+ ex.getMessage());
 
         }
         return null;

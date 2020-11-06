@@ -1995,8 +1995,7 @@ public class TradingNNprocess {
             x = (int) (s.charAt(i + 1));
             hex_value = hex_value + Integer.toHexString(x);
             // Extract two characters and get their hexadecimal ASCII values
-            System.out.println(s.charAt(i) + "" + s.charAt(i + 1) + " : "
-                    + hex_value);
+//            System.out.println(s.charAt(i) + "" + s.charAt(i + 1) + " : " + hex_value);
             x = Integer.parseInt(hex_value, 16);
             // Convert the hex_value into int and store it
             checksum += x;
@@ -2009,15 +2008,14 @@ public class TradingNNprocess {
             hex_value = Integer.toHexString(x);
             x = (int) (s.charAt(i + 1));
             hex_value = hex_value + Integer.toHexString(x);
-            System.out.println(s.charAt(i) + "" + s.charAt(i + 1) + " : "
-                    + hex_value);
+//            System.out.println(s.charAt(i) + "" + s.charAt(i + 1) + " : " + hex_value);
             x = Integer.parseInt(hex_value, 16);
         } else {
             // If number of characters is odd, last 2 digits will be 00.
             x = (int) (s.charAt(i));
             hex_value = "00" + Integer.toHexString(x);
             x = Integer.parseInt(hex_value, 16);
-            System.out.println(s.charAt(i) + " : " + hex_value);
+//            System.out.println(s.charAt(i) + " : " + hex_value);
         }
         checksum += x;
         // Add the generated value of 'x' from the if-else case into 'checksum'
