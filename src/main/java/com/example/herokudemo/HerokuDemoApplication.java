@@ -24,8 +24,8 @@ public class HerokuDemoApplication {
             String cmd = args[0];
             if (cmd.indexOf("javamain") != -1) {
                 webapp = false;
+                Javamain.javamain(args);
             }
-            Javamain.javamain(args);
         }
         SpringApplication.run(HerokuDemoApplication.class, args);
 
