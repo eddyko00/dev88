@@ -684,7 +684,7 @@ public class NNProcessByTrend {
         logger.info("ProcessTrainNeuralNetByTrend " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long LastServUpdateTimer = System.currentTimeMillis();
-            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 10); // add 3 minutes
+            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 15); // add 3 minutes
 
 //            for (int i = 0; i < 10; i++) {
             while (true) {
@@ -693,7 +693,7 @@ public class NNProcessByTrend {
                     currentTime = 0;
                 }
                 if (lockDate5Min < currentTime) {
-                    logger.info("ProcessTrainNeuralNetByTrend exit after 10 minutes");
+                    logger.info("ProcessTrainNeuralNetByTrend exit after 15 minutes");
                     break;
                 }
 

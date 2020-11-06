@@ -888,7 +888,7 @@ public class NNProcessBySignal {
         logger.info("ProcessTrainNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long LastServUpdateTimer = System.currentTimeMillis();
-            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 10); // add 3 minutes
+            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 15); // add 3 minutes
 
 //            for (int i = 0; i < 10; i++) {
             while (true) {
@@ -897,7 +897,7 @@ public class NNProcessBySignal {
                     currentTime = 0;
                 }
                 if (lockDate5Min < currentTime) {
-                    logger.info("ProcessTrainNeuralNet exit after 10 minutes");
+                    logger.info("ProcessTrainNeuralNet exit after 15 minutes");
                     break;
                 }
 

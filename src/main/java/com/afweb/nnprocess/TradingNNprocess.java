@@ -77,7 +77,12 @@ public class TradingNNprocess {
         if (stockNNretrainNameArray.size() == 0) {
             return;
         }
-        logger.info("> ProcessReTrainNeuralNet stockNNretrainNameArray size " + stockNNretrainNameArray.size());
+        String printName = "";
+        for (int i = 0; i < stockNNretrainNameArray.size(); i++) {
+            printName += stockNNretrainNameArray.get(i) + ",";
+        }
+        logger.info("ProcessReTrainNeuralNet " + printName);
+//        logger.info("> ProcessReTrainNeuralNet stockNNretrainNameArray size " + stockNNretrainNameArray.size());
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
