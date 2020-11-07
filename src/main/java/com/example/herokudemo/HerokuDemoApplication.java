@@ -41,9 +41,9 @@ public class HerokuDemoApplication {
         if (timerSchCnt < 0) {
             timerSchCnt = 100;
         }
-        if (webapp == true) {
-            Javamain.javamain(null);
-        }
+//        if (webapp == true) {
+//            Javamain.javamain(null);
+//        }
         try {
             if (getEnv.checkLocalPC() == true) {
                 restTimer.RestTimerHandler();
