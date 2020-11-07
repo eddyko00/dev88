@@ -2505,7 +2505,15 @@ public class TrandingSignalProcess {
 
             }
             if (getEnv.checkLocalPC() == true) {
-                if (CKey.NN_DEBUG == true) {
+
+                boolean flag = false;
+                if (nnNameSym.equals("TR_NN1")) {
+                    flag = true;
+                } else if (nnNameSym.equals("TR_NN3")) {
+                    flag = true;
+                }
+
+                if (flag == true) {
                     AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
                     if (nnObj0 != null) {
                         String weightSt0 = nnObj0.getWeight();
@@ -2588,8 +2596,16 @@ public class TrandingSignalProcess {
             return retFlag;
         }
 
-        if (CKey.NN_DEBUG == true) {
-            if (getEnv.checkLocalPC() == true) {
+        if (getEnv.checkLocalPC() == true) {
+
+            boolean flag = false;
+            if (nnNameSym.equals("TR_NN1")) {
+                flag = true;
+            } else if (nnNameSym.equals("TR_NN3")) {
+                flag = true;
+            }
+
+            if (flag == true) {
                 AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
                 if (nnObj1 != null) {
                     String weightSt11 = nnObj1.getWeight();
