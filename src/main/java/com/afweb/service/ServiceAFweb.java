@@ -678,6 +678,13 @@ public class ServiceAFweb {
         if (processinputTrainflag == true) {
             nnProcBySig.processNeuralNetTrain(this);
         }
+
+        // Main training nn and trend
+        boolean processReLearninputTrainflag = false;
+        if (processReLearninputTrainflag == true) {
+            nnProcBySig.processNeuralNetRelearn(this);
+        }
+        
         
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version
