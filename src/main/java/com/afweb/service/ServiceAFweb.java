@@ -678,7 +678,7 @@ public class ServiceAFweb {
         if (processinputTrainflag == true) {
             nnProcBySig.processNeuralNetTrain(this);
         }
-
+        
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version
         boolean processRestinputflag = false;

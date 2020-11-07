@@ -58,11 +58,6 @@ public class TradingNNprocess {
                 String sym = (String) stockNameArray.get(i);
                 String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                 stockTRNameArray.add(symTR);
-//                boolean NN2flag = true;
-//                if (NN2flag == true) {
-//                    symTR = sym + "#" + ConstantKey.INT_TR_NN2;
-//                    stockTRNameArray.add(symTR);
-//                }
             }
             setStockNNretrainNameArray(stockTRNameArray);
         }
@@ -70,7 +65,7 @@ public class TradingNNprocess {
     }
 
     public void ProcessReLearnInputNeuralNet(ServiceAFweb serviceAFWeb) {
-
+        reLearnInputStockNNprocessNameArray(serviceAFWeb);
         if (stockNNretrainNameArray == null) {
             return;
         }
@@ -97,7 +92,7 @@ public class TradingNNprocess {
         logger.info("ProcessReLearnInputNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long LastServUpdateTimer = System.currentTimeMillis();
-            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 5); // add 3 minutes
+            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 15); // add 3 minutes
 
 //            for (int i = 0; i < 10; i++) {
             while (true) {
@@ -106,66 +101,69 @@ public class TradingNNprocess {
                     currentTime = 0;
                 }
                 if (lockDate5Min < currentTime) {
+                    logger.info("ProcessReLearnInputNeuralNet exit after 15 minutes");
                     break;
                 }
                 if (stockNNretrainNameArray.size() == 0) {
                     break;
                 }
-                try {
-                    String symbolTR = (String) stockNNretrainNameArray.get(0);
-                    stockNNretrainNameArray.remove(0);
 
-                    String[] symbolArray = symbolTR.split("#");
-                    if (symbolArray.length >= 0) {
+                String symbolTR = (String) stockNNretrainNameArray.get(0);
+                stockNNretrainNameArray.remove(0);
 
-                        String symbol = symbolArray[0];
-                        int trNN = Integer.parseInt(symbolArray[1]);
+                String[] symbolArray = symbolTR.split("#");
+                if (symbolArray.length >= 0) {
 
-                        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-                        if (stock != null) {
+                    String symbol = symbolArray[0];
+                    int trNN = Integer.parseInt(symbolArray[1]);
 
-                            String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
-                            LockStock = LockStock.toUpperCase();
+                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+                    if (stock != null) {
 
-                            long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                            long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
-                            if (testing == true) {
-                                lockReturnStock = 1;
-                            }
-                            logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
-                            if (lockReturnStock > 0) {
+                        String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
+                        LockStock = LockStock.toUpperCase();
+
+                        long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+                        long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
+                        if (testing == true) {
+                            lockReturnStock = 1;
+                        }
+                        logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+                        if (lockReturnStock > 0) {
+                            try {
                                 inputReTrainStockNeuralNetData(serviceAFWeb, trNN, symbol);
-                                serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-                                logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
+
                                 //////////
-                                int cfgId = 0;;
-                                String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
-                                ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
-                                if (commObjArry != null) {
-                                    if (commObjArry.size() > 0) {
-                                        CommObj commObj = commObjArry.get(0);
-                                        String dataSt = "";
-                                        try {
-                                            dataSt = new ObjectMapper().writeValueAsString(stockNNretrainNameArray);
-                                        } catch (JsonProcessingException ex) {
-                                        }
-                                        dataSt = StringTag.replaceAll("\"", "^", dataSt);
-                                        commObj.setData(dataSt);
-                                        serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
-                                    }
-                                }
+//                                int cfgId = 0;;
+//                                String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
+//                                ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
+//                                if (commObjArry != null) {
+//                                    if (commObjArry.size() > 0) {
+//                                        CommObj commObj = commObjArry.get(0);
+//                                        String dataSt = "";
+//                                        try {
+//                                            dataSt = new ObjectMapper().writeValueAsString(stockNNretrainNameArray);
+//                                        } catch (JsonProcessingException ex) {
+//                                        }
+//                                        dataSt = StringTag.replaceAll("\"", "^", dataSt);
+//                                        commObj.setData(dataSt);
+//                                        serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
+//                                    }
+//                                }
                                 ////////////
+                            } catch (Exception ex) {
+                                logger.info("> ProcessReLearnInputNeuralNet Exception" + ex.getMessage());
                             }
+                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                            logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
                         }
                     }
-                } catch (Exception ex) {
-                    logger.info("> ProcessReLearnInputNeuralNet Exception" + ex.getMessage());
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
-            logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
+            logger.info("ProcessReLearnInputNeuralNet " + LockName + " unlock LockName");
         }
-//        logger.info("> ProcessTrainNeuralNet ... done");
+        logger.info("> ProcessReLearnInputNeuralNet ... done");
     }
 
     public int ClearStockNNTranHistory(ServiceAFweb serviceAFWeb, String nnName) {

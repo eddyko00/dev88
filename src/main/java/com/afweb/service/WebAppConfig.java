@@ -48,11 +48,11 @@ public class WebAppConfig {
 //MYSQL_SERVICE_HOST=172.30.136.72
 //sh-4.2$ 
 //Open Shfit error Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://172.30.136.72:3306/sampledb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
-            dataSource.setUsername("sa");
-            dataSource.setPassword("admin");
+//            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+////            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//            dataSource.setUrl("jdbc:mysql://172.30.136.72:3306/sampledb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
+//            dataSource.setUsername("sa");
+//            dataSource.setPassword("admin");
 
 //$host = "bmppikx9mn79axgjlhh4-mysql.services.clever-cloud.com";
 //$username = "uphyltwqsqsipjri";
@@ -63,7 +63,7 @@ public class WebAppConfig {
             dataSource.setUrl("jdbc:mysql://bmppikx9mn79axgjlhh4-mysql.services.clever-cloud.com:3306/bmppikx9mn79axgjlhh4?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
             dataSource.setUsername("uphyltwqsqsipjri");
             dataSource.setPassword("5V7FaMjFWryhGXYcagw2");
-
+                       
         }
         if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
             dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
