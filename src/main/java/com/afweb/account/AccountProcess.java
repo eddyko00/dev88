@@ -1189,6 +1189,7 @@ public class AccountProcess {
 ////////////////////////////////////////    
     public boolean restoreNNonlyDBData(ServiceAFweb serviceAFWeb) {
         int ret = restoreDBneuralnetProcess(serviceAFWeb, "neuralnet");
+        ret = restoreDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
         return true;
     }
 

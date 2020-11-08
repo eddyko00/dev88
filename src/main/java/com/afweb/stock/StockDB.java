@@ -733,12 +733,17 @@ public class StockDB {
     public boolean cleanNNonlyStockDB() {
         try {
             processExecuteDB("drop table if exists neuralnet");
+            processExecuteDB("drop table if exists neuralnetdata");            
             ArrayList createTableList = new ArrayList();
             if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
                 createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+                
             }
             if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+                createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+
             }
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultCreate = ExecuteSQLArrayList(createTableList);
