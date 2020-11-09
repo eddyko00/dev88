@@ -41,9 +41,9 @@ public class NNProcessByTrend {
 
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning
             TrandingSignalProcess.forceToGenerateNewNN = false;
-            logger.info("> flagIntitNN3Input TR NN1... ");
+            logger.info("> processInputNeuralNetTrend TR NN1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
-            logger.info("> flagIntitNN3Input TR NN2... ");
+            logger.info("> processInputNeuralNetTrend TR NN2... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
@@ -61,11 +61,23 @@ public class NNProcessByTrend {
             NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
             NeuralNetProcessTesting(serviceAFWeb);
             NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
-            logger.info("> flagIntitNN3Input TR NN3 end....... ");
+            logger.info("> processInputNeuralNetTrend TR NN3 end....... ");
 
         }
 
         ////////////////////////////////////////////
+    }
+
+    public void processAllStockInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
+
+        logger.info("> processAllStockInputNeuralNetTrend TR NN1... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+        logger.info("> processAllStockInputNeuralNetTrend TR NN2... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
+
+        NeuralNetAllStockNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
+        logger.info("> processAllStockInputNeuralNetTrend TR NN3 end....... ");
+
     }
 
     public void processNeuralNetTrendPred(ServiceAFweb serviceAFWeb) {
@@ -254,6 +266,23 @@ public class NNProcessByTrend {
 
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
+            for (int i = 0; i < symbolL.length; i++) {
+                symbol = symbolL[i];
+                ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, TR_Name, size);
+            }
+        }
+    }
+    
+    private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
+        int sizeYr = 1;
+        for (int j = 0; j < sizeYr; j++) { //4; j++) {
+            int size = 20 * CKey.MONTH_SIZE * j;
+//                writeArrayNeuralNet.clear();
+            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
+            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+
+            String symbol = "";
+            String symbolL[] = ServiceAFweb.allStock;
             for (int i = 0; i < symbolL.length; i++) {
                 symbol = symbolL[i];
                 ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, TR_Name, size);
@@ -606,6 +635,73 @@ public class NNProcessByTrend {
                     + ""
             );
             fileN = ServiceAFweb.FileLocalDebugPath + "nn3Data.java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+    
+    public boolean NeuralNetAllStockNN3CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+        try {
+            TRprocessImp.getStaticJavaAllStockInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "\n"
+                    + "public class nn3AllData {\n"
+                    + "\n");
+            int sizeline = 1000;
+            int len = inputListSt.length();
+            int beg = 0;
+            int end = sizeline;
+            int index = 1;
+            int line = 0;
+            
+            while (true) {
+                if (line == 0) {
+                    msgWrite.append(""
+                            + "    public static String " + nnName + "_ALLINPUTLIST" + index + " = \"\"\n"
+                            + "            + \"\"\n");
+                }
+                line++;
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.append("+ \"" + st + "\"\n");
+
+                if (end >= len) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+
+                    break;
+                }
+                if (line == 20) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+                    line = 0;
+                    index++;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
+            String fileN = ServiceAFweb.FileLocalDebugPath + "nn3AllData.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {

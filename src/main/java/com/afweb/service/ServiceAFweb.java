@@ -83,6 +83,7 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
+    public static String allStock[] = {"AAPL", "AEM", "BABA", "FB", "GLD", "MSFT", "T.TO", "UNH"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 //    public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO"};
 
@@ -684,14 +685,17 @@ public class ServiceAFweb {
         if (processReLearninputTrainflag == true) {
             nnProcBySig.processNeuralNetRelearn(this);
         }
-        
-        
+
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version
         boolean processRestinputflag = false;
         if (processRestinputflag == true) {
             nnProcBySig.processInputNeuralNet(this);
             nnStProcByTrend.processInputNeuralNetTrend(this);
+            ///////////////////////////////
+            nnProcBySig.processAllStockInputNeuralNet(this);
+            nnStProcByTrend.processAllStockInputNeuralNetTrend(this);
+
         }
 
         /// reset NN1 NN2 transaction and graph

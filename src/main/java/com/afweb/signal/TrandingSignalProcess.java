@@ -1875,58 +1875,36 @@ public class TrandingSignalProcess {
         return inputDatalist;
     }
 
-//    public ArrayList<NNInputOutObj> getTrainingInputFromFile(ServiceAFweb serviceAFWeb, String nnName) {
-//        ArrayList<NNInputOutObj> inputlist = new ArrayList();
-//        HashMap<String, ArrayList> stockInputMap = null;
-//        ArrayList<NNInputDataObj> inputDatalist = this.getTrainingInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-//
-//        //convert inptdatalist to inputlist
-//        for (int i = 0; i < inputDatalist.size(); i++) {
-//            NNInputDataObj inputDObj = inputDatalist.get(i);
-//            NNInputOutObj inputObj = new NNInputOutObj();
-//            inputObj.setDateSt(inputDObj.getObj().getDateSt());
-//            inputObj.setClose(inputDObj.getObj().getClose());
-//            inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-//            inputObj.setInput1(inputDObj.getObj().getInput1());
-//            inputObj.setInput2(inputDObj.getObj().getInput2());
-//            inputObj.setInput3(inputDObj.getObj().getInput3());
-//            inputObj.setInput4(inputDObj.getObj().getInput4());
-//            inputObj.setInput5(inputDObj.getObj().getInput5());
-//            inputObj.setInput6(inputDObj.getObj().getInput6());
-//            inputObj.setInput7(inputDObj.getObj().getInput7());
-//            inputObj.setInput8(inputDObj.getObj().getInput8());
-//            inputObj.setInput9(inputDObj.getObj().getInput9());
-//            inputObj.setInput10(inputDObj.getObj().getInput10());
-//            inputObj.setInput11(inputDObj.getObj().getInput11());
-//            inputObj.setInput12(inputDObj.getObj().getInput12());
-//            inputObj.setInput13(inputDObj.getObj().getInput13());
-//            inputObj.setOutput1(inputDObj.getObj().getOutput1());
-//            inputObj.setOutput2(inputDObj.getObj().getOutput2());
-//            inputObj.setOutput3(inputDObj.getObj().getOutput3());
-//            inputObj.setOutput4(inputDObj.getObj().getOutput4());
-////            inputObj.setOutput5(inputDObj.getObj().getOutput5());
-////            inputObj.setOutput6(inputDObj.getObj().getOutput6());
-////            inputObj.setOutput7(inputDObj.getObj().getOutput7());
-////            inputObj.setOutput8(inputDObj.getObj().getOutput8());
-//            if (inputDObj.getObj().getOutput1() < 0) {
-//                // ignore negative -1
-//                continue;
-//            }
-//            if (inputDObj.getObj().getOutput2() < 0) {
-//                // ignore negative -1
-//                continue;
-//            }
-//            inputlist.add(inputObj);
-//        }
-//
-//        return inputlist;
-//    }
+
     public ArrayList<NNInputDataObj> getStaticJavaInputDataFromFile(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
 
         String symbol = "";
         String symbolL[] = ServiceAFweb.primaryStock;
+
+        for (int i = 0; i < symbolL.length; i++) {
+            symbol = symbolL[i];
+            inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, nnName, symbol);
+            if (inputlist.size() == 0) {
+                return null;
+            }
+            inputlistRet.addAll(inputlist);
+            if (stockInputMap != null) {
+                stockInputMap.put(symbol, inputlist);
+            }
+        }
+
+        return inputlistRet;
+
+    }
+
+    public ArrayList<NNInputDataObj> getStaticJavaAllStockInputDataFromFile(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
+        ArrayList<NNInputDataObj> inputlist = new ArrayList();
+        ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
+
+        String symbol = "";
+        String symbolL[] = ServiceAFweb.allStock;
 
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
