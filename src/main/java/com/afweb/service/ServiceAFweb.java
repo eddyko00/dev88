@@ -688,7 +688,7 @@ public class ServiceAFweb {
 
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version
-        boolean processRestinputflag = false;
+        boolean processRestinputflag = true;
         if (processRestinputflag == true) {
             nnProcBySig.processInputNeuralNet(this);
             nnStProcByTrend.processInputNeuralNetTrend(this);

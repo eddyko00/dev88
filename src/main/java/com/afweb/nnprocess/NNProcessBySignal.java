@@ -1282,4 +1282,50 @@ public class NNProcessBySignal {
         return null;
     }
 
+    public static ArrayList<NNInputDataObj> NeuralNetAllStockGetNN1InputfromStaticCode(String symbol, String subSymbol) {
+        StringBuffer inputBuf = new StringBuffer();
+        ArrayList<NNInputDataObj> inputlist = new ArrayList();
+        try {
+            inputBuf.append(nnAllData.NN_ALLINPUTLIST1);
+            inputBuf.append(nnAllData.NN_ALLINPUTLIST2);
+            inputBuf.append(nnAllData.NN_ALLINPUTLIST3);
+            inputBuf.append(nnAllData.NN_ALLINPUTLIST4);
+//            inputBuf.append(nnAllData.NN_ALLINPUTLIST5); //need to check nnData file
+
+            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
+            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+            stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
+            if (symbol != "") {
+                inputlist = stockInputMap.get(symbol);
+                if (inputlist == null) {
+                    return null;
+                }
+                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
+                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
+                inputlist = new ArrayList<NNInputDataObj>(listItem);
+                return inputlist;
+            }
+
+            for (String sym : stockInputMap.keySet()) {
+                if (subSymbol != null) {
+                    if (subSymbol.equals(sym)) {
+                        continue;
+                    }
+                }
+                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
+                String inputListRawSt = new ObjectMapper().writeValueAsString(inputL);
+                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
+                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
+                inputL = new ArrayList<NNInputDataObj>(listItem);
+                inputlist.addAll(inputL);
+            }
+
+            return inputlist;
+        } catch (Exception ex) {
+            logger.info("> NeuralNetAllStockGetNN1InputfromStaticCode - exception " + ex);
+        }
+        return null;
+    }
+   
 }
