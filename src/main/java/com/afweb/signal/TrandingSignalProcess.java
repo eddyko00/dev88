@@ -2541,73 +2541,72 @@ public class TrandingSignalProcess {
                     flag = true;
                 }
 
-                if (flag == true) {
-                    AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
-                    if (nnObj0 != null) {
-                        String weightSt0 = nnObj0.getWeight();
-                        if (weightSt0.length() > 0) {
-                            NNBPservice nn0 = new NNBPservice();
-                            nn0.createNet(weightSt0);
-                            errorReturn = nn0.predictTest(inputpattern, targetpattern, response, nnError);
+                AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+                if (nnObj0 != null) {
+                    String weightSt0 = nnObj0.getWeight();
+                    if (weightSt0.length() > 0) {
+                        NNBPservice nn0 = new NNBPservice();
+                        nn0.createNet(weightSt0);
+                        errorReturn = nn0.predictTest(inputpattern, targetpattern, response, nnError);
 
-                            double[] input;
-                            double[] output;
-                            double[] rsp;
-                            ArrayList writeArray = new ArrayList();
-                            int num0 = 0;
-                            int num1 = 0;
-                            int num0Err = 0;
-                            int num1Err = 0;
-                            for (int j = 0; j < inputpattern.length; j++) {
-                                input = inputpattern[j];
-                                output = targetpattern[j];
-                                rsp = response[j];
-                                if (j == 0) {
+                        double[] input;
+                        double[] output;
+                        double[] rsp;
+                        ArrayList writeArray = new ArrayList();
+                        int num0 = 0;
+                        int num1 = 0;
+                        int num0Err = 0;
+                        int num1Err = 0;
+                        for (int j = 0; j < inputpattern.length; j++) {
+                            input = inputpattern[j];
+                            output = targetpattern[j];
+                            rsp = response[j];
+                            if (j == 0) {
 
-                                    String stTitle = "" + "output0"
-                                            + "," + "output1"
-                                            + "," + "macd TSig"
-                                            + "," + "LTerm"
-                                            + "," + "ema2050" + "," + "macd" + "," + "rsi"
-                                            + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
-                                            + "," + "predict0" + "," + "predict1" + "";
-                                    writeArray.add(stTitle);
-                                }
-
-                                String st = "";
-
-                                st = "" + output[0]
-                                        + "," + output[1]
-                                        + "," + input[0] + "," + input[1] + "," + input[2]
-                                        + "," + input[3] + "," + input[4] + "," + input[5]
-                                        + "," + input[6] + "," + input[7]
-                                        + "," + input[8] + "," + input[9]
-                                        + "," + rsp[0] + "," + rsp[1]
-                                        + "";
-                                if (output[0] > CKey.PREDICT_THRESHOLD) {
-                                    num0++;
-                                }
-                                if (output[1] > CKey.PREDICT_THRESHOLD) {
-                                    num1++;
-                                }
-                                float delta = (float) (output[0] - rsp[0]);
-                                delta = Math.abs(delta);
-                                float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-
-                                if (delta > deltaCmp) {
-                                    st += "," + delta + "";
-                                    num0Err++;
-                                }
-                                float delta1 = (float) (output[1] - rsp[1]);
-                                delta1 = Math.abs(delta1);
-
-                                if (delta1 > deltaCmp) {
-                                    st += "," + delta1 + "";
-                                    num1Err++;
-                                }
-                                writeArray.add(st);
+                                String stTitle = "" + "output0"
+                                        + "," + "output1"
+                                        + "," + "macd TSig"
+                                        + "," + "LTerm"
+                                        + "," + "ema2050" + "," + "macd" + "," + "rsi"
+                                        + "," + "close-0" + "," + "close-1" + "," + "close-2" + "," + "close-3" + "," + "close-4"
+                                        + "," + "predict0" + "," + "predict1" + "";
+                                writeArray.add(stTitle);
                             }
 
+                            String st = "";
+
+                            st = "" + output[0]
+                                    + "," + output[1]
+                                    + "," + input[0] + "," + input[1] + "," + input[2]
+                                    + "," + input[3] + "," + input[4] + "," + input[5]
+                                    + "," + input[6] + "," + input[7]
+                                    + "," + input[8] + "," + input[9]
+                                    + "," + rsp[0] + "," + rsp[1]
+                                    + "";
+                            if (output[0] > CKey.PREDICT_THRESHOLD) {
+                                num0++;
+                            }
+                            if (output[1] > CKey.PREDICT_THRESHOLD) {
+                                num1++;
+                            }
+                            float delta = (float) (output[0] - rsp[0]);
+                            delta = Math.abs(delta);
+                            float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
+
+                            if (delta > deltaCmp) {
+                                st += "," + delta + "";
+                                num0Err++;
+                            }
+                            float delta1 = (float) (output[1] - rsp[1]);
+                            delta1 = Math.abs(delta1);
+
+                            if (delta1 > deltaCmp) {
+                                st += "," + delta1 + "";
+                                num1Err++;
+                            }
+                            writeArray.add(st);
+                        }
+                        if (flag == true) {
                             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
 
                             StringBuffer msg = new StringBuffer(weightSt0);
@@ -2626,59 +2625,47 @@ public class TrandingSignalProcess {
 
         if (getEnv.checkLocalPC() == true) {
 
-            boolean flag = false;
-            if (nnNameSym.equals("TR_NN1")) {
-                flag = true;
-            } else if (nnNameSym.equals("TR_NN3")) {
-                flag = true;
-            }
+            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
+            if (nnObj1 != null) {
+                String weightSt11 = nnObj1.getWeight();
+                if (weightSt1.length() > 0) {
+                    NNBPservice nn1 = new NNBPservice();
+                    nn1.createNet(weightSt11);
+                    errorReturn = nn1.predictTest(inputpattern, targetpattern, response, nnError);
 
-            if (flag == true) {
-                AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
-                if (nnObj1 != null) {
-                    String weightSt11 = nnObj1.getWeight();
-                    if (weightSt1.length() > 0) {
-                        NNBPservice nn1 = new NNBPservice();
-                        nn1.createNet(weightSt11);
-                        errorReturn = nn1.predictTest(inputpattern, targetpattern, response, nnError);
+                    double[] output;
+                    double[] rsp;
+                    int num0 = 0;
+                    int num1 = 0;
+                    int num0Err = 0;
+                    int num1Err = 0;
+                    for (int j = 0; j < inputpattern.length; j++) {
+                        input = inputpattern[j];
+                        output = targetpattern[j];
+                        rsp = response[j];
 
-                        double[] input;
-                        double[] output;
-                        double[] rsp;
-                        ArrayList writeArray = new ArrayList();
-                        int num0 = 0;
-                        int num1 = 0;
-                        int num0Err = 0;
-                        int num1Err = 0;
-                        for (int j = 0; j < inputpattern.length; j++) {
-                            input = inputpattern[j];
-                            output = targetpattern[j];
-                            rsp = response[j];
-
-                            if (output[0] > CKey.PREDICT_THRESHOLD) {
-                                num0++;
-                            }
-                            if (output[1] > CKey.PREDICT_THRESHOLD) {
-                                num1++;
-                            }
-                            float delta = (float) (output[0] - rsp[0]);
-                            delta = Math.abs(delta);
-                            float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
-
-                            if (delta > deltaCmp) {
-                                num0Err++;
-                            }
-                            float delta1 = (float) (output[1] - rsp[1]);
-                            delta1 = Math.abs(delta1);
-
-                            if (delta1 > deltaCmp) {
-
-                                num1Err++;
-                            }
+                        if (output[0] > CKey.PREDICT_THRESHOLD) {
+                            num0++;
                         }
-                        logger.info("> predictTest nnObj1 " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
+                        if (output[1] > CKey.PREDICT_THRESHOLD) {
+                            num1++;
+                        }
+                        float delta = (float) (output[0] - rsp[0]);
+                        delta = Math.abs(delta);
+                        float deltaCmp = (float) CKey.PREDICT_THRESHOLD;
 
+                        if (delta > deltaCmp) {
+                            num0Err++;
+                        }
+                        float delta1 = (float) (output[1] - rsp[1]);
+                        delta1 = Math.abs(delta1);
+
+                        if (delta1 > deltaCmp) {
+
+                            num1Err++;
+                        }
                     }
+                    logger.info("> predictTest nnObj1 " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
                 }
             }
         } // training completed and release the NN
