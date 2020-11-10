@@ -1337,8 +1337,16 @@ public class AccountProcess {
             if (FileUtil.FileTest(fileName) == false) {
                 break;
             }
+            //////only require for VMware local
+            if (CKey.DELAY_RESTORE == true) {
+                if (fileCont > 0) {
+                    ServiceAFweb.AFSleep1Sec(60);
+                }
+            }
+            //////only require for VMware local
             ret = restoreDBstockinfo(serviceAFWeb, fileCont);
             fileCont++;
+
         }
         return ret;
     }

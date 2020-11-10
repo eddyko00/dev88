@@ -39,6 +39,7 @@ public class CKey {
 
     
     public static boolean SPECIAL1_VOL = true;   // always true 
+    public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
     /////
     ////////////////////// make this always true for HEROKU Env
     ////////////////////// make this always true for HEROKU Env

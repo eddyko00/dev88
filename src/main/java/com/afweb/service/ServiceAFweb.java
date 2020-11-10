@@ -686,17 +686,6 @@ public class ServiceAFweb {
             nnProcBySig.processNeuralNetRelearn(this);
         }
 
-        /// reset weight0 and use latest stock
-        /// remember to update nnData and nn3Data and version
-        boolean processRestinputflag = false;
-        if (processRestinputflag == true) {
-            nnProcBySig.processInputNeuralNet(this);
-            nnStProcByTrend.processInputNeuralNetTrend(this);
-            ///////////////////////////////
-            nnProcBySig.processAllStockInputNeuralNet(this);
-            nnStProcByTrend.processAllStockInputNeuralNetTrend(this);
-
-        }
 
         /// reset NN1 NN2 transaction and graph
         boolean flagSignal = false;
@@ -727,7 +716,21 @@ public class ServiceAFweb {
                 }
             }
         }
+        
+        
+        /// reset weight0 and use latest stock
+        /// remember to update nnData and nn3Data and version
+        boolean processRestinputflag = false;
+        if (processRestinputflag == true) {
+            nnProcBySig.processInputNeuralNet(this);
+            nnStProcByTrend.processInputNeuralNetTrend(this);
+            ///////////////////////////////
+            nnProcBySig.processAllStockInputNeuralNet(this);
+            nnStProcByTrend.processAllStockInputNeuralNetTrend(this);
 
+        }
+
+        
         ///// only acc reset
         boolean flagTran_TR_ACC = false;
         if (flagTran_TR_ACC == true) {
