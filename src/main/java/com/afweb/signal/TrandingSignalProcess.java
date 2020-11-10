@@ -2534,13 +2534,6 @@ public class TrandingSignalProcess {
             }
             if (getEnv.checkLocalPC() == true) {
 
-                boolean flag = false;
-                if (nnNameSym.equals("TR_NN1")) {
-                    flag = true;
-                } else if (nnNameSym.equals("TR_NN3")) {
-                    flag = true;
-                }
-
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
                 if (nnObj0 != null) {
                     String weightSt0 = nnObj0.getWeight();
@@ -2606,12 +2599,19 @@ public class TrandingSignalProcess {
                             }
                             writeArray.add(st);
                         }
+                        logger.info("> predictTest release " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
+                        
+                        boolean flag = false;
+                        if (nnNameSym.equals("TR_NN1")) {
+                            flag = true;
+                        } else if (nnNameSym.equals("TR_NN3")) {
+                            flag = true;
+                        }
                         if (flag == true) {
                             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
 
                             StringBuffer msg = new StringBuffer(weightSt0);
                             FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight0.txt", msg);
-                            logger.info("> predictTest release " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
                         }
                     }
                 }
