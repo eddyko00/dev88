@@ -48,13 +48,15 @@ public class NNProcessBySignal {
             while (true) {
                 k++;
 
+                if (((k % 5) == 0) || (k == 0)) {
+                    NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
+                    NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
+                }
                 logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
-                NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
                 ProcessTrainNeuralNetBySign(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
 //////////////////////////                
                 logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
-                NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
                 nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet NN 3 end... cycle " + k);
 ///////////////////////////
@@ -77,13 +79,11 @@ public class NNProcessBySignal {
         int k = 0;
         while (true) {
             k++;
-            //                int custId = 0;;
-//                serviceAFWeb.getAccountImp().removeCommByCustID(custId);
-//
+
             logger.info("> ProcessReLeanInput NN 1 cycle " + k);
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
-//            ProcessReLeanInput(serviceAFWeb);
+
             logger.info("> ProcessReLeanInput end... cycle " + k);
 //            logger.info("> SystemPocessFundMgr start... ");
 //            serviceAFWeb.SystemPocessFundMgr();
@@ -928,7 +928,7 @@ public class NNProcessBySignal {
                     //////////////////////
                     // just for testing
 //                    symbol = "BABA";
-                
+
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
 
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -1063,7 +1063,7 @@ public class NNProcessBySignal {
                 TradingNNprocess trainNN = new TradingNNprocess();
 //                ArrayList<NNInputDataObj> inputlistSym = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, TR_Name, 0);
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
-                ArrayList <NNInputDataObj> inputlistSym1 = new ArrayList();
+                ArrayList<NNInputDataObj> inputlistSym1 = new ArrayList();
                 ArrayList<NNInputDataObj> inputlistSym2 = new ArrayList();
 
                 /// just for testing
@@ -1129,7 +1129,7 @@ public class NNProcessBySignal {
                             }
                         }
                     }
-                }                
+                }
                 if (inputlistSym != null) {
                     //merge inputlistSym
 
@@ -1324,7 +1324,6 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllData.NN_ALLINPUTLIST7);
 //            inputBuf.append(nnAllData.NN_ALLINPUTLIST8); //need to check nnData file
 
-
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
@@ -1360,5 +1359,5 @@ public class NNProcessBySignal {
         }
         return null;
     }
-   
+
 }
