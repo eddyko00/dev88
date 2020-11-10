@@ -65,7 +65,7 @@ public class ProcessNN1 {
 
         nnTraining.setNameNN(BPname);
         nnTraining.setSymbol(symbol);
-        nnTraining.setTrname(ConstantKey.TR_NN1);        
+        nnTraining.setTrname(ConstantKey.TR_NN1);
         int retNN = TRprocessImp.OutputNNBP(serviceAFWeb, nnTraining);
         if (retNN == 0) {
             return nn;
@@ -173,8 +173,8 @@ public class ProcessNN1 {
                     boolean flagHis = false;
                     if (flagHis == true) {
                         FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN1 + "_tran.csv", writeArray);
+                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN1, null);
                     }
-                    serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN1, null);
                 }
             }
         }
@@ -279,7 +279,7 @@ public class ProcessNN1 {
     }
 
     public NNObj updateAdminTradingsignalnn1(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
-            TradingRuleObj trObj, ArrayList StockArray, int offset,  AFstockObj stock, ArrayList tradingRuleList) {
+            TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
