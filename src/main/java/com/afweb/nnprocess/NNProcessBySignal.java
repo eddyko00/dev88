@@ -58,10 +58,9 @@ public class NNProcessBySignal {
                 nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet NN 3 end... cycle " + k);
 ///////////////////////////
-                logger.info("> ProcessReLeanInput NNRE cycle " + k);
-                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
-
-                logger.info("> ProcessReLeanInput end... cycle " + k);
+//                logger.info("> ProcessReLeanInput NNRE cycle " + k);
+//                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
+//                logger.info("> ProcessReLeanInput end... cycle " + k);
                 logger.info("> Waiting 1 min........");
                 try {
                     Thread.sleep(60 * 1000);
