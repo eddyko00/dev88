@@ -1875,7 +1875,6 @@ public class TrandingSignalProcess {
         return inputDatalist;
     }
 
-
     public ArrayList<NNInputDataObj> getStaticJavaInputDataFromFile(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
@@ -2037,43 +2036,92 @@ public class TrandingSignalProcess {
                     }
                 }
             }
-            if (nnName.equals(ConstantKey.TR_NN3)) {
-                inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("", subSymbol);
-            } else {
-                inputDatalist = NNProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
-            }
-            for (int i = 0; i < inputDatalist.size(); i++) {
-                NNInputDataObj inputDObj = inputDatalist.get(i);
-                NNInputOutObj inputObj = new NNInputOutObj();
-                inputObj.setDateSt(inputDObj.getObj().getDateSt());
-                inputObj.setClose(inputDObj.getObj().getClose());
-                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-                inputObj.setInput1(inputDObj.getObj().getInput1());
-                inputObj.setInput2(inputDObj.getObj().getInput2());
-                inputObj.setInput3(inputDObj.getObj().getInput3());
-                inputObj.setInput4(inputDObj.getObj().getInput4());
-                inputObj.setInput5(inputDObj.getObj().getInput5());
-                inputObj.setInput6(inputDObj.getObj().getInput6());
-                inputObj.setInput7(inputDObj.getObj().getInput7());
-                inputObj.setInput8(inputDObj.getObj().getInput8());
-                inputObj.setInput9(inputDObj.getObj().getInput9());
-                inputObj.setInput10(inputDObj.getObj().getInput10());
-                inputObj.setInput11(inputDObj.getObj().getInput11());
-                inputObj.setInput12(inputDObj.getObj().getInput12());
-                inputObj.setInput13(inputDObj.getObj().getInput13());
-                //////
-                inputObj.setOutput1(inputDObj.getObj().getOutput1());
-                inputObj.setOutput2(inputDObj.getObj().getOutput2());
-                inputObj.setOutput3(inputDObj.getObj().getOutput3());
-                inputObj.setOutput4(inputDObj.getObj().getOutput4());
-                if (inputObj.getOutput1() < 0) {
-                    continue;
+
+            boolean trainInFile = true;
+            if (trainInFile == true) {
+                if (nnName.equals(ConstantKey.TR_NN3)) {
+                    inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("", subSymbol);
+                } else {
+                    inputDatalist = NNProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
                 }
-                if (inputObj.getOutput2() < 0) {
-                    continue;
+                logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
+                
+                for (int i = 0; i < inputDatalist.size(); i++) {
+                    NNInputDataObj inputDObj = inputDatalist.get(i);
+                    NNInputOutObj inputObj = new NNInputOutObj();
+                    inputObj.setDateSt(inputDObj.getObj().getDateSt());
+                    inputObj.setClose(inputDObj.getObj().getClose());
+                    inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
+                    inputObj.setInput1(inputDObj.getObj().getInput1());
+                    inputObj.setInput2(inputDObj.getObj().getInput2());
+                    inputObj.setInput3(inputDObj.getObj().getInput3());
+                    inputObj.setInput4(inputDObj.getObj().getInput4());
+                    inputObj.setInput5(inputDObj.getObj().getInput5());
+                    inputObj.setInput6(inputDObj.getObj().getInput6());
+                    inputObj.setInput7(inputDObj.getObj().getInput7());
+                    inputObj.setInput8(inputDObj.getObj().getInput8());
+                    inputObj.setInput9(inputDObj.getObj().getInput9());
+                    inputObj.setInput10(inputDObj.getObj().getInput10());
+                    inputObj.setInput11(inputDObj.getObj().getInput11());
+                    inputObj.setInput12(inputDObj.getObj().getInput12());
+                    inputObj.setInput13(inputDObj.getObj().getInput13());
+                    //////
+                    inputObj.setOutput1(inputDObj.getObj().getOutput1());
+                    inputObj.setOutput2(inputDObj.getObj().getOutput2());
+                    inputObj.setOutput3(inputDObj.getObj().getOutput3());
+                    inputObj.setOutput4(inputDObj.getObj().getOutput4());
+                    if (inputObj.getOutput1() < 0) {
+                        continue;
+                    }
+                    if (inputObj.getOutput2() < 0) {
+                        continue;
+                    }
+                    inputlist.add(inputObj);
                 }
-                inputlist.add(inputObj);
             }
+            boolean trainAllInFile = true;
+            if (trainAllInFile == true) {
+                if (nnName.equals(ConstantKey.TR_NN3)) {
+                    inputDatalist = NNProcessByTrend.NeuralNetAllStockGetNN3InputfromStaticCode("", subSymbol);
+                } else {
+                    inputDatalist = NNProcessBySignal.NeuralNetAllStockGetNN1InputfromStaticCode("", subSymbol);
+                }
+                logger.info("> NeuralNetAllStock " + BPnameSym + " " + inputDatalist.size());
+
+                for (int i = 0; i < inputDatalist.size(); i++) {
+                    NNInputDataObj inputDObj = inputDatalist.get(i);
+                    NNInputOutObj inputObj = new NNInputOutObj();
+                    inputObj.setDateSt(inputDObj.getObj().getDateSt());
+                    inputObj.setClose(inputDObj.getObj().getClose());
+                    inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
+                    inputObj.setInput1(inputDObj.getObj().getInput1());
+                    inputObj.setInput2(inputDObj.getObj().getInput2());
+                    inputObj.setInput3(inputDObj.getObj().getInput3());
+                    inputObj.setInput4(inputDObj.getObj().getInput4());
+                    inputObj.setInput5(inputDObj.getObj().getInput5());
+                    inputObj.setInput6(inputDObj.getObj().getInput6());
+                    inputObj.setInput7(inputDObj.getObj().getInput7());
+                    inputObj.setInput8(inputDObj.getObj().getInput8());
+                    inputObj.setInput9(inputDObj.getObj().getInput9());
+                    inputObj.setInput10(inputDObj.getObj().getInput10());
+                    inputObj.setInput11(inputDObj.getObj().getInput11());
+                    inputObj.setInput12(inputDObj.getObj().getInput12());
+                    inputObj.setInput13(inputDObj.getObj().getInput13());
+                    //////
+                    inputObj.setOutput1(inputDObj.getObj().getOutput1());
+                    inputObj.setOutput2(inputDObj.getObj().getOutput2());
+                    inputObj.setOutput3(inputDObj.getObj().getOutput3());
+                    inputObj.setOutput4(inputDObj.getObj().getOutput4());
+                    if (inputObj.getOutput1() < 0) {
+                        continue;
+                    }
+                    if (inputObj.getOutput2() < 0) {
+                        continue;
+                    }
+                    inputlist.add(inputObj);
+                }
+            }
+
             ArrayList<AFneuralNetData> objDataList = new ArrayList();
 
             if (BPnameTR.equals(BPnameSym)) {

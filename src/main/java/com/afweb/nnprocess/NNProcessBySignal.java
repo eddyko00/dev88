@@ -926,7 +926,10 @@ public class NNProcessBySignal {
                 if (symbolArray.length >= 0) {
 
                     String symbol = symbolArray[0];
-
+                    //////////////////////
+                    // just for testing
+//                    symbol = "BABA";
+                
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
 
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -1061,7 +1064,7 @@ public class NNProcessBySignal {
                 TradingNNprocess trainNN = new TradingNNprocess();
 //                ArrayList<NNInputDataObj> inputlistSym = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, TR_Name, 0);
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
-                ArrayList<NNInputDataObj> inputlistSym1 = new ArrayList();
+                ArrayList <NNInputDataObj> inputlistSym1 = new ArrayList();
                 ArrayList<NNInputDataObj> inputlistSym2 = new ArrayList();
 
                 /// just for testing
