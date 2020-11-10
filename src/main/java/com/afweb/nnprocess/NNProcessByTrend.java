@@ -1167,7 +1167,8 @@ public class NNProcessByTrend {
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST4);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST5);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST6);
-//            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST7); // check nn3 data
+            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST7);            
+//            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST8); // check nn3 data
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
