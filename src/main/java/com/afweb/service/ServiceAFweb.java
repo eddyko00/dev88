@@ -4596,6 +4596,13 @@ public class ServiceAFweb {
         return true;
     }
 
+    public boolean SystemDeleteNN1Table() {
+        logger.info(">SystemDeleteNN1Table start ");
+        getStockImp().deleteNeuralNet1Table();
+        logger.info(">SystemDeleteNN1Table end ");
+        return true;
+    }        
+        
     public String SystemCleanNNonlyDBData() {
         boolean retSatus = false;
         if (getServerObj().isLocalDBservice() == true) {

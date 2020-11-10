@@ -37,7 +37,6 @@ public class IndexController {
 //    public String indexMessage() {
 //        return "index";
 //    }
-
     @GetMapping("/")
     public String index() {
         return "Hello there! I'm running v1.1";
@@ -117,11 +116,11 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/autonnflag");
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
         arrayString.add("/cust/{username}/sys/autonntrain");
-        arrayString.add("/cust/{username}/sys/autonntrain/enable");        
-        arrayString.add("/cust/{username}/sys/autonntrain/disable");         
-        arrayString.add("/cust/{username}/sys/fundmgr");   
-        arrayString.add("/cust/{username}/sys/processfundmgr");         
-         
+        arrayString.add("/cust/{username}/sys/autonntrain/enable");
+        arrayString.add("/cust/{username}/sys/autonntrain/disable");
+        arrayString.add("/cust/{username}/sys/fundmgr");
+        arrayString.add("/cust/{username}/sys/processfundmgr");
+        arrayString.add("/cust/{username}/sys/deletenntable1");
         //DB Backup
         arrayString.add("/cust/{username}/sys/downloaddb");
 
@@ -872,7 +871,6 @@ public class IndexController {
 //
 //        return ret;
 //    }
-
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/clear", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int getAccountStockClrTran(
@@ -1052,8 +1050,6 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return stockInfoList;
     }
-
-
 
     @RequestMapping(value = "/st/add/{symbol}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -1299,6 +1295,7 @@ public class IndexController {
 
         return null;
     }
+
     @RequestMapping(value = "/cust/{username}/sys/autonntrain", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemNNTrainFlag(@PathVariable("username") String username) {
@@ -1325,8 +1322,6 @@ public class IndexController {
         return null;
     }
 
-    
-    
     @RequestMapping(value = "/cust/{username}/sys/fundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemFundMgr(@PathVariable("username") String username) {
@@ -1335,7 +1330,7 @@ public class IndexController {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResponse("System in Maintenance");
                 msg.setResult(true);
                 return msg;
             }
@@ -1344,7 +1339,6 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                
                 msg.setResponse("" + afWebService.SystemFundMgr());
                 msg.setResult(true);
                 return msg;
@@ -1362,7 +1356,7 @@ public class IndexController {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
+                msg.setResponse("System in Maintenance");
                 msg.setResult(true);
                 return msg;
             }
@@ -1371,7 +1365,6 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                
                 msg.setResponse("" + afWebService.SystemPocessFundMgr());
                 msg.setResult(true);
                 return msg;
@@ -1380,7 +1373,33 @@ public class IndexController {
 
         return null;
     }
-    
+
+    @RequestMapping(value = "/cust/{username}/sys/deletenn1table", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus getDeleteNN1(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse("" + afWebService.SystemDeleteNN1Table());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse("" + afWebService.SystemDeleteNN1Table());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
     @RequestMapping(value = "/cust/{username}/sys/autonntrain/enable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus setSystemNNTrainEnableFlag(@PathVariable("username") String username) {
@@ -1417,7 +1436,7 @@ public class IndexController {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                afWebService.systemNNFlag = true;
+                ServiceAFweb.NN_AllowTraingStockFlag = false;
                 msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
                 msg.setResult(true);
                 return msg;
