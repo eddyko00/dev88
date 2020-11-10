@@ -2045,7 +2045,7 @@ public class TrandingSignalProcess {
                     inputDatalist = NNProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
                 }
                 logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
-                
+
                 for (int i = 0; i < inputDatalist.size(); i++) {
                     NNInputDataObj inputDObj = inputDatalist.get(i);
                     NNInputOutObj inputObj = new NNInputOutObj();
@@ -2082,9 +2082,9 @@ public class TrandingSignalProcess {
             boolean trainAllInFile = true;
             if (trainAllInFile == true) {
                 if (nnName.equals(ConstantKey.TR_NN3)) {
-                    inputDatalist = NNProcessByTrend.NeuralNetAllStockGetNN3InputfromStaticCode("", subSymbol);
+                    inputDatalist = NNProcessByTrend.NeuralNetAllStockGetNN3InputfromStaticCode(symbol, null);
                 } else {
-                    inputDatalist = NNProcessBySignal.NeuralNetAllStockGetNN1InputfromStaticCode("", subSymbol);
+                    inputDatalist = NNProcessBySignal.NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
                 }
                 logger.info("> NeuralNetAllStock " + BPnameSym + " " + inputDatalist.size());
 
@@ -2505,12 +2505,10 @@ public class TrandingSignalProcess {
         serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
         serviceAFWeb.getStockImp().updateNeuralNetStatus1(name, ConstantKey.OPEN, afNeuralNet.getType());
 
-        if (getEnv.checkLocalPC() == true) {
-            if (CKey.NN_DEBUG == true) {
-                StringBuffer msg1 = new StringBuffer(weightSt);
-                FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight1.txt", msg1);
-            }
-        }
+//        if (getEnv.checkLocalPC() == true) {
+//            StringBuffer msg1 = new StringBuffer(weightSt);
+//            FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight1.txt", msg1);
+//        }
         int retFlag = 0;
 
         if (errorReturn > nnError) {

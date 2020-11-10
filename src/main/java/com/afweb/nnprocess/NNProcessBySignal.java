@@ -428,7 +428,7 @@ public class NNProcessBySignal {
     }
 
     private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
-        int sizeYr = 1;
+        int sizeYr = 2;
         for (int j = 0; j < sizeYr; j++) { //4; j++) {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
@@ -1320,7 +1320,11 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllData.NN_ALLINPUTLIST2);
             inputBuf.append(nnAllData.NN_ALLINPUTLIST3);
             inputBuf.append(nnAllData.NN_ALLINPUTLIST4);
-//            inputBuf.append(nnAllData.NN_ALLINPUTLIST5); //need to check nnData file
+            inputBuf.append(nnAllData.NN_ALLINPUTLIST5);
+            inputBuf.append(nnAllData.NN_ALLINPUTLIST6);
+            inputBuf.append(nnAllData.NN_ALLINPUTLIST7);
+//            inputBuf.append(nnAllData.NN_ALLINPUTLIST8); //need to check nnData file
+
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

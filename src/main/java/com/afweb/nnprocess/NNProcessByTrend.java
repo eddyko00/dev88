@@ -274,7 +274,7 @@ public class NNProcessByTrend {
     }
 
     private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
-        int sizeYr = 1;
+        int sizeYr = 2;
         for (int j = 0; j < sizeYr; j++) { //4; j++) {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
@@ -1168,7 +1168,14 @@ public class NNProcessByTrend {
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST5);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST6);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST7);            
-//            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST8); // check nn3 data
+            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST8);
+            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST9);
+            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST10);
+            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST11);
+            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST12);
+            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST13);
+//            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST14); // check nn3 data           
+
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
