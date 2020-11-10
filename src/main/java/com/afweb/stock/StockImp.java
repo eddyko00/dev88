@@ -323,7 +323,7 @@ public class StockImp {
     }
 
     public int deleteNeuralNet1(String name) {
-        return stockdb.deleteNeuralNet1Table();
+        return stockdb.deleteNeuralNet1(name);
     }
 
     public int deleteNeuralNetDataTable() {
