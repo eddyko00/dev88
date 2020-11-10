@@ -2640,7 +2640,7 @@ public class TrandingSignalProcess {
                     int num0Err = 0;
                     int num1Err = 0;
                     for (int j = 0; j < inputpattern.length; j++) {
-                        input = inputpattern[j];
+
                         output = targetpattern[j];
                         rsp = response[j];
 
@@ -2661,7 +2661,6 @@ public class TrandingSignalProcess {
                         delta1 = Math.abs(delta1);
 
                         if (delta1 > deltaCmp) {
-
                             num1Err++;
                         }
                     }
