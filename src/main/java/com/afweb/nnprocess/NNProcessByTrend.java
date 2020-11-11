@@ -905,6 +905,16 @@ public class NNProcessByTrend {
                         return -1;
                     }
                 }
+                String refName = nnObj1.getRefname();
+                if (refName.length() > 0) {
+                    try {
+                        double refError = Double.parseDouble(refName);
+                        errorNN = refError + 0.0001;
+                        logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
+                    } catch (Exception ex) {
+
+                    }
+                }                
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN3) {
                     retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, symbol, errorNN);
