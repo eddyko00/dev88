@@ -672,65 +672,22 @@ public class ServiceAFweb {
 //        TrandingSignalProcess.forceToGenerateNewNN = false;
 //        // start training
 //        // TrainingNNBP inputpattern 1748
-//        nnStProcByTrend.NeuralNetProcessTesting(this);
-//        nnStProcByTrend.NeuralNetNN3CreatJava(this, ConstantKey.TR_NN3);
         // Main training nn and trend
-        boolean processinputTrainflag = false;
+        boolean processinputTrainflag = true;
         if (processinputTrainflag == true) {
             nnProcBySig.processNeuralNetTrain(this);
         }
 
-        // Main training nn and trend
-        boolean processReLearninputTrainflag = false;
-        if (processReLearninputTrainflag == true) {
-            nnProcBySig.processNeuralNetRelearn(this);
-        }
-
-
-        /// reset NN1 NN2 transaction and graph
-        boolean flagSignal = false;
-        if (flagSignal == true) {
-            //
-//            SystemClearNNtran();
-//            SystemClearNNtran("IWM");
-            //
-            int i = 0;
-            while (true) {
-                i++;
-                logger.info("process ProcessAdminSignalTrading start cycle " + i);
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                TRprocessImp.UpdateAllStock(this);
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                TRprocessImp.UpdateAllStock(this);
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                TRprocessImp.UpdateAllStock(this);
-                logger.info("process ProcessAdminSignalTrading end... cycle " + i);
-                logger.info("> Waiting 1 min........");
-                try {
-                    Thread.sleep(60 * 1000);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
-        
-        
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version
-        boolean processRestinputflag = false;
-        if (processRestinputflag == true) {
-            nnProcBySig.processInputNeuralNet(this);
-            nnStProcByTrend.processInputNeuralNetTrend(this);
-            ///////////////////////////////
-            nnProcBySig.processAllStockInputNeuralNet(this);
-            nnStProcByTrend.processAllStockInputNeuralNetTrend(this);
-
-        }
-
-        
+//        boolean processRestinputflag = false;
+//        if (processRestinputflag == true) {
+//            nnProcBySig.processInputNeuralNet(this);
+//            nnStProcByTrend.processInputNeuralNetTrend(this);
+//            ///////////////////////////////
+//            nnProcBySig.processAllStockInputNeuralNet(this);
+//            nnStProcByTrend.processAllStockInputNeuralNetTrend(this);
+//        }
         ///// only acc reset
         boolean flagTran_TR_ACC = false;
         if (flagTran_TR_ACC == true) {
@@ -4601,8 +4558,8 @@ public class ServiceAFweb {
         getStockImp().deleteNeuralNet1Table();
         logger.info(">SystemDeleteNN1Table end ");
         return true;
-    }        
-        
+    }
+
     public String SystemCleanNNonlyDBData() {
         boolean retSatus = false;
         if (getServerObj().isLocalDBservice() == true) {
