@@ -52,13 +52,15 @@ public class NNProcessBySignal {
                     NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
                     NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
                 }
-                logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
-                ProcessTrainNeuralNetBySign(serviceAFWeb);
-                logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
 //////////////////////////                
                 logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
                 nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
                 logger.info("> ProcessTrainNeuralNet NN 3 end... cycle " + k);
+
+                logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
+                ProcessTrainNeuralNetBySign(serviceAFWeb);
+                logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
+
 ///////////////////////////
 //                logger.info("> ProcessReLeanInput NNRE cycle " + k);
 //                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
