@@ -1049,7 +1049,6 @@ public class NNProcessByTrend {
                     String stWeight0 = nnObj0.getWeight();
 
                     if (stWeight0.length() > 0) {
-                        refName = nnObj0.getRefname();
 
                         String[] strNetArraySym = stWeight0.split(";");
                         String versionSym = strNetArraySym[0];
@@ -1062,6 +1061,7 @@ public class NNProcessByTrend {
                             logger.info("> inputStockNeuralNetData create existing Symbol ");
                             ///just for testing
                             nnTemp.createNet(stWeight0);
+                            refName = nnObj0.getRefname();
                         } else {
                             logger.info("> inputStockNeuralNetData create Static Base ");
                         }
@@ -1072,11 +1072,8 @@ public class NNProcessByTrend {
                 logger.info("> inputStockNeuralNetData v" + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  toAdd=" + totalAdd + " toDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();
-//                
-//                String refname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
-//                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPnameSym, refname, weightSt);
-
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
+                
                 if (refName.length() > 0) {
                     serviceAFWeb.getStockImp().updateNeuralNetRef1(nnName, refName);
                 }
@@ -1167,7 +1164,7 @@ public class NNProcessByTrend {
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST4);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST5);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST6);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST7);            
+            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST7);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST8);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST9);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST10);
@@ -1175,7 +1172,6 @@ public class NNProcessByTrend {
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST12);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST13);
 //            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST14); // check nn3 data           
-
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
