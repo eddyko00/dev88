@@ -1075,13 +1075,15 @@ public class NNProcessByTrend {
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
                 
                 if (refName.length() > 0) {
+                    
+                    logger.info("> inputStockNeuralNetData  " + BPnameSym + " refError " + refName);
                     serviceAFWeb.getStockImp().updateNeuralNetRef1(nnName, refName);
                 }
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
 
             } catch (Exception e) {
-                logger.info("> inputStockNeuralNet exception " + BPnameSym + " - " + e.getMessage());
+                logger.info("> inputStockNeuralNetData exception " + BPnameSym + " - " + e.getMessage());
             }
         }
         return -1;
