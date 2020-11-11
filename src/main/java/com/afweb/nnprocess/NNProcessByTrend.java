@@ -1087,7 +1087,7 @@ public class NNProcessByTrend {
                 if (refName.length() > 0) {
                     
                     logger.info("> inputStockNeuralNetData  " + BPnameSym + " refError " + refName);
-                    serviceAFWeb.getStockImp().updateNeuralNetRef1(nnName, refName);
+                    serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
                 }
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
