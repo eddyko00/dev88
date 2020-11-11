@@ -2531,6 +2531,21 @@ public class TrandingSignalProcess {
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(name, minError + "");
                 logger.info("> TrainingNNBP override new minError " + name + " " + minError);
 
+            } else {
+                String refName = afNeuralNet.getRefname();
+                if (refName.length() > 0) {
+                    try {
+                        double refError = Double.parseDouble(refName);
+                        double refminError = minError + 0.001;
+                        if (refminError < refError) {
+                            serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refminError + "");
+                            logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
+                        }
+                    } catch (Exception ex) {
+
+                    }
+                }
+
             }
             if (getEnv.checkLocalPC() == true) {
 
@@ -2600,7 +2615,7 @@ public class TrandingSignalProcess {
                             writeArray.add(st);
                         }
                         logger.info("> predictTest release " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
-                        
+
                         boolean flag = false;
                         if (nnNameSym.equals("TR_NN1")) {
                             flag = true;
