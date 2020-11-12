@@ -1069,7 +1069,7 @@ public class StockDB {
             } else if (type == ConstantKey.SRV_LOCKTYPE) {
                 allowTime = 10; // 10 minutes for stock timeout
             } else if (type == ConstantKey.NN_TR_LOCKTYPE) {
-                allowTime = 15; // 10 minutes for stock timeout                
+                allowTime = 30; // 30 minutes for NN trrain timeout                
             } else if (type == ConstantKey.ADMIN_SIGNAL_LOCKTYPE) {
                 allowTime = MaxMinuteAdminSignalTrading; // 90 minutes for stock timeout                
             } else if (type == ConstantKey.NN_LOCKTYPE) {
