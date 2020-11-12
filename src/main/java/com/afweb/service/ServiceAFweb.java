@@ -2221,6 +2221,7 @@ public class ServiceAFweb {
                     String NormalizeSymbol = (String) stockNameList.get(i);
                     AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
                     if (stock != null) {
+
                         ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockListByAccountID(accountObj.getId(), stock.getId());
                         if (trObjList != null) {
                             for (int j = 0; j < trObjList.size(); j++) {
@@ -2228,20 +2229,16 @@ public class ServiceAFweb {
                                 if (trObj.getTrname().equals(ConstantKey.TR_ACC)) {
                                     stock.setTRsignal(trObj.getTrsignal());
                                 } else if (trObj.getTrname().equals(ConstantKey.TR_NN1)) {
-                                    float balace = trObj.getBalance();
-
-                                    float sharebalance = 0;
-                                    if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-                                        sharebalance = trObj.getLongamount();
-                                    } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                                        sharebalance = trObj.getShortamount();
+                                    float perfProfit = 0;
+                                    AccountObj accountAdminObj = getAdminObjFromCache();
+                                    ArrayList<PerformanceObj> perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trObj.getTrname(), 1);
+                                    if (perfList != null) {
+                                        if (perfList.size() > 0) {
+                                            PerformanceObj perf = perfList.get(0);
+                                            perfProfit = perf.getGrossprofit();
+                                        }
                                     }
-                                    balace = (balace + sharebalance) - trObj.getInvestment();
-
-                                    if (sharebalance == 0) {
-                                        sharebalance = CKey.TRADING_AMOUNT;
-                                    }
-                                    float per = 100 * (balace) / sharebalance;
+                                    float per = 100 * (perfProfit) / CKey.TRADING_AMOUNT;
                                     stock.setPerform(per);
                                 }
                             }
