@@ -520,6 +520,7 @@ public class ServiceAFweb {
 
 ///////////////////////////////////////////////////////////////////////////////////
                     AFprocessDebug();
+                    AFprocessNN();
 ///////////////////////////////////////////////////////////////////////////////////
                     logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
                 }
@@ -659,16 +660,14 @@ public class ServiceAFweb {
 
     public static boolean forceNNReadFileflag = false;
 
-    private void AFprocessDebug() {
-
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+    private void AFprocessNN() {
         NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
         NNProcessBySignal nnProcBySig = new NNProcessBySignal();
 
         nnProcBySig.processNeuralNet(this);
         nnStProcByTrend.processNeuralNetTrendPred(this);
 
-///////////////////////////////////////////////////////////////////////////////        
+        ///////////////////////////////////////////////////////////////////////////////        
 //        TrandingSignalProcess.forceToGenerateNewNN = false;
 //        // start training
 //        // TrainingNNBP inputpattern 1748
@@ -688,6 +687,12 @@ public class ServiceAFweb {
 //            nnProcBySig.processAllStockInputNeuralNet(this);
 //            nnStProcByTrend.processAllStockInputNeuralNetTrend(this);
 //        }
+    }
+
+    private void AFprocessDebug() {
+
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
         ///// only acc reset
         boolean flagTran_TR_ACC = false;
         if (flagTran_TR_ACC == true) {
