@@ -50,8 +50,9 @@ public class NNProcessBySignal {
 
         while (true) {
             k++;
-
+            boolean exitflag = true;
             if (flagNNLearningSignal == true) {
+                exitflag = false;
                 if (((k % 5) == 0) || (k == 0)) {
                     NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
                 }
@@ -62,6 +63,7 @@ public class NNProcessBySignal {
 
 ////////////////////////////////////////////////////////////////////////////
             if (flagNN3LearningTrend == true) {
+                exitflag = false;
                 if (((k % 5) == 0) || (k == 0)) {
                     NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
                 }
@@ -72,6 +74,7 @@ public class NNProcessBySignal {
 
 ////////////////////////////////////////////////////////////////////////////
             if (flagNNReLearning == true) {
+                exitflag = false;
                 logger.info("> ProcessReLeanInput NN 1 cycle " + k);
                 NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
                 logger.info("> ProcessReLeanInput end... cycle " + k);
@@ -79,6 +82,7 @@ public class NNProcessBySignal {
             }
 ////////////////////////////////////////////////////////////////////////////
             if (processNNSignalAdmin == true) {
+                exitflag = false;
                 logger.info("> processNNSignalAdmin  cycle " + k);
                 TRprocessImp.ProcessAdminSignalTrading(serviceAFWeb);
                 serviceAFWeb.getAccountProcessImp().ProcessAllAccountTradingSignal(serviceAFWeb);
@@ -88,6 +92,7 @@ public class NNProcessBySignal {
 ////////////////////////////////////////////////////////////////////////////
 
             if (processRestinputflag == true) {
+                exitflag = false;
                 /// reset weight0 and use latest stock
                 /// remember to update nnData and nn3Data and version                
                 processInputNeuralNet(serviceAFWeb);
@@ -99,7 +104,9 @@ public class NNProcessBySignal {
             }
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-
+            if (exitflag == true) {
+                break;
+            }
             logger.info("> Waiting 30 sec........");
             try {
                 Thread.sleep(30 * 1000);

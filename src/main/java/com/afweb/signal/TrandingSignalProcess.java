@@ -1094,7 +1094,7 @@ public class TrandingSignalProcess {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
         upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
-//        upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
+        upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
     }
 
     public void updateAdminTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {

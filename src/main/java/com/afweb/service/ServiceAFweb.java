@@ -1005,23 +1005,23 @@ public class ServiceAFweb {
             SystemClearNNData();
         }
 
-        boolean flagSig = false;
+        boolean flagSig = true;
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol = "AAPL";
-            String nnName = ConstantKey.TR_MV;
+            symbol = "AMZN";
+            
+            String nnName = ConstantKey.TR_NN1;          
 
             AccountObj accountAdminObj = this.getAdminObjFromCache();
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-
-//            AFstockObj stock = this.getRealTimeStockImp(symbol);
+            AFstockObj stock = this.getRealTimeStockImp(symbol);
 ////          // will clear the transaction history  
-//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
 ////          update HOU current history of transaction
-//            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-////            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
+            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 //
 //            // update HOU history of transaction
 ////            AccountObj accountAObj = getAdminObjFromCache();
