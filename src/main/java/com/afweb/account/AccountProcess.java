@@ -712,11 +712,22 @@ public class AccountProcess {
         logger.info("ProcessAllAccountTradingSignal " + LockName + " LockName " + lockReturn);
 
         if (lockReturn > 0) {
-            int maxAccountCnt = 0;
+
             long LastServUpdateTimer = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 5); // add 3 minutes
             // update Trading signal
-            while (accountIdNameArray.size() > 0) {
+            for (int i = 0; i < 10; i++) {
+
+                long currentTime = System.currentTimeMillis();
+                if (testing == true) {
+                    currentTime = 0;
+                }
+                if (lockDate5Min < currentTime) {
+                    break;
+                }
+                if (accountIdNameArray.size() == 0) {
+                    break;
+                }
                 String accountIDSt = (String) accountIdNameArray.get(0);
                 accountIdNameArray.remove(0);
                 int accountId = Integer.parseInt(accountIDSt);
@@ -735,13 +746,6 @@ public class AccountProcess {
                     continue;
                 }
 //                logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
-                long currentTime = System.currentTimeMillis();
-                if (testing == true) {
-                    currentTime = 0;
-                }
-                if (lockDate5Min < currentTime) {
-                    break;
-                }
 
                 if (("acc-3-MutualFund".equals(accountObj.getAccountname()))
                         || ("acc-4-MutualFund".equals(accountObj.getAccountname()))) {
@@ -757,10 +761,6 @@ public class AccountProcess {
                         updateTradingTransaction(serviceAFWeb, accountObj, symbol);
                     }
                 }  // end of stockNameArray.size() for that account
-                maxAccountCnt++;
-//                if (maxAccountCnt > 15) {
-//                    break;
-//                }
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.SIGNAL_LOCKTYPE);
             logger.info("ProcessAllAccountTradingSignal " + LockName + " unlock LockName ");
