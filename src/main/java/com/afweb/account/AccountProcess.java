@@ -756,7 +756,7 @@ public class AccountProcess {
                         updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
                         updateTradingTransaction(serviceAFWeb, accountObj, symbol);
                     }
-                }
+                }  // end of stockNameArray.size() for that account
                 maxAccountCnt++;
 //                if (maxAccountCnt > 15) {
 //                    break;
