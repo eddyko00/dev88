@@ -1005,7 +1005,7 @@ public class ServiceAFweb {
             SystemClearNNData();
         }
 
-        boolean flagSig = true;
+        boolean flagSig = false;
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
@@ -1014,9 +1014,10 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;          
 
             AccountObj accountAdminObj = this.getAdminObjFromCache();
-//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
-            AFstockObj stock = this.getRealTimeStockImp(symbol);
+            AFstockObj stock = this.getRealTimeStockImp(symbol);                  
+            
 ////          // will clear the transaction history  
             getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
 ////          update HOU current history of transaction
