@@ -758,9 +758,9 @@ public class AccountProcess {
                     }
                 }
                 maxAccountCnt++;
-                if (maxAccountCnt > 15) {
-                    break;
-                }
+//                if (maxAccountCnt > 15) {
+//                    break;
+//                }
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.SIGNAL_LOCKTYPE);
             logger.info("ProcessAllAccountTradingSignal " + LockName + " unlock LockName ");
