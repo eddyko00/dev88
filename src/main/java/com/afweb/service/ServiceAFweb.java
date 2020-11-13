@@ -1009,24 +1009,17 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol = "AMZN";
-            
+            symbol = "AMZN";            
             String nnName = ConstantKey.TR_NN1;          
 
             AccountObj accountAdminObj = this.getAdminObjFromCache();
             TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
-            AFstockObj stock = this.getRealTimeStockImp(symbol);                  
-            
-////          // will clear the transaction history  
-            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-////          update HOU current history of transaction
-            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-//
-//            // update HOU history of transaction
-////            AccountObj accountAObj = getAdminObjFromCache();
-////            TRprocessImp.upateAdminTransaction(this, accountAObj, symbol);
+//            AFstockObj stock = this.getRealTimeStockImp(symbol);                  
+//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+//            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
+//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+
         }
 
     }

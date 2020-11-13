@@ -320,7 +320,12 @@ public class TrandingSignalProcess {
                     stockInfoIndex--;
                     continue;
                 }
-
+                if (tranObjIndex <0) { 
+                // tranObjIndex == -1 process only last transaction exit
+                    if (tranObj.getTrsignal()!= 5) {
+                        continue;
+                    }
+                }
                 perfObj.setUpdatedatel(tranObj.getEntrydatel());
                 perfObj.setUpdateDateD(tranObj.getUpdateDateD());
                 perfObj.setUpdatedatedisplay(tranObj.getEntrydatedisplay());
