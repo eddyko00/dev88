@@ -676,7 +676,9 @@ public class ServiceAFweb {
         if (processinputTrainflag == true) {
             nnProcBySig.processNeuralNetTrain(this);
         }
-
+        ////////testing
+//        nnProcBySig.AllStockCreatJava(this);
+        
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version
 //        boolean processRestinputflag = false;
@@ -693,6 +695,7 @@ public class ServiceAFweb {
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
+        
         ///// only acc reset
         boolean flagTran_TR_ACC = false;
         if (flagTran_TR_ACC == true) {

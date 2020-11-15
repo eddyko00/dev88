@@ -38,7 +38,8 @@ public class CKey {
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     
-    public static boolean SPECIAL1_VOL = true;   // always true 
+
+    public static boolean CACHE_STOCKH = false;
     public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
     /////
     ////////////////////// make this always true for HEROKU Env

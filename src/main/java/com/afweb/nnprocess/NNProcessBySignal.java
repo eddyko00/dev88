@@ -15,6 +15,7 @@ import com.afweb.nnBP.NNBPservice;
 import com.afweb.service.*;
 
 import com.afweb.signal.*;
+import com.afweb.stock.StockInternet;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -100,8 +101,10 @@ public class NNProcessBySignal {
                 ///////////////////////////////
                 processAllStockInputNeuralNet(serviceAFWeb);
                 nntrend.processAllStockInputNeuralNetTrend(serviceAFWeb);
-                ///////////////////////////////                
-                AllStockCreatJava(serviceAFWeb);
+                ///////////////////////////////       
+                if (CKey.CACHE_STOCKH == true) {
+                    AllStockCreatJava(serviceAFWeb);
+                }
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -683,20 +686,31 @@ public class NNProcessBySignal {
 
     }
 
-    private boolean AllStockCreatJava(ServiceAFweb serviceAFWeb) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-
+    public boolean AllStockCreatJava(ServiceAFweb serviceAFWeb) {
+        StockInternet internet = new StockInternet();
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
-
+            int sizeyear = 5 * 52 * 5;
             for (int i = 0; i < symbolL.length; i++) {
                 symbol = symbolL[i];
                 AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-                int size1year = 5 * 52;
-                ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year * 4);
+                if (stock == null) {
+                    continue;
+                }
+                logger.info(">>> AllStockCreatJava " + symbol );
+                ArrayList<AFstockInfo> StockArray = null;
+                try {
+                    StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);
+                } catch (Exception ex) {
+
+                }
+                if (StockArray == null) {
+                    continue;
+                }
+                logger.info(">>> AllStockCreatJava " + symbol + " " + StockArray.size());
                 stockInputMap.put(symbol, StockArray);
 
             }
