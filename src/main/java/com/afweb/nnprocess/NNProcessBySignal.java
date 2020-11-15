@@ -100,6 +100,8 @@ public class NNProcessBySignal {
                 ///////////////////////////////
                 processAllStockInputNeuralNet(serviceAFWeb);
                 nntrend.processAllStockInputNeuralNetTrend(serviceAFWeb);
+                ///////////////////////////////                
+                AllStockCreatJava(serviceAFWeb);
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -117,6 +119,10 @@ public class NNProcessBySignal {
 
     }
 ///////////////////////////////
+
+    public void processStockInput(ServiceAFweb serviceAFWeb) {
+
+    }
 
     public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
@@ -675,6 +681,84 @@ public class NNProcessBySignal {
             }
         }
 
+    }
+
+    private boolean AllStockCreatJava(ServiceAFweb serviceAFWeb) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            String symbol = "";
+            String symbolL[] = ServiceAFweb.primaryStock;
+
+            for (int i = 0; i < symbolL.length; i++) {
+                symbol = symbolL[i];
+                AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+                int size1year = 5 * 52;
+                ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year * 4);
+                stockInputMap.put(symbol, StockArray);
+
+            }
+
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "\n"
+                    + "public class nnAllStock {\n"
+                    + "\n");
+
+            int sizeline = 1000;
+            int len = inputListSt.length();
+            int beg = 0;
+            int end = sizeline;
+            int index = 1;
+            int line = 0;
+            while (true) {
+                if (line == 0) {
+                    msgWrite.append(""
+                            + "    public static String NN_ALLSTOCK" + index + " = \"\"\n"
+                            + "            + \"\"\n");
+                }
+                line++;
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.append("+ \"" + st + "\"\n");
+
+                if (end >= len) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+
+                    break;
+                }
+                if (line == 20) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+                    line = 0;
+                    index++;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
+            String fileN = ServiceAFweb.FileLocalDebugPath + "nnAllStock.java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
     }
 
     private boolean NeuralNetCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
