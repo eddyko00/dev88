@@ -41,6 +41,8 @@ public class NNProcessBySignal {
     public static boolean flagNNReLearning = false;
     public static boolean processNNSignalAdmin = false;
     public static boolean processRestinputflag = false;
+    public static boolean processRestAllStockflag = false;    
+    
 
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -101,10 +103,13 @@ public class NNProcessBySignal {
                 ///////////////////////////////
                 processAllStockInputNeuralNet(serviceAFWeb);
                 nntrend.processAllStockInputNeuralNetTrend(serviceAFWeb);
+                return;
+            }
+            
+            if (processRestAllStockflag == true) {
+                exitflag = false;
                 ///////////////////////////////       
-                if (CKey.CACHE_STOCKH == true) {
-                    AllStockCreatJava(serviceAFWeb);
-                }
+                AllStockCreatJava(serviceAFWeb);
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -700,7 +705,7 @@ public class NNProcessBySignal {
                 if (stock == null) {
                     continue;
                 }
-                logger.info(">>> AllStockCreatJava " + symbol );
+                logger.info(">>> AllStockCreatJava " + symbol);
                 ArrayList<AFstockInfo> StockArray = null;
                 try {
                     StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);

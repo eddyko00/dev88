@@ -676,8 +676,7 @@ public class ServiceAFweb {
         if (processinputTrainflag == true) {
             nnProcBySig.processNeuralNetTrain(this);
         }
-        ////////testing
-//        nnProcBySig.AllStockCreatJava(this);
+
         
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version

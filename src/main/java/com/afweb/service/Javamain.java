@@ -34,6 +34,8 @@ public class Javamain {
                         NNProcessBySignal.processNNSignalAdmin = true;
                     } else if (cmd.indexOf("processRestinputflag") != -1) {
                         NNProcessBySignal.processRestinputflag = true;
+                    } else if (cmd.indexOf("processRestAllStockflag") != -1) {
+                        NNProcessBySignal.processRestAllStockflag = true;                        
                     }
 
                 }
