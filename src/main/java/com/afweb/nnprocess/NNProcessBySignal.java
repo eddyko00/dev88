@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -41,8 +42,7 @@ public class NNProcessBySignal {
     public static boolean flagNNReLearning = false;
     public static boolean processNNSignalAdmin = false;
     public static boolean processRestinputflag = false;
-    public static boolean processRestAllStockflag = false;    
-    
+    public static boolean processRestAllStockflag = false;
 
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -105,11 +105,11 @@ public class NNProcessBySignal {
                 nntrend.processAllStockInputNeuralNetTrend(serviceAFWeb);
                 return;
             }
-            
+
             if (processRestAllStockflag == true) {
                 exitflag = false;
                 ///////////////////////////////       
-                AllStockCreatJava(serviceAFWeb);
+                AllStockHistoryCreatJava(serviceAFWeb);
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -691,34 +691,12 @@ public class NNProcessBySignal {
 
     }
 
-    public boolean AllStockCreatJava(ServiceAFweb serviceAFWeb) {
+    public boolean AllStockHistoryCreatJava(ServiceAFweb serviceAFWeb) {
         StockInternet internet = new StockInternet();
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
-            String symbol = "";
-            String symbolL[] = ServiceAFweb.primaryStock;
-            int sizeyear = 5 * 52 * 5;
-            for (int i = 0; i < symbolL.length; i++) {
-                symbol = symbolL[i];
-                AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-                if (stock == null) {
-                    continue;
-                }
-                logger.info(">>> AllStockCreatJava " + symbol);
-                ArrayList<AFstockInfo> StockArray = null;
-                try {
-                    StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);
-                } catch (Exception ex) {
-
-                }
-                if (StockArray == null) {
-                    continue;
-                }
-                logger.info(">>> AllStockCreatJava " + symbol + " " + StockArray.size());
-                stockInputMap.put(symbol, StockArray);
-
-            }
+            AllStockHistoryCreatJavaProcess(serviceAFWeb, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
@@ -778,6 +756,72 @@ public class NNProcessBySignal {
         } catch (Exception ex) {
         }
         return false;
+    }
+
+    public void AllStockHistoryCreatJavaProcess(ServiceAFweb serviceAFWeb, HashMap<String, ArrayList> stockInputMap) {
+        boolean saveStockDBFlag = true;
+        if (saveStockDBFlag == true) {
+            StockInternet internet = new StockInternet();
+
+            ArrayList stockNameArray = serviceAFWeb.getAllOpenStockNameArray();
+            logger.info("updateRealTimeStock " + stockNameArray.size());
+
+            int sizeyear = 5 * 52 * 5;
+            for (int k = 0; k < stockNameArray.size(); k++) {
+                String symbol = (String) stockNameArray.get(k);
+
+                ArrayList<AFstockInfo> StockArray = null;
+                try {
+                    StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);
+                } catch (Exception ex) {
+
+                }
+                if (StockArray == null) {
+                    continue;
+                }
+                ArrayList<String> writeArray = new ArrayList();
+                for (int j = 0; j < StockArray.size(); j++) {
+                    try {
+                        AFstockInfo obj = StockArray.get(j);
+                        String st = new ObjectMapper().writeValueAsString(obj);
+                        writeArray.add(st);
+                    } catch (JsonProcessingException ex) {
+                        writeArray = null;
+                        break;
+                    }
+                }
+                if (writeArray == null) {
+                    continue;
+                }
+
+                String StFileName = ServiceAFweb.FileLocalPath + symbol + ".txt";
+
+                FileUtil.FileWriteTextArray(StFileName, writeArray);
+                ///////////////////////
+                FileUtil.FileReadTextArray(StFileName, writeArray);
+                if (writeArray.size() == 0) {
+                    continue;
+                }
+                StockArray = new ArrayList();
+                for (int j = 0; j < writeArray.size(); j++) {
+                    String st = writeArray.get(j);
+                    try {
+                        AFstockInfo stockInfo = new ObjectMapper().readValue(st, AFstockInfo.class);
+                        StockArray.add(stockInfo);
+                    } catch (IOException ex) {
+                    }
+                }
+                //////////
+                if (StockArray == null) {
+                    continue;
+                }
+                logger.info(">>> AllStockHistoryCreatJava " + symbol + " " + StockArray.size());
+                stockInputMap.put(symbol, StockArray);
+
+            } // loop for stockNameArray
+
+        }
+
     }
 
     private boolean NeuralNetCreatJava(ServiceAFweb serviceAFWeb, String nnName) {

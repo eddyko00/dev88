@@ -739,63 +739,63 @@ public class ServiceAFweb {
             }
         }
 
-        boolean saveStockDBFlag = false;
-        if (saveStockDBFlag == true) {
-            ArrayList stockNameArray = getAllOpenStockNameArray();
-            logger.info("updateRealTimeStock " + stockNameArray.size());
-            for (int k = 0; k < stockNameArray.size(); k++) {
-                String sym = (String) stockNameArray.get(k);
-
-                String StFileName = FileLocalPath + sym + ".txt";
-                ArrayList<String> writeArray = new ArrayList();
-                FileUtil.FileReadTextArray(StFileName, writeArray);
-                if (writeArray.size() == 0) {
-                    continue;
-                }
-                ArrayList StockArray = new ArrayList();
-                for (int j = 0; j < writeArray.size(); j++) {
-                    String st = writeArray.get(j);
-                    try {
-                        AFstockInfo stockInfo = new ObjectMapper().readValue(st, AFstockInfo.class);
-                        StockArray.add(stockInfo);
-                    } catch (IOException ex) {
-                    }
-                }
-                ArrayList<AFstockInfo> StockSendArray = new ArrayList();
-                int index = 0;
-                ///make it last date fisrt
-                Collections.reverse(StockArray);
-
-                for (int i = 0; i < StockArray.size(); i++) {
-
-                    StockSendArray.add((AFstockInfo) StockArray.get(i));
-                    index++;
-                    if (index > 99) {
-                        index = 0;
-                        Collections.reverse(StockSendArray);
-                        StockInfoTranObj stockInfoTran = new StockInfoTranObj();
-                        stockInfoTran.setNormalizeName(sym);
-                        stockInfoTran.setStockInfoList(StockSendArray);
-
-                        int ret = updateStockInfoTransaction(stockInfoTran);
-                        if (ret == 0) {
-                            continue;
-                        }
-                        StockSendArray.clear();
-                    }
-
-                }
-                Collections.reverse(StockSendArray);
-                StockInfoTranObj stockInfoTran = new StockInfoTranObj();
-                stockInfoTran.setNormalizeName(sym);
-                stockInfoTran.setStockInfoList(StockSendArray);
-                if (StockSendArray.size() == 0) {
-                    continue;
-                }
-                updateStockInfoTransaction(stockInfoTran);
-            }
-        }
-
+//        boolean saveStockDBFlag = false;
+//        if (saveStockDBFlag == true) {
+//            ArrayList stockNameArray = getAllOpenStockNameArray();
+//            logger.info("updateRealTimeStock " + stockNameArray.size());
+//            for (int k = 0; k < stockNameArray.size(); k++) {
+//                String sym = (String) stockNameArray.get(k);
+//
+//                String StFileName = FileLocalPath + sym + ".txt";
+//                ArrayList<String> writeArray = new ArrayList();
+//                FileUtil.FileReadTextArray(StFileName, writeArray);
+//                if (writeArray.size() == 0) {
+//                    continue;
+//                }
+//                ArrayList StockArray = new ArrayList();
+//                for (int j = 0; j < writeArray.size(); j++) {
+//                    String st = writeArray.get(j);
+//                    try {
+//                        AFstockInfo stockInfo = new ObjectMapper().readValue(st, AFstockInfo.class);
+//                        StockArray.add(stockInfo);
+//                    } catch (IOException ex) {
+//                    }
+//                }
+//                ArrayList<AFstockInfo> StockSendArray = new ArrayList();
+//                int index = 0;
+//                ///make it last date fisrt
+//                Collections.reverse(StockArray);
+//
+//                for (int i = 0; i < StockArray.size(); i++) {
+//
+//                    StockSendArray.add((AFstockInfo) StockArray.get(i));
+//                    index++;
+//                    if (index > 99) {
+//                        index = 0;
+//                        Collections.reverse(StockSendArray);
+//                        StockInfoTranObj stockInfoTran = new StockInfoTranObj();
+//                        stockInfoTran.setNormalizeName(sym);
+//                        stockInfoTran.setStockInfoList(StockSendArray);
+//
+//                        int ret = updateStockInfoTransaction(stockInfoTran);
+//                        if (ret == 0) {
+//                            continue;
+//                        }
+//                        StockSendArray.clear();
+//                    }
+//
+//                }
+//                Collections.reverse(StockSendArray);
+//                StockInfoTranObj stockInfoTran = new StockInfoTranObj();
+//                stockInfoTran.setNormalizeName(sym);
+//                stockInfoTran.setStockInfoList(StockSendArray);
+//                if (StockSendArray.size() == 0) {
+//                    continue;
+//                }
+//                updateStockInfoTransaction(stockInfoTran);
+//            }
+//        }
+//
         boolean dbhero2opflag = false;
         if (dbhero2opflag == true) {
             boolean prevOPSHIFT = CKey.OPENSHIFT_DB1;
