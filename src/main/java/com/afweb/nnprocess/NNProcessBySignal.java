@@ -933,8 +933,114 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK80);
             inputBuf.append(nnAllStock.NN_ALLSTOCK81);
             inputBuf.append(nnAllStock.NN_ALLSTOCK82);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK83);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK84);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK85);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK86);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK87);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK88);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK89);
 
-//            inputBuf.append(nnAllStock.NN_ALLSTOCK83); // check nn3 data           
+            inputBuf.append(nnAllStock.NN_ALLSTOCK90);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK91);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK92);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK93);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK94);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK95);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK96);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK97);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK98);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK99);
+
+            inputBuf.append(nnAllStock.NN_ALLSTOCK100);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK101);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK102);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK103);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK104);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK105);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK106);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK107);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK108);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK109);
+
+            inputBuf.append(nnAllStock.NN_ALLSTOCK110);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK111);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK112);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK113);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK114);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK115);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK116);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK117);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK118);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK119);
+
+            inputBuf.append(nnAllStock.NN_ALLSTOCK120);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK121);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK122);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK123);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK124);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK125);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK126);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK127);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK128);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK129);
+
+            inputBuf.append(nnAllStock.NN_ALLSTOCK130);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK131);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK132);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK133);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK134);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK135);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK136);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK137);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK138);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK139);
+
+            inputBuf.append(nnAllStock.NN_ALLSTOCK140);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK141);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK142);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK143);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK144);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK145);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK146);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK147);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK148);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK149);
+
+            inputBuf.append(nnAllStock.NN_ALLSTOCK150);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK151);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK152);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK153);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK154);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK155);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK156);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK157);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK158);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK159);
+
+            inputBuf.append(nnAllStock.NN_ALLSTOCK160);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK161);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK162);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK163);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK164);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK165);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK166);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK167);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK168);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK169);
+
+            inputBuf.append(nnAllStock.NN_ALLSTOCK170);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK171);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK172);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK173);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK174);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK175);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK176);
+//            inputBuf.append(nnAllStock.NN_ALLSTOCK177);  // check nnAllStock data 
+//            inputBuf.append(nnAllStock.NN_ALLSTOCK178);
+//            inputBuf.append(nnAllStock.NN_ALLSTOCK179);
+
+         
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
             return true;
