@@ -761,6 +761,7 @@ public class NNProcessBySignal {
     public void AllStockHistoryCreatJavaProcess(ServiceAFweb serviceAFWeb, HashMap<String, ArrayList> stockInputMap) {
         boolean saveStockDBFlag = true;
         if (saveStockDBFlag == true) {
+
             StockInternet internet = new StockInternet();
             ArrayList stockNameArray = new ArrayList();
 
@@ -780,28 +781,33 @@ public class NNProcessBySignal {
                 ArrayList<String> writeArray = new ArrayList();
                 ArrayList<AFstockInfo> StockArray = null;
 
-//                try {
-//                    StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);
-//                } catch (Exception ex) {
-//
-//                }
-//                if (StockArray == null) {
-//                    continue;
-//                }
-//                for (int j = 0; j < StockArray.size(); j++) {
-//                    try {
-//                        AFstockInfo obj = StockArray.get(j);
-//                        String st = new ObjectMapper().writeValueAsString(obj);
-//                        writeArray.add(st);
-//                    } catch (JsonProcessingException ex) {
-//                        writeArray = null;
-//                        break;
-//                    }
-//                }
-//                if (writeArray == null) {
-//                    continue;
-//                }
-//                FileUtil.FileWriteTextArray(StFileName, writeArray);
+                try {
+                    // always the earliest day first  
+                    StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);
+                } catch (Exception ex) {
+
+                }
+                if (StockArray == null) {
+                    continue;
+                }
+                if (StockArray.size() < 3) {
+                    continue;
+                }
+                // skiping first 3 days (last days is not final
+                for (int j = 3; j < StockArray.size(); j++) {
+                    try {
+                        AFstockInfo obj = StockArray.get(j);
+                        String st = new ObjectMapper().writeValueAsString(obj);
+                        writeArray.add(st);
+                    } catch (JsonProcessingException ex) {
+                        writeArray = null;
+                        break;
+                    }
+                }
+                if (writeArray == null) {
+                    continue;
+                }
+                FileUtil.FileWriteTextArray(StFileName, writeArray);
                 ///////////////////////
                 FileUtil.FileReadTextArray(StFileName, writeArray);
                 if (writeArray.size() == 0) {
@@ -846,7 +852,7 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK7);
             inputBuf.append(nnAllStock.NN_ALLSTOCK8);
             inputBuf.append(nnAllStock.NN_ALLSTOCK9);
-            
+
             inputBuf.append(nnAllStock.NN_ALLSTOCK10);
             inputBuf.append(nnAllStock.NN_ALLSTOCK11);
             inputBuf.append(nnAllStock.NN_ALLSTOCK12);
@@ -857,7 +863,7 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK17);
             inputBuf.append(nnAllStock.NN_ALLSTOCK18);
             inputBuf.append(nnAllStock.NN_ALLSTOCK19);
-            
+
             inputBuf.append(nnAllStock.NN_ALLSTOCK20);
             inputBuf.append(nnAllStock.NN_ALLSTOCK21);
             inputBuf.append(nnAllStock.NN_ALLSTOCK22);
@@ -868,7 +874,7 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK27);
             inputBuf.append(nnAllStock.NN_ALLSTOCK28);
             inputBuf.append(nnAllStock.NN_ALLSTOCK29);
-            
+
             inputBuf.append(nnAllStock.NN_ALLSTOCK30);
             inputBuf.append(nnAllStock.NN_ALLSTOCK31);
             inputBuf.append(nnAllStock.NN_ALLSTOCK32);
@@ -879,7 +885,7 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK37);
             inputBuf.append(nnAllStock.NN_ALLSTOCK38);
             inputBuf.append(nnAllStock.NN_ALLSTOCK39);
-            
+
             inputBuf.append(nnAllStock.NN_ALLSTOCK40);
             inputBuf.append(nnAllStock.NN_ALLSTOCK41);
             inputBuf.append(nnAllStock.NN_ALLSTOCK42);
@@ -890,7 +896,7 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK47);
             inputBuf.append(nnAllStock.NN_ALLSTOCK48);
             inputBuf.append(nnAllStock.NN_ALLSTOCK49);
-            
+
             inputBuf.append(nnAllStock.NN_ALLSTOCK50);
             inputBuf.append(nnAllStock.NN_ALLSTOCK51);
             inputBuf.append(nnAllStock.NN_ALLSTOCK52);
@@ -901,7 +907,7 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK57);
             inputBuf.append(nnAllStock.NN_ALLSTOCK58);
             inputBuf.append(nnAllStock.NN_ALLSTOCK59);
-            
+
             inputBuf.append(nnAllStock.NN_ALLSTOCK60);
             inputBuf.append(nnAllStock.NN_ALLSTOCK61);
             inputBuf.append(nnAllStock.NN_ALLSTOCK62);
@@ -912,7 +918,7 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK67);
             inputBuf.append(nnAllStock.NN_ALLSTOCK68);
             inputBuf.append(nnAllStock.NN_ALLSTOCK69);
-            
+
             inputBuf.append(nnAllStock.NN_ALLSTOCK70);
             inputBuf.append(nnAllStock.NN_ALLSTOCK71);
             inputBuf.append(nnAllStock.NN_ALLSTOCK72);
@@ -923,13 +929,12 @@ public class NNProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK77);
             inputBuf.append(nnAllStock.NN_ALLSTOCK78);
             inputBuf.append(nnAllStock.NN_ALLSTOCK79);
-            
+
             inputBuf.append(nnAllStock.NN_ALLSTOCK80);
             inputBuf.append(nnAllStock.NN_ALLSTOCK81);
             inputBuf.append(nnAllStock.NN_ALLSTOCK82);
 
 //            inputBuf.append(nnAllStock.NN_ALLSTOCK83); // check nn3 data           
-
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
             return true;
