@@ -690,13 +690,17 @@ public class ServiceAFweb {
     }
 
     private void AFprocessDebug() {
-
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        
+        boolean flagtesting = false;
+        if (flagtesting == true) {
 
-        ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
-        for (int k = 0; k < 10; k++) {
-            TRprocessImp.UpdateAllStock(this);
+            ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
+            for (int k = 0; k < 10; k++) {
+                TRprocessImp.UpdateAllStock(this);
+            }
         }
+
         ///// only acc reset
         boolean flagTran_TR_ACC = false;
         if (flagTran_TR_ACC == true) {
