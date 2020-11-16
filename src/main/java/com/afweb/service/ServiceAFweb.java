@@ -692,7 +692,7 @@ public class ServiceAFweb {
     private void AFprocessDebug() {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagtesting = true;
+        boolean flagtesting = false;
         if (flagtesting == true) {
 
             ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
