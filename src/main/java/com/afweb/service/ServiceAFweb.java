@@ -677,7 +677,6 @@ public class ServiceAFweb {
             nnProcBySig.processNeuralNetTrain(this);
         }
 
-        
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version
 //        boolean processRestinputflag = false;
@@ -694,7 +693,10 @@ public class ServiceAFweb {
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        
+        ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
+        for (int k = 0; k < 10; k++) {
+            TRprocessImp.UpdateAllStock(this);
+        }
         ///// only acc reset
         boolean flagTran_TR_ACC = false;
         if (flagTran_TR_ACC == true) {
@@ -1011,8 +1013,8 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol = "AMZN";            
-            String nnName = ConstantKey.TR_NN1;          
+            symbol = "AMZN";
+            String nnName = ConstantKey.TR_NN1;
 
             AccountObj accountAdminObj = this.getAdminObjFromCache();
             TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
@@ -1021,7 +1023,6 @@ public class ServiceAFweb {
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
 //            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-
         }
 
     }
@@ -3626,6 +3627,7 @@ public class ServiceAFweb {
         String NormalizeSymbol = symObj.getYahooSymbol();
 
         List<AFstockInfo> mergedList = new ArrayList();
+
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         //////some bug in Heroku to get the current day actually missing the first date
         ///// may be the server time - 2hr when try to do end of day not working in this case.
@@ -3647,6 +3649,24 @@ public class ServiceAFweb {
             mergedList.addAll(stockInfoArray);
             start = TimeConvertion.addMiniSeconds(end, -10);
         }
+
+        if (CKey.CACHE_STOCKH == true) {
+            ArrayList<AFstockInfo> stockInfoArrayStatic = NNProcessBySignal.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
+            if (stockInfoArrayStatic != null) {
+                if (stockInfoArrayStatic.size() > 0) {
+                    logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
+
+                    if (mergedList.size() >= length) {
+                        ;
+                    } else {
+                        AFstockInfo stockInfo = mergedList.get(mergedList.size() - 1);
+                        mergedList.addAll(stockInfoArrayStatic);
+
+                    }
+                }
+            }
+        }
+
         if (mergedList.size() == 0) {
             return (ArrayList) mergedList;
         }
@@ -3659,54 +3679,44 @@ public class ServiceAFweb {
             }
             return retArray;
         }
-        boolean primarySt = false;
-//        for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-//            String stockN = ServiceAFweb.primaryStock[i];
-//            if (stockN.equals(NormalizeSymbol.toUpperCase())) {
-//                primarySt = true;
-//                break;
-//            }
+
+//        // assume yahoo finance is working.
+//        // save only the last 10 to save memory 10M only in Clever Cloud 
+//        // always the earliest day first
+//        StockInternet internet = new StockInternet();
+//        ArrayList<AFstockInfo> StockArray = null;
+//        try {
+//            StockArray = internet.GetStockHistoricalInternet(NormalizeSymbol, length);
+//        } catch (Exception ex) {
+//
 //        }
-        if (primarySt == false) {
-            // assume yahoo finance is working.
-            // save only the last 10 to save memory 10M only in Clever Cloud 
-            // always the earliest day first
-            StockInternet internet = new StockInternet();
-            ArrayList<AFstockInfo> StockArray = null;
-            try {
-                StockArray = internet.GetStockHistoricalInternet(NormalizeSymbol, length);
-            } catch (Exception ex) {
-
-            }
-            if (StockArray == null) {
-                ///////seems internet error
-//                logger.info("getStockHistorical internet error " + NormalizeSymbol);
-                return (ArrayList) mergedList;
-//                return null;
-            }
-            if (StockArray.size() == 0) {
-                return (ArrayList) mergedList;
-//                return StockArray;
-            }
-
-            AFstockInfo mergeInfo = mergedList.get(0);
-            long mergeInfoEOD = TimeConvertion.endOfDayInMillis(mergeInfo.getEntrydatel());
-            AFstockInfo StockInfo = StockArray.get(0);
-            long StockInfoEOD = TimeConvertion.endOfDayInMillis(StockInfo.getEntrydatel());
-            if (mergeInfoEOD == StockInfoEOD) {
-                StockArray.remove(0);
-                StockArray.add(0, mergeInfo);
-            } else {
-//                logger.info(symbol + " getStockHistorical StockInfo " + StockInfo.getEntrydatel() + " mergeInfo " + mergeInfo.getEntrydatel());
-//                StockArray.add(mergeInfo);
-            }
-            mergedList = StockArray;
-
-        }
-
+//        if (StockArray == null) {
+//            ///////seems internet error
+////                logger.info("getStockHistorical internet error " + NormalizeSymbol);
+//            return (ArrayList) mergedList;
+////                return null;
+//        }
+//        if (StockArray.size() == 0) {
+//            return (ArrayList) mergedList;
+////                return StockArray;
+//        }
+//
+//        AFstockInfo mergeInfo = mergedList.get(0);
+//        long mergeInfoEOD = TimeConvertion.endOfDayInMillis(mergeInfo.getEntrydatel());
+//        AFstockInfo StockInfo = StockArray.get(0);
+//        long StockInfoEOD = TimeConvertion.endOfDayInMillis(StockInfo.getEntrydatel());
+//        if (mergeInfoEOD == StockInfoEOD) {
+//            StockArray.remove(0);
+//            StockArray.add(0, mergeInfo);
+//        } else {
+////                logger.info(symbol + " getStockHistorical StockInfo " + StockInfo.getEntrydatel() + " mergeInfo " + mergeInfo.getEntrydatel());
+////                StockArray.add(mergeInfo);
+//        }
+//        mergedList = StockArray;
         ////////////////error in HEROKU and Local not sure why?????? //////////////
         ////////////////error in HEROKU and Local not sure why?????? //////////////
         ////////////////error in HEROKU and Local not sure why?????? //////////////
+        // TZ problem make sure it is set to TZ Canada/Eastern
         if (mergedList.size() > 1) {
 
 //           AFstockInfo first = mergedList.get(0);

@@ -692,7 +692,7 @@ public class NNProcessBySignal {
     }
 
     public boolean AllStockHistoryCreatJava(ServiceAFweb serviceAFWeb) {
-        StockInternet internet = new StockInternet();
+
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
@@ -762,41 +762,46 @@ public class NNProcessBySignal {
         boolean saveStockDBFlag = true;
         if (saveStockDBFlag == true) {
             StockInternet internet = new StockInternet();
+            ArrayList stockNameArray = new ArrayList();
 
-            ArrayList stockNameArray = serviceAFWeb.getAllOpenStockNameArray();
+//            stockNameArray = serviceAFWeb.getAllOpenStockNameArray();
+            String symbolL[] = ServiceAFweb.primaryStock;
+            for (int i = 0; i < symbolL.length; i++) {
+                stockNameArray.add(symbolL[i]);
+            }
             logger.info("updateRealTimeStock " + stockNameArray.size());
 
             int sizeyear = 5 * 52 * 5;
             for (int k = 0; k < stockNameArray.size(); k++) {
                 String symbol = (String) stockNameArray.get(k);
 
-                ArrayList<AFstockInfo> StockArray = null;
-                try {
-                    StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);
-                } catch (Exception ex) {
-
-                }
-                if (StockArray == null) {
-                    continue;
-                }
-                ArrayList<String> writeArray = new ArrayList();
-                for (int j = 0; j < StockArray.size(); j++) {
-                    try {
-                        AFstockInfo obj = StockArray.get(j);
-                        String st = new ObjectMapper().writeValueAsString(obj);
-                        writeArray.add(st);
-                    } catch (JsonProcessingException ex) {
-                        writeArray = null;
-                        break;
-                    }
-                }
-                if (writeArray == null) {
-                    continue;
-                }
-
                 String StFileName = ServiceAFweb.FileLocalPath + symbol + ".txt";
 
-                FileUtil.FileWriteTextArray(StFileName, writeArray);
+                ArrayList<String> writeArray = new ArrayList();
+                ArrayList<AFstockInfo> StockArray = null;
+
+//                try {
+//                    StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);
+//                } catch (Exception ex) {
+//
+//                }
+//                if (StockArray == null) {
+//                    continue;
+//                }
+//                for (int j = 0; j < StockArray.size(); j++) {
+//                    try {
+//                        AFstockInfo obj = StockArray.get(j);
+//                        String st = new ObjectMapper().writeValueAsString(obj);
+//                        writeArray.add(st);
+//                    } catch (JsonProcessingException ex) {
+//                        writeArray = null;
+//                        break;
+//                    }
+//                }
+//                if (writeArray == null) {
+//                    continue;
+//                }
+//                FileUtil.FileWriteTextArray(StFileName, writeArray);
                 ///////////////////////
                 FileUtil.FileReadTextArray(StFileName, writeArray);
                 if (writeArray.size() == 0) {
@@ -819,8 +824,145 @@ public class NNProcessBySignal {
                 stockInputMap.put(symbol, StockArray);
 
             } // loop for stockNameArray
-
         }
+    }
+
+    public static HashMap<String, ArrayList> stockInputMap = null;
+
+    public static boolean AllStockHistoryGetfromStaticCodeInit() {
+
+        if (stockInputMap != null) {
+            return true;
+        }
+
+        StringBuffer inputBuf = new StringBuffer();
+        try {
+            inputBuf.append(nnAllStock.NN_ALLSTOCK1);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK2);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK3);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK4);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK5);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK6);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK7);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK8);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK9);
+            
+            inputBuf.append(nnAllStock.NN_ALLSTOCK10);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK11);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK12);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK13);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK14);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK15);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK16);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK17);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK18);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK19);
+            
+            inputBuf.append(nnAllStock.NN_ALLSTOCK20);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK21);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK22);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK23);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK24);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK25);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK26);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK27);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK28);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK29);
+            
+            inputBuf.append(nnAllStock.NN_ALLSTOCK30);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK31);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK32);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK33);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK34);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK35);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK36);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK37);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK38);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK39);
+            
+            inputBuf.append(nnAllStock.NN_ALLSTOCK40);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK41);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK42);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK43);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK44);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK45);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK46);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK47);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK48);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK49);
+            
+            inputBuf.append(nnAllStock.NN_ALLSTOCK50);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK51);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK52);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK53);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK54);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK55);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK56);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK57);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK58);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK59);
+            
+            inputBuf.append(nnAllStock.NN_ALLSTOCK60);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK61);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK62);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK63);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK64);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK65);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK66);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK67);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK68);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK69);
+            
+            inputBuf.append(nnAllStock.NN_ALLSTOCK70);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK71);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK72);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK73);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK74);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK75);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK76);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK77);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK78);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK79);
+            
+            inputBuf.append(nnAllStock.NN_ALLSTOCK80);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK81);
+            inputBuf.append(nnAllStock.NN_ALLSTOCK82);
+
+//            inputBuf.append(nnAllStock.NN_ALLSTOCK83); // check nn3 data           
+
+            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
+            stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
+            return true;
+        } catch (Exception ex) {
+            logger.info("> AllStockHistoryGetfromStaticCode - exception " + ex);
+        }
+        return false;
+    }
+
+    public static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode(String symbol) {
+
+        ArrayList<AFstockInfo> inputlist = new ArrayList();
+        AllStockHistoryGetfromStaticCodeInit();
+        if (stockInputMap == null) {
+            return inputlist;
+        }
+
+        if (symbol != "") {
+            try {
+                inputlist = stockInputMap.get(symbol);
+                if (inputlist == null) {
+                    return null;
+                }
+                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+                AFstockInfo[] arrayItem = new ObjectMapper().readValue(inputListRawSt, AFstockInfo[].class);
+                List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
+                inputlist = new ArrayList<AFstockInfo>(listItem);
+                return inputlist;
+            } catch (Exception ex) {
+            }
+        }
+
+        return inputlist;
 
     }
 
