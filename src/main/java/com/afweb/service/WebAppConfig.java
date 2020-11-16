@@ -53,16 +53,22 @@ public class WebAppConfig {
 //            dataSource.setUrl("jdbc:mysql://172.30.136.72:3306/sampledb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
 //            dataSource.setUsername("sa");
 //            dataSource.setPassword("admin");
-//$host = "bmppikx9mn79axgjlhh4-mysql.services.clever-cloud.com";
-//$username = "uphyltwqsqsipjri";
-//$password = "5V7FaMjFWryhGXYcagw2";
-//$DBName = "bmppikx9mn79axgjlhh4";        
-//
+//////////////////////////////////////////////////////////
+//$host = "sql9.freemysqlhosting.net";
+//$username = "sql9376612";
+//$password = "p4WL3psmvm";
+//$DBName = "sql9376612";
 //            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 //            dataSource.setUrl("jdbc:mysql://sql9.freemysqlhosting.net:3306/sql9376612?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
 //            dataSource.setUsername("sql9376612");
 //            dataSource.setPassword("p4WL3psmvm");
 
+//////////////////////////////////////////////////////////
+//$host = "bmppikx9mn79axgjlhh4-mysql.services.clever-cloud.com";
+//$username = "uphyltwqsqsipjri";
+//$password = "5V7FaMjFWryhGXYcagw2";
+//$DBName = "bmppikx9mn79axgjlhh4";        
+//
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
             dataSource.setUrl("jdbc:mysql://bmppikx9mn79axgjlhh4-mysql.services.clever-cloud.com:3306/bmppikx9mn79axgjlhh4?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
             dataSource.setUsername("uphyltwqsqsipjri");
