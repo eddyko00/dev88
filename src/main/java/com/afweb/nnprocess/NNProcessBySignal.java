@@ -1040,7 +1040,6 @@ public class NNProcessBySignal {
 //            inputBuf.append(nnAllStock.NN_ALLSTOCK178);
 //            inputBuf.append(nnAllStock.NN_ALLSTOCK179);
 
-         
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
             return true;

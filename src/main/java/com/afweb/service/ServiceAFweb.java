@@ -692,7 +692,7 @@ public class ServiceAFweb {
     private void AFprocessDebug() {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagtesting = false;
+        boolean flagtesting = true;
         if (flagtesting == true) {
 
             ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
@@ -3638,40 +3638,34 @@ public class ServiceAFweb {
         ///// so, need work around to move to next begining of day
         long endDay = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
         long start = endDay;
-        long end = 0;
+        long end = TimeConvertion.addDays(start, -length);
 
         if (CKey.CACHE_STOCKH == true) {
-            ArrayList<AFstockInfo> stockInfoArrayStatic = NNProcessBySignal.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
-            if (stockInfoArrayStatic != null) {
-                if (stockInfoArrayStatic.size() > 0) {
-                    logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
-                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
-                    endDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
-                    start = endDay;
-                    end = 0;
-                    mergedList.addAll(stockInfoArrayStatic);
-                }
-            }
-            while (mergedList.size() < length) {
-//        while (true) {
-                long endDay100 = TimeConvertion.addDays(start, -100);
-                end = TimeConvertion.endOfDayInMillis(endDay100);
-                ArrayList<AFstockInfo> stockInfoArray = getStockHistoricalRange(NormalizeSymbol, start, end);
-                if (stockInfoArray == null) {
-                    break;
-                }
-                if (stockInfoArray.size() == 0) {
-                    break;
-                }
-                mergedList.addAll(stockInfoArray);
-                start = TimeConvertion.addMiniSeconds(end, -10);
-            }
-        } else {
+            start = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
+            end = TimeConvertion.addDays(start, -length);
 
-            while (mergedList.size() < length) {
-                long endDay100 = TimeConvertion.addDays(start, -100);
-                end = TimeConvertion.endOfDayInMillis(endDay100);
-                ArrayList<AFstockInfo> stockInfoArray = getStockHistoricalRange(NormalizeSymbol, start, end);
+            long endStaticDay = 0;
+            ArrayList<AFstockInfo> stockInfoArrayStatic = NNProcessBySignal.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
+            if (stockInfoArrayStatic == null) {
+                stockInfoArrayStatic = new ArrayList();
+            }
+            if (stockInfoArrayStatic.size() > 0) {
+                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
+                AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
+                endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
+                end = TimeConvertion.addDays(endStaticDay, 1);
+
+            }
+
+            long startLoop = start;
+            long endLoop = 0;
+            while (true) {
+                long endDay100 = TimeConvertion.addDays(startLoop, -100);
+                endLoop = TimeConvertion.endOfDayInMillis(endDay100);
+                if (endLoop <= end) {
+                    endLoop = end;
+                }
+                ArrayList<AFstockInfo> stockInfoArray = getStockHistoricalRange(NormalizeSymbol, startLoop, endLoop);
                 if (stockInfoArray == null) {
                     break;
                 }
@@ -3679,7 +3673,34 @@ public class ServiceAFweb {
                     break;
                 }
                 mergedList.addAll(stockInfoArray);
-                start = TimeConvertion.addMiniSeconds(end, -10);
+                startLoop = TimeConvertion.addMiniSeconds(endLoop, -10);
+                if (endLoop == end) {
+                    break;
+                }
+            }
+            mergedList.addAll(stockInfoArrayStatic);
+
+        } else {
+            long startLoop = start;
+            long endLoop = 0;
+            while (true) {
+                long endDay100 = TimeConvertion.addDays(startLoop, -100);
+                endLoop = TimeConvertion.endOfDayInMillis(endDay100);
+                if (endLoop <= end) {
+                    endLoop = end;
+                }
+                ArrayList<AFstockInfo> stockInfoArray = getStockHistoricalRange(NormalizeSymbol, startLoop, endLoop);
+                if (stockInfoArray == null) {
+                    break;
+                }
+                if (stockInfoArray.size() == 0) {
+                    break;
+                }
+                mergedList.addAll(stockInfoArray);
+                startLoop = TimeConvertion.addMiniSeconds(endLoop, -10);
+                if (endLoop == end) {
+                    break;
+                }
             }
         }
         if (mergedList.size() == 0) {
