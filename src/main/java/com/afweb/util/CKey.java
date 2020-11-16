@@ -60,20 +60,23 @@ public class CKey {
 //    //
 //    //
 //    /////Openshift Login eddyko00  Pass eddyko100 -  using LOCAL_MYSQL  
-    public static String WEBPOST_OP_PHP = "/health.php";
-    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web012.apps.us-west-1.starter.openshift-online.com"; //eddyko00     
-    public static final String URL_PATH_OP = "http://iisweb-web012.apps.us-west-1.starter.openshift-online.com";
+//    public static String WEBPOST_OP_PHP = "/health.php";
+//    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web012.apps.us-west-1.starter.openshift-online.com"; //eddyko00     
+//    public static final String URL_PATH_OP = "http://iisweb-web012.apps.us-west-1.starter.openshift-online.com";    
+    public static String WEBPOST_OP_PHP = "/webgetresp_1.php";
+    public static String URL_PATH_OP_DB_PHP1 = "https://iiswebdb.herokuapp.com"; //eddyko00     
+
 // manual timer    
 //http://iisweb-web012.apps.us-west-1.starter.openshift-online.com/timerhandler?resttimerMsg=
         
     public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DBDB_PHP;  //Heroku PHP DB4free too slow
-//    public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DB_PHP;  //Heroku PHP DB interface  
+
 //***********    
 //*********** 
 // server timerhandler
 // server timerhandler    
     public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-//    public static final String SERVERDB_URL = URL_PATH_OP;
+
 //
 //***********    
 //*********** 

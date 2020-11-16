@@ -49,11 +49,8 @@ public class HerokuDemoApplication {
                 restTimer.RestTimerHandler();
                 return;
             }
-            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_OP)) {
-                restTimer.RestTimerHandler();
-            } else {
-                restTimer.RestTimerHandler();
-            }
+
+            restTimer.RestTimerHandler();
 
             TimeUnit.SECONDS.sleep(1);
 

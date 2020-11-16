@@ -277,12 +277,6 @@ public class IndexController {
         return RESTtimer.serverURL_0;
     }
 
-    @RequestMapping(value = "/server/url0/setop", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String getServerURLOP() {
-        RESTtimer.serverURL_0 = CKey.URL_PATH_OP;
-        return RESTtimer.serverURL_0;
-    }
 
     @RequestMapping(value = "/server/url0/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
