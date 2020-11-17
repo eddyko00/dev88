@@ -7,6 +7,7 @@ package com.afweb.stock;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
+import com.afweb.nnprocess.NNProcessBySignal;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -537,11 +538,25 @@ public class StockDB {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long stockinfoDBEndDay = 0;
             ArrayList stockinfoDBArray = getStockInfo_workaround(stock, 1, dateNow);
+
             if (stockinfoDBArray != null && stockinfoDBArray.size() == 1) {
                 AFstockInfo stockinfoDB = (AFstockInfo) stockinfoDBArray.get(0);
                 stockinfoDBEndDay = stockinfoDB.getEntrydatel();
             }
+            if (CKey.CACHE_STOCKH == true) {
+                if (stockinfoDBArray.size() == 0) {
 
+                    ArrayList<AFstockInfo> stockInfoArrayStatic = NNProcessBySignal.AllStockHistoryGetfromStaticCode(stock.getSymbol());
+                    if (stockInfoArrayStatic == null) {
+                        stockInfoArrayStatic = new ArrayList();
+                    }
+                    if (stockInfoArrayStatic.size() > 0) {
+                        logger.info("> getStockHistorical" + stock.getSymbol() + " " + stockInfoArrayStatic.size());
+                        AFstockInfo stockinfoDB = stockInfoArrayStatic.get(0);
+                        stockinfoDBEndDay = stockinfoDB.getEntrydatel();
+                    }
+                }
+            }
             // jdbc transaction
             ArrayList sqlTranList = new ArrayList();
 
@@ -562,6 +577,7 @@ public class StockDB {
                 if (stockinfoRTEndDay < stockinfoDBEndDay) {
                     continue;
                 } else if (stockinfoRTEndDay == stockinfoDBEndDay) {
+                    
                     resultAdd++;
                     String updateSQL
                             = "update stockinfo set entrydatedisplay='" + stockinfoTemp.getEntrydatedisplay() + "', entrydatel=" + stockinfoTemp.getEntrydatel() + ", "
@@ -733,12 +749,12 @@ public class StockDB {
     public boolean cleanNNonlyStockDB() {
         try {
             processExecuteDB("drop table if exists neuralnet");
-            processExecuteDB("drop table if exists neuralnetdata");            
+            processExecuteDB("drop table if exists neuralnetdata");
             ArrayList createTableList = new ArrayList();
             if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
                 createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
                 createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                
+
             }
             if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");

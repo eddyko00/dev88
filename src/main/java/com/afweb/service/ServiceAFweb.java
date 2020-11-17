@@ -694,11 +694,14 @@ public class ServiceAFweb {
 
         boolean flagtesting = false;
         if (flagtesting == true) {
-
+//            ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
+            
+            TRprocessImp.updateStockProcess(this, "HOU.TO");
             ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
-            for (int k = 0; k < 10; k++) {
-                TRprocessImp.UpdateAllStock(this);
-            }
+            
+//            for (int k = 0; k < 10; k++) {
+//                TRprocessImp.UpdateAllStock(this);
+//            }
         }
 
         ///// only acc reset
