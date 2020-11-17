@@ -3642,18 +3642,18 @@ public class ServiceAFweb {
         if (mergedList.size() == 0) {
             return (ArrayList) mergedList;
         }
-        if (length < 50) {
-            ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
-            ArrayList<AFstockInfo> retArray = new ArrayList();
-            for (int i = 0; i < sockInfoArray.size(); i++) {
-                AFstockInfo sInfo = sockInfoArray.get(i);
-                retArray.add(sInfo);
-                if (i > length) {
-                    break;
-                }
-            }
-            return retArray;
-        }
+//        if (length < 50) {
+//            ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
+//            ArrayList<AFstockInfo> retArray = new ArrayList();
+//            for (int i = 0; i < sockInfoArray.size(); i++) {
+//                AFstockInfo sInfo = sockInfoArray.get(i);
+//                retArray.add(sInfo);
+//                if (i > length) {
+//                    break;
+//                }
+//            }
+//            return retArray;
+//        }
 
         ////////////////error in HEROKU and Local not sure why?????? //////////////
         ////////////////error in HEROKU and Local not sure why?????? //////////////
@@ -3674,22 +3674,20 @@ public class ServiceAFweb {
 
             }
         }
-        return (ArrayList) mergedList;
+//        return (ArrayList) mergedList;
+        ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
+        ArrayList<AFstockInfo> retArray = new ArrayList();
+        for (int i = 0; i < sockInfoArray.size(); i++) {
+            AFstockInfo sInfo = sockInfoArray.get(i);
+            retArray.add(sInfo);
+            if (i > length) {
+                break;
+            }
+        }
+        return retArray;
+
     }
 
-//    public ArrayList getStockHistorical_old(String symbol, int length) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return null;
-//        }
-//        if (checkCallRemoveMysql() == true) {
-//            return getServiceAFwebREST().getStockHistorical(symbol, length);
-//        }
-//        SymbolNameObj symObj = new SymbolNameObj(symbol);
-//        String NormalizeSymbol = symObj.getYahooSymbol();
-//        ArrayList stockInfoArray = getStockImp().getStockHistorical(NormalizeSymbol, length, null);
-//
-//        return stockInfoArray;
-//    }
     public ArrayList getAllOpenStockNameArray() {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
