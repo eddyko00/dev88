@@ -62,8 +62,7 @@ public class ServiceRemoteDB {
         URL_PATH = CKey.REMOTEDB_MY_SQLURL + WEBPOST_MYSQL;
 
         //openshift Database
-        if (CKey.OPENSHIFT_DB1 == true) {
-
+        if (CKey.OTHER_DB1 == true) {
             URL_PATH = CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP;
         }
     }

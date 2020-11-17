@@ -312,8 +312,8 @@ public class ServiceAFweb {
                 getServerObj().setLocalDBservice(CKey.LocalPCflag);
 
                 if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-                    if (CKey.OPENSHIFT_DB1 == true) {
-                        logger.info(">>>>> System Openshift DB1 URL:" + CKey.URL_PATH_OP_DB_PHP1);
+                    if (CKey.OTHER_DB1 == true) {
+                        logger.info(">>>>> System OTHER DB1 URL:" + CKey.URL_PATH_OP_DB_PHP1);
                     } else {
                         logger.info(">>>>> System MYSQL DB2 URL:" + CKey.REMOTEDB_MY_SQLURL);
                     }
@@ -409,8 +409,8 @@ public class ServiceAFweb {
                 // LocalPCflag = true; 
                 // SQL_DATABASE = REMOTE_MYSQL;
                 if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-                    if ((CKey.OPENSHIFT_DB1 == true)) {
-                        logger.info(">>>>> SystemDownloadDBData form Openshift");
+                    if ((CKey.OTHER_DB1 == true)) {
+                        logger.info(">>>>> SystemDownloadDBData form Other DB");
                     } else {
                         logger.info(">>>>> SystemDownloadDBData form Heroku");
                     }
@@ -431,8 +431,8 @@ public class ServiceAFweb {
         if (CKey.NN_DEBUG == true) {
             if (CKey.LocalPCflag == true) {
                 if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-                    if ((CKey.OPENSHIFT_DB1 == true)) {
-                        logger.info(">>>>> SystemRestoreDBData to Openshift");
+                    if ((CKey.OTHER_DB1 == true)) {
+                        logger.info(">>>>> SystemRestoreDBData to Other DB");
                     } else {
                         logger.info(">>>>> SystemRestoreDBData to Heroku");
                     }
@@ -456,8 +456,8 @@ public class ServiceAFweb {
         if (CKey.NN_DEBUG == true) {
             if (CKey.LocalPCflag == true) {
                 if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-                    if ((CKey.OPENSHIFT_DB1 == true)) {
-                        logger.info(">>>>> SystemRestoreDBData to Openshift");
+                    if ((CKey.OTHER_DB1 == true)) {
+                        logger.info(">>>>> SystemRestoreDBData to Other DB");
                     } else {
                         logger.info(">>>>> SystemRestoreDBData to Heroku");
                     }
@@ -807,18 +807,18 @@ public class ServiceAFweb {
 //
         boolean dbhero2opflag = false;
         if (dbhero2opflag == true) {
-            boolean prevOPSHIFT = CKey.OPENSHIFT_DB1;
+            boolean prevOPSHIFT = CKey.OTHER_DB1;
 
-            CKey.OPENSHIFT_DB1 = false;
+            CKey.OTHER_DB1 = false;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
             backupSystem();
 
-            CKey.OPENSHIFT_DB1 = true;
+            CKey.OTHER_DB1 = true;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
             restoreSystem();
             
             // restore original
-            CKey.OPENSHIFT_DB1 = prevOPSHIFT;
+            CKey.OTHER_DB1 = prevOPSHIFT;
         }
 
         /////other macd, mv, nn1, nn2
