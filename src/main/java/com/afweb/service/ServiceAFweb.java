@@ -3712,46 +3712,13 @@ public class ServiceAFweb {
         if (length < 22) {
             ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
             ArrayList<AFstockInfo> retArray = new ArrayList();
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < sockInfoArray.size(); i++) {
                 AFstockInfo sInfo = sockInfoArray.get(i);
                 retArray.add(sInfo);
             }
             return retArray;
         }
 
-//        // assume yahoo finance is working.
-//        // save only the last 10 to save memory 10M only in Clever Cloud 
-//        // always the earliest day first
-//        StockInternet internet = new StockInternet();
-//        ArrayList<AFstockInfo> StockArray = null;
-//        try {
-//            StockArray = internet.GetStockHistoricalInternet(NormalizeSymbol, length);
-//        } catch (Exception ex) {
-//
-//        }
-//        if (StockArray == null) {
-//            ///////seems internet error
-////                logger.info("getStockHistorical internet error " + NormalizeSymbol);
-//            return (ArrayList) mergedList;
-////                return null;
-//        }
-//        if (StockArray.size() == 0) {
-//            return (ArrayList) mergedList;
-////                return StockArray;
-//        }
-//
-//        AFstockInfo mergeInfo = mergedList.get(0);
-//        long mergeInfoEOD = TimeConvertion.endOfDayInMillis(mergeInfo.getEntrydatel());
-//        AFstockInfo StockInfo = StockArray.get(0);
-//        long StockInfoEOD = TimeConvertion.endOfDayInMillis(StockInfo.getEntrydatel());
-//        if (mergeInfoEOD == StockInfoEOD) {
-//            StockArray.remove(0);
-//            StockArray.add(0, mergeInfo);
-//        } else {
-////                logger.info(symbol + " getStockHistorical StockInfo " + StockInfo.getEntrydatel() + " mergeInfo " + mergeInfo.getEntrydatel());
-////                StockArray.add(mergeInfo);
-//        }
-//        mergedList = StockArray;
         ////////////////error in HEROKU and Local not sure why?????? //////////////
         ////////////////error in HEROKU and Local not sure why?????? //////////////
         ////////////////error in HEROKU and Local not sure why?????? //////////////

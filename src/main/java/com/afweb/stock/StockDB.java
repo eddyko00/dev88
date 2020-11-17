@@ -543,6 +543,7 @@ public class StockDB {
                 AFstockInfo stockinfoDB = (AFstockInfo) stockinfoDBArray.get(0);
                 stockinfoDBEndDay = stockinfoDB.getEntrydatel();
             }
+            AFstockInfo stockinfoStaticDB = null;
             if (CKey.CACHE_STOCKH == true) {
                 if (stockinfoDBArray.size() == 0) {
 
@@ -552,8 +553,8 @@ public class StockDB {
                     }
                     if (stockInfoArrayStatic.size() > 0) {
                         logger.info("> getStockHistorical" + stock.getSymbol() + " " + stockInfoArrayStatic.size());
-                        AFstockInfo stockinfoDB = stockInfoArrayStatic.get(0);
-                        stockinfoDBEndDay = stockinfoDB.getEntrydatel();
+                        stockinfoStaticDB = stockInfoArrayStatic.get(0);
+                        stockinfoDBEndDay = stockinfoStaticDB.getEntrydatel();
                     }
                 }
             }
@@ -577,7 +578,14 @@ public class StockDB {
                 if (stockinfoRTEndDay < stockinfoDBEndDay) {
                     continue;
                 } else if (stockinfoRTEndDay == stockinfoDBEndDay) {
-                    
+                    if (CKey.CACHE_STOCKH == true) {
+                        if (stockinfoStaticDB != null) {
+                            if (stockinfoStaticDB.getEntrydatel() == stockinfoRTEndDay) {
+                                // ignore to update the static db file
+                                continue;
+                            }
+                        }
+                    }
                     resultAdd++;
                     String updateSQL
                             = "update stockinfo set entrydatedisplay='" + stockinfoTemp.getEntrydatedisplay() + "', entrydatel=" + stockinfoTemp.getEntrydatel() + ", "
