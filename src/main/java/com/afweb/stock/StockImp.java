@@ -476,16 +476,14 @@ public class StockImp {
                 }
                 //dummy stock
                 stockdb.addStock("T_T");
-                //    public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};               
                 for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                     String stockN = ServiceAFweb.primaryStock[i];
                     stockdb.addStock(stockN);
                 }
+                stockdb.addStock("T.TO");
                 if (result == 0) {
 //                    initNeuralNetBPObj();
-
                     return 0; // new db
-
                 }
                 return 1; // DB already exist
             }

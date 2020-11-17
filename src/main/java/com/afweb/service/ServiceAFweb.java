@@ -695,10 +695,10 @@ public class ServiceAFweb {
         boolean flagtesting = false;
         if (flagtesting == true) {
 //            ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
-            
+
             TRprocessImp.updateStockProcess(this, "HOU.TO");
             ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
-            
+
 //            for (int k = 0; k < 10; k++) {
 //                TRprocessImp.UpdateAllStock(this);
 //            }
@@ -816,7 +816,7 @@ public class ServiceAFweb {
             CKey.OTHER_DB1 = true;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
             restoreSystem();
-            
+
             // restore original
             CKey.OTHER_DB1 = prevOPSHIFT;
         }
@@ -3649,7 +3649,7 @@ public class ServiceAFweb {
                 stockInfoArrayStatic = new ArrayList();
             }
             if (stockInfoArrayStatic.size() > 0) {
-                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
+//                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
                 AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
                 endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
                 end = TimeConvertion.addDays(endStaticDay, 1);
@@ -3705,12 +3705,15 @@ public class ServiceAFweb {
         if (mergedList.size() == 0) {
             return (ArrayList) mergedList;
         }
-        if (length < 22) {
+        if (length < 50) {
             ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
             ArrayList<AFstockInfo> retArray = new ArrayList();
             for (int i = 0; i < sockInfoArray.size(); i++) {
                 AFstockInfo sInfo = sockInfoArray.get(i);
                 retArray.add(sInfo);
+                if (i > length) {
+                    break;
+                }
             }
             return retArray;
         }
@@ -4794,34 +4797,14 @@ public class ServiceAFweb {
 
         // make sure both ServiceAFweb.InitSystemData and StockImp.initStockDB are update
         if (account != null) {
-            AFstockObj stock = getStockImp().getRealTimeStock("SPY", null);
-            int result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-
-            stock = getStockImp().getRealTimeStock("DIA", null);
+            int result = 0;
+            for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+                String stockN = ServiceAFweb.primaryStock[i];
+                AFstockObj stock = getStockImp().getRealTimeStock(stockN, null);
+                result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+            }
+            AFstockObj stock = getStockImp().getRealTimeStock("T.TO", null);
             result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("QQQ", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("HOU.TO", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("HOD.TO", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("T.TO", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("FAS", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("FAZ", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("XIU.TO", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("RY.TO", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("AAPL", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("IWM", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            stock = getStockImp().getRealTimeStock("AMZN", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-
         }
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         TRprocessImp.InitSystemData();

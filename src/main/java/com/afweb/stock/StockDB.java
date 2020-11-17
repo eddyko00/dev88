@@ -545,14 +545,14 @@ public class StockDB {
             }
             AFstockInfo stockinfoStaticDB = null;
             if (CKey.CACHE_STOCKH == true) {
-                if (stockinfoDBArray.size() == 0) {
+                if ((stockinfoDBArray == null) ||(stockinfoDBArray.size() == 0)) {
 
                     ArrayList<AFstockInfo> stockInfoArrayStatic = NNProcessBySignal.AllStockHistoryGetfromStaticCode(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
                         stockInfoArrayStatic = new ArrayList();
                     }
                     if (stockInfoArrayStatic.size() > 0) {
-                        logger.info("> getStockHistorical" + stock.getSymbol() + " " + stockInfoArrayStatic.size());
+//                        logger.info("> getStockHistorical" + stock.getSymbol() + " " + stockInfoArrayStatic.size());
                         stockinfoStaticDB = stockInfoArrayStatic.get(0);
                         stockinfoDBEndDay = stockinfoStaticDB.getEntrydatel();
                     }
