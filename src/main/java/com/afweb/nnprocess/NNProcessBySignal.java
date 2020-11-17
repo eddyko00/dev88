@@ -108,8 +108,13 @@ public class NNProcessBySignal {
 
             if (processRestAllStockflag == true) {
                 exitflag = false;
-                ///////////////////////////////       
-                AllStockHistoryCreatJava(serviceAFWeb);
+                ///////////////////////////////   
+                String symbolL[] = ServiceAFweb.primaryStock;
+                AllStockHistoryCreatJava(serviceAFWeb, symbolL, "nnAllStock", "NN_ALLSTOCK");
+
+                String symbolLallSt[] = ServiceAFweb.allStock;
+                AllStockHistoryCreatJava(serviceAFWeb, symbolLallSt, "nn1AllStock", "NN_1ALLSTOCK");
+
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -691,12 +696,12 @@ public class NNProcessBySignal {
 
     }
 
-    public boolean AllStockHistoryCreatJava(ServiceAFweb serviceAFWeb) {
-
+    public boolean AllStockHistoryCreatJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
-            AllStockHistoryCreatJavaProcess(serviceAFWeb, stockInputMap);
+
+            AllStockHistoryCreatJavaProcess(serviceAFWeb, symbolL, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
@@ -705,7 +710,7 @@ public class NNProcessBySignal {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nnAllStock {\n"
+                    + "public class " + fileName + " {\n"
                     + "\n");
 
             int sizeline = 1000;
@@ -717,7 +722,7 @@ public class NNProcessBySignal {
             while (true) {
                 if (line == 0) {
                     msgWrite.append(""
-                            + "    public static String NN_ALLSTOCK" + index + " = \"\"\n"
+                            + "    public static String " + tagName + index + " = \"\"\n"
                             + "            + \"\"\n");
                 }
                 line++;
@@ -750,7 +755,7 @@ public class NNProcessBySignal {
                     ///
                     + ""
             );
-            String fileN = ServiceAFweb.FileLocalDebugPath + "nnAllStock.java";
+            String fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -758,15 +763,17 @@ public class NNProcessBySignal {
         return false;
     }
 
-    public void AllStockHistoryCreatJavaProcess(ServiceAFweb serviceAFWeb, HashMap<String, ArrayList> stockInputMap) {
+    public void AllStockHistoryCreatJavaProcess(ServiceAFweb serviceAFWeb, String symbolL[], HashMap<String, ArrayList> stockInputMap) {
         boolean saveStockDBFlag = true;
         if (saveStockDBFlag == true) {
 
             StockInternet internet = new StockInternet();
             ArrayList stockNameArray = new ArrayList();
 
-//            stockNameArray = serviceAFWeb.getAllOpenStockNameArray();
-            String symbolL[] = ServiceAFweb.primaryStock;
+            if (symbolL == null) {
+                return;
+            }
+
             for (int i = 0; i < symbolL.length; i++) {
                 stockNameArray.add(symbolL[i]);
             }

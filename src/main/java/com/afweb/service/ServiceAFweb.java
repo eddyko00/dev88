@@ -695,7 +695,6 @@ public class ServiceAFweb {
         boolean flagtesting = false;
         if (flagtesting == true) {
 //            ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
-
             TRprocessImp.updateStockProcess(this, "HOU.TO");
             ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
 
@@ -3552,68 +3551,6 @@ public class ServiceAFweb {
         return stockInfoArray;
     }
 
-//    public ArrayList<AFstockInfo> getStockHistoricalFromDB(String symbol, int length) {
-//
-//        SymbolNameObj symObj = new SymbolNameObj(symbol);
-//        String NormalizeSymbol = symObj.getYahooSymbol();
-//
-//        List<AFstockInfo> mergedList = new ArrayList();
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//        //////some bug in Heroku to get the current day actually missing the first date
-//        ///// may be the server time - 2hr when try to do end of day not working in this case.
-//        ///// so, need work around to move to next begining of day
-//        long endDay = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
-//        long start = endDay;
-//        long end = 0;
-//
-//        while (mergedList.size() < length) {
-//            long endDay100 = TimeConvertion.addDays(start, -100);
-//            end = TimeConvertion.endOfDayInMillis(endDay100);
-//            ArrayList<AFstockInfo> stockInfoArray = getStockHistoricalRange(NormalizeSymbol, start, end);
-//            if (stockInfoArray == null) {
-//                break;
-//            }
-//            if (stockInfoArray.size() == 0) {
-//                break;
-//            }
-//            mergedList.addAll(stockInfoArray);
-//            start = TimeConvertion.addMiniSeconds(end, -10);
-//        }
-//        if (mergedList.size() == 0) {
-//            return (ArrayList) mergedList;
-//        }
-//        if (length < 22) {
-//            ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
-//            ArrayList<AFstockInfo> retArray = new ArrayList();
-//            for (int i = 0; i < length; i++) {
-//                AFstockInfo sInfo = sockInfoArray.get(i);
-//                retArray.add(sInfo);
-//            }
-//            return retArray;
-//        }
-//
-//
-//        ////////////////error in HEROKU and Local not sure why?????? //////////////
-//        ////////////////error in HEROKU and Local not sure why?????? //////////////
-//        ////////////////error in HEROKU and Local not sure why?????? //////////////
-//        if (mergedList.size() > 1) {
-//
-////           AFstockInfo first = mergedList.get(0);
-////           AFstockInfo first1 = mergedList.get(1);
-////           logger.info(symbol + "getStockHistorical first " + first.getEntrydatel() + " first-1 " + first1.getEntrydatel());
-//            AFstockInfo last = mergedList.get(mergedList.size() - 1);
-//            AFstockInfo last1 = mergedList.get(mergedList.size() - 2);
-//
-//            if (last.getEntrydatel() > last1.getEntrydatel()) {
-////                logger.info(symbol + " getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
-//                //drop the last become only the last one become the current day (not happen in local) 
-//                mergedList.remove(last);
-//
-//            }
-//        }
-//        return (ArrayList) mergedList;
-//    }
-//    
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(String symbol, int length) {
