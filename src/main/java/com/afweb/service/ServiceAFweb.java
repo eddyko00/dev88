@@ -808,21 +808,17 @@ public class ServiceAFweb {
         boolean dbhero2opflag = false;
         if (dbhero2opflag == true) {
             boolean prevOPSHIFT = CKey.OPENSHIFT_DB1;
-            boolean pervStockInfoDB = CKey.SEPARATE_STOCKINFO_DB;
 
             CKey.OPENSHIFT_DB1 = false;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
             backupSystem();
-//
 
             CKey.OPENSHIFT_DB1 = true;
-            CKey.SEPARATE_STOCKINFO_DB = false;
-
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
             restoreSystem();
+            
             // restore original
             CKey.OPENSHIFT_DB1 = prevOPSHIFT;
-            CKey.SEPARATE_STOCKINFO_DB = pervStockInfoDB;
         }
 
         /////other macd, mv, nn1, nn2

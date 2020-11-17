@@ -89,20 +89,6 @@ public class StockImp {
     public ArrayList getAllDisableStockNameList(int length) {
         ArrayList returnStocNamekArray = new ArrayList();
         returnStocNamekArray = stockdb.getAllDisableStockName();
-//        ArrayList stockArray = stockdb.getAllDisableStock();
-//        if (stockArray != null && stockArray.size() > 0) {
-//            if (length == 0) {
-//                // all stock
-//                length = stockArray.size();
-//            }
-//            if (length > stockArray.size()) {
-//                length = stockArray.size();
-//            }
-//            for (int i = 0; i < length; i++) {
-//                AFstockObj stock = (AFstockObj) stockArray.get(i);
-//                returnStocNamekArray.add(stock.getSymbol());
-//            }
-//        }
         return returnStocNamekArray;
     }
 
@@ -115,15 +101,6 @@ public class StockImp {
         return stockdb.addStock(NormalizeSymbol);
     }
 
-//    public int AddFailCntStock(String NormalizeSymbol) {
-//        AFstockObj stock = getRealTimeStock(NormalizeSymbol, null);
-//        if (stock == null) {
-//            return 0;
-//        }
-//        int failCnt = stock.getFailedupdate() + 1;
-//        stock.setFailedupdate(failCnt);
-//        return stockdb.AddFailCntStock(stock);
-//    }
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
         return stockdb.deleteStockInfoByStockId(stockObj);
     }
@@ -204,13 +181,13 @@ public class StockImp {
     }
 
     public int updateSQLArrayList(ArrayList SQLTran) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            String sql = (String) SQLTran.get(0);
-            if (sql.indexOf(" stockinfo ") != -1) {
-                StockInfoDB stockinfodb = new StockInfoDB();
-                return stockinfodb.updateSQLArrayList(SQLTran);
-            }
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            String sql = (String) SQLTran.get(0);
+//            if (sql.indexOf(" stockinfo ") != -1) {
+//                StockInfoDB stockinfodb = new StockInfoDB();
+//                return stockinfodb.updateSQLArrayList(SQLTran);
+//            }
+//        }
         return stockdb.updateSQLArrayList(SQLTran);
     }
 

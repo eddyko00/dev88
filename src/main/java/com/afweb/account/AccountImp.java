@@ -9,7 +9,7 @@ import com.afweb.model.ConstantKey;
 
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockObj;
-import com.afweb.stock.StockInfoDB;
+//import com.afweb.stock.StockInfoDB;
 import com.afweb.util.CKey;
 import com.afweb.util.StringTag;
 import com.afweb.util.TimeConvertion;
@@ -59,12 +59,12 @@ public class AccountImp {
     }
 
     public ArrayList getAllIdSQL(String sql) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            if (sql.indexOf(" stockinfo ") != -1) {
-                StockInfoDB stockinfodb = new StockInfoDB();
-                return stockinfodb.getAllIdSQL(sql);
-            }
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            if (sql.indexOf(" stockinfo ") != -1) {
+//                StockInfoDB stockinfodb = new StockInfoDB();
+//                return stockinfodb.getAllIdSQL(sql);
+//            }
+//        }
         return accountdb.getAllIdSQL(sql);
     }
 

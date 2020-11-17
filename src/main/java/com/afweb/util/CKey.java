@@ -42,11 +42,7 @@ public class CKey {
     public static boolean CACHE_STOCKH = false;
     public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
     /////
-    ////////////////////// make this always true for HEROKU Env
-    ////////////////////// make this always true for HEROKU Env
-    ////////////////////// make this always true for HEROKU Env  
-    public static boolean SEPARATE_STOCKINFO_DB = false; //false //true    
-    public static String WEBPOST_HERO_STOCK_PHP = "/webgetresp_stock.php";
+
     /////////////////////
     public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
     /////heroku
@@ -63,7 +59,7 @@ public class CKey {
 //    public static String WEBPOST_OP_PHP = "/health.php";
 //    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web012.apps.us-west-1.starter.openshift-online.com"; //eddyko00     
 //    public static final String URL_PATH_OP = "http://iisweb-web012.apps.us-west-1.starter.openshift-online.com";    
-    public static String WEBPOST_OP_PHP = "/webgetresp_1.php";
+    public static String WEBPOST_OP_PHP = "/webgetresp_stock.php"; // "/webgetresp_1.php";
     public static String URL_PATH_OP_DB_PHP1 = "https://iiswebdb.herokuapp.com"; //eddyko00     
 
 // manual timer    

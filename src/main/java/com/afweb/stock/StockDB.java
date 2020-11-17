@@ -60,7 +60,7 @@ public class StockDB {
     private static DataSource dataSource;
     private ServiceRemoteDB remoteDB = new ServiceRemoteDB();
 
-    private StockInfoDB stockinfodb = new StockInfoDB();
+//    private StockInfoDB stockinfodb = new StockInfoDB();
 
     /**
      * @return the dataSource
@@ -80,9 +80,9 @@ public class StockDB {
      * @param jdbcTemplate the jdbcTemplate to set
      */
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            stockinfodb.setJdbcTemplate(jdbcTemplate);
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            stockinfodb.setJdbcTemplate(jdbcTemplate);
+//        }
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -90,9 +90,9 @@ public class StockDB {
      * @param dataSource the dataSource to set
      */
     public void setDataSource(DataSource dataSource) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            stockinfodb.setDataSource(dataSource);
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            stockinfodb.setDataSource(dataSource);
+//        }
         this.dataSource = dataSource;
     }
 
@@ -194,9 +194,9 @@ public class StockDB {
     }
 
     public int deleteStockInfo(AFstockInfo stockInfo) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            return stockinfodb.deleteStockInfo(stockInfo);
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            return stockinfodb.deleteStockInfo(stockInfo);
+//        }
         try {
             String deleteSQL = "delete from stockinfo where id=" + stockInfo.getId();
             return processUpdateDB(deleteSQL);
@@ -207,9 +207,9 @@ public class StockDB {
     }
 
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            return stockinfodb.deleteStockInfoByStockId(stockObj);
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            return stockinfodb.deleteStockInfoByStockId(stockObj);
+//        }
         try {
             String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();
             return processUpdateDB(deleteSQL);
@@ -380,9 +380,9 @@ public class StockDB {
     }
 
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, long start, long end) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            return stockinfodb.getStockInfo(stock, start, end);
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            return stockinfodb.getStockInfo(stock, start, end);
+//        }
         try {
             if (stock == null) {
                 return null;
@@ -428,9 +428,9 @@ public class StockDB {
     }
 
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            return stockinfodb.getStockInfo(stock, length, dateNow);
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            return stockinfodb.getStockInfo(stock, length, dateNow);
+//        }
         if (dateNow == null) {
 //            dateNow = TimeConvertion.getCurrentCalendar();
             long date = TimeConvertion.getCurrentCalendar().getTimeInMillis();
@@ -459,9 +459,9 @@ public class StockDB {
     }
 
     public String getAllStockInfoDBSQL(String sql) {
-        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-            return stockinfodb.getAllStockInfoDBSQL(sql);
-        }
+//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//            return stockinfodb.getAllStockInfoDBSQL(sql);
+//        }
         try {
             ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
             String nameST = new ObjectMapper().writeValueAsString(entries);
@@ -608,11 +608,11 @@ public class StockDB {
             }
             //must sepalate stock and stockinfo to exec one by one for 2 db 
             int sqlResult = 0;
-            if (CKey.SEPARATE_STOCKINFO_DB == true) {
-                sqlResult = stockinfodb.updateSQLArrayList(sqlTranList);
-            } else {
+//            if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//                sqlResult = stockinfodb.updateSQLArrayList(sqlTranList);
+//            } else {
                 sqlResult = updateSQLArrayList(sqlTranList);
-            }
+//            }
 
 //            if (getEnv.checkLocalPC() == true) {
 //                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
@@ -928,10 +928,10 @@ public class StockDB {
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultCreate = ExecuteSQLArrayList(createTableList);
 
-            if (CKey.SEPARATE_STOCKINFO_DB == true) {
-                StockInfoDB stockinfodb = new StockInfoDB();
-                stockinfodb.initStockDB();
-            }
+//            if (CKey.SEPARATE_STOCKINFO_DB == true) {
+//                StockInfoDB stockinfodb = new StockInfoDB();
+//                stockinfodb.initStockDB();
+//            }
             logger.info("> InitStockDB Done - result " + resultCreate);
             total = getCountRowsInTable(getJdbcTemplate(), "stock");
             return 0;  // new database
