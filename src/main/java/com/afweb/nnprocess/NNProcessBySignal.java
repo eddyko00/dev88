@@ -1322,7 +1322,7 @@ public class NNProcessBySignal {
                     currentTime = 0;
                 }
                 if (lockDate5Min < currentTime) {
-                    logger.info("ProcessTrainNeuralNet exit after 15 minutes");
+//                    logger.info("ProcessTrainNeuralNet exit after 15 minutes");
                     break;
                 }
 
