@@ -804,6 +804,8 @@ public class NNProcessByTrend {
                 if (symbolArray.length >= 0) {
 
                     String symbol = symbolArray[0];
+                    // just for testing
+//                    symbol = "BABA";
                     int TR_NN = Integer.parseInt(symbolArray[1]);
 
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -914,7 +916,7 @@ public class NNProcessByTrend {
                     } catch (Exception ex) {
 
                     }
-                }                
+                }
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN3) {
                     retflag = TRprocessImp.TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, symbol, errorNN);
@@ -1083,9 +1085,9 @@ public class NNProcessByTrend {
 
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
-                
+
                 if (refName.length() > 0) {
-                    
+
                     logger.info("> inputStockNeuralNetData  " + BPnameSym + " refError " + refName);
                     serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
                 }

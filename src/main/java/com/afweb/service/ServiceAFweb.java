@@ -3574,6 +3574,8 @@ public class ServiceAFweb {
         ///// so, need work around to move to next begining of day
         long endDay = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
         long start = endDay;
+        float len = (float) (1.5 * length);  // add sat sun in to the length
+        length = (int) (len);
         long end = TimeConvertion.addDays(start, -length);
 
         if (CKey.CACHE_STOCKH == true) {
