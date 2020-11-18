@@ -36,14 +36,11 @@ public class CKey {
     public static boolean NN_DEBUG = false; //false; //true; 
     public static boolean OTHER_DB1 = false; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
-
+   
+    public static boolean CACHE_STOCKH = true;      // must be true
     
-
-    public static boolean CACHE_STOCKH = true;
-    public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
-    /////
-
     /////////////////////
+    public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
     public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
     /////heroku
     /////heroku
