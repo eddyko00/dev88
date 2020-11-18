@@ -777,7 +777,7 @@ public class NNProcessByTrend {
         if (testing == true) {
             lockReturn = 1;
         }
-        logger.info("ProcessTrainNeuralNetByTrend " + LockName + " LockName " + lockReturn);
+//        logger.info("ProcessTrainNeuralNetByTrend " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long LastServUpdateTimer = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 15); // add 3 minutes
@@ -789,7 +789,7 @@ public class NNProcessByTrend {
                     currentTime = 0;
                 }
                 if (lockDate5Min < currentTime) {
-                    logger.info("ProcessTrainNeuralNetByTrend exit after 15 minutes");
+//                    logger.info("ProcessTrainNeuralNetByTrend exit after 15 minutes");
                     break;
                 }
 
@@ -830,7 +830,7 @@ public class NNProcessByTrend {
                     if (testing == true) {
                         lockReturnStock = 1;
                     }
-                    logger.info("ProcessTrainNeuralNetByTrend " + LockStock + " LockStock " + lockReturnStock);
+//                    logger.info("ProcessTrainNeuralNetByTrend " + LockStock + " LockStock " + lockReturnStock);
                     if (lockReturnStock == 0) {
                         stockNNprocessNameArray.remove(0);
                         continue;
@@ -861,12 +861,12 @@ public class NNProcessByTrend {
                             logger.info("> ProcessTrainNeuralNetByTrend Exception" + ex.getMessage());
                         }
                         serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-                        logger.info("ProcessTrainNeuralNetByTrend " + LockStock + " unLock LockStock ");
+//                        logger.info("ProcessTrainNeuralNetByTrend " + LockStock + " unLock LockStock ");
                     }
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
-            logger.info("ProcessTrainNeuralNetByTrend " + LockName + " unlock LockName");
+//            logger.info("ProcessTrainNeuralNetByTrend " + LockName + " unlock LockName");
         }
         logger.info("> ProcessTrainNeuralNetByTrend ... done");
     }

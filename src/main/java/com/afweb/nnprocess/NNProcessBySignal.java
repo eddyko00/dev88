@@ -1310,7 +1310,7 @@ public class NNProcessBySignal {
             lockReturn = 1;
         }
 
-        logger.info("ProcessTrainNeuralNet " + LockName + " LockName " + lockReturn);
+//        logger.info("ProcessTrainNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long LastServUpdateTimer = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 15); // add 3 minutes
@@ -1364,7 +1364,7 @@ public class NNProcessBySignal {
                     if (testing == true) {
                         lockReturnStock = 1;
                     }
-                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+//                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
                     if (lockReturnStock == 0) {
                         stockNNprocessNameArray.remove(0);
                         continue;
@@ -1397,12 +1397,12 @@ public class NNProcessBySignal {
                             logger.info("> ProcessTrainNeuralNet Exception" + ex.getMessage());
                         }
                         serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-                        logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
+//                        logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
                     }
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
-            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
+//            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> ProcessTrainNeuralNet ... done");
     }
