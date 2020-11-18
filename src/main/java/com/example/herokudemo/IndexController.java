@@ -120,7 +120,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/autonntrain/disable");
         arrayString.add("/cust/{username}/sys/fundmgr");
         arrayString.add("/cust/{username}/sys/processfundmgr");
-        arrayString.add("/cust/{username}/sys/deletenntable1");
+        arrayString.add("/cust/{username}/sys/deletenn1table");
         //DB Backup
         arrayString.add("/cust/{username}/sys/downloaddb");
 
