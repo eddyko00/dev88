@@ -2783,26 +2783,40 @@ public class ServiceAFweb {
             return null;
         }
         int sizeLen = 20 * 10;
+        // recent date first
         ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
         if (StockArray == null) {
             return null;
         }
-        if (StockArray.size() > 0) {
-            float closeF = StockArray.get(0).getFclose();
-            float closeL = StockArray.get(StockArray.size() - 1).getFclose();
-            float perC = 100 * (closeF - closeL) / closeL;
-            perC = Math.abs(perC);
-            if (perC > 70) {
-                sizeLen = sizeLen / 2;
-                StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
-            } else if (perC > 50) {
-                sizeLen = sizeLen / 2;
-                StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
-            }
+        if (StockArray.size() < 10) {
+            return null;
         }
+        // recent date last
         Collections.reverse(StockArray);
         Collections.reverse(thList);
 
+        float closeFirst = StockArray.get(StockArray.size() - 1).getFclose();
+        float closeLast = StockArray.get(0).getFclose();
+        float perC = 100 * (closeFirst - closeLast) / closeLast;
+        perC = Math.abs(perC);
+        if (perC > 35) {
+            int j = 0;
+            for (j = 0; j < StockArray.size(); j++) {
+                closeLast = StockArray.get(j).getFclose();
+                perC = 100 * (closeFirst - closeLast) / closeLast;
+                perC = Math.abs(perC);
+                if (perC < 35) {
+                    break;
+                }
+            }
+            int index = j;
+            ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
+            for (int i = index; i < StockArray.size(); i++) {
+                StockArrayTmp.add(StockArray.get(i));
+            }
+            StockArray = StockArrayTmp;
+        }
+        
         List<Date> xDate = new ArrayList<Date>();
         List<Double> yD = new ArrayList<Double>();
 
