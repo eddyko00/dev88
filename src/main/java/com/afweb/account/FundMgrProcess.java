@@ -237,7 +237,7 @@ public class FundMgrProcess {
                 Collections.reverse(perfList);
                 ArrayList accPortList = new ArrayList();
                 for (PerformanceObj perObj : perfList) {
-                    System.out.println(perObj.getName() + " " + perObj.getGrossprofit());
+                    logger.info(perObj.getName() + " " + perObj.getGrossprofit());
                     if (perObj.getGrossprofit() > 0) {
                         if (accPortList.size() < 3) {
                             accPortList.add(perObj.getName());
