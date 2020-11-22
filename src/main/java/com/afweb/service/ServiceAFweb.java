@@ -694,13 +694,9 @@ public class ServiceAFweb {
 
         boolean flagtesting = false;
         if (flagtesting == true) {
-//            ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
             TRprocessImp.updateStockProcess(this, "HOU.TO");
             ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
 
-//            for (int k = 0; k < 10; k++) {
-//                TRprocessImp.UpdateAllStock(this);
-//            }
         }
 
         ///// only acc reset
@@ -1015,16 +1011,16 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol = "AMZN";
+            symbol = "TMO";
             String nnName = ConstantKey.TR_NN1;
 
             AccountObj accountAdminObj = this.getAdminObjFromCache();
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
-//            AFstockObj stock = this.getRealTimeStockImp(symbol);                  
+            AFstockObj stock = this.getRealTimeStockImp(symbol);
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-//            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
+            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
         }
 
     }
@@ -2816,7 +2812,7 @@ public class ServiceAFweb {
             }
             StockArray = StockArrayTmp;
         }
-        
+
         List<Date> xDate = new ArrayList<Date>();
         List<Double> yD = new ArrayList<Double>();
 
