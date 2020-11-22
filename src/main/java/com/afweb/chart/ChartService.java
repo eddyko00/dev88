@@ -133,7 +133,7 @@ public class ChartService {
         // Customize Chart
         chart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
 
-        XYSeries series = chart.addSeries("BAS", xData, yNormalizeData);
+        XYSeries series = chart.addSeries("BH", xData, yNormalizeData);
         series.setMarker(SeriesMarkers.NONE);
         series.setLineStyle(SeriesLines.DASH_DASH);
         series.setLineColor(Color.BLACK);
