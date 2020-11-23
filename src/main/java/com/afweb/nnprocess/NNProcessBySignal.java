@@ -1374,11 +1374,9 @@ public class NNProcessBySignal {
                         try {
                             String nnName = ConstantKey.TR_NN1;
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-                            this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
-                            // first one is initial and the second one is to execute
-                            this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
+                            
+                            AFneuralNet nnObj1 = ProcessTrainNeuralNet1(serviceAFWeb, BPnameSym, TR_NN, symbol);
 
-                            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                     stockNNprocessNameArray.remove(0);
@@ -1405,6 +1403,15 @@ public class NNProcessBySignal {
 //            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> ProcessTrainNeuralNet ... done");
+    }
+
+    public AFneuralNet ProcessTrainNeuralNet1(ServiceAFweb serviceAFWeb, String BPnameSym, int TR_NN, String symbol) {
+        this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
+        // first one is initial and the second one is to execute
+        this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
+
+        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+        return nnObj1;
     }
 
     private void Process1TrainNeuralNet(ServiceAFweb serviceAFWeb, int TR_NN, String BPnameSym, String symbol) {

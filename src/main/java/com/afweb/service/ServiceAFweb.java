@@ -692,13 +692,6 @@ public class ServiceAFweb {
     private void AFprocessDebug() {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
-        boolean flagtesting = false;
-        if (flagtesting == true) {
-            TRprocessImp.updateStockProcess(this, "HOU.TO");
-            ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
-
-        }
-
         ///// only acc reset
         boolean flagTran_TR_ACC = false;
         if (flagTran_TR_ACC == true) {
@@ -837,30 +830,54 @@ public class ServiceAFweb {
         }
 
         ///////////////////////////////////////////////////////////////////////////////////   
-        ///////////////////////////////////////////////////////////////////////////////////   
+        ///////////////////////////////////////////////////////////////////////////////////  
+        boolean flagSig = false;
+        if (flagSig == true) {
+
+            String symbol = "HOU.TO";
+            symbol = "TMO";
+            String nnName = ConstantKey.TR_NN1;
+            int TR_NN = ConstantKey.INT_TR_NN1;
+
+//            AccountObj accountAdminObj = this.getAdminObjFromCache();
+//            AFstockObj stock = this.getRealTimeStockImp(symbol);
+//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+
+
+            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+            NNProcessBySignal nnProcBySig = new NNProcessBySignal();
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+
+            for (int i = 0; i < 3; i++) {
+                nnName = ConstantKey.TR_NN1;
+                TR_NN = ConstantKey.INT_TR_NN1;
+                String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+                AFneuralNet nnObj1 = nnProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, TR_NN, symbol);
+
+                nnName = ConstantKey.TR_NN3;
+                BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+                nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
+
+                NNProcessImp.inputReTrainStockNeuralNetData(this, TR_NN, symbol);
+            }
+
+            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
+            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+
+        }
+
+        boolean flagtesting = false;
+        if (flagtesting == true) {
+            TRprocessImp.updateStockProcess(this, "HOU.TO");
+            ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
+
+        }
+
         boolean initflag = false;
         if (initflag == true) {
             for (int m = 0; m < 20; m++) {
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             }
-//            if (CKey.SEPARATE_STOCK_DB == true) {
-//                StockInfoDB stockinfodb = new StockInfoDB();
-//                stockinfodb.initStockDB();
-//            }
-//
-
-//            String symbol = "HOU.TO";
-//            AFstockObj stock = this.getRealTimeStockImp(symbol);
-//            TRprocessImp.updateRealTimeStockTest(this, stock);
-//            for (int k = 0; k < 20; k++) {
-//                TRprocessImp.UpdateAllStock(this);
-//            }
-            //EDDY-KO00-GMAIL-COM, EK4166294399-GMAIL-COM, EDDY-KO100-GMAIL-COM, Eddy
-//            forceRemoveCustTest("EDDY-KO00-GMAIL-COM", "pass");
-//            int ret = InitDBData();  // init DB Adding customer account
-//            getAccountProcessImp().ProcessCustomerDisableMaintanceTest(this);
-//
-//
         }
 
         boolean updatetrflag = false;
@@ -1005,22 +1022,6 @@ public class ServiceAFweb {
         boolean flagNeuralData = false;
         if (flagNeuralData == true) {
             SystemClearNNData();
-        }
-
-        boolean flagSig = false;
-        if (flagSig == true) {
-
-            String symbol = "HOU.TO";
-            symbol = "TMO";
-            String nnName = ConstantKey.TR_NN1;
-
-            AccountObj accountAdminObj = this.getAdminObjFromCache();
-
-            AFstockObj stock = this.getRealTimeStockImp(symbol);
-//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
         }
 
     }
