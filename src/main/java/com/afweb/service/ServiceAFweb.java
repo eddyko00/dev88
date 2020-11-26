@@ -631,8 +631,8 @@ public class ServiceAFweb {
         if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
             // add or remove stock in Mutual fund account based on all stocks in the system
             System.gc();
-            TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessFundAccount(this);
+            getAccountProcessImp().ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);
