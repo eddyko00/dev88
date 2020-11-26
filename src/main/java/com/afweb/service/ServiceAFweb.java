@@ -842,8 +842,6 @@ public class ServiceAFweb {
 //            AccountObj accountAdminObj = this.getAdminObjFromCache();
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-
-
             NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NNProcessBySignal nnProcBySig = new NNProcessBySignal();
             TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -4663,6 +4661,19 @@ public class ServiceAFweb {
                 newCustomer.setPassword("passw0rd");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
                 getAccountImp().addCustomer(newCustomer);
+
+                AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
+                if (account != null) {
+                    int result = 0;
+                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+                        String stockN = ServiceAFweb.primaryStock[i];
+                        AFstockObj stock = getStockImp().getRealTimeStock(stockN, null);
+                        logger.info(">InitDBData add stock " + stock.getSymbol());
+                        result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+                    }
+                    AFstockObj stock = getStockImp().getRealTimeStock("T.TO", null);
+                    result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+                }
             }
 
             newCustomer.setUsername("EDDY");
@@ -4741,19 +4752,6 @@ public class ServiceAFweb {
 
     public void InitSystemData() {
         logger.info(">InitDB InitSystemData for Stock and account ");
-        AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
-
-        // make sure both ServiceAFweb.InitSystemData and StockImp.initStockDB are update
-        if (account != null) {
-            int result = 0;
-            for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                String stockN = ServiceAFweb.primaryStock[i];
-                AFstockObj stock = getStockImp().getRealTimeStock(stockN, null);
-                result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            }
-            AFstockObj stock = getStockImp().getRealTimeStock("T.TO", null);
-            result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-        }
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         TRprocessImp.InitSystemData();
         getAccountProcessImp().InitSystemData();
