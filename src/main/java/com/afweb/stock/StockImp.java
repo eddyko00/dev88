@@ -375,17 +375,17 @@ public class StockImp {
     public AFneuralNet getNeuralNetObjWeight0(String name) {
         AFneuralNet nn = stockdb.getNeuralNetObjWeight0(name);
 //        if (CKey.WEIGHT_COMPASS == true) {
-            if (nn != null) {
-                String weightSt = nn.getWeight();
-                if (weightSt != null) {
-                    if (weightSt.length() > 0) {
-                        if (weightSt.indexOf("%1F%C2") != -1) {
-                            weightSt = ServiceAFweb.decompress(weightSt);
-                        }
-                        nn.setWeight(weightSt);
+        if (nn != null) {
+            String weightSt = nn.getWeight();
+            if (weightSt != null) {
+                if (weightSt.length() > 0) {
+                    if (weightSt.indexOf("%1F%C2") != -1) {
+                        weightSt = ServiceAFweb.decompress(weightSt);
                     }
+                    nn.setWeight(weightSt);
                 }
             }
+        }
 //        }
         return nn;
     }
@@ -393,17 +393,17 @@ public class StockImp {
     public AFneuralNet getNeuralNetObjWeight1(String name) {
         AFneuralNet nn = stockdb.getNeuralNetObjWeight1(name);
 //        if (CKey.WEIGHT_COMPASS == true) {
-            if (nn != null) {
-                String weightSt = nn.getWeight();
-                if (weightSt != null) {
-                    if (weightSt.length() > 0) {
-                        if (weightSt.indexOf("%1F%C2") != -1) {
-                            weightSt = ServiceAFweb.decompress(weightSt);
-                        }                        
-                        nn.setWeight(weightSt);
+        if (nn != null) {
+            String weightSt = nn.getWeight();
+            if (weightSt != null) {
+                if (weightSt.length() > 0) {
+                    if (weightSt.indexOf("%1F%C2") != -1) {
+                        weightSt = ServiceAFweb.decompress(weightSt);
                     }
+                    nn.setWeight(weightSt);
                 }
             }
+        }
 //        }
         return nn;
     }
@@ -468,21 +468,19 @@ public class StockImp {
             int result = stockdb.initStockDB();
 
             if (result >= 0) {
-                //clear lock
-                if ((CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL)) {
-                    ;
-                } else {
-                    stockdb.deleteAllLock();
-                }
+
                 //dummy stock
                 stockdb.addStock("T_T");
-                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                    String stockN = ServiceAFweb.primaryStock[i];
-                    stockdb.addStock(stockN);
-                }
-                stockdb.addStock("T.TO");
+
                 if (result == 0) {
-//                    initNeuralNetBPObj();
+                    //clear lock                    
+                    stockdb.deleteAllLock();
+                    // add stocks
+                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+                        String stockN = ServiceAFweb.primaryStock[i];
+                        stockdb.addStock(stockN);
+                    }
+                    stockdb.addStock("T.TO");
                     return 0; // new db
                 }
                 return 1; // DB already exist
