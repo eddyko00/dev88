@@ -1455,6 +1455,12 @@ public class TradingNNprocess {
 //            if (TR_Name == ConstantKey.INT_TR_NN2) {
 //                nnName = ConstantKey.TR_NN2;
 //            }
+
+            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            if (TRprocessImp.checkNNReady(serviceAFWeb, symbol) == false) {
+                return 0;
+            }
+
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);

@@ -773,7 +773,7 @@ public class TrandingSignalProcess {
     }
 
     ///////////////////////////////////////////////////////
-    private boolean checkNNReady(ServiceAFweb serviceAFWeb, String symbol) {
+    public boolean checkNNReady(ServiceAFweb serviceAFWeb, String symbol) {
 
         AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
         if (nnObj0 == null) {
