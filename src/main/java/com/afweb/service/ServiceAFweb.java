@@ -574,38 +574,6 @@ public class ServiceAFweb {
                 }
             }
 
-            if ((getServerObj().getProcessTimerCnt() % 500) == 0) {
-                //30 sec per tick ~ 24h 60 s*60 *24 / 30
-                systemNNFlag = true;
-            }
-            if ((getServerObj().getProcessTimerCnt() % (280 * 2)) == 0) {
-                // 30 sec per tick ~ 5 hour   60 s*60 * 4/ 30 
-                if (systemNNFlag == true) {
-                    logger.info("> processTimer SystemClearNNinput every 4 hr");
-                    LockName = "LOCK_NN_INPUT";
-                    //H2_LOCKTYPE //100 minutes
-                    long lockNNinput = setLockNameProcess(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getServerName() + " ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
-                    if (lockNNinput > 0) {
-                        getServerObj().setAutoNNCnt(getServerObj().getAutoNNCnt() + 1);
-//                        SystemClearNNinput();
-                        // no need to clear it
-                    }
-                }
-
-//                if (systemNNFlag == true) {
-//                    logger.info("> processTimer retrainStockNNprocessNameArray every 3 hr");
-//
-//                    LockName = "LOCK_NN_RETRAIN";
-//                    //H2_LOCKTYPE //100 minutes
-//                    long lockNNinput = setLockNameProcess(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getServerName() + " ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
-//                    if (lockNNinput > 0) {
-//                        getServerObj().setAutoNNCnt(getServerObj().getAutoNNCnt() + 1);
-//                        // retrain the stock input for NN2 NN1
-//                        TradingNNprocess NNProcessImp = new TradingNNprocess();
-//                        NNProcessImp.reLearnInputStockNNprocessNameArray(this);
-//                    }
-//                }
-            }
             /////// main execution
             AFwebExec();
             ///////
@@ -4566,13 +4534,6 @@ public class ServiceAFweb {
         return "" + retSatus;
     }
 
-    public String SystemRetrainNN() {
-        int retSatus = 0;
-        logger.info(">SystemRetrainNN retraining... ");
-        TradingNNprocess trainNN = new TradingNNprocess();
-        trainNN.reLearnInputStockNNprocessNameArray(this);
-        return "" + retSatus;
-    }
 
     public String SystemClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();

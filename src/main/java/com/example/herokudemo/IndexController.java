@@ -3,6 +3,7 @@ package com.example.herokudemo;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
+import com.afweb.nnprocess.NNProcessBySignal;
 import com.afweb.util.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceRemoteDB;
@@ -110,14 +111,14 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/clearlock");
         arrayString.add("/cust/{username}/sys/start");
         arrayString.add("/cust/{username}/sys/resetdb");
+        
         arrayString.add("/cust/{username}/sys/clearnninput");
         arrayString.add("/cust/{username}/sys/clearnntran");
-        arrayString.add("/cust/{username}/sys/retrainnninput");
+
         arrayString.add("/cust/{username}/sys/autonnflag");
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
-        arrayString.add("/cust/{username}/sys/autonntrain");
-        arrayString.add("/cust/{username}/sys/autonntrain/enable");
-        arrayString.add("/cust/{username}/sys/autonntrain/disable");
+        arrayString.add("/cust/{username}/sys/autonnflag/disable");        
+
         arrayString.add("/cust/{username}/sys/fundmgr");
         arrayString.add("/cust/{username}/sys/processfundmgr");
         arrayString.add("/cust/{username}/sys/deletenn1table");
@@ -276,7 +277,6 @@ public class IndexController {
         RESTtimer.serverURL_0 = CKey.URL_PATH_HERO;
         return RESTtimer.serverURL_0;
     }
-
 
     @RequestMapping(value = "/server/url0/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -1290,32 +1290,6 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/autonntrain", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus getSystemNNTrainFlag(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
     @RequestMapping(value = "/cust/{username}/sys/fundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemFundMgr(@PathVariable("username") String username) {
@@ -1394,61 +1368,6 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/autonntrain/enable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus setSystemNNTrainEnableFlag(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                afWebService.systemNNFlag = true;
-                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ServiceAFweb.NN_AllowTraingStockFlag = true;
-                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/autonntrain/disable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus setSystemNNTrainDisableFlag(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                ServiceAFweb.NN_AllowTraingStockFlag = false;
-                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ServiceAFweb.NN_AllowTraingStockFlag = false;
-                msg.setResponse("" + ServiceAFweb.NN_AllowTraingStockFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
 
     @RequestMapping(value = "/cust/{username}/sys/autonnflag", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -1485,6 +1404,11 @@ public class IndexController {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
                 afWebService.systemNNFlag = true;
+
+                NNProcessBySignal.flagNNLearningSignal = true;
+                NNProcessBySignal.flagNN3LearningTrend = true;
+                NNProcessBySignal.flagNNReLearning = true;
+                
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
                 return msg;
@@ -1495,6 +1419,11 @@ public class IndexController {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 afWebService.systemNNFlag = true;
+
+                NNProcessBySignal.flagNNLearningSignal = true;
+                NNProcessBySignal.flagNN3LearningTrend = true;
+                NNProcessBySignal.flagNNReLearning = true;
+                
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
                 return msg;
@@ -1504,15 +1433,21 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/retrainnninput", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/autonnflag/disable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    WebStatus SystemRetrainNN(@PathVariable("username") String username) {
+    WebStatus setdisableSystemNNFlag(@PathVariable("username") String username) {
         WebStatus msg = new WebStatus();
         // remote is stopped
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemRetrainNN());
+                afWebService.systemNNFlag = false;
+
+                NNProcessBySignal.flagNNLearningSignal = false;
+                NNProcessBySignal.flagNN3LearningTrend = false;
+                NNProcessBySignal.flagNNReLearning = false;
+                               
+                msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
                 return msg;
             }
@@ -1521,7 +1456,13 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemRetrainNN());
+                afWebService.systemNNFlag = false;
+
+                NNProcessBySignal.flagNNLearningSignal = false;
+                NNProcessBySignal.flagNN3LearningTrend = false;
+                NNProcessBySignal.flagNNReLearning = false;
+                
+                msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
                 return msg;
             }
@@ -1529,6 +1470,7 @@ public class IndexController {
 
         return null;
     }
+
 
     @RequestMapping(value = "/cust/{username}/sys/clearnntran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
