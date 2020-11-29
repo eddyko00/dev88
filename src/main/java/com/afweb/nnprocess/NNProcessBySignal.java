@@ -44,6 +44,32 @@ public class NNProcessBySignal {
     public static boolean processRestinputflag = false;
     public static boolean processRestAllStockflag = false;
 
+    public static int cntNN = 0;
+
+    public void mainProcessNeuralNet(ServiceAFweb serviceAFWeb) {
+        cntNN++;
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        NNProcessByTrend nntrend = new NNProcessByTrend();
+        NNProcessBySignal nnProcBySig = new NNProcessBySignal();
+        if (cntNN == 1) {
+            if (flagNNLearningSignal == true) {
+                nnProcBySig.ProcessTrainNeuralNetBySign(serviceAFWeb);
+            }
+            return;
+        } else if (cntNN == 2) {
+            if (flagNN3LearningTrend == true) {
+                nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
+            }
+            return;
+        } else if (cntNN == 3) {
+            if (flagNNReLearning == true) {
+                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
+            }
+            return;
+        }
+        cntNN = 0;
+    }
+
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -1374,7 +1400,7 @@ public class NNProcessBySignal {
                         try {
                             String nnName = ConstantKey.TR_NN1;
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-                            
+
                             AFneuralNet nnObj1 = ProcessTrainNeuralNet1(serviceAFWeb, BPnameSym, TR_NN, symbol);
 
                             if (nnObj1 != null) {

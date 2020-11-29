@@ -636,7 +636,8 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);
-            mainProcessNeuralNet(this);
+            NNProcessBySignal nnProcBySig = new NNProcessBySignal();
+            nnProcBySig.mainProcessNeuralNet(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
@@ -654,26 +655,6 @@ public class ServiceAFweb {
         } else {
 
         }
-    }
-
-    public static int cntNN = 0;
-
-    public void mainProcessNeuralNet(ServiceAFweb serviceAFWeb) {
-        cntNN++;
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        NNProcessByTrend nntrend = new NNProcessByTrend();
-        NNProcessBySignal nnProcBySig = new NNProcessBySignal();
-        if (cntNN == 1) {
-            nnProcBySig.ProcessTrainNeuralNetBySign(serviceAFWeb);
-            return;
-        } else if (cntNN == 2) {
-            nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
-            return;
-        } else if (cntNN == 3) {
-            NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
-            return;
-        }
-        cntNN = 0;
     }
 
     public static String debugSymbol = "HOU.TO";
