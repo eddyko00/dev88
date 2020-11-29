@@ -33,7 +33,6 @@ public class CKey {
     public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
     public static boolean NN_DEBUG = false; //false; //true; 
-    public static boolean OTHER_DB1 = true; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
     public static boolean CACHE_STOCKH = true;      // must be true
@@ -52,24 +51,23 @@ public class CKey {
 //    //
 //    //
 //    /////Openshift Login eddyko00  Pass eddyko100 -  using LOCAL_MYSQL  
+//    public static final String URL_PATH_OP = "http://iisweb-web012.apps.us-west-1.starter.openshift-online.com";    
 //    public static String WEBPOST_OP_PHP = "/health.php";
 //    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web012.apps.us-west-1.starter.openshift-online.com"; //eddyko00     
-//    public static final String URL_PATH_OP = "http://iisweb-web012.apps.us-west-1.starter.openshift-online.com";    
-    
     public static final String URL_PATH_OP = "https://iiswebsrv1.herokuapp.com";  // server timerhandler
     public static String WEBPOST_OP_PHP = "/webgetresp_stock.php"; // "/webgetresp_1.php";
     public static String URL_PATH_OP_DB_PHP1 = "https://iiswebdb1.herokuapp.com"; //eddyko00     
 
-// manual timer    
-//http://iisweb-web012.apps.us-west-1.starter.openshift-online.com/timerhandler?resttimerMsg=
     public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DBDB_PHP;  //Heroku PHP DB4free too slow
 
 //***********    
 //*********** 
 // server timerhandler
 // server timerhandler    
-//    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-    public static final String SERVERDB_URL = URL_PATH_OP;  // server timerhandler
+    public static boolean OTHER_DB1 = false; //false; using HEROKU //true; using Other DB // release
+
+    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
+//    public static final String SERVERDB_URL = URL_PATH_OP;  // server timerhandler
 //
 //***********    
 //*********** 
