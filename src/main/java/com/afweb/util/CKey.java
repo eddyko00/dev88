@@ -65,10 +65,10 @@ public class CKey {
 //*********** 
 // server timerhandler
 // server timerhandler    
-    public static boolean OTHER_DB1 = true; //false; using HEROKU //true; using Other DB // release
+    public static boolean OTHER_DB1 = false; //using HEROKU = false // using Other DB =  true
 
-//    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-    public static final String SERVERDB_URL = URL_PATH_OP;  // server timerhandler
+    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler OTHER_DB1 = false;
+//    public static final String SERVERDB_URL = URL_PATH_OP;  // server timerhandler OTHER_DB1 = true;
 //
 //***********    
 //*********** 
