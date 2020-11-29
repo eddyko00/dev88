@@ -2,7 +2,6 @@ package com.afweb.util;
 
 import com.afweb.nn.*;
 
-
 public class CKey {
 
     //local pc
@@ -27,18 +26,18 @@ public class CKey {
     public static final int MYSQL = 0;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
 
     public static final int SQL_DATABASE = REMOTE_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
-  
+
     //
     //////////////////////
     //
     public static boolean PROXY = false; //false; //true; 
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
     public static boolean NN_DEBUG = false; //false; //true; 
-    public static boolean OTHER_DB1 = false; //false; using HEROKU //true; using openshift // release
+    public static boolean OTHER_DB1 = true; //false; using HEROKU //true; using openshift // release
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
-   
+
     public static boolean CACHE_STOCKH = true;      // must be true
-    
+
     /////////////////////
     public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
     public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
@@ -56,30 +55,29 @@ public class CKey {
 //    public static String WEBPOST_OP_PHP = "/health.php";
 //    public static String URL_PATH_OP_DB_PHP1 = "http://iiswebphp-web012.apps.us-west-1.starter.openshift-online.com"; //eddyko00     
 //    public static final String URL_PATH_OP = "http://iisweb-web012.apps.us-west-1.starter.openshift-online.com";    
+    
+    public static final String URL_PATH_OP = "https://iiswebsrv1.herokuapp.com";  // server timerhandler
     public static String WEBPOST_OP_PHP = "/webgetresp_stock.php"; // "/webgetresp_1.php";
-    public static String URL_PATH_OP_DB_PHP1 = "https://iiswebdb.herokuapp.com"; //eddyko00     
+    public static String URL_PATH_OP_DB_PHP1 = "https://iiswebdb1.herokuapp.com"; //eddyko00     
 
 // manual timer    
 //http://iisweb-web012.apps.us-west-1.starter.openshift-online.com/timerhandler?resttimerMsg=
-        
     public static final String REMOTEDB_MY_SQLURL = URL_PATH_HERO_DBDB_PHP;  //Heroku PHP DB4free too slow
 
 //***********    
 //*********** 
 // server timerhandler
 // server timerhandler    
-    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
-
+//    public static final String SERVERDB_URL = URL_PATH_HERO;  // server timerhandler
+    public static final String SERVERDB_URL = URL_PATH_OP;  // server timerhandler
 //
 //***********    
 //*********** 
 //***********    
 //*********** 
-
 //**********    
 //*********** 
 //    public static final String SERVER_TIMER_URL = "https://iiswebtimer.herokuapp.com";  // server timerhandler    
-
     ////////////////////////////       
 //https://www.thebalance.com/best-etfs-4173857
 //https://www.etftrends.com/popular-etfs/
@@ -98,21 +96,21 @@ public class CKey {
     public static double NN1_ERROR_THRESHOLD = 0.156; // 0.159; //0.172; //0.131; 
     public static double NN3_ERROR_THRESHOLD = 0.23; // 0.232; // 0.276; // 0.26; //0.245; 
 //
-    public static final int NN_OUTPUT_SIZE = 2;    
+    public static final int NN_OUTPUT_SIZE = 2;
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 110; //120; 
     public static final int NN3_MIDDLE_SIZE = 110; //120; 
-    
+
     public static final boolean WEIGHT_COMPASS = false;
 
     // must match to the nnData and nn3Data version  make sure both 
     // must match to the nnData and nn3Data version  make sure both 
     public static String version = "2.1109";
-    
+
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
 //    public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;
 
-    public static String NN3_WEIGHT_0 = nn3Data.TR_NN3_WEIGHT_0;    
+    public static String NN3_WEIGHT_0 = nn3Data.TR_NN3_WEIGHT_0;
     //////////////////////
     public static final int MSSQL = 1;/////// do not use //jdbc:sqlserver://sql.freeasphost.net\\MSSQL2016;databaseName=eddyko00_SampleDB
 
