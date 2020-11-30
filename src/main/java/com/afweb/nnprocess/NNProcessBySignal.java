@@ -1418,7 +1418,7 @@ public class NNProcessBySignal {
                             }
 
                         } catch (Exception ex) {
-                            logger.info("> ProcessTrainNeuralNet Exception" + ex.getMessage());
+                            logger.info("> ProcessTrainNeuralNetBySign Exception" + ex.getMessage());
                         }
                         serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //                        logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
@@ -1428,7 +1428,7 @@ public class NNProcessBySignal {
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
-        logger.info("> ProcessTrainNeuralNet ... done");
+        logger.info("> ProcessTrainNeuralNetBySign ... done");
     }
 
     public AFneuralNet ProcessTrainNeuralNet1(ServiceAFweb serviceAFWeb, String BPnameSym, int TR_NN, String symbol) {
