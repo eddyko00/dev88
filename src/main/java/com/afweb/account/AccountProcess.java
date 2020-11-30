@@ -118,7 +118,7 @@ public class AccountProcess {
         int numCnt = 0;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
-        long cust4DayAgo = TimeConvertion.addDays(dateNowLong, -4); // 4 day ago and no update             
+        long cust4DayAgo = TimeConvertion.addDays(dateNowLong, -15); // 15 day ago and no update             
         for (int i = 0; i < custList.size(); i++) {
             CustomerObj custObj = (CustomerObj) custList.get(i);
             if (custObj.getUpdatedatel() < cust4DayAgo) {

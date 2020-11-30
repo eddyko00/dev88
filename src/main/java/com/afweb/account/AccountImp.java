@@ -314,8 +314,12 @@ public class AccountImp {
         CustomerObj customer = getCustomerPassword(UserName, null);
         if (customer != null) {
             customer.setSubstatus(substatus);
-            customer.setPayment(payment);
-            customer.setBalance(balance);
+            if (payment != -9999) {
+                customer.setPayment(payment);
+            }
+            if (balance != -9999) {
+                customer.setBalance(balance);
+            }
             return accountdb.updateCustAllStatus(customer);
         }
         return 0;

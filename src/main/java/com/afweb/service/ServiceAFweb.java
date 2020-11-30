@@ -3869,21 +3869,28 @@ public class ServiceAFweb {
 
     //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15
     public int updateCustAllStatus(String customername,
-            String substatusSt, String investmentSt, String balanceSt) {
+            String substatusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
         if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().updateCustAllStatus(customername, substatusSt, investmentSt, balanceSt);
+            return getServiceAFwebREST().updateCustAllStatus(customername, substatusSt, paymenttSt, balanceSt);
         }
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
 
             int substatus = Integer.parseInt(substatusSt);
-            float investment = Float.parseFloat(investmentSt);
-            float balance = Float.parseFloat(balanceSt);
-            return getAccountImp().updateCustAllStatus(UserName, substatus, investment, balance);
+            float payment = -9999;
+            if (!paymenttSt.equals("")) {
+                payment = Float.parseFloat(paymenttSt);
+            }
+            float balance = -9999;
+            if (!balanceSt.equals("")) {
+                balance = Float.parseFloat(balanceSt);
+            }
+
+            return getAccountImp().updateCustAllStatus(UserName, substatus, payment, balance);
 
         } catch (Exception e) {
         }
@@ -4533,7 +4540,6 @@ public class ServiceAFweb {
         }
         return "" + retSatus;
     }
-
 
     public String SystemClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();

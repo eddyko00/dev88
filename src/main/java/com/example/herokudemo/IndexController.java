@@ -1939,7 +1939,7 @@ public class IndexController {
             @PathVariable("username") String username,
             @PathVariable("customername") String customername,
             @RequestParam(value = "substatus", required = true) String substatusSt,
-            @RequestParam(value = "investment", required = true) String investmentSt,
+            @RequestParam(value = "payment", required = true) String paymentSt,
             @RequestParam(value = "balance", required = true) String balanceSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -1949,7 +1949,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.updateCustAllStatus(customername, substatusSt, investmentSt, balanceSt);
+                int result = afWebService.updateCustAllStatus(customername, substatusSt, paymentSt, balanceSt);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
