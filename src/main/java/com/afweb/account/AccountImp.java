@@ -355,7 +355,7 @@ public class AccountImp {
             for (int i = 0; i < accountList.size(); i++) {
                 AccountObj accountObj = (AccountObj) accountList.get(i);
                 if (accountObj.getId() == accountID) {
-//                            accountObj.setStatus(accountObj.getStatus());
+//                  accountObj.setStatus(accountObj.getStatus());
                     accountObj.setSubstatus(substatus);
                     accountObj.setInvestment(investment);
                     accountObj.setBalance(balance);
@@ -389,7 +389,6 @@ public class AccountImp {
 
     public ArrayList<BillingObj> getBillingByCustomerAccountID(String UserName, String Password, int accountID) {
 
-        AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
@@ -409,7 +408,6 @@ public class AccountImp {
 
     public ArrayList<CommObj> getCommByCustomerAccountID(String UserName, String Password, int accountID) {
 
-        AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
@@ -429,7 +427,6 @@ public class AccountImp {
 
     public int addCommByCustomerAccountID(String UserName, String Password, int accountID, String data) {
 
-        AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
@@ -976,7 +973,7 @@ public class AccountImp {
         return null;
     }
 
-    public int addAccountCommMessage(AccountObj accountObj, CommData commDataObj) {
+    public int addAccountCommMessage(AccountObj accountObj, String name, int type,  CommData commDataObj) {
         if (accountObj == null) {
             return -1;
         }
@@ -984,8 +981,8 @@ public class AccountImp {
         CommObj message = new CommObj();
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
-        message.setName(ConstantKey.COM_SPLIT);
-        message.setType(ConstantKey.INT_COM_SPLIT);
+        message.setName(name );  //ConstantKey.COM_SPLIT
+        message.setType(type);  // ConstantKey.INT_COM_SPLIT
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();

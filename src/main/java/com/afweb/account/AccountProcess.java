@@ -887,9 +887,9 @@ public class AccountProcess {
         serviceAFWeb.updateAccountStockSignal(stockTRObj);
     }
 
-    public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, CommData commDataObj) {
+    public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type,  CommData commDataObj) {
         try {
-            return serviceAFWeb.getAccountImp().addAccountCommMessage(accountObj, commDataObj);
+            return serviceAFWeb.getAccountImp().addAccountCommMessage(accountObj, name, type, commDataObj);
 
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());

@@ -982,7 +982,7 @@ public class ServiceAFweb {
             commDataObj.setOldclose(1);
             commDataObj.setNewclose(2);
             commDataObj.setMsg(commMsg);
-            getAccountProcessImp().AddCommObjMessage(this, accountAdminObj, commDataObj);
+            getAccountProcessImp().AddCommObjMessage(this, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
 
         }
 

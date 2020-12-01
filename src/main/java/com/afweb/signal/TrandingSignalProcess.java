@@ -1616,7 +1616,7 @@ public class TrandingSignalProcess {
                         String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
 
                         commDataObj.setMsg(commMsg);
-                        serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, commDataObj);
+                        serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
                         return 0;
                     }
 
