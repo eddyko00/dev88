@@ -145,6 +145,16 @@ public class AccountImp {
         return customer;
     }
 
+    public CustomerObj getCustomerPasswordNull(String UserName) {
+//        logger.info("> getCustomerPassword  " + UserName);
+        UserName = UserName.toUpperCase();
+        CustomerObj customer = accountdb.getCustomer(UserName, null);
+        if (customer != null) {
+            return customer;
+        }
+        return null;
+    }
+
     public CustomerObj getCustomerPassword(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
@@ -311,7 +321,7 @@ public class AccountImp {
     public int updateCustAllStatus(String UserName,
             int status, float payment, float balance) {
 
-        CustomerObj customer = getCustomerPassword(UserName, null);
+        CustomerObj customer = getCustomerPasswordNull(UserName);
         if (customer != null) {
             customer.setStatus(status);
             if (payment != -9999) {
@@ -368,7 +378,6 @@ public class AccountImp {
 //        }
 //        return 0;
 //    }
-
     public AccountObj getAccountByCustomerAccountID(String UserName, String Password, int accountID) {
 
         AccountObj account = null;
@@ -975,7 +984,7 @@ public class AccountImp {
         return null;
     }
 
-    public int addAccountCommMessage(AccountObj accountObj, String name, int type,  CommData commDataObj) {
+    public int addAccountCommMessage(AccountObj accountObj, String name, int type, CommData commDataObj) {
         if (accountObj == null) {
             return -1;
         }
@@ -983,7 +992,7 @@ public class AccountImp {
         CommObj message = new CommObj();
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
-        message.setName(name );  //ConstantKey.COM_SPLIT
+        message.setName(name);  //ConstantKey.COM_SPLIT
         message.setType(type);  // ConstantKey.INT_COM_SPLIT
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
