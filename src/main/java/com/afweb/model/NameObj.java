@@ -21,6 +21,7 @@ public class NameObj {
         strName = strReplace(strName, ".", "-");
         strName = strReplace(strName, "@", "-");
         strName = strReplace(strName, " ", "");
+        strName = strReplace(strName, ",", "");        
         setNormalizeName(strName);
     }
 

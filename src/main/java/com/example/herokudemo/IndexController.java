@@ -69,7 +69,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/login&pass={pass}");
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
-        arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&payment=&balance=&servicefee=");
+//        arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&payment=&balance=&servicefee=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove");
@@ -102,7 +102,7 @@ public class IndexController {
 
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
         arrayString.add("/cust/{username}/sys/cust/{customername}/removeCustomer");
-        arrayString.add("/cust/{username}/sys/cust/{customername}/update?substatus=&investment=&balance=");
+        arrayString.add("/cust/{username}/sys/cust/{customername}/update?cust=&substatus=&investment=&balance=");
 
         arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
         arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
@@ -415,28 +415,27 @@ public class IndexController {
         return account;
     }
 
-//               arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&payment=&balance=&servicefee=");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccountStatus(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "substatus", required = true) String substatusSt,
-            @RequestParam(value = "payment", required = true) String paymentSt,
-            @RequestParam(value = "balance", required = true) String balanceSt,
-            @RequestParam(value = "servicefee", required = true) String servicefeeSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-
-        int ret = afWebService.updateAccountStatusByCustomerAccountID(username, balanceSt, accountid, substatusSt, paymentSt, balanceSt, servicefeeSt);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccountStatus(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @RequestParam(value = "substatus", required = true) String substatusSt,
+//            @RequestParam(value = "payment", required = true) String paymentSt,
+//            @RequestParam(value = "balance", required = true) String balanceSt,
+//            @RequestParam(value = "servicefee", required = true) String servicefeeSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return 0;
+//        }
+//
+//        int ret = afWebService.updateAccountStatusByCustomerAccountID(username, balanceSt, accountid, substatusSt, paymentSt, balanceSt, servicefeeSt);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return ret;
+//    }
 
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -1933,11 +1932,13 @@ public class IndexController {
         return 0;
     }
 
+//    "/cust/{username}/sys/cust/{customername}/update?cust=&substatus=&investment=&balance="
     @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateCustAllStatus(
             @PathVariable("username") String username,
             @PathVariable("customername") String customername,
+            @RequestParam(value = "cust", required = true) String custSt,            
             @RequestParam(value = "substatus", required = true) String substatusSt,
             @RequestParam(value = "payment", required = true) String paymentSt,
             @RequestParam(value = "balance", required = true) String balanceSt
@@ -1949,7 +1950,8 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.updateCustAllStatus(customername, substatusSt, paymentSt, balanceSt);
+                //updating the real customer in custSt not the addmin user
+                int result = afWebService.updateCustAllStatus(custSt, substatusSt, paymentSt, balanceSt);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }

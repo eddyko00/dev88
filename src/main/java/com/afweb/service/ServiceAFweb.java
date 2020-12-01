@@ -2030,29 +2030,29 @@ public class ServiceAFweb {
         return getAccountImp().updateTransactionOrder(transSQL);
     }
 
-    public int updateAccountStatusByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt,
-            String substatusSt, String investmentSt, String balanceSt, String servicefeeSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().updateAccountStatusByAccountID(EmailUserName, Password, AccountIDSt, substatusSt, investmentSt, balanceSt, servicefeeSt);
-        }
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-
-            int substatus = Integer.parseInt(substatusSt);
-            float investment = Float.parseFloat(investmentSt);
-            float balance = Float.parseFloat(balanceSt);
-            float servicefee = Float.parseFloat(servicefeeSt);
-            return getAccountImp().updateAccountStatusByCustomerAccountID(UserName, Password, accountid, substatus, investment, balance, servicefee);
-
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+//    public int updateAccountStatusByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt,
+//            String substatusSt, String investmentSt, String balanceSt, String servicefeeSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            return getServiceAFwebREST().updateAccountStatusByAccountID(EmailUserName, Password, AccountIDSt, substatusSt, investmentSt, balanceSt, servicefeeSt);
+//        }
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//
+//            int substatus = Integer.parseInt(substatusSt);
+//            float investment = Float.parseFloat(investmentSt);
+//            float balance = Float.parseFloat(balanceSt);
+//            float servicefee = Float.parseFloat(servicefeeSt);
+//            return getAccountImp().updateAccountStatusByCustomerAccountID(UserName, Password, accountid, substatus, investment, balance, servicefee);
+//
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
 
     public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {

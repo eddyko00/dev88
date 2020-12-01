@@ -315,9 +315,11 @@ public class AccountImp {
         if (customer != null) {
             customer.setSubstatus(substatus);
             if (payment != -9999) {
+                payment += customer.getPayment();
                 customer.setPayment(payment);
             }
             if (balance != -9999) {
+                balance += customer.getBalance();
                 customer.setBalance(balance);
             }
             return accountdb.updateCustAllStatus(customer);
@@ -340,32 +342,32 @@ public class AccountImp {
 
     }
 
-    public int updateAccountStatusByCustomerAccountID(String UserName, String Password, int accountID,
-            int substatus, float investment, float balance, float servicefee) {
-
-        CustomerObj customer = getCustomerPassword(UserName, Password);
-        if (customer != null) {
-            ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
-            if (accountList == null) {
-                return 0;
-            }
-            if (accountList.size() == 0) {
-                return 0;
-            }
-            for (int i = 0; i < accountList.size(); i++) {
-                AccountObj accountObj = (AccountObj) accountList.get(i);
-                if (accountObj.getId() == accountID) {
-//                  accountObj.setStatus(accountObj.getStatus());
-                    accountObj.setSubstatus(substatus);
-                    accountObj.setInvestment(investment);
-                    accountObj.setBalance(balance);
-                    accountObj.setServicefee(servicefee);
-                    return accountdb.updateAccountAllStatus(accountObj);
-                }
-            }
-        }
-        return 0;
-    }
+//    public int updateAccountStatusByCustomerAccountID(String UserName, String Password, int accountID,
+//            int substatus, float investment, float balance, float servicefee) {
+//
+//        CustomerObj customer = getCustomerPassword(UserName, Password);
+//        if (customer != null) {
+//            ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
+//            if (accountList == null) {
+//                return 0;
+//            }
+//            if (accountList.size() == 0) {
+//                return 0;
+//            }
+//            for (int i = 0; i < accountList.size(); i++) {
+//                AccountObj accountObj = (AccountObj) accountList.get(i);
+//                if (accountObj.getId() == accountID) {
+////                  accountObj.setStatus(accountObj.getStatus());
+//                    accountObj.setSubstatus(substatus);
+//                    accountObj.setInvestment(investment);
+//                    accountObj.setBalance(balance);
+//                    accountObj.setServicefee(servicefee);
+//                    return accountdb.updateAccountAllStatus(accountObj);
+//                }
+//            }
+//        }
+//        return 0;
+//    }
 
     public AccountObj getAccountByCustomerAccountID(String UserName, String Password, int accountID) {
 
