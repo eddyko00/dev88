@@ -945,7 +945,7 @@ public class ServiceAFweb {
 
             ArrayList<CommObj> comObjList = getAccountImp().getComObjByAccountID(account.getId());
             String msg = "eddy testing communication";
-            getAccountImp().addAccountMessage(account, msg);
+            getAccountImp().addAccountMessage(account, ConstantKey.COM_SIGNAL, msg);
             comObjList = getAccountImp().getComObjByAccountID(account.getId());
             if (comObjList != null) {
                 ;

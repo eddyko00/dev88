@@ -900,7 +900,7 @@ public class AccountProcess {
     public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String messageData) {
         try {
             logger.info("> AddCommMessage  " + messageData);
-            return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, messageData);
+            return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
 
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
@@ -913,7 +913,7 @@ public class AccountProcess {
 
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
                 logger.info("> AddCommMessage  " + messageData);
-                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, messageData);
+                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
             }
 
         } catch (Exception e) {

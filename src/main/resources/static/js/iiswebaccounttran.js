@@ -103,8 +103,8 @@ var app = {
             } else if (tranObj.trsignal == 2) {
                 signal = "S";
                 // assume buy only and no short selling
-                prevTranObj = tranObj;
-                continue;
+//                prevTranObj = tranObj;
+//                continue;
             } else {
                 signal = "E";
 
@@ -124,9 +124,9 @@ var app = {
                     if (prevTranObj.trsignal == 2) {
                         diff = -diff;
                         // assume buy only and no short selling
-                        diff = 0;
-                        prevTranObj = tranObj;
-                        continue;
+//                        diff = 0;
+//                        prevTranObj = tranObj;
+//                        continue;
                     }
                     total += diff;
 //                    var totalSt = total.toFixed(2);
@@ -144,9 +144,9 @@ var app = {
                     if (tranObj.trsignal == 2) {
                         diff = -diff;
                         // assume buy only and no short selling
-                        diff = 0;
-                        prevTranObj = tranObj;
-                        continue;
+//                        diff = 0;
+//                        prevTranObj = tranObj;
+//                        continue;
                     }
                     total += diff;
 //                    var totalSt = total.toFixed(2);

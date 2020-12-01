@@ -78,8 +78,9 @@ public class ConstantKey {
     public static final int INT_COM_CFG = -1;
 
     public static final String COM_SIGNAL = "MSG_SIG";
+    public static final String COM_ADD_ACC_MSG = "ADDACC";
     public static final int INT_COM_SIGNAL = 0;
-
+//
     public static final String COM_SPLIT = "MSG_SPLIT";
     public static final int INT_COM_SPLIT = 2;
 

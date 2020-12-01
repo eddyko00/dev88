@@ -438,7 +438,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return addAccountMessage(accountObj, data);
+                            return addAccountMessage(accountObj, ConstantKey.COM_ADD_ACC_MSG, data);
                         }
                     }
                 }
@@ -1001,7 +1001,7 @@ public class AccountImp {
         return accountdb.insertAccountCommData(message);
     }
 
-    public int addAccountMessage(AccountObj accountObj, String msg) {
+    public int addAccountMessage(AccountObj accountObj, String name, String msg) {
         if (accountObj == null) {
             return -1;
         }
@@ -1009,8 +1009,8 @@ public class AccountImp {
         CommObj message = new CommObj();
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
-        message.setName(ConstantKey.COM_SIGNAL);
-        message.setType(ConstantKey.INT_COM_SIGNAL);
+        message.setName(name); //ConstantKey.COM_SIGNAL
+        message.setType(ConstantKey.INT_COM_SIGNAL); //ConstantKey.INT_COM_SIGNAL
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
