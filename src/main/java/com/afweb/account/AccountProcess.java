@@ -136,7 +136,7 @@ public class AccountProcess {
                 String ESTdate = format.format(d);
 
                 String msg = ESTdate + " " + custObj.getUsername() + " Customer removed - 4 day after expired.";
-                this.AddCommMessage(serviceAFWeb, accountAdminObj, msg);
+                this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
                 numCnt++;
                 if (numCnt > 10) {
                     break;
@@ -190,7 +190,7 @@ public class AccountProcess {
             String ESTdate = format.format(d);
 
             String msg = ESTdate + " " + custObj.getUsername() + " Customer disabled - 2 day after expired.";
-            this.AddCommMessage(serviceAFWeb, accountAdminObj, msg);
+            this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
 
         }
 
@@ -897,10 +897,10 @@ public class AccountProcess {
         return 0;
     }
 
-    public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String messageData) {
+    public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, String messageData) {
         try {
             logger.info("> AddCommMessage  " + messageData);
-            return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
+            return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, name, messageData);
 
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());

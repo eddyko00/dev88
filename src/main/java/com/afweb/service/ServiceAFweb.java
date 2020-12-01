@@ -969,7 +969,7 @@ public class ServiceAFweb {
             format.setTimeZone(tz);
             String ESTdate = format.format(d);
             String msg = ESTdate + " testing Cust signup Result: 0";
-            this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, msg);
+            this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
 
             // send admin messsage
             String commMsg = ESTdate + " Test" + " stock split= 10";
@@ -1323,7 +1323,7 @@ public class ServiceAFweb {
             format.setTimeZone(tz);
             String ESTdate = format.format(d);
             String msg = ESTdate + " " + newCustomer.getUsername() + " Cust signup Result:" + result;
-            this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, msg);
+            this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
 //            
             webStatus.setResultID(result);
             return loginObj;
