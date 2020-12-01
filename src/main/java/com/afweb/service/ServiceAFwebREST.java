@@ -1092,9 +1092,9 @@ public class ServiceAFwebREST {
     }
 
     public int updateCustAllStatus(String customername,
-            String substatusSt, String paymentSt, String balanceSt) {
+            String statusSt, String paymentSt, String balanceSt) {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-        String subResourcePath = "/cust/" + CKey.ADMIN_USERNAME + "/sys/cust/" + customername + "/update?substatus=" + substatusSt
+        String subResourcePath = "/cust/" + CKey.ADMIN_USERNAME + "/sys/cust/" + customername + "/update?status=" + statusSt
                 + "&payment=" + paymentSt + "&balance=" + balanceSt;
         try {
 //            ClientResponse response = get(subResourcePath, null);
@@ -1104,7 +1104,7 @@ public class ServiceAFwebREST {
             return result;
 
         } catch (Exception ex) {
-            logger.info("removeCustomer exception " + ex);
+            logger.info("updateCustAllStatus exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return 0;

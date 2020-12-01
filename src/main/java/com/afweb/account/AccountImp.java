@@ -309,11 +309,11 @@ public class AccountImp {
 //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&payment=0&balance=15
 
     public int updateCustAllStatus(String UserName,
-            int substatus, float payment, float balance) {
+            int status, float payment, float balance) {
 
         CustomerObj customer = getCustomerPassword(UserName, null);
         if (customer != null) {
-            customer.setSubstatus(substatus);
+            customer.setStatus(status);
             if (payment != -9999) {
                 payment += customer.getPayment();
                 customer.setPayment(payment);

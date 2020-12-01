@@ -3869,18 +3869,19 @@ public class ServiceAFweb {
 
     //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15
     public int updateCustAllStatus(String customername,
-            String substatusSt, String paymenttSt, String balanceSt) {
+            String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
         if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().updateCustAllStatus(customername, substatusSt, paymenttSt, balanceSt);
+            return getServiceAFwebREST().updateCustAllStatus(customername, statusSt, paymenttSt, balanceSt);
         }
+        customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
 
-            int substatus = Integer.parseInt(substatusSt);
+            int status = Integer.parseInt(statusSt);
             float payment = -9999;
             if (!paymenttSt.equals("")) {
                 payment = Float.parseFloat(paymenttSt);
@@ -3890,7 +3891,7 @@ public class ServiceAFweb {
                 balance = Float.parseFloat(balanceSt);
             }
 
-            return getAccountImp().updateCustAllStatus(UserName, substatus, payment, balance);
+            return getAccountImp().updateCustAllStatus(UserName, status, payment, balance);
 
         } catch (Exception e) {
         }
