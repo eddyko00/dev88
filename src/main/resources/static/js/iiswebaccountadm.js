@@ -156,7 +156,7 @@ var app = {
             if (parts.length !== 5) {
                 window.location.href = "accountadm.html";
                 return;
-            }y
+            }
             
             var customername = parts[0];
             var status = parts[1];
