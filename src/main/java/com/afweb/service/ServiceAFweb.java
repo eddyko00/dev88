@@ -646,6 +646,31 @@ public class ServiceAFweb {
             nnProcBySig.processNeuralNetTrain(this);
         }
 
+/////////////////////////////////        
+//        String symbol = "BB.TO";
+//        int TR_NN = ConstantKey.INT_TR_NN1;
+//        String nnName = ConstantKey.TR_NN1;
+//        String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//
+//        for (int i = 0; i < 10; i++) {
+//            try {
+//                AFneuralNet nnObj1 = nnProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, TR_NN, symbol);
+//            } catch (Exception ex) {
+//                System.out.println(ex.getMessage());
+//            }
+//        }
+//        String symbol = "BB.TO";
+//        int TR_NN = ConstantKey.INT_TR_NN3;
+//        String nnName = ConstantKey.TR_NN3;
+//        String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//        for (int i = 0; i < 10; i++) {
+//            try {
+//                AFneuralNet nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
+//            } catch (Exception ex) {
+//                System.out.println(ex.getMessage());
+//            }
+//        }
+/////////////////////////////
         /// reset weight0 and use latest stock
         /// remember to update nnData and nn3Data and version
 //        boolean processRestinputflag = false;
@@ -2053,7 +2078,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
     public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

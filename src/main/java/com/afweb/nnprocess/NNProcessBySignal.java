@@ -1276,7 +1276,7 @@ public class NNProcessBySignal {
     private static ArrayList stockNNprocessNameArray = new ArrayList();
     private static ArrayList stockNNinputNameArray = new ArrayList();
 
-    private ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
+    public ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         if (stockNNprocessNameArray != null && stockNNprocessNameArray.size() > 0) {
             return stockNNprocessNameArray;
         }
