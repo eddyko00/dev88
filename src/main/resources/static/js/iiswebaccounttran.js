@@ -77,10 +77,10 @@ var app = {
         $("#accheader").html(stockObj.symbol + " " + trName);
 
         var htmlhead = '<div class="ui-grid-c">';
-        htmlhead += '<div class="ui-block-a"  style="width:30%" ><strong>Date</strong></div>';
-        htmlhead += '<div class="ui-block-b" style="width:10%" >Sig</div>';
-        htmlhead += '<div class="ui-block-c">Price</div>';
-        htmlhead += '<div class="ui-block-d">Share</div>';
+        htmlhead += '<div class="ui-block-a" style="width:15%" ><strong>Date</strong></div>';
+        htmlhead += '<div class="ui-block-b" style="width:5%" >Sig</div>';
+        htmlhead += '<div class="ui-block-c" >Price</div>';
+        htmlhead += '<div class="ui-block-d" >Profit</div>';
         htmlhead += '</div>';
         $("#myid").append('<li id="0" >' + htmlhead + '</li>');
 
@@ -89,31 +89,30 @@ var app = {
         var total = 0;
 
         var list = [];
+        var buyOnly = 1;
 
         for (i = 0; i < tranObjList.length; i++) {
             var tranObj = tranObjList[j - i];
             console.log(tranObj);
             var nameId = tranObj.id;
+
+            var tranhtml = '';
 //https://demos.jquerymobile.com/1.1.2/docs/content/content-grids.html
             var htmlName = '<div class="ui-grid-c">';
-            htmlName += '<div class="ui-block-a"  style="width:30%" ><strong>' + tranObj.entrydatedisplay + '</strong></div>';
+            htmlName += '<div class="ui-block-a"  style="width:15%" ><strong>' + tranObj.entrydatedisplay + '</strong></div>';
             var signal = "B";
             if (tranObj.trsignal == 1) {
                 signal = "B";
             } else if (tranObj.trsignal == 2) {
                 signal = "S";
-                // assume buy only and no short selling
-//                prevTranObj = tranObj;
-//                continue;
+                if (buyOnly === 1) {
+                    // assume buy only and no short selling
+                    prevTranObj = tranObj;
+                    continue;
+                }
             } else {
                 signal = "E";
-
             }
-            htmlName += '<div class="ui-block-b" style="width:10%" >:' + signal + '</div>';
-            htmlName += '<div class="ui-block-c">P:' + tranObj.avgprice + '</div>';
-            htmlName += '<div class="ui-block-d">S:' + tranObj.share + '</div>';
-            htmlName += '</div>';
-
 
             if (signal === "E") {
                 if (prevTranObj != null) {
@@ -123,16 +122,18 @@ var app = {
                     }
                     if (prevTranObj.trsignal == 2) {
                         diff = -diff;
-                        // assume buy only and no short selling
-//                        diff = 0;
-//                        prevTranObj = tranObj;
-//                        continue;
+                        if (buyOnly === 1) {
+                            // assume buy only and no short selling
+                            diff = 0;
+                            prevTranObj = tranObj;
+                            continue;
+                        }
                     }
                     total += diff;
 //                    var totalSt = total.toFixed(2);
                     var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                    htmlName += 'Transaction: ' + diffSt + ' Total: ' + totalSt;
+                    tranhtml += 'Share=' + tranObj.share + ' Transaction: ' + diffSt; // + ' Total: ' + totalSt;
                 }
             } else {
                 if (i == tranObjList.length - 1) {
@@ -143,18 +144,30 @@ var app = {
                     }
                     if (tranObj.trsignal == 2) {
                         diff = -diff;
-                        // assume buy only and no short selling
-//                        diff = 0;
-//                        prevTranObj = tranObj;
-//                        continue;
+                        if (buyOnly === 1) {
+                            // assume buy only and no short selling
+                            diff = 0;
+                            prevTranObj = tranObj;
+                            continue;
+                        }
                     }
                     total += diff;
 //                    var totalSt = total.toFixed(2);
                     var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                    htmlName += 'Tran on close: ' + diffSt + ' Total: ' + totalSt;
+
+                    tranhtml += 'Share=' + tranObj.share + ' Tran on close: ' + diffSt; // + ' Total: ' + totalSt;
                 }
             }
+
+            htmlName += '<div class="ui-block-b" style="width:5%" >:' + signal + '</div>';
+            var avgSt = tranObj.avgprice.toFixed(2);
+            htmlName += '<div class="ui-block-c">P:' + avgSt + '</div>';
+            var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+            htmlName += '<div class="ui-block-d">' + totalSt + '</div>'; //tranObj.share + '</div>';
+            htmlName += '</div>';
+            htmlName += tranhtml;
+
             prevTranObj = tranObj;
             list.push(htmlName);
 
