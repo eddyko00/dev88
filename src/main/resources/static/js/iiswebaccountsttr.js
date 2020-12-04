@@ -165,31 +165,6 @@ var app = {
             htmlName += '<div class="ui-block-c">Profit: ' + totalSt + '</div>';
             htmlName += '</div>';
 
-//            var trStr = '  L:' + trObj.longamount + ' LS:' + trObj.longshare + ' S:' + trObj.shortamount + ' SS:' + trObj.shortshare
-//            htmlName += '<h3>' + trStr + '</h3>';
-
-            var htmlBtn = '<div id="myidbtn"  data-role="controlgroup" data-type="horizontal" data-theme="a" style="font-size:0.7em; margin-left:auto; margin-right:auto;width:100%; ">';
-            htmlBtn += '<a href="#" id="' + nameId + '" type="graph"  value="' + trObj.trname + '" data-icon="myicongraph" data-role="button" data-theme="a"></a>';
-            htmlBtn += '<a href="#" id="' + nameId + '" type="table"  value="' + trObj.trname + '" data-icon="myicontable" data-role="button" data-theme="a"></a>';
-            if (trObj.trname === "TR_ACC") {
-                if (trObj.linktradingruleid == 0) {
-                    if (trObj.trsignal == S_BUY) {
-                        htmlBtn += '<a href="#" id="' + nameId + '" type=""  value="' + trObj.trname + '" data-icon="" data-role="button" data-theme="a"></a>';
-                    } else {
-                        htmlBtn += '<a href="#" id="' + nameId + '" type="buy"  value="' + trObj.trname + '" data-icon="myiconbuy" data-role="button" data-theme="a"></a>';
-                    }
-                    if (trObj.trsignal == S_SELL) {
-                        htmlBtn += '<a href="#" id="' + nameId + '" type=""  value="' + trObj.trname + '" data-icon="" data-role="button" data-theme="a"></a>';
-                    } else {
-                        htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a"></a>';
-                    }
-                    htmlBtn += '<a href="#" id="' + nameId + '" type="exit"  value="' + trObj.trname + '" data-icon="myiconexit" data-role="button" data-theme="a"></a>';
-
-                }
-            }
-            htmlBtn += '</div>';
-
-            htmlName += htmlBtn;
             var status = trObj.status;
             if (status == 2) { //int PENDING = 2;
                 htmlName += 'Pending on delete when the signal is exited. <br>'
@@ -217,6 +192,32 @@ var app = {
                     }
                 }
             }
+
+
+//            var htmlBtn = '<div id="myidbtn"  data-role="controlgroup" data-type="horizontal" data-theme="a" style="font-size:0.2em; margin-left:auto; margin-right:auto;width:100%; ">';
+            var htmlBtn = '<div id="myidbtn" data-role="footer" data-theme="b" >';
+            htmlBtn += '<a href="#" id="' + nameId + '" type="graph"  value="' + trObj.trname + '" data-icon="myicongraph" data-role="button" data-theme="a">Chart</a>';
+            htmlBtn += '<a href="#" id="' + nameId + '" type="table"  value="' + trObj.trname + '" data-icon="myicontable" data-role="button" data-theme="a">Perf</a>';
+            if (trObj.trname === "TR_ACC") {
+                if (trObj.linktradingruleid == 0) {
+                    if (trObj.trsignal == S_BUY) {
+                        htmlBtn += '<a href="#" id="' + nameId + '" type=""  value="' + trObj.trname + '" data-icon="" data-role="button" data-theme="a"></a>';
+                    } else {
+                        htmlBtn += '<a href="#" id="' + nameId + '" type="buy"  value="' + trObj.trname + '" data-icon="myiconbuy" data-role="button" data-theme="a">Buy</a>';
+                    }
+                    if (trObj.trsignal == S_SELL) {
+                        htmlBtn += '<a href="#" id="' + nameId + '" type=""  value="' + trObj.trname + '" data-icon="" data-role="button" data-theme="a"></a>';
+                    } else {
+                        htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
+                    }
+                    htmlBtn += '<a href="#" id="' + nameId + '" type="exit"  value="' + trObj.trname + '" data-icon="myiconexit" data-role="button" data-theme="a">Exit</a>';
+
+                }
+            }
+            htmlBtn += '</div>';
+
+            htmlName += htmlBtn;
+
 
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');
 
