@@ -200,18 +200,20 @@ var app = {
             htmlBtn += '<a href="#" id="' + nameId + '" type="table"  value="' + trObj.trname + '" data-icon="myicontable" data-role="button" data-theme="a">Perf</a>';
             if (trObj.trname === "TR_ACC") {
                 if (trObj.linktradingruleid == 0) {
-                    if (trObj.trsignal == S_BUY) {
-                        htmlBtn += '<a href="#" id="' + nameId + '" type=""  value="' + trObj.trname + '" data-icon="" data-role="button" data-theme="a"></a>';
-                    } else {
-                        htmlBtn += '<a href="#" id="' + nameId + '" type="buy"  value="' + trObj.trname + '" data-icon="myiconbuy" data-role="button" data-theme="a">Buy</a>';
-                    }
-                    if (trObj.trsignal == S_SELL) {
-                        htmlBtn += '<a href="#" id="' + nameId + '" type=""  value="' + trObj.trname + '" data-icon="" data-role="button" data-theme="a"></a>';
-                    } else {
+                    if (trObj.trsignal === S_BUY) {
                         htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
+                        htmlBtn += '<a href="#" id="' + nameId + '" type="exit"  value="' + trObj.trname + '" data-icon="myiconexit" data-role="button" data-theme="a">Exit</a>';
                     }
-                    htmlBtn += '<a href="#" id="' + nameId + '" type="exit"  value="' + trObj.trname + '" data-icon="myiconexit" data-role="button" data-theme="a">Exit</a>';
-
+                    if (trObj.trsignal === S_SELL) {
+                        htmlBtn += '<a href="#" id="' + nameId + '" type="buy"  value="' + trObj.trname + '" data-icon="myiconbuy" data-role="button" data-theme="a">Buy</a>';
+                        htmlBtn += '<a href="#" id="' + nameId + '" type="exit"  value="' + trObj.trname + '" data-icon="myiconexit" data-role="button" data-theme="a">Exit</a>';
+                    }
+                    if (trObj.trsignal !== S_BUY) {
+                        if (trObj.trsignal !== S_SELL) {
+                            htmlBtn += '<a href="#" id="' + nameId + '" type="buy"  value="' + trObj.trname + '" data-icon="myiconbuy" data-role="button" data-theme="a">Buy</a>';
+                            htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
+                        }
+                    }
                 }
             }
             htmlBtn += '</div>';

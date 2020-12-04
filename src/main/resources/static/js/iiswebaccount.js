@@ -173,10 +173,10 @@ var app = {
             if (accObj == null) {
                 window.location.href = "#page-index";
             }
-            
+
             var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-            window.location.href = "accountadm_1.html";            
+            window.location.href = "accountadm_1.html";
 //            $.ajax({
 //                url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/comm",
 //
@@ -253,17 +253,43 @@ var app = {
 
         $("#configbtn").click(function () {
             if (custObj.username.toUpperCase() === "GUEST") {
-                alert("Not supproted feature for GUEST accont");
-                return;
-            }
-        });
-        $("#invoicebtn").click(function () {
-            if (custObj.username.toUpperCase() === "GUEST") {
-                alert("Not supproted feature for GUEST accont");
-                return;
+                functionAlertConfirm("This feature does not allow for GUEST account", function ok() {
+//                alert("Yes")
+                })
             }
         });
 
+        $("#invoicebtn").click(function () {
+            if (custObj.username.toUpperCase() === "GUEST") {
+                functionAlertConfirm("This feature does not allow for GUEST account", function ok() {
+//                alert("Yes")
+                })
+            }
+        });
+
+        function functionConfirm(msg, myYes, myNo, myOk) {
+            var confirmBox = $("#confirm");
+            confirmBox.find(".message").text(msg);
+            confirmBox.find(".yes,.no,.ok").unbind().click(function () {
+                confirmBox.hide();
+            });
+            confirmBox.find(".yes").click(myYes);
+            confirmBox.find(".no").click(myNo);
+            confirmBox.find(".ok").click(myOk);
+            confirmBox.show();
+        }
+
+        function functionAlertConfirm(msg, myYes, myNo, myOk) {
+            var confirmBox = $("#alertconfirm");
+            confirmBox.find(".message").text(msg);
+            confirmBox.find(".yes,.no,.ok").unbind().click(function () {
+                confirmBox.hide();
+            });
+            confirmBox.find(".yes").click(myYes);
+            confirmBox.find(".no").click(myNo);
+            confirmBox.find(".ok").click(myOk);
+            confirmBox.show();
+        }
 
 // example        
 //alert("AJAX request successfully completed");
