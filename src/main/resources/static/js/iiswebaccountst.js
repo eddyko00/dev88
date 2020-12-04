@@ -48,10 +48,10 @@ var app = {
 
         var htmlhead = '<div class="ui-grid-d">';
         htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym</strong></div>';
-        htmlhead += '<div class="ui-block-b" style="width:20%">Sig</div>';
-        htmlhead += '<div class="ui-block-c" style="width:20%">Trend</div>';
-        htmlhead += '<div class="ui-block-d" style="width:20%">Daily %</div>';
-        htmlhead += '<div class="ui-block-e" style="width:20%">NNPer %</div>';
+        htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
+        htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%">Trend</div>';
+        htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
+        htmlhead += '<div class="ui-block-e" style="text-align: center;width:20%">NNPer %</div>';
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -67,18 +67,18 @@ var app = {
             if (stockObj.trsignal == 1) {
                 signal = "B";
                 htmlName += '<div class="ui-block-a" style="color:green;width:20%"><strong>' + stockObj.symbol + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="color:green;width:20%">:' + signal + '</div>';
+                htmlName += '<div class="ui-block-b" style="text-align: center;color:green;width:20%">:' + signal + '</div>';
             } else if (stockObj.trsignal == 2) {
                 signal = "S";
                 htmlName += '<div class="ui-block-a" style="color:red;width:20%"><strong>' + stockObj.symbol + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="color:red;width:20%">:' + signal + '</div>';
+                htmlName += '<div class="ui-block-b" style="text-align: center;color:red;width:20%">:' + signal + '</div>';
             } else {
                 signal = "E";
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + stockObj.symbol + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="width:20%">:' + signal + '</div>';
+                htmlName += '<div class="ui-block-b" style="text-align: center;width:20%">:' + signal + '</div>';
             }
 
-            htmlName += '<div class="ui-block-c" style="width:20%">T:' + stockObj.longterm + '</div>';
+            htmlName += '<div class="ui-block-c" style="text-align: center;width:20%">T:' + stockObj.longterm + '</div>';
             var percentSt = "";
             var perSt = "";
             var close = 0;
@@ -92,8 +92,8 @@ var app = {
                 perSt = perform.toFixed(0); // + '%';
 
             }
-            htmlName += '<div class="ui-block-d" style="width:20%">P:' + percentSt + ' </div>';
-            htmlName += '<div class="ui-block-e" style="width:20%">:' + perSt + '</div>';
+            htmlName += '<div class="ui-block-d" style="text-align: center;width:20%">P:' + percentSt + ' </div>';
+            htmlName += '<div class="ui-block-e" style="text-align: center;width:20%">:' + perSt + '</div>';
             htmlName += '</div>';
 
             var nameId = stockObj.id;

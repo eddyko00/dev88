@@ -77,10 +77,11 @@ var app = {
         $("#accheader").html(stockObj.symbol + " " + trName);
 
         var htmlhead = '<div class="ui-grid-c">';
-        htmlhead += '<div class="ui-block-a" style="width:15%" ><strong>Date</strong></div>';
-        htmlhead += '<div class="ui-block-b" style="width:5%" >Sig</div>';
-        htmlhead += '<div class="ui-block-c" >Price</div>';
-        htmlhead += '<div class="ui-block-d" >Profit</div>';
+        htmlhead += '<div class="ui-block-a" "><strong>Date</strong></div>';
+        htmlhead += '<div class="ui-block-b" style="text-align: center">Sig</div>';
+        htmlhead += '<div class="ui-block-c" style="width:25%">Price</div>';
+        htmlhead += '<div class="ui-block-d" style="width:25%">Profit</div>';
+
         htmlhead += '</div>';
         $("#myid").append('<li id="0" >' + htmlhead + '</li>');
 
@@ -99,7 +100,7 @@ var app = {
             var tranhtml = '';
 //https://demos.jquerymobile.com/1.1.2/docs/content/content-grids.html
             var htmlName = '<div class="ui-grid-c">';
-            htmlName += '<div class="ui-block-a"  style="width:15%" ><strong>' + tranObj.entrydatedisplay + '</strong></div>';
+            htmlName += '<div class="ui-block-a" ><strong>' + tranObj.entrydatedisplay + '</strong></div>';
             var signal = "B";
             if (tranObj.trsignal == 1) {
                 signal = "B";
@@ -160,11 +161,13 @@ var app = {
                 }
             }
 
-            htmlName += '<div class="ui-block-b" style="width:5%" >:' + signal + '</div>';
+            htmlName += '<div class="ui-block-b" style="text-align: center">:' + signal + '</div>';
             var avgSt = tranObj.avgprice.toFixed(2);
-            htmlName += '<div class="ui-block-c">P:' + avgSt + '</div>';
-            var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-            htmlName += '<div class="ui-block-d">' + totalSt + '</div>'; //tranObj.share + '</div>';
+            htmlName += '<div class="ui-block-c" style="width:25%">' + avgSt + '</div>';
+            var totalSt = Number(total.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+            totalSt = totalSt.replace(".00", "");
+            htmlName += '<div class="ui-block-d" style="width:25%">' + totalSt + '</div>'; //tranObj.share + '</div>';
+
             htmlName += '</div>';
             htmlName += tranhtml;
 

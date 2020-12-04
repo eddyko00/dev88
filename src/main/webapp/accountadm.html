@@ -36,6 +36,12 @@
     https://demos.jquerymobile.com/1.3.2/widgets/listviews/index.html#&ui-state=dialog
     -->
     <body>
+        <style>
+            .ui-popup-container {
+                height: 70vh;
+                width: 70vw;
+            }
+        </style>           
         <div data-role="page" id="page-index">
             <div data-role="header" data-theme="c" data-position="fixed">
                 <!--https://demos.jquerymobile.com/1.4.5/navigation-linking-pages/   rel="external"-->
@@ -57,16 +63,16 @@
                 <p><br></p> 
                 <p>
                 </p>
-                <div id="myidbtn"  data-role="controlgroup" data-type="horizontal" data-theme="a" style="font-size:0.7em; margin-left:auto; margin-right:auto;width:100%; ">
+                <div data-role="footer" data-theme="b" >
                     <a href="#popupAdd" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Account Payment Update</a>
                     <div data-role="popup" id="popupAdd" data-theme="a" class="ui-corner-all">
                             <form>
                                     <div style="padding:0px 0px;">
                                             <h3>Account Payment Update</h3>
                                             <label for="un" class="ui-hidden-accessible">command</label>
-                                            <br>username,status,(Amount due),balance,#
-                                            <br>eddy1-yahoo-ca,0,,,#
-                                            <br>eddy1-yahoo-ca,0,,10,#
+                                <br>username,status,(Amount due),balance,#
+                                <br>eddy1-yahoo-ca,0,,,#
+                                <br>eddy1-yahoo-ca,0,,10,#
                                             <input type="text" name="accpayment" id="accpayment" value="" placeholder="command" data-theme="a">
                                            
                                             <button type="submit" id="accpaymentsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
