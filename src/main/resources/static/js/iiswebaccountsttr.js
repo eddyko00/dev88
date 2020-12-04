@@ -160,8 +160,8 @@ var app = {
 
             var total = trObj.balance + sharebalance;
             total = total - trObj.investment;
-            var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-//            var totalSt = total.toFixed(2);
+            var totalSt = Number(total.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+            totalSt = totalSt.replace(".00", "");
             htmlName += '<div class="ui-block-c">Profit: ' + totalSt + '</div>';
             htmlName += '</div>';
 

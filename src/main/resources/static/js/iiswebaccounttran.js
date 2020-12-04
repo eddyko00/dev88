@@ -134,7 +134,11 @@ var app = {
 //                    var totalSt = total.toFixed(2);
                     var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                    tranhtml += 'Share=' + tranObj.share + ' Transaction: ' + diffSt; // + ' Total: ' + totalSt;
+                    var tran = ' Tran on loss:' + diffSt;
+                    if (diff > 0) {
+                        tran = ' Tran on gain:' + diffSt;
+                    }
+                    tranhtml += 'Share=' + tranObj.share + tran; // + ' Total: ' + totalSt;
                 }
             } else {
                 if (i == tranObjList.length - 1) {
