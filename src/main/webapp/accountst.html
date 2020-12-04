@@ -53,10 +53,10 @@
             <h2 id="accheader" class="mc-text-center">Account</h2>
             <p>
             </p>
-            <div id="myidbtn"  data-role="controlgroup" data-type="horizontal" data-theme="a" style="font-size:0.7em; margin-left:auto; margin-right:auto;width:100%; ">
+            <div id="myidbtn"  data-role="controlgroup" data-type="horizontal" data-theme="a" style="padding:10px 10px;font-size:0.7em; margin-left:auto; margin-right:auto;width:100%; ">
                 <!--<button id="addbtn" >Add</button> <button id="removebtn"  >Remove</button>-->     
                 <a href="#popupAdd" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Add</a>
-                <div data-role="popup" id="popupAdd" data-theme="a" class="ui-corner-all">
+                <div data-role="popup" id="popupAdd" data-theme="a" class="ui-corner-all" >
                         <form>
                                 <div style="padding:0px 0px;">
                                         <h3>Add new Stock symbol</h3>
@@ -66,7 +66,10 @@
                                         <button type="submit" id="addsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Add</button>
                                     </div>
                             </form>
-                </div>                
+                </div>        
+
+                <div class="ui-btn ui-corner-all ui-shadow ui-btn-inline ">&nbsp;</div>  
+
                 <a href="#popupRemove" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Remove</a>
                 <div data-role="popup" id="popupRemove" data-theme="a" class="ui-corner-all">
                         <form>
