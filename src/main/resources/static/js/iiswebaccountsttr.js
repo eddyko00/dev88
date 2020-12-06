@@ -38,7 +38,15 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
-
+        
+        var iisMsgSession = "iisMsgSession";
+        var msgObjStr = window.localStorage.getItem(iisMsgSession);
+//        msgObjStr ="This feature does not allow for GUEST account";
+        if (msgObjStr !== "") {
+            functionAlertConfirm(msgObjStr, function ok() {
+            });
+        }
+        
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
         var sockId = iisWebObj.sockId;
@@ -534,9 +542,13 @@ var app = {
 
         $("#configbtn").click(function () {
             if (custObj.username.toUpperCase() === "GUEST") {
-                alert("Not supproted feature for GUEST accont");
+                msgObjStr = "This feature does not allow for GUEST account";
+                window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountsttr.html";
-                return;
+                
+//                alert("Not supproted feature for GUEST accont");
+//                window.location.href = "accountsttr.html";
+//                return;
             }
             var trNum = trObjacc.linktradingruleid;
             var trName = "TR_NN2";
@@ -553,7 +565,7 @@ var app = {
 
             window.location.href = "#page_conf";
         });
-
+       
 //    public static final String TR_ACC = "TR_ACC";  // transaction account
 //    public static final int INT_TR_ACC = 0;
 //    public static final String TR_MV = "TR_MV";  // simulation 
@@ -573,14 +585,15 @@ var app = {
 
             var tr = $('#myidtrmodel').val();
             console.log(tr);
-//"/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}"
-            var answer = confirm('Do you want to save changes?');
-            if (answer) {
-                ;
-            } else {
-                window.location.href = "#page_index";
-                return;
-            }
+//            var answer = confirm('Do you want to save changes?');
+//            if (answer) {
+//                ;
+//            } else {
+//                window.location.href = "#page_index";
+//                return;
+//            }
+            
+            //"/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}"
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st/" + sockId + "/tr/TR_ACC/linktr/" + tr,
                 crossDomain: true,
@@ -599,6 +612,34 @@ var app = {
                 window.location.href = "accountsttr_1.html";
             }
         });
+        
+
+        function functionConfirm(msg, myYes, myNo, myOk) {
+            var confirmBox = $("#confirm");
+            confirmBox.find(".message").text(msg);
+            confirmBox.find(".yes,.no,.ok").unbind().click(function () {
+                confirmBox.hide();
+                window.localStorage.setItem(iisMsgSession, "");                
+            });
+            confirmBox.find(".yes").click(myYes);
+            confirmBox.find(".no").click(myNo);
+            confirmBox.find(".ok").click(myOk);
+            confirmBox.show();
+        }
+        
+        function functionAlertConfirm(msg, myYes, myNo, myOk) {
+            var confirmBox = $("#alertconfirm");
+            confirmBox.find(".message").text(msg);
+            confirmBox.find(".yes,.no,.ok").unbind().click(function () {
+                confirmBox.hide();
+                window.localStorage.setItem(iisMsgSession, "");
+            });
+            confirmBox.find(".yes").click(myYes);
+            confirmBox.find(".no").click(myNo);
+            confirmBox.find(".ok").click(myOk);
+            confirmBox.show();
+        }
+        
 // example        
 //alert("AJAX request successfully completed");
 //var jsonObj = JSON.parse(jsonStr);

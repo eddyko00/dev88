@@ -10,6 +10,10 @@ var app = {
 
         var iisWebSession = "iisWebSession";
         window.localStorage.setItem(iisWebSession, " ");
+        
+        var iisMsgSession = "iisMsgSession";
+        window.localStorage.setItem(iisMsgSession, "");
+        
         window.location.href = "index.html";
     }
 };

@@ -14,9 +14,11 @@ var app = {
 
 
 //        var iisurl = "https://iiswebsrv.herokuapp.com/";
+        var iisMsgSession = "iisMsgSession";       
         var iisWebSession = "iisWebSession";
 //        var custObj = 'custObj';
 //        var accList = 'accList';
+
 
 
         $(document).keypress(function (event) {
@@ -65,9 +67,6 @@ var app = {
                     var iisWebObj = {'custObjStr': custObjStr};
                     window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
-//                var iisWebObjStr = window.localStorage.getItem('iisWebSession');
-//                var iisWebObj = JSON.parse(iisWebObjStr);
-//                console.log(iisWebObj);
 
                     if (custObj != null) {
                         window.location.href = "account_1.html";

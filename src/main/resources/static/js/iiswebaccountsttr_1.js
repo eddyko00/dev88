@@ -9,6 +9,7 @@ var app = {
         });
 
 //        var iisurl = "https://iiswebsrv.herokuapp.com/";
+        var iisMsgSession = "iisMsgSession";
         var iisWebSession = "iisWebSession";
 //        var custObj = 'custObj';
 //        var accList = 'accList';
@@ -60,15 +61,17 @@ var app = {
             crossDomain: true,
             cache: false,
             beforeSend: function () {
-                 $("#loader").show();
-            },         
-            
+                $("#loader").show();
+            },
+
             error: function () {
                 window.location.href = "index.html";
             },
 
             success: function (resultTRList) {
                 console.log(resultTRList);
+
+                window.localStorage.setItem(iisMsgSession, "");
 
                 var trObjListStr = JSON.stringify(resultTRList, null, '\t');
                 var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr,

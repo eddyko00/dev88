@@ -9,10 +9,8 @@ var app = {
         });
 
 //        var iisurl = "https://iiswebsrv.herokuapp.com/";
+        var iisMsgSession = "iisMsgSession";
         var iisWebSession = "iisWebSession";
-//        var custObj = 'custObj';
-//        var accList = 'accList';
-
         var iisWebObjStr = window.localStorage.getItem(iisWebSession);
         var iisWebObj = JSON.parse(iisWebObjStr);
         console.log(iisWebObj);
@@ -70,10 +68,13 @@ var app = {
 
                     success: function (resultCommObjList) {
                         console.log(resultCommObjList);
+                        window.localStorage.setItem(iisMsgSession, "");
+
                         if (resultCommObjList !== "") {
                             var commObjListStr = JSON.stringify(resultCommObjList, null, '\t');
                             var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr};
                             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
                             window.location.href = "accountmsg.html";
                         } else {
                             var commObjListStr = "";

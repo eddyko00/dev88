@@ -31,6 +31,39 @@
         <link rel="stylesheet" type="text/css" href="css/app.css" />
         <link rel="shortcut icon" href="#" />
         <title>IISWEB System</title>
+
+        <style>           
+            #alertconfirm {
+                display: none;
+                background-color: #f2f4ef;
+                border: 1px solid #aaa;
+                position: relative;
+                width: 250px;
+                height: 150px;
+                top: 20%;
+                left: 50%;
+                margin-left: -100px;
+                padding: 8px;
+                box-sizing: border-box;
+                text-align: center;
+            }
+
+            #alertconfirm button {
+                background-color: #3388cc;
+                display: inline-block;
+                border-radius: 5px;
+                border: 1px solid #aaa;
+                padding: 5px;
+                text-align: center;
+                width: 80px;
+                cursor: pointer;
+                margin-top: 20px;
+            }
+            #alertconfirm .message {
+                text-align: left;
+            }
+        </style>        
+
     </head>
     <!--
     https://demos.jquerymobile.com/1.3.2/widgets/listviews/index.html#&ui-state=dialog
@@ -53,6 +86,7 @@
             <h2 id="accheader" class="mc-text-center">Account</h2>
             <p>
 
+
             <div data-role="footer" data-theme="b" >
                 <!--https://demos.jquerymobile.com/1.2.0/docs/toolbars/docs-footers.html-->
                 <a href="#popupAdd" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">Add Stock</a>
@@ -66,7 +100,7 @@
                                         <button type="submit" id="addsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Add</button>
                                     </div>
                             </form>
-                </div>        
+                </div>                    
                 <a href="#popupRemove" data-icon="minus" data-rel="popup" data-position-to="window" data-transition="pop">Remove Stock</a>
                 <div data-role="popup" id="popupRemove" data-theme="b" class="ui-corner-all">
                         <form>
@@ -81,50 +115,22 @@
                 </div>    
             </div>      
 
-        </p>
-        <!--            <div id="myidbtn"  data-role="controlgroup" data-type="horizontal" data-theme="a" style="padding:10px 10px;font-size:0.7em; margin-left:auto; margin-right:auto;width:100%; ">
-                        <button id="addbtn" >Add</button> <button id="removebtn"  >Remove</button>     
-                        <a href="#popupAdd" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Add</a>
-                        <div data-role="popup" id="popupAdd" data-theme="a" class="ui-corner-all" >
-                                <form>
-                                        <div style="padding:0px 0px;">
-                                                <h3>Add new Stock symbol</h3>
-                                                <label for="un" class="ui-hidden-accessible">Symbol</label>
-                                                <input type="text" name="addsymbol" id="addsymbol" value="" placeholder="symbol" data-theme="a">
-                                               
-                                                <button type="submit" id="addsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Add</button>
-                                            </div>
-                                    </form>
-                        </div>        
+            <div data-role="content" id="textcontent">  
+                <!--<ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">-->                    
+                <ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">
+                    <li id="0">Stock Listing</li>
+                </ul>                
+            </div>
+        </div>   
         
-                        <div class="ui-btn ui-corner-all ui-shadow ui-btn-inline ">&nbsp;</div>  
-        
-                        <a href="#popupRemove" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Remove</a>
-                        <div data-role="popup" id="popupRemove" data-theme="a" class="ui-corner-all">
-                                <form>
-                                        <div style="padding:0px 0px;">
-                                                <h3>Remove Stock symbol</h3>
-                                                <label for="un" class="ui-hidden-accessible">Symbol</label>
-                                                <input type="text" name="removesymbol" id="removesymbol" value="" placeholder="symbol" data-theme="a">
-                                               
-                                                <button type="submit" id="removesubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Remove</button>
-                                            </div>
-                                    </form>
-                        </div>    
-                    </div>-->
-
-        <div data-role="content" id="textcontent">
-
-            <!--<ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">-->                    
-            <ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">
-                <li id="0">Stock Listing</li>
-            </ul>                
-        </div>
-
+        <div id="alertconfirm">
+            <div class="message"></div>
+            <button class="ok">OK</button>            
+        </div> 
 
         <script src="lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
         <script src="lib/jqm/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script type="text/javascript" src="js/iisweb.js"></script>            
         <script type="text/javascript" src="js/iiswebaccountst.js"></script>          
-</body>
+    </body>
 </html>
