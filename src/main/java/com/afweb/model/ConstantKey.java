@@ -66,6 +66,9 @@ public class ConstantKey {
     public static final String MSG_EXISTED = "EXISTED";
     public static final int EXISTED = 2;
 
+    public static final String MSG_NOTEXISTED = "NOTEXISTED";
+    public static final int NOTEXISTED = 3;
+    
     public static final String MSG_INITIAL = "INITIAL";
     public static final int INITIAL = 2;
 

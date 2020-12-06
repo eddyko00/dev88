@@ -583,6 +583,7 @@ public class AccountImp {
                     }
                 }
             }
+            int retAdd = 0;
             for (int i = 0; i < TRList.size(); i++) {
                 TradingRuleObj tr = (TradingRuleObj) TRList.get(i);
                 if (tr.getTrname().equals(ConstantKey.TR_ACC)) {
@@ -591,9 +592,9 @@ public class AccountImp {
 //                    tr.setLinktradingruleid(ConstantKey.INT_TR_NN2);
                     tr.setLinktradingruleid(ConstantKey.INT_TR_NN1);
                 }
-                accountdb.addAccountStock(accountObj.getId(), StockID, tr);
+                retAdd = accountdb.addAccountStock(accountObj.getId(), StockID, tr);
             }
-            return 1; // successful
+            return retAdd; // successful
 
         }
         return 0;

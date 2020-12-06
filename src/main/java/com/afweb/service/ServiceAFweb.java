@@ -3431,6 +3431,7 @@ public class ServiceAFweb {
         return 0;
     }
 
+    //ConstantKey.NOTEXISTED
     public int removeAccountStockSymbol(AccountObj accountObj, String symbol) {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
@@ -3441,6 +3442,9 @@ public class ServiceAFweb {
             int signal = ConstantKey.S_NEUTRAL;
             String trName = ConstantKey.TR_ACC;
             TradingRuleObj tradingRuleObj = SystemAccountStockIDByTRname(accountObj.getId(), stockObj.getId(), trName);
+            if (tradingRuleObj == null) {
+                return ConstantKey.NOTEXISTED;
+            }
             int curSignal = tradingRuleObj.getTrsignal();
 
             boolean updateTran = true;
