@@ -51,8 +51,8 @@ public class IndexController {
         ArrayList arrayString = new ArrayList();
 
         arrayString.add("/server");
-        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
-        arrayString.add("/server/url0/set?url=stop");
+//        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
+//        arrayString.add("/server/url0/set?url=stop");
 //        arrayString.add("/server/dburl");
 //        arrayString.add("/server/dburl/set?url=");         
         arrayString.add("/help");
@@ -94,15 +94,15 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history/display");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
         //
-        arrayString.add("/cust/{username}/sys/cust?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/sys/st/allname");
 
-        arrayString.add("/cust/{username}/sys/cust");
-        arrayString.add("/cust/{username}/sys/custlist");
+        arrayString.add("/cust/{username}/uisys/{custid}/custidlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/lock");
+        arrayString.add("/cust/{username}/uisys/{custid}/timer");
+        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?substatus=&payment=&balance=");
 
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
         arrayString.add("/cust/{username}/sys/cust/{customername}/removeCustomer");
-        arrayString.add("/cust/{username}/sys/cust/{customername}/update?substatus=&payment=&balance=");
 
         arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
         arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
@@ -111,13 +111,13 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/clearlock");
         arrayString.add("/cust/{username}/sys/start");
         arrayString.add("/cust/{username}/sys/resetdb");
-        
+
         arrayString.add("/cust/{username}/sys/clearnninput");
         arrayString.add("/cust/{username}/sys/clearnntran");
 
         arrayString.add("/cust/{username}/sys/autonnflag");
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
-        arrayString.add("/cust/{username}/sys/autonnflag/disable");        
+        arrayString.add("/cust/{username}/sys/autonnflag/disable");
 
         arrayString.add("/cust/{username}/sys/fundmgr");
         arrayString.add("/cust/{username}/sys/processfundmgr");
@@ -436,7 +436,6 @@ public class IndexController {
 //        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 //        return ret;
 //    }
-
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList<BillingObj> getAccountBillingList(
@@ -1102,15 +1101,14 @@ public class IndexController {
     }
 
     //////////////
-    @RequestMapping(value = "/cust/{username}/sys/cust", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    CustomerObj getSysCustObj(@PathVariable("username") String username) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return cust;
-    }
-
+//    @RequestMapping(value = "/cust/{username}/sys/cust", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    CustomerObj getSysCustObj(@PathVariable("username") String username) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return cust;
+//    }
 //    @RequestMapping(value = "/cust/{username}/sys/enableuionly", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
 //    WebStatus SystemEnableUIonly(@PathVariable("username") String username) {
@@ -1367,7 +1365,6 @@ public class IndexController {
         return null;
     }
 
-
     @RequestMapping(value = "/cust/{username}/sys/autonnflag", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemNNFlag(@PathVariable("username") String username) {
@@ -1407,7 +1404,7 @@ public class IndexController {
                 NNProcessBySignal.flagNNLearningSignal = true;
                 NNProcessBySignal.flagNN3LearningTrend = true;
                 NNProcessBySignal.flagNNReLearning = true;
-                
+
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
                 return msg;
@@ -1422,7 +1419,7 @@ public class IndexController {
                 NNProcessBySignal.flagNNLearningSignal = true;
                 NNProcessBySignal.flagNN3LearningTrend = true;
                 NNProcessBySignal.flagNNReLearning = true;
-                
+
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
                 return msg;
@@ -1445,7 +1442,7 @@ public class IndexController {
                 NNProcessBySignal.flagNNLearningSignal = false;
                 NNProcessBySignal.flagNN3LearningTrend = false;
                 NNProcessBySignal.flagNNReLearning = false;
-                               
+
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
                 return msg;
@@ -1460,7 +1457,7 @@ public class IndexController {
                 NNProcessBySignal.flagNNLearningSignal = false;
                 NNProcessBySignal.flagNN3LearningTrend = false;
                 NNProcessBySignal.flagNNReLearning = false;
-                
+
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
                 return msg;
@@ -1469,7 +1466,6 @@ public class IndexController {
 
         return null;
     }
-
 
     @RequestMapping(value = "/cust/{username}/sys/clearnntran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -1550,10 +1546,12 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    ///cust/{username}/uisys/{custid}/custidlist?length={0 for all} - default 20");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custidlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    ArrayList getCustList(
+    ArrayList getUICustIDList(
             @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
             @RequestParam(value = "length", required = false) String lengthSt) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         int length = 0; //20;
@@ -1562,16 +1560,66 @@ public class IndexController {
         }
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ArrayList custNameList = afWebService.getCustomerList(length);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return custNameList;
+            if (custidSt.equals(cust.getId())) {
+                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                    ArrayList custNameList = afWebService.getCustomerIdList(length);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return custNameList;
+                }
             }
         }
         return null;
 
     }
 
+    ///cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getUICustList(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "length", required = false) String lengthSt) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        int length = 0; //20;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (custidSt.equals(cust.getId())) {
+                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                    ArrayList custNameList = afWebService.getCustomerList(length);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return custNameList;
+                }
+            }
+        }
+        return null;
+
+    }
+
+//    ///cust/{username}/sys/custlist?length={0 for all} - default 20
+//    @RequestMapping(value = "/cust/{username}/sys/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList getCustList(
+//            @PathVariable("username") String username,
+//            @RequestParam(value = "length", required = false) String lengthSt) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        int length = 0; //20;
+//        if (lengthSt != null) {
+//            length = Integer.parseInt(lengthSt);
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                ArrayList custNameList = afWebService.getCustomerList(length);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return custNameList;
+//            }
+//        }
+//        return null;
+//
+//    }
     @RequestMapping(value = "/cust/{username}/sys/expiredcustlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getExpiredCustList(
@@ -1616,13 +1664,55 @@ public class IndexController {
 
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/st/allname", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //"/cust/{username}/uisys/{custid}/timer"
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/timer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    ArrayList getStockList() {
+    WebStatus getUITimer(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt
+    ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        ArrayList stockNameList = afWebService.getAllOpenStockNameArray();
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return stockNameList;
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId())) {
+                    WebStatus msg = new WebStatus();
+                    msg.setResult(true);
+                    msg.setResultID(ConstantKey.ENABLE);
+
+                    //process timer handler
+                    int timerCnt = afWebService.timerHandler("starttimer");
+
+                    msg.setResponse("timerCnt " + timerCnt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return msg;
+                }
+            }
+        }
+        return null;
+    }
+
+    //"/cust/{username}/uisys/{custid}/lock"
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getUILockAll(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId())) {
+                    ArrayList result = afWebService.getAllLock();
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return null;
     }
 
     @RequestMapping(value = "/cust/{username}/sys/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -1932,12 +2022,13 @@ public class IndexController {
         return 0;
     }
 
-//    "/cust/{username}/sys/cust/{customername}/update?status=&payment=&balance=");
-    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    ///cust/{username}/uisys/{custid}/cust/{customername}/update?substatus=&payment=&balance="
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateCustAllStatus(
             @PathVariable("username") String username,
-            @PathVariable("customername") String customername,      
+            @PathVariable("customername") String customername,
+            @PathVariable("custid") String custidSt,
             @RequestParam(value = "status", required = true) String statusSt,
             @RequestParam(value = "payment", required = true) String paymentSt,
             @RequestParam(value = "balance", required = true) String balanceSt
@@ -1949,15 +2040,42 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                //updating the real customer in custSt not the addmin user
-                int result = afWebService.updateCustAllStatus(customername, statusSt, paymentSt, balanceSt);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
+                if (custidSt.equals(cust.getId())) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.updateCustAllStatus(customername, statusSt, paymentSt, balanceSt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
             }
         }
         return 0;
     }
 
+//    //cust/{username}/sys/cust/{customername}/update?status=&payment=&balance=");
+//    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateCustAllStatus(
+//            @PathVariable("username") String username,
+//            @PathVariable("customername") String customername,
+//            @RequestParam(value = "status", required = true) String statusSt,
+//            @RequestParam(value = "payment", required = true) String paymentSt,
+//            @RequestParam(value = "balance", required = true) String balanceSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (customername == null) {
+//            return 0;
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                //updating the real customer in custSt not the addmin user
+//                int result = afWebService.updateCustAllStatus(customername, statusSt, paymentSt, balanceSt);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
     /////////////////////////////////////////////////////////////////////////    
     @RequestMapping(value = "/timer")
     public ModelAndView timerPage() {

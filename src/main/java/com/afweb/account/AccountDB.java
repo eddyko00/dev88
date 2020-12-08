@@ -91,6 +91,11 @@ public class AccountDB {
         return null;
     }
 
+    public ArrayList getCustomerIdList(int length) {
+                String sql = "select id as id from customer order by updatedatel asc";
+        return getAllIdSQL(sql);
+    }
+    
     public ArrayList getCustomerList(int length) {
         String sql = "select * from customer";
         return this.getCustomerListSQL(sql, length);

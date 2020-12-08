@@ -104,6 +104,26 @@ public class AccountImp {
         return accountdb.getAllSQLqueryDBSQL(sql);
     }
 
+    public ArrayList getCustomerIdList(int length) {
+        ArrayList customerList = new ArrayList();
+
+        ArrayList customerDBList = accountdb.getCustomerIdList(0);
+        if (customerDBList != null && customerDBList.size() > 0) {
+            if (length == 0) {
+                // all customer
+                return customerDBList;
+            }
+            if (length > customerDBList.size()) {
+                length = customerDBList.size();
+            }
+            for (int i = 0; i < length; i++) {
+                CustomerObj cust = (CustomerObj) customerDBList.get(i);
+                customerList.add(cust);
+            }
+        }
+        return customerList;
+    }
+
     public ArrayList getCustomerList(int length) {
         ArrayList customerList = new ArrayList();
 
@@ -117,8 +137,8 @@ public class AccountImp {
                 length = customerDBList.size();
             }
             for (int i = 0; i < length; i++) {
-                CustomerObj cust = (CustomerObj) customerDBList.get(i);
-                customerList.add(cust);
+                String custid = (String) customerDBList.get(i);
+                customerList.add(custid);
             }
         }
         return customerList;
