@@ -27,16 +27,16 @@ public class ConstantKey {
 
     public static final String PP_BASIC = "BASIC";
     public static final int INT_PP_BASIC = 0;
-    public static final int INT_PP_BASIC_NUM = 5;
+    public static final int INT_PP_BASIC_NUM = 2;
     public static final float INT_PP_BASIC_PRICE = 10;
     public static final String PP_PREMIUM = "PREMIUM";
     public static final int INT_PP_PREMIUM = 10;
     public static final int INT_PP_REMIUM_NUM = 10;
-    public static final float INT_PP_REMIUM_PRICE = 15;
+    public static final float INT_PP_REMIUM_PRICE = 20;
     public static final String PP_DELUXE = "DELUXE";
     public static final int INT_PP_DELUXE = 20;
     public static final int INT_PP_DELUXE_NUM = 20;
-    public static final float INT_PP_DELUXE_PRICE = 30;
+    public static final float INT_PP_DELUXE_PRICE = 35;
 
     public static final String MSG_OPEN = "ENABLE";
     public static final int OPEN = 0;

@@ -2036,7 +2036,7 @@ public class IndexController {
             @PathVariable("username") String username,
             @PathVariable("customername") String customername,
             @PathVariable("custid") String custidSt,
-            @RequestParam(value = "status", required = false) String statusSt,
+            @RequestParam(value = "substatus", required = false) String substatusSt,
             @RequestParam(value = "payment", required = false) String paymentSt,
             @RequestParam(value = "balance", required = false) String balanceSt
     ) {
@@ -2049,7 +2049,7 @@ public class IndexController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateCustAllStatus(customername, statusSt, paymentSt, balanceSt);
+                    int result = afWebService.updateCustAllStatus(customername, substatusSt, paymentSt, balanceSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }

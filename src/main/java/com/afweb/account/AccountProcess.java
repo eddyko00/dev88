@@ -118,10 +118,15 @@ public class AccountProcess {
         int numCnt = 0;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
-        long cust4DayAgo = TimeConvertion.addDays(dateNowLong, -15); // 15 day ago and no update             
+        long cust15DayAgo = TimeConvertion.addDays(dateNowLong, -15); // 15 day ago and no update             
         for (int i = 0; i < custList.size(); i++) {
             CustomerObj custObj = (CustomerObj) custList.get(i);
-            if (custObj.getUpdatedatel() < cust4DayAgo) {
+
+            // should be disable by ProcessCustomerDisableMaintance after 2 day in activity
+            if (custObj.getStatus() != ConstantKey.DISABLE) {
+                continue;
+            }
+            if (custObj.getUpdatedatel() < cust15DayAgo) {
 
                 //remove customer
                 serviceAFWeb.removeCustomer(custObj.getUsername());
@@ -887,7 +892,7 @@ public class AccountProcess {
         serviceAFWeb.updateAccountStockSignal(stockTRObj);
     }
 
-    public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type,  CommData commDataObj) {
+    public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type, CommData commDataObj) {
         try {
             return serviceAFWeb.getAccountImp().addAccountCommMessage(accountObj, name, type, commDataObj);
 
