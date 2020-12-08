@@ -1467,7 +1467,16 @@ public class ServiceAFweb {
 
         return result;
     }
-        
+
+    public ArrayList getCustomerNameList(String name) {
+        ArrayList result = null;
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = getAccountImp().getCustomerNameList(name);
+        return result;
+    }
+
     public ArrayList getCustomerList(int length) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {

@@ -124,6 +124,10 @@ public class AccountImp {
         return customerList;
     }
 
+    public ArrayList getCustomerNameList(String name) {
+        return accountdb.getCustomerNameList(name);
+    }
+
     public ArrayList getCustomerList(int length) {
         ArrayList customerList = new ArrayList();
 

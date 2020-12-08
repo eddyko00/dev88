@@ -96,6 +96,7 @@ public class IndexController {
         //
 
         arrayString.add("/cust/{username}/uisys/{custid}/custidlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
@@ -1578,6 +1579,7 @@ public class IndexController {
     ArrayList getUICustList(
             @PathVariable("username") String username,
             @PathVariable("custid") String custidSt,
+            @RequestParam(value = "name", required = false) String nameSt,
             @RequestParam(value = "length", required = false) String lengthSt) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         int length = 0; //20;
@@ -1586,8 +1588,13 @@ public class IndexController {
         }
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
-            if (custidSt.equals(cust.getId())) {
+            if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                    if (nameSt != null) {
+                        ArrayList custNameList = afWebService.getCustomerNameList(nameSt);
+                        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                        return custNameList;
+                    }
                     ArrayList custNameList = afWebService.getCustomerList(length);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return custNameList;
@@ -1676,7 +1683,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId())) {
+                if (custidSt.equals(cust.getId() + "")) {
                     WebStatus msg = new WebStatus();
                     msg.setResult(true);
                     msg.setResultID(ConstantKey.ENABLE);
@@ -1705,7 +1712,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId())) {
+                if (custidSt.equals(cust.getId() + "")) {
                     ArrayList result = afWebService.getAllLock();
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
@@ -2040,7 +2047,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId())) {
+                if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
                     int result = afWebService.updateCustAllStatus(customername, statusSt, paymentSt, balanceSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);

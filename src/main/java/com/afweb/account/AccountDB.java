@@ -92,10 +92,15 @@ public class AccountDB {
     }
 
     public ArrayList getCustomerIdList(int length) {
-                String sql = "select id as id from customer order by updatedatel asc";
+        String sql = "select id as id from customer order by updatedatel asc";
         return getAllIdSQL(sql);
     }
-    
+
+    public ArrayList getCustomerNameList(String name) {
+        String sql = "select * from customer where username='" + name + "'";
+        return this.getCustomerListSQL(sql, 0);
+    }
+
     public ArrayList getCustomerList(int length) {
         String sql = "select * from customer";
         return this.getCustomerListSQL(sql, length);
