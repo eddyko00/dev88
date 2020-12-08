@@ -2036,9 +2036,9 @@ public class IndexController {
             @PathVariable("username") String username,
             @PathVariable("customername") String customername,
             @PathVariable("custid") String custidSt,
-            @RequestParam(value = "status", required = true) String statusSt,
-            @RequestParam(value = "payment", required = true) String paymentSt,
-            @RequestParam(value = "balance", required = true) String balanceSt
+            @RequestParam(value = "status", required = false) String statusSt,
+            @RequestParam(value = "payment", required = false) String paymentSt,
+            @RequestParam(value = "balance", required = false) String balanceSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         if (customername == null) {

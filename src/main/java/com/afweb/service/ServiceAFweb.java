@@ -3931,17 +3931,24 @@ public class ServiceAFweb {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-
-            int status = Integer.parseInt(statusSt);
+            int status = -9999;
+            if (statusSt != null) {
+                if (!statusSt.equals("")) {
+                    status = Integer.parseInt(statusSt);
+                }
+            }
             float payment = -9999;
-            if (!paymenttSt.equals("")) {
-                payment = Float.parseFloat(paymenttSt);
+            if (paymenttSt != null) {
+                if (!paymenttSt.equals("")) {
+                    payment = Float.parseFloat(paymenttSt);
+                }
             }
             float balance = -9999;
-            if (!balanceSt.equals("")) {
-                balance = Float.parseFloat(balanceSt);
+            if (balanceSt != null) {
+                if (!balanceSt.equals("")) {
+                    balance = Float.parseFloat(balanceSt);
+                }
             }
-
             return getAccountImp().updateCustAllStatus(UserName, status, payment, balance);
 
         } catch (Exception e) {
