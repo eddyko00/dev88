@@ -92,8 +92,10 @@ public class AccountDB {
     }
 
     public ArrayList getCustomerNList(int length) {
-        String sql = "select name as name from customer order by id asc";
+        String sql = "select username as username from customer order by id asc";
+        sql = ServiceAFweb.getSQLLengh(sql, length);
         return getAllUserNameSQL(sql);
+
     }
 
     public ArrayList getCustomerNameList(String name) {

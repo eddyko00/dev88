@@ -105,22 +105,7 @@ public class AccountImp {
     }
 
     public ArrayList getCustomerNList(int length) {
-        ArrayList customerNList = new ArrayList();
-
-        ArrayList customerDBList = accountdb.getCustomerNList(0);
-        if (customerDBList != null && customerDBList.size() > 0) {
-            if (length == 0) {
-                // all customer
-                return customerDBList;
-            }
-            if (length > customerDBList.size()) {
-                length = customerDBList.size();
-            }
-            for (int i = 0; i < length; i++) {
-                customerNList.add(customerDBList.get(i));
-            }
-        }
-        return customerNList;
+         return accountdb.getCustomerNList(0);
     }
 
     public ArrayList getCustomerNameList(String name) {
