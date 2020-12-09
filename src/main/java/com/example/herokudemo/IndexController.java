@@ -95,7 +95,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
         //
 
-        arrayString.add("/cust/{username}/uisys/{custid}/custidlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/custNlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
@@ -1547,10 +1547,10 @@ public class IndexController {
         return null;
     }
 
-    ///cust/{username}/uisys/{custid}/custidlist?length={0 for all} - default 20");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custidlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    ///cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custnlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    ArrayList getUICustIDList(
+    ArrayList getUICustNList(
             @PathVariable("username") String username,
             @PathVariable("custid") String custidSt,
             @RequestParam(value = "length", required = false) String lengthSt) {
@@ -1563,7 +1563,7 @@ public class IndexController {
         if (cust != null) {
             if (custidSt.equals(cust.getId())) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    ArrayList custNameList = afWebService.getCustomerIdList(length);
+                    ArrayList custNameList = afWebService.getCustomerNList(length);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return custNameList;
                 }

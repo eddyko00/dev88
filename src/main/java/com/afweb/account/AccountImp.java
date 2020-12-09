@@ -104,10 +104,10 @@ public class AccountImp {
         return accountdb.getAllSQLqueryDBSQL(sql);
     }
 
-    public ArrayList getCustomerIdList(int length) {
-        ArrayList customerList = new ArrayList();
+    public ArrayList getCustomerNList(int length) {
+        ArrayList customerNList = new ArrayList();
 
-        ArrayList customerDBList = accountdb.getCustomerIdList(0);
+        ArrayList customerDBList = accountdb.getCustomerNList(0);
         if (customerDBList != null && customerDBList.size() > 0) {
             if (length == 0) {
                 // all customer
@@ -117,11 +117,10 @@ public class AccountImp {
                 length = customerDBList.size();
             }
             for (int i = 0; i < length; i++) {
-                CustomerObj cust = (CustomerObj) customerDBList.get(i);
-                customerList.add(cust);
+                customerNList.add(customerDBList.get(i));
             }
         }
-        return customerList;
+        return customerNList;
     }
 
     public ArrayList getCustomerNameList(String name) {

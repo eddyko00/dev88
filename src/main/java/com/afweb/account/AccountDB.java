@@ -91,9 +91,9 @@ public class AccountDB {
         return null;
     }
 
-    public ArrayList getCustomerIdList(int length) {
-        String sql = "select id as id from customer order by updatedatel asc";
-        return getAllIdSQL(sql);
+    public ArrayList getCustomerNList(int length) {
+        String sql = "select name as name from customer order by id asc";
+        return getAllUserNameSQL(sql);
     }
 
     public ArrayList getCustomerNameList(String name) {

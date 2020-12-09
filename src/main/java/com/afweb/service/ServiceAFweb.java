@@ -1454,17 +1454,13 @@ public class ServiceAFweb {
         return result;
     }
 
-    public ArrayList getCustomerIdList(int length) {
+    public ArrayList getCustomerNList(int length) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            result = getServiceAFwebREST().getCustomerList(length);
-        } else {
-            result = getAccountImp().getCustomerIdList(length);
-        }
-
+ 
+        result = getAccountImp().getCustomerNList(length);
         return result;
     }
 
