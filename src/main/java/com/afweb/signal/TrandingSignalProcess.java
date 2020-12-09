@@ -2050,7 +2050,7 @@ public class TrandingSignalProcess {
                     inputDatalist = NNProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
                 }
                 if (inputDatalist != null) {
-                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
+//                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
 
                     for (int i = 0; i < inputDatalist.size(); i++) {
                         NNInputDataObj inputDObj = inputDatalist.get(i);
@@ -2094,7 +2094,7 @@ public class TrandingSignalProcess {
                     inputDatalist = NNProcessBySignal.NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
                 }
                 if (inputDatalist != null) {
-                    logger.info("> NeuralNetAllStock " + BPnameSym + " " + inputDatalist.size());
+//                    logger.info("> NeuralNetAllStock " + BPnameSym + " " + inputDatalist.size());
 
                     for (int i = 0; i < inputDatalist.size(); i++) {
                         NNInputDataObj inputDObj = inputDatalist.get(i);

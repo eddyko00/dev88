@@ -958,7 +958,7 @@ public class NNProcessByTrend {
                     status = "" + nnObj1.getStatus();
                 }
 
-                logger.info("> inputStockNeuralNetData " + BPnameSym + " Status=" + status);
+//                logger.info("> inputStockNeuralNetData " + BPnameSym + " Status=" + status);
                 NNBPservice nnTemp = new NNBPservice();
 
                 String middlelayer = "";
@@ -984,7 +984,7 @@ public class NNProcessByTrend {
                     inputL = NeuralNetGetNN3InputfromStaticCode(symbol, null);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
-                            logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
+//                            logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
                             for (int k = 0; k < inputL.size(); k++) {
                                 NNInputDataObj inputLObj = inputL.get(k);
                                 for (int m = 0; m < inputlistSym.size(); m++) {
@@ -1011,7 +1011,7 @@ public class NNProcessByTrend {
                     inputL = NeuralNetAllStockGetNN3InputfromStaticCode(symbol, null);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
-                            logger.info("> inputStockNeuralNetAllData " + BPnameSym + " " + symbol + " " + inputL.size());
+//                            logger.info("> inputStockNeuralNetAllData " + BPnameSym + " " + symbol + " " + inputL.size());
                             for (int k = 0; k < inputL.size(); k++) {
                                 NNInputDataObj inputLObj = inputL.get(k);
                                 for (int m = 0; m < inputlistSym.size(); m++) {
