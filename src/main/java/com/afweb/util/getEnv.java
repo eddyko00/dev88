@@ -36,9 +36,9 @@ public class getEnv {
     }
 
     public static boolean checkWinOS() {
-        if (CKey.LocalPCflag == false) {
-            return false;
-        }
+//        if (CKey.LocalPCflag == false) {
+//            return false;
+//        }
         String OS = System.getProperty("os.name").toLowerCase();
         if (OS.indexOf("windows 9") > -1) {
             return true;

@@ -15,7 +15,7 @@ public class CKey {
     public static final String MASTER_SRV = "MasterDBSRV";
     public static final String WEB_SRV = "WebSRV";
     //local pc
-    public static final boolean LocalPCflag = true; // true;
+//    public static final boolean LocalPCflag = true; // true;
 
     //////////////////////
     public static final int REMOTE_MS_SQL = 3;////// do not use // http://eddyko00.freeasphost.net asp on freeasphost ma sql   

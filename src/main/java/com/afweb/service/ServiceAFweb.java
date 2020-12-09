@@ -309,7 +309,7 @@ public class ServiceAFweb {
 
                 serverLockName = ServiceAFweb.getServerObj().getServerName();
 
-                getServerObj().setLocalDBservice(CKey.LocalPCflag);
+                getServerObj().setLocalDBservice(true);
 
                 if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
                     if (CKey.OTHER_DB1 == true) {
@@ -346,30 +346,29 @@ public class ServiceAFweb {
                 if (CKey.UI_ONLY == false) {
                     String sysPortfolio = "";
                     // make sure not request during DB initialize
-                    if (getServerObj().isLocalDBservice() == true) {
-                        getServerObj().setSysMaintenance(true);
-                        logger.info(">>>>>>> InitDBData started.........");
-                        // 0 - new db, 1 - db already exist, -1 db error
-                        int ret = InitDBData();  // init DB Adding customer account
+
+                    getServerObj().setSysMaintenance(true);
+                    logger.info(">>>>>>> InitDBData started.........");
+                    // 0 - new db, 1 - db already exist, -1 db error
+                    int ret = InitDBData();  // init DB Adding customer account
 //                        sysPortfolio = CKey.FUND_PORTFOLIO;
-                        if (ret != -1) {
+                    if (ret != -1) {
 
-                            InitSystemData();   // Add Stock 
-                            InitSystemFund(sysPortfolio);
-                            initProcessTimer = false;
-                            delayProcessTimer = 0;
+                        InitSystemData();   // Add Stock 
+                        InitSystemFund(sysPortfolio);
+                        initProcessTimer = false;
+                        delayProcessTimer = 0;
 
-                            getServerObj().setSysMaintenance(false);
-                            serverObj.setTimerInit(true);
-                            logger.info(">>>>>>> InitDBData Competed.....");
-                        } else {
-                            serverObj.setTimerInit(false);
-                            serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
-                            logger.info(">>>>>>> InitDBData Failed.....");
-                            return getServerObj().getTimerCnt();
-                        }
-
+                        getServerObj().setSysMaintenance(false);
+                        serverObj.setTimerInit(true);
+                        logger.info(">>>>>>> InitDBData Competed.....");
+                    } else {
+                        serverObj.setTimerInit(false);
+                        serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
+                        logger.info(">>>>>>> InitDBData Failed.....");
+                        return getServerObj().getTimerCnt();
                     }
+
                     serverObj.setTimerInit(true);
                     setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName());
 
@@ -402,51 +401,49 @@ public class ServiceAFweb {
     }
 
     private void backupSystem() {
-        if (CKey.LocalPCflag == true) {
-            getServerObj().setSysMaintenance(true);
-            serverObj.setTimerInit(true);
-            if (CKey.NN_DEBUG == true) {
-                // LocalPCflag = true; 
-                // SQL_DATABASE = REMOTE_MYSQL;
-                if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-                    if ((CKey.OTHER_DB1 == true)) {
-                        logger.info(">>>>> SystemDownloadDBData form Other DB");
-                    } else {
-                        logger.info(">>>>> SystemDownloadDBData form Heroku");
-                    }
-                } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                    logger.info(">>>>> SystemDownloadDBData form local My SQL");
-                }
 
-                SystemDownloadDBData();
-                getServerObj().setSysMaintenance(true);
-                logger.info(">>>>> SystemDownloadDBData done");
+        getServerObj().setSysMaintenance(true);
+        serverObj.setTimerInit(true);
+        if (CKey.NN_DEBUG == true) {
+            // LocalPCflag = true; 
+            // SQL_DATABASE = REMOTE_MYSQL;
+            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+                if ((CKey.OTHER_DB1 == true)) {
+                    logger.info(">>>>> SystemDownloadDBData form Other DB");
+                } else {
+                    logger.info(">>>>> SystemDownloadDBData form Heroku");
+                }
+            } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+                logger.info(">>>>> SystemDownloadDBData form local My SQL");
             }
+
+            SystemDownloadDBData();
+            getServerObj().setSysMaintenance(true);
+            logger.info(">>>>> SystemDownloadDBData done");
         }
+
     }
 
     private void restoreNNonlySystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
         if (CKey.NN_DEBUG == true) {
-            if (CKey.LocalPCflag == true) {
-                if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-                    if ((CKey.OTHER_DB1 == true)) {
-                        logger.info(">>>>> SystemRestoreDBData to Other DB");
-                    } else {
-                        logger.info(">>>>> SystemRestoreDBData to Heroku");
-                    }
-                } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                    logger.info(">>>>> SystemRestoreDBData form to My SQL");
+            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+                if ((CKey.OTHER_DB1 == true)) {
+                    logger.info(">>>>> SystemRestoreDBData to Other DB");
+                } else {
+                    logger.info(">>>>> SystemRestoreDBData to Heroku");
                 }
-                String retSt = SystemCleanNNonlyDBData();
-                if (retSt.equals("true")) {
-                    SystemRestoreNNonlyDBData();
-                    getServerObj().setSysMaintenance(true);
-                    logger.info(">>>>> SystemRestoreDBData done");
-                }
-
+            } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+                logger.info(">>>>> SystemRestoreDBData form to My SQL");
             }
+            String retSt = SystemCleanNNonlyDBData();
+            if (retSt.equals("true")) {
+                SystemRestoreNNonlyDBData();
+                getServerObj().setSysMaintenance(true);
+                logger.info(">>>>> SystemRestoreDBData done");
+            }
+
         }
     }
 
@@ -454,23 +451,20 @@ public class ServiceAFweb {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
         if (CKey.NN_DEBUG == true) {
-            if (CKey.LocalPCflag == true) {
-                if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-                    if ((CKey.OTHER_DB1 == true)) {
-                        logger.info(">>>>> SystemRestoreDBData to Other DB");
-                    } else {
-                        logger.info(">>>>> SystemRestoreDBData to Heroku");
-                    }
-                } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                    logger.info(">>>>> SystemRestoreDBData form to My SQL");
+            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+                if ((CKey.OTHER_DB1 == true)) {
+                    logger.info(">>>>> SystemRestoreDBData to Other DB");
+                } else {
+                    logger.info(">>>>> SystemRestoreDBData to Heroku");
                 }
-                String retSt = SystemCleanDBData();
-                if (retSt.equals("true")) {
-                    SystemRestoreDBData();
-                    getServerObj().setSysMaintenance(true);
-                    logger.info(">>>>> SystemRestoreDBData done");
-                }
-
+            } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+                logger.info(">>>>> SystemRestoreDBData form to My SQL");
+            }
+            String retSt = SystemCleanDBData();
+            if (retSt.equals("true")) {
+                SystemRestoreDBData();
+                getServerObj().setSysMaintenance(true);
+                logger.info(">>>>> SystemRestoreDBData done");
             }
         }
     }
@@ -1267,9 +1261,6 @@ public class ServiceAFweb {
         if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
             ret = false;
         }
-//        if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-//            ret = false;
-//        }
         return ret;
     }
 
@@ -1278,10 +1269,6 @@ public class ServiceAFweb {
     public int removeCustomer(String customername) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
-        }
-
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().removeCustomer(customername);
         }
         CustomerObj custObj = getAccountImp().getCustomerStatus(customername, null);
 
@@ -1322,9 +1309,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return loginObj;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().addCustomerPassword(EmailUserName, Password, FirstName, LastName);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         boolean validEmail = NameObj.isEmailValid(EmailUserName);
@@ -1358,9 +1343,7 @@ public class ServiceAFweb {
     }
 
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getCustomerPassword(EmailUserName, Password);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         return getAccountImp().getCustomerPassword(UserName, Password);
@@ -1370,9 +1353,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getCustomerPassword(EmailUserName, Password);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         return getAccountImp().getCustomerPassword(UserName, Password);
@@ -1383,13 +1364,11 @@ public class ServiceAFweb {
             return null;
         }
         CustomerObj custObj = null;
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getCustomerEmailLogin(EmailUserName, Password);
-        } else {
-            NameObj nameObj = new NameObj(EmailUserName);
-            String UserName = nameObj.getNormalizeName();
-            custObj = getAccountImp().getCustomerPassword(UserName, Password);
-        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        custObj = getAccountImp().getCustomerPassword(UserName, Password);
+
         LoginObj loginObj = new LoginObj();
         loginObj.setCustObj(custObj);
         WebStatus webStatus = new WebStatus();
@@ -1406,13 +1385,11 @@ public class ServiceAFweb {
             return null;
         }
         CustomerObj custObj = null;
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getCustomerLogin(EmailUserName, Password);
-        } else {
-            NameObj nameObj = new NameObj(EmailUserName);
-            String UserName = nameObj.getNormalizeName();
-            custObj = getAccountImp().getCustomerPassword(UserName, Password);
-        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        custObj = getAccountImp().getCustomerPassword(UserName, Password);
+
         LoginObj loginObj = new LoginObj();
         loginObj.setCustObj(custObj);
         WebStatus webStatus = new WebStatus();
@@ -1431,12 +1408,8 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
+        result = this.getStockImp().getAllDisableStockNameList(length);
 
-            result = getServiceAFwebREST().getAllDisableStockNameList(length);
-        } else {
-            result = this.getStockImp().getAllDisableStockNameList(length);
-        }
         return result;
     }
 
@@ -1446,11 +1419,8 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            result = getServiceAFwebREST().getExpiredCustomerList(length);
-        } else {
-            result = getAccountImp().getExpiredCustomerList(length);
-        }
+
+        result = getAccountImp().getExpiredCustomerList(length);
         return result;
     }
 
@@ -1459,7 +1429,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
- 
+
         result = getAccountImp().getCustomerNList(length);
         return result;
     }
@@ -1478,11 +1448,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            result = getServiceAFwebREST().getCustomerList(length);
-        } else {
-            result = getAccountImp().getCustomerList(length);
-        }
+        result = getAccountImp().getCustomerList(length);
 
         return result;
     }
@@ -1491,9 +1457,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getAccountList(EmailUserName, Password);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
 
@@ -2101,9 +2065,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -2119,9 +2081,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getBillingByCustomerAccountID(EmailUserName, Password, AccountIDSt, length);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -2138,9 +2098,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getCommByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -2156,9 +2114,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().addCommByCustomerAccountID(EmailUserName, Password, AccountIDSt, data);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -2173,9 +2129,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().removeAccountCommByID(EmailUserName, Password, AccountIDSt, IDSt);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -2191,9 +2145,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().removeCommByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        }
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -2208,9 +2160,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getStock_AccountStockList_StockByAccountID(EmailUserName, Password, AccountIDSt, lenght);
-        }
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         if (accountObj != null) {
 
@@ -2263,9 +2213,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getStock_AccountStockList_ByStockID(EmailUserName, Password, AccountIDSt, stockidsymbol);
-        }
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
 
         int stockID = 0;
@@ -2295,9 +2243,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().setAccountStockTran(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, signal);
-        }
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         int stockID = 0;
@@ -2326,9 +2272,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getAccountStockClrTranByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trName);
-        }
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -2352,9 +2296,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getAccountStockTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
-        }
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -2387,9 +2329,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getAccountStockPerfList(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
-        }
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -2423,9 +2363,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().setAccountStockTRoption(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, TROptType);
-        }
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -2648,9 +2586,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getAccountStockListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol);
-        }
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         int stockID = 0;
@@ -2676,9 +2612,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getAccountStockByTRname(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
-        }
+
         trname = trname.toUpperCase();
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
@@ -3341,9 +3275,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
-        }
+
         ArrayList<TradingRuleObj> trObjList = getAccountStockListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol);
         trname = trname.toUpperCase();
         if (trObjList != null) {
@@ -3362,9 +3294,6 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().updateAccountStockSignal(stockTRObj);
-        }
 
         return getAccountImp().updateAccountStockSignal(stockTRObj.getTrlist());
 
@@ -3373,9 +3302,6 @@ public class ServiceAFweb {
     public int addAccountStock(String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
-        }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().addAccountStock(EmailUserName, Password, AccountIDSt, symbol);
         }
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
@@ -3435,9 +3361,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().removeAccountStock(EmailUserName, Password, AccountIDSt, symbol);
-        }
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
@@ -3496,9 +3420,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().addStock(symbol);
-        }
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         int result = getStockImp().addStock(NormalizeSymbol);
@@ -3524,9 +3446,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().DeleteStockInfo(symbol);
-        }
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getRealTimeStockImp(NormalizeSymbol);
@@ -3540,9 +3460,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().disableStock(symbol);
-        }
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         return getStockImp().disableStock(NormalizeSymbol);
@@ -3552,9 +3470,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getRealTimeStockImp(symbol);
-        }
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
@@ -3719,9 +3635,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getStockNameArray();
-        }
+
         ArrayList stockNameList = getStockImp().getOpenStockNameArray();
         return stockNameList;
     }
@@ -3730,9 +3644,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getStockArray(length);
-        }
+
         ArrayList stockList = getStockImp().getStockArray(length);
         return stockList;
     }
@@ -3742,12 +3654,7 @@ public class ServiceAFweb {
 
         ArrayList result = null;
 
-        if (checkCallRemoteMysql() == true) {
-            result = getServiceAFwebREST().getAllLock();
-        } else {
-            result = getStockImp().getAllLock();
-        }
-
+        result = getStockImp().getAllLock();
         return result;
     }
 
@@ -3756,9 +3663,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().setRenewLock(symbol_acc, type);
-        }
+
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
@@ -3788,9 +3693,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getLockName(symbol_acc, type);
-        }
+
         String name = symbol_acc;
         name = name.toUpperCase();
         if (type == ConstantKey.STOCK_LOCKTYPE) {
@@ -3806,9 +3709,6 @@ public class ServiceAFweb {
             return 0;
         }
 
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().setLockName(symbol_acc, type, lockdatel, comment);
-        }
         String name = symbol_acc;
         name = name.toUpperCase();
         if (type == ConstantKey.STOCK_LOCKTYPE) {
@@ -3822,9 +3722,6 @@ public class ServiceAFweb {
     public int removeNameLock(String symbol_acc, int type) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
-        }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().removeNameLock(symbol_acc, type);
         }
 
         String name = symbol_acc;
@@ -3844,10 +3741,6 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().releaseNeuralNetObj(name);
-        }
-
 //        return getStockImp().releaseNeuralNetObj(name);
         return getStockImp().releaseNeuralNetBPObj(name);
     }
@@ -3856,10 +3749,6 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getNeuralNetObjWeight0(name, type);
-        }
-
         return getStockImp().getNeuralNetObjWeight0(name);
     }
 
@@ -3867,10 +3756,6 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().getNeuralNetObjWeight1(name, type);
-        }
-
         return getStockImp().getNeuralNetObjWeight1(name);
     }
 
@@ -3878,10 +3763,6 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().setNeuralNetObjWeight0(nn);
-        }
-
         // assume only 1 of the weight is set and the other are empty
         // assume only 1 of the weight is set and the other are empty
         return getStockImp().setCreateNeuralNetObj0(nn.getName(), nn.getWeight());
@@ -3890,9 +3771,6 @@ public class ServiceAFweb {
     public int setNeuralNetObjWeight1(AFneuralNet nn) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
-        }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().setNeuralNetObjWeight1(nn);
         }
 
         // assume only 1 of the weight is set and the other are empty
@@ -3907,10 +3785,6 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().updateStockInfoTransaction(stockInfoTran);
-        }
-
         return getStockImp().updateStockInfoTransaction(stockInfoTran);
     }
 
@@ -3919,9 +3793,6 @@ public class ServiceAFweb {
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
-        }
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().updateCustAllStatus(customername, statusSt, paymenttSt, balanceSt);
         }
         customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
@@ -3957,10 +3828,10 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-
-        if (checkCallRemoteMysql() == true) {
-            return getServiceAFwebREST().updateCustStatusSubStatus(customername, statusSt, substatusSt);
-        }
+//
+//        if (checkCallRemoteMysql() == true) {
+//            return getServiceAFwebREST().updateCustStatusSubStatus(customername, statusSt, substatusSt);
+//        }
 
         int status;
         int substatus;
@@ -4083,12 +3954,11 @@ public class ServiceAFweb {
     public static final int NeuralNetDataObjStockid = 121; //"120";   
 
     public RequestObj SystemSQLRequest(RequestObj sqlObj) {
-
+        
         boolean RemoteCallflag = ServiceAFweb.getServerObj().isLocalDBservice();
         if (RemoteCallflag == false) {
             return getServiceAFwebREST().getSQLRequest(sqlObj);
         }
-
         String st = "";
         String nameST = "";
         int ret;
@@ -4552,47 +4422,39 @@ public class ServiceAFweb {
 
     public String SystemCleanNNonlyDBData() {
         boolean retSatus = false;
-        if (getServerObj().isLocalDBservice() == true) {
-            serverObj.setSysMaintenance(true);
-            retSatus = getStockImp().cleanNNonlyStockDB();
-        }
+        serverObj.setSysMaintenance(true);
+        retSatus = getStockImp().cleanNNonlyStockDB();
         return "" + retSatus;
     }
 
     public String SystemCleanDBData() {
         boolean retSatus = false;
-        if (getServerObj().isLocalDBservice() == true) {
-            serverObj.setSysMaintenance(true);
-            retSatus = getStockImp().cleanStockDB();
-        }
+
+        serverObj.setSysMaintenance(true);
+        retSatus = getStockImp().cleanStockDB();
         return "" + retSatus;
     }
 
     public String SystemClearLock() {
         int retSatus = 0;
-        if (getServerObj().isLocalDBservice() == true) {
-            retSatus = getStockImp().deleteAllLock();
-        }
+        retSatus = getStockImp().deleteAllLock();
         return "" + retSatus;
     }
 
     public String SystemRestDBData() {
         boolean retSatus = false;
-        if (getServerObj().isLocalDBservice() == true) {
-            // make sure the system is stopped first
-            retSatus = getStockImp().restStockDB();
-        }
+        // make sure the system is stopped first
+        retSatus = getStockImp().restStockDB();
         return "" + retSatus;
     }
 
     public String SystemClearNNinput() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-        if (getServerObj().isLocalDBservice() == true) {
-            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN1);
+
+        retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN1);
 //            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
 
-        }
         return "" + retSatus;
     }
 
@@ -4606,9 +4468,8 @@ public class ServiceAFweb {
     public String SystemClearNNtranAllAcc() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-        if (getServerObj().isLocalDBservice() == true) {
-            retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
-        }
+
+        retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
         return "" + retSatus;
     }
 //    
@@ -4616,28 +4477,28 @@ public class ServiceAFweb {
     public String SystemClearNNtran(String sym) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-        if (getServerObj().isLocalDBservice() == true) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
-        }
+
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
+
         return "" + retSatus;
     }
 
     public String SystemClearNNtran() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-        if (getServerObj().isLocalDBservice() == true) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
-        }
+
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
+
         return "" + retSatus;
     }
 
