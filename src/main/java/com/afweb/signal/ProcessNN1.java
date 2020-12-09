@@ -46,7 +46,7 @@ public class ProcessNN1 {
         //trainingNN1dataMACD will return oldest first to new date
         //trainingNN1dataMACD will return oldest first to new date
         ProcessNN1 nn1 = new ProcessNN1();
-        inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
             // it is okay for input relearning
@@ -142,7 +142,7 @@ public class ProcessNN1 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> trainingNN1dataMACD1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+    public ArrayList<NNInputDataObj> trainingNN1dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");

@@ -329,7 +329,7 @@ public class TradingNNprocess {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
+            inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
         } else if (tr == ConstantKey.INT_TR_NN2) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              

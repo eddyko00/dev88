@@ -2975,7 +2975,7 @@ public class ServiceAFweb {
                                     //trainingNN1dataMACD will return oldest first to new date
                                     //trainingNN1dataMACD will return oldest first to new date            
                                     ProcessNN1 nn1 = new ProcessNN1();
-                                    inputDataObj = nn1.trainingNN1dataMACD1(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
+                                    inputDataObj = nn1.trainingNN1dataMACD(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
                                 } else if (TR_Name == ConstantKey.INT_TR_NN2) {
 
                                     ProcessNN2 nn2 = new ProcessNN2();

@@ -527,7 +527,7 @@ public class NNProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN2;
             ProcessNN2 nn2 = new ProcessNN2();
