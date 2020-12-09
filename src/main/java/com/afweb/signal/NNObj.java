@@ -12,6 +12,20 @@ package com.afweb.signal;
 public class NNObj {
 
     /**
+     * @return the confident
+     */
+    public String getConfident() {
+        return confident;
+    }
+
+    /**
+     * @param confident the confident to set
+     */
+    public void setConfident(String confident) {
+        this.confident = confident;
+    }
+
+    /**
      * @return the output1
      */
     public float getOutput1() {
@@ -46,6 +60,7 @@ public class NNObj {
     private float prediction;
     private float output1;
     private float output2;    
+    private String confident;
     private String comment="";
 
     /**

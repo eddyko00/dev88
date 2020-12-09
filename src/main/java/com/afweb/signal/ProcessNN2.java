@@ -249,6 +249,7 @@ public class ProcessNN2 {
     public NNObj updateAdminTradingsignalnn2(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
             TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
+        String confident = "";
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 //                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
@@ -266,6 +267,7 @@ public class ProcessNN2 {
                     nnRet.setTrsignal(macdSignal);
                     return nnRet;
                 }
+                confident = "30% on ";
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
                 if (nn != null) {
                     float output1 = nn.getOutput1();
@@ -275,6 +277,7 @@ public class ProcessNN2 {
                         float predictionV = nn.getPrediction();
                         if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
                             nnSignal = macdSignal;
+                            confident = "60% on ";
                         }
                     } else {
                         // get the last transaction price
@@ -311,13 +314,18 @@ public class ProcessNN2 {
                     int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
                     //override the previous NN1 prediction
 
-                    if (nnSignal != trendSignal) {
-                        if (CKey.NN_DEBUG == true) {
-//                            logger.info("> updateAdminTR nn2 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
-                        }
+                    if (nnSignal == trendSignal) {
+                        confident = "90% on ";
                     }
                     nnSignal = trendSignal;
                 }
+                if (nnSignal == ConstantKey.S_BUY) {
+                    confident += ConstantKey.S_BUY_ST;
+                }
+                if (nnSignal == ConstantKey.S_SELL) {
+                    confident += ConstantKey.S_SELL_ST;
+                }
+                nnRet.setConfident(confident);
                 nnRet.setTrsignal(nnSignal);
                 return nnRet;
 //                trObj.setTrsignal(nnSignal);
