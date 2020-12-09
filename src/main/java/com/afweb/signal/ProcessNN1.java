@@ -281,7 +281,7 @@ public class ProcessNN1 {
     public NNObj updateAdminTradingsignalnn1(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
             TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
-        String confident = "";
+        int confident = 0;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 //                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
@@ -299,7 +299,7 @@ public class ProcessNN1 {
                     nnRet.setTrsignal(macdSignal);
                     return nnRet;
                 }
-                confident = "30% on ";
+                confident = 30;
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
 
                 if (nn != null) {
@@ -310,7 +310,7 @@ public class ProcessNN1 {
                         float predictionV = nn.getPrediction();
                         if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
                             nnSignal = macdSignal;
-                            confident = "60% on ";
+                            confident = 60;
                         }
                     } else {
                         // get the last transaction price
@@ -329,12 +329,14 @@ public class ProcessNN1 {
                                 if (delta > 0) {
 //                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     nnSignal = macdSignal;
+                                    confident = 50;
                                 } else {
 
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = macdSignal;
+                                        confident = 50;
                                     }
                                 }
 
@@ -348,19 +350,19 @@ public class ProcessNN1 {
                     //override the previous NN1 prediction
 
                     if (nnSignal == trendSignal) {
-                        confident = "90% on ";
+                        confident = 90;
                     }
                     nnSignal = trendSignal;
                 }
-                
-                if (nnSignal == ConstantKey.S_BUY) {
-                    confident += ConstantKey.S_BUY_ST;
+
+                if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
+                    String confidentSt = "NN confident " + confident + "% on " + ConstantKey.S_SELL_ST;
+                    if (prevSignal == ConstantKey.S_SELL) {
+                        confidentSt = "NN confident " + confident + "% on " + ConstantKey.S_BUY_ST;
+                    }
+                    nnRet.setConfident(confidentSt);
                 }
-                if (nnSignal == ConstantKey.S_SELL) {
-                    confident += ConstantKey.S_SELL_ST;
-                }
-                nnRet.setConfident(confident);
-               
+
                 nnRet.setTrsignal(nnSignal);
                 return nnRet;
             }

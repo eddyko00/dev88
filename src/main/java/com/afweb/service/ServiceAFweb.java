@@ -826,7 +826,7 @@ public class ServiceAFweb {
             symbol = "TMO";
             String nnName = ConstantKey.TR_NN1;
             int TR_NN = ConstantKey.INT_TR_NN1;
-
+                     
 //            AccountObj accountAdminObj = this.getAdminObjFromCache();
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
