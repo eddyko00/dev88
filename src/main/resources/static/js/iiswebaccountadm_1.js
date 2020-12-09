@@ -46,17 +46,17 @@ var app = {
 
             success: function (resultCommObjList) {
                 console.log(resultCommObjList);
+                var CustNListStr = "";
+                var commObjListStr = "";
+                
                 if (resultCommObjList !== "") {
-                    var commObjListStr = JSON.stringify(resultCommObjList, null, '\t');
-                    var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr};
-                    window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                    window.location.href = "accountadm.html";
-                } else {
-                    var commObjListStr = "";
-                    var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr};
-                    window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                    window.location.href = "accountadm.html";
+                    commObjListStr = JSON.stringify(resultCommObjList, null, '\t');
                 }
+                
+                var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                    'CustNListStr': CustNListStr};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountadm.html";
             }
         });
     }

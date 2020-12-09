@@ -1,0 +1,80 @@
+
+var app = {
+
+// Application Constructor
+    initialize: function () {
+
+        $(document).ready(function () {
+
+        });
+
+//        var iisurl = "https://iiswebsrv.herokuapp.com/";
+        var iisWebSession = "iisWebSession";
+//        var custObj = 'custObj';
+//        var accList = 'accList';
+
+        var iisWebObjStr = window.localStorage.getItem(iisWebSession);
+        var iisWebObj = JSON.parse(iisWebObjStr);
+        console.log(iisWebObj);
+
+        var custObjStr = iisWebObj.custObjStr;
+        if (custObjStr == null) {
+            window.location.href = "index.html";
+        }
+        var custObj = JSON.parse(custObjStr);
+
+        var accObjListStr = iisWebObj.accObjListStr;
+        var accObjList = JSON.parse(accObjListStr);
+        var accObj = null;
+        for (i = 0; i < accObjList.length; i++) {
+            var accObjTmp = accObjList[i];
+            if (accObjTmp.type == 140) { //INT_ADMIN_ACCOUNT = 140;
+                accObj = accObjTmp;
+                break;
+            }
+        }
+        if (accObj == null) {
+            window.location.href = "index.html";
+        }
+        var cuObjStr = iisWebObj.cuObjStr;
+        var cuObj = JSON.parse(cuObjStr);
+        if (cuObj == null) {
+            window.location.href = "index.html";
+        }
+        if (cuObj.cmd === 'name') {
+            var username = cuObj.username;
+            //cust/{username}/uisys/{custid}/custlist?name=");
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/custlist?name=" + username,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {
+                    $("#loader").show();
+                },
+
+                success: function (resultCuObjList) {
+                    console.log(resultCuObjList);
+                    if (resultCuObjList != null) {
+                        if (resultCuObjList.length == 0) {
+                            var cuObjListStr = JSON.stringify(resultCuObjList, null, '\t');
+                            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'cuObjStr': cuObjStr};
+                            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                            window.location.href = "accountadm_1.html";
+                            return;
+                        }
+                        var cuObjListStr = JSON.stringify(resultCuObjList, null, '\t');
+                        var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'cuObjStr': cuObjStr, 'cuObjListStr': cuObjListStr};
+                        window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                        window.location.href = "accountadmcu.html";
+                    }
+                }
+            });
+        }
+    }
+};
+app.initialize();
+
+
+
+
+

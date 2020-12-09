@@ -66,14 +66,6 @@ var app = {
             }
         }
 
-
-//        $("#adminid").html(htmlAdmin);
-//        if (custObj.type == 99) {
-//            var htmlAdmin = '<br><br><button id="sysbtn" >System Status</button>';
-//            htmlAdmin += '<button id="admsgbtn"  >Admin Msg</button>';
-//            $("#adminid").append(htmlAdmin);
-//        }
-
         $("#accheader").html("Admin Control");
 
         $("#myid").html(" "); //clear the field
@@ -146,70 +138,46 @@ var app = {
             }
         });
 
-        $("#accpaymentsubmit").click(function () {
-            var accpayment = document.getElementById("accpayment").value;
-            if (accpayment === "") {
+        $("#custnamesubmit").click(function () {
+            var username = document.getElementById("custname").value;
+            if (username === "") {
                 window.location.href = "accountadm.html";
                 return;
             }
-            var parts = accpayment.split(',');
-            if (parts.length !== 5) {
-                window.location.href = "accountadm.html";
-                return;
-            }
-            
-            var customername = parts[0];
-            var status = parts[1];
-            var payment = parts[2];
-            var balance = parts[3];
+            var cuObj = {'cmd': 'name', 'username': username,
+                'firstid': '0', 'lastid': '0'};
+            var cuObjStr = JSON.stringify(cuObj);
 
-            //"/cust/{username}/sys/cust/{customername}/update?status=&payment=&balance="
+            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr,
+                'cuObjStr': cuObjStr};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+            window.location.href = "accountadmcu_1.html";
+
+        });
+
+        $("#nextCust").click(function () {
+
+            // cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
             $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/sys/cust/" + customername
-                        + "/update?status=" + status + "&payment=" + payment + "&balance=" + balance,
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/custnlist?length=0",
                 crossDomain: true,
                 cache: false,
                 success: handleResult
             }); // use promises
 
             // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
-            function handleResult(result) {
-                console.log(result);
-                alert("Account Payment update result: " + result);                
-                window.location.href = "accountadm_1.html";
+            function handleResult(resultCustNList) {
+                console.log(resultCustNList);
+                var CustNListStr = JSON.stringify(resultCustNList, null, '\t');
+                var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                    'CustNListStr': CustNListStr};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountadm.html";
             }
+
         });
 
-
-
-
-
-        $("#admclrbtn").click(function () {
-
-            var accObjList = JSON.parse(accObjListStr);
-
-            var accObj = null;
-            for (i = 0; i < accObjList.length; i++) {
-                var accObjTmp = accObjList[i];
-                if (accObjTmp.type == 140) { //INT_ADMIN_ACCOUNT = 140;
-                    accObj = accObjTmp;
-                    break;
-                }
-            }
-            $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/comm/remove",
-                crossDomain: true,
-                cache: false,
-                beforeSend: function () {
-                    $("#loader").show();
-                },
-
-                success: function (result) {
-                    console.log(result);
-                    window.location.href = "account_1.html";
-                }
-            });
-        });
 
 
 // example        

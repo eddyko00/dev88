@@ -27,7 +27,7 @@ var app = {
 
 
         $.ajax({
-            url: iisurl + "cust/" + custObj.username + "/sys/lock",
+            url: iisurl + "cust/" + custObj.username + "/uisys/"+custObj.id+"/lock",
 
             crossDomain: true,
             cache: false,
@@ -55,7 +55,7 @@ var app = {
                             'lockObjListStr': lockObjListStr, 'serverListStr': serverListStr};
                         window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
                         $.ajax({
-                            url: iisurl + "timerhandler?resttimerMsg=starttimer",
+                            url: iisurl + "cust/" + custObj.username + "/uisys/"+custObj.id+"/timer",
 
                             crossDomain: true,
                             cache: false,
