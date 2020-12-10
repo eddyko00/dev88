@@ -328,7 +328,7 @@ public class ServiceAFweb {
                 logger.info(">>>>> System PROXY:" + CKey.PROXY);
                 logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
                 logger.info(">>>>> System UI_ONLY:" + CKey.UI_ONLY);
-                
+
                 boolean backupFlag = false;
                 if (backupFlag == true) {
                     backupSystem();
@@ -830,9 +830,13 @@ public class ServiceAFweb {
         if (flagSig == true) {
 
             String symbol = "HOU.TO";
-            symbol = "TMO";
+            symbol = "AAPL";
             String nnName = ConstantKey.TR_NN1;
             int TR_NN = ConstantKey.INT_TR_NN1;
+
+//            TrandingSignalProcess tsprocess = new TrandingSignalProcess();
+//            int result = tsprocess.updateAllStockProcess(this, symbol);
+//            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
 
 //            AccountObj accountAdminObj = this.getAdminObjFromCache();
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);

@@ -1166,7 +1166,7 @@ public class TrandingSignalProcess {
                         NNObj nn = nn1.updateAdminTradingsignalnn1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            trObj.setComment(nn.getComment());
+                            trObj.setComment(nn.getConfident());
                             UpdateTRList.add(trObj);
                         }
                     }
@@ -1178,7 +1178,7 @@ public class TrandingSignalProcess {
                         NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            trObj.setComment(nn.getComment());                            
+                            trObj.setComment(nn.getConfident());                            
                             UpdateTRList.add(trObj);
                         }
                     }
@@ -1190,7 +1190,7 @@ public class TrandingSignalProcess {
                         NNObj nn = nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            trObj.setComment(nn.getComment());  
+                            trObj.setComment(nn.getConfident());  
                             UpdateTRList.add(trObj);
                         }
 
@@ -1387,7 +1387,7 @@ public class TrandingSignalProcess {
         return updateAllStockProcess(serviceAFWeb, NormalizeSymbol);
     }
 
-    private int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+    public int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
 
 //        logger.warning("> updateAllStock " + NormalizeSymbol);
         AFstockObj stock = null;
