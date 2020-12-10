@@ -38,7 +38,7 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
-        
+
         var iisMsgSession = "iisMsgSession";
         var msgObjStr = window.localStorage.getItem(iisMsgSession);
 //        msgObjStr ="This feature does not allow for GUEST account";
@@ -46,7 +46,7 @@ var app = {
             functionAlertConfirm(msgObjStr, function ok() {
             });
         }
-        
+
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
         var sockId = iisWebObj.sockId;
@@ -178,9 +178,9 @@ var app = {
                 htmlName += 'Pending on delete when the signal is exited. <br>'
             }
             if (trObj.trname === "TR_NN1") {
-                htmlName += 'Auto Trading Signal using AI Model';
+                htmlName += 'Auto AI Model : ' + trObj.comment;
             } else if (trObj.trname === "TR_NN2") {
-                htmlName += 'Auto Trading Signal using AI Model';
+                htmlName += 'Auto AI Model : ' + trObj.comment;
             } else if (trObj.trname === "TR_ACC") {
 
                 var link = trObj.linktradingruleid;
@@ -545,7 +545,7 @@ var app = {
                 msgObjStr = "This feature does not allow for GUEST account";
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountsttr.html";
-                
+
 //                alert("Not supproted feature for GUEST accont");
 //                window.location.href = "accountsttr.html";
 //                return;
@@ -565,7 +565,7 @@ var app = {
 
             window.location.href = "#page_conf";
         });
-       
+
 //    public static final String TR_ACC = "TR_ACC";  // transaction account
 //    public static final int INT_TR_ACC = 0;
 //    public static final String TR_MV = "TR_MV";  // simulation 
@@ -592,7 +592,7 @@ var app = {
 //                window.location.href = "#page_index";
 //                return;
 //            }
-            
+
             //"/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}"
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st/" + sockId + "/tr/TR_ACC/linktr/" + tr,
@@ -612,21 +612,21 @@ var app = {
                 window.location.href = "accountsttr_1.html";
             }
         });
-        
+
 
         function functionConfirm(msg, myYes, myNo, myOk) {
             var confirmBox = $("#confirm");
             confirmBox.find(".message").text(msg);
             confirmBox.find(".yes,.no,.ok").unbind().click(function () {
                 confirmBox.hide();
-                window.localStorage.setItem(iisMsgSession, "");                
+                window.localStorage.setItem(iisMsgSession, "");
             });
             confirmBox.find(".yes").click(myYes);
             confirmBox.find(".no").click(myNo);
             confirmBox.find(".ok").click(myOk);
             confirmBox.show();
         }
-        
+
         function functionAlertConfirm(msg, myYes, myNo, myOk) {
             var confirmBox = $("#alertconfirm");
             confirmBox.find(".message").text(msg);
@@ -639,7 +639,7 @@ var app = {
             confirmBox.find(".ok").click(myOk);
             confirmBox.show();
         }
-        
+
 // example        
 //alert("AJAX request successfully completed");
 //var jsonObj = JSON.parse(jsonStr);

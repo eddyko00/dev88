@@ -127,7 +127,7 @@ var app = {
         $("#btn-login").click(function () {
             var txemail = document.getElementById("txt-email").value;
             var txtpassword = document.getElementById("txt-password").value;
-
+            
             if (txemail === "") {
                 if (txtpassword === "") {
                     txemail = "GUEST";

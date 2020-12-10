@@ -38,6 +38,9 @@ var app = {
             window.location.href = "index.html";
         }
 
+        var CustNListStr = iisWebObj.CustNListStr;
+        var CustNListCnt = iisWebObj.CustNListCnt;
+        
         var cuObjStr = iisWebObj.cuObjStr;
 
         var cuObjListStr = iisWebObj.cuObjListStr;

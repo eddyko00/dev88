@@ -36,6 +36,10 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
+        
+        var CustNListStr = iisWebObj.CustNListStr;
+        var CustNListCnt = iisWebObj.CustNListCnt;
+        
         $.ajax({
             url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/comm",
             crossDomain: true,
@@ -46,7 +50,6 @@ var app = {
 
             success: function (resultCommObjList) {
                 console.log(resultCommObjList);
-                var CustNListStr = "";
                 var commObjListStr = "";
                 
                 if (resultCommObjList !== "") {
@@ -54,7 +57,7 @@ var app = {
                 }
                 
                 var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
-                    'CustNListStr': CustNListStr};
+                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
                 window.location.href = "accountadm.html";
             }

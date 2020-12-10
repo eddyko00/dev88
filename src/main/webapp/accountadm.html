@@ -76,7 +76,7 @@
                                         </div>
                                 </form>
                     </div>  
-                    
+
                     <button id="nextCust"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Next Customer</button>
                     <button id="prevCust"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Prev Customer</button>
 
@@ -92,16 +92,23 @@
                                         </div>
                                 </form>
                     </div>  
+                    <a href="#popupRemovemsgsig" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Clear All Msg_sig</a>
+                    <div data-role="popup" id="popupRemovemsgsig" data-theme="a" class="ui-corner-all">
+                            <form>
+                                    <div style="padding:0px 0px;">
+                                            <h3>Clear All Msg_sig</h3>
+                                            <button type="submit" id="removemsgsigsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
+                                        </div>
+                                </form>
+                    </div>                      
 
                 </div>
 
 
                 <p><br></p>                 
-                <!--                
-                <a href="#page-server" class="ui-btn ui-btn-b ui-corner-all">server</a>
-                <a href="#page-lock" class="ui-btn ui-btn-b ui-corner-all">lock</a>
-                -->
-                <p id="adminid"></p>
+                <ul id="commid" data-role="listview" data-theme="d" data-divider-theme="d">
+                </ul> 
+
             </div>
         </div>
 

@@ -181,8 +181,10 @@ var app = {
             if (accObj == null) {
                 window.location.href = "#page-index";
             }
-
-            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr};
+            var CustNListStr = "";
+            var CustNListCnt = 0;
+            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr,
+                'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountadm_1.html";
 //            $.ajax({
@@ -280,7 +282,7 @@ var app = {
             confirmBox.find(".message").text(msg);
             confirmBox.find(".yes,.no,.ok").unbind().click(function () {
                 confirmBox.hide();
-                window.localStorage.setItem(iisMsgSession, "");                
+                window.localStorage.setItem(iisMsgSession, "");
             });
             confirmBox.find(".yes").click(myYes);
             confirmBox.find(".no").click(myNo);
