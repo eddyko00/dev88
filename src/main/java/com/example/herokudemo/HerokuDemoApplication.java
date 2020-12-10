@@ -26,6 +26,9 @@ public class HerokuDemoApplication {
                 webapp = false;
                 Javamain.javamain(args);
             }
+            if (cmd.indexOf("proxyflag") != -1) {
+                CKey.PROXY=true;
+            }          
         }
         SpringApplication.run(HerokuDemoApplication.class, args);
 

@@ -322,6 +322,13 @@ public class ServiceAFweb {
                     String dsURL = CKey.dataSourceURL;
                     logger.info(">>>>> System Local DB URL:" + dsURL);
                 }
+
+                logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_MYSQL = 2, MYSQL = 0");
+                logger.info(">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
+                logger.info(">>>>> System PROXY:" + CKey.PROXY);
+                logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
+                logger.info(">>>>> System UI_ONLY:" + CKey.UI_ONLY);
+                
                 boolean backupFlag = false;
                 if (backupFlag == true) {
                     backupSystem();
@@ -826,7 +833,7 @@ public class ServiceAFweb {
             symbol = "TMO";
             String nnName = ConstantKey.TR_NN1;
             int TR_NN = ConstantKey.INT_TR_NN1;
-                     
+
 //            AccountObj accountAdminObj = this.getAdminObjFromCache();
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
@@ -2824,8 +2831,6 @@ public class ServiceAFweb {
         double norClose = close;
         yD.add(norClose);
 
-
-
 //            if (trname.equals(ConstantKey.TR_NN3)) {
 //                //StockArray assume recent date to old data 
 //                int sizeNewLen = 20 * 24;
@@ -2862,8 +2867,6 @@ public class ServiceAFweb {
 //                return ioStream;
 //
 //            }
-
-
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);
@@ -3954,7 +3957,7 @@ public class ServiceAFweb {
     public static final int NeuralNetDataObjStockid = 121; //"120";   
 
     public RequestObj SystemSQLRequest(RequestObj sqlObj) {
-        
+
         boolean RemoteCallflag = ServiceAFweb.getServerObj().isLocalDBservice();
         if (RemoteCallflag == false) {
             return getServiceAFwebREST().getSQLRequest(sqlObj);
