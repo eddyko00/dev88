@@ -2824,7 +2824,7 @@ public class ServiceAFweb {
         double norClose = close;
         yD.add(norClose);
 
-        if (CKey.NN_DEBUG == true) {
+
 
 //            if (trname.equals(ConstantKey.TR_NN3)) {
 //                //StockArray assume recent date to old data 
@@ -2862,7 +2862,7 @@ public class ServiceAFweb {
 //                return ioStream;
 //
 //            }
-        }
+
 
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,

@@ -130,9 +130,9 @@ public class RESTtimer {
                 timerExceptionCnt0 = 0;
             }
         } catch (Exception ex) {
-            if (CKey.NN_DEBUG == true) {
-//                logger.info("RestTimerHandler0 Failed with HTTP Error ");
-            }
+//            if (CKey.NN_DEBUG == true) {
+////                logger.info("RestTimerHandler0 Failed with HTTP Error ");
+//            }
         }
         timerExceptionCnt0++;
     }

@@ -214,12 +214,12 @@ public class ProcessNN3 {
                 }
                 trHistory.setParmSt1(nn.getComment());
 
-                if (CKey.NN_DEBUG == true) {
-                    boolean flag = false;
-                    if (flag == true) {
-//                        logger.info("ProcessTRH NN3 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
-                    }
-                }
+//                if (CKey.NN_DEBUG == true) {
+//                    boolean flag = false;
+//                    if (flag == true) {
+////                        logger.info("ProcessTRH NN3 " + stdate + " macdTR=" + macdSignal + " " + nn.getComment());
+//                    }
+//                }
             }
 
         }

@@ -537,12 +537,12 @@ public class NNProcessByTrend {
                     continue;
                 }
                 totalDup++;
-                boolean flag = false;
-                if (flag == true) {
-                    if (CKey.NN_DEBUG == true) {
-                        logger.info("> getTrainingNNdataProcess duplicate " + BPname + " " + symbol + " " + objData.getObj().getDateSt());
-                    }
-                }
+//                boolean flag = false;
+//                if (flag == true) {
+//                    if (CKey.NN_DEBUG == true) {
+//                        logger.info("> getTrainingNNdataProcess duplicate " + BPname + " " + symbol + " " + objData.getObj().getDateSt());
+//                    }
+//                }
             }
             logger.info("> getTrainingNNdataProcess " + BPname + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
         }
@@ -1054,12 +1054,12 @@ public class NNProcessByTrend {
                             continue;
                         }
                         totalDup++;
-                        boolean flag = false;
-                        if (flag == true) {
-                            if (CKey.NN_DEBUG == true) {
-//                                logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
-                            }
-                        }
+//                        boolean flag = false;
+//                        if (flag == true) {
+//                            if (CKey.NN_DEBUG == true) {
+////                                logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
+//                            }
+//                        }
                     }
                 }
 

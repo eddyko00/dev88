@@ -44,7 +44,7 @@ public class IndexController {
     }
 
     /////////////////////////////////////////////////////////////////////////    
-    @RequestMapping(value = "/help", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList SystemHelpPage() {
 

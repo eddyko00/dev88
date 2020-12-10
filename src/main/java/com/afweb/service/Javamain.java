@@ -6,6 +6,7 @@
 package com.afweb.service;
 
 import com.afweb.nnprocess.NNProcessBySignal;
+import com.afweb.util.CKey;
 
 /**
  *
@@ -35,10 +36,15 @@ public class Javamain {
                     } else if (cmd.indexOf("processRestinputflag") != -1) {
                         NNProcessBySignal.processRestinputflag = true;
                     } else if (cmd.indexOf("processRestAllStockflag") != -1) {
-                        NNProcessBySignal.processRestAllStockflag = true;                        
-                    }
+                        NNProcessBySignal.processRestAllStockflag = true;
 
-                }
+                    } else if (cmd.indexOf("proxyflag") != -1) {
+                        CKey.PROXY = true;
+                    } else if (cmd.indexOf("nndebugflag") != -1) {
+                        CKey.NN_DEBUG = true;
+                        CKey.UI_ONLY = true;
+                    }
+                } // loop
             }
         }
 

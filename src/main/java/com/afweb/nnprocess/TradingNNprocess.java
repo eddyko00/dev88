@@ -531,20 +531,20 @@ public class TradingNNprocess {
 
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
 
-        if (getEnv.checkLocalPC() == true) {
-            if (CKey.NN_DEBUG == true) {
-//                if (monthSize > 5) {
-//                    ArrayList<String> writeArray = new ArrayList();
-//                    ArrayList<String> displayArray = new ArrayList();
-//                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListMACD, writeArray, displayArray);
-//                    boolean flagHis = false;
-//                    if (flagHis == true) {
-//                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN1 + "_tran.csv", writeArray);
-//                    }
-//                    serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN1, null);
-//                }
-            }
-        }
+//        if (getEnv.checkLocalPC() == true) {
+//            if (CKey.NN_DEBUG == true) {
+////                if (monthSize > 5) {
+////                    ArrayList<String> writeArray = new ArrayList();
+////                    ArrayList<String> displayArray = new ArrayList();
+////                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListMACD, writeArray, displayArray);
+////                    boolean flagHis = false;
+////                    if (flagHis == true) {
+////                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN1 + "_tran.csv", writeArray);
+////                    }
+////                    serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN1, null);
+////                }
+//            }
+//        }
 
         TradingRuleObj trObjMV = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
         ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
@@ -582,20 +582,20 @@ public class TradingNNprocess {
 
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
 
-        if (getEnv.checkLocalPC() == true) {
-            if (CKey.NN_DEBUG == true) {
-                if (monthSize > 5) {
-//                    ArrayList<String> writeArray = new ArrayList();
-//                    ArrayList<String> displayArray = new ArrayList();
-//                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListMACD, writeArray, displayArray);
-//                    boolean flagHis = false;
-//                    if (flagHis == true) {
-//                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN1 + "_tran.csv", writeArray);
-//                    }
-//                    serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN1, null);
-                }
-            }
-        }
+//        if (getEnv.checkLocalPC() == true) {
+//            if (CKey.NN_DEBUG == true) {
+//                if (monthSize > 5) {
+////                    ArrayList<String> writeArray = new ArrayList();
+////                    ArrayList<String> displayArray = new ArrayList();
+////                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListMACD, writeArray, displayArray);
+////                    boolean flagHis = false;
+////                    if (flagHis == true) {
+////                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN1 + "_tran.csv", writeArray);
+////                    }
+////                    serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, ConstantKey.TR_NN1, null);
+//                }
+//            }
+//        }
 
         TradingRuleObj trObjMV = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
         ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
@@ -1525,12 +1525,12 @@ public class TradingNNprocess {
                             continue;
                         }
                         totalDup++;
-                        boolean flag = false;
-                        if (flag == true) {
-                            if (CKey.NN_DEBUG == true) {
-                                logger.info("> inputReTrainStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
-                            }
-                        }
+//                        boolean flag = false;
+//                        if (flag == true) {
+//                            if (CKey.NN_DEBUG == true) {
+//                                logger.info("> inputReTrainStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
+//                            }
+//                        }
                     }
                 }
                 logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
