@@ -16,8 +16,10 @@ var app = {
 
         var iisWebObjStr = window.localStorage.getItem(iisWebSession);
         var iisWebObj = JSON.parse(iisWebObjStr);
-        console.log(iisWebObj);
-
+//        console.log(iisWebObj);
+        var iisurlStr = iisWebObj.iisurlStr;
+        iisurl = iisurlStr;
+        
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -107,7 +109,7 @@ var app = {
             }
 
             return;
-//            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr};
+//            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr};
 //            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 //            window.location.href = "#";
         });
@@ -143,7 +145,7 @@ var app = {
                 }
                 alert(resultmsg);
 
-                var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr,
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
                     'cuObjStr': cuObjStr};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -183,7 +185,7 @@ var app = {
                 alert(resultmsg);
 
 
-                var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr,
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
                     'cuObjStr': cuObjStr};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -216,7 +218,7 @@ var app = {
                 console.log(custObj);
 
                 var custObjStr = JSON.stringify(custObj, null, '\t');
-                var iisWebObj = {'custObjStr': custObjStr};
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
 //                var iisWebObjStr = window.localStorage.getItem('iisWebSession');

@@ -16,8 +16,11 @@ var app = {
 
         var iisWebObjStr = window.localStorage.getItem(iisWebSession);
         var iisWebObj = JSON.parse(iisWebObjStr);
-        console.log(iisWebObj);
+//        console.log(iisWebObj);
 
+        var iisurlStr = iisWebObj.iisurlStr;
+        iisurl = iisurlStr;
+        
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -126,7 +129,7 @@ var app = {
                 return;
             }
 
-            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr, 'accId': accId};
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountst_1.html";
         });
@@ -161,7 +164,7 @@ var app = {
 
 
         $("#sysbtn").click(function () {
-            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr};
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountstatus_1.html";
             return;
@@ -183,7 +186,7 @@ var app = {
             }
             var CustNListStr = "";
             var CustNListCnt = 0;
-            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr,
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
                 'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountadm_1.html";

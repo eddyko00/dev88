@@ -1,7 +1,7 @@
 
 
 var iisurl_HERO = "https://iiswebsrv.herokuapp.com/";
-//var iisurl_OP = "https://iisweb-web012.apps.us-west-1.starter.openshift-online.com/";
+var iisurl_OP = "https://iiswebsrv1.herokuapp.com/";
 var iisurl_LOCAL = "http://localhost:8080/";
 var iisurl = iisurl_HERO; // iisurl_LOCAL; // iisurl_HERO;  //http does not work in OP
 var S_PENDING = -1;     // no trade

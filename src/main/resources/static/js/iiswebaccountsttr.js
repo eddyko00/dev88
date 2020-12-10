@@ -16,8 +16,10 @@ var app = {
 
         var iisWebObjStr = window.localStorage.getItem(iisWebSession);
         var iisWebObj = JSON.parse(iisWebObjStr);
-        console.log(iisWebObj);
-
+//        console.log(iisWebObj);
+        var iisurlStr = iisWebObj.iisurlStr;
+        iisurl = iisurlStr;
+        
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -79,17 +81,18 @@ var app = {
         var stStr = 'Trading Model Listing<br>';
         var stStatus = "";
         if (stockObj.substatus == 12) { //ConstantKey.STOCK_SPLIT STOCK_DETLA = 12
-            stStatus = "St: L Detla";
+            stStatus = "<font style= color:red>St: PriceDif>20%</font>";
         }
         if (stockObj.substatus == 10) { //ConstantKey.STOCK_SPLIT STOCK_SPLIT = 10
-            stStatus = "St: Split";
+            stStatus = "<font style= color:red>St: Split</font>";
         }
         if (stockObj.substatus == 2) { //INITIAL = 2;
             stStatus = "St: Init";
         }
         if (stockObj.substatus == 0) { //INITIAL = 2;
-            stStatus = "St: Ready";
+            stStatus = "<font style= color:green>St: Ready</font>";
         }
+
         stStr += stockObj.stockname + '<br>' + stockObj.updateDateD + " " + stStatus + '<br>' +
                 'Pre Cl:' + preClose + '  Close:' + close + '  Per:' + percentSt
         $("#0").html('<h1>' + stStr + '</h1>');
@@ -102,9 +105,8 @@ var app = {
             console.log(trObj);
             var nameId = trObj.id;
             if (custObj.username.toUpperCase() === "GUEST") {
-                if (trObj.trname === "TR_MV") {
-                    ;
-                } else if (trObj.trname === "TR_MACD") {
+
+                if (trObj.trname === "TR_MACD") {
                     ;
                 } else if (trObj.trname === "TR_NN1") {
                     ;
@@ -116,16 +118,14 @@ var app = {
                     continue;
                 }
             } else {
-                if (trObj.trname === "TR_MV") {
-                    ;
-                } else if (trObj.trname === "TR_MACD") {
+                if (trObj.trname === "TR_MACD") {
                     ;
                 } else if (trObj.trname === "TR_NN1") {
                     ;
                 } else if (trObj.trname === "TR_NN2") {
                     ;
-                } else if (trObj.trname === "TR_NN3") {
-                    ;
+//                } else if (trObj.trname === "TR_NN3") {
+//                    ;
                 } else if (trObj.trname === "TR_ACC") {
                     trObjacc = trObj;
                 } else {
@@ -532,7 +532,7 @@ var app = {
                 return;
             }
             var trName = trObj.trname;
-            var iisWebObj = {'custObjStr': custObjStr, 'accObjListStr': accObjListStr,
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
                 'accId': accId, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
                 'trObjListStr': trObjListStr, 'trName': trName};
 
