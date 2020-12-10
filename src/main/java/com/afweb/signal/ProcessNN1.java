@@ -299,7 +299,7 @@ public class ProcessNN1 {
                     nnRet.setTrsignal(macdSignal);
                     return nnRet;
                 }
-                confident = 30;
+                confident += 30;
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
 
                 if (nn != null) {
@@ -310,7 +310,7 @@ public class ProcessNN1 {
                         float predictionV = nn.getPrediction();
                         if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
                             nnSignal = macdSignal;
-                            confident = 60;
+                            confident += 30;
                         }
                     } else {
                         // get the last transaction price
@@ -329,14 +329,14 @@ public class ProcessNN1 {
                                 if (delta > 0) {
 //                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     nnSignal = macdSignal;
-                                    confident = 50;
+                                    confident += 15;
                                 } else {
 
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = macdSignal;
-                                        confident = 50;
+                                        confident += 15;
                                     }
                                 }
 
@@ -350,7 +350,7 @@ public class ProcessNN1 {
                     //override the previous NN1 prediction
 
                     if (nnSignal == trendSignal) {
-                        confident = 90;
+                        confident += 30;
                     }
                     nnSignal = trendSignal;
                 }
