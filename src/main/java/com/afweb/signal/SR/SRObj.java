@@ -5,9 +5,11 @@
  */
 package com.afweb.signal.SR;
 
-import static com.afweb.service.ServiceAFweb.logger;
+import com.afweb.model.stock.AFstockInfo;
+
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -21,29 +23,71 @@ import java.util.concurrent.ExecutionException;
 //https://stackoverflow.com/questions/8587047/support-resistance-algorithm-technical-analysis/8590007
 public class SRObj {
 
-    public static int CUMULATIVE_CANDLE_SIZE = 1;  //???                
+    public static int CUMULATIVE_CANDLE_SIZE = 20;  //???                
 
-    public static int CONSECUTIVE_CANDLE_TO_CHECK_MIN = 0;  //???  
-    public static int MIN_SCORE_TO_PRINT = 0;  //???  
+    public static int CONSECUTIVE_CANDLE_TO_CHECK_MIN = 10;  //???  
 
     int totalPointsToPrint = 0;
-    
-    private static class highLow {
 
-        private static List<Boolean> findHighLow(List<Candle> cumulativeCandles) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+    //Tell whether each point is a high(higher than two candles on each side) or a low(lower than two candles on each side)
+    //true higher than two candles on each side
+    //false lower than two candles on each side
+    //null otherwise
+    private static List<Boolean> findHighLow(List<Candle> cumulativeCandles) {
+        List<Boolean> hl = new ArrayList();
+        for (int i = 0; i < cumulativeCandles.size(); i++) {
+            if (i == 0) {
+                hl.add(null);
+                continue;
+            }
+            double d1 = cumulativeCandles.get(i - 1).getClose();
+            double d2 = cumulativeCandles.get(i).getClose();
+            double d3 = cumulativeCandles.get(i + 1).getClose();
+            if ((d2 > d1) && (d2 > d3)) {
+                hl.add(true);
+                continue;
+            }
+            if ((d2 < d1) && (d2 < d3)) {
+                hl.add(false);
+                continue;
+            }
 
-        public highLow() {
+            hl.add(null);
         }
+        return hl;
     }
-    private void findSupportResistance(List<Candle> candles, Long scripId) throws ExecutionException {
+
+    private List<Candle> getCumulativeCandles(ArrayList<AFstockInfo> stockInfoArray, int CUMULATIVE_CANDLE_SIZE) {
+        List<Candle> candles = new ArrayList();
+
+        int size = stockInfoArray.size();
+        if (CUMULATIVE_CANDLE_SIZE < size) {
+            size = CUMULATIVE_CANDLE_SIZE;
+        }
+        for (int i = 0; i < stockInfoArray.size(); i++) {
+            AFstockInfo inf = stockInfoArray.get(i);
+            Candle cObj = new Candle();
+
+            cObj.setClose((double) inf.getFclose());
+            cObj.setHigh((double) inf.getHigh());
+            cObj.setLow((double) inf.getLow());
+            cObj.setOpen((double) inf.getFclose());
+
+            cObj.setTimestamp(inf.getEntrydatedisplay());
+
+            candles.add(cObj);
+        }
+
+        return null;
+    }
+
+    private void findSupportResistance(ArrayList<AFstockInfo> stockInfoArray) throws ExecutionException {
         // This is a cron job, so I skip for some time once a SR is found in a stock
 
         //Combining small candles to get larger candles of required timeframe. ( I have 1 minute candles and here creating 1 Hr candles)
-        List<Candle> cumulativeCandles = getCumulativeCandles(candles, CUMULATIVE_CANDLE_SIZE);
+        List<Candle> cumulativeCandles = getCumulativeCandles(stockInfoArray, CUMULATIVE_CANDLE_SIZE);
         //Tell whether each point is a high(higher than two candles on each side) or a low(lower than two candles on each side)
-        List<Boolean> highLowValueList = highLow.findHighLow(cumulativeCandles);
+        List<Boolean> highLowValueList = findHighLow(cumulativeCandles);
 
         Set<Double> impPoints = new HashSet<Double>();
         int pos = 0;
@@ -70,23 +114,23 @@ public class SRObj {
         int total = 0;
         Double min = getMin(cumulativeCandles);
         Double max = getMax(cumulativeCandles);
-        for (PointScore pointScore : score) {
-            // Each point should have at least #MIN_SCORE_TO_PRINT point
-            if (pointScore.getScore() < MIN_SCORE_TO_PRINT) {
-                break;
-            }
-            //The extremes always come as a Strong SR, so I remove some of them
-            // I also reject a price which is very close the one already used
-            if (!similar(pointScore.getPoint(), used) && !closeFromExtreme(pointScore.getPoint(), min, max)) {
-//                logger.info("Strong SR for scrip {} at {} and score {}", name, pointScore.getPoint(), pointScore.getScore());
-//                    logger.info("Events at point are {}", pointScore.getPointEventList());
-                used.add(pointScore.getPoint());
-                total += 1;
-            }
-            if (total >= totalPointsToPrint) {
-                break;
-            }
-        }
+//        for (PointScore pointScore : score) {
+//            // Each point should have at least #MIN_SCORE_TO_PRINT point
+//            if (pointScore.getScore() < MIN_SCORE_TO_PRINT) {
+//                break;
+//            }
+//            //The extremes always come as a Strong SR, so I remove some of them
+//            // I also reject a price which is very close the one already used
+//            if (!similar(pointScore.getPoint(), used) && !closeFromExtreme(pointScore.getPoint(), min, max)) {
+////                logger.info("Strong SR for scrip {} at {} and score {}", name, pointScore.getPoint(), pointScore.getScore());
+////                    logger.info("Events at point are {}", pointScore.getPointEventList());
+//                used.add(pointScore.getPoint());
+//                total += 1;
+//            }
+//            if (total >= totalPointsToPrint) {
+//                break;
+//            }
+//        }
 
     }
 
@@ -94,9 +138,9 @@ public class SRObj {
     public static int MIN_DIFF_FOR_CONSECUTIVE_CUT = 1;  //???
     public static int DIFF_PERC_FOR_INTRASR_DISTANCE = 1;  //???       
 
-    private boolean closeFromExtreme(Double key, Double min, Double max) {
-        return Math.abs(key - min) < (min * DIFF_PERC_FROM_EXTREME / 100.0) || Math.abs(key - max) < (max * DIFF_PERC_FROM_EXTREME / 100);
-    }
+//    private boolean closeFromExtreme(Double key, Double min, Double max) {
+//        return Math.abs(key - min) < (min * DIFF_PERC_FROM_EXTREME / 100.0) || Math.abs(key - max) < (max * DIFF_PERC_FROM_EXTREME / 100);
+//    }
 
     private Double getMin(List<Candle> cumulativeCandles) {
         return cumulativeCandles.stream()
@@ -219,10 +263,5 @@ public class SRObj {
     private boolean cutWick(Double price, Candle candle) {
         return !cutBody(price, candle) && candle.getHigh() > price && candle.getLow() < price;
     }
-
-    private List<Candle> getCumulativeCandles(List<Candle> candles, int CUMULATIVE_CANDLE_SIZE) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 
 }

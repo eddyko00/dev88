@@ -5,7 +5,7 @@
  */
 package com.afweb.signal.SR;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
