@@ -1322,7 +1322,7 @@ public class AccountDB {
         return 0;
     }
 
-    public int removeAccountComm(int AccountID) {
+    public int removeAccountCommSignal(int AccountID) {
         try {
             String deleteSQL = "delete from comm where accountid=" + AccountID + " and type=" + ConstantKey.INT_COM_SIGNAL;
             processExecuteDB(deleteSQL);

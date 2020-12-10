@@ -203,14 +203,14 @@ public class AccountImp {
         if (custObj == null) {
             return 0;
         }
-        return accountdb.removeAccountComm(custObj.getId());
+        return accountdb.removeAccountCommSignal(custObj.getId());
     }
 
     public int removeAccountComm(AccountObj accountObj) {
         if (accountObj == null) {
             return 0;
         }
-        return accountdb.removeAccountComm(accountObj.getId());
+        return accountdb.removeAccountCommSignal(accountObj.getId());
     }
 
     public int removeAccountBilling(AccountObj accountObj) {
@@ -492,7 +492,7 @@ public class AccountImp {
         return 0;
     }
 
-    public int removeCommByCustomerAccountID(String UserName, String Password, int accountID) {
+    public int removeCommSignalByCustomerAccountID(String UserName, String Password, int accountID) {
 
         AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
@@ -503,7 +503,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.removeAccountComm(accountID);
+                            return accountdb.removeAccountCommSignal(accountID);
                         }
                     }
                 }

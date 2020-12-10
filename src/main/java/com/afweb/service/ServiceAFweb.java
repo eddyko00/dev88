@@ -2157,7 +2157,7 @@ public class ServiceAFweb {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().removeCommByCustomerAccountID(UserName, Password, accountid);
+            return getAccountImp().removeCommSignalByCustomerAccountID(UserName, Password, accountid);
         } catch (Exception e) {
         }
         return 0;
