@@ -6,6 +6,7 @@
 package com.afweb.signal.SR;
 
 import com.afweb.model.stock.AFstockInfo;
+import com.afweb.service.ServiceAFweb;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,11 +32,24 @@ public class SRObj {
 
     int totalPointsToPrint = 0;
 
+    public void test(ServiceAFweb serviceAFWeb) {
+        String sym ="HOU.TO";
+        
+        int size1year = 5 * 52;
+        ArrayList StockArray = serviceAFWeb.getStockHistorical(sym, size1year * 4);
+        try {
+            this.findSupportResistance(StockArray);
+        } catch (ExecutionException ex) {
+           
+        }
+        
+    }
+
     //Tell whether each point is a high(higher than two candles on each side) or a low(lower than two candles on each side)
     //true higher than two candles on each side
     //false lower than two candles on each side
     //null otherwise
-    private static List<Boolean> findHighLow(List<Candle> cumulativeCandles) {
+    private List<Boolean> findHighLow(List<Candle> cumulativeCandles) {
         List<Boolean> hl = new ArrayList();
         for (int i = 0; i < cumulativeCandles.size(); i++) {
             if (i == 0) {
@@ -81,7 +97,7 @@ public class SRObj {
         return null;
     }
 
-    private void findSupportResistance(ArrayList<AFstockInfo> stockInfoArray) throws ExecutionException {
+    public void findSupportResistance(ArrayList<AFstockInfo> stockInfoArray) throws ExecutionException {
         // This is a cron job, so I skip for some time once a SR is found in a stock
 
         //Combining small candles to get larger candles of required timeframe. ( I have 1 minute candles and here creating 1 Hr candles)
@@ -141,7 +157,6 @@ public class SRObj {
 //    private boolean closeFromExtreme(Double key, Double min, Double max) {
 //        return Math.abs(key - min) < (min * DIFF_PERC_FROM_EXTREME / 100.0) || Math.abs(key - max) < (max * DIFF_PERC_FROM_EXTREME / 100);
 //    }
-
     private Double getMin(List<Candle> cumulativeCandles) {
         return cumulativeCandles.stream()
                 .min(Comparator.comparing(Candle::getLow)).get().getLow();

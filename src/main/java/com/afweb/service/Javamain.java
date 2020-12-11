@@ -48,6 +48,11 @@ public class Javamain {
                     } else if (cmd.indexOf("nndebugflag") != -1) {
                         CKey.NN_DEBUG = true;
                         CKey.UI_ONLY = true;
+
+                    } else if (cmd.indexOf("mydebugtestflag") != -1) {
+                        CKey.NN_DEBUG = true;
+                        CKey.UI_ONLY = true;                           
+                        ServiceAFweb.mydebugtestflag = true;
                     }
                 } // loop
             }

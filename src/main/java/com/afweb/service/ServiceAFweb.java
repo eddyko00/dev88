@@ -14,6 +14,7 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 
 import com.afweb.signal.*;
+import com.afweb.signal.SR.SRObj;
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
@@ -688,7 +689,14 @@ public class ServiceAFweb {
 //        }
     }
 
+    public static boolean mydebugtestflag = false;
     private void AFprocessDebug() {
+
+        if (mydebugtestflag == true) {
+            SRObj sr = new SRObj();
+            sr.test(this);
+        }
+
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         ///// only acc reset
