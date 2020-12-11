@@ -19,7 +19,7 @@ var app = {
 //        console.log(iisWebObj);
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-        
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -124,8 +124,6 @@ var app = {
                     ;
                 } else if (trObj.trname === "TR_NN2") {
                     ;
-//                } else if (trObj.trname === "TR_NN3") {
-//                    ;
                 } else if (trObj.trname === "TR_ACC") {
                     trObjacc = trObj;
                 } else {
@@ -177,14 +175,18 @@ var app = {
             if (status == 2) { //int PENDING = 2;
                 htmlName += 'Pending on delete when the signal is exited. <br>'
             }
-            var comment= "Training in progress ...";
+            var comment = "Training in progress ...";
             if (trObj.comment != "") {
-                comment = trObj.comment;
+                if (trObj.comment != "null") {
+                    comment = trObj.comment;
+                }
             }
-            if (trObj.trname === "TR_NN1") {
+            if (trObj.trname === "TR_MACD") {
+                htmlName += 'Technical Indicator for MACD';
+            } else if (trObj.trname === "TR_NN1") {
                 htmlName += 'Auto AI Model : ' + comment;
             } else if (trObj.trname === "TR_NN2") {
-                htmlName += 'Auto AI Model : ' + comment;
+                htmlName += 'Auto AI Model (Beta) : ' + comment;
             } else if (trObj.trname === "TR_ACC") {
 
                 var link = trObj.linktradingruleid;

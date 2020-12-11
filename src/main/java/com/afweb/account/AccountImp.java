@@ -169,14 +169,15 @@ public class AccountImp {
         CustomerObj customer = accountdb.getCustomer(UserName, Password);
         if (customer != null) {
             if (customer.getStatus() == ConstantKey.OPEN) {
-                Calendar dateNow = TimeConvertion.getCurrentCalendar();
-                long dateNowLong = dateNow.getTimeInMillis();
-                customer.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
-                customer.setUpdatedatel(dateNowLong);
-
-                accountdb.updateCustomerUpdateDate(customer);
-                return customer;
+//                Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//                long dateNowLong = dateNow.getTimeInMillis();
+//                customer.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+//                customer.setUpdatedatel(dateNowLong);
+//
+//                accountdb.updateCustomerUpdateDate(customer);
+//                return customer;
             }
+            return customer;
         }
         return null;
     }

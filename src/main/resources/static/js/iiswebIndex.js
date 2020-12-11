@@ -82,6 +82,7 @@ var app = {
                     if (custObj != null) {
                         window.location.href = "account_1.html";
                     } else {
+
 //                    $('#error_message').fadeIn().html(jsonStr);
                         $('#error_message').fadeIn().html('Incorrect email/password. Please try again.');
                     }
@@ -190,16 +191,22 @@ var app = {
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
-//                var iisWebObjStr = window.localStorage.getItem('iisWebSession');
-//                var iisWebObj = JSON.parse(iisWebObjStr);
-//                console.log(iisWebObj);
-
-                if (custObj != null) {
-                    window.location.href = "account_1.html";
-                } else {
-//                    $('#error_message').fadeIn().html(jsonStr);
-                    $('#error_message').fadeIn().html("Incorrect email/password. Please try again.");
+                var webMsg = result.webMsg;
+                if (webMsg.resultID == 0) {
+                    if (custObj != null) {
+                        window.location.href = "account_1.html";
+                        return;
+                    }
                 }
+                var reMsg = "Incorrect email/password. Please try again.";
+                if (webMsg.resultID == 2) {
+                    reMsg = "Account in processing. Please try again later. ";
+                }
+                if (webMsg.resultID == 1) {
+                    reMsg = "Account is disabled. ";
+                }                
+                $('#error_message').fadeIn().html(reMsg);
+
             }
         });
 
