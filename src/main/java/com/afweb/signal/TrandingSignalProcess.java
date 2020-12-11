@@ -320,9 +320,9 @@ public class TrandingSignalProcess {
                     stockInfoIndex--;
                     continue;
                 }
-                if (tranObjIndex <0) { 
-                // tranObjIndex == -1 process only last transaction exit
-                    if (tranObj.getTrsignal()!= 5) {
+                if (tranObjIndex < 0) {
+                    // tranObjIndex == -1 process only last transaction exit
+                    if (tranObj.getTrsignal() != 5) {
                         continue;
                     }
                 }
@@ -1166,7 +1166,11 @@ public class TrandingSignalProcess {
                         NNObj nn = nn1.updateAdminTradingsignalnn1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            trObj.setComment(nn.getConfident());
+                            if (nn.getConfident() != null) {
+                                if (nn.getConfident().length() > 0) {
+                                    trObj.setComment(nn.getConfident());
+                                }
+                            }
                             UpdateTRList.add(trObj);
                         }
                     }
@@ -1178,7 +1182,11 @@ public class TrandingSignalProcess {
                         NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            trObj.setComment(nn.getConfident());                            
+                            if (nn.getConfident() != null) {
+                                if (nn.getConfident().length() > 0) {
+                                    trObj.setComment(nn.getConfident());
+                                }
+                            }
                             UpdateTRList.add(trObj);
                         }
                     }
@@ -1190,7 +1198,11 @@ public class TrandingSignalProcess {
                         NNObj nn = nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            trObj.setComment(nn.getConfident());  
+                            if (nn.getConfident() != null) {
+                                if (nn.getConfident().length() > 0) {
+                                    trObj.setComment(nn.getConfident());
+                                }
+                            }
                             UpdateTRList.add(trObj);
                         }
 
