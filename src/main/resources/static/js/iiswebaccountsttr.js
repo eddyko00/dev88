@@ -177,10 +177,14 @@ var app = {
             if (status == 2) { //int PENDING = 2;
                 htmlName += 'Pending on delete when the signal is exited. <br>'
             }
+            var comment= "Training in progress ...";
+            if (trObj.comment != "") {
+                comment = trObj.comment;
+            }
             if (trObj.trname === "TR_NN1") {
-                htmlName += 'Auto AI Model : ' + trObj.comment;
+                htmlName += 'Auto AI Model : ' + comment;
             } else if (trObj.trname === "TR_NN2") {
-                htmlName += 'Auto AI Model : ' + trObj.comment;
+                htmlName += 'Auto AI Model : ' + comment;
             } else if (trObj.trname === "TR_ACC") {
 
                 var link = trObj.linktradingruleid;
