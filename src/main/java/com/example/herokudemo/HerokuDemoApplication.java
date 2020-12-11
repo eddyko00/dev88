@@ -27,11 +27,15 @@ public class HerokuDemoApplication {
                 Javamain.javamain(args);
             }
             if (cmd.indexOf("proxyflag") != -1) {
-                CKey.PROXY=true;
-            }          
-        }
-        SpringApplication.run(HerokuDemoApplication.class, args);
+                CKey.PROXY = true;
 
+            }
+            if (cmd.indexOf("otherphp1mysqlflag") != -1) {
+                CKey.OTHER_PHP1_MYSQL = true;
+                CKey.SERVER_TIMMER_URL = CKey.URL_PATH_OP;
+            }
+            SpringApplication.run(HerokuDemoApplication.class, args);
+        }
     }
     public static int timerSchCnt = 0;
     public static boolean init = false;
