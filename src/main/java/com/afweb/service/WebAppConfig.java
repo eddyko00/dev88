@@ -26,7 +26,7 @@ public class WebAppConfig {
             ServiceAFweb.URL_LOCALDB = dataSource.getUrl();
 
         }
-        if (CKey.SQL_DATABASE == CKey.MYSQL) {
+        if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
 
 //            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 //            dataSource.setUrl("jdbc:mysql://www.db4free.net:3306/eddydb_sample?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");

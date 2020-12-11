@@ -764,7 +764,7 @@ public class StockDB {
                 createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
 
             }
-            if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+            if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
                 createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
 
@@ -799,7 +799,7 @@ public class StockDB {
         if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
             sqlCMD = "create table dummy1 (id int identity not null, primary key (id))";
         }
-        if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             sqlCMD = "create table dummy1 (id int(10) not null auto_increment, primary key (id))";
         }
         return sqlCMD;
@@ -846,7 +846,7 @@ public class StockDB {
             if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
                 processExecuteDB("create table eddy (id int identity not null, primary key (id))");
             }
-            if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+            if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 processExecuteDB("create table eddy (id int(10) not null auto_increment, primary key (id))");
             }
             total = getCountRowsInTable(getJdbcTemplate(), "eddy");
@@ -900,7 +900,7 @@ public class StockDB {
                 createTableList.add("alter table account add constraint fkaccount643453 foreign key (customerid) references customer (id)");
             }
 
-            if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+            if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummy1 (id int(10) not null auto_increment, primary key (id))");
                 createTableList.add("create table tradingrule (id int(10) not null auto_increment, trname varchar(255) not null, type int(10) not null, trsignal int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, status int(10) not null, substatus int(10) not null, investment float not null, balance float not null, longshare float not null, longamount float not null, shortshare float not null, shortamount float not null, linktradingruleid int(10) not null, stockid int(10) not null, accountid int(10) not null, comment varchar(255) not null, primary key (id))");
                 createTableList.add("create table stock (id int(10) not null auto_increment, symbol varchar(255) not null unique, stockname varchar(255) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, failedupdate int(10) not null, longterm float not null, shortterm float not null, direction float not null, primary key (id))");

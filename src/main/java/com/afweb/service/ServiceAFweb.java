@@ -318,12 +318,12 @@ public class ServiceAFweb {
                         logger.info(">>>>> System MYSQL DB2 URL:" + CKey.REMOTEDB_MY_SQLURL);
                     }
                 }
-                if (CKey.SQL_DATABASE == CKey.MYSQL) {
+                if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
                     String dsURL = CKey.dataSourceURL;
                     logger.info(">>>>> System Local DB URL:" + dsURL);
                 }
 
-                logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_MYSQL = 2, MYSQL = 0");
+                logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_MYSQL = 2, DIRECT_MYSQL = 0");
                 logger.info(">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
                 logger.info(">>>>> System PROXY:" + CKey.PROXY);
                 logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
@@ -4654,7 +4654,7 @@ public class ServiceAFweb {
         //SELECT TOP 10 column FROM table - Microsoft SQL Server
         //SELECT column FROM table LIMIT 10 - PostgreSQL and MySQL
         //SELECT column FROM table WHERE ROWNUM <= 10 - Oracle
-        if ((CKey.SQL_DATABASE == CKey.MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             if (length != 0) {
                 if (length == 1) {
                     sql += " limit 1 ";

@@ -23,7 +23,7 @@ public class CKey {
     // remember to update the application properties      
     public static final int LOCAL_MYSQL = 4; //jdbc:mysql://localhost:3306/db_sample     
     public static final int REMOTE_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
-    public static final int MYSQL = 0;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
+    public static final int DIRECT__MYSQL = 0;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
 
     public static int SQL_DATABASE = REMOTE_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
 
