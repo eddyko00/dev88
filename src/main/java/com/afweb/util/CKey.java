@@ -65,10 +65,10 @@ public class CKey {
 //*********** 
 // server timerhandler
 // server timerhandler    
-    public static boolean OTHER_PHP1_MYSQL = false; //using HEROKU = false // using Other DB =  true
+    public static boolean OTHER_PHP1_MYSQL = true; //using HEROKU = false // using Other DB =  true
 
-    public static String SERVER_TIMMER_URL = URL_PATH_HERO;  // server timerhandler OTHER_DB1 = false;
-//    public static String SERVERDB_URL = URL_PATH_OP;  // server timerhandler OTHER_DB1 = true;
+//    public static String SERVER_TIMMER_URL = URL_PATH_HERO;  // server timerhandler OTHER_DB1 = false;
+    public static String SERVERDB_URL = URL_PATH_OP;  // server timerhandler OTHER_DB1 = true;
 //
 //***********    
 //*********** 
