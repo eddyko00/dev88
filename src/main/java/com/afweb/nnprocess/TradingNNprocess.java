@@ -89,7 +89,7 @@ public class TradingNNprocess {
         if (testing == true) {
             lockReturn = 1;
         }
-        logger.info("ProcessReLearnInputNeuralNet " + LockName + " LockName " + lockReturn);
+//        logger.info("ProcessReLearnInputNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long LastServUpdateTimer = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 15); // add 3 minutes
@@ -128,7 +128,7 @@ public class TradingNNprocess {
                         if (testing == true) {
                             lockReturnStock = 1;
                         }
-                        logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+//                        logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
                         if (lockReturnStock > 0) {
                             try {
                                 inputReTrainStockNeuralNetData(serviceAFWeb, trNN, symbol);
@@ -155,13 +155,13 @@ public class TradingNNprocess {
                                 logger.info("> ProcessReLearnInputNeuralNet Exception" + ex.getMessage());
                             }
                             serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-                            logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
+//                            logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
                         }
                     }
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
-            logger.info("ProcessReLearnInputNeuralNet " + LockName + " unlock LockName");
+//            logger.info("ProcessReLearnInputNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> ProcessReLearnInputNeuralNet ... done");
     }
