@@ -110,7 +110,7 @@ public class AccountDB {
 
     public static boolean checkCallRemoteSQL_Mysql() {
         boolean ret = false;
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
             ret = true;
         }
         return ret;

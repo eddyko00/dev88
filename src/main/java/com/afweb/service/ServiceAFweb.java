@@ -311,7 +311,7 @@ public class ServiceAFweb {
 
                 getServerObj().setLocalDBservice(true);
 
-                if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+                if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                     if (CKey.OTHER_DB1 == true) {
                         logger.info(">>>>> System OTHER DB1 URL:" + CKey.URL_PATH_OP_DB_PHP1);
                     } else {
@@ -323,7 +323,7 @@ public class ServiceAFweb {
                     logger.info(">>>>> System Local DB URL:" + dsURL);
                 }
 
-                logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_MYSQL = 2, DIRECT_MYSQL = 0");
+                logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
                 logger.info(">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
                 logger.info(">>>>> System PROXY:" + CKey.PROXY);
                 logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
@@ -414,7 +414,7 @@ public class ServiceAFweb {
         if (CKey.NN_DEBUG == true) {
             // LocalPCflag = true; 
             // SQL_DATABASE = REMOTE_MYSQL;
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+            if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                 if ((CKey.OTHER_DB1 == true)) {
                     logger.info(">>>>> SystemDownloadDBData form Other DB");
                 } else {
@@ -435,7 +435,7 @@ public class ServiceAFweb {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
         if (CKey.NN_DEBUG == true) {
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+            if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                 if ((CKey.OTHER_DB1 == true)) {
                     logger.info(">>>>> SystemRestoreDBData to Other DB");
                 } else {
@@ -458,7 +458,7 @@ public class ServiceAFweb {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
         if (CKey.NN_DEBUG == true) {
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
+            if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                 if ((CKey.OTHER_DB1 == true)) {
                     logger.info(">>>>> SystemRestoreDBData to Other DB");
                 } else {
@@ -4654,7 +4654,7 @@ public class ServiceAFweb {
         //SELECT TOP 10 column FROM table - Microsoft SQL Server
         //SELECT column FROM table LIMIT 10 - PostgreSQL and MySQL
         //SELECT column FROM table WHERE ROWNUM <= 10 - Oracle
-        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             if (length != 0) {
                 if (length == 1) {
                     sql += " limit 1 ";
