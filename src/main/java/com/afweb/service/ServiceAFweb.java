@@ -312,10 +312,10 @@ public class ServiceAFweb {
                 getServerObj().setLocalDBservice(true);
 
                 if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                    if (CKey.OTHER_DB1 == true) {
+                    if (CKey.OTHER_PHP1_MYSQL == true) {
                         logger.info(">>>>> System OTHER DB1 URL:" + CKey.URL_PATH_OP_DB_PHP1);
                     } else {
-                        logger.info(">>>>> System MYSQL DB2 URL:" + CKey.REMOTEDB_MY_SQLURL);
+                        logger.info(">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
                     }
                 }
                 if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
@@ -325,6 +325,11 @@ public class ServiceAFweb {
 
                 logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
                 logger.info(">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
+                
+                logger.info(">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);   
+                logger.info(">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);   
+                
+                
                 logger.info(">>>>> System PROXY:" + CKey.PROXY);
                 logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
                 logger.info(">>>>> System UI_ONLY:" + CKey.UI_ONLY);
@@ -415,7 +420,7 @@ public class ServiceAFweb {
             // LocalPCflag = true; 
             // SQL_DATABASE = REMOTE_MYSQL;
             if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                if ((CKey.OTHER_DB1 == true)) {
+                if ((CKey.OTHER_PHP1_MYSQL == true)) {
                     logger.info(">>>>> SystemDownloadDBData form Other DB");
                 } else {
                     logger.info(">>>>> SystemDownloadDBData form Heroku");
@@ -436,7 +441,7 @@ public class ServiceAFweb {
         serverObj.setTimerInit(true);
         if (CKey.NN_DEBUG == true) {
             if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                if ((CKey.OTHER_DB1 == true)) {
+                if ((CKey.OTHER_PHP1_MYSQL == true)) {
                     logger.info(">>>>> SystemRestoreDBData to Other DB");
                 } else {
                     logger.info(">>>>> SystemRestoreDBData to Heroku");
@@ -459,7 +464,7 @@ public class ServiceAFweb {
         serverObj.setTimerInit(true);
         if (CKey.NN_DEBUG == true) {
             if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                if ((CKey.OTHER_DB1 == true)) {
+                if ((CKey.OTHER_PHP1_MYSQL == true)) {
                     logger.info(">>>>> SystemRestoreDBData to Other DB");
                 } else {
                     logger.info(">>>>> SystemRestoreDBData to Heroku");
@@ -790,18 +795,18 @@ public class ServiceAFweb {
 //
         boolean dbhero2opflag = false;
         if (dbhero2opflag == true) {
-            boolean prevOPSHIFT = CKey.OTHER_DB1;
+            boolean prevOPSHIFT = CKey.OTHER_PHP1_MYSQL;
 
-            CKey.OTHER_DB1 = false;
+            CKey.OTHER_PHP1_MYSQL = false;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
             backupSystem();
 
-            CKey.OTHER_DB1 = true;
+            CKey.OTHER_PHP1_MYSQL = true;
             ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
             restoreSystem();
 
             // restore original
-            CKey.OTHER_DB1 = prevOPSHIFT;
+            CKey.OTHER_PHP1_MYSQL = prevOPSHIFT;
         }
 
         /////other macd, mv, nn1, nn2

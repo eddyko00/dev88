@@ -38,6 +38,10 @@ public class Javamain {
                     } else if (cmd.indexOf("processRestAllStockflag") != -1) {
                         NNProcessBySignal.processRestAllStockflag = true;
 
+                    } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
+                        CKey.OTHER_PHP1_MYSQL = true;
+                        CKey.SERVER_TIMMER_URL = CKey.URL_PATH_OP;
+                        
                     } else if (cmd.indexOf("proxyflag") != -1) {
                         CKey.PROXY = true;
                     } else if (cmd.indexOf("nndebugflag") != -1) {

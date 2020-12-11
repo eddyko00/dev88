@@ -72,7 +72,7 @@ public class RESTtimer {
 //            }
 
         }
-        RestTimerHandler0(CKey.SERVERDB_URL);
+        RestTimerHandler0(CKey.SERVER_TIMMER_URL);
     }
 
     private static int timerCnt0 = 0;

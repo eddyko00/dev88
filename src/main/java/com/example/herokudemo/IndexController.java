@@ -267,7 +267,7 @@ public class IndexController {
     String getServerURL() {
         String url0 = RESTtimer.serverURL_0;
         if (url0.length() == 0) {
-            url0 = CKey.SERVERDB_URL;
+            url0 = CKey.SERVER_TIMMER_URL;
         }
         return url0;
     }
