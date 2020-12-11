@@ -60,7 +60,7 @@ public class NNObj {
     private float prediction;
     private float output1;
     private float output2;    
-    private String confident;
+    private String confident="";
     private String comment="";
 
     /**
