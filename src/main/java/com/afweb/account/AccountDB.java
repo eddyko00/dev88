@@ -232,7 +232,7 @@ public class AccountDB {
         return 0;
     }
 
-    public int updateCustStatus(CustomerObj custObj) {
+    public int updateCustStatusSubStatus(CustomerObj custObj) {
 
         if (custObj == null) {
             return 0;
@@ -1463,6 +1463,7 @@ public class AccountDB {
         return 0;
     }
 
+    // result 1 = success, 2 = existed,  0 = fail
     public int addCustomerAccount(CustomerObj newCustomer) {
 //        logger.info("> addCustomer " + newCustomer.getUsername());
 

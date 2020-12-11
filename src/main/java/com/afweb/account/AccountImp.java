@@ -132,8 +132,8 @@ public class AccountImp {
         return customerList;
     }
 
-    public int updateCustStatus(CustomerObj custObj) {
-        return accountdb.updateCustStatus(custObj);
+    public int updateCustStatusSubStatus(CustomerObj custObj) {
+        return accountdb.updateCustStatusSubStatus(custObj);
     }
 
     public CustomerObj getCustomerStatus(String UserName, String Password) {
@@ -237,6 +237,7 @@ public class AccountImp {
         return accountdb.removeAccount(accountObj);
     }
 
+    // result 1 = success, 2 = existed,  0 = fail
     public int addCustomer(CustomerObj newCustomer) {
         if (newCustomer == null) {
             return 0;
