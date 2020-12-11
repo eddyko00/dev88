@@ -26,23 +26,23 @@ import java.util.logging.Logger;
 //https://stackoverflow.com/questions/8587047/support-resistance-algorithm-technical-analysis/8590007
 public class SRObj {
 
-    public static int CUMULATIVE_CANDLE_SIZE = 20;  //???                
+    public static int CUMULATIVE_CANDLE_SIZE = 20*5;  //???                
 
-    public static int CONSECUTIVE_CANDLE_TO_CHECK_MIN = 10;  //???  
+    public static int CONSECUTIVE_CANDLE_TO_CHECK_MIN = 5;  //???  
 
     int totalPointsToPrint = 0;
 
     public void test(ServiceAFweb serviceAFWeb) {
-        String sym ="HOU.TO";
-        
+        String sym = "HOU.TO";
+
         int size1year = 5 * 52;
         ArrayList StockArray = serviceAFWeb.getStockHistorical(sym, size1year * 4);
         try {
             this.findSupportResistance(StockArray);
         } catch (ExecutionException ex) {
-           
+
         }
-        
+
     }
 
     //Tell whether each point is a high(higher than two candles on each side) or a low(lower than two candles on each side)
@@ -56,18 +56,20 @@ public class SRObj {
                 hl.add(null);
                 continue;
             }
-            double d1 = cumulativeCandles.get(i - 1).getClose();
-            double d2 = cumulativeCandles.get(i).getClose();
-            double d3 = cumulativeCandles.get(i + 1).getClose();
-            if ((d2 > d1) && (d2 > d3)) {
-                hl.add(true);
-                continue;
-            }
-            if ((d2 < d1) && (d2 < d3)) {
-                hl.add(false);
-                continue;
-            }
+            if (i + 1 < cumulativeCandles.size()) {
 
+                double d1 = cumulativeCandles.get(i - 1).getClose();
+                double d2 = cumulativeCandles.get(i).getClose();
+                double d3 = cumulativeCandles.get(i + 1).getClose();
+                if ((d2 > d1) && (d2 > d3)) {
+                    hl.add(true);
+                    continue;
+                }
+                if ((d2 < d1) && (d2 < d3)) {
+                    hl.add(false);
+                    continue;
+                }
+            }
             hl.add(null);
         }
         return hl;
@@ -80,7 +82,7 @@ public class SRObj {
         if (CUMULATIVE_CANDLE_SIZE < size) {
             size = CUMULATIVE_CANDLE_SIZE;
         }
-        for (int i = 0; i < stockInfoArray.size(); i++) {
+        for (int i = 0; i < size; i++) {
             AFstockInfo inf = stockInfoArray.get(i);
             Candle cObj = new Candle();
 
@@ -94,7 +96,7 @@ public class SRObj {
             candles.add(cObj);
         }
 
-        return null;
+        return candles;
     }
 
     public void findSupportResistance(ArrayList<AFstockInfo> stockInfoArray) throws ExecutionException {
@@ -123,7 +125,8 @@ public class SRObj {
         while (iterator.hasNext()) {
             Double currentValue = iterator.next();
             //Get score of each point
-            score.add(getScore(cumulativeCandles, highLowValueList, currentValue));
+            PointScore ps = getScore(cumulativeCandles, highLowValueList, currentValue);
+            score.add(ps);
         }
         score.sort((o1, o2) -> o2.getScore().compareTo(o1.getScore()));
         List<Double> used = new ArrayList<Double>();

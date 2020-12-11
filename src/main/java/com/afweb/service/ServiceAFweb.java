@@ -693,6 +693,7 @@ public class ServiceAFweb {
     private void AFprocessDebug() {
 
         if (mydebugtestflag == true) {
+            //set up run parm javamain proxyflag mydebugtestflag
             SRObj sr = new SRObj();
             sr.test(this);
         }
