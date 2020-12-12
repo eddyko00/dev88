@@ -26,9 +26,8 @@ import java.util.logging.Logger;
 //https://stackoverflow.com/questions/8587047/support-resistance-algorithm-technical-analysis/8590007
 public class SRObj {
 
-    public static int CUMULATIVE_CANDLE_SIZE = 20*5;  //???                
+    public static int CUMULATIVE_CANDLE_SIZE = 20 * 5;  //               
 
-    public static int CONSECUTIVE_CANDLE_TO_CHECK_MIN = 5;  //???  
 
     int totalPointsToPrint = 0;
 
@@ -99,7 +98,9 @@ public class SRObj {
 
         return candles;
     }
-
+  
+    public static int CONSECUTIVE_CANDLE_TO_CHECK_MIN = 5;
+    
     public void findSupportResistance(ArrayList<AFstockInfo> stockInfoArray) throws ExecutionException {
         // This is a cron job, so I skip for some time once a SR is found in a stock
 
@@ -156,7 +157,9 @@ public class SRObj {
 
     public static int DIFF_PERC_FROM_EXTREME = 1;  //???    
     public static int MIN_DIFF_FOR_CONSECUTIVE_CUT = 1;  //???
-    public static int DIFF_PERC_FOR_INTRASR_DISTANCE = 1;  //???       
+    
+    //each candle which are close to this price (within a distance of y% from the price), 
+    public static int DIFF_PERC_FOR_INTRASR_DISTANCE = 5;  //   
 
 //    private boolean closeFromExtreme(Double key, Double min, Double max) {
 //        return Math.abs(key - min) < (min * DIFF_PERC_FROM_EXTREME / 100.0) || Math.abs(key - max) < (max * DIFF_PERC_FROM_EXTREME / 100);
@@ -180,10 +183,10 @@ public class SRObj {
         return false;
     }
 
-    Double scoreForCutBody = 0.0;
-    Double scoreForCutWick = 0.0;
-    Double scoreForTouchHighLow = 0.0;
-    Double scoreForTouchNormal = 0.0;
+    Double scoreForCutBody = 1.0;
+    Double scoreForCutWick = 1.0;
+    Double scoreForTouchHighLow = 1.0;
+    Double scoreForTouchNormal = 1.0;
 
     private PointScore getScore(List<Candle> cumulativeCandles, List<Boolean> highLowValueList, Double price) {
         List<PointEvent> events = new ArrayList<>();

@@ -313,18 +313,23 @@ public class ServiceAFweb {
 
                 getServerObj().setLocalDBservice(true);
 
-                if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                    if (CKey.OTHER_PHP1_MYSQL == true) {
-                        logger.info(">>>>> System OTHER DB1 URL:" + CKey.URL_PATH_OP_DB_PHP1);
-                    } else {
-                        logger.info(">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
-                    }
-                }
                 if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
                     String dsURL = CKey.dataSourceURL;
                     logger.info(">>>>> System Local DB URL:" + dsURL);
                 }
 
+                if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+                    if (CKey.OTHER_PHP1_MYSQL == true) {
+                        logger.info(">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
+                    } else {
+                        logger.info(">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
+                    }
+                } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+                    if (dataSource != null) {
+                        DriverManagerDataSource dataSourceObj = (DriverManagerDataSource) dataSource;
+                        logger.info(">>>>> System LOCAL_MYSQL DB URL:" + dataSourceObj.getUrl());
+                    }
+                }
                 logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
                 logger.info(">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
 
@@ -334,12 +339,7 @@ public class ServiceAFweb {
                 logger.info(">>>>> System PROXY:" + CKey.PROXY);
                 logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
                 logger.info(">>>>> System UI_ONLY:" + CKey.UI_ONLY);
-                if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                    if (dataSource != null) {
-                        DriverManagerDataSource dataSourceObj = (DriverManagerDataSource) dataSource;
-                        logger.info(">>>>> System LOCAL_MYSQL:" + dataSourceObj.getUrl());
-                    }
-                }
+
                 boolean backupFlag = false;
                 if (backupFlag == true) {
                     backupSystem();

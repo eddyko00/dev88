@@ -14,6 +14,43 @@ import com.afweb.util.CKey;
  */
 public class Javamain {
 
+    public static void checkParameterFlag(String cmd) {
+
+        if (cmd.indexOf("flagNNLearningSignal") != -1) {
+            NNProcessBySignal.flagNNLearningSignal = true;
+        } else if (cmd.indexOf("flagNN3LearningTrend") != -1) {
+            NNProcessBySignal.flagNN3LearningTrend = true;
+        } else if (cmd.indexOf("flagNNReLearning") != -1) {
+            NNProcessBySignal.flagNNReLearning = true;
+        } else if (cmd.indexOf("processNNSignalAdmin") != -1) {
+            NNProcessBySignal.processNNSignalAdmin = true;
+        } else if (cmd.indexOf("processRestinputflag") != -1) {
+            NNProcessBySignal.processRestinputflag = true;
+        } else if (cmd.indexOf("processRestAllStockflag") != -1) {
+            NNProcessBySignal.processRestAllStockflag = true;
+
+        } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
+            CKey.OTHER_PHP1_MYSQL = true;
+            CKey.SERVER_TIMMER_URL = CKey.URL_PATH_OP;
+            ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
+
+        } else if (cmd.indexOf("localmysqlflag") != -1) {
+            CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
+
+        } else if (cmd.indexOf("proxyflag") != -1) {
+            CKey.PROXY = true;
+        } else if (cmd.indexOf("nndebugflag") != -1) {
+            CKey.NN_DEBUG = true;
+            CKey.UI_ONLY = true;
+
+        } else if (cmd.indexOf("mydebugtestflag") != -1) {
+            CKey.NN_DEBUG = true;
+            CKey.UI_ONLY = true;
+            ServiceAFweb.mydebugtestflag = true;
+        }
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -25,38 +62,7 @@ public class Javamain {
             if (args.length > 0) {
                 for (int i = 0; i < args.length; i++) {
                     String cmd = args[i];
-                    if (cmd.indexOf("flagNNLearningSignal") != -1) {
-                        NNProcessBySignal.flagNNLearningSignal = true;
-                    } else if (cmd.indexOf("flagNN3LearningTrend") != -1) {
-                        NNProcessBySignal.flagNN3LearningTrend = true;
-                    } else if (cmd.indexOf("flagNNReLearning") != -1) {
-                        NNProcessBySignal.flagNNReLearning = true;
-                    } else if (cmd.indexOf("processNNSignalAdmin") != -1) {
-                        NNProcessBySignal.processNNSignalAdmin = true;
-                    } else if (cmd.indexOf("processRestinputflag") != -1) {
-                        NNProcessBySignal.processRestinputflag = true;
-                    } else if (cmd.indexOf("processRestAllStockflag") != -1) {
-                        NNProcessBySignal.processRestAllStockflag = true;
-
-                    } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
-                        CKey.OTHER_PHP1_MYSQL = true;
-                        CKey.SERVER_TIMMER_URL = CKey.URL_PATH_OP;
-                        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
-
-                    } else if (cmd.indexOf("localmysqlflag") != -1) {
-                        CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
-
-                    } else if (cmd.indexOf("proxyflag") != -1) {
-                        CKey.PROXY = true;
-                    } else if (cmd.indexOf("nndebugflag") != -1) {
-                        CKey.NN_DEBUG = true;
-                        CKey.UI_ONLY = true;
-
-                    } else if (cmd.indexOf("mydebugtestflag") != -1) {
-                        CKey.NN_DEBUG = true;
-                        CKey.UI_ONLY = true;
-                        ServiceAFweb.mydebugtestflag = true;
-                    }
+                    checkParameterFlag(cmd);
                 } // loop
             }
         }
