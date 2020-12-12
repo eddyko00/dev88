@@ -700,7 +700,9 @@ public class ServiceAFweb {
     private void AFprocessDebug() {
 
         if (mydebugtestflag == true) {
-            //set up run parm javamain proxyflag mydebugtestflag
+            //set up run parm 
+            // javamain proxyflag mydebugtestflag
+            // javamain localmysqlflag  mydebugtestflag
             SRObj sr = new SRObj();
             sr.test(this);
         }

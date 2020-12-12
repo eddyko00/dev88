@@ -90,6 +90,7 @@ public class SRObj {
             cObj.setHigh((double) inf.getHigh());
             cObj.setLow((double) inf.getLow());
             cObj.setOpen((double) inf.getFclose());
+            cObj.setLtp((double) inf.getFclose()); //Last Traded Price 
 
             cObj.setTimestamp(inf.getEntrydatedisplay());
 

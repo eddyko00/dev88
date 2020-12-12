@@ -1479,7 +1479,7 @@ public class NNProcessBySignal {
                     status = "" + nnObj1.getStatus();
                 }
 
-                logger.info("> inputStockNeuralNetData " + BPnameSym + " Status=" + status);
+//                logger.info("> inputStockNeuralNetData " + BPnameSym + " Status=" + status);
                 NNBPservice nnTemp = new NNBPservice();
 
                 String middlelayer = "";

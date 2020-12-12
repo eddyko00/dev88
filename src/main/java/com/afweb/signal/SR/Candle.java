@@ -31,7 +31,7 @@ class Candle {
     private Double low;
     private Double open;
     private Double close;
-    private Double ltp;
+    private Double ltp;  //Last Traded Price stands for the price of a stock on which the last transaction
 
     private Date timestamp;
 
