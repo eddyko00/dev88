@@ -46,6 +46,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -333,7 +334,12 @@ public class ServiceAFweb {
                 logger.info(">>>>> System PROXY:" + CKey.PROXY);
                 logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
                 logger.info(">>>>> System UI_ONLY:" + CKey.UI_ONLY);
-
+                if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+                    if (dataSource != null) {
+                        DriverManagerDataSource dataSourceObj = (DriverManagerDataSource) dataSource;
+                        logger.info(">>>>> System LOCAL_MYSQL:" + dataSourceObj.getUrl());
+                    }
+                }
                 boolean backupFlag = false;
                 if (backupFlag == true) {
                     backupSystem();
@@ -690,6 +696,7 @@ public class ServiceAFweb {
     }
 
     public static boolean mydebugtestflag = false;
+
     private void AFprocessDebug() {
 
         if (mydebugtestflag == true) {
