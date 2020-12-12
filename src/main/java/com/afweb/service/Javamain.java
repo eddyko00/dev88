@@ -43,6 +43,9 @@ public class Javamain {
                         CKey.SERVER_TIMMER_URL = CKey.URL_PATH_OP;
                         ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
 
+                    } else if (cmd.indexOf("localmysqlflag") != -1) {
+                        CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
+
                     } else if (cmd.indexOf("proxyflag") != -1) {
                         CKey.PROXY = true;
                     } else if (cmd.indexOf("nndebugflag") != -1) {
@@ -51,7 +54,7 @@ public class Javamain {
 
                     } else if (cmd.indexOf("mydebugtestflag") != -1) {
                         CKey.NN_DEBUG = true;
-                        CKey.UI_ONLY = true;                           
+                        CKey.UI_ONLY = true;
                         ServiceAFweb.mydebugtestflag = true;
                     }
                 } // loop
