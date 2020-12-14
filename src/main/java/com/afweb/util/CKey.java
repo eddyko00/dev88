@@ -40,6 +40,9 @@ public class CKey {
     /////////////////////
     public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
     public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
+    
+    public static boolean backupFlag = false;
+    
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler

@@ -340,8 +340,8 @@ public class ServiceAFweb {
                 logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
                 logger.info(">>>>> System UI_ONLY:" + CKey.UI_ONLY);
 
-                boolean backupFlag = false;
-                if (backupFlag == true) {
+//                boolean CKey.backupFlag = false;
+                if (CKey.backupFlag == true) {
                     backupSystem();
                     serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
                     return getServerObj().getTimerCnt();
