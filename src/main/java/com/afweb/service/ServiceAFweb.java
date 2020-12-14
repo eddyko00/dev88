@@ -335,7 +335,7 @@ public class ServiceAFweb {
 
                 logger.info(">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
                 logger.info(">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
-
+                logger.info(">>>>> System backupFlag:" + CKey.backupFlag);                
                 logger.info(">>>>> System PROXY:" + CKey.PROXY);
                 logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
                 logger.info(">>>>> System UI_ONLY:" + CKey.UI_ONLY);
