@@ -314,7 +314,7 @@ public class ServiceAFweb {
                 getServerObj().setLocalDBservice(true);
                 logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
-                logger.info(">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);                
+                logger.info(">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
                 if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
                     String dsURL = CKey.dataSourceURL;
                     logger.info(">>>>> System Local DB URL:" + dsURL);
@@ -335,10 +335,12 @@ public class ServiceAFweb {
 
                 logger.info(">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
                 logger.info(">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
-                logger.info(">>>>> System backupFlag:" + CKey.backupFlag);                
-                logger.info(">>>>> System PROXY:" + CKey.PROXY);
-                logger.info(">>>>> System NN_DEBUG:" + CKey.NN_DEBUG);
-                logger.info(">>>>> System UI_ONLY:" + CKey.UI_ONLY);
+                logger.info(">>>>> System backupFlag:" + CKey.backupFlag);
+                logger.info(">>>>> System proxyflag PROXY:" + CKey.PROXY);
+                logger.info(">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
+                logger.info(">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
+                logger.info(">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
+                logger.info(">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
 
                 logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
