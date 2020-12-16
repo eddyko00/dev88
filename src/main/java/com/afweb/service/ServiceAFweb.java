@@ -336,6 +336,8 @@ public class ServiceAFweb {
                 logger.info(">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
                 logger.info(">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
                 logger.info(">>>>> System backupFlag:" + CKey.backupFlag);
+                logger.info(">>>>> System restoreFlag:" + CKey.restoreFlag);
+                logger.info(">>>>> System restoreNNonlyFlag:" + CKey.restoreNNonlyFlag);
                 logger.info(">>>>> System proxyflag PROXY:" + CKey.PROXY);
                 logger.info(">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
                 logger.info(">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
@@ -351,15 +353,15 @@ public class ServiceAFweb {
                     return getServerObj().getTimerCnt();
 
                 }
-                boolean restoreFlag = false;
-                if (restoreFlag == true) {
+//                boolean restoreFlag = false;
+                if (CKey.restoreFlag == true) {
                     restoreSystem();
                     serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
                     return getServerObj().getTimerCnt();
 
                 }
-                boolean restoreNNonlyFlag = false;
-                if (restoreNNonlyFlag == true) {
+//                boolean restoreNNonlyFlag = false;
+                if (CKey.restoreNNonlyFlag == true) {
                     restoreNNonlySystem();
                     serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
                     return getServerObj().getTimerCnt();

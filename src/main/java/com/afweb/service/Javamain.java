@@ -39,6 +39,10 @@ public class Javamain {
 
         } else if (cmd.indexOf("backupFlag") != -1) {
             CKey.backupFlag = true;
+        } else if (cmd.indexOf("restoreFlag") != -1) {
+            CKey.restoreFlag = true;
+        } else if (cmd.indexOf("restoreNNonlyFlag") != -1) {
+            CKey.restoreNNonlyFlag = true;
 
         } else if (cmd.indexOf("proxyflag") != -1) {
             CKey.PROXY = true;
