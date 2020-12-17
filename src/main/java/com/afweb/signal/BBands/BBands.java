@@ -11,6 +11,11 @@ import java.util.ArrayList;
 //This project is used to calculate M-day Simple Moving Average and Bollinger Bands of Stock Data 
 //given stock prices over a period of time. The particular stock price we have used to caclulate 
 //the Simple Moving average is the "Closing Stock Price"
+//Bollinger Bands use 2 parameters, Period and Standard Deviations, StdDev. 
+//The default values are 20 for period, and 2 for standard deviations, 
+//Short term: 10 day moving average, bands at 1.5 standard deviations. 
+//(1.5 times the standard dev. +/- the SMA)
+//Medium term: 20 day moving average, bands at 2 standard deviations.
 
 public class BBands 
 {
