@@ -14,14 +14,16 @@ public class stock_analysis
         Scanner scan = new Scanner(System.in);
 
         System.out.print("The prices of a stock in CSV format: ");
-        String file = scan.next();
-
+//        String file = scan.next();
+        String file ="T:/temp/google";
+        
         System.out.print("The value of M: ");
-        int M = scan.nextInt();
-
+//        int M = scan.nextInt();
+        int M = 5;
+        
         System.out.print("The value of D: ");
-        int D = scan.nextInt();
-
+//        int D = scan.nextInt();
+        int D = 2;
         try
         {
             // Object to read the stock data
