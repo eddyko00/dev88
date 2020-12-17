@@ -14,4 +14,5 @@ public class BBObj {
     public int trsignal;
     public double lowerBand = 0;
     public double upperBand = 0;
+    public double rsiValue = 0;
 }

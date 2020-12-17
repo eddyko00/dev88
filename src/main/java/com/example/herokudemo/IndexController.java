@@ -42,7 +42,7 @@ public class IndexController {
     public String index() {
         return "Hello there! I'm running v1.1";
     }
-
+    
     /////////////////////////////////////////////////////////////////////////    
     @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

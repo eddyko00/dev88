@@ -7,11 +7,10 @@ package com.afweb.signal;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.AFstockInfo;
+import com.afweb.signal.BBands.*;
 import com.afweb.stock.StockImp;
-import com.jasonlam604.stocktechnicals.indicators.AverageDirectionalIndex;
-import com.jasonlam604.stocktechnicals.indicators.ExponentialMovingAverage;
-import com.jasonlam604.stocktechnicals.indicators.MovingAverageConvergenceDivergence;
-import com.jasonlam604.stocktechnicals.indicators.RelativeStrengthIndex;
+import com.jasonlam604.stocktechnicals.indicators.*;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -403,4 +402,80 @@ public class TechnicalCal {
         }
         return normalizeValue;
     }
+
+    ///////////
+    //Bollinger-Bands signal
+    //In Buy trady, the price hit the Bollinger Band, the RSI (when the price touches the bottom band) 
+    //needs to be in between 50 and 30.
+    //In a sell trade the RSI would need to be in between the 50-70 mark and going downward
+    public static BBObj BBSignal(ArrayList StockRecArray, int DataOffset) {
+        BBObj bbObj = new BBObj();
+        bbObj = BBands(StockRecArray, DataOffset, 20, 2);
+        AFstockInfo stockinfo = (AFstockInfo) StockRecArray.get(DataOffset);
+        if (bbObj.lowerBand == 0) {
+            return bbObj;
+        }
+        if (bbObj.upperBand == 0) {
+            return bbObj;
+        }
+        float closeP = stockinfo.getFclose();
+        double perLower = Math.abs(100 * (closeP - bbObj.lowerBand) / bbObj.lowerBand);
+        double perUpper = Math.abs(100 * (bbObj.upperBand - closeP) / closeP);
+        double rsiValue = RSIdata(StockRecArray, DataOffset, ConstantKey.INT_RSI_14);
+        bbObj.rsiValue = rsiValue;
+        if (rsiValue == -1) {
+            return bbObj;
+        }
+        bbObj.trsignal = ConstantKey.S_NEUTRAL;
+        if (perLower < 5) {
+            if (rsiValue < 30) {
+                bbObj.trsignal = ConstantKey.S_BUY;
+            }
+        } else if (perUpper < 5) {
+            if (rsiValue > 70) {
+                bbObj.trsignal = ConstantKey.S_SELL;
+            }
+        }
+        return bbObj;
+    }
+
+    //Bollinger-Bands
+    //The default values are 20 for period, and 2 for standard deviations,
+    public static BBObj BBands(ArrayList StockArray, int DataOffset, int MAvg, int SD) {
+        BBObj bbObj = new BBObj();
+        try {
+//            MAvg = 20;  // smooth moving average
+//            SD = 2;  // standard deviation 
+
+            int dataSize = MAvg + 20;
+            if (StockArray.size() < DataOffset + dataSize) {
+                logger.warning("> BBands incorrect StockRecArray size" + StockArray.size());
+                return bbObj;
+            }
+            double[] close = new double[dataSize];
+
+            for (int i = 0; i < dataSize; i++) {
+                AFstockInfo stocktmp = (AFstockInfo) StockArray.get(i + DataOffset);
+                close[dataSize - 1 - i] = stocktmp.getFclose();
+            }
+
+            // Object to calculate simple moving average
+            SMA sma = new SMA();
+            double[] average = sma.simple_moving_average(MAvg, close);
+
+            // Object to calculate bollinger bands
+            BBands bands = new BBands();
+            double[] lowerBand = bands.lower_band(SD, average, close, MAvg);
+            double[] upperBand = bands.upper_band(SD, average, close, MAvg);
+
+            bbObj.lowerBand = lowerBand[lowerBand.length - 1];
+            bbObj.upperBand = upperBand[upperBand.length - 1];
+            return bbObj;
+        } catch (Exception ex) {
+            logger.info("> BBands exception " + ex.getMessage());
+        }
+        return bbObj;
+    }
+
+    //////////////
 }
