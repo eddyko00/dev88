@@ -14,7 +14,7 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 
 import com.afweb.signal.*;
-import com.afweb.signal.SR.SRObj;
+import com.afweb.signal.BBands.stock_analysis;
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
@@ -709,8 +709,9 @@ public class ServiceAFweb {
             //set up run parm 
             // javamain proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
-            SRObj sr = new SRObj();
-            sr.test(this);
+            stock_analysis bb = new stock_analysis();
+            stock_analysis.mainBBands(null);
+
         }
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
