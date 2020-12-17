@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutionException;
  *
  * @author koed
  */
+//https://tradingstrategyguides.com/bollinger-bands-bounce-trading-strategy/
 //https://www.programcreek.com/java-api-examples/?api=org.ta4j.core.indicators.EMAIndicator
 //https://jar-download.com/artifacts/eu.verdelhan/ta4j-examples/0.4/source-code/ta4jexamples/strategies/MovingMomentumStrategy.java
 
