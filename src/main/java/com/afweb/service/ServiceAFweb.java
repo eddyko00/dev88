@@ -836,7 +836,7 @@ public class ServiceAFweb {
         /////other macd, mv, nn1, nn2
         boolean flagTran_TR_OTHER = false;
         if (flagTran_TR_OTHER == true) {
-            SystemClearNNtran();
+            SystemClearNNtran(ConstantKey.SIZE_TR);
         }
         boolean flagClearNN0Table = false;
         if (flagClearNN0Table == true) {
@@ -4544,16 +4544,26 @@ public class ServiceAFweb {
         return "" + retSatus;
     }
 
-    public String SystemClearNNtran() {
+    public String SystemClearNNtran(int tr) {
+
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
+        if (tr == ConstantKey.SIZE_TR) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
+        } else if (tr == ConstantKey.INT_TR_ACC) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC);
+        } else if (tr == ConstantKey.INT_TR_NN1) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
+        } else if (tr == ConstantKey.INT_TR_NN2) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
+        } else if (tr == ConstantKey.INT_TR_NN3) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
+        }
 
         return "" + retSatus;
     }

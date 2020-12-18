@@ -42,7 +42,7 @@ public class IndexController {
     public String index() {
         return "Hello there! I'm running v1.1";
     }
-    
+
     /////////////////////////////////////////////////////////////////////////    
     @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -114,7 +114,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/resetdb");
 
         arrayString.add("/cust/{username}/sys/clearnninput");
-        arrayString.add("/cust/{username}/sys/clearnntran");
+        arrayString.add("/cust/{username}/sys/clearallnntran");
+        arrayString.add("/cust/{username}/sys/clearnn2tran?tr=");
 
         arrayString.add("/cust/{username}/sys/autonnflag");
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
@@ -1468,15 +1469,15 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/clearnntran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/clearallnntran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    WebStatus SystemClearNNtran(@PathVariable("username") String username) {
+    WebStatus SystemClearAllNNtran(@PathVariable("username") String username) {
         WebStatus msg = new WebStatus();
         // remote is stopped
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemClearNNtran());
+                msg.setResponse(afWebService.SystemClearNNtran(ConstantKey.SIZE_TR));
                 msg.setResult(true);
                 return msg;
             }
@@ -1485,7 +1486,43 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemClearNNtran());
+                msg.setResponse(afWebService.SystemClearNNtran(ConstantKey.SIZE_TR));
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/clearnn2tran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemClearNNtran(
+            @PathVariable("username") String username,
+            @RequestParam(value = "tr", required = false) String trSt
+    ) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        int defTR = ConstantKey.INT_TR_NN2;
+        
+        if (trSt != null) {
+            defTR = Integer.parseInt(trSt);
+        }            
+        
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                
+                msg.setResponse(afWebService.SystemClearNNtran(defTR));
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(afWebService.SystemClearNNtran(defTR));
                 msg.setResult(true);
                 return msg;
             }
@@ -1561,7 +1598,7 @@ public class IndexController {
         }
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
-            if (custidSt.equals(cust.getId()+"")) {
+            if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                     ArrayList custNameList = afWebService.getCustomerNList(length);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
