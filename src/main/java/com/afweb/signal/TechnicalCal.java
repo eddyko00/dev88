@@ -427,11 +427,11 @@ public class TechnicalCal {
             return bbObj;
         }
         bbObj.trsignal = ConstantKey.S_NEUTRAL;
-        if (perLower < 5) {
+        if (perLower < 10) {
             if (rsiValue < 30) {
                 bbObj.trsignal = ConstantKey.S_BUY;
             }
-        } else if (perUpper < 5) {
+        } else if (perUpper < 10) {
             if (rsiValue > 70) {
                 bbObj.trsignal = ConstantKey.S_SELL;
             }

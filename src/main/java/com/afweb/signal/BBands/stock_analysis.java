@@ -6,6 +6,7 @@ package com.afweb.signal.BBands;
 import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
+import com.afweb.util.FileUtil;
 
 import java.io.*;
 import java.util.*;
@@ -26,6 +27,38 @@ public class stock_analysis {
             BBArray.add(bbObj);
         }
         logger.info("BBArray size=" + BBArray.size());
+
+
+        ArrayList writeArray = new ArrayList();
+        String stTitle = "";
+        for (int i = 0; i < BBArray.size(); i++) {
+            BBObj bbObj = BBArray.get(i);
+            AFstockInfo stockInfo = StockArray.get(i);
+
+            String st = "" + stockInfo.getEntrydatedisplay() + "," + stockInfo.getFclose()
+                    + "," + bbObj.trsignal
+                    + "," + bbObj.upperBand
+                    + "," + bbObj.lowerBand
+                    + "," + bbObj.rsiValue
+                    + "";
+
+            if (i == 0) {
+                stTitle = "" + "date" + "," + "close"
+                        + "," + "trsignal"
+                        + "," + "upperBand"
+                        + "," + "lowerBand"
+                        + "," + "rsiValue"
+                        + "";
+                writeArray.add(stTitle);
+
+            }
+            writeArray.add(st);
+        }
+
+        String filename = ServiceAFweb.FileLocalDebugPath + "BBand.csv";
+
+        FileUtil.FileWriteTextArray(filename, writeArray);
+
     }
 
     public static void mainBBands(String[] args) {
