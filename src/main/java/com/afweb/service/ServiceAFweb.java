@@ -311,41 +311,42 @@ public class ServiceAFweb {
                 serverObj.setSrvProjName(SrvName + stlockDateValue);
 
                 serverLockName = ServiceAFweb.getServerObj().getServerName();
-
+                String displayStr = "";
                 getServerObj().setLocalDBservice(true);
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                logger.info(">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
-                logger.info(">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
+                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                displayStr += "\r\n" + (">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
+                displayStr += "\r\n" + (">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
                 if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
                     String dsURL = CKey.dataSourceURL;
-                    logger.info(">>>>> System Local DB URL:" + dsURL);
+                    displayStr += "\r\n" + (">>>>> System Local DB URL:" + dsURL);
                 }
                 if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                     if (CKey.OTHER_PHP1_MYSQL == true) {
-                        logger.info(">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
+                        displayStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
                     } else {
-                        logger.info(">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
+                        displayStr += "\r\n" + (">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
                     }
                 } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                     if (dataSource != null) {
                         DriverManagerDataSource dataSourceObj = (DriverManagerDataSource) dataSource;
-                        logger.info(">>>>> System LOCAL_MYSQL DB URL:" + dataSourceObj.getUrl());
+                        displayStr += "\r\n" + (">>>>> System LOCAL_MYSQL DB URL:" + dataSourceObj.getUrl());
                     }
                 }
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-                logger.info(">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
-                logger.info(">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
-                logger.info(">>>>> System backupFlag:" + CKey.backupFlag);
-                logger.info(">>>>> System restoreFlag:" + CKey.restoreFlag);
-                logger.info(">>>>> System restoreNNonlyFlag:" + CKey.restoreNNonlyFlag);
-                logger.info(">>>>> System proxyflag PROXY:" + CKey.PROXY);
-                logger.info(">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
-                logger.info(">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
-                logger.info(">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
-                logger.info(">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
+                displayStr += "\r\n" + (">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
+                displayStr += "\r\n" + (">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
+                displayStr += "\r\n" + (">>>>> System backupFlag:" + CKey.backupFlag);
+                displayStr += "\r\n" + (">>>>> System restoreFlag:" + CKey.restoreFlag);
+                displayStr += "\r\n" + (">>>>> System restoreNNonlyFlag:" + CKey.restoreNNonlyFlag);
+                displayStr += "\r\n" + (">>>>> System proxyflag PROXY:" + CKey.PROXY);
+                displayStr += "\r\n" + (">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
+                displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
+                displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
+                displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
+                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                logger.info(displayStr);
 
 //                boolean CKey.backupFlag = false;
                 if (CKey.backupFlag == true) {
@@ -462,11 +463,11 @@ public class ServiceAFweb {
             } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                 logger.info(">>>>> SystemRestoreDBData form to My SQL");
             }
-                    
+
             Scanner scan = new Scanner(System.in);
             System.out.print("Hit any key to continue to restore?");
             String YN = scan.next();
-            
+
             String retSt = SystemCleanNNonlyDBData();
             if (retSt.equals("true")) {
                 SystemRestoreNNonlyDBData();
@@ -493,7 +494,7 @@ public class ServiceAFweb {
             Scanner scan = new Scanner(System.in);
             System.out.print("Hit any key to continue to restore?");
             String YN = scan.next();
-            
+
             String retSt = SystemCleanDBData();
             if (retSt.equals("true")) {
                 SystemRestoreDBData();
