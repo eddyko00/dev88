@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.TimeZone;
 
 import java.util.logging.Logger;
@@ -461,6 +462,11 @@ public class ServiceAFweb {
             } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                 logger.info(">>>>> SystemRestoreDBData form to My SQL");
             }
+                    
+            Scanner scan = new Scanner(System.in);
+            System.out.print("Hit any key to continue to restore?");
+            String YN = scan.next();
+            
             String retSt = SystemCleanNNonlyDBData();
             if (retSt.equals("true")) {
                 SystemRestoreNNonlyDBData();
@@ -484,6 +490,10 @@ public class ServiceAFweb {
             } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                 logger.info(">>>>> SystemRestoreDBData form to My SQL");
             }
+            Scanner scan = new Scanner(System.in);
+            System.out.print("Hit any key to continue to restore?");
+            String YN = scan.next();
+            
             String retSt = SystemCleanDBData();
             if (retSt.equals("true")) {
                 SystemRestoreDBData();
