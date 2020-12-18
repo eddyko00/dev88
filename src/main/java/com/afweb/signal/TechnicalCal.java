@@ -410,7 +410,7 @@ public class TechnicalCal {
     //In a sell trade the RSI would need to be in between the 50-70 mark and going downward
     public static BBObj BBSignal(ArrayList StockRecArray, int DataOffset) {
         BBObj bbObj = new BBObj();
-        bbObj = BBands(StockRecArray, DataOffset, 20, 2);
+        bbObj = BBands(StockRecArray, DataOffset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2);
         AFstockInfo stockinfo = (AFstockInfo) StockRecArray.get(DataOffset);
         if (bbObj.lowerBand == 0) {
             return bbObj;

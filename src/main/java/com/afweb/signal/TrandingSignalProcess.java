@@ -9,7 +9,6 @@ package com.afweb.signal;
 //https://jar-download.com/artifacts/eu.verdelhan/ta4j-examples/0.4/source-code/ta4jexamples/strategies/MovingMomentumStrategy.java
 
 //https://stackoverflow.com/questions/8587047/support-resistance-algorithm-technical-analysis/8590007
-
 import com.afweb.nnprocess.TradingNNprocess;
 import com.afweb.account.*;
 import com.afweb.model.*;
@@ -1066,6 +1065,15 @@ public class TrandingSignalProcess {
                         prevSignal = nn1Signal;
                     }
                     break;
+                case ConstantKey.INT_TR_BB:
+                    BBObj bbObj = TechnicalCal.BBands(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2);
+
+                    trObj.setTrsignal(bbObj.trsignal);
+                    trHistory.setTrsignal(trObj.getTrsignal());
+                    trHistory.setParm1((float) bbObj.upperBand);
+                    trHistory.setParm2((float) bbObj.lowerBand);
+                    trHistory.setParm3((float) bbObj.lastBB);
+                    break;
                 case ConstantKey.INT_TR_NN2:
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
@@ -1180,6 +1188,11 @@ public class TrandingSignalProcess {
                         }
                     }
                     break;
+                case ConstantKey.INT_TR_BB:
+                    BBObj bbObj = TechnicalCal.BBands(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2);
+                    trObj.setTrsignal(bbObj.trsignal);
+                    UpdateTRList.add(trObj);
+                    break;
                 case ConstantKey.INT_TR_NN2:
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
@@ -1213,14 +1226,7 @@ public class TrandingSignalProcess {
 
                     }
                     break;
-//                case ConstantKey.INT_TR_NN4:
-//                    boolean nn4Flag = false;
-//
-//                    if (nn4Flag == true) {
-//                        ProcessNN4 nn4 = new ProcessNN4();
-//                        nn4.updateAdminTradingsignalnn4(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, UpdateTRList, stock, tradingRuleList);
-//                    }
-//                    break;
+
                 case ConstantKey.INT_TR_ACC:
                     trTradingACCObj = trObj;
                     break;

@@ -68,7 +68,7 @@ public class ConstantKey {
 
     public static final String MSG_NOTEXISTED = "NOTEXISTED";
     public static final int NOTEXISTED = 3;
-    
+
     public static final String MSG_INITIAL = "INITIAL";
     public static final int INITIAL = 2;
 
@@ -147,8 +147,11 @@ public class ConstantKey {
     public static final String TR_NN3 = "TR_NN3"; //NN for MV
     public static final int INT_TR_NN3 = 6;
 
-    public static final String TR_NN4 = "TR_NN4"; //NN for MV
-    public static final int INT_TR_NN4 = 7;
+    public static final String TR_BB = "TR_BB"; //NN for MV
+    public static final int INT_TR_BB = 7;    
+    public static final int INT_BB_M_20 = 20;
+    public static final int INT_BB_SD_2 = 2;
+
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final int SIZE_TR = 8;

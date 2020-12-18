@@ -11,8 +11,9 @@ package com.afweb.signal;
  */
 public class BBObj {
 
-    public int trsignal;
+    public int trsignal=0;
     public double lowerBand = 0;
     public double upperBand = 0;
     public double rsiValue = 0;
+    public double lastBB=0;
 }
