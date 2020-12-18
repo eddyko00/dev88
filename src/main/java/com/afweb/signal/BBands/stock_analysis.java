@@ -3,6 +3,7 @@
  */
 package com.afweb.signal.BBands;
 
+import com.afweb.model.*;
 import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
@@ -23,7 +24,7 @@ public class stock_analysis {
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<BBObj> BBArray = new ArrayList();
         for (int i = 0; i < StockArray.size(); i++) {
-            BBObj bbObj = TechnicalCal.BBSignal(StockArray, i);
+            BBObj bbObj = TechnicalCal.BBSignal(StockArray, i, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
             BBArray.add(bbObj);
         }
         logger.info("BBArray size=" + BBArray.size());

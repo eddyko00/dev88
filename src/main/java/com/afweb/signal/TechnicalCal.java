@@ -408,40 +408,61 @@ public class TechnicalCal {
     //In Buy trady, the price hit the Bollinger Band, the RSI (when the price touches the bottom band) 
     //needs to be in between 50 and 30.
     //In a sell trade the RSI would need to be in between the 50-70 mark and going downward
-    public static BBObj BBSignal(ArrayList StockRecArray, int DataOffset) {
+    public static BBObj BBSignal(ArrayList StockRecArray, int DataOffset, int MAvg, int SD, int RSI) {
         BBObj bbObj = new BBObj();
-        bbObj = BBands(StockRecArray, DataOffset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2);
-        AFstockInfo stockinfo = (AFstockInfo) StockRecArray.get(DataOffset);
-        if (bbObj.lowerBand == 0) {
-            return bbObj;
-        }
-        if (bbObj.upperBand == 0) {
-            return bbObj;
-        }
-        float closeP = stockinfo.getFclose();
-        double perLower = Math.abs(100 * (closeP - bbObj.lowerBand) / bbObj.lowerBand);
-        double perUpper = Math.abs(100 * (bbObj.upperBand - closeP) / closeP);
-        double rsiValue = RSIdata(StockRecArray, DataOffset, ConstantKey.INT_RSI_14);
-        bbObj.rsiValue = rsiValue;
-        if (rsiValue == -1) {
-            return bbObj;
-        }
-        bbObj.trsignal = ConstantKey.S_NEUTRAL;
-        if (perLower < 10) {
-            if (rsiValue < 30) {
-                bbObj.trsignal = ConstantKey.S_BUY;
+
+        int j = 0;
+
+        for (int i = 0; i < StockRecArray.size(); i++) {
+            bbObj = BBandData(StockRecArray, DataOffset + j, MAvg, SD);
+            AFstockInfo stockinfo = (AFstockInfo) StockRecArray.get(DataOffset);
+            if (bbObj.lowerBand == 0) {
+                return bbObj;
             }
-        } else if (perUpper < 10) {
-            if (rsiValue > 70) {
-                bbObj.trsignal = ConstantKey.S_SELL;
+            if (bbObj.upperBand == 0) {
+                return bbObj;
             }
+            float closeP = stockinfo.getFclose();
+            double perLower = Math.abs(100 * (closeP - bbObj.lowerBand) / bbObj.lowerBand);
+            double perUpper = Math.abs(100 * (bbObj.upperBand - closeP) / closeP);
+            double rsiValue = RSIdata(StockRecArray, DataOffset, RSI);
+            bbObj.rsiValue = rsiValue;
+
+            if (rsiValue == -1) {
+                return bbObj;
+            }
+
+            if (j == 0) {
+                bbObj.perlowerBandValue = perLower;
+                bbObj.perupperBandValue = perUpper;
+            }
+            bbObj.lastperlowerBandValue = perLower;
+            bbObj.lastperupperBandValue = perUpper;
+
+            bbObj.trsignal = ConstantKey.S_NEUTRAL;
+            if (perLower < 10) {
+                if (rsiValue < 30) {
+                    bbObj.trsignal = ConstantKey.S_BUY;
+
+                    return bbObj;
+                }
+            } else if (perUpper < 10) {
+                if (rsiValue > 70) {
+                    bbObj.trsignal = ConstantKey.S_SELL;
+                    return bbObj;
+                }
+            }
+
+            j++;
         }
+        bbObj = new BBObj();
         return bbObj;
+
     }
 
     //Bollinger-Bands
     //The default values are 20 for period, and 2 for standard deviations,
-    public static BBObj BBands(ArrayList StockArray, int DataOffset, int MAvg, int SD) {
+    public static BBObj BBandData(ArrayList StockArray, int DataOffset, int MAvg, int SD) {
         BBObj bbObj = new BBObj();
         try {
 //            MAvg = 20;  // smooth moving average
