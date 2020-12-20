@@ -17,50 +17,49 @@ public class stock_analysis {
 
     protected static Logger logger = Logger.getLogger("stock_analysis");
 
-//    public static void BBandstest(ServiceAFweb serviceAFWeb) {
-//        String symbol = "AAPL";
-//        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
-//        int size1yearAll = 20 * 12 * 1 + (50 * 3);
-//        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
-//        ArrayList<BBObj> BBArray = new ArrayList();
-//        for (int i = 0; i < StockArray.size(); i++) {
-//            BBObj bbObj = TechnicalCal.BBSignal(StockArray, i, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
-//            BBArray.add(bbObj);
-//        }
-//        logger.info("BBArray size=" + BBArray.size());
-//
-//
-//        ArrayList writeArray = new ArrayList();
-//        String stTitle = "";
-//        for (int i = 0; i < BBArray.size(); i++) {
-//            BBObj bbObj = BBArray.get(i);
-//            AFstockInfo stockInfo = StockArray.get(i);
-//
-//            String st = "" + stockInfo.getEntrydatedisplay() + "," + stockInfo.getFclose()
-//                    + "," + bbObj.trsignal
-//                    + "," + bbObj.upperBand
-//                    + "," + bbObj.lowerBand
-//                    + "," + bbObj.rsiValue
-//                    + "";
-//
-//            if (i == 0) {
-//                stTitle = "" + "date" + "," + "close"
-//                        + "," + "trsignal"
-//                        + "," + "upperBand"
-//                        + "," + "lowerBand"
-//                        + "," + "rsiValue"
-//                        + "";
-//                writeArray.add(stTitle);
-//
-//            }
-//            writeArray.add(st);
-//        }
-//
-//        String filename = ServiceAFweb.FileLocalDebugPath + "BBand.csv";
-//
-//        FileUtil.FileWriteTextArray(filename, writeArray);
-//
-//    }
+    public static void BBandstest(ServiceAFweb serviceAFWeb) {
+        String symbol = "HOU.TO";
+        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+        int size1yearAll = 20 * 12 * 1 + (50 * 3);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        ArrayList<BBObj> BBArray = new ArrayList();
+        for (int i = 0; i < StockArray.size(); i++) {
+            BBObj bbObj = TechnicalCal.BBSignal(StockArray, i, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+            BBArray.add(bbObj);
+        }
+        logger.info("BBArray size=" + BBArray.size());
+
+        ArrayList writeArray = new ArrayList();
+        String stTitle = "";
+        for (int i = 0; i < BBArray.size(); i++) {
+            BBObj bbObj = BBArray.get(i);
+            AFstockInfo stockInfo = StockArray.get(i);
+
+            String st = "" + stockInfo.getEntrydatedisplay() + "," + stockInfo.getFclose()
+                    + "," + bbObj.trsignal
+                    + "," + bbObj.upperBand
+                    + "," + bbObj.lowerBand
+                    + "," + bbObj.rsiValue
+                    + "";
+
+            if (i == 0) {
+                stTitle = "" + "date" + "," + "close"
+                        + "," + "trsignal"
+                        + "," + "upperBand"
+                        + "," + "lowerBand"
+                        + "," + "rsiValue"
+                        + "";
+                writeArray.add(stTitle);
+
+            }
+            writeArray.add(st);
+        }
+
+        String filename = ServiceAFweb.FileLocalDebugPath + "BBand.csv";
+
+        FileUtil.FileWriteTextArray(filename, writeArray);
+
+    }
 //
 //    public static void mainBBands(String[] args) {
 //        Scanner scan = new Scanner(System.in);

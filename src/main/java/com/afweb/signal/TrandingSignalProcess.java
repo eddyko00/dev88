@@ -1075,16 +1075,16 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) bbObj.rsiValue);
                     break;
                 case ConstantKey.INT_TR_NN2:
+                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+
+                    trObj.setTrsignal(bbObj1.trsignal);
+                    trHistory.setTrsignal(trObj.getTrsignal());
+                    trHistory.setParm1((float) bbObj1.lowerBand);
+                    trHistory.setParm2((float) bbObj1.upperBand);
+                    trHistory.setParm3((float) bbObj1.rsiValue);
+
                     boolean nn2Flag = false;
                     if (nn2Flag == true) {
-                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
-
-                        trObj.setTrsignal(bbObj1.trsignal);
-                        trHistory.setTrsignal(trObj.getTrsignal());
-                        trHistory.setParm1((float) bbObj1.lowerBand);
-                        trHistory.setParm2((float) bbObj1.upperBand);
-                        trHistory.setParm3((float) bbObj1.rsiValue);
-
                         ProcessNN2 nn2 = new ProcessNN2();
                         int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn2Signal;

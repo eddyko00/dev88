@@ -70,7 +70,8 @@ public class RelativeStrengthIndex {
                 //               100
                 // RSI = 100 - --------
                 //              1 + RS
-                this.rsi[i] = NumberFormatter.round(100 - (100 / (1 + this.rs[i])));
+//                this.rsi[i] = NumberFormatter.round(100 - (100 / (1 + this.rs[i])));
+                this.rsi[i] = (100.0 - (100.0 / (1 + this.rs[i])));
             }
 
         }

@@ -64,7 +64,6 @@ public class TechnicalCal {
         rsiObj.lastRsi = 50;
 
         int j = 0;
-
         for (int i = 0; i < StockRecArray.size(); i++) {
             double rsiValue = RSIdata(StockRecArray, DataOffset + j, period);
             if (rsiValue == -1) {
@@ -79,6 +78,9 @@ public class TechnicalCal {
                 break;
             }
             j++;
+            if (j > 20) {
+                break;
+            }
         }
 
         rsiObj.trsignal = ConstantKey.S_NEUTRAL;
@@ -412,26 +414,23 @@ public class TechnicalCal {
         BBObj bbObj = new BBObj();
 
         int j = 0;
-
         for (int i = 0; i < StockRecArray.size(); i++) {
             bbObj = BBandData(StockRecArray, DataOffset + j, MAvg, SD);
             AFstockInfo stockinfo = (AFstockInfo) StockRecArray.get(DataOffset);
             if (bbObj.lowerBand == 0) {
-                return bbObj;
+                break;
             }
             if (bbObj.upperBand == 0) {
-                return bbObj;
+                break;
             }
             float closeP = stockinfo.getFclose();
             double perLower = Math.abs(100 * (closeP - bbObj.lowerBand) / bbObj.lowerBand);
             double perUpper = Math.abs(100 * (bbObj.upperBand - closeP) / closeP);
             double rsiValue = RSIdata(StockRecArray, DataOffset, RSI);
             bbObj.rsiValue = rsiValue;
-
             if (rsiValue == -1) {
-                return bbObj;
+                break;
             }
-
             if (j == 0) {
                 bbObj.perlowerBandValue = perLower;
                 bbObj.perupperBandValue = perUpper;
@@ -452,8 +451,10 @@ public class TechnicalCal {
                     return bbObj;
                 }
             }
-
             j++;
+            if (j > 20) {
+                break;
+            }
         }
         bbObj = new BBObj();
         return bbObj;
