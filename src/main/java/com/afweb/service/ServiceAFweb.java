@@ -721,7 +721,6 @@ public class ServiceAFweb {
             // javamain proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
             stock_analysis bb = new stock_analysis();
-            stock_analysis.BBandstest(this);
 
         }
 

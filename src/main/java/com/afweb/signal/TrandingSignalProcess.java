@@ -1070,14 +1070,21 @@ public class TrandingSignalProcess {
 
                     trObj.setTrsignal(bbObj.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
-                    trHistory.setParm1((float) bbObj.perlowerBandValue);
-                    trHistory.setParm2((float) bbObj.perupperBandValue);
-                    trHistory.setParm3((float) bbObj.lastperlowerBandValue);
-                    trHistory.setParm4((float) bbObj.lastperupperBandValue);
+                    trHistory.setParm1((float) bbObj.lowerBand);
+                    trHistory.setParm2((float) bbObj.upperBand);
+                    trHistory.setParm3((float) bbObj.rsiValue);
                     break;
                 case ConstantKey.INT_TR_NN2:
-                    boolean nn2Flag = true;
+                    boolean nn2Flag = false;
                     if (nn2Flag == true) {
+                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+
+                        trObj.setTrsignal(bbObj1.trsignal);
+                        trHistory.setTrsignal(trObj.getTrsignal());
+                        trHistory.setParm1((float) bbObj1.lowerBand);
+                        trHistory.setParm2((float) bbObj1.upperBand);
+                        trHistory.setParm3((float) bbObj1.rsiValue);
+
                         ProcessNN2 nn2 = new ProcessNN2();
                         int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn2Signal;
@@ -1197,17 +1204,21 @@ public class TrandingSignalProcess {
                 case ConstantKey.INT_TR_NN2:
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
-                        ProcessNN2 nn2 = new ProcessNN2();
-                        NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
-                        if (nn != null) {
-                            trObj.setTrsignal(nn.getTrsignal());
-                            if (nn.getConfident() != null) {
-                                if (nn.getConfident().length() > 0) {
-                                    trObj.setComment(nn.getConfident());
-                                }
-                            }
-                            UpdateTRList.add(trObj);
-                        }
+                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+                        trObj.setTrsignal(bbObj1.trsignal);
+                        UpdateTRList.add(trObj);
+
+//                        ProcessNN2 nn2 = new ProcessNN2();
+//                        NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+//                        if (nn != null) {
+//                            trObj.setTrsignal(nn.getTrsignal());
+//                            if (nn.getConfident() != null) {
+//                                if (nn.getConfident().length() > 0) {
+//                                    trObj.setComment(nn.getConfident());
+//                                }
+//                            }
+//                            UpdateTRList.add(trObj);
+//                        }
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
