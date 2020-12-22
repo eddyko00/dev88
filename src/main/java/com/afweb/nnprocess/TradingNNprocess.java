@@ -251,6 +251,7 @@ public class TradingNNprocess {
 
                 ServiceAFweb.AFSleep();
             }
+            return 1;
         }
         logger.info("> ClearStockNNTranHistory done..." + nnName);
         return 0;
