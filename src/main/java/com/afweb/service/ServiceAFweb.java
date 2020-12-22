@@ -721,7 +721,8 @@ public class ServiceAFweb {
             // javamain proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
             stock_analysis bb = new stock_analysis();
-            stock_analysis.BBandstest(this);
+//            stock_analysis.BBandstest(this);
+
 
         }
 
@@ -4568,6 +4569,12 @@ public class ServiceAFweb {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
         } else if (tr == ConstantKey.INT_TR_ACC) {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC);
+        } else if (tr == ConstantKey.INT_TR_MACD) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
+         } else if (tr == ConstantKey.INT_TR_MV) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
+          } else if (tr == ConstantKey.INT_TR_RSI) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);             
         } else if (tr == ConstantKey.INT_TR_NN1) {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
         } else if (tr == ConstantKey.INT_TR_NN2) {
