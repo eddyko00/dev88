@@ -78,9 +78,12 @@ public class TechnicalCal {
                 break;
             }
             j++;
-            if (j > 20) {
+            if ((DataOffset + j + 2 * period) > StockRecArray.size()) {
                 break;
             }
+//            if (j > 20) {
+//                break;
+//            }
         }
 
         rsiObj.trsignal = ConstantKey.S_NEUTRAL;
@@ -426,11 +429,11 @@ public class TechnicalCal {
             float closeP = stockinfo.getFclose();
             double perLower = Math.abs(100 * (closeP - bbObj.lowerBand) / bbObj.lowerBand);
             double perUpper = Math.abs(100 * (bbObj.upperBand - closeP) / closeP);
-            double rsiValue = RSIdata(StockRecArray, DataOffset, RSI);
-            bbObj.rsiValue = rsiValue;
-            if (rsiValue == -1) {
-                break;
-            }
+//            double rsiValue = RSIdata(StockRecArray, DataOffset, RSI);
+//            bbObj.rsiValue = rsiValue;
+//            if (rsiValue == -1) {
+//                break;
+//            }
             if (j == 0) {
                 bbObj.perlowerBandValue = perLower;
                 bbObj.perupperBandValue = perUpper;
@@ -440,21 +443,23 @@ public class TechnicalCal {
 
             bbObj.trsignal = ConstantKey.S_NEUTRAL;
             if (perLower < 10) {
-                if (rsiValue < 30) {
+//                if (rsiValue < 30) {
                     bbObj.trsignal = ConstantKey.S_BUY;
-
                     return bbObj;
-                }
+//                }
             } else if (perUpper < 10) {
-                if (rsiValue > 70) {
+//                if (rsiValue > 70) {
                     bbObj.trsignal = ConstantKey.S_SELL;
                     return bbObj;
-                }
+//                }
             }
             j++;
-            if (j > 20) {
+            if ((DataOffset + j + 2 * MAvg) > StockRecArray.size()) {
                 break;
-            }
+            }            
+//            if (j > 20) {
+//                break;
+//            }
         }
         bbObj = new BBObj();
         return bbObj;
@@ -469,7 +474,7 @@ public class TechnicalCal {
 //            MAvg = 20;  // smooth moving average
 //            SD = 2;  // standard deviation 
 
-            int dataSize = MAvg + 20;
+            int dataSize = MAvg * 2;
             if (StockArray.size() < DataOffset + dataSize) {
                 logger.warning("> BBands incorrect StockRecArray size" + StockArray.size());
                 return bbObj;

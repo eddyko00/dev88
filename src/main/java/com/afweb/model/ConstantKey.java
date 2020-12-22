@@ -138,7 +138,8 @@ public class ConstantKey {
     public static final int INT_TR_RSI = 3;
     public static final int INT_RSI_14 = 14;
     public static final int INT_RSI_7 = 7;    
-
+    public static final int INT_RSI_5 = 5; 
+    
     public static final String TR_NN1 = "TR_NN1"; //NN for MACD fast
     public static final int INT_TR_NN1 = 4;
 
@@ -153,6 +154,7 @@ public class ConstantKey {
     public static final int INT_BB_M_20 = 20;
     public static final int INT_BB_SD_2 = 2;
     public static final int INT_BB_M_10 = 10;
+    public static final int INT_BB_M_5 = 5;    
     public static final int INT_BB_SD_1 = 1;
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
