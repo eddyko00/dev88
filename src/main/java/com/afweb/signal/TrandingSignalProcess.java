@@ -1075,7 +1075,8 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) bbObj.rsiValue);
                     break;
                 case ConstantKey.INT_TR_NN2:
-                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+//                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_10, ConstantKey.INT_BB_SD_1, ConstantKey.INT_RSI_7);
 
                     trObj.setTrsignal(bbObj1.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
@@ -1204,7 +1205,8 @@ public class TrandingSignalProcess {
                 case ConstantKey.INT_TR_NN2:
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
-                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+//                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_10, ConstantKey.INT_BB_SD_1, ConstantKey.INT_RSI_7);
                         trObj.setTrsignal(bbObj1.trsignal);
                         UpdateTRList.add(trObj);
 
