@@ -1075,14 +1075,19 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) bbObj.rsiValue);
                     break;
                 case ConstantKey.INT_TR_NN2:
-//                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
-                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_10, ConstantKey.INT_BB_SD_1, ConstantKey.INT_RSI_5);
-
-                    trObj.setTrsignal(bbObj1.trsignal);
+                    RSIObj rsi1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
+                    trObj.setTrsignal(rsi1.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
-                    trHistory.setParm1((float) bbObj1.lowerBand);
-                    trHistory.setParm2((float) bbObj1.upperBand);
-                    trHistory.setParm3((float) bbObj1.rsiValue);
+                    trHistory.setParm1((float) rsi1.rsi);
+                    trHistory.setParm2((float) rsi1.lastRsi);                    
+//                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+//                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_10, ConstantKey.INT_BB_SD_1, ConstantKey.INT_RSI_5);
+//
+//                    trObj.setTrsignal(bbObj1.trsignal);
+//                    trHistory.setTrsignal(trObj.getTrsignal());
+//                    trHistory.setParm1((float) bbObj1.lowerBand);
+//                    trHistory.setParm2((float) bbObj1.upperBand);
+//                    trHistory.setParm3((float) bbObj1.rsiValue);
 
                     boolean nn2Flag = false;
                     if (nn2Flag == true) {
@@ -1203,6 +1208,10 @@ public class TrandingSignalProcess {
                     UpdateTRList.add(trObj);
                     break;
                 case ConstantKey.INT_TR_NN2:
+                    RSIObj rsi1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
+                    trObj.setTrsignal(rsi1.trsignal);
+                    UpdateTRList.add(trObj);
+                    
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
 //                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
