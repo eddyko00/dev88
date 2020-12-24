@@ -158,10 +158,6 @@ public class NNProcessBySignal {
     }
 ///////////////////////////////
 
-    public void processStockInput(ServiceAFweb serviceAFWeb) {
-
-    }
-
     public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
         boolean flagIntitNN1Input = true;

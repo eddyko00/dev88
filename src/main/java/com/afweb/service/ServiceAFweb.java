@@ -717,12 +717,14 @@ public class ServiceAFweb {
     private void AFprocessDebug() {
 
         if (mydebugtestflag == true) {
+            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             //set up run parm 
             // javamain proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
-            stock_analysis bb = new stock_analysis();
+//            stock_analysis bb = new stock_analysis();
 //            stock_analysis.BBandstest(this);
 
+            nn2ProcBySig.processInputNeuralNet(this);
 
         }
 
@@ -4571,10 +4573,10 @@ public class ServiceAFweb {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC);
         } else if (tr == ConstantKey.INT_TR_MACD) {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
-         } else if (tr == ConstantKey.INT_TR_MV) {
+        } else if (tr == ConstantKey.INT_TR_MV) {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
-          } else if (tr == ConstantKey.INT_TR_RSI) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);             
+        } else if (tr == ConstantKey.INT_TR_RSI) {
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
         } else if (tr == ConstantKey.INT_TR_NN1) {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
         } else if (tr == ConstantKey.INT_TR_NN2) {
