@@ -14,7 +14,6 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 
 import com.afweb.signal.*;
-import com.afweb.signal.BBands.stock_analysis;
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
