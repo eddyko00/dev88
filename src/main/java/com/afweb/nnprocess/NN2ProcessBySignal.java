@@ -39,9 +39,9 @@ public class NN2ProcessBySignal {
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> processInputNeuralNet TR NN1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_RSI_7);
             logger.info("> processInputNeuralNet TR NN2... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_RSI_5);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
@@ -112,14 +112,14 @@ public class NN2ProcessBySignal {
         ArrayList<NNInputDataObj> inputList = null;
 
         String nnName = ConstantKey.TR_NN1;
-        if (tr == ConstantKey.INT_TR_NN1) {
+        if (tr == ConstantKey.INT_RSI_5) {
             nnName = ConstantKey.TR_NN1;
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-            ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN2 nn2 = new ProcessNN2();
+            inputList = nn2.trainingNN2dataRSI1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_NN2) {
             nnName = ConstantKey.TR_NN1;
             ProcessNN1 nn1 = new ProcessNN1();

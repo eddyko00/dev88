@@ -108,7 +108,7 @@ public class CKey {
 
     // must match to the nnData and nn3Data version  make sure both 
     // must match to the nnData and nn3Data version  make sure both 
-    public static String version = "2.1109";
+    public static String version = "0.1224";
 
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
 //    public static String NN2_WEIGHT_0 = nnData.NN1_WEIGHT_0;
