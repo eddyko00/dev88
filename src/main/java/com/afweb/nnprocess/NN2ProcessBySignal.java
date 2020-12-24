@@ -12,7 +12,7 @@ import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
 import com.afweb.nn.NNInputDataObj;
 import com.afweb.nn.NNInputOutObj;
-import static com.afweb.nnprocess.NNProcessBySignal.logger;
+import static com.afweb.nnprocess.NN1ProcessBySignal.logger;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.ProcessNN1;
 import com.afweb.signal.ProcessNN2;
@@ -101,19 +101,6 @@ public class NN2ProcessBySignal {
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
 
-//        boolean trainStock = false;
-//        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
-//            String stockN = ServiceAFweb.neuralNetTrainStock[i];
-//            if (stockN.equals(symbol)) {
-//                trainStock = true;
-//                break;
-//            }
-//        }
-//        if (trainStock == false) {
-//            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
-//                return null;
-//            }
-//        }
         symbol = symbol.replace(".", "_");
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
@@ -134,9 +121,13 @@ public class NN2ProcessBySignal {
             ProcessNN1 nn1 = new ProcessNN1();
             inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_NN2) {
-            nnName = ConstantKey.TR_NN2;
-            ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            nnName = ConstantKey.TR_NN1;
+            ProcessNN1 nn1 = new ProcessNN1();
+            inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            
+//            nnName = ConstantKey.TR_NN2;
+//            ProcessNN2 nn2 = new ProcessNN2();
+//            inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         String BPname = CKey.NN_version + "_" + nnName;
@@ -247,5 +238,5 @@ public class NN2ProcessBySignal {
         return inputList;
     }
 
-    
+
 }

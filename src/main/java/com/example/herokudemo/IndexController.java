@@ -3,7 +3,7 @@ package com.example.herokudemo;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
-import com.afweb.nnprocess.NNProcessBySignal;
+import com.afweb.nnprocess.NN1ProcessBySignal;
 import com.afweb.util.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceRemoteDB;
@@ -1403,9 +1403,9 @@ public class IndexController {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
                 afWebService.systemNNFlag = true;
 
-                NNProcessBySignal.flagNNLearningSignal = true;
-                NNProcessBySignal.flagNN3LearningTrend = true;
-                NNProcessBySignal.flagNNReLearning = true;
+                NN1ProcessBySignal.flagNNLearningSignal = true;
+                NN1ProcessBySignal.flagNN3LearningTrend = true;
+                NN1ProcessBySignal.flagNNReLearning = true;
 
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
@@ -1418,9 +1418,9 @@ public class IndexController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 afWebService.systemNNFlag = true;
 
-                NNProcessBySignal.flagNNLearningSignal = true;
-                NNProcessBySignal.flagNN3LearningTrend = true;
-                NNProcessBySignal.flagNNReLearning = true;
+                NN1ProcessBySignal.flagNNLearningSignal = true;
+                NN1ProcessBySignal.flagNN3LearningTrend = true;
+                NN1ProcessBySignal.flagNNReLearning = true;
 
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
@@ -1441,9 +1441,9 @@ public class IndexController {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
                 afWebService.systemNNFlag = false;
 
-                NNProcessBySignal.flagNNLearningSignal = false;
-                NNProcessBySignal.flagNN3LearningTrend = false;
-                NNProcessBySignal.flagNNReLearning = false;
+                NN1ProcessBySignal.flagNNLearningSignal = false;
+                NN1ProcessBySignal.flagNN3LearningTrend = false;
+                NN1ProcessBySignal.flagNNReLearning = false;
 
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);
@@ -1456,9 +1456,9 @@ public class IndexController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 afWebService.systemNNFlag = false;
 
-                NNProcessBySignal.flagNNLearningSignal = false;
-                NNProcessBySignal.flagNN3LearningTrend = false;
-                NNProcessBySignal.flagNNReLearning = false;
+                NN1ProcessBySignal.flagNNLearningSignal = false;
+                NN1ProcessBySignal.flagNN3LearningTrend = false;
+                NN1ProcessBySignal.flagNNReLearning = false;
 
                 msg.setResponse("" + afWebService.systemNNFlag);
                 msg.setResult(true);

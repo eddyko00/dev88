@@ -633,7 +633,7 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);
-            NNProcessBySignal nnProcBySig = new NNProcessBySignal();
+            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
             nnProcBySig.mainProcessNeuralNet(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
 
@@ -660,7 +660,7 @@ public class ServiceAFweb {
 
     private void AFprocessNN() {
         NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
-        NNProcessBySignal nnProcBySig = new NNProcessBySignal();
+        NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
 
         nnProcBySig.processNeuralNet(this);
         nnStProcByTrend.processNeuralNetTrendPred(this);
@@ -884,7 +884,7 @@ public class ServiceAFweb {
 //            AFstockObj stock = this.getRealTimeStockImp(symbol);
 //            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
             NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
-            NNProcessBySignal nnProcBySig = new NNProcessBySignal();
+            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
             TradingNNprocess NNProcessImp = new TradingNNprocess();
 
             for (int i = 0; i < 3; i++) {
@@ -3048,8 +3048,8 @@ public class ServiceAFweb {
                                     inputDataObj = nn1.trainingNN1dataMACD(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
                                 } else if (TR_Name == ConstantKey.INT_TR_NN2) {
 
-                                    ProcessNN2 nn2 = new ProcessNN2();
-                                    inputDataObj = nn2.trainingNN2dataMACD(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
+                                    ProcessNN1 nn1 = new ProcessNN1();
+                                    inputDataObj = nn1.trainingNN2dataMACD(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
                                 }
 
                                 // this assume from the oldest to new date no need reverse
@@ -3594,7 +3594,7 @@ public class ServiceAFweb {
             end = TimeConvertion.addDays(start, -length);
 
             long endStaticDay = 0;
-            ArrayList<AFstockInfo> stockInfoArrayStatic = NNProcessBySignal.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
+            ArrayList<AFstockInfo> stockInfoArrayStatic = NN1ProcessBySignal.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
             if (stockInfoArrayStatic == null) {
                 stockInfoArrayStatic = new ArrayList();
             }

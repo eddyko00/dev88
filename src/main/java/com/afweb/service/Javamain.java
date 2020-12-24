@@ -5,7 +5,7 @@
  */
 package com.afweb.service;
 
-import com.afweb.nnprocess.NNProcessBySignal;
+import com.afweb.nnprocess.NN1ProcessBySignal;
 import com.afweb.util.CKey;
 
 /**
@@ -17,17 +17,17 @@ public class Javamain {
     public static void checkParameterFlag(String cmd) {
 
         if (cmd.indexOf("flagNNLearningSignal") != -1) {
-            NNProcessBySignal.flagNNLearningSignal = true;
+            NN1ProcessBySignal.flagNNLearningSignal = true;
         } else if (cmd.indexOf("flagNN3LearningTrend") != -1) {
-            NNProcessBySignal.flagNN3LearningTrend = true;
+            NN1ProcessBySignal.flagNN3LearningTrend = true;
         } else if (cmd.indexOf("flagNNReLearning") != -1) {
-            NNProcessBySignal.flagNNReLearning = true;
+            NN1ProcessBySignal.flagNNReLearning = true;
         } else if (cmd.indexOf("processNNSignalAdmin") != -1) {
-            NNProcessBySignal.processNNSignalAdmin = true;
+            NN1ProcessBySignal.processNNSignalAdmin = true;
         } else if (cmd.indexOf("processRestinputflag") != -1) {
-            NNProcessBySignal.processRestinputflag = true;
+            NN1ProcessBySignal.processRestinputflag = true;
         } else if (cmd.indexOf("processRestAllStockflag") != -1) {
-            NNProcessBySignal.processRestAllStockflag = true;
+            NN1ProcessBySignal.processRestAllStockflag = true;
 
         } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
             CKey.OTHER_PHP1_MYSQL = true;

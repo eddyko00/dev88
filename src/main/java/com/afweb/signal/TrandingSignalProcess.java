@@ -2096,7 +2096,7 @@ public class TrandingSignalProcess {
                 if (nnName.equals(ConstantKey.TR_NN3)) {
                     inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("", subSymbol);
                 } else {
-                    inputDatalist = NNProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
+                    inputDatalist = NN1ProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
                 }
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
@@ -2140,7 +2140,7 @@ public class TrandingSignalProcess {
                 if (nnName.equals(ConstantKey.TR_NN3)) {
                     inputDatalist = NNProcessByTrend.NeuralNetAllStockGetNN3InputfromStaticCode(symbol, null);
                 } else {
-                    inputDatalist = NNProcessBySignal.NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
+                    inputDatalist = NN1ProcessBySignal.NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
                 }
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNetAllStock " + BPnameSym + " " + inputDatalist.size());

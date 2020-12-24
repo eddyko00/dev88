@@ -163,7 +163,10 @@ public class ProcessNN00 {
         // TR_NN1
         trObjMACD1.setTrname(ConstantKey.TR_MACD1);
         trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
-
+//    public static final int INT_MACD1_6 = 6;
+//    public static final int INT_MACD1_12 = 12;
+//    public static final int INT_MACD1_4 = 4;
+    
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
 
@@ -211,6 +214,9 @@ public class ProcessNN00 {
         // TR_NN2
         trObjMACD1.setTrname(ConstantKey.TR_MACD0);
         trObjMACD1.setType(ConstantKey.INT_TR_MACD0);
+//    public static final int INT_MACD0_3 = 3;
+//    public static final int INT_MACD0_6 = 6;
+//    public static final int INT_MACD0_2 = 2;
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
