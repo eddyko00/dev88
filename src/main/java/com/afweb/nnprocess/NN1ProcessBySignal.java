@@ -1664,7 +1664,7 @@ public class NN1ProcessBySignal {
             inputBuf.append(nnAllData.NN_ALLINPUTLIST4);
             inputBuf.append(nnAllData.NN_ALLINPUTLIST5);
             inputBuf.append(nnAllData.NN_ALLINPUTLIST6);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST7);
+//            inputBuf.append(nnAllData.NN_ALLINPUTLIST7);
 //            inputBuf.append(nnAllData.NN_ALLINPUTLIST8); //need to check nnData file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());

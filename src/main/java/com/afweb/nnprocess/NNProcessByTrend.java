@@ -1191,8 +1191,8 @@ public class NNProcessByTrend {
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST9);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST10);
             inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST11);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST12);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST13);
+//            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST12);
+//            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST13);
 //            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST14); // check nn3 data           
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
