@@ -2605,7 +2605,7 @@ public class TrandingSignalProcess {
                     try {
                         if (refName.length() > 0) {
                             double refError = Double.parseDouble(refName);
-                            double refminError = minError + 0.001;
+                            double refminError = minError + 0.002; //+ 0.001;
                             if (refminError < refError) {
                                 serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refminError + "");
                                 logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
