@@ -101,7 +101,7 @@ public class TradingNNprocess {
                     currentTime = 0;
                 }
                 if (lockDate5Min < currentTime) {
-                    logger.info("ProcessReLearnInputNeuralNet exit after 15 minutes");
+                    logger.info("ProcessReLearnInputNeuralNet exit after 5 minutes");
                     break;
                 }
                 if (stockNNretrainNameArray.size() == 0) {
