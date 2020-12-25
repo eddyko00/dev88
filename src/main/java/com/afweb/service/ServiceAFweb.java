@@ -716,15 +716,25 @@ public class ServiceAFweb {
     private void AFprocessDebug() {
 
         if (mydebugtestflag == true) {
+            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             //set up run parm 
             // javamain proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
+
+            NNProcessByTrend nntrend = new NNProcessByTrend();
+//            nntrend.processInputNeuralNetTrend(this);
+
+            int TR_NN = ConstantKey.INT_TR_NN3;
+            String symbol = "HOU.TO";
+            String nnName = ConstantKey.TR_NN3;
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+            AFneuralNet nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
+
 //            stock_analysis bb = new stock_analysis();
 //            stock_analysis.BBandstest(this);
-
-            nn2ProcBySig.processInputNeuralNet(this);
-
+//            nn2ProcBySig.processInputNeuralNet(this);
         }
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();

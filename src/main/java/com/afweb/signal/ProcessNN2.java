@@ -474,13 +474,13 @@ public class ProcessNN2 {
     }
     
     ////////////////////////////////////////////////////////
-        public ArrayList<NNInputDataObj> getAccountStockTRListHistoryRSINN1(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
+        public ArrayList<NNInputDataObj> getAccountStockTRListHistoryRSINN1(ArrayList<StockTRHistoryObj> thObjListRSI, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListMACD, 
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        if ((thObjListMACD == null) || (thObjListMV == null)) {
+        if ((thObjListRSI == null) || (thObjListMV == null)) {
             return null;
         }
-        if (thObjListMACD.size() != thObjListMV.size()) {
+        if (thObjListRSI.size() != thObjListMV.size()) {
             return null;
         }
         if (thObjListRSI.size() != thObjListRSI.size()) {
