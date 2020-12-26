@@ -727,7 +727,7 @@ public class ServiceAFweb {
             StockArray = getStockHistorical("AAPL", size1year * 4);
             StockArray = getStockHistorical("GLD", size1year * 4);
             StockArray = getStockHistorical("IWM", size1year * 4);
-
+ 
             NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
