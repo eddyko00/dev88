@@ -548,7 +548,10 @@ public class StockDB {
 
                     ArrayList<AFstockInfo> stockInfoArrayStatic = NN1ProcessBySignal.AllStockHistoryGetfromStaticCode(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
-                        stockInfoArrayStatic = new ArrayList();
+                        stockInfoArrayStatic = NN1ProcessBySignal.All_1_StockHistoryGetfromStaticCode(stock.getSymbol());
+                        if (stockInfoArrayStatic == null) {
+                            stockInfoArrayStatic = new ArrayList();
+                        }
                     }
                     if (stockInfoArrayStatic.size() > 0) {
 //                        logger.info("> getStockHistorical" + stock.getSymbol() + " " + stockInfoArrayStatic.size());

@@ -422,7 +422,6 @@ public class NN1ProcessBySignal {
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
-
         if (tr == ConstantKey.INT_TR_NN1) {
 
             //StockArray assume recent date to old data  
@@ -726,7 +725,7 @@ public class NN1ProcessBySignal {
                     continue;
                 }
                 // skiping first 3 days (last days is not final
-                for (int j = 3; j < StockArray.size(); j++) {
+                for (int j = 5; j < StockArray.size(); j++) {
                     try {
                         AFstockInfo obj = StockArray.get(j);
                         String st = new ObjectMapper().writeValueAsString(obj);
@@ -766,7 +765,6 @@ public class NN1ProcessBySignal {
     }
 
     public static HashMap<String, ArrayList> stockInputMap = null;
-
     public static boolean AllStockHistoryGetfromStaticCodeInit() {
 
         if (stockInputMap != null) {
@@ -968,7 +966,7 @@ public class NN1ProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK174);
             inputBuf.append(nnAllStock.NN_ALLSTOCK175);
             inputBuf.append(nnAllStock.NN_ALLSTOCK176);
-//            inputBuf.append(nnAllStock.NN_ALLSTOCK177);  // check nnAllStock data 
+            inputBuf.append(nnAllStock.NN_ALLSTOCK177);  // check nnAllStock data 
 //            inputBuf.append(nnAllStock.NN_ALLSTOCK178);
 //            inputBuf.append(nnAllStock.NN_ALLSTOCK179);
 
@@ -992,6 +990,155 @@ public class NN1ProcessBySignal {
         if (symbol != "") {
             try {
                 inputlist = stockInputMap.get(symbol);
+                if (inputlist == null) {
+                    return null;
+                }
+                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+                AFstockInfo[] arrayItem = new ObjectMapper().readValue(inputListRawSt, AFstockInfo[].class);
+                List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
+                inputlist = new ArrayList<AFstockInfo>(listItem);
+                return inputlist;
+            } catch (Exception ex) {
+            }
+        }
+
+        return inputlist;
+
+    }
+
+    public static HashMap<String, ArrayList> stock_1_InputMap = null;
+
+    public static boolean All_1_StockHistoryGetfromStaticCodeInit() {
+
+        if (stock_1_InputMap != null) {
+            return true;
+        }
+
+        StringBuffer inputBuf = new StringBuffer();
+        try {
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK1);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK2);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK3);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK4);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK5);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK6);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK7);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK8);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK9);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK10);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK11);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK12);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK13);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK14);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK15);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK16);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK17);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK18);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK19);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK20);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK21);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK22);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK23);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK24);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK25);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK26);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK27);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK28);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK29);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK30);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK31);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK32);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK33);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK34);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK35);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK36);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK37);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK38);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK39);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK40);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK41);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK42);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK43);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK44);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK45);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK46);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK47);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK48);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK49);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK50);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK51);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK52);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK53);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK54);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK55);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK56);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK57);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK58);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK59);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK60);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK61);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK62);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK63);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK64);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK65);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK66);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK67);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK68);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK69);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK70);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK71);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK72);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK73);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK74);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK75);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK76);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK77);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK78);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK79);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK80);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK81);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK82);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK83);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK84);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK85);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK86);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK87);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK88);  // check nnAllStock data 
+//            inputBuf.append(nn1AllStock.NN_1ALLSTOCK89);
+//
+//            inputBuf.append(nn1AllStock.NN_1ALLSTOCK90);
+//            inputBuf.append(nn1AllStock.NN_1ALLSTOCK91);
+
+
+
+            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
+            stock_1_InputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
+            return true;
+        } catch (Exception ex) {
+            logger.info("> All_1_StockHistoryGetfromStaticCodeInit - exception " + ex);
+        }
+        return false;
+    }
+
+    public static ArrayList<AFstockInfo> All_1_StockHistoryGetfromStaticCode(String symbol) {
+
+        ArrayList<AFstockInfo> inputlist = new ArrayList();
+        All_1_StockHistoryGetfromStaticCodeInit();
+        if (stock_1_InputMap == null) {
+            return inputlist;
+        }
+
+        if (symbol != "") {
+            try {
+                inputlist = stock_1_InputMap.get(symbol);
                 if (inputlist == null) {
                     return null;
                 }
@@ -1703,8 +1850,7 @@ public class NN1ProcessBySignal {
         return null;
     }
 
-    
-   public ArrayList<NNInputDataObj> getTrainingNNdataStockMACD(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
+    public ArrayList<NNInputDataObj> getTrainingNNdataStockMACD(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;
         int size1yearAll = 20 * 12 * 2 + (50 * 3);
@@ -1739,5 +1885,5 @@ public class NN1ProcessBySignal {
 
         return inputList;
     }
-    
+
 }

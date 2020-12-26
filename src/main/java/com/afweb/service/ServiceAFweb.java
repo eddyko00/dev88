@@ -85,9 +85,8 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
-    public static String allStock[] = {"AAPL", "AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
+    public static String allStock[] = {"AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
-//    public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "T.TO", "RY.TO"};
 
     /**
      * @return the cacheAccountAdminObj
@@ -716,22 +715,31 @@ public class ServiceAFweb {
     private void AFprocessDebug() {
 
         if (mydebugtestflag == true) {
-            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
-            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             //set up run parm 
             // javamain proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
 
-            NNProcessByTrend nntrend = new NNProcessByTrend();
-//            nntrend.processInputNeuralNetTrend(this);
+//public static String allStock[] = {"AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
+//public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 
-            int TR_NN = ConstantKey.INT_TR_NN3;
-            String symbol = "HOU.TO";
-            String nnName = ConstantKey.TR_NN3;
-            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            int size1year = 5 * 52;
+            ArrayList StockArray = getStockHistorical("HOU.TO", size1year * 4);
+            StockArray = getStockHistorical("AAPL", size1year * 4);
+            StockArray = getStockHistorical("GLD", size1year * 4);
+            StockArray = getStockHistorical("IWM", size1year * 4);
 
-            AFneuralNet nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
+            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
+//            NNProcessByTrend nntrend = new NNProcessByTrend();
+////            nntrend.processInputNeuralNetTrend(this);
+//
+//            int TR_NN = ConstantKey.INT_TR_NN3;
+//            String symbol = "HOU.TO";
+//            String nnName = ConstantKey.TR_NN3;
+//            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//
+//            AFneuralNet nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
 //            stock_analysis bb = new stock_analysis();
 //            stock_analysis.BBandstest(this);
 //            nn2ProcBySig.processInputNeuralNet(this);
@@ -3605,7 +3613,10 @@ public class ServiceAFweb {
             long endStaticDay = 0;
             ArrayList<AFstockInfo> stockInfoArrayStatic = NN1ProcessBySignal.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
             if (stockInfoArrayStatic == null) {
-                stockInfoArrayStatic = new ArrayList();
+                stockInfoArrayStatic = NN1ProcessBySignal.All_1_StockHistoryGetfromStaticCode(NormalizeSymbol);
+                if (stockInfoArrayStatic == null) {
+                    stockInfoArrayStatic = new ArrayList();
+                }
             }
             if (stockInfoArrayStatic.size() > 0) {
 //                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
