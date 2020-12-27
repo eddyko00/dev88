@@ -85,7 +85,7 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
-    public static String allStock[] = {"AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
+    public static String allStock[] = {"AEM", "NEM", "SE", "BABA", "FB", "GLD", "MSFT", "T.TO"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 
     /**
