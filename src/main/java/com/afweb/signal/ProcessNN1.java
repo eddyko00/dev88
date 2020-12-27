@@ -287,7 +287,7 @@ public class ProcessNN1 {
                                 float thClose = lastTH.getClose();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                float delta = specialOverrideRule1(thClose, StClose);
+                                float delta = specialOverrideRule1(prevSignal, thClose, StClose);
                                 long lastTHLong = lastTH.getUpdateDatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
@@ -380,7 +380,7 @@ public class ProcessNN1 {
                                 float thClose = lastTH.getAvgprice();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                float delta = specialOverrideRule1(thClose, StClose);
+                                float delta = specialOverrideRule1(prevSignal, thClose, StClose);
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
@@ -429,11 +429,19 @@ public class ProcessNN1 {
         return null;
     }
 
-    public float specialOverrideRule1(float thClose, float StClose) {
+    public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
-        delPer = Math.abs(delPer);
-        if (delPer > 20) {  // > 15% override the NN sigal and take the MACD signal
-            return delPer;
+
+        if (currSignal == ConstantKey.S_BUY) {
+            if (delPer < -20) {
+                delPer = Math.abs(delPer);
+                return delPer;
+            }
+        } else if (currSignal == ConstantKey.S_SELL) {
+            if (delPer > 20) {
+                delPer = Math.abs(delPer);
+                return delPer;
+            }
         }
         return 0;
     }
