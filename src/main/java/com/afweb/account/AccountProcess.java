@@ -1609,7 +1609,7 @@ public class AccountProcess {
                 String sql = AccountDB.insertTransaction(item);
                 writeSQLArray.add(sql);
                 index++;
-                if (index > 500) {
+                if (index > 400) {
                     index = 0;
                     int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
