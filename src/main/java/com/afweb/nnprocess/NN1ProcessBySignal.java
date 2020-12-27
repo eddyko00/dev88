@@ -1112,10 +1112,38 @@ public class NN1ProcessBySignal {
             inputBuf.append(nn1AllStock.NN_1ALLSTOCK86);
             inputBuf.append(nn1AllStock.NN_1ALLSTOCK87);
             inputBuf.append(nn1AllStock.NN_1ALLSTOCK88);  // check nnAllStock data 
-//            inputBuf.append(nn1AllStock.NN_1ALLSTOCK89);
-//
-//            inputBuf.append(nn1AllStock.NN_1ALLSTOCK90);
-//            inputBuf.append(nn1AllStock.NN_1ALLSTOCK91);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK89);
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK90);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK91);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK92);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK93);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK94);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK95);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK96);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK97);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK98);  // check nnAllStock data 
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK99);
+            
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK100);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK101);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK102);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK103);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK104);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK105);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK106);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK107);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK108);  // check nnAllStock data 
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK109);            
+
+
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK110);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK111);
+            inputBuf.append(nn1AllStock.NN_1ALLSTOCK112); // check nnAllStock data
+//            inputBuf.append(nn1AllStock.NN_1ALLSTOCK113);
+//            inputBuf.append(nn1AllStock.NN_1ALLSTOCK114);
+            
+
 
 
 
