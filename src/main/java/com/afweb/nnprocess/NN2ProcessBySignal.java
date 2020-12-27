@@ -28,9 +28,8 @@ import java.util.Collections;
  * @author eddyko
  */
 public class NN2ProcessBySignal {
-    
-///////////////////////////////
 
+///////////////////////////////
     public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
         boolean flagIntitNN1Input = true;
@@ -39,9 +38,9 @@ public class NN2ProcessBySignal {
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> processInputNeuralNet TR NN1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_RSI_7);
-            logger.info("> processInputNeuralNet TR NN2... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_RSI_5);
+            logger.info("> processInputNeuralNet TR NN2... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_RSI_7);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
@@ -62,7 +61,7 @@ public class NN2ProcessBySignal {
 
         }
     }
-    
+
     // training neural net input data
     // create neural net input data
     //     
@@ -120,14 +119,10 @@ public class NN2ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN2 nn2 = new ProcessNN2();
             inputList = nn2.trainingNN2dataRSI1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-        } else if (tr == ConstantKey.INT_TR_NN2) {
-            nnName = ConstantKey.TR_NN1;
-            ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            
-//            nnName = ConstantKey.TR_NN2;
-//            ProcessNN2 nn2 = new ProcessNN2();
-//            inputList = nn2.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+        } else if (tr == ConstantKey.INT_RSI_7) {
+            ProcessNN2 nn2 = new ProcessNN2();
+            inputList = nn2.trainingNN2dataRSI2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+
         }
 
         String BPname = CKey.NN_version + "_" + nnName;
@@ -237,6 +232,5 @@ public class NN2ProcessBySignal {
         }
         return inputList;
     }
-
 
 }
