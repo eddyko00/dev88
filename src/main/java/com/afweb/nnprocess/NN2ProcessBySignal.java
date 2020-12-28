@@ -38,9 +38,9 @@ public class NN2ProcessBySignal {
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> processInputNeuralNet TR NN1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_RSI_5);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI1);
             logger.info("> processInputNeuralNet TR NN2... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_RSI_7);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI2);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
@@ -81,55 +81,44 @@ public class NN2ProcessBySignal {
         }
     }
 
-    private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
-        int sizeYr = 2;
-        for (int j = 0; j < sizeYr; j++) { //4; j++) {
-            int size = 20 * CKey.MONTH_SIZE * j;
-//                writeArrayNeuralNet.clear();
-            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
-            String symbol = "";
-            String symbolL[] = ServiceAFweb.allStock;
-            for (int i = 0; i < symbolL.length; i++) {
-                symbol = symbolL[i];
-                ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, TR_Name, size);
-            }
-        }
-    }
+    public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
+        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
 
-    public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
-        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
-
-        symbol = symbol.replace(".", "_");
+        String symbol = NormalizeSym.replace(".", "_");
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
         if (offset == 0) {
             size1yearAll = size1yearAll / 2;
         }
 
+        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSym, null);
+        if ((stockObj == null) || (stockObj.getAfstockInfo() == null)) {
+            String msg = "> getTrainingNNdataProcess symbol " + symbol + " - null";
+            logger.info(msg);
+
+            if (ServiceAFweb.mydebugtestflag == true) {
+                return null;
+            }
+            throw new ArithmeticException(msg);
+        }
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
-        String nnName = ConstantKey.TR_NN1;
-        if (tr == ConstantKey.INT_RSI_5) {
-            nnName = ConstantKey.TR_NN1;
+        if (tr == ConstantKey.INT_TR_RSI1) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN2 nn2 = new ProcessNN2();
             inputList = nn2.trainingNN2dataRSI1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-        } else if (tr == ConstantKey.INT_RSI_7) {
+        } else if (tr == ConstantKey.INT_TR_RSI2) {
             ProcessNN2 nn2 = new ProcessNN2();
             inputList = nn2.trainingNN2dataRSI2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
         }
-
+        String nnName = ConstantKey.TR_NN2;
         String BPname = CKey.NN_version + "_" + nnName;
-        boolean forceNN2flag = true;
-        if (forceNN2flag) {
-            BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-        }
+
         // ignor first and last
         int len = inputList.size();
         if (len <= 2) {
@@ -192,9 +181,9 @@ public class NN2ProcessBySignal {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn12 = "_nn1_";
-            if (tr == ConstantKey.INT_TR_NN2) {
-                nn12 = "_nn2_";
+            String nn12 = "_nn3_";
+            if (tr == ConstantKey.INT_TR_RSI2) {
+                nn12 = "_nn4_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
@@ -231,6 +220,22 @@ public class NN2ProcessBySignal {
             logger.info("> getTrainingNNdataProcess " + BPname + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
         }
         return inputList;
+    }
+
+    private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
+        int sizeYr = 2;
+        for (int j = 0; j < sizeYr; j++) { //4; j++) {
+            int size = 20 * CKey.MONTH_SIZE * j;
+//                writeArrayNeuralNet.clear();
+            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
+            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            String symbol = "";
+            String symbolL[] = ServiceAFweb.allStock;
+            for (int i = 0; i < symbolL.length; i++) {
+                symbol = symbolL[i];
+                ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, TR_Name, size);
+            }
+        }
     }
 
 }

@@ -719,18 +719,18 @@ public class ServiceAFweb {
             // javamain proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
 
+//            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
+            nn2ProcBySig.processInputNeuralNet(this);
+
 //public static String allStock[] = {"AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
 //public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
-
 //            int size1year = 5 * 52;
 //            ArrayList StockArray = getStockHistorical("HOU.TO", size1year * 4);
 //            StockArray = getStockHistorical("AAPL", size1year * 4);
 //            StockArray = getStockHistorical("GLD", size1year * 4);
 //            StockArray = getStockHistorical("IWM", size1year * 4);
 // 
-//            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
-            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-
 //            NNProcessByTrend nntrend = new NNProcessByTrend();
 //            nntrend.processInputNeuralNetTrend(this);
 //
@@ -742,7 +742,6 @@ public class ServiceAFweb {
 //            AFneuralNet nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
 //            stock_analysis bb = new stock_analysis();
 //            stock_analysis.BBandstest(this);
-            nn2ProcBySig.processInputNeuralNet(this);
         }
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();

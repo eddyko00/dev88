@@ -166,9 +166,9 @@ public class NN1ProcessBySignal {
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> processInputNeuralNet TR NN1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
             logger.info("> processInputNeuralNet TR NN2... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
@@ -209,9 +209,9 @@ public class NN1ProcessBySignal {
         boolean flagNeuralnetInput = false;
         if (flagNeuralnetInput == true) {
             logger.info("> NeuralnetInput TR NN1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
             logger.info("> NeuralnetInput TR NN2... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
         }
@@ -396,8 +396,8 @@ public class NN1ProcessBySignal {
         }
     }
 
-    public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
-        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
+    public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
+        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
 
 //        boolean trainStock = false;
 //        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
@@ -412,17 +412,27 @@ public class NN1ProcessBySignal {
 //                return null;
 //            }
 //        }
-        symbol = symbol.replace(".", "_");
+        String symbol = NormalizeSym.replace(".", "_");
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
         if (offset == 0) {
             size1yearAll = size1yearAll / 2;
         }
+        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSym, null);
+        if ((stockObj == null) || (stockObj.getAfstockInfo() == null)) {
+            String msg = "> getTrainingNNdataProcess symbol " + symbol + " - null";
+            logger.info(msg);
 
+            if (ServiceAFweb.mydebugtestflag == true) {
+                return null;
+            }
+            throw new ArithmeticException(msg);
+        }
+        
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
-        if (tr == ConstantKey.INT_TR_NN1) {
+        if (tr == ConstantKey.INT_TR_MACD1) {
 
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
@@ -430,7 +440,7 @@ public class NN1ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
             inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-        } else if (tr == ConstantKey.INT_TR_NN2) {
+        } else if (tr == ConstantKey.INT_TR_MACD) {
 
             ProcessNN1 nn1 = new ProcessNN1();
             inputList = nn1.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
@@ -500,7 +510,7 @@ public class NN1ProcessBySignal {
 
         if (getEnv.checkLocalPC() == true) {
             String nn12 = "_nn1_";
-            if (tr == ConstantKey.INT_TR_NN2) {
+            if (tr == ConstantKey.INT_TR_MACD) {
                 nn12 = "_nn2_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
