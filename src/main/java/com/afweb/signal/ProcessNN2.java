@@ -150,9 +150,10 @@ public class ProcessNN2 {
         String accountid = "1";
         String symbol = sym;
 //        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
+        String TRname = ConstantKey.TR_NN2;
 
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjNNRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN2);
+        TradingRuleObj trObjNNRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, TRname);
 
         TradingRuleObj trObjRSI1 = new TradingRuleObj();
         trObjRSI1.setTrname(ConstantKey.TR_RSI);
@@ -170,10 +171,10 @@ public class ProcessNN2 {
                     ArrayList<String> writeArray = new ArrayList();
                     ArrayList<String> displayArray = new ArrayList();
                     int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListRSI, writeArray, displayArray);
-                    boolean flagHis = false;
+                    boolean flagHis = true;
                     if (flagHis == true) {
-                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN1 + "_tran.csv", writeArray);
-                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListRSI, symbol, ConstantKey.TR_NN1, null);
+                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_1" + "_tran.csv", writeArray);
+                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListRSI, symbol, TRname + "_1", null);
                     }
                 }
             }
@@ -203,8 +204,9 @@ public class ProcessNN2 {
         String symbol = sym;
 //        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
 
+        String TRname = ConstantKey.TR_NN2;
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjNNRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN2);
+        TradingRuleObj trObjNNRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, TRname);
 
         TradingRuleObj trObjRSI1 = new TradingRuleObj();
         trObjRSI1.setTrname(ConstantKey.TR_RSI);
@@ -224,8 +226,8 @@ public class ProcessNN2 {
                     int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListRSI, writeArray, displayArray);
                     boolean flagHis = false;
                     if (flagHis == true) {
-                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + ConstantKey.TR_NN1 + "_tran.csv", writeArray);
-                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListRSI, symbol, ConstantKey.TR_NN1, null);
+                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_2" + "_tran.csv", writeArray);
+                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListRSI, symbol, TRname + "_2", null);                        
                     }
                 }
             }
@@ -241,7 +243,7 @@ public class ProcessNN2 {
 
         return inputDatalist;
     }
-    
+
     int ProcessTRHistoryOffsetNN2(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
 
@@ -525,9 +527,9 @@ public class ProcessNN2 {
         }
         return nnSignal;
     }
-    
+
     ////////////////////////////////////////////////////////
-        public ArrayList<NNInputDataObj> getAccountStockTRListHistoryRSINN1(ArrayList<StockTRHistoryObj> thObjListRSI, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListMACD, 
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryRSINN1(ArrayList<StockTRHistoryObj> thObjListRSI, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListMACD,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         if ((thObjListRSI == null) || (thObjListMV == null)) {
@@ -730,6 +732,5 @@ public class ProcessNN2 {
 
         return inputList;
     }
-
 
 }
