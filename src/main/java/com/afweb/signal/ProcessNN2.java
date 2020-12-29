@@ -227,7 +227,7 @@ public class ProcessNN2 {
                     boolean flagHis = false;
                     if (flagHis == true) {
                         FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_2" + "_tran.csv", writeArray);
-                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListRSI, symbol, TRname + "_2", null);                        
+                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListRSI, symbol, TRname + "_2", null);
                     }
                 }
             }
@@ -639,59 +639,64 @@ public class ProcessNN2 {
         }
         /// adding extra in betreen signal in case buy and sell is large > 10 day. 
         //  so, just add day 5 as extra signal
-
         ArrayList<NNInputDataObj> inputRetDatalist = new ArrayList<NNInputDataObj>();
-        if (inputDatalist != null) {
-            if (inputDatalist.size() > 1) {
-                for (int i = 0; i < inputDatalist.size(); i++) {
-                    NNInputDataObj inputDaObj0 = inputDatalist.get(i);
+        boolean flag = false;
+        if (flag == false) {
+            return inputDatalist;
+        }
+        if (flag == true) {
+            if (inputDatalist != null) {
+                if (inputDatalist.size() > 1) {
+                    for (int i = 0; i < inputDatalist.size(); i++) {
+                        NNInputDataObj inputDaObj0 = inputDatalist.get(i);
 
-                    inputRetDatalist.add(inputDaObj0);
-                    if ((i + 1) >= inputDatalist.size()) {
-                        continue;
-                    }
-                    NNInputDataObj inputDaObj1 = inputDatalist.get(i + 1);
-                    int index0 = inputDaObj0.getObj().getIndex();
-                    int index1 = inputDaObj1.getObj().getIndex();
-                    int step = (index1 - index0) / 10;
-                    if (step > 1) {
-                        for (int j = 1; j < step; j++) {
-                            int index = index0 + 10 * j;
-                            double output1 = inputDaObj0.getObj().getOutput1();
-                            double output2 = inputDaObj0.getObj().getOutput2();
-                            if ((output1 == 0.1) && (output2 == 0.1)) {
-                                continue;
-                            }
-                            NNInputDataObj inputDaObj = new NNInputDataObj();
-                            NNInputOutObj inputList = new NNInputOutObj();
-
-                            int signal = inputDaObj0.getObj().getTrsignal();
-
-                            for (int k = index; k < index1; k++) {
-                                StockTRHistoryObj thObjMACD = thObjListMACD.get(index);
-                                int signalIndex = thObjMACD.getTrsignal();
-                                if (signalIndex == signal) {
-                                    index = k;
-                                    break;
+                        inputRetDatalist.add(inputDaObj0);
+                        if ((i + 1) >= inputDatalist.size()) {
+                            continue;
+                        }
+                        NNInputDataObj inputDaObj1 = inputDatalist.get(i + 1);
+                        int index0 = inputDaObj0.getObj().getIndex();
+                        int index1 = inputDaObj1.getObj().getIndex();
+                        int step = (index1 - index0) / 10;
+                        if (step > 1) {
+                            for (int j = 1; j < step; j++) {
+                                int index = index0 + 10 * j;
+                                double output1 = inputDaObj0.getObj().getOutput1();
+                                double output2 = inputDaObj0.getObj().getOutput2();
+                                if ((output1 == 0.1) && (output2 == 0.1)) {
+                                    continue;
                                 }
-                            }
+                                NNInputDataObj inputDaObj = new NNInputDataObj();
+                                NNInputOutObj inputList = new NNInputOutObj();
 
-                            inputList = this.setupInputNN1(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
-                            if (inputList == null) {
-                                continue;
-                            }
-                            inputList.setOutput1(output1);
-                            inputList.setOutput2(output2);
+                                int signal = inputDaObj0.getObj().getTrsignal();
 
-                            StockTRHistoryObj thObjMACDIndex = thObjListMACD.get(index);
-                            inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
-                            inputDaObj.setObj(inputList);
-                            inputRetDatalist.add(inputDaObj);
+                                for (int k = index; k < index1; k++) {
+                                    StockTRHistoryObj thObjMACD = thObjListMACD.get(index);
+                                    int signalIndex = thObjMACD.getTrsignal();
+                                    if (signalIndex == signal) {
+                                        index = k;
+                                        break;
+                                    }
+                                }
+
+                                inputList = this.setupInputNN1(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
+                                if (inputList == null) {
+                                    continue;
+                                }
+                                inputList.setOutput1(output1);
+                                inputList.setOutput2(output2);
+
+                                StockTRHistoryObj thObjMACDIndex = thObjListMACD.get(index);
+                                inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
+                                inputDaObj.setObj(inputList);
+                                inputRetDatalist.add(inputDaObj);
 //                                logger.info("> getAccountStockTR MACD NN1 add " + inputDaObj.getObj().getDateSt());
 
+                            }
                         }
-                    }
 
+                    }
                 }
             }
         }

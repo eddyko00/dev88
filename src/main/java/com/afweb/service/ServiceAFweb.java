@@ -660,8 +660,8 @@ public class ServiceAFweb {
         NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
         NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
 
-        nnProcBySig.processNeuralNet(this);
-        nnStProcByTrend.processNeuralNetTrendPred(this);
+//        nnProcBySig.processNeuralNet(this);
+//        nnStProcByTrend.processNeuralNetTrendPred(this);
 
         ///////////////////////////////////////////////////////////////////////////////        
 //        TrandingSignalProcess.forceToGenerateNewNN = false;
@@ -885,41 +885,41 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////  
-        boolean flagSig = false;
-        if (flagSig == true) {
-
-            String symbol = "HOU.TO";
-            symbol = "AAPL";
-            String nnName = ConstantKey.TR_NN1;
-            int TR_NN = ConstantKey.INT_TR_NN1;
-
-//            TrandingSignalProcess tsprocess = new TrandingSignalProcess();
-//            int result = tsprocess.updateAllStockProcess(this, symbol);
+//        boolean flagSig = false;
+//        if (flagSig == true) {
+//
+//            String symbol = "HOU.TO";
+//            symbol = "AAPL";
+//            String nnName = ConstantKey.TR_NN1;
+//            int TR_NN = ConstantKey.INT_TR_NN1;
+//
+////            TrandingSignalProcess tsprocess = new TrandingSignalProcess();
+////            int result = tsprocess.updateAllStockProcess(this, symbol);
+////            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
+////            AccountObj accountAdminObj = this.getAdminObjFromCache();
+////            AFstockObj stock = this.getRealTimeStockImp(symbol);
+////            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+//            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+//            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//
+//            for (int i = 0; i < 3; i++) {
+//                nnName = ConstantKey.TR_NN1;
+//                TR_NN = ConstantKey.INT_TR_NN1;
+//                String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//                AFneuralNet nnObj1 = nnProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, TR_NN, symbol);
+//
+//                nnName = ConstantKey.TR_NN3;
+//                BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//                nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
+//
+//                NNProcessImp.inputReTrainStockNeuralNetData(this, TR_NN, symbol);
+//            }
+//
 //            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-//            AccountObj accountAdminObj = this.getAdminObjFromCache();
-//            AFstockObj stock = this.getRealTimeStockImp(symbol);
-//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
-            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-
-            for (int i = 0; i < 3; i++) {
-                nnName = ConstantKey.TR_NN1;
-                TR_NN = ConstantKey.INT_TR_NN1;
-                String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-                AFneuralNet nnObj1 = nnProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, TR_NN, symbol);
-
-                nnName = ConstantKey.TR_NN3;
-                BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-                nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
-
-                NNProcessImp.inputReTrainStockNeuralNetData(this, TR_NN, symbol);
-            }
-
-            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-
-        }
+//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+//
+//        }
 
         boolean flagtesting = false;
         if (flagtesting == true) {
