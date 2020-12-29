@@ -662,7 +662,6 @@ public class ServiceAFweb {
 
 //        nnProcBySig.processNeuralNet(this);
 //        nnStProcByTrend.processNeuralNetTrendPred(this);
-
         ///////////////////////////////////////////////////////////////////////////////        
 //        TrandingSignalProcess.forceToGenerateNewNN = false;
 //        // start training
@@ -721,7 +720,9 @@ public class ServiceAFweb {
 
 //            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-            nn2ProcBySig.processInputNeuralNet(this);
+//            nn2ProcBySig.processInputNeuralNet(this);
+
+            SystemClearNNtran(0);
 
 //public static String allStock[] = {"AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
 //public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
@@ -920,7 +921,6 @@ public class ServiceAFweb {
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 //
 //        }
-
         boolean flagtesting = false;
         if (flagtesting == true) {
             TRprocessImp.updateStockProcess(this, "HOU.TO");
@@ -4589,6 +4589,7 @@ public class ServiceAFweb {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
         } else if (tr == ConstantKey.INT_TR_ACC) {
+            retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC);
         } else if (tr == ConstantKey.INT_TR_MACD) {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
