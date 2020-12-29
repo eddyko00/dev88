@@ -715,14 +715,14 @@ public class ServiceAFweb {
 
         if (mydebugtestflag == true) {
             //set up run parm 
-            // javamain proxyflag mydebugtestflag
+            // javamain localmysqlflag proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
 
 //            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-//            nn2ProcBySig.processInputNeuralNet(this);
+            nn2ProcBySig.processInputNeuralNet(this);
 
-            SystemClearNNtran(0);
+
 
 //public static String allStock[] = {"AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
 //public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};

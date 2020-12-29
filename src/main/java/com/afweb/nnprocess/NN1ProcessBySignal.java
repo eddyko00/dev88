@@ -2002,7 +2002,7 @@ public class NN1ProcessBySignal {
 
             boolean trainInFile = true;
             if (trainInFile == true) {
-                inputDatalist = NN1ProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
+                inputDatalist = NeuralNetGetNN1InputfromStaticCode("", subSymbol);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
@@ -2043,7 +2043,7 @@ public class NN1ProcessBySignal {
             }
             boolean trainAllInFile = true;
             if (trainAllInFile == true) {
-                inputDatalist = NN1ProcessBySignal.NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
+                inputDatalist = NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNetAllStock " + BPnameSym + " " + inputDatalist.size());
