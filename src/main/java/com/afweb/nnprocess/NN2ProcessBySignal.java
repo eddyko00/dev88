@@ -1246,7 +1246,7 @@ public class NN2ProcessBySignal {
             String nnName = ConstantKey.TR_NN2;
 
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            if (TRprocessImp.checkNNReady(serviceAFWeb, symbol) == false) {
+            if (TRprocessImp.checkNN2Ready(serviceAFWeb, symbol) == false) {
                 return 0;
             }
 

@@ -54,15 +54,19 @@ public class TradingNNprocess {
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
             ArrayList stockTRNameArray = new ArrayList();
-            for (int i = 0; i < stockNameArray.size(); i++) {
-                String sym = (String) stockNameArray.get(i);
-                String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
-                stockTRNameArray.add(symTR);
+            if (ServiceAFweb.mydebugtestflag == false) {
+                for (int i = 0; i < stockNameArray.size(); i++) {
+                    String sym = (String) stockNameArray.get(i);
+                    String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
+                    stockTRNameArray.add(symTR);
+                }
             }
-            for (int i = 0; i < stockNameArray.size(); i++) {
-                String sym = (String) stockNameArray.get(i);
-                String symTR = sym + "#" + ConstantKey.INT_TR_NN2;
-                stockTRNameArray.add(symTR);
+            if (ServiceAFweb.mydebugtestflag == true) {
+                for (int i = 0; i < stockNameArray.size(); i++) {
+                    String sym = (String) stockNameArray.get(i);
+                    String symTR = sym + "#" + ConstantKey.INT_TR_NN2;
+                    stockTRNameArray.add(symTR);
+                }
             }
             setStockNNretrainNameArray(stockTRNameArray);
         }
@@ -143,7 +147,7 @@ public class TradingNNprocess {
                                 if (trNN == ConstantKey.INT_TR_NN2) {
                                     NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
                                     nn2Process.inputReTrainStockNeuralNetData(serviceAFWeb, trNN, symbol);
-                                }                                
+                                }
                                 //////////
 //                                int cfgId = 0;;
 //                                String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
@@ -426,7 +430,6 @@ public class TradingNNprocess {
 //
 //        return inputDatalist;
 //    }
-
 //    public static NNTrainObj trainingNNdataSetupTraining(ArrayList<NNInputDataObj> inputlist) {
 ////        logger.info("> trainingNNsetupTraining ");
 //

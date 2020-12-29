@@ -771,9 +771,27 @@ public class TrandingSignalProcess {
     }
 
     ///////////////////////////////////////////////////////
-    public boolean checkNNReady(ServiceAFweb serviceAFWeb, String symbol) {
+    public boolean checkNN1Ready(ServiceAFweb serviceAFWeb, String symbol) {
 
         AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
+        if (nnObj0 == null) {
+            return false;
+        }
+        if (nnObj0.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
+        if (nnObj0 == null) {
+            return false;
+        }
+        if (nnObj0.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+        return true;
+    }
+    public boolean checkNN2Ready(ServiceAFweb serviceAFWeb, String symbol) {
+
+        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN2, symbol);
         if (nnObj0 == null) {
             return false;
         }
@@ -810,15 +828,15 @@ public class TrandingSignalProcess {
                 int subStatus = trObj.getSubstatus();
 
                 if (trObj.getType() == ConstantKey.INT_TR_NN1) {
-                    if (checkNNReady(serviceAFWeb, symbol) == false) {
+                    if (checkNN1Ready(serviceAFWeb, symbol) == false) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN2) {
-                    if (checkNNReady(serviceAFWeb, symbol) == false) {
+                    if (checkNN2Ready(serviceAFWeb, symbol) == false) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                    if (checkNNReady(serviceAFWeb, symbol) == false) {
+                    if (checkNN1Ready(serviceAFWeb, symbol) == false) {
                         continue;
                     }
                 }
@@ -1083,11 +1101,11 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) bbObj.rsiValue);
                     break;
                 case ConstantKey.INT_TR_NN2:
-                    RSIObj rsiNN1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
-                    trObj.setTrsignal(rsiNN1.trsignal);
-                    trHistory.setTrsignal(trObj.getTrsignal());
-                    trHistory.setParm1((float) rsiNN1.rsi);
-                    trHistory.setParm2((float) rsiNN1.lastRsi);
+//                    RSIObj rsiNN1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
+//                    trObj.setTrsignal(rsiNN1.trsignal);
+//                    trHistory.setTrsignal(trObj.getTrsignal());
+//                    trHistory.setParm1((float) rsiNN1.rsi);
+//                    trHistory.setParm2((float) rsiNN1.lastRsi);
 //                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
 //                    BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_10, ConstantKey.INT_BB_SD_1, ConstantKey.INT_RSI_5);
 //
@@ -1097,7 +1115,7 @@ public class TrandingSignalProcess {
 //                    trHistory.setParm2((float) bbObj1.upperBand);
 //                    trHistory.setParm3((float) bbObj1.rsiValue);
 
-                    boolean nn2Flag = false;
+                    boolean nn2Flag = true;
                     if (nn2Flag == true) {
                         ProcessNN2 nn2 = new ProcessNN2();
                         int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
@@ -1216,28 +1234,28 @@ public class TrandingSignalProcess {
                     UpdateTRList.add(trObj);
                     break;
                 case ConstantKey.INT_TR_NN2:
-                    RSIObj rsi1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
-                    trObj.setTrsignal(rsi1.trsignal);
-                    UpdateTRList.add(trObj);
+//                    RSIObj rsi1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
+//                    trObj.setTrsignal(rsi1.trsignal);
+//                    UpdateTRList.add(trObj);
 
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
 //                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
-                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_10, ConstantKey.INT_BB_SD_1, ConstantKey.INT_RSI_5);
-                        trObj.setTrsignal(bbObj1.trsignal);
-                        UpdateTRList.add(trObj);
+//                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_10, ConstantKey.INT_BB_SD_1, ConstantKey.INT_RSI_5);
+//                        trObj.setTrsignal(bbObj1.trsignal);
+//                        UpdateTRList.add(trObj);
 
-//                        ProcessNN2 nn2 = new ProcessNN2();
-//                        NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
-//                        if (nn != null) {
-//                            trObj.setTrsignal(nn.getTrsignal());
-//                            if (nn.getConfident() != null) {
-//                                if (nn.getConfident().length() > 0) {
-//                                    trObj.setComment(nn.getConfident());
-//                                }
-//                            }
-//                            UpdateTRList.add(trObj);
-//                        }
+                        ProcessNN2 nn2 = new ProcessNN2();
+                        NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                        if (nn != null) {
+                            trObj.setTrsignal(nn.getTrsignal());
+                            if (nn.getConfident() != null) {
+                                if (nn.getConfident().length() > 0) {
+                                    trObj.setComment(nn.getConfident());
+                                }
+                            }
+                            UpdateTRList.add(trObj);
+                        }
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:

@@ -1951,7 +1951,7 @@ public class NN1ProcessBySignal {
             String nnName = ConstantKey.TR_NN1;
 
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            if (TRprocessImp.checkNNReady(serviceAFWeb, symbol) == false) {
+            if (TRprocessImp.checkNN1Ready(serviceAFWeb, symbol) == false) {
                 return 0;
             }
 
