@@ -1190,7 +1190,7 @@ public class NN1ProcessBySignal {
     private static ArrayList stockNNprocessNameArray = new ArrayList();
     private static ArrayList stockNNinputNameArray = new ArrayList();
 
-    public ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
+    private ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         if (stockNNprocessNameArray != null && stockNNprocessNameArray.size() > 0) {
             return stockNNprocessNameArray;
         }
@@ -1209,11 +1209,7 @@ public class NN1ProcessBySignal {
                 String sym = (String) stockNameArray.get(i);
                 String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                 stockTRNameArray.add(symTR);
-//                boolean NN2flag = true;
-//                if (NN2flag == true) {
-//                    symTR = sym + "#" + ConstantKey.INT_TR_NN2;
-//                    stockTRNameArray.add(symTR);
-//                }
+
             }
 
             stockNNprocessNameArray = stockTRNameArray;
@@ -1377,12 +1373,9 @@ public class NN1ProcessBySignal {
             int totalAdd = 0;
             int totalDup = 0;
             String nnName = ConstantKey.TR_NN1;
-            if (TR_Name == ConstantKey.INT_TR_NN2) {
-                nnName = ConstantKey.TR_NN2;
-            }
             String nnNameSym = nnName + "_" + symbol;
-
             String BPnameSym = CKey.NN_version + "_" + nnNameSym;
+            
             try {
                 AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                 String status = "NA";
@@ -1407,15 +1400,6 @@ public class NN1ProcessBySignal {
                     String[] strNetArray = CKey.NN1_WEIGHT_0.split(";");
                     version = strNetArray[0];
                     middlelayer = strNetArray[4];
-//                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
-//                    if (CKey.NN2_WEIGHT_0.length() == 0) {
-//                        return 0;
-//                    }
-//                    nnTemp.createNet(CKey.NN2_WEIGHT_0);
-//                    String weightSt = nnTemp.getNetObjSt();
-//                    String[] strNetArray = CKey.NN2_WEIGHT_0.split(";");
-//                    version = strNetArray[0];
-//                    middlelayer = strNetArray[4];
                 }
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
@@ -1572,10 +1556,7 @@ public class NN1ProcessBySignal {
         if (nnsymTrain == true) {
             String nnName = ConstantKey.TR_NN1;
             double errorNN = CKey.NN1_ERROR_THRESHOLD;
-//            if (TR_NN == ConstantKey.INT_TR_NN2) {
-//                nnName = ConstantKey.TR_NN2;
-//                errorNN = CKey.NN2_ERROR_THRESHOLD;
-//            }
+
             String nnNameSym = nnName + "_" + symbol;
             String BPname = CKey.NN_version + "_" + nnNameSym;
             try {
@@ -1599,8 +1580,6 @@ public class NN1ProcessBySignal {
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN1) {
                     retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, symbol, errorNN);
-//                } else if (TR_NN == ConstantKey.INT_TR_NN2) {
-//                    retflag = TRprocessImp.TRtrainingNN2NeuralNetData(serviceAFWeb, nnNameSym, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;

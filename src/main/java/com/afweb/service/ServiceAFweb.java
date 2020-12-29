@@ -720,8 +720,9 @@ public class ServiceAFweb {
 
 //            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-            nn2ProcBySig.processInputNeuralNet(this);
-            nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
+//            nn2ProcBySig.processInputNeuralNet(this);
+//            nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
+            nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
 
 //public static String allStock[] = {"AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
 //public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
