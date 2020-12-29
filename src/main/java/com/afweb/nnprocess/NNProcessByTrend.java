@@ -55,15 +55,15 @@ public class NNProcessByTrend {
             // start training
             // TrainingNNBP inputpattern 1748
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
+            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
 
             TrandingSignalProcess.forceToGenerateNewNN = false;
             // start training
             // TrainingNNBP inputpattern 1748
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
+            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
+            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
             logger.info("> processInputNeuralNetTrend TR NN3 end....... ");
 
         }
@@ -78,7 +78,7 @@ public class NNProcessByTrend {
         logger.info("> processAllStockInputNeuralNetTrend TR MACD... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
 
-        NeuralNetAllStockNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN3);
+        NeuralNetAllStockNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
         logger.info("> processAllStockInputNeuralNetTrend TR NN3 end....... ");
 
     }
@@ -194,7 +194,7 @@ public class NNProcessByTrend {
         if (initTrainNeuralNet == true) {
 
             double errorNN = CKey.NN3_ERROR_THRESHOLD;
-            String nnName = ConstantKey.TR_NN3;
+            String nnName = ConstantKey.TR_NN30;
 
             String BPname = CKey.NN_version + "_" + nnName;
 
@@ -333,7 +333,7 @@ public class NNProcessByTrend {
             inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
-        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
+        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN30;
 
         // ignor first and last
         int len = inputList.size();
@@ -728,7 +728,7 @@ public class NNProcessByTrend {
             ArrayList stockTRNameArray = new ArrayList();
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String sym = (String) stockNameArray.get(i);
-                String symTR = sym + "#" + ConstantKey.INT_TR_NN3;
+                String symTR = sym + "#" + ConstantKey.INT_TR_NN30;
                 stockTRNameArray.add(symTR);
             }
 
@@ -834,7 +834,7 @@ public class NNProcessByTrend {
                     }
                     if (lockReturnStock > 0) {
                         try {
-                            String nnName = ConstantKey.TR_NN3;
+                            String nnName = ConstantKey.TR_NN30;
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
                             AFneuralNet nnObj1 = ProcessTrainNeuralNetByTrend1(serviceAFWeb, BPnameSym, TR_NN, symbol);
@@ -899,7 +899,7 @@ public class NNProcessByTrend {
 
         boolean nnsymTrain = true;
         if (nnsymTrain == true) {
-            String nnName = ConstantKey.TR_NN3;
+            String nnName = ConstantKey.TR_NN30;
             double errorNN = CKey.NN3_ERROR_THRESHOLD;
 
             String nnNameSym = nnName + "_" + symbol;
@@ -923,8 +923,8 @@ public class NNProcessByTrend {
                     }
                 }
                 int retflag = 0;
-                if (TR_NN == ConstantKey.INT_TR_NN3) {
-                    retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, symbol, errorNN);
+                if (TR_NN == ConstantKey.INT_TR_NN30) {
+                    retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN30, nnNameSym, symbol, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;
@@ -940,7 +940,7 @@ public class NNProcessByTrend {
         if (nnsym == true) {
             int totalAdd = 0;
             int totalDup = 0;
-            String nnName = ConstantKey.TR_NN3;
+            String nnName = ConstantKey.TR_NN30;
 
             String nnNameSym = nnName + "_" + symbol;
 
@@ -960,7 +960,7 @@ public class NNProcessByTrend {
 
                 String middlelayer = "";
                 String version = "";
-                if (TR_Name == ConstantKey.INT_TR_NN3) {
+                if (TR_Name == ConstantKey.INT_TR_NN30) {
                     if (CKey.NN3_WEIGHT_0.length() == 0) {
                         return 0;
                     }
@@ -973,7 +973,7 @@ public class NNProcessByTrend {
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
-                inputlistSym = getTrainingNN3dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN3, 0);
+                inputlistSym = getTrainingNN3dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN30, 0);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
@@ -1115,7 +1115,7 @@ public class NNProcessByTrend {
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
-        if (tr == ConstantKey.INT_TR_NN3) {
+        if (tr == ConstantKey.INT_TR_NN30) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
@@ -1184,7 +1184,7 @@ public class NNProcessByTrend {
 
         logger.info("> TRtrainingNeuralNet " + BPnameSym + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
-        String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN3;
+        String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN30;
 
         return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
     }

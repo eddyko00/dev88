@@ -93,7 +93,7 @@ public class NN1ProcessBySignal {
             if (flagNN3LearningTrend == true) {
                 exitflag = false;
                 if (((k % 5) == 0) || (k == 0)) {
-                    NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
+                    NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN30);
                 }
                 logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
                 nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);

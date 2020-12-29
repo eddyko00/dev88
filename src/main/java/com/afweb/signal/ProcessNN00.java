@@ -38,7 +38,7 @@ public class ProcessNN00 {
         String symbol = stock.getSymbol();
         AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
-        String nnName = ConstantKey.TR_NN3;
+        String nnName = ConstantKey.TR_NN30;
 
         nnName = nnName + "_" + symbol;
         String BPname = CKey.NN_version + "_" + nnName;
@@ -68,7 +68,7 @@ public class ProcessNN00 {
 
         nnTraining.setNameNN(BPname);
         nnTraining.setSymbol(symbol);
-        nnTraining.setTrname(ConstantKey.TR_NN3);
+        nnTraining.setTrname(ConstantKey.TR_NN30);
         int retNN = TRprocessImp.OutputNNBP(serviceAFWeb, nnTraining);
         if (retNN == 0) {
             return nn;
@@ -157,7 +157,7 @@ public class ProcessNN00 {
 //        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
 
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN3);
+        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN1);
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         // TR_NN1

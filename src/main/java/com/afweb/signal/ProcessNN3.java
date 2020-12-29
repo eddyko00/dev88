@@ -106,7 +106,7 @@ public class ProcessNN3 {
 //        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
 
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN2);
+        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN1);
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         trObjMACD1.setTrname(ConstantKey.TR_MACD);

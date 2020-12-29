@@ -780,7 +780,7 @@ public class TrandingSignalProcess {
         if (nnObj0.getStatus() != ConstantKey.OPEN) {
             return false;
         }
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
         if (nnObj0 == null) {
             return false;
         }
@@ -799,7 +799,7 @@ public class TrandingSignalProcess {
         if (nnObj0.getStatus() != ConstantKey.OPEN) {
             return false;
         }
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
         if (nnObj0 == null) {
             return false;
         }
@@ -1891,7 +1891,7 @@ public class TrandingSignalProcess {
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
-        if (nnName.equals(ConstantKey.TR_NN3)) {
+        if (nnName.equals(ConstantKey.TR_NN30)) {
 
             String nnIndex = "_nn31_";
 
@@ -2472,7 +2472,7 @@ public class TrandingSignalProcess {
                 nn2ObjCache = nnObj1;
                 lastUpdateTime2 = System.currentTimeMillis();
             }
-        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN3)) {
+        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN30)) {
             if (nn3ObjCache != null) {
                 if (nn3ObjCache.getName().equals(name)) {
 
