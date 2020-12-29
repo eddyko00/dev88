@@ -71,7 +71,7 @@ public class NNProcessByTrend {
         ////////////////////////////////////////////
     }
 
-    public void processAllStockInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
+    public void processAllNN3StockInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
 
         logger.info("> processAllStockInputNeuralNetTrend TR MACD1... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);

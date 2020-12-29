@@ -2387,7 +2387,7 @@ public class TrandingSignalProcess {
                 inputlist.add(objData);
 
             }
-            logger.info("> readTrainingNeuralNet1 done " + nnFileName + " Size" + inputlist.size());
+//            logger.info("> readTrainingNeuralNet1 done " + nnFileName + " Size" + inputlist.size());
 
             return true;
         }

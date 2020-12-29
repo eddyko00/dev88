@@ -62,6 +62,22 @@ public class NN2ProcessBySignal {
         }
     }
 
+    
+
+    public void processAllNN2StockInputNeuralNet(ServiceAFweb serviceAFWeb) {
+        ////////////////////////////////////////////
+
+        logger.info("> processAllNN2StockInputNeuralNet TR RSI1... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI1);
+        logger.info("> processAllNN2StockInputNeuralNet TR RSI2... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI2);
+//        
+        NeuralNetAllStockNN2CreatJava(serviceAFWeb, ConstantKey.TR_NN2);
+        logger.info("> processAllNN2StockInputNeuralNet TR NN2 end....... ");
+
+        ////////////////////////////////////////////
+    }
+        
     // training neural net input data
     // create neural net input data
     //     
@@ -74,6 +90,22 @@ public class NN2ProcessBySignal {
             logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
+            for (int i = 0; i < symbolL.length; i++) {
+                symbol = symbolL[i];
+                ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, TR_Name, size);
+            }
+        }
+    }
+    
+  private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
+        int sizeYr = 2;
+        for (int j = 0; j < sizeYr; j++) { //4; j++) {
+            int size = 20 * CKey.MONTH_SIZE * j;
+//                writeArrayNeuralNet.clear();
+            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
+            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            String symbol = "";
+            String symbolL[] = ServiceAFweb.allStock;
             for (int i = 0; i < symbolL.length; i++) {
                 symbol = symbolL[i];
                 ArrayList<NNInputDataObj> InputList = getTrainingNNdataProcess(serviceAFWeb, symbol, TR_Name, size);
@@ -221,6 +253,7 @@ public class NN2ProcessBySignal {
         }
         return inputList;
     }
+
 
     private void NeuralNetProcessNN2Testing(ServiceAFweb serviceAFWeb) {
         ///////////////////////////////////////////////////////////////////////////////////
@@ -564,20 +597,16 @@ public class NN2ProcessBySignal {
     }
 
     public static ArrayList<NNInputDataObj> NeuralNetAllStockGetNN2InputfromStaticCode(String symbol, String subSymbol) {
-        if (true) {
-            return null;
-        }        
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST1);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST2);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST3);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST4);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST5);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST6);
-//            inputBuf.append(nnAllData.NN_ALLINPUTLIST7);
-//            inputBuf.append(nnAllData.NN_ALLINPUTLIST8); //need to check nnData file
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST1);
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST2);
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); //need to check nnData file
+//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST5);
+//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST6);
+
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

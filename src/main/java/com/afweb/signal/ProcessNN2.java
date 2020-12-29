@@ -171,7 +171,7 @@ public class ProcessNN2 {
                     ArrayList<String> writeArray = new ArrayList();
                     ArrayList<String> displayArray = new ArrayList();
                     int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListRSI, writeArray, displayArray);
-                    boolean flagHis = true;
+                    boolean flagHis = false;
                     if (flagHis == true) {
                         FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_1" + "_tran.csv", writeArray);
                         serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListRSI, symbol, TRname + "_1", null);

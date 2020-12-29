@@ -147,13 +147,13 @@ public class ConstantKey {
     public static final String TR_NN1 = "TR_NN1"; //NN for MACD fast
     public static final int INT_TR_NN1 = 4;
 
-    public static final String TR_NN2 = "TR_NN2"; //NN for MACD 12 26
+    public static final String TR_NN2 = "TR_NN2"; //NN for RSI
     public static final int INT_TR_NN2 = 5;
 
-    public static final String TR_NN3 = "TR_NN3"; //NN for MV
+    public static final String TR_NN3 = "TR_NN3"; //NN for 
     public static final int INT_TR_NN3 = 6;
 
-    public static final String TR_BB = "TR_BB"; //NN for MV
+    public static final String TR_BB = "TR_BB"; //NN for 
     public static final int INT_TR_BB = 7;
     public static final int INT_BB_M_20 = 20;
     public static final int INT_BB_SD_2 = 2;
@@ -163,6 +163,10 @@ public class ConstantKey {
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final int SIZE_TR = 8;
+    
+//    public static final String TR_NN30 = "TR_NN30"; //NN for Trend 
+//    public static final int INT_TR_NN30 = 30;    
+    
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final String TR_NN200 = "TR_NN200";
