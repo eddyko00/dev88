@@ -8,12 +8,8 @@ package com.afweb.nnprocess;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.SymbolNameObj;
 import com.afweb.model.stock.*;
-import com.afweb.nn.NNInputDataObj;
-import com.afweb.nn.NNInputOutObj;
-import com.afweb.nn.NNTrainObj;
-import com.afweb.nn.nnAllData;
-import com.afweb.nn.nnData;
-import static com.afweb.nnprocess.NN1ProcessBySignal.logger;
+import com.afweb.nn.*;
+
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
 import com.afweb.util.*;
@@ -26,13 +22,14 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
  * @author eddyko
  */
 public class NN2ProcessBySignal {
-
+    public static Logger logger = Logger.getLogger("NN2Process");
 ///////////////////////////////
     public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
@@ -41,10 +38,10 @@ public class NN2ProcessBySignal {
 
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
-//            logger.info("> processInputNeuralNet TR RSI1... ");
-//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI1);
-//            logger.info("> processInputNeuralNet TR RSI2... ");
-//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI2);
+            logger.info("> processInputNeuralNet TR RSI1... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI1);
+            logger.info("> processInputNeuralNet TR RSI2... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI2);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
@@ -508,23 +505,21 @@ public class NN2ProcessBySignal {
 
 
     public static ArrayList<NNInputDataObj> NeuralNetGetNN2InputfromStaticCode(String symbol, String subSymbol) {
-         if (true) {
-            return null;
-        }       
+  
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nnData.NN_INPUTLIST1);
-            inputBuf.append(nnData.NN_INPUTLIST2);
-            inputBuf.append(nnData.NN_INPUTLIST3);
-            inputBuf.append(nnData.NN_INPUTLIST4);
-            inputBuf.append(nnData.NN_INPUTLIST5);
-            inputBuf.append(nnData.NN_INPUTLIST6);
-            inputBuf.append(nnData.NN_INPUTLIST7);
-            inputBuf.append(nnData.NN_INPUTLIST8);
-            inputBuf.append(nnData.NN_INPUTLIST9); //need to check nnData file
-            inputBuf.append(nnData.NN_INPUTLIST10);
-//            inputBuf.append(nnData.NN_INPUTLIST11); //need to check nnData file
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST1);
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST2);
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST3);
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST4);
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST5);
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST6); //need to check nn2Data file
+//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST7);
+//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST8);
+//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST9); //need to check nn2Data file
+//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST10);
+
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

@@ -23,7 +23,6 @@ import com.afweb.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -1905,7 +1904,7 @@ public class TrandingSignalProcess {
 
             return inputDatalist;
         }
-        
+
         if (nnName.equals(ConstantKey.TR_NN2)) {
 
             String nnIndex = "_nn21_";
@@ -2335,6 +2334,7 @@ public class TrandingSignalProcess {
 //        serviceAFWeb.removeNameLock(TestName, ConstantKey.NN_TR_LOCKTYPE);
 //
 //    }
+
     public boolean readTrainingNeuralNet(ServiceAFweb serviceAFWeb, ArrayList<NNInputDataObj> inputlist, String nnFileName, String nnName) {
 
         ArrayList inputArray = new ArrayList();
@@ -2394,9 +2394,12 @@ public class TrandingSignalProcess {
         return false;
     }
 
-    public static AFneuralNet nn3ObjCache = null;
     public static AFneuralNet nn1ObjCache = null;
-    public static long lastUpdateTime = 0;
+    public static AFneuralNet nn2ObjCache = null;
+    public static AFneuralNet nn3ObjCache = null;
+    public static long lastUpdateTime1 = 0;
+    public static long lastUpdateTime2 = 0;
+    public static long lastUpdateTime3 = 0;
 
     public int OutputNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
         double[][] inputpattern = null;
@@ -2416,7 +2419,7 @@ public class TrandingSignalProcess {
             if (nn1ObjCache != null) {
                 if (nn1ObjCache.getName().equals(name)) {
 
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime, 10);
+                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime1, 10);
                     long currentTime = System.currentTimeMillis();
                     if (date5Min > currentTime) {
                         nnObj1 = nn1ObjCache;
@@ -2430,13 +2433,33 @@ public class TrandingSignalProcess {
                     return 0;
                 }
                 nn1ObjCache = nnObj1;
-                lastUpdateTime = System.currentTimeMillis();
+                lastUpdateTime1 = System.currentTimeMillis();
+            }
+        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN2)) {
+            if (nn2ObjCache != null) {
+                if (nn2ObjCache.getName().equals(name)) {
+
+                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime2, 10);
+                    long currentTime = System.currentTimeMillis();
+                    if (date5Min > currentTime) {
+                        nnObj1 = nn2ObjCache;
+                    }
+                }
+            }
+
+            if (nnObj1 == null) {
+                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+                if (nnObj1 == null) {
+                    return 0;
+                }
+                nn2ObjCache = nnObj1;
+                lastUpdateTime2 = System.currentTimeMillis();
             }
         } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN3)) {
             if (nn3ObjCache != null) {
                 if (nn3ObjCache.getName().equals(name)) {
 
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime, 10);
+                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime3, 10);
                     long currentTime = System.currentTimeMillis();
                     if (date5Min > currentTime) {
                         nnObj1 = nn3ObjCache;
@@ -2450,7 +2473,7 @@ public class TrandingSignalProcess {
                     return 0;
                 }
                 nn3ObjCache = nnObj1;
-                lastUpdateTime = System.currentTimeMillis();
+                lastUpdateTime3 = System.currentTimeMillis();
             }
         }
         String weightSt1 = nnObj1.getWeight();
