@@ -9,6 +9,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.nnprocess.NNProcessByTrend;
 import com.afweb.nnprocess.TradingNNprocess;
 import com.afweb.service.ServiceAFweb;
 
@@ -147,7 +148,7 @@ public class ProcessNN00 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN00_1dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        NNProcessByTrend NNProcessTrend = new NNProcessByTrend();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -192,13 +193,13 @@ public class ProcessNN00 {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryTrendNN30(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessTrend.getAccountStockTRListHistoryTrendNN30(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
 
         return inputDatalist;
     }
 
     public ArrayList<NNInputDataObj> trainingNN00_0dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        NNProcessByTrend NNProcessTrend = new NNProcessByTrend();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -229,7 +230,7 @@ public class ProcessNN00 {
         TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = NNProcessImp.getAccountStockTRListHistoryTrendNN30(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
+        ArrayList<NNInputDataObj> inputDatalist = NNProcessTrend.getAccountStockTRListHistoryTrendNN30(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
 
         return inputDatalist;
     }
