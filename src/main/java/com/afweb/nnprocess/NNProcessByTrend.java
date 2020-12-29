@@ -211,7 +211,7 @@ public class NNProcessByTrend {
                     Calendar dateDefault = TimeConvertion.getDefaultCalendar();
                     afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-                    String weightSt = (CKey.NN3_WEIGHT_0);
+                    String weightSt = (CKey.NN30_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
 
 //                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
@@ -962,12 +962,12 @@ public class NNProcessByTrend {
                 String middlelayer = "";
                 String version = "";
                 if (TR_Name == ConstantKey.INT_TR_NN30) {
-                    if (CKey.NN3_WEIGHT_0.length() == 0) {
+                    if (CKey.NN30_WEIGHT_0.length() == 0) {
                         return 0;
                     }
-                    nnTemp.createNet(CKey.NN3_WEIGHT_0);
+                    nnTemp.createNet(CKey.NN30_WEIGHT_0);
                     String weightSt = nnTemp.getNetObjSt();
-                    String[] strNetArray = CKey.NN3_WEIGHT_0.split(";");
+                    String[] strNetArray = CKey.NN30_WEIGHT_0.split(";");
                     version = strNetArray[0];
                     middlelayer = strNetArray[4];
                 }
@@ -1378,25 +1378,25 @@ public class NNProcessByTrend {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST1);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST2);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST3);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST4);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST5);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST6);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST7);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST8);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST9);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST10);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST11);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST12);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST13);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST14);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST15);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST16);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST17);
-            inputBuf.append(nn3Data.TR_NN3_INPUTLIST18);
-//            inputBuf.append(nn3Data.TR_NN3_INPUTLIST19); // check nn3 data
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST1);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST2);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST3);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST4);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST5);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST6);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST7);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST8);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST9);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST10);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST11);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST12);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST13);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST14);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST15);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST16);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST17);
+            inputBuf.append(nn3Data.TR_NN30_INPUTLIST18);
+//            inputBuf.append(nn3Data.TR_NN30_INPUTLIST19); // check nn3 data
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -1444,17 +1444,22 @@ public class NNProcessByTrend {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST1);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST2);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST3);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST4);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST5);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST6);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST7);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST8);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST9);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST10);
-            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST11);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST1);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST2);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST3);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST4);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST5);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST6);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST7);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST8);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST9);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST10);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST11);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST12);
+            inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST13);  // check nn3 data  
+
+           
+            
 //            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST12);
 //            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST13);
 //            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST14); // check nn3 data           
