@@ -203,7 +203,6 @@ public class NN1ProcessBySignal {
         ////////////////////////////////////////////
     }
 
-
     /////////////////////////////////////////////////////////
     // training neural net input data
     // create neural net input data
@@ -1375,7 +1374,7 @@ public class NN1ProcessBySignal {
             String nnName = ConstantKey.TR_NN1;
             String nnNameSym = nnName + "_" + symbol;
             String BPnameSym = CKey.NN_version + "_" + nnNameSym;
-            
+
             try {
                 AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
                 String status = "NA";
@@ -1942,6 +1941,134 @@ public class NN1ProcessBySignal {
         /// start training or continue training
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
+    }
+
+    public int inputReTrainStockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
+        boolean nnsym = true;
+        if (nnsym == true) {
+            int totalAdd = 0;
+            int totalDup = 0;
+            String nnName = ConstantKey.TR_NN1;
+
+            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            if (TRprocessImp.checkNNReady(serviceAFWeb, symbol) == false) {
+                return 0;
+            }
+
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            try {
+                AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
+                if (nnObj0 == null) {
+                    return 0;
+                }
+
+                logger.info("> inputReTrainStockNeuralNetData " + BPnameSym);
+
+                ArrayList<NNInputOutObj> inputlist = new ArrayList();
+
+                ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
+                //StockArray assume recent date to old data   
+                ArrayList<NNInputDataObj> inputlistSym1 = getTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
+                inputlistSym.addAll(inputlistSym1);
+
+                ArrayList<NNInputDataObj> inputL = new ArrayList();
+                boolean trainInFile = true;
+                if (trainInFile == true) {
+                    inputL = NN1ProcessBySignal.NeuralNetGetNN1InputfromStaticCode(symbol, null);
+                    if (inputL != null) {
+                        if (inputL.size() > 0) {
+                            for (int k = 0; k < inputL.size(); k++) {
+                                NNInputDataObj inputLObj = inputL.get(k);
+                                for (int m = 0; m < inputlistSym.size(); m++) {
+                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
+                                    if (inputLObj.getUpdatedatel() == inputSymObj.getUpdatedatel()) {
+                                        inputlistSym.remove(m);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                ArrayList writeArray = new ArrayList();
+
+                if (inputlistSym != null) {
+                    //merge inputlistSym
+
+                    for (int i = 0; i < inputlistSym.size(); i++) {
+                        NNInputOutObj inputObj = inputlistSym.get(i).getObj();
+
+                        String nameST = new ObjectMapper().writeValueAsString(inputObj);
+                        writeArray.add(nameST);
+
+                        inputlist.add(inputObj);
+                        // save into db
+                        // save into db
+                        // save into db
+                        // save into db
+                        NNInputDataObj objData = inputlistSym.get(i);
+                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
+                        if ((objList == null) || (objList.size() == 0)) {
+                            serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
+                            totalAdd++;
+                            writeArray.add(nameST);
+                            continue;
+                        }
+                        totalDup++;
+//                        boolean flag = false;
+//                        if (flag == true) {
+//                            if (CKey.NN_DEBUG == true) {
+//                                logger.info("> inputReTrainStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
+//                            }
+//                        }
+                    }
+                }
+                logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+
+                if (getEnv.checkLocalPC() == true) {
+                    boolean flag = false;
+                    if (flag == true) {
+                        String nn12 = "_nn1_retarin_";
+                        String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ".csv";
+                        FileUtil.FileWriteTextArray(filename, writeArray);
+                    }
+                }
+                return 1;
+            } catch (Exception e) {
+                logger.info("> inputReTrainStockNeuralNetData exception " + BPnameSym + " - " + e.getMessage());
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<NNInputDataObj> getTrainingNNdataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
+//        logger.info("> trainingNN ");
+//        this.serviceAFWeb = serviceAFWeb;
+        int size1yearAll = 20 * 12 * 5 + (50 * 3);
+
+//        logger.info("> trainingNN " + symbol);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        ArrayList<NNInputDataObj> inputList = null;
+
+        if (tr == ConstantKey.INT_TR_NN1) {
+            //StockArray assume recent date to old data  
+            //StockArray assume recent date to old data              
+            //trainingNN1dataMACD will return oldest first to new date
+            //trainingNN1dataMACD will return oldest first to new date    
+            ProcessNN1 nn1 = new ProcessNN1();
+            inputList = nn1.trainingNN1dataReTrain(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+        }
+
+        // ignor first and last
+        int len = inputList.size();
+        if (len <= 2) {
+            return null;
+        }
+        inputList.remove(len - 1);
+        inputList.remove(0);
+
+        return inputList;
     }
 
 }

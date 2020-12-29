@@ -244,6 +244,43 @@ public class ProcessNN2 {
         return inputDatalist;
     }
 
+    //StockArray assume recent date to old data
+    //StockArray assume recent date to old data
+    //StockArray assume recent date to old data   
+    public ArrayList<NNInputDataObj> trainingNN2dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//        logger.info("> trainingNN ");
+//        this.serviceAFWeb = serviceAFWeb;
+        String username = CKey.ADMIN_USERNAME;
+        String accountid = "1";
+        String symbol = sym;
+//        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
+
+        NNTrainObj nnTrSym = new NNTrainObj();
+        TradingRuleObj trObjNN2 = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_NN2);
+
+        TradingRuleObj trObjRSI1 = new TradingRuleObj();
+        trObjRSI1.setTrname(ConstantKey.TR_NN2);
+        trObjRSI1.setType(ConstantKey.INT_TR_NN2);
+
+        trObjRSI1.setAccount(trObjNN2.getAccount());
+        trObjRSI1.setStockid(trObjNN2.getStockid());
+
+        ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI1, StockArray, offset, monthSize);
+
+        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
+        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
+
+        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
+        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
+
+        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryRSINN1(thObjListRSI, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
+
+        return inputDatalist;
+    }
+    
+    
     int ProcessTRHistoryOffsetNN2(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
 
