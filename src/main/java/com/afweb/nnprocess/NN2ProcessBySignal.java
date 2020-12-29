@@ -51,15 +51,15 @@ public class NN2ProcessBySignal {
             TrandingSignalProcess.forceToErrorNewNN = true;
 //            // start training
             NeuralNetProcessNN2Testing(serviceAFWeb);
-//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+            NeuralNetNN2CreatJava(serviceAFWeb, ConstantKey.TR_NN2);
 //
-//            TrandingSignalProcess.forceToGenerateNewNN = false;
+            TrandingSignalProcess.forceToGenerateNewNN = false;
 //            // start training
 //            // TrainingNNBP inputpattern 1748
-//            NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
-//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
-//            NeuralNetProcessTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
-//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+            NeuralNetProcessNN2Testing(serviceAFWeb);
+            NeuralNetNN2CreatJava(serviceAFWeb, ConstantKey.TR_NN2);
+            NeuralNetProcessNN2Testing(serviceAFWeb);
+            NeuralNetNN2CreatJava(serviceAFWeb, ConstantKey.TR_NN2);
 //            logger.info("> processInputNeuralNet TR NN1 end....... ");
 
         }
@@ -233,7 +233,7 @@ public class NN2ProcessBySignal {
         boolean initTrainNeuralNet = true;
         if (initTrainNeuralNet == true) {
 
-            double errorNN = CKey.NN1_ERROR_THRESHOLD;
+            double errorNN = CKey.NN2_ERROR_THRESHOLD;
             String nnName = ConstantKey.TR_NN2;
             String BPname = CKey.NN_version + "_" + nnName;
 
@@ -251,7 +251,7 @@ public class NN2ProcessBySignal {
                     Calendar dateDefault = TimeConvertion.getDefaultCalendar();
                     afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-                    String weightSt = (CKey.NN1_WEIGHT_0);
+                    String weightSt = (CKey.NN2_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
 
 //                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
@@ -283,7 +283,7 @@ public class NN2ProcessBySignal {
 
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
-                retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN2, nnName, "", errorNN);
+                retflag = TRtrainingNN2NeuralNetData(serviceAFWeb, ConstantKey.TR_NN2, nnName, "", errorNN);
 
                 if (retflag == 1) {
                     break;
@@ -293,7 +293,7 @@ public class NN2ProcessBySignal {
         }
     }
 
-    public int TRtrainingNN1NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
+    public int TRtrainingNN2NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
 
         ///NeuralNetObj1 transition
@@ -615,9 +615,169 @@ public class NN2ProcessBySignal {
 
             return inputlist;
         } catch (Exception ex) {
-            logger.info("> NeuralNetAllStockGetNN1InputfromStaticCode - exception " + ex);
+            logger.info("> NeuralNetAllStockGetNN2InputfromStaticCode - exception " + ex);
         }
         return null;
+    }
+    
+    public boolean NeuralNetNN2CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+
+            String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
+            if (FileUtil.FileTest(fileN) == false) {
+                return false;
+            }
+            StringBuffer msg1 = FileUtil.FileReadText(fileN);
+            String weightSt = msg1.toString();
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "\n"
+                    + "public class nn2Data {\n"
+                    + "\n"
+                    + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
+            int sizeline = 1000;
+            int len = weightSt.length();
+            int beg = 0;
+            int end = sizeline;
+            while (true) {
+                String st = weightSt.substring(beg, end);
+                msgWrite.append("+ \"" + st + "\"\n");
+                if (end >= len) {
+                    break;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+            msgWrite.append(""
+                    + "            + \"\";\n");
+
+            len = inputListSt.length();
+            beg = 0;
+            end = sizeline;
+            int index = 1;
+            int line = 0;
+            while (true) {
+                if (line == 0) {
+                    msgWrite.append(""
+                            + "    public static String " + nnName + "_INPUTLIST" + index + " = \"\"\n"
+                            + "            + \"\"\n");
+                }
+                line++;
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.append("+ \"" + st + "\"\n");
+
+                if (end >= len) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+
+                    break;
+                }
+                if (line == 20) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+                    line = 0;
+                    index++;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
+            fileN = ServiceAFweb.FileLocalDebugPath + "nn2Data.java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
+    public boolean NeuralNetAllStockNN2CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+        try {
+            TRprocessImp.getStaticJavaAllStockInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "\n"
+                    + "public class nn2AllData {\n"
+                    + "\n");
+            int sizeline = 1000;
+            int len = inputListSt.length();
+            int beg = 0;
+            int end = sizeline;
+            int index = 1;
+            int line = 0;
+
+            while (true) {
+                if (line == 0) {
+                    msgWrite.append(""
+                            + "    public static String " + nnName + "_ALLINPUTLIST" + index + " = \"\"\n"
+                            + "            + \"\"\n");
+                }
+                line++;
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.append("+ \"" + st + "\"\n");
+
+                if (end >= len) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+
+                    break;
+                }
+                if (line == 20) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+                    line = 0;
+                    index++;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
+            String fileN = ServiceAFweb.FileLocalDebugPath + "nn2AllData.java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
     }
 
 }

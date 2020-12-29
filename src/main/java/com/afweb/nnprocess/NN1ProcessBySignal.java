@@ -1189,8 +1189,9 @@ public class NN1ProcessBySignal {
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
 
-//TR_NN1_nnWeight0.txt
-            String fileN = ServiceAFweb.FileLocalDebugPath + "TR_NN1_nnWeight0.txt";
+            //TR_NN1_nnWeight0.txt
+            String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
+
             if (FileUtil.FileTest(fileN) == false) {
                 return false;
             }

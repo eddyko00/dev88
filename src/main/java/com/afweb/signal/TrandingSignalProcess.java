@@ -2477,9 +2477,6 @@ public class TrandingSignalProcess {
         int outputSize = CKey.NN_OUTPUT_SIZE; //2;
         int middleSize = CKey.NN1_MIDDLE_SIZE;
 
-        if (nnNAme.equals(ConstantKey.TR_NN3) == true) {
-            middleSize = CKey.NN3_MIDDLE_SIZE;
-        }
         //
         double[][] inputpattern = null;
         double[][] targetpattern = null;
@@ -2493,10 +2490,6 @@ public class TrandingSignalProcess {
         if (name == null) {
             return -1;
         }
-        String sym = nnTraining.getSymbol();
-//        if (sym.equals(ConstantKey.TR_NN1)) {
-//            middleSize = middleSize + 4;
-//        }
 
         NNBPservice nn = null;
         ///NeuralNetObj1 transition
@@ -2711,13 +2704,15 @@ public class TrandingSignalProcess {
                             writeArray.add(st);
                         }
                         logger.info("> predictTest release " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
-
-                        boolean flag = false;
-                        if (nnNameSym.equals("TR_NN1")) {
-                            flag = true;
-                        } else if (nnNameSym.equals("TR_NN3")) {
-                            flag = true;
-                        }
+                        boolean flag = true;
+//                        boolean flag = false;
+//                        if (nnNameSym.equals("TR_NN1")) {
+//                            flag = true;
+//                        } else if (nnNameSym.equals("TR_NN2")) {
+//                            flag = true;                            
+//                        } else if (nnNameSym.equals("TR_NN3")) {
+//                            flag = true;
+//                        }
                         if (flag == true) {
                             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
 
