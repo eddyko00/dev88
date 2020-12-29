@@ -528,13 +528,13 @@ public class TradingNNprocess {
 
     // data history from  old to more recent
     // get next 5 days close price
-    public static double getNNnormalizeStOutputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
+    public static double getNNtrend4OutputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
 
         if (thObjListMACD == null) {
             return -1;
         }
         // need to match specialOverrideRule3 futureDay
-        int futureDay = 5;
+        int futureDay = 4;
         int cIndex = index + futureDay;
 
         if (cIndex >= thObjListMACD.size()) {
@@ -1220,7 +1220,7 @@ public class TradingNNprocess {
 //        return -1;
 //    }
 
-    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN3(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryTrendNN30(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
 
         if ((thObjListMACD == null) || (thObjListMV == null)) {
@@ -1277,7 +1277,7 @@ public class TradingNNprocess {
                     continue;
                 }
 
-                double output = getNNnormalizeStOutputClose(i, thObjListMACD);
+                double output = getNNtrend4OutputClose(i, thObjListMACD);
                 if ((output == -1) || (output == 0)) {
                     inputList.setOutput1(-1);
                     inputList.setOutput2(-1);
