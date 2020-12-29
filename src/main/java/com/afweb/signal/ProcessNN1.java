@@ -10,6 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.nnprocess.NNProcessByTrend;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -247,7 +248,7 @@ public class ProcessNN1 {
 
         return inputDatalist;
     }
-    
+
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
@@ -282,8 +283,6 @@ public class ProcessNN1 {
 
         return inputDatalist;
     }
-    
-    
 
     int ProcessTRHistoryOffsetNN1(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
@@ -547,7 +546,7 @@ public class ProcessNN1 {
                 }
 
                 // need to match getNNnormalizeStOutputClose futureDay
-                int futureDay = 5;
+                int futureDay = NNProcessByTrend.TREND_Day;
                 float step = (float) ((closeOutput - closeOutput0) / futureDay);
                 ArrayList<AFstockInfo> StockPredArray = new ArrayList();
                 for (int i = offset; i < StockArray.size(); i++) {
@@ -577,8 +576,8 @@ public class ProcessNN1 {
         }
         return nnSignal;
     }
-/////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////
     public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN1(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();

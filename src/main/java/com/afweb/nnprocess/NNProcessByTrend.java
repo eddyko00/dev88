@@ -1495,7 +1495,6 @@ public class NNProcessByTrend {
         return null;
     }
 
-
     public ArrayList<NNInputDataObj> getAccountStockTRListHistoryTrendNN30(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
 
@@ -1553,7 +1552,7 @@ public class NNProcessByTrend {
                     continue;
                 }
 
-                double output = TradingNNprocess.getNNtrend4OutputClose(i, thObjListMACD);
+                double output = getNNtrend4OutputClose(i, thObjListMACD);
                 if ((output == -1) || (output == 0)) {
                     inputList.setOutput1(-1);
                     inputList.setOutput2(-1);
@@ -1686,6 +1685,61 @@ public class NNProcessByTrend {
 
         return inputList;
     }
-    
-    
+
+    // data history from  old to more recent
+    // get next 5 days close price
+    public static int TREND_Day = 4;
+
+    public static double getNNtrend4OutputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
+
+        if (thObjListMACD == null) {
+            return -1;
+        }
+        // need to match specialOverrideRule3 futureDay
+        int futureDay = TREND_Day;
+        int cIndex = index + futureDay;
+
+        if (cIndex >= thObjListMACD.size()) {
+            return -1;
+        }
+
+        float close = 0;
+        close = thObjListMACD.get(index).getClose();
+        close += thObjListMACD.get(index - 1).getClose();
+        close += thObjListMACD.get(index - 2).getClose();
+        float closeOutput0 = close / 3;
+
+        close = thObjListMACD.get(cIndex).getClose();
+        close += thObjListMACD.get(cIndex - 1).getClose();
+        close += thObjListMACD.get(cIndex - 2).getClose();
+        float closeOutput = close / 3;
+
+        double closef = (closeOutput - closeOutput0) / closeOutput0;
+        closef = closef * 100;
+
+        closef = closef * 15;   // factore of 15 to make it more valid for NN
+
+        int temp = 0;
+        temp = (int) closef;
+        closef = temp;
+        closef = closef / 100;
+        if (closef > 0) {
+            if (closef > 0.9) {
+                closef = 0.9;
+            }
+            if (closef < 0.1) {
+                closef = 0.1;
+            }
+        } else {
+            if (closef < -0.9) {
+                closef = -0.9;
+            }
+            if (closef > -0.1) {
+                closef = -0.1;
+            }
+        }
+        return closef;
+
+    }
+
 }
