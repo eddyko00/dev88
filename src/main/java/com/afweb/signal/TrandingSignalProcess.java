@@ -789,6 +789,7 @@ public class TrandingSignalProcess {
         }
         return true;
     }
+
     public boolean checkNN2Ready(ServiceAFweb serviceAFWeb, String symbol) {
 
         AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN2, symbol);
@@ -1114,12 +1115,13 @@ public class TrandingSignalProcess {
 //                    trHistory.setParm1((float) bbObj1.lowerBand);
 //                    trHistory.setParm2((float) bbObj1.upperBand);
 //                    trHistory.setParm3((float) bbObj1.rsiValue);
-
-                    boolean nn2Flag = true;
-                    if (nn2Flag == true) {
-                        ProcessNN2 nn2 = new ProcessNN2();
-                        int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
-                        prevSignal = nn2Signal;
+                    if (ServiceAFweb.mydebugtestflag == true) {
+                        boolean nn2Flag = true;
+                        if (nn2Flag == true) {
+                            ProcessNN2 nn2 = new ProcessNN2();
+                            int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                            prevSignal = nn2Signal;
+                        }
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:
@@ -1237,24 +1239,21 @@ public class TrandingSignalProcess {
 //                    RSIObj rsi1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
 //                    trObj.setTrsignal(rsi1.trsignal);
 //                    UpdateTRList.add(trObj);
+                    if (ServiceAFweb.mydebugtestflag == true) {
+                        boolean nn2Flag = true;
+                        if (nn2Flag == true) {
 
-                    boolean nn2Flag = true;
-                    if (nn2Flag == true) {
-//                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
-//                        BBObj bbObj1 = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_10, ConstantKey.INT_BB_SD_1, ConstantKey.INT_RSI_5);
-//                        trObj.setTrsignal(bbObj1.trsignal);
-//                        UpdateTRList.add(trObj);
-
-                        ProcessNN2 nn2 = new ProcessNN2();
-                        NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
-                        if (nn != null) {
-                            trObj.setTrsignal(nn.getTrsignal());
-                            if (nn.getConfident() != null) {
-                                if (nn.getConfident().length() > 0) {
-                                    trObj.setComment(nn.getConfident());
+                            ProcessNN2 nn2 = new ProcessNN2();
+                            NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                            if (nn != null) {
+                                trObj.setTrsignal(nn.getTrsignal());
+                                if (nn.getConfident() != null) {
+                                    if (nn.getConfident().length() > 0) {
+                                        trObj.setComment(nn.getConfident());
+                                    }
                                 }
+                                UpdateTRList.add(trObj);
                             }
-                            UpdateTRList.add(trObj);
                         }
                     }
                     break;
