@@ -36,12 +36,12 @@ public class NN2ProcessBySignal {
         if (flagIntitNN1Input == true) {
 
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
-            TrandingSignalProcess.forceToGenerateNewNN = false;
-//            logger.info("> processInputNeuralNet TR NN1... ");
+//            TrandingSignalProcess.forceToGenerateNewNN = false;
+//            logger.info("> processInputNeuralNet TR RSI1... ");
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI1);
-//            logger.info("> processInputNeuralNet TR NN2... ");
+//            logger.info("> processInputNeuralNet TR RSI2... ");
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_RSI2);
-//            // need to debug to generate the java first time
+            // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
             TrandingSignalProcess.forceToErrorNewNN = true;
@@ -180,9 +180,9 @@ public class NN2ProcessBySignal {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn12 = "_nn3_";
+            String nn12 = "_nn21_";
             if (tr == ConstantKey.INT_TR_RSI2) {
-                nn12 = "_nn4_";
+                nn12 = "_nn22_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
