@@ -85,7 +85,7 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
-    public static String allStock[] = {"AEM", "NEM", "SE", "BABA", "FB", "GLD", "MSFT", "T.TO"};
+    public static String allStock[] = {"NEM", "SE", "FB", "GLD", "MSFT", "T.TO"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 
     /**
@@ -341,6 +341,7 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
+                displayStr += "\r\n" + (">>>>> System nn2testflag:" + ServiceAFweb.nn2testflag);
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
@@ -710,6 +711,7 @@ public class ServiceAFweb {
     }
 
     public static boolean mydebugtestflag = false;
+    public static boolean nn2testflag = false;
 
     private void AFprocessDebug() {
 
@@ -717,38 +719,29 @@ public class ServiceAFweb {
             //set up run parm 
             // javamain localmysqlflag proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
+            // javamain localmysqlflag  nn2testflag mydebugtestflag            
 
-            
-            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            getAccountProcessImp().ProcessAdminAccount(this);            
-            
-//            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+
+            SystemClearNNtran(ConstantKey.INT_TR_NN2);
+            for (int i = 0; i < 10; i++) {
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            }
+
+            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-//            nn2ProcBySig.processInputNeuralNet(this);
+//            nn2ProcBySig.processNN2InputNeuralNet(this);
 //            nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
 //            nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            NNProcessImp.ProcessReLearnInputNeuralNet(this);
 
-//public static String allStock[] = {"AEM", "BABA", "FB", "GLD", "MSFT", "T.TO"};
-//public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
-//            int size1year = 5 * 52;
-//            ArrayList StockArray = getStockHistorical("HOU.TO", size1year * 4);
-//            StockArray = getStockHistorical("AAPL", size1year * 4);
-//            StockArray = getStockHistorical("GLD", size1year * 4);
-//            StockArray = getStockHistorical("IWM", size1year * 4);
-// 
-//            NNProcessByTrend nntrend = new NNProcessByTrend();
-//            nntrend.processInputNeuralNetTrend(this);
-//
 //            int TR_NN = ConstantKey.INT_TR_NN3;
 //            String symbol = "HOU.TO";
 //            String nnName = ConstantKey.TR_NN3;
 //            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 //
-//            AFneuralNet nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
-//            stock_analysis bb = new stock_analysis();
-//            stock_analysis.BBandstest(this);
         }
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();

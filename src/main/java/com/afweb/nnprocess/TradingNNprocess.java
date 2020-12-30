@@ -54,14 +54,14 @@ public class TradingNNprocess {
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
             ArrayList stockTRNameArray = new ArrayList();
-            if (ServiceAFweb.mydebugtestflag == false) {
+            if (ServiceAFweb.nn2testflag == false) {
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     String sym = (String) stockNameArray.get(i);
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                     stockTRNameArray.add(symTR);
                 }
             }
-            if (ServiceAFweb.mydebugtestflag == true) {
+            if (ServiceAFweb.nn2testflag == true) {
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     String sym = (String) stockNameArray.get(i);
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN2;
@@ -146,7 +146,7 @@ public class TradingNNprocess {
                                 }
                                 if (trNN == ConstantKey.INT_TR_NN2) {
                                     NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
-                                    nn2Process.inputReTrainStockNeuralNetData(serviceAFWeb, trNN, symbol);
+                                    nn2Process.inputReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
                                 }
                                 //////////
 //                                int cfgId = 0;;

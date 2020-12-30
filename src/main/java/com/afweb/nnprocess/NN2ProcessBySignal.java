@@ -35,7 +35,7 @@ public class NN2ProcessBySignal {
     public static Logger logger = Logger.getLogger("NN2Process");
 ///////////////////////////////
 
-    public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
+    public void processNN2InputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
         boolean flagIntitNN1Input = true;
         if (flagIntitNN1Input == true) {
@@ -601,10 +601,9 @@ public class NN2ProcessBySignal {
         try {
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST1);
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST2);
-            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
-            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); //need to check nnData file
-//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST5);
-//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST6);
+//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
+//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); //need to check nnData file
+
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -1238,7 +1237,7 @@ public class NN2ProcessBySignal {
         return inputList;
     }
 
-    public int inputReTrainStockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
+    public int inputReTrainNN2StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
         boolean nnsym = true;
         if (nnsym == true) {
             int totalAdd = 0;

@@ -49,10 +49,13 @@ public class Javamain {
         } else if (cmd.indexOf("nndebugflag") != -1) {
             CKey.NN_DEBUG = true;
             CKey.UI_ONLY = true;
-            
+
         } else if (cmd.indexOf("delayrestoryflag") != -1) {
             CKey.DELAY_RESTORE = true;
-            
+
+        } else if (cmd.indexOf("nn2testflag") != -1) {
+            ServiceAFweb.nn2testflag = true;
+
         } else if (cmd.indexOf("mydebugtestflag") != -1) {
             CKey.NN_DEBUG = true;
             CKey.UI_ONLY = true;

@@ -1115,7 +1115,7 @@ public class TrandingSignalProcess {
 //                    trHistory.setParm1((float) bbObj1.lowerBand);
 //                    trHistory.setParm2((float) bbObj1.upperBand);
 //                    trHistory.setParm3((float) bbObj1.rsiValue);
-                    if (ServiceAFweb.mydebugtestflag == true) {
+                    if (ServiceAFweb.nn2testflag == true) {
                         boolean nn2Flag = true;
                         if (nn2Flag == true) {
                             ProcessNN2 nn2 = new ProcessNN2();
@@ -1239,7 +1239,7 @@ public class TrandingSignalProcess {
 //                    RSIObj rsi1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
 //                    trObj.setTrsignal(rsi1.trsignal);
 //                    UpdateTRList.add(trObj);
-                    if (ServiceAFweb.mydebugtestflag == true) {
+                    if (ServiceAFweb.nn2testflag == true) {
                         boolean nn2Flag = true;
                         if (nn2Flag == true) {
 
