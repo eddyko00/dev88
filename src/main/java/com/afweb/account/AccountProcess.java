@@ -844,7 +844,7 @@ public class AccountProcess {
                 for (int j = 0; j < tradingRuleAdminList.size(); j++) {
                     TradingRuleObj trAdminObj = (TradingRuleObj) tradingRuleAdminList.get(j);
                     //Make sure all admin links are ready before copy the link signal
-                    if ((trAdminObj.getType() >= ConstantKey.INT_TR_MV) && (trAdminObj.getType() <= ConstantKey.INT_TR_NN2)) {
+                    if ((trAdminObj.getType() >= ConstantKey.INT_TR_MV) && (trAdminObj.getType() <= ConstantKey.INT_TR_NN1)) {
                         if (trAdminObj.getSubstatus() != ConstantKey.OPEN) {
                             readySignal = false;
                             break;
