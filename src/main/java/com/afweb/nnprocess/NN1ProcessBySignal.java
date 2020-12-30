@@ -1315,6 +1315,7 @@ public class NN1ProcessBySignal {
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
                                     stockNNprocessNameArray.remove(0);
+
                                     serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
 
 //                                    if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
@@ -1360,7 +1361,7 @@ public class NN1ProcessBySignal {
             inputStockNeuralNetBySignal(serviceAFWeb, TR_NN, symbol);
         }
         if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
-            stockNNprocessNameArray.remove(0);
+//            stockNNprocessNameArray.remove(0);
             return;
         }
         stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
@@ -1528,14 +1529,14 @@ public class NN1ProcessBySignal {
 
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
-
-                if (refName.length() > 0) {
-                    // just for testing
+                if (refName != null) {
+                    if (refName.length() > 0) {
+                        // just for testing
 //                    refName = "" + CKey.NN1_ERROR_THRESHOLD;
-                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refError " + refName);
-                    serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+                        logger.info("> inputStockNeuralNet  " + BPnameSym + " refError " + refName);
+                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+                    }
                 }
-
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
 
@@ -1551,22 +1552,21 @@ public class NN1ProcessBySignal {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> processStockNeuralNet " + TR_Name + " " + symbol);
 
-        boolean nnsymTrain = true;
-        if (nnsymTrain == true) {
-            String nnName = ConstantKey.TR_NN1;
-            double errorNN = CKey.NN1_ERROR_THRESHOLD;
+        String nnName = ConstantKey.TR_NN1;
+        double errorNN = CKey.NN1_ERROR_THRESHOLD;
 
-            String nnNameSym = nnName + "_" + symbol;
-            String BPname = CKey.NN_version + "_" + nnNameSym;
-            try {
+        String nnNameSym = nnName + "_" + symbol;
+        String BPname = CKey.NN_version + "_" + nnNameSym;
+        try {
 
-                AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
-                if (nnObj1 != null) {
-                    if (nnObj1.getStatus() != ConstantKey.OPEN) {
-                        return -1;
-                    }
+            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
+            if (nnObj1 != null) {
+                if (nnObj1.getStatus() != ConstantKey.OPEN) {
+                    return -1;
                 }
-                String refName = nnObj1.getRefname();
+            }
+            String refName = nnObj1.getRefname();
+            if (refName != null) {
                 if (refName.length() > 0) {
                     try {
                         double refError = Double.parseDouble(refName);
@@ -1576,16 +1576,17 @@ public class NN1ProcessBySignal {
 
                     }
                 }
-                int retflag = 0;
-                if (TR_NN == ConstantKey.INT_TR_NN1) {
-                    retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, symbol, errorNN);
-                }
-//                logger.info("> processStockNeuralNet ... Done");
-                return retflag;
-            } catch (Exception e) {
-                logger.info("> stockTrainNeuralNet exception " + BPname + " - " + e.getMessage());
             }
+            int retflag = 0;
+            if (TR_NN == ConstantKey.INT_TR_NN1) {
+                retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, symbol, errorNN);
+            }
+//                logger.info("> processStockNeuralNet ... Done");
+            return retflag;
+        } catch (Exception e) {
+            logger.info("> stockTrainNeuralNet exception " + BPname + " - " + e.getMessage());
         }
+
         return -1;
     }
 

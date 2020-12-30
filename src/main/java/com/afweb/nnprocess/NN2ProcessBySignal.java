@@ -976,7 +976,7 @@ public class NN2ProcessBySignal {
             inputStockNeuralNetBySignal(serviceAFWeb, TR_NN, symbol);
         }
         if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
-            stockNNprocessNameArray.remove(0);
+//            stockNNprocessNameArray.remove(0);
             return;
         }
         stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
@@ -1144,11 +1144,13 @@ public class NN2ProcessBySignal {
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
 
-                if (refName.length() > 0) {
-                    // just for testing
+                if (refName != null) {
+                    if (refName.length() > 0) {
+                        // just for testing
 //                    refName = "" + CKey.NN1_ERROR_THRESHOLD;
-                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refError " + refName);
-                    serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+                        logger.info("> inputStockNeuralNet  " + BPnameSym + " refError " + refName);
+                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+                    }
                 }
 
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
@@ -1363,6 +1365,5 @@ public class NN2ProcessBySignal {
 
         return inputList;
     }
-
 
 }

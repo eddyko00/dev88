@@ -888,7 +888,7 @@ public class NNProcessByTrend {
             inputStockNeuralNetData(serviceAFWeb, TR_NN, symbol);
         }
         if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
-            stockNNprocessNameArray.remove(0);
+//            stockNNprocessNameArray.remove(0);
             return;
         }
         stockTrainNeuralNet(serviceAFWeb, TR_NN, symbol);
@@ -914,13 +914,15 @@ public class NNProcessByTrend {
                     }
                 }
                 String refName = nnObj1.getRefname();
-                if (refName.length() > 0) {
-                    try {
-                        double refError = Double.parseDouble(refName);
-                        errorNN = refError + 0.0001;
-                        logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
-                    } catch (Exception ex) {
+                if (refName != null) {
+                    if (refName.length() > 0) {
+                        try {
+                            double refError = Double.parseDouble(refName);
+                            errorNN = refError + 0.0001;
+                            logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
+                        } catch (Exception ex) {
 
+                        }
                     }
                 }
                 int retflag = 0;
@@ -1091,11 +1093,12 @@ public class NNProcessByTrend {
 
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
+                if (refName != null) {
+                    if (refName.length() > 0) {
 
-                if (refName.length() > 0) {
-
-                    logger.info("> inputStockNeuralNetData  " + BPnameSym + " refError " + refName);
-                    serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+                        logger.info("> inputStockNeuralNetData  " + BPnameSym + " refError " + refName);
+                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+                    }
                 }
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;
@@ -1458,12 +1461,9 @@ public class NNProcessByTrend {
             inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST12);
             inputBuf.append(nn3AllData.TR_NN30_ALLINPUTLIST13);  // check nn3 data  
 
-           
-            
 //            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST12);
 //            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST13);
 //            inputBuf.append(nn3AllData.TR_NN3_ALLINPUTLIST14); // check nn3 data           
-
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
