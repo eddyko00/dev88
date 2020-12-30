@@ -721,14 +721,6 @@ public class ServiceAFweb {
             // javamain localmysqlflag  mydebugtestflag
             // javamain localmysqlflag  nn2testflag mydebugtestflag            
 
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-
-            SystemClearNNtran(ConstantKey.INT_TR_NN2);
-            for (int i = 0; i < 10; i++) {
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            }
-
             NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 //            nn2ProcBySig.processNN2InputNeuralNet(this);
