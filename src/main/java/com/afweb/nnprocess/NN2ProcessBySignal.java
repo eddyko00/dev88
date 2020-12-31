@@ -13,6 +13,7 @@ import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 
 import com.afweb.service.ServiceAFweb;
+
 import com.afweb.signal.*;
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -604,7 +605,6 @@ public class NN2ProcessBySignal {
 //            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
 //            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); //need to check nnData file
 
-
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
@@ -881,7 +881,6 @@ public class NN2ProcessBySignal {
                 }
 
                 String symbolTR = (String) stockNNprocessNameArray.get(0);
-//                    stockNNprocessNameArray.remove(0);
 
                 String[] symbolArray = symbolTR.split("#");
                 if (symbolArray.length >= 0) {
@@ -889,8 +888,9 @@ public class NN2ProcessBySignal {
                     String symbol = symbolArray[0];
                     //////////////////////
                     // just for testing
-//                    symbol = "BABA";
-
+//                    if (ServiceAFweb.mydebugtestflag == true) {
+//                        symbol = "HOU.TO";
+//                    }
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
 
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);

@@ -124,6 +124,7 @@ public class TradingNNprocess {
                 if (symbolArray.length >= 0) {
 
                     String symbol = symbolArray[0];
+
                     int trNN = Integer.parseInt(symbolArray[1]);
 
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -525,7 +526,6 @@ public class TradingNNprocess {
 //        
         return nnTraining;
     }
-
 
 //    public static double getNNnormalizeStOutputCloseOld(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
 //
