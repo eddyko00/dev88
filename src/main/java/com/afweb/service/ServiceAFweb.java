@@ -730,13 +730,14 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            getStockImp().deleteNeuralNet1(BPnameSym);
             AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, trNN, symbol);
             int ret = nn2ProcBySig.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             AccountObj accountAdminObj = getAdminObjFromCache();
             AFstockObj stock = getRealTimeStockImp(symbol);
-            
+
             getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
             TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
             TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);

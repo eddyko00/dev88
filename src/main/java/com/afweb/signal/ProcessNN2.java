@@ -45,7 +45,7 @@ public class ProcessNN2 {
         //trainingNN1dataMACD will return oldest first to new date
         //trainingNN1dataMACD will return oldest first to new date
         ProcessNN2 nn2 = new ProcessNN2();
-        inputList = nn2.trainingNN2dataRSI1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        inputList = nn2.trainingNN2dataRSI2(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
             // it is okay for input relearning
@@ -287,7 +287,8 @@ public class ProcessNN2 {
         int rsiSignal = nnSignal;
         float prediction = -1;
 
-        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+//        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
         rsiSignal = rsi1NN.trsignal;
 
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -376,7 +377,8 @@ public class ProcessNN2 {
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 
-                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+//                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
 
                 int rsiSignal = rsi1NN.trsignal;
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -464,7 +466,9 @@ public class ProcessNN2 {
     }
 
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
-
+        if (true) {
+            return 0;
+        }
         float delPer = 100 * (StClose - thClose) / thClose;
 
         if (currSignal == ConstantKey.S_BUY) {
@@ -500,6 +504,7 @@ public class ProcessNN2 {
     }
 
     public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
+ 
         NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN100, accountObj, stock, tradingRuleList, StockArray, offset);
         if (nn != null) {
 
