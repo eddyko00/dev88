@@ -725,34 +725,36 @@ public class ServiceAFweb {
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
             nn2testflag = true;
-            String symbol = "HOU.TO";
-            int trNN = ConstantKey.INT_TR_NN2;
-            String nnName = ConstantKey.TR_NN2;
-            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
-            getStockImp().deleteNeuralNet1(BPnameSym);
-            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, trNN, symbol);
-            int ret = nn2ProcBySig.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            AFstockObj stock = getRealTimeStockImp(symbol);
 
-            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-
-//            nn2ProcBySig.processNN2InputNeuralNet(this);
-//            nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
-//            nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            NNProcessImp.ProcessReLearnInputNeuralNet(this);
-//            int TR_NN = ConstantKey.INT_TR_NN3;
+            while (true) {
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                logger.info("> Waiting 30 sec........");
+                try {
+                    Thread.sleep(30 * 1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
 //            String symbol = "HOU.TO";
-//            String nnName = ConstantKey.TR_NN3;
+//            int trNN = ConstantKey.INT_TR_NN2;
+//            String nnName = ConstantKey.TR_NN2;
 //            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+//            getStockImp().deleteNeuralNet1(BPnameSym);
+//            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, trNN, symbol);
+//            int ret = nn2ProcBySig.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 //
+//            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            AFstockObj stock = getRealTimeStockImp(symbol);
+//
+//            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
         }
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();

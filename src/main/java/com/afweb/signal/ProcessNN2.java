@@ -287,8 +287,8 @@ public class ProcessNN2 {
         int rsiSignal = nnSignal;
         float prediction = -1;
 
-//        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
-        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
+        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+//        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
         rsiSignal = rsi1NN.trsignal;
 
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -377,8 +377,8 @@ public class ProcessNN2 {
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 
-//                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
-                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
+                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+//                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
 
                 int rsiSignal = rsi1NN.trsignal;
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
