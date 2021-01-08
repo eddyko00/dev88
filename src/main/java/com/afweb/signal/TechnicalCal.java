@@ -207,6 +207,13 @@ public class TechnicalCal {
     }
 
     // period = 14
+//    Crossovers of the -DI and +DI lines can be used to generate trade signals. 
+//    For example, if the +DI line crosses above the -DI line and the ADX is above 20, or ideally above 25, 
+//    then that is a potential signal to buy.
+//
+//    If the -DI crosses above the +DI, and ADX is above 20 or 25, 
+//    then that is an opportunity to enter a potential short trade.
+
     public static ADXObj AvgDir(ArrayList StockRecArray, int DataOffset, int period) {
         AverageDirectionalIndex ADITechnical = new AverageDirectionalIndex();
         ADXObj adxObj = new ADXObj();

@@ -143,6 +143,10 @@ public class ConstantKey {
     public static final int INT_TR_RSI2 = 111;
     public static final int INT_RSI_7 = 7;
 
+    public static final int INT_TR_ADX1 = 120;
+    public static final int INT_ADX_7 = 7;    
+    public static final int INT_TR_ADX2 = 121;
+    public static final int INT_ADX_14 = 14;    
 
     public static final String TR_NN1 = "TR_NN1"; //NN for MACD fast
     public static final int INT_TR_NN1 = 4;

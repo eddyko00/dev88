@@ -727,21 +727,29 @@ public class ServiceAFweb {
             nn2testflag = true;
 
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            String symbol = "HOU.TO";
+            int trNN = ConstantKey.INT_TR_NN2;
+            String nnName = ConstantKey.TR_NN2;
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            while (true) {
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                logger.info("> Waiting 30 sec........");
-                try {
-                    Thread.sleep(30 * 1000);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-//            String symbol = "HOU.TO";
-//            int trNN = ConstantKey.INT_TR_NN2;
-//            String nnName = ConstantKey.TR_NN2;
-//            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            AFstockObj stock = getRealTimeStockImp(symbol);
+
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+
+            
+//            while (true) {
+//                TRprocessImp.ProcessAdminSignalTrading(this);
+//                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+//                logger.info("> Waiting 30 sec........");
+//                try {
+//                    Thread.sleep(30 * 1000);
+//                } catch (InterruptedException ex) {
+//                    Thread.currentThread().interrupt();
+//                }
+//            }
 
 //            getStockImp().deleteNeuralNet1(BPnameSym);
 //            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, trNN, symbol);

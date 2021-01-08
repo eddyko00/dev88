@@ -286,7 +286,12 @@ public class ProcessNN2 {
         int nnSignal = prevSignal;
         int rsiSignal = nnSignal;
         float prediction = -1;
-
+        ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
+        int adxSignal = adxObj.trsignal;
+        if (true) {
+            return adxSignal;
+        }
+///////////////////////////////////////////////////
         RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
 //        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
         rsiSignal = rsi1NN.trsignal;
@@ -376,7 +381,14 @@ public class ProcessNN2 {
         int confident = 0;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
+                ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
+                int adxSignal = adxObj.trsignal;
+                if (true) {
+                    nnRet.setTrsignal(adxSignal);
+                    return nnRet;
+                }
 
+/////////////////////////////////////////////                
                 RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
 //                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
 
@@ -504,7 +516,7 @@ public class ProcessNN2 {
     }
 
     public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
-         if (true) {
+        if (true) {
             return 0;
         }
         NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN100, accountObj, stock, tradingRuleList, StockArray, offset);
