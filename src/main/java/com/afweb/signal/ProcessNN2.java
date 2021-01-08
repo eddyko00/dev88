@@ -504,7 +504,9 @@ public class ProcessNN2 {
     }
 
     public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
- 
+         if (true) {
+            return 0;
+        }
         NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN100, accountObj, stock, tradingRuleList, StockArray, offset);
         if (nn != null) {
 
