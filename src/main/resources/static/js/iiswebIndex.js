@@ -34,32 +34,12 @@ var app = {
                     }
                 }
                 if (txemail === "00") {
-                    txemail = "admin1";
-                    txtpassword = "Passw0rd";
                     iisurlStr = iisurl_LOCAL;
                 }
                 if (txemail === "1111") {
-                    txemail = "admin1";
-                    txtpassword = "Passw0rd";
                     iisurlStr = iisurl_OP;
                 }
 
-                if (txemail === "11") {
-                    txemail = "admin1";
-                    txtpassword = "Passw0rd";
-                }
-                if (txemail === "22") {
-                    txemail = "fundmgr";
-                    txtpassword = "Passw0rd";
-                }
-                if (txemail === "33") {
-                    txemail = "indexmgr";
-                    txtpassword = "Passw0rd";
-                }
-                if (txemail === "44") {
-                    txemail = "fundmgr";
-                    txtpassword = "Passw0rd";
-                }
                 $.ajax({
                     url: iisurl + "cust/login?email=" + txemail + "&pass=" + txtpassword,
                     crossDomain: true,
@@ -147,32 +127,12 @@ var app = {
                 }
             }
             if (txemail === "00") {
-                txemail = "admin1";
-                txtpassword = "Passw0rd";
                 iisurlStr = iisurl_LOCAL;
             }
             if (txemail === "1111") {
-                txemail = "admin1";
-                txtpassword = "Passw0rd";
                 iisurlStr = iisurl_OP;
             }
 
-            if (txemail === "11") {
-                txemail = "admin1";
-                txtpassword = "Passw0rd";
-            }
-            if (txemail === "22") {
-                txemail = "fundmgr";
-                txtpassword = "Passw0rd";
-            }
-            if (txemail === "33") {
-                txemail = "indexmgr";
-                txtpassword = "Passw0rd";
-            }
-            if (txemail === "44") {
-                txemail = "fundmgr";
-                txtpassword = "Passw0rd";
-            }
             $.ajax({
                 url: iisurl + "cust/login?email=" + txemail + "&pass=" + txtpassword,
                 crossDomain: true,
@@ -204,7 +164,7 @@ var app = {
                 }
                 if (webMsg.resultID == 1) {
                     reMsg = "Account is disabled. ";
-                }                
+                }
                 $('#error_message').fadeIn().html(reMsg);
 
             }

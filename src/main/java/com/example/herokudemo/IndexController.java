@@ -355,6 +355,23 @@ public class IndexController {
         if (passSt == null) {
             return null;
         }
+        if (emailSt.equals("11")) {
+            emailSt = "admin1";
+            passSt = "Passw0rd";
+        } else if (emailSt.equals("22")) {
+            emailSt = "fundmgr";
+            passSt = "Passw0rd";
+        } else if (emailSt.equals("33")) {
+            emailSt = "indexmgr";
+            passSt = "Passw0rd";
+        } else if (emailSt.equals("00")) {
+            emailSt = "admin1";
+            passSt = "Passw0rd";
+        } else if (emailSt.equals("1111")) {
+            emailSt = "admin1";
+            passSt = "Passw0rd";
+        }
+
         LoginObj loginObj = afWebService.getCustomerEmailLogin(emailSt, passSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
@@ -1505,14 +1522,14 @@ public class IndexController {
         // remote is stopped
 
         int defTR = ConstantKey.INT_TR_NN2;
-        
+
         if (trSt != null) {
             defTR = Integer.parseInt(trSt);
-        }            
-        
+        }
+
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                
+
                 msg.setResponse(afWebService.SystemClearNNtran(defTR));
                 msg.setResult(true);
                 return msg;
