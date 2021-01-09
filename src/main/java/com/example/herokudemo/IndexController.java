@@ -367,6 +367,9 @@ public class IndexController {
         } else if (emailSt.equals("00")) {
             emailSt = "admin1";
             passSt = "Passw0rd";
+        } else if (emailSt.equals("111")) {
+            emailSt = "admin1";
+            passSt = "Passw0rd";
         } else if (emailSt.equals("1111")) {
             emailSt = "admin1";
             passSt = "Passw0rd";

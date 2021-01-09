@@ -36,6 +36,9 @@ var app = {
                 if (txemail === "00") {
                     iisurlStr = iisurl_LOCAL;
                 }
+                if (txemail === "111") {
+                    iisurlStr = iisurl_HERO;
+                }
                 if (txemail === "1111") {
                     iisurlStr = iisurl_OP;
                 }
@@ -129,9 +132,13 @@ var app = {
             if (txemail === "00") {
                 iisurlStr = iisurl_LOCAL;
             }
+            if (txemail === "111") {
+                iisurlStr = iisurl_HERO;
+            }
             if (txemail === "1111") {
                 iisurlStr = iisurl_OP;
             }
+
 
             $.ajax({
                 url: iisurl + "cust/login?email=" + txemail + "&pass=" + txtpassword,
