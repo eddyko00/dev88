@@ -735,11 +735,13 @@ public class ServiceAFweb {
             AccountObj accountAdminObj = getAdminObjFromCache();
             AFstockObj stock = getRealTimeStockImp(symbol);
 
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+
             TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
             TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
             TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
-            
 //            while (true) {
 //                TRprocessImp.ProcessAdminSignalTrading(this);
 //                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
@@ -750,7 +752,6 @@ public class ServiceAFweb {
 //                    Thread.currentThread().interrupt();
 //                }
 //            }
-
 //            getStockImp().deleteNeuralNet1(BPnameSym);
 //            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, trNN, symbol);
 //            int ret = nn2ProcBySig.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);

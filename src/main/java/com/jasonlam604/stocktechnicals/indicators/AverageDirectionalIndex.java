@@ -263,8 +263,8 @@ public class AverageDirectionalIndex {
 	}
 	
 	private void averageDirectionalIndex(int idx) {
-		  
-		if(idx == (this.period + 13)) {
+		int avgN = 3; //13;  
+		if(idx == (this.period + avgN)) {
 	
 		  	double[] data = new double[this.period];
 			for(int i=0;i<this.period;i++) {
@@ -273,7 +273,7 @@ public class AverageDirectionalIndex {
 			}
 			
 			adx[idx] = NumberFormatter.round(Arrays.stream(data).average().getAsDouble());
-		} else if( idx > (this.period + 13)) {
+		} else if( idx > (this.period + avgN)) {
 			adx[idx] = NumberFormatter.round(  ((this.adx[idx-1] * 13) + this.dx[idx]) / this.period);
 		} else {
 			adx[idx] = 0;

@@ -143,6 +143,7 @@ public class ConstantKey {
     public static final int INT_TR_RSI2 = 111;
     public static final int INT_RSI_7 = 7;
 
+    
     public static final int INT_TR_ADX1 = 120;
     public static final int INT_ADX_7 = 7;    
     public static final int INT_TR_ADX2 = 121;

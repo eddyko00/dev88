@@ -1100,6 +1100,7 @@ public class TrandingSignalProcess {
                     trHistory.setParm1((float) bbObj.lowerBand);
                     trHistory.setParm2((float) bbObj.upperBand);
                     trHistory.setParm3((float) bbObj.rsiValue);
+
                     break;
                 case ConstantKey.INT_TR_NN2:
 //                    RSIObj rsiNN1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
@@ -1122,6 +1123,12 @@ public class TrandingSignalProcess {
                             int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                             prevSignal = nn2Signal;
                         }
+
+                        AFstockInfo stocktmp = (AFstockInfo) StockArray.get(offset);
+                        logger.info("> NN2 " + stocktmp.getEntrydatedisplay() + " " + offset + " - "
+                                + trHistory.getTrsignal() + ", " + trHistory.getParm1() + ", " + trHistory.getParm2()
+                                + ", " + trHistory.getParm3() + ", " + trHistory.getParm4());
+
                     }
                     break;
                 case ConstantKey.INT_TR_NN3:

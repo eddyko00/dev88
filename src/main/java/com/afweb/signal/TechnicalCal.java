@@ -213,7 +213,6 @@ public class TechnicalCal {
 //
 //    If the -DI crosses above the +DI, and ADX is above 20 or 25, 
 //    then that is an opportunity to enter a potential short trade.
-
     public static ADXObj AvgDir(ArrayList StockRecArray, int DataOffset, int period) {
         AverageDirectionalIndex ADITechnical = new AverageDirectionalIndex();
         ADXObj adxObj = new ADXObj();
@@ -239,8 +238,12 @@ public class TechnicalCal {
 //            String st = "ADX " + result.getADX()[dataSize - 1] + ",ND " + result.getNegativeDirectionalIndicator()[dataSize - 1] + ",PD " + result.getPositiveDirectionalIndicator()[dataSize - 1];
 //            logger.info(st);
             adxObj.adx = result.getADX()[dataSize - 1];
+
             double PD = result.getPositiveDirectionalIndicator()[dataSize - 1];
             double ND = result.getNegativeDirectionalIndicator()[dataSize - 1];
+
+            adxObj.PD = PD;
+            adxObj.ND = ND;
             if (PD < ND) {
                 adxObj.adx = adxObj.adx * -1;
             }
@@ -451,19 +454,19 @@ public class TechnicalCal {
             bbObj.trsignal = ConstantKey.S_NEUTRAL;
             if (perLower < 10) {
 //                if (rsiValue < 30) {
-                    bbObj.trsignal = ConstantKey.S_BUY;
-                    return bbObj;
+                bbObj.trsignal = ConstantKey.S_BUY;
+                return bbObj;
 //                }
             } else if (perUpper < 10) {
 //                if (rsiValue > 70) {
-                    bbObj.trsignal = ConstantKey.S_SELL;
-                    return bbObj;
+                bbObj.trsignal = ConstantKey.S_SELL;
+                return bbObj;
 //                }
             }
             j++;
             if ((DataOffset + j + 2 * MAvg) > StockRecArray.size()) {
                 break;
-            }            
+            }
 //            if (j > 20) {
 //                break;
 //            }

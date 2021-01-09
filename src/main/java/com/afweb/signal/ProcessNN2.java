@@ -288,11 +288,23 @@ public class ProcessNN2 {
         float prediction = -1;
         ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
         int adxSignal = adxObj.trsignal;
+
+        trHistory.setTrsignal(adxSignal);
+        trHistory.setParm1((float) adxObj.PD);
+        trHistory.setParm2((float) adxObj.ND);
         if (true) {
             return adxSignal;
         }
+        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
+        rsiSignal = rsi1NN.trsignal;
+        trHistory.setParm3(rsiSignal);
+        trHistory.setParm3((float) rsi1NN.rsi);
+
+        if (true) {
+            return rsiSignal;
+        }
 ///////////////////////////////////////////////////
-        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+//        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
 //        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
         rsiSignal = rsi1NN.trsignal;
 
@@ -383,13 +395,19 @@ public class ProcessNN2 {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
                 ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
                 int adxSignal = adxObj.trsignal;
+
+//                if (true) {
+//                    nnRet.setTrsignal(adxSignal);
+//                    return nnRet;
+//                }
+                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+
                 if (true) {
-                    nnRet.setTrsignal(adxSignal);
+                    nnRet.setTrsignal(rsi1NN.trsignal);
                     return nnRet;
                 }
-
 /////////////////////////////////////////////                
-                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+//                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
 //                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
 
                 int rsiSignal = rsi1NN.trsignal;

@@ -12,4 +12,6 @@ package com.afweb.signal;
 public class ADXObj {
     public int trsignal;
     public double adx;
+    public double PD;
+    public double ND;    
 }
