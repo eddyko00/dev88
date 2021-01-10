@@ -292,17 +292,24 @@ public class ProcessNN2 {
         trHistory.setTrsignal(adxSignal);
         trHistory.setParm1((float) adxObj.PD);
         trHistory.setParm2((float) adxObj.ND);
-        if (true) {
-            return adxSignal;
-        }
+//        if (true) {
+//            nnSignal = adxSignal;
+//            trObj.setTrsignal(nnSignal);
+//            return nnSignal;
+//        }
+//        
+
         RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
         rsiSignal = rsi1NN.trsignal;
         trHistory.setParm3(rsiSignal);
         trHistory.setParm3((float) rsi1NN.rsi);
 
         if (true) {
-            return rsiSignal;
+            nnSignal = rsiSignal;
+            trObj.setTrsignal(nnSignal);
+            return nnSignal;
         }
+
 ///////////////////////////////////////////////////
 //        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
 //        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
@@ -400,7 +407,8 @@ public class ProcessNN2 {
 //                    nnRet.setTrsignal(adxSignal);
 //                    return nnRet;
 //                }
-                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
+//                
+                RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
 
                 if (true) {
                     nnRet.setTrsignal(rsi1NN.trsignal);

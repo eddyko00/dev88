@@ -732,6 +732,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
             AccountObj accountAdminObj = getAdminObjFromCache();
             AFstockObj stock = getRealTimeStockImp(symbol);
 
