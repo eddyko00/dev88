@@ -290,29 +290,27 @@ public class ProcessNN2 {
         int adxSignal = adxObj.trsignal;
 
         trHistory.setTrsignal(adxSignal);
-        trHistory.setParm1((float) adxObj.PD);
-        trHistory.setParm2((float) adxObj.ND);
-//        if (true) {
-//            nnSignal = adxSignal;
-//            trObj.setTrsignal(nnSignal);
-//            return nnSignal;
-//        }
+        trHistory.setParm1((float) adxSignal);
+        trHistory.setParm2((float) adxObj.PD);
+        trHistory.setParm3((float) adxObj.ND);
+        nnSignal = adxSignal;
 //        
 
-        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
-        rsiSignal = rsi1NN.trsignal;
-        trHistory.setParm3(rsiSignal);
-        trHistory.setParm3((float) rsi1NN.rsi);
+        RSIObj rsi11NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
+        rsiSignal = rsi11NN.trsignal;
+        trHistory.setParm4(rsiSignal);
+        trHistory.setParm5((float) rsi11NN.rsi);
+        nnSignal = rsiSignal;
 
         if (true) {
-            nnSignal = rsiSignal;
             trObj.setTrsignal(nnSignal);
+            trHistory.setTrsignal(trObj.getTrsignal());
             return nnSignal;
         }
 
 ///////////////////////////////////////////////////
 //        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
-//        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
+        RSIObj rsi1NN = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
         rsiSignal = rsi1NN.trsignal;
 
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);

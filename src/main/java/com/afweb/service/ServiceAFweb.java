@@ -726,6 +726,8 @@ public class ServiceAFweb {
 
             nn2testflag = true;
 
+         
+            
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             String symbol = "HOU.TO";
             int trNN = ConstantKey.INT_TR_NN2;

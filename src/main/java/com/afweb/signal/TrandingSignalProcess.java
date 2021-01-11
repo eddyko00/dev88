@@ -1122,12 +1122,12 @@ public class TrandingSignalProcess {
                             ProcessNN2 nn2 = new ProcessNN2();
                             int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                             prevSignal = nn2Signal;
-                        }
+                            AFstockInfo stocktmp = (AFstockInfo) StockArray.get(offset);
+                            logger.info("> NN2 " + stocktmp.getEntrydatedisplay() + " " + offset + " - "
+                                    + ", " + trHistory.getTrsignal() + ", " + trHistory.getParm1() + ", " + trHistory.getParm2()
+                                    + ", " + trHistory.getParm3() + ", " + trHistory.getParm4() + ", " + trHistory.getParm5());
 
-                        AFstockInfo stocktmp = (AFstockInfo) StockArray.get(offset);
-                        logger.info("> NN2 " + stocktmp.getEntrydatedisplay() + " " + offset + " - "
-                                + trHistory.getTrsignal() + ", " + trHistory.getParm1() + ", " + trHistory.getParm2()
-                                + ", " + trHistory.getParm3() + ", " + trHistory.getParm4());
+                        }
 
                     }
                     break;
