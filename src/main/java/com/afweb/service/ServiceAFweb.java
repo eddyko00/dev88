@@ -727,6 +727,9 @@ public class ServiceAFweb {
             nn2testflag = true;
             
             NN1ProcessBySignal.processRestinputflag = true;
+         
+//            nn2ProcBySig.NeuralNetProcessNN2Testing(this);
+//            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
             
             NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
             nnProcBySig.processNeuralNetTrain(this);
@@ -3094,7 +3097,7 @@ public class ServiceAFweb {
                                 } else if (TR_Name == ConstantKey.INT_TR_NN2) {
 
                                     ProcessNN1 nn1 = new ProcessNN1();
-                                    inputDataObj = nn1.trainingNN2dataMACD(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
+                                    inputDataObj = nn1.trainingNN1dataMACD2(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
                                 }
 
                                 // this assume from the oldest to new date no need reverse

@@ -316,7 +316,7 @@ public class NN1ProcessBySignal {
         } else if (tr == ConstantKey.INT_TR_MACD) {
 
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn1.trainingNN1dataMACD2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
 
@@ -1749,7 +1749,7 @@ public class NN1ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date 
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN2dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10);
+            inputList = nn1.trainingNN1dataMACD2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10);
         }
 
         // ignor first and last

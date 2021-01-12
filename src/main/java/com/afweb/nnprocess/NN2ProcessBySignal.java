@@ -257,7 +257,7 @@ public class NN2ProcessBySignal {
         return inputList;
     }
 
-    private void NeuralNetProcessNN2Testing(ServiceAFweb serviceAFWeb) {
+    public void NeuralNetProcessNN2Testing(ServiceAFweb serviceAFWeb) {
         ///////////////////////////////////////////////////////////////////////////////////
         // read new NN data
         serviceAFWeb.forceNNReadFileflag = true; // should be true to get it from file instead from db
@@ -549,10 +549,11 @@ public class NN2ProcessBySignal {
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST4);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST5);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST6); //need to check nn2Data file
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST7);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST8);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST9); //need to check nn2Data file
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST10);
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST7);
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST8);
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST9); //need to check nn2Data file
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST10);
+//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST11); //need to check nn2Data file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -602,8 +603,10 @@ public class NN2ProcessBySignal {
         try {
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST1);
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST2);
-//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
-//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); //need to check nnData file
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); //need to check nnData file
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST5);
+//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST6); //need to check nnData file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
