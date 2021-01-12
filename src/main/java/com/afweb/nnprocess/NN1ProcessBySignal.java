@@ -138,7 +138,7 @@ public class NN1ProcessBySignal {
 ////////////////////////////////////////////////////////////////////////////
             if (ServiceAFweb.nn2testflag == false) {
                 if (processRestinputflag == true) {
-                    exitflag = false;
+                    exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     processInputNeuralNet(serviceAFWeb);
@@ -151,7 +151,7 @@ public class NN1ProcessBySignal {
             }
             if (ServiceAFweb.nn2testflag == true) {
                 if (processRestinputflag == true) {
-                    exitflag = false;
+                    exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn2ProcBySig.processNN2InputNeuralNet(serviceAFWeb);
@@ -162,7 +162,7 @@ public class NN1ProcessBySignal {
             }
 ////////////////////////////////////////////////////////////////////////////            
             if (processRestAllStockflag == true) {
-                exitflag = false;
+                exitflag = true;
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
                 AllStockHistoryCreatJava(serviceAFWeb, symbolL, "nnAllStock", "NN_ALLSTOCK");
