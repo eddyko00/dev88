@@ -54,7 +54,7 @@ public class NN2ProcessBySignal {
 //            // start training
             NeuralNetProcessNN2Testing(serviceAFWeb);
             NeuralNetNN2CreatJava(serviceAFWeb, ConstantKey.TR_NN2);
-//
+
             TrandingSignalProcess.forceToGenerateNewNN = false;
 //            // start training
 //            // TrainingNNBP inputpattern 1748
