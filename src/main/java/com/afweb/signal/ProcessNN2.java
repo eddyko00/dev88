@@ -240,6 +240,7 @@ public class ProcessNN2 {
 
         return inputDatalist;
     }
+    
 
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data

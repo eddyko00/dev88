@@ -727,9 +727,6 @@ public class ServiceAFweb {
             nn2testflag = true;
             
             NN1ProcessBySignal.processRestinputflag = true;
-         
-//            nn2ProcBySig.NeuralNetProcessNN2Testing(this);
-//            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
             
             NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
             nnProcBySig.processNeuralNetTrain(this);

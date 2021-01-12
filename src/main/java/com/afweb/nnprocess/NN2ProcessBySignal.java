@@ -70,9 +70,9 @@ public class NN2ProcessBySignal {
     public void processAllNN2StockInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
 
-        logger.info("> processAllNN2StockInputNeuralNet TR RSI1... ");
+        logger.info("> processAllNN2StockInputNeuralNet TR ADX1... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX1);
-        logger.info("> processAllNN2StockInputNeuralNet TR RSI2... ");
+        logger.info("> processAllNN2StockInputNeuralNet TR ADX2... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
 //        
         NeuralNetAllStockNN2CreatJava(serviceAFWeb, ConstantKey.TR_NN2);
