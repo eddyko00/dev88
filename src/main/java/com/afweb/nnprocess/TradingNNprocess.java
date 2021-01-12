@@ -876,6 +876,10 @@ public class TradingNNprocess {
         return closeArray;
     }
 
+    /////////////// warning/////////////////
+    // assume the getParm1() contain the indicator value
+    // thObjListRSI is using by RSI and ADX indicator
+    /////////////// warning/////////////////    
     public static NNInputOutObj getNNnormalizeInput(int index, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
 
         if ((thObjListMACD == null) || (thObjListMV == null)) {

@@ -724,7 +724,7 @@ public class ProcessNN2 {
         /// adding extra in betreen signal in case buy and sell is large > 10 day. 
         //  so, just add day 5 as extra signal
         ArrayList<NNInputDataObj> inputRetDatalist = new ArrayList<NNInputDataObj>();
-        boolean flag = false;
+        boolean flag = true;
         if (flag == false) {
             return inputDatalist;
         }
@@ -756,8 +756,8 @@ public class ProcessNN2 {
                                 int signal = inputDaObj0.getObj().getTrsignal();
 
                                 for (int k = index; k < index1; k++) {
-                                    StockTRHistoryObj thObjMACD = thObjListMACD.get(index);
-                                    int signalIndex = thObjMACD.getTrsignal();
+                                    StockTRHistoryObj thObjADX = thObjListADX.get(index);
+                                    int signalIndex = thObjADX.getTrsignal();
                                     if (signalIndex == signal) {
                                         index = k;
                                         break;
@@ -771,8 +771,8 @@ public class ProcessNN2 {
                                 inputList.setOutput1(output1);
                                 inputList.setOutput2(output2);
 
-                                StockTRHistoryObj thObjMACDIndex = thObjListMACD.get(index);
-                                inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
+                                StockTRHistoryObj thObjADXIndex = thObjListADX.get(index);
+                                inputDaObj.setUpdatedatel(thObjADXIndex.getUpdateDatel());
                                 inputDaObj.setObj(inputList);
                                 inputRetDatalist.add(inputDaObj);
 //                                logger.info("> getAccountStockTR MACD NN1 add " + inputDaObj.getObj().getDateSt());

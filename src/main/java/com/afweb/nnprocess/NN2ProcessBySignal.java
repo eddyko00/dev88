@@ -202,7 +202,7 @@ public class NN2ProcessBySignal {
                         + "\",\"" + "output2"
                         + "\",\"" + "macd TSig"
                         + "\",\"" + "LTerm"
-                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "adx"
                         + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
                         + "\",\"" + symbol + "\"";
 
