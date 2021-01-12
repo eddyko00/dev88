@@ -1,5 +1,5 @@
 package com.afweb.util;
- 
+   
 import com.afweb.nn.*;
 
 public class CKey {

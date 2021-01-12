@@ -725,11 +725,11 @@ public class ServiceAFweb {
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
             nn2testflag = true;
-            
-            NN1ProcessBySignal.processRestinputflag = true;
-            
-            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
-            nnProcBySig.processNeuralNetTrain(this);
+//            
+//            NN1ProcessBySignal.processRestinputflag = true;
+//            
+//            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
+//            nnProcBySig.processNeuralNetTrain(this);
             
          
             
