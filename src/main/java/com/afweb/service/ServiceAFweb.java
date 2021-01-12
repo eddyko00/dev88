@@ -719,31 +719,36 @@ public class ServiceAFweb {
             //set up run parm 
             // javamain localmysqlflag proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
-            // javamain localmysqlflag  nn2testflag mydebugtestflag            
+         
 
             NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
             nn2testflag = true;
-
+            
+            NN1ProcessBySignal.processRestinputflag = true;
+            
+            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
+            nnProcBySig.processNeuralNetTrain(this);
+            
          
             
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            String symbol = "HOU.TO";
-            int trNN = ConstantKey.INT_TR_NN2;
-            String nnName = ConstantKey.TR_NN2;
-            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
-            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            AFstockObj stock = getRealTimeStockImp(symbol);
-
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
-
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//            String symbol = "HOU.TO";
+//            int trNN = ConstantKey.INT_TR_NN2;
+//            String nnName = ConstantKey.TR_NN2;
+//            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//
+//            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            AFstockObj stock = getRealTimeStockImp(symbol);
+//
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+//
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
 //            while (true) {
 //                TRprocessImp.ProcessAdminSignalTrading(this);

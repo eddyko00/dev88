@@ -138,12 +138,13 @@ public class ConstantKey {
     public static final int INT_TR_RSI = 3;
     public static final int INT_RSI_14 = 14;
 
-    public static final int INT_TR_RSI1 = 110;
-    public static final int INT_RSI_5 = 5;    
-    public static final int INT_TR_RSI2 = 111;
-    public static final int INT_RSI_7 = 7;
+//    public static final int INT_TR_RSI1 = 110;
+//    public static final int INT_RSI_5 = 5;    
+//    public static final int INT_TR_RSI2 = 111;
+//    public static final int INT_RSI_7 = 7;
 
     
+    public static final String TR_ADX = "TR_ACX";
     public static final int INT_TR_ADX1 = 120;
     public static final int INT_ADX_7 = 7;    
     public static final int INT_TR_ADX2 = 121;
