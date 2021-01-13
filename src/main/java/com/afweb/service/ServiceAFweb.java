@@ -674,40 +674,7 @@ public class ServiceAFweb {
         }
 
 /////////////////////////////////        
-//        String symbol = "BB.TO";
-//        int TR_NN = ConstantKey.INT_TR_NN1;
-//        String nnName = ConstantKey.TR_NN1;
-//        String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//
-//        for (int i = 0; i < 10; i++) {
-//            try {
-//                AFneuralNet nnObj1 = nnProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, TR_NN, symbol);
-//            } catch (Exception ex) {
-//                System.out.println(ex.getMessage());
-//            }
-//        }
-//        String symbol = "BB.TO";
-//        int TR_NN = ConstantKey.INT_TR_NN3;
-//        String nnName = ConstantKey.TR_NN3;
-//        String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//        for (int i = 0; i < 10; i++) {
-//            try {
-//                AFneuralNet nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
-//            } catch (Exception ex) {
-//                System.out.println(ex.getMessage());
-//            }
-//        }
-/////////////////////////////
-        /// reset weight0 and use latest stock
-        /// remember to update nnData and nn3Data and version
-//        boolean processRestinputflag = false;
-//        if (processRestinputflag == true) {
-//            nnProcBySig.processInputNeuralNet(this);
-//            nnStProcByTrend.processInputNeuralNetTrend(this);
-//            ///////////////////////////////
-//            nnProcBySig.processAllStockInputNeuralNet(this);
-//            nnStProcByTrend.processAllStockInputNeuralNetTrend(this);
-//        }
+
     }
 
     public static boolean mydebugtestflag = false;
@@ -719,20 +686,30 @@ public class ServiceAFweb {
             //set up run parm 
             // javamain localmysqlflag proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
-         
+            
+            // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
 
+            logger.info("Start mydebugtestflag.....");
             NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-
-            nn2testflag = true;
-//            
-            NN1ProcessBySignal.processRestinputflag = true;
+            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             
+            nn2testflag = true;
+
+            String symbol = "HOU.TO";
+            int trNN = ConstantKey.INT_TR_NN2;
+            String nnName = ConstantKey.TR_NN2;
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, trNN, symbol);
+
+//            
+//            NN1ProcessBySignal.processRestinputflag = true;
+//
+//            nn2ProcBySig.NeuralNetProcessNN2Testing(this);
+//            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
 //            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
 //            nnProcBySig.processNeuralNetTrain(this);
-            
-         
-            
 //            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //            String symbol = "HOU.TO";
 //            int trNN = ConstantKey.INT_TR_NN2;
@@ -749,7 +726,6 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-
 //            while (true) {
 //                TRprocessImp.ProcessAdminSignalTrading(this);
 //                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
@@ -772,6 +748,7 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+            logger.info("End mydebugtestflag.....");
         }
 
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
