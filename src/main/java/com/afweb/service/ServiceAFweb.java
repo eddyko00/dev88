@@ -674,7 +674,6 @@ public class ServiceAFweb {
         }
 
 /////////////////////////////////        
-
     }
 
     public static boolean mydebugtestflag = false;
@@ -686,14 +685,13 @@ public class ServiceAFweb {
             //set up run parm 
             // javamain localmysqlflag proxyflag mydebugtestflag
             // javamain localmysqlflag  mydebugtestflag
-            
-            // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
 
+            // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
             logger.info("Start mydebugtestflag.....");
             NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            
+
             nn2testflag = true;
 
             String symbol = "HOU.TO";
@@ -2845,6 +2843,9 @@ public class ServiceAFweb {
                 if (perC < 35) {
                     break;
                 }
+            }
+            if (j > (sizeLen / 2)) {
+                j = sizeLen / 2;
             }
             int index = j;
             ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
