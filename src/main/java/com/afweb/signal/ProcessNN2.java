@@ -502,11 +502,13 @@ public class ProcessNN2 {
         return 0;
     }
 
+    // return signal
     public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
         if (true) {
-            return 0;
+            return nnSignal;
         }
-        return 0;
+        return nnSignal;  //////disable must return the original signal
+////////        
 //        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN100, accountObj, stock, tradingRuleList, StockArray, offset);
 //        if (nn != null) {
 //
