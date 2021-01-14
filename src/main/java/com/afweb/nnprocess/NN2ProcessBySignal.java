@@ -928,7 +928,7 @@ public class NN2ProcessBySignal {
                             String nnName = ConstantKey.TR_NN2;
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-                            AFneuralNet nnObj1 = ProcessTrainNeuralNet1(serviceAFWeb, BPnameSym, TR_NN, symbol);
+                            AFneuralNet nnObj1 = ProcessTrainSignalNeuralNet(serviceAFWeb, BPnameSym, TR_NN, symbol);
 
                             if (nnObj1 != null) {
                                 if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
@@ -958,7 +958,7 @@ public class NN2ProcessBySignal {
         logger.info("> ProcessTrainNN2NeuralNetBySign ... done");
     }
 
-    public AFneuralNet ProcessTrainNeuralNet1(ServiceAFweb serviceAFWeb, String BPnameSym, int TR_NN, String symbol) {
+    public AFneuralNet ProcessTrainSignalNeuralNet(ServiceAFweb serviceAFWeb, String BPnameSym, int TR_NN, String symbol) {
         this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
         // first one is initial and the second one is to execute
         this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);

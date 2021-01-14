@@ -693,10 +693,18 @@ public class ServiceAFweb {
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
             nn2testflag = true;
+
             String symbol = "HOU.TO";
-             int trNN = ConstantKey.INT_TR_NN2;
-            NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
-            nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
+            int trNN = ConstantKey.INT_TR_NN2;
+
+            String nnName = ConstantKey.TR_NN2;
+            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            AFneuralNet nnObj1 = nn2Process.ProcessTrainSignalNeuralNet(this, BPnameSym, trNN, symbol);
+//
+//            nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
+
+
+
 
 //            NN1ProcessBySignal.processRestinputflag = true;
 //
