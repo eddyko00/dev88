@@ -1,8 +1,7 @@
 package com.example.herokudemo;
 
 import com.afweb.service.*;
-import com.afweb.util.CKey;
-import com.afweb.util.getEnv;
+import com.afweb.util.*;
 
 import java.util.concurrent.TimeUnit;
 import org.springframework.boot.SpringApplication;

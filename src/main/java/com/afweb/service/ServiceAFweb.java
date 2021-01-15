@@ -1474,6 +1474,9 @@ public class ServiceAFweb {
             }
         }
         LoginObj loginObj = new LoginObj();
+        if (custObj != null) {
+            custObj.setPassword("***");
+        }
         loginObj.setCustObj(custObj);
         loginObj.setWebMsg(webStatus);
         return loginObj;
