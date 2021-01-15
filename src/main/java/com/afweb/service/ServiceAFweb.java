@@ -714,8 +714,6 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);            
-            
-
 //            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //            String symbol = "HOU.TO";
 //            int trNN = ConstantKey.INT_TR_NN2;
@@ -2529,15 +2527,18 @@ public class ServiceAFweb {
             ArrayList<TransationOrderObj> tranOrderList = null;
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 tranOrderList = getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-            } else {
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                if (accountAdminObj == null) {
-                    return null;
-                }
-                tranOrderList = getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+                TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                return TRprocessImp.ProcessTranPerfHistory(this, tranOrderList, stock, length, true);  // buyOnly = true
             }
+
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            if (accountAdminObj == null) {
+                return null;
+            }
+            tranOrderList = getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            return TRprocessImp.ProcessTranPerfHistory(this, tranOrderList, stock, length);
+            return TRprocessImp.ProcessTranPerfHistory(this, tranOrderList, stock, length, false);  // buyOnly = false
         }
         return null;
     }
@@ -2564,15 +2565,18 @@ public class ServiceAFweb {
             ArrayList<TransationOrderObj> tranOrderList = null;
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 tranOrderList = getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-            } else {
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                if (accountAdminObj == null) {
-                    return null;
-                }
-                tranOrderList = getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+                TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                return TRprocessImp.ProcessTranPerfHistoryReinvest(this, tranOrderList, stock, length, true);  // buyOnly = true
+
             }
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            if (accountAdminObj == null) {
+                return null;
+            }
+            tranOrderList = getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            return TRprocessImp.ProcessTranPerfHistoryReinvest(this, tranOrderList, stock, length);
+            return TRprocessImp.ProcessTranPerfHistoryReinvest(this, tranOrderList, stock, length, false); //buyOnly = false
         }
         return null;
     }

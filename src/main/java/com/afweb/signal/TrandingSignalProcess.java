@@ -187,7 +187,7 @@ public class TrandingSignalProcess {
                 continue;
             }
             // get one yr performance
-            ArrayList<PerformanceObj> performanceList = ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1);
+            ArrayList<PerformanceObj> performanceList = ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, false); // buyOnly false
             if (performanceList != null) {
                 if (performanceList.size() == 1) {
                     PerformanceObj pObj = performanceList.get(0);
@@ -228,24 +228,24 @@ public class TrandingSignalProcess {
         return null;
     }
 
-    public ArrayList<PerformanceObj> ProcessTranPerfHistoryReinvest(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, AFstockObj stock, int length) {
+    public ArrayList<PerformanceObj> ProcessTranPerfHistoryReinvest(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, AFstockObj stock, int length, boolean buyOnly) {
 
         int lengthYr = 2;
         int size1year = 20 * 12 * lengthYr + (20 * 3);
         int offset = 0;
         ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
-        return ProcessTranPerfHistoryOffset(serviceAFWeb, tranOrderList, StockArray, offset, length, true); // reinvest = true
+        return ProcessTranPerfHistoryOffset(serviceAFWeb, tranOrderList, StockArray, offset, length, true, buyOnly); // reinvest = true
     }
 
-    public ArrayList<PerformanceObj> ProcessTranPerfHistory(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, AFstockObj stock, int length) {
+    public ArrayList<PerformanceObj> ProcessTranPerfHistory(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, AFstockObj stock, int length, boolean buyOnly) {
         int lengthYr = 2;
         int size1year = 20 * 12 * lengthYr + (20 * 3);
         int offset = 0;
         ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
-        return ProcessTranPerfHistoryOffset(serviceAFWeb, tranOrderList, StockArray, offset, length, false); // reinvest = false
+        return ProcessTranPerfHistoryOffset(serviceAFWeb, tranOrderList, StockArray, offset, length, false, buyOnly); // reinvest = false
     }
 
-    public ArrayList<PerformanceObj> ProcessTranPerfHistoryOffset(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, ArrayList<AFstockInfo> StockArray, int offset, int length, boolean reinvest) {
+    public ArrayList<PerformanceObj> ProcessTranPerfHistoryOffset(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, ArrayList<AFstockInfo> StockArray, int offset, int length, boolean reinvest, boolean buyOnly) {
 
         if ((tranOrderList == null) || (tranOrderList.size() == 0)) {
             return null;
@@ -338,7 +338,7 @@ public class TrandingSignalProcess {
                     perfObj = processTranPerfReinvest(perfObj, lastPerfObj, stockinfo, tranObj);
 
                 } else {
-                    perfObj = processTranPerf(perfObj, lastPerfObj, stockinfo, tranObj);
+                    perfObj = processTranPerf(perfObj, lastPerfObj, stockinfo, tranObj, buyOnly);
                 }
                 perfObj.getPerformData().setFromdate(lastTranObj.getEntrydatedisplay());
 
@@ -371,7 +371,7 @@ public class TrandingSignalProcess {
         return null;
     }
 
-    private PerformanceObj processTranPerf(PerformanceObj pObj, PerformanceObj lastPerfObj, AFstockInfo stockinfo, TransationOrderObj tranObj) {
+    private PerformanceObj processTranPerf(PerformanceObj pObj, PerformanceObj lastPerfObj, AFstockInfo stockinfo, TransationOrderObj tranObj, boolean buyOnly) {
         if (pObj == null) {
             pObj = new PerformanceObj();
         }

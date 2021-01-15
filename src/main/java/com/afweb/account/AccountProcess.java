@@ -975,7 +975,7 @@ public class AccountProcess {
             tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
 
-                ArrayList<PerformanceObj> performanceList = TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1);
+                ArrayList<PerformanceObj> performanceList = TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, true); // buyOnly true for TR_ACC
                 if (performanceList != null) {
                     if (performanceList.size() == 1) {
                         PerformanceObj pObj = performanceList.get(0);
