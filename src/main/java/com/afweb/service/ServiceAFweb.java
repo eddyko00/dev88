@@ -2841,19 +2841,20 @@ public class ServiceAFweb {
         float closeLast = StockArray.get(0).getFclose();
         float perC = 100 * (closeFirst - closeLast) / closeLast;
         perC = Math.abs(perC);
-        if (perC > 35) {
+        float thold = 45; // 35;
+        if (perC > thold) { //35) {
             int j = 0;
             for (j = 0; j < StockArray.size(); j++) {
                 closeLast = StockArray.get(j).getFclose();
                 perC = 100 * (closeFirst - closeLast) / closeLast;
                 perC = Math.abs(perC);
-                if (perC < 35) {
+                if (perC < thold) { // 35) {
                     break;
                 }
             }
-            if (j > (sizeLen / 2)) {
-                j = sizeLen / 2;
-            }
+//            if (j > (sizeLen / 2)) {
+//                j = sizeLen / 2;
+//            }
             int index = j;
             ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
             for (int i = index; i < StockArray.size(); i++) {
