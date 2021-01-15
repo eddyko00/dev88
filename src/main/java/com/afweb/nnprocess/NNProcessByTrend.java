@@ -218,7 +218,7 @@ public class NNProcessByTrend {
 //                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
 
-                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN3_WEIGHT_0");
+                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN30_WEIGHT_0");
                 } else {
                     String weightSt = afNeuralNet.getWeight();
                     if ((weightSt == null) || (weightSt.length() == 0)) {
