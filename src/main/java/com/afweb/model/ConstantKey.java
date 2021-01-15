@@ -146,7 +146,8 @@ public class ConstantKey {
     
     public static final String TR_ADX = "TR_ACX";
     public static final int INT_TR_ADX1 = 120;
-    public static final int INT_ADX_7 = 7;    
+    public static final int INT_ADX_5 = 5;    
+    public static final int INT_ADX_7 = 7;      
     public static final int INT_TR_ADX2 = 121;
     public static final int INT_ADX_14 = 14;    
 

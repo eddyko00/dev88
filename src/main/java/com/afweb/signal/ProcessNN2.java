@@ -157,7 +157,7 @@ public class ProcessNN2 {
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_ADX);
         trObj2.setType(ConstantKey.INT_TR_ADX1);
-//      public static final int INT_ADX_7 = 7;         
+//      public static final int INT_ADX_5 = 5;         
 
         trObj2.setAccount(trObjNN2.getAccount());
         trObj2.setStockid(trObjNN2.getStockid());
@@ -286,7 +286,8 @@ public class ProcessNN2 {
         float prediction = -1;
 ///////////////////////////////        
 
-        ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
+//        ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
+        ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_5);
         adxSignal = adxObj.trsignal;
 
 ///////////////////////////////////////////////////

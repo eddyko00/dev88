@@ -1103,7 +1103,8 @@ public class TrandingSignalProcess {
 
                     break;
                 case ConstantKey.INT_TR_ADX1:
-                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
+//                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
+                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_5);
                     trObj.setTrsignal(adxObj1.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
                     trHistory.setParm1((float) adxObj1.adx);
