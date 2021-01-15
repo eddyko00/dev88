@@ -696,27 +696,41 @@ public class ServiceAFweb {
 
             String symbol = "SPY";
             int trNN = ConstantKey.INT_TR_NN2;
+            int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-
+//            for (int j = 0; j < 3; j++) {
+//                AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
+//                getStockImp().deleteNeuralNet1(BPnameSym);
+//                
+//                NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
+//                nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
+//            }
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+//
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);            
+            
 
 //            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //            String symbol = "HOU.TO";
 //            int trNN = ConstantKey.INT_TR_NN2;
 //            String nnName = ConstantKey.TR_NN2;
 //            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
-            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            AFstockObj stock = getRealTimeStockImp(symbol);
-
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
-
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            AFstockObj stock = getRealTimeStockImp(symbol);
+//
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+//
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 //            while (true) {
 //                TRprocessImp.ProcessAdminSignalTrading(this);
 //                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
