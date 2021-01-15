@@ -60,8 +60,7 @@ public class TradingNNprocess {
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                     stockTRNameArray.add(symTR);
                 }
-            }
-            if (ServiceAFweb.nn2testflag == true) {
+            } else if (ServiceAFweb.nn2testflag == true) {
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     String sym = (String) stockNameArray.get(i);
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN2;

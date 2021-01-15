@@ -82,8 +82,9 @@ public class NN1ProcessBySignal {
             k++;
             boolean exitflag = true;
 
-            if (ServiceAFweb.nn2testflag == false) {
-                if (flagNNLearningSignal == true) {
+////////////////////////////////////////////////////////////////////////////
+            if (flagNNLearningSignal == true) {
+                if (ServiceAFweb.nn2testflag == false) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
                         NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
@@ -91,11 +92,8 @@ public class NN1ProcessBySignal {
                     logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
                     ProcessTrainNeuralNetBySign(serviceAFWeb);
                     logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
-                }
-            }
-            /////////
-            if (ServiceAFweb.nn2testflag == true) {
-                if (flagNNLearningSignal == true) {
+
+                } else if (ServiceAFweb.nn2testflag == true) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
                         NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
@@ -104,9 +102,31 @@ public class NN1ProcessBySignal {
 
                     nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(serviceAFWeb);
                     logger.info("> ProcessTrainNeuralNet NN 2 end... cycle " + k);
+
                 }
             }
-
+////////////////////////////////////////////////////////////////////////////
+            if (processRestinputflag == true) {
+                if (ServiceAFweb.nn2testflag == false) {
+                    exitflag = true;
+                    /// reset weight0 and use latest stock
+                    /// remember to update nnData and nn3Data and version                
+                    processInputNeuralNet(serviceAFWeb);
+                    nntrend.processInputNeuralNetTrend(serviceAFWeb);
+                    ///////////////////////////////
+                    processAllStockInputNeuralNet(serviceAFWeb);
+                    nntrend.processAllNN3StockInputNeuralNetTrend(serviceAFWeb);
+                    return;
+                } else if (ServiceAFweb.nn2testflag == true) {
+                    exitflag = true;
+                    /// reset weight0 and use latest stock
+                    /// remember to update nnData and nn3Data and version                
+                    nn2ProcBySig.processNN2InputNeuralNet(serviceAFWeb);
+                    ///////////////////////////////
+                    nn2ProcBySig.processAllNN2StockInputNeuralNet(serviceAFWeb);
+                    return;
+                }
+            }
 ////////////////////////////////////////////////////////////////////////////
             if (flagNN3LearningTrend == true) {
                 exitflag = false;
@@ -134,31 +154,6 @@ public class NN1ProcessBySignal {
                 serviceAFWeb.getAccountProcessImp().ProcessAllAccountTradingSignal(serviceAFWeb);
                 TRprocessImp.UpdateAllStock(serviceAFWeb);
                 logger.info("> processNNSignalAdmin end... cycle " + k);
-            }
-////////////////////////////////////////////////////////////////////////////
-            if (ServiceAFweb.nn2testflag == false) {
-                if (processRestinputflag == true) {
-                    exitflag = true;
-                    /// reset weight0 and use latest stock
-                    /// remember to update nnData and nn3Data and version                
-                    processInputNeuralNet(serviceAFWeb);
-                    nntrend.processInputNeuralNetTrend(serviceAFWeb);
-                    ///////////////////////////////
-                    processAllStockInputNeuralNet(serviceAFWeb);
-                    nntrend.processAllNN3StockInputNeuralNetTrend(serviceAFWeb);
-                    return;
-                }
-            }
-            if (ServiceAFweb.nn2testflag == true) {
-                if (processRestinputflag == true) {
-                    exitflag = true;
-                    /// reset weight0 and use latest stock
-                    /// remember to update nnData and nn3Data and version                
-                    nn2ProcBySig.processNN2InputNeuralNet(serviceAFWeb);
-                    ///////////////////////////////
-                    nn2ProcBySig.processAllNN2StockInputNeuralNet(serviceAFWeb);
-                    return;
-                }
             }
 ////////////////////////////////////////////////////////////////////////////            
             if (processRestAllStockflag == true) {
