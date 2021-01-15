@@ -694,40 +694,29 @@ public class ServiceAFweb {
 
             nn2testflag = true;
 
-            String symbol = "HOU.TO";
+            String symbol = "SPY";
             int trNN = ConstantKey.INT_TR_NN2;
-
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//            AFneuralNet nnObj1 = nn2Process.ProcessTrainSignalNeuralNet(this, BPnameSym, trNN, symbol);
-//
-//            nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 
 
 
-
-//            NN1ProcessBySignal.processRestinputflag = true;
-//
-//            nn2ProcBySig.NeuralNetProcessNN2Testing(this);
-//            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
-//            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
-//            nnProcBySig.processNeuralNetTrain(this);
 //            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //            String symbol = "HOU.TO";
 //            int trNN = ConstantKey.INT_TR_NN2;
 //            String nnName = ConstantKey.TR_NN2;
 //            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//
-//            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            AFstockObj stock = getRealTimeStockImp(symbol);
-//
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
-//
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+
+            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            AFstockObj stock = getRealTimeStockImp(symbol);
+
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 //            while (true) {
 //                TRprocessImp.ProcessAdminSignalTrading(this);
 //                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
@@ -2985,168 +2974,168 @@ public class ServiceAFweb {
             NNInputOutObj objPrev = null;
             boolean flag = false; //false;
             if (flag == true) {
-                if (getEnv.checkLocalPC() == true) {
-                    if (trname.equals(ConstantKey.TR_NN1) || trname.equals(ConstantKey.TR_NN2)) {
-
-                        int TR_Name = ConstantKey.INT_TR_NN1;
-                        if (trname.equals(ConstantKey.TR_NN2)) {
-                            TR_Name = ConstantKey.INT_TR_NN2;
-                        }
-
-                        int size1yearAll = 20 * 12 * 5 + (50 * 3);
-                        ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);
-                        if (StockArray == null) {
-                            return null;
-                        }
-
-                        AccountObj accountObj = this.getAdminObjFromCache();
-                        ArrayList UpdateTRList = this.SystemAccountStockListByAccountID(accountObj.getId(), stock.getSymbol());
-
-                        int size1year = 20 * 10;
-                        for (int j = 0; j < size1year; j++) {
-                            int stockOffset = size1year - j + 1;
-                            AFstockInfo stockinfo = StockArray.get(stockOffset);
-                            // testing check predicion evey date in stock
-                            // testing check predicion evey date in stock                    
-                            boolean flag_1 = false;
-                            if (flag_1 == true) {
-                                NNObj nn = NNCal.NNpredict(this, TR_Name, accountObj, stock, UpdateTRList, StockArray, stockOffset);
-                                if (nn != null) {
-                                    String nameST = nn.getComment();
-                                    NNInputOutObj obj = new NNInputOutObj();
-
-                                    try {
-                                        obj = new ObjectMapper().readValue(nameST, NNInputOutObj.class
-                                        );
-                                    } catch (IOException ex) {
-                                    }
-                                    obj.setClose(stockinfo.getFclose());
-                                    obj.setOutput1(nn.getPrediction());
-
-                                    Calendar setDate = TimeConvertion.getCurrentCalendar(stockinfo.getEntrydatel());
-                                    String stdate = new Timestamp(setDate.getTime().getTime()).toString();
-                                    stdate = stdate.substring(0, 10);
-                                    obj.setDateSt(stdate);
-
-                                    inputObjlist.add(obj);
-                                    String st = "\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
-                                            + "\",\"" + obj.getOutput1()
-                                            + "\",\"" + obj.getInput1() + "\",\"" + obj.getInput2() + "\",\"" + obj.getInput3()
-                                            + "\",\"" + obj.getInput4() + "\",\"" + obj.getInput5() + "\",\"" + obj.getInput6()
-                                            + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
-                                            + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
-                                            + "\"";
-                                    logger.info(st);
-                                }
-                            }
-
-                            long stockdatel = TimeConvertion.endOfDayInMillis(stockinfo.getEntrydatel());
-                            for (int i = 0; i < thList.size(); i++) {
-                                TransationOrderObj thObj = thList.get(i);
-                                long THdatel = TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
-                                if (stockdatel != THdatel) {
-                                    continue;
-                                }
-
-                                TransationOrderObj thObjNext = thObj;
-                                if ((thObj.getTrsignal() == ConstantKey.S_BUY) || (thObj.getTrsignal() == ConstantKey.S_SELL)) {
-                                    ;
-                                } else {
-                                    if (i + 1 < thList.size()) {
-                                        thObjNext = thList.get(i + 1);
-                                    }
-                                    long THdatelNext = TimeConvertion.endOfDayInMillis(thObjNext.getEntrydatel());
-                                    if (THdatel == THdatelNext) {
-                                        thObj = thObjNext;
-                                    }
-                                }
-                                //StockArray assume recent date to old data  
-                                //StockArray assume recent date to old data  
-                                //trainingNN1dataMACD will return oldest first to new date
-                                //trainingNN1dataMACD will return oldest first to new date   
-                                ArrayList<NNInputDataObj> inputDataObj = null;
-                                if (TR_Name == ConstantKey.INT_TR_NN1) {
-
-                                    //StockArray assume recent date to old data  
-                                    //StockArray assume recent date to old data              
-                                    //trainingNN1dataMACD will return oldest first to new date
-                                    //trainingNN1dataMACD will return oldest first to new date            
-                                    ProcessNN1 nn1 = new ProcessNN1();
-                                    inputDataObj = nn1.trainingNN1dataMACD(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
-                                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
-
-                                    ProcessNN1 nn1 = new ProcessNN1();
-                                    inputDataObj = nn1.trainingNN1dataMACD2(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
-                                }
-
-                                // this assume from the oldest to new date no need reverse
-                                NNInputOutObj obj = (NNInputOutObj) inputDataObj.get(0).getObj();
-
-                                int retDecision = TradingNNprocess.checkNNsignalDecision(obj, objPrev);
-
-                                double output = 0;
-                                if (retDecision == 1) {
-                                    output = 0.9;
-                                } else {
-                                    output = 0.1;
-                                }
-                                if (objPrev != null) {
-                                    objPrev.setOutput1(output);
-                                }
-                                if (objPrev != null) {
-                                    inputObjlist.add(objPrev);
-
-                                    String st = "\"" + objPrev.getDateSt() + "\",\"" + objPrev.getClose() + "\",\"" + objPrev.getTrsignal()
-                                            + "\",\"" + objPrev.getOutput1()
-                                            + "\",\"" + objPrev.getInput1() + "\",\"" + objPrev.getInput2() + "\",\"" + objPrev.getInput3()
-                                            + "\",\"" + objPrev.getInput4() + "\",\"" + objPrev.getInput5() + "\",\"" + objPrev.getInput6()
-                                            + "\",\"" + objPrev.getInput7() + "\",\"" + objPrev.getInput8()
-                                            + "\",\"" + objPrev.getInput9() + "\",\"" + objPrev.getInput10()
-                                            + "\"";
-                                    logger.info(st);
-                                }
-
-                                objPrev = obj;
-                                break;
-                            }
-                            boolean exitflag = false;
-                            if (exitflag == true) {
-                                break;
-                            }
-
-                        }
-
-                        ArrayList writeArray = new ArrayList();
-                        String stTitle = "";
-                        for (int i = 0; i < inputObjlist.size(); i++) {
-                            NNInputOutObj obj = (NNInputOutObj) inputObjlist.get(i);
-                            String st = "\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
-                                    + "\",\"" + obj.getOutput1()
-                                    + "\",\"" + obj.getInput1() + "\",\"" + obj.getInput2() + "\",\"" + obj.getInput3()
-                                    + "\",\"" + obj.getInput4() + "\",\"" + obj.getInput5() + "\",\"" + obj.getInput6()
-                                    + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
-                                    + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
-                                    + "\"";
-
-                            if (i == 0) {
-                                stTitle = "\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-                                        + "\",\"" + "output"
-                                        + "\",\"" + "macd TSig"
-                                        + "\",\"" + "LTerm"
-                                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-                                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                                        + "\"";
-
-                            }
-                            writeArray.add(st);
-
-                        }
-                        writeArray.add(stTitle);
-                        Collections.reverse(writeArray);
-                        String filename = FileLocalDebugPath + stockidsymbol + "_nn_display.csv";
-                        FileUtil.FileWriteTextArray(filename, writeArray);
-                    }
-                }  // local PC
+//                if (getEnv.checkLocalPC() == true) {
+//                    if (trname.equals(ConstantKey.TR_NN1) || trname.equals(ConstantKey.TR_NN2)) {
+//
+//                        int TR_Name = ConstantKey.INT_TR_NN1;
+//                        if (trname.equals(ConstantKey.TR_NN2)) {
+//                            TR_Name = ConstantKey.INT_TR_NN2;
+//                        }
+//
+//                        int size1yearAll = 20 * 12 * 5 + (50 * 3);
+//                        ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);
+//                        if (StockArray == null) {
+//                            return null;
+//                        }
+//
+//                        AccountObj accountObj = this.getAdminObjFromCache();
+//                        ArrayList UpdateTRList = this.SystemAccountStockListByAccountID(accountObj.getId(), stock.getSymbol());
+//
+//                        int size1year = 20 * 10;
+//                        for (int j = 0; j < size1year; j++) {
+//                            int stockOffset = size1year - j + 1;
+//                            AFstockInfo stockinfo = StockArray.get(stockOffset);
+//                            // testing check predicion evey date in stock
+//                            // testing check predicion evey date in stock                    
+//                            boolean flag_1 = false;
+//                            if (flag_1 == true) {
+//                                NNObj nn = NNCal.NNpredict(this, TR_Name, accountObj, stock, UpdateTRList, StockArray, stockOffset);
+//                                if (nn != null) {
+//                                    String nameST = nn.getComment();
+//                                    NNInputOutObj obj = new NNInputOutObj();
+//
+//                                    try {
+//                                        obj = new ObjectMapper().readValue(nameST, NNInputOutObj.class
+//                                        );
+//                                    } catch (IOException ex) {
+//                                    }
+//                                    obj.setClose(stockinfo.getFclose());
+//                                    obj.setOutput1(nn.getPrediction());
+//
+//                                    Calendar setDate = TimeConvertion.getCurrentCalendar(stockinfo.getEntrydatel());
+//                                    String stdate = new Timestamp(setDate.getTime().getTime()).toString();
+//                                    stdate = stdate.substring(0, 10);
+//                                    obj.setDateSt(stdate);
+//
+//                                    inputObjlist.add(obj);
+//                                    String st = "\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+//                                            + "\",\"" + obj.getOutput1()
+//                                            + "\",\"" + obj.getInput1() + "\",\"" + obj.getInput2() + "\",\"" + obj.getInput3()
+//                                            + "\",\"" + obj.getInput4() + "\",\"" + obj.getInput5() + "\",\"" + obj.getInput6()
+//                                            + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+//                                            + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+//                                            + "\"";
+//                                    logger.info(st);
+//                                }
+//                            }
+//
+//                            long stockdatel = TimeConvertion.endOfDayInMillis(stockinfo.getEntrydatel());
+//                            for (int i = 0; i < thList.size(); i++) {
+//                                TransationOrderObj thObj = thList.get(i);
+//                                long THdatel = TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
+//                                if (stockdatel != THdatel) {
+//                                    continue;
+//                                }
+//
+//                                TransationOrderObj thObjNext = thObj;
+//                                if ((thObj.getTrsignal() == ConstantKey.S_BUY) || (thObj.getTrsignal() == ConstantKey.S_SELL)) {
+//                                    ;
+//                                } else {
+//                                    if (i + 1 < thList.size()) {
+//                                        thObjNext = thList.get(i + 1);
+//                                    }
+//                                    long THdatelNext = TimeConvertion.endOfDayInMillis(thObjNext.getEntrydatel());
+//                                    if (THdatel == THdatelNext) {
+//                                        thObj = thObjNext;
+//                                    }
+//                                }
+//                                //StockArray assume recent date to old data  
+//                                //StockArray assume recent date to old data  
+//                                //trainingNN1dataMACD will return oldest first to new date
+//                                //trainingNN1dataMACD will return oldest first to new date   
+//                                ArrayList<NNInputDataObj> inputDataObj = null;
+//                                if (TR_Name == ConstantKey.INT_TR_NN1) {
+//
+//                                    //StockArray assume recent date to old data  
+//                                    //StockArray assume recent date to old data              
+//                                    //trainingNN1dataMACD will return oldest first to new date
+//                                    //trainingNN1dataMACD will return oldest first to new date            
+//                                    ProcessNN1 nn1 = new ProcessNN1();
+//                                    inputDataObj = nn1.trainingNN1dataMACD(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
+//                                } else if (TR_Name == ConstantKey.INT_TR_NN2) {
+//
+//                                    ProcessNN1 nn1 = new ProcessNN1();
+//                                    inputDataObj = nn1.trainingNN1dataMACD2(this, symbol, StockArray, stockOffset, CKey.SHORT_MONTH_SIZE);
+//                                }
+//
+//                                // this assume from the oldest to new date no need reverse
+//                                NNInputOutObj obj = (NNInputOutObj) inputDataObj.get(0).getObj();
+//
+//                                int retDecision = TradingNNprocess.checkNNsignalDecision(obj, objPrev);
+//
+//                                double output = 0;
+//                                if (retDecision == 1) {
+//                                    output = 0.9;
+//                                } else {
+//                                    output = 0.1;
+//                                }
+//                                if (objPrev != null) {
+//                                    objPrev.setOutput1(output);
+//                                }
+//                                if (objPrev != null) {
+//                                    inputObjlist.add(objPrev);
+//
+//                                    String st = "\"" + objPrev.getDateSt() + "\",\"" + objPrev.getClose() + "\",\"" + objPrev.getTrsignal()
+//                                            + "\",\"" + objPrev.getOutput1()
+//                                            + "\",\"" + objPrev.getInput1() + "\",\"" + objPrev.getInput2() + "\",\"" + objPrev.getInput3()
+//                                            + "\",\"" + objPrev.getInput4() + "\",\"" + objPrev.getInput5() + "\",\"" + objPrev.getInput6()
+//                                            + "\",\"" + objPrev.getInput7() + "\",\"" + objPrev.getInput8()
+//                                            + "\",\"" + objPrev.getInput9() + "\",\"" + objPrev.getInput10()
+//                                            + "\"";
+//                                    logger.info(st);
+//                                }
+//
+//                                objPrev = obj;
+//                                break;
+//                            }
+//                            boolean exitflag = false;
+//                            if (exitflag == true) {
+//                                break;
+//                            }
+//
+//                        }
+//
+//                        ArrayList writeArray = new ArrayList();
+//                        String stTitle = "";
+//                        for (int i = 0; i < inputObjlist.size(); i++) {
+//                            NNInputOutObj obj = (NNInputOutObj) inputObjlist.get(i);
+//                            String st = "\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+//                                    + "\",\"" + obj.getOutput1()
+//                                    + "\",\"" + obj.getInput1() + "\",\"" + obj.getInput2() + "\",\"" + obj.getInput3()
+//                                    + "\",\"" + obj.getInput4() + "\",\"" + obj.getInput5() + "\",\"" + obj.getInput6()
+//                                    + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+//                                    + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+//                                    + "\"";
+//
+//                            if (i == 0) {
+//                                stTitle = "\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+//                                        + "\",\"" + "output"
+//                                        + "\",\"" + "macd TSig"
+//                                        + "\",\"" + "LTerm"
+//                                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+//                                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+//                                        + "\"";
+//
+//                            }
+//                            writeArray.add(st);
+//
+//                        }
+//                        writeArray.add(stTitle);
+//                        Collections.reverse(writeArray);
+//                        String filename = FileLocalDebugPath + stockidsymbol + "_nn_display.csv";
+//                        FileUtil.FileWriteTextArray(filename, writeArray);
+//                    }
+//                }  // local PC
             }
 
             int size1year = 20 * 10;

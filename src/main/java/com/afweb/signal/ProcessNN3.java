@@ -502,7 +502,7 @@ public class ProcessNN3 {
                 if (inputList == null) {
                     continue;
                 }
-                int retDecision = NNProcessImp.checkNNsignalDecision(thObjMACD, prevThObj);
+                int retDecision = checkNNsignalDecision(thObjMACD, prevThObj);
 
                 double output = retDecision;
 
@@ -651,4 +651,39 @@ public class ProcessNN3 {
         return inputList;
     }
 
+    public static int checkNNsignalDecision(StockTRHistoryObj thObj, StockTRHistoryObj prevThObj) {
+        if (prevThObj == null) {
+            prevThObj = thObj;
+        }
+        int retDecision = -1;
+        int pervSignal = prevThObj.getTrsignal();
+
+        float pricePrev = prevThObj.getClose();
+        float price = thObj.getClose();
+        float percent = (price - pricePrev) / pricePrev;
+        percent = percent * 100 * 15;
+        float percentAbs = Math.abs(percent);
+        if (percentAbs < 30) { //20){
+            return -1;
+        }
+
+        if (pervSignal == ConstantKey.S_BUY) {
+            retDecision = 0;
+            if (thObj.getClose() > prevThObj.getClose()) {
+                retDecision = 1;
+            }
+            return retDecision;
+        }
+        if (pervSignal == ConstantKey.S_SELL) {
+            retDecision = 0;
+            if (prevThObj.getClose() > thObj.getClose()) {
+                retDecision = 1;
+            }
+            return retDecision;
+        }
+
+        return -1;
+    }
+    
+    
 }
