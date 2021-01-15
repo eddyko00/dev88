@@ -553,7 +553,8 @@ public class NN2ProcessBySignal {
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST8);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST9); //need to check nn2Data file
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST10);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST11); //need to check nn2Data file
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST11); //need to check nn2Data file
+//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST12); //need to check nn2Data file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -606,7 +607,8 @@ public class NN2ProcessBySignal {
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); //need to check nnData file
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST5);
-//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST6); //need to check nnData file
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST6); //need to check nnData file
+//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST7); //need to check nnData file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -1367,7 +1369,5 @@ public class NN2ProcessBySignal {
 
         return inputList;
     }
-
-    
 
 }

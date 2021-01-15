@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author koed
  */
-public class ProcessNN3 {
+public class ProcessNN30 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
 
@@ -39,7 +39,7 @@ public class ProcessNN3 {
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1 + "_" + symbol;
 
         ArrayList<NNInputDataObj> inputList = null;
-        ProcessNN3 nn3 = new ProcessNN3();
+        ProcessNN30 nn3 = new ProcessNN30();
         inputList = nn3.trainingNN3dataMACD(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {

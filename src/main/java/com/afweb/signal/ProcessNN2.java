@@ -806,7 +806,7 @@ public class ProcessNN2 {
         float percent = (price - pricePrev) / pricePrev;
         percent = percent * 100 * 15;
         float percentAbs = Math.abs(percent);
-        if (percentAbs < 40) { //30) { //20){
+        if (percentAbs < 35) { //30) { //20){
             return -1;
         }
 
