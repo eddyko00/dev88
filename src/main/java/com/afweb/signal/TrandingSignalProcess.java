@@ -1079,20 +1079,6 @@ public class TrandingSignalProcess {
                     trHistory.setParm1((float) rsi.rsi);
                     trHistory.setParm2((float) rsi.lastRsi);
                     break;
-//                case ConstantKey.INT_TR_RSI1:
-//                    RSIObj rsi1 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_5);
-//                    trObj.setTrsignal(rsi1.trsignal);
-//                    trHistory.setTrsignal(trObj.getTrsignal());
-//                    trHistory.setParm1((float) rsi1.rsi);
-//                    trHistory.setParm2((float) rsi1.lastRsi);
-//                    break;
-//                case ConstantKey.INT_TR_RSI2:
-//                    RSIObj rsi2 = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_7);
-//                    trObj.setTrsignal(rsi2.trsignal);
-//                    trHistory.setTrsignal(trObj.getTrsignal());
-//                    trHistory.setParm1((float) rsi2.rsi);
-//                    trHistory.setParm2((float) rsi2.lastRsi);
-//                    break;
                 case ConstantKey.INT_TR_NN1:
                     boolean nn1Flag = true;
                     if (nn1Flag == true) {

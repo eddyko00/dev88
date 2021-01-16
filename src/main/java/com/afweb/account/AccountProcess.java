@@ -837,19 +837,25 @@ public class AccountProcess {
 
             int trLinkId = trTradingACCObj.getLinktradingruleid();
             if (trLinkId != 0) {
-                boolean readySignal = true;
+                boolean readySignal = false;
 
                 //Make sure all admin links are ready before copy the link signal
                 //Make sure all admin links are ready before copy the link signal
                 for (int j = 0; j < tradingRuleAdminList.size(); j++) {
                     TradingRuleObj trAdminObj = (TradingRuleObj) tradingRuleAdminList.get(j);
-                    //Make sure all admin links are ready before copy the link signal
-                    if ((trAdminObj.getType() >= ConstantKey.INT_TR_MV) && (trAdminObj.getType() <= ConstantKey.INT_TR_NN1)) {
-                        if (trAdminObj.getSubstatus() != ConstantKey.OPEN) {
-                            readySignal = false;
+                    if (trAdminObj.getType() == ConstantKey.INT_TR_NN1) {
+                        if (trAdminObj.getSubstatus() == ConstantKey.OPEN) {
+                            readySignal = true;
                             break;
                         }
                     }
+                    //Make sure all admin links are ready before copy the link signal
+//                    if ((trAdminObj.getType() >= ConstantKey.INT_TR_MV) && (trAdminObj.getType() <= ConstantKey.INT_TR_NN1)) {
+//                        if (trAdminObj.getSubstatus() != ConstantKey.OPEN) {
+//                            readySignal = false;
+//                            break;
+//                        }
+//                    }
                 }
                 if (readySignal == true) {
 
