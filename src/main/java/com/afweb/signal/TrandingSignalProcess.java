@@ -476,7 +476,7 @@ public class TrandingSignalProcess {
                     perfData.setMinholdtime(holdtime);
                 }
 
-            } else if (currentSignal == ConstantKey.S_SHORT_SELL) {
+            } else if ((currentSignal == ConstantKey.S_SHORT_SELL) && (buyOnly == false)) {
                 float invest = tranObj.getShare() * tranObj.getAvgprice();
                 if (pObj.getBalance() >= invest) {
                     pObj.setBalance(pObj.getBalance() - invest);
@@ -494,7 +494,7 @@ public class TrandingSignalProcess {
                 float nProfit = fProfit - (pObj.getNumtrade() * CKey.TRADING_COMMISSION);
                 pObj.setNetprofit(nProfit);
 
-            } else if (currentSignal == ConstantKey.S_EXIT_SHORT) {
+            } else if ((currentSignal == ConstantKey.S_EXIT_SHORT) && (buyOnly == false)) {
 
                 float deltaPrice = tranObj.getAvgprice() - perfData.getClose(); //final price - original price
                 deltaPrice = -deltaPrice;  // negative for exit short
@@ -840,6 +840,15 @@ public class TrandingSignalProcess {
                     if (checkNN1Ready(serviceAFWeb, symbol) == false) {
                         continue;
                     }
+                }
+
+                /////// no need to handle other indicator. Just make NN1 and NN2 working
+                if (trObj.getType() == ConstantKey.INT_TR_MV) {
+                    continue;
+                } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
+                    continue;
+                } else if (trObj.getType() == ConstantKey.INT_TR_RSI) {
+                    continue;
                 }
 //                
                 if (subStatus == ConstantKey.OPEN) {
