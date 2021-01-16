@@ -183,9 +183,9 @@ var app = {
             if (trObj.trname === "TR_MACD") {
                 htmlName += 'Technical Indicator for MACD';
             } else if (trObj.trname === "TR_NN1") {
-                htmlName += 'Auto AI Model : ' + comment;
+                htmlName += 'Auto AI (macd) : ' + comment;
             } else if (trObj.trname === "TR_NN2") {
-                htmlName += 'Auto AI Model (Beta) : ' + comment;
+                htmlName += 'Auto AI (adx) -Beta : ' + comment;
             } else if (trObj.trname === "TR_ACC") {
 
                 var link = trObj.linktradingruleid;
@@ -199,7 +199,7 @@ var app = {
                 }
                 if (trObjlink != null) {
                     if (trObjlink.type == 0) {
-                        htmlName += 'Manual buy sell Transaction';
+                        htmlName += 'Manual user buy sell Transaction';
                     } else {
                         htmlName += 'Auto Trading Signal from ' + trObjlink.trname;
                     }
@@ -214,7 +214,7 @@ var app = {
             if (trObj.trname === "TR_ACC") {
                 if (trObj.linktradingruleid == 0) {
                     if (trObj.trsignal === S_BUY) {
-                        htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
+//                        htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
                         htmlBtn += '<a href="#" id="' + nameId + '" type="exit"  value="' + trObj.trname + '" data-icon="myiconexit" data-role="button" data-theme="a">Exit</a>';
                     }
                     if (trObj.trsignal === S_SELL) {
@@ -224,7 +224,7 @@ var app = {
                     if (trObj.trsignal !== S_BUY) {
                         if (trObj.trsignal !== S_SELL) {
                             htmlBtn += '<a href="#" id="' + nameId + '" type="buy"  value="' + trObj.trname + '" data-icon="myiconbuy" data-role="button" data-theme="a">Buy</a>';
-                            htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
+//                            htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
                         }
                     }
                 }
@@ -405,6 +405,12 @@ var app = {
                         success: function (resultPerfList) {
                             console.log(resultPerfList);
                             if (resultPerfList != null) {
+                                if (resultPerfList.length === 0) {
+
+                                    $("#myidperf").html('<li">No Transaction</li>');
+                                    window.location.href = "#page_table";
+                                    return;
+                                }
                                 var PerfObj = resultPerfList[0];
                                 var trsignal = PerfObj.performData.trsignal;
                                 var perfStart = PerfObj.performData.fromdate;
@@ -437,15 +443,15 @@ var app = {
                                 htmlName += '</div>';
                                 htmlName += '<br>';
                                 htmlName += '<div class="ui-grid-a">';
-                                htmlName += '<div class="ui-block-a" >From: ' + perfStart + '</div>';
-                                htmlName += '<div class="ui-block-b" >To: ' + perfEnd + '</div>';
+                                htmlName += '<div class="ui-block-a" >Date: ' + perfEnd + '</div>';                                
+                                htmlName += '<div class="ui-block-b" >From: ' + perfStart + '</div>';
                                 htmlName += '</div>';
-                                htmlName += '<div class="ui-grid-a">';
-                                htmlName += '<br>';
-                                htmlName += '<div class="ui-grid-a">';
-                                htmlName += '<div class="ui-block-a" >' + 'Balance: ' + balanceSt + '</div>';
-                                htmlName += '<div class="ui-block-b" >' + 'Invest: ' + investmentSt + '</div>';
-                                htmlName += '</div>';
+//                                htmlName += '<div class="ui-grid-a">';
+//                                htmlName += '<br>';
+//                                htmlName += '<div class="ui-grid-a">';
+//                                htmlName += '<div class="ui-block-a" >' + 'Balance: ' + balanceSt + '</div>';
+//                                htmlName += '<div class="ui-block-b" >' + 'Invest: ' + investmentSt + '</div>';
+//                                htmlName += '</div>';
 
                                 htmlName += '<div class="ui-grid-a">';
                                 htmlName += '<div class="ui-block-a" >' + 'rating: ' + PerfObj.rating.toFixed(2) + '</div>';
@@ -470,6 +476,7 @@ var app = {
 
                                 $("#myidperf").html('<li">' + htmlName + '</li>');
                                 window.location.href = "#page_table";
+
                             }
                         }
                     });
