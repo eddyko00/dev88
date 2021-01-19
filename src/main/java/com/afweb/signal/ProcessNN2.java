@@ -240,7 +240,6 @@ public class ProcessNN2 {
 
         return inputDatalist;
     }
-    
 
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
@@ -303,6 +302,7 @@ public class ProcessNN2 {
             trObj.setTrsignal(nnSignal);
 
         } else {
+
             NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
             if (nn != null) {
                 float output1 = nn.getOutput1();
@@ -322,6 +322,11 @@ public class ProcessNN2 {
                                 float thClose = lastTH.getClose();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
+                                int rule4Signal = specialOverrideRule4(adxObj, prevSignal, thClose, StClose);
+                                if (rule4Signal != prevSignal) {
+                                    nnSignal = rule4Signal;
+                                    break;
+                                }
                                 float delta = specialOverrideRule1(prevSignal, thClose, StClose);
                                 long lastTHLong = lastTH.getUpdateDatel();
                                 long curSGLong = stockinfo.getEntrydatel();
@@ -335,9 +340,11 @@ public class ProcessNN2 {
                                         nnSignal = adxSignal;
                                     }
                                 }
-                                break; // for loop
+
+                                break;
+
                             }
-                        }
+                        }  // for loop
                     }
 
                 }
@@ -378,7 +385,7 @@ public class ProcessNN2 {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 /////////////////////////////////////////////                
                 ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
-                int adxSignal = adxObj.trsignal;       
+                int adxSignal = adxObj.trsignal;
 /////////////////////////////////////////////                
 
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -416,24 +423,29 @@ public class ProcessNN2 {
                                 float thClose = lastTH.getAvgprice();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                float delta = specialOverrideRule1(prevSignal, thClose, StClose);
-                                long lastTHLong = lastTH.getEntrydatel();
-                                long curSGLong = stockinfo.getEntrydatel();
-                                if (delta > 0) {
-//                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
-                                    nnSignal = adxSignal;
+                                int rule4Signal = specialOverrideRule4(adxObj, prevSignal, thClose, StClose);
+                                if (rule4Signal != prevSignal) {
+                                    nnSignal = rule4Signal;
                                     confident += 15;
                                 } else {
-
-                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    float delta = specialOverrideRule1(prevSignal, thClose, StClose);
+                                    long lastTHLong = lastTH.getEntrydatel();
+                                    long curSGLong = stockinfo.getEntrydatel();
                                     if (delta > 0) {
-//                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
+//                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                         nnSignal = adxSignal;
                                         confident += 15;
+                                    } else {
+
+                                        delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                        if (delta > 0) {
+//                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
+                                            nnSignal = adxSignal;
+                                            confident += 15;
+                                        }
                                     }
                                 }
-
-                            }
+                            } //thList.size() > 0
                         }
                     }
                 }
@@ -583,6 +595,29 @@ public class ProcessNN2 {
             }
         }
         return nnSignal;
+    }
+
+    public int specialOverrideRule4(ADXObj adxObj, int currSignal, float thClose, float StClose) {
+        if (true) {
+            return currSignal;
+        }
+        float delPer = 100 * (StClose - thClose) / thClose;
+        float adxValue = (float) adxObj.adx;
+        adxValue = Math.abs(adxValue);
+        if (adxValue > 100) {
+            if (currSignal == ConstantKey.S_BUY) {
+                if (adxObj.adx < 100) {
+                    return ConstantKey.S_SELL;
+                }
+            } else if (currSignal == ConstantKey.S_SELL) {
+                if (adxObj.adx > 100) {
+                    return ConstantKey.S_BUY;
+                }
+            }
+        }
+
+        return currSignal;
+
     }
 
     ////////////////////////////////////////////////////////
@@ -794,6 +829,7 @@ public class ProcessNN2 {
 
         return inputList;
     }
+
     public static int checkNNsignalDecision(StockTRHistoryObj thObj, StockTRHistoryObj prevThObj) {
         if (prevThObj == null) {
             prevThObj = thObj;

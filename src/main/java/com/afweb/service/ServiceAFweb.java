@@ -700,9 +700,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            int accountId = 3;
-            AccountObj accountObj = SystemAccountObjByAccountID(accountId);
-            getAccountProcessImp().updateTradingTransaction(this, accountObj, symbol);
+//            int accountId = 3;
+//            AccountObj accountObj = SystemAccountObjByAccountID(accountId);
+//            getAccountProcessImp().updateTradingTransaction(this, accountObj, symbol);
 
 //            for (int j = 0; j < 3; j++) {
 //                AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
@@ -711,13 +711,14 @@ public class ServiceAFweb {
 //                NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
 //                nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 //            }
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
-//
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);            
+            symbol = "BCE.TO";
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);            
 //            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //            String symbol = "HOU.TO";
 //            int trNN = ConstantKey.INT_TR_NN2;

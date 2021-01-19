@@ -18,6 +18,7 @@ import com.afweb.service.ServiceAFweb;
 
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
+
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
@@ -1119,13 +1120,19 @@ public class TrandingSignalProcess {
                         int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn2Signal;
 
-//                        AFstockInfo stocktmp = (AFstockInfo) StockArray.get(offset);
-//                        logger.info("> NN2 " + stocktmp.getEntrydatedisplay() + " " + offset + " - "
-//                                + ", " + trHistory.getTrsignal() + ", " + trHistory.getParm1() + ", " + trHistory.getParm2()
-//                                + ", " + trHistory.getParm3() + ", " + trHistory.getParm4() + ", " + trHistory.getParm5());
+                        if (ServiceAFweb.mydebugtestflag == true) {
+                            AFstockInfo stocktmp = null;
+                            if (offset < 47) {
+                                stocktmp = null;
+                            }
+                            stocktmp = (AFstockInfo) StockArray.get(offset);
+                            logger.info("> NN2 " + stocktmp.getEntrydatedisplay() + " " + offset + " - "
+                                    + ", " + trHistory.getTrsignal() + ", " + trHistory.getParm1() + ", " + trHistory.getParm2()
+                                    + ", " + trHistory.getParm3() + ", " + trHistory.getParm4() + ", " + trHistory.getParm5());
+                        }
                     }
-
                     break;
+
                 case ConstantKey.INT_TR_NN3:
                     boolean nn3Flag = false;
                     if (nn3Flag == true) {
