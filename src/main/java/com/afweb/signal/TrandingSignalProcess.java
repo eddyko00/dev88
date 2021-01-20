@@ -18,6 +18,7 @@ import com.afweb.service.ServiceAFweb;
 
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
+import com.afweb.nnprocess.NN1ProcessBySignal;
 
 import com.afweb.stock.*;
 import com.afweb.util.*;
@@ -2749,20 +2750,15 @@ public class TrandingSignalProcess {
                             writeArray.add(st);
                         }
                         logger.info("> predictTest release " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
-                        boolean flag = true;
-//                        boolean flag = false;
-//                        if (nnNameSym.equals("TR_NN1")) {
-//                            flag = true;
-//                        } else if (nnNameSym.equals("TR_NN2")) {
-//                            flag = true;                            
-//                        } else if (nnNameSym.equals("TR_NN3")) {
-//                            flag = true;
-//                        }
-                        if (flag == true) {
-                            FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
+                        
+                        if (NN1ProcessBySignal.processRestinputflag == true) {
+                            boolean flag = true;
+                            if (flag == true) {
+                                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);
 
-                            StringBuffer msg = new StringBuffer(weightSt0);
-                            FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight0.txt", msg);
+                                StringBuffer msg = new StringBuffer(weightSt0);
+                                FileUtil.FileWriteText(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnWeight0.txt", msg);
+                            }
                         }
                     }
                 }
