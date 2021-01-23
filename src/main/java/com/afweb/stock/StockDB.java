@@ -1446,6 +1446,16 @@ public class StockDB {
         return null;
     }
 
+    public int deleteNeuralNetDataObj(String name, int stockId) {
+        String deleteSQL = "delete from neuralnetdata where name='" + name + "' and type=" + stockId;
+        try {
+            return processUpdateDB(deleteSQL);
+        } catch (Exception e) {
+            logger.info("> deleteNeuralNetDataObj exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public ArrayList getNeuralNetDataObj(String name, int stockId, long updatedatel) {
         String sql = "select * from neuralnetdata where name='" + name + "' and type=" + stockId + " and updatedatel=" + updatedatel;
         ArrayList entries = getAllNeuralNetDataSQL(sql);
