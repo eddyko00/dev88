@@ -128,6 +128,14 @@ public class ConstantKey {
     public static final int INT_MV_20 = 20;
     public static final int INT_MV_50 = 50; //50;
 
+    public static final int INT_TR_EMA1 = 130;
+    public static final int INT_EMA_5 = 5;
+    public static final int INT_EMA_10 = 10; 
+
+    public static final int INT_TR_EMA2 = 131;
+//    public static final int INT_EMA_10 = 10;
+    public static final int INT_EMA_20 = 20;     
+    
     public static final String TR_MACD = "TR_MACD";
     public static final int INT_TR_MACD = 2;
     public static final int INT_MACD_12 = 12;
@@ -144,12 +152,12 @@ public class ConstantKey {
 //    public static final int INT_RSI_7 = 7;
 
     
-    public static final String TR_ADX = "TR_ACX";
-    public static final int INT_TR_ADX1 = 120;
-    public static final int INT_ADX_5 = 5;    
-    public static final int INT_ADX_7 = 7;      
-    public static final int INT_TR_ADX2 = 121;
-    public static final int INT_ADX_14 = 14;    
+//    public static final String TR_ADX = "TR_ACX";
+//    public static final int INT_TR_ADX1 = 120;
+//    public static final int INT_ADX_5 = 5;    
+//    public static final int INT_ADX_7 = 7;      
+//    public static final int INT_TR_ADX2 = 121;
+//    public static final int INT_ADX_14 = 14;    
 
     public static final String TR_NN1 = "TR_NN1"; //NN for MACD fast
     public static final int INT_TR_NN1 = 4;

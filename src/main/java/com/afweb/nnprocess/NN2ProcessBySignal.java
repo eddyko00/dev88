@@ -43,10 +43,14 @@ public class NN2ProcessBySignal {
 
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
-            logger.info("> processInputNeuralNet TR ADX1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX1);
-            logger.info("> processInputNeuralNet TR ADX2... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
+//            logger.info("> processInputNeuralNet TR ADX1... ");
+//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX1);
+//            logger.info("> processInputNeuralNet TR ADX2... ");
+//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
+            logger.info("> processInputNeuralNet TR EMA1... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
+            logger.info("> processInputNeuralNet TR EMA2... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
@@ -70,10 +74,14 @@ public class NN2ProcessBySignal {
     public void processAllNN2StockInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
 
-        logger.info("> processAllNN2StockInputNeuralNet TR ADX1... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX1);
+//        logger.info("> processAllNN2StockInputNeuralNet TR ADX1... ");
+//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX1);
+//        logger.info("> processAllNN2StockInputNeuralNet TR ADX2... ");
+//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
+        logger.info("> processAllNN2StockInputNeuralNet TR EMA1... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
         logger.info("> processAllNN2StockInputNeuralNet TR ADX2... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
 //        
         NeuralNetAllStockNN2CreatJava(serviceAFWeb, ConstantKey.TR_NN2);
         logger.info("> processAllNN2StockInputNeuralNet TR NN2 end....... ");
@@ -139,16 +147,20 @@ public class NN2ProcessBySignal {
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
-        if (tr == ConstantKey.INT_TR_ADX1) {
+//        if (tr == ConstantKey.INT_TR_ADX1) {
+        if (tr == ConstantKey.INT_TR_EMA1) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-        } else if (tr == ConstantKey.INT_TR_ADX2) {
+//            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);            
+//        } else if (tr == ConstantKey.INT_TR_ADX2) {
+        } else if (tr == ConstantKey.INT_TR_EMA2) {
             ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+//            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
         }
         String nnName = ConstantKey.TR_NN2;
@@ -217,7 +229,8 @@ public class NN2ProcessBySignal {
 
         if (getEnv.checkLocalPC() == true) {
             String nn12 = "_nn21_";
-            if (tr == ConstantKey.INT_TR_ADX2) {
+//            if (tr == ConstantKey.INT_TR_ADX2) {
+        if (tr == ConstantKey.INT_TR_EMA2) {
                 nn12 = "_nn22_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
@@ -1030,8 +1043,10 @@ public class NN2ProcessBySignal {
                 /// just for testing
                 boolean flag = true;
                 if (flag == true) {
-                    inputlistSym1 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_ADX1, 0);
-                    inputlistSym2 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_ADX2, 0);
+//                    inputlistSym1 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_ADX1, 0);
+//                    inputlistSym2 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_ADX2, 0);
+                    inputlistSym1 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_EMA1, 0);
+                    inputlistSym2 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_EMA2, 0);
                 }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
@@ -1218,16 +1233,21 @@ public class NN2ProcessBySignal {
 //        logger.info("> trainingNN " + symbol);
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
-        if (tr == ConstantKey.INT_TR_ADX1) {
+//        if (tr == ConstantKey.INT_TR_ADX1) {
+        if (tr == ConstantKey.INT_TR_EMA1) {
+
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-        } else if (tr == ConstantKey.INT_TR_ADX2) {
+//            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);            
+            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+//        } else if (tr == ConstantKey.INT_TR_ADX2) {
+        } else if (tr == ConstantKey.INT_TR_EMA2) {
             ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+//            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
         }
 

@@ -1047,6 +1047,22 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) LTerm);
                     trHistory.setParm4((float) STerm);
                     break;
+                case ConstantKey.INT_TR_EMA1:
+                    // check if signal to buy or sell
+                    EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+                    trObj.setTrsignal(ema510.trsignal);
+                    trHistory.setTrsignal(trObj.getTrsignal());
+                    trHistory.setParm1((float) ema510.ema);
+                    trHistory.setParm2((float) ema510.lastema);
+                    break;
+                 case ConstantKey.INT_TR_EMA2:
+                    // check if signal to buy or sell
+                    EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_10, ConstantKey.INT_EMA_20);
+                    trObj.setTrsignal(ema1020.trsignal);
+                    trHistory.setTrsignal(trObj.getTrsignal());
+                    trHistory.setParm1((float) ema1020.ema);
+                    trHistory.setParm2((float) ema1020.lastema);
+                    break;                   
                 case ConstantKey.INT_TR_MACD: {
                     MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
                     trObj.setTrsignal(macd.trsignal);
@@ -1099,20 +1115,20 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) bbObj.rsiValue);
 
                     break;
-                case ConstantKey.INT_TR_ADX1:
-//                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
-                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_5);
-                    trObj.setTrsignal(adxObj1.trsignal);
-                    trHistory.setTrsignal(trObj.getTrsignal());
-                    trHistory.setParm1((float) adxObj1.adx);
-                    break;
-
-                case ConstantKey.INT_TR_ADX2:
-                    ADXObj adxObj2 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_14);
-                    trObj.setTrsignal(adxObj2.trsignal);
-                    trHistory.setTrsignal(trObj.getTrsignal());
-                    trHistory.setParm1((float) adxObj2.adx);
-                    break;
+//                case ConstantKey.INT_TR_ADX1:
+////                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
+//                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_5);
+//                    trObj.setTrsignal(adxObj1.trsignal);
+//                    trHistory.setTrsignal(trObj.getTrsignal());
+//                    trHistory.setParm1((float) adxObj1.adx);
+//                    break;
+//
+//                case ConstantKey.INT_TR_ADX2:
+//                    ADXObj adxObj2 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_14);
+//                    trObj.setTrsignal(adxObj2.trsignal);
+//                    trHistory.setTrsignal(trObj.getTrsignal());
+//                    trHistory.setParm1((float) adxObj2.adx);
+//                    break;
                 case ConstantKey.INT_TR_NN2:
 
                     boolean nn2Flag = true;
