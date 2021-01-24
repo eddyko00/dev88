@@ -1557,8 +1557,8 @@ public class NN1ProcessBySignal {
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
                 if (refData.getMinError() != 0) {
-                        logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getMinError());
-                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);                    
+                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getMinError());
+                    serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);
                 }
 //                if (refName != null) {
 //                    if (refName.length() > 0) {
@@ -1596,18 +1596,25 @@ public class NN1ProcessBySignal {
                     return -1;
                 }
             }
-            String refName = nnObj1.getRefname();
-            if (refName != null) {
-                if (refName.length() > 0) {
-                    try {
-                        double refError = Double.parseDouble(refName);
-                        errorNN = refError + 0.0001;
-                        logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
-                    } catch (Exception ex) {
 
-                    }
-                }
+            ReferNameData refData = new ReferNameData();
+            refData = nnObj1.getReferNameData();
+            if (refData.getMinError() != 0) {
+                 errorNN = refData.getMinError() + 0.0002;
+                  logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
             }
+//            String refName = nnObj1.getRefname();
+//            if (refName != null) {
+//                if (refName.length() > 0) {
+//                    try {
+//                        double refError = Double.parseDouble(refName);
+//                        errorNN = refError + 0.0001;
+//                        logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
+//                    } catch (Exception ex) {
+//
+//                    }
+//                }
+//            }
             int retflag = 0;
             if (TR_NN == ConstantKey.INT_TR_NN1) {
                 retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, symbol, errorNN);

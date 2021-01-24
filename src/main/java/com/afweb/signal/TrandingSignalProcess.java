@@ -2684,24 +2684,36 @@ public class TrandingSignalProcess {
                 logger.info("> TrainingNNBP override new minError " + name + " " + minError);
 
             } else {
-                String refName = afNeuralNet.getRefname();
-                if (refName != null) {
-                    try {
-                        if (refName.length() > 0) {
-                            double refError = Double.parseDouble(refName);
-                            double refminError = minError + 0.002; //+ 0.001;
-                            if (refminError < refError) {
-                                ReferNameData refData = afNeuralNet.getReferNameData();
-                                refData.setMinError(refminError);
-                                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
-                                logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
-                            }
-                        }
-                    } catch (Exception ex) {
-                        logger.info("> TrainingNNBP Exception " + ex.getMessage());
-                    }
 
+                ReferNameData refData = afNeuralNet.getReferNameData();
+                if (refData.getMinError() != 0) {
+                    double refError = refData.getMinError();
+                    double refminError = minError + 0.002; //+ 0.001;
+                    if (refminError < refError) {
+                        refData.setMinError(refminError);
+                        serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
+                        logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
+                    }
                 }
+
+//                String refName = afNeuralNet.getRefname();
+//                if (refName != null) {
+//                    try {
+//                        if (refName.length() > 0) {
+//                            double refError = Double.parseDouble(refName);
+//                            double refminError = minError + 0.002; //+ 0.001;
+//                            if (refminError < refError) {
+//                                ReferNameData refData = afNeuralNet.getReferNameData();
+//                                refData.setMinError(refminError);
+//                                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
+//                                logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
+//                            }
+//                        }
+//                    } catch (Exception ex) {
+//                        logger.info("> TrainingNNBP Exception " + ex.getMessage());
+//                    }
+//
+//                }
 
             }
             if (getEnv.checkLocalPC() == true) {

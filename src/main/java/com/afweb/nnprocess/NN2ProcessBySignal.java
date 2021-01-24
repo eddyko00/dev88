@@ -155,7 +155,7 @@ public class NN2ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN2 nn2 = new ProcessNN2();
 //            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);            
+            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 //        } else if (tr == ConstantKey.INT_TR_ADX2) {
         } else if (tr == ConstantKey.INT_TR_EMA2) {
             ProcessNN2 nn2 = new ProcessNN2();
@@ -230,7 +230,7 @@ public class NN2ProcessBySignal {
         if (getEnv.checkLocalPC() == true) {
             String nn12 = "_nn21_";
 //            if (tr == ConstantKey.INT_TR_ADX2) {
-        if (tr == ConstantKey.INT_TR_EMA2) {
+            if (tr == ConstantKey.INT_TR_EMA2) {
                 nn12 = "_nn22_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
@@ -1130,7 +1130,7 @@ public class NN2ProcessBySignal {
 //                        }
                     }
                 }
-                
+
                 ReferNameData refData = new ReferNameData();
 //                String refName = "";
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
@@ -1165,8 +1165,8 @@ public class NN2ProcessBySignal {
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
                 if (refData.getMinError() != 0) {
-                        logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getMinError());
-                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);                    
+                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getMinError());
+                    serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);
                 }
 //                if (refName != null) {
 //                    if (refName.length() > 0) {
@@ -1207,16 +1207,22 @@ public class NN2ProcessBySignal {
                         return -1;
                     }
                 }
-                String refName = nnObj1.getRefname();
-                if (refName.length() > 0) {
-                    try {
-                        double refError = Double.parseDouble(refName);
-                        errorNN = refError + 0.0001;
-                        logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
-                    } catch (Exception ex) {
-
-                    }
+                ReferNameData refData = new ReferNameData();
+                refData = nnObj1.getReferNameData();
+                if (refData.getMinError() != 0) {
+                    errorNN = refData.getMinError() + 0.0002;
+                    logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
                 }
+//                String refName = nnObj1.getRefname();
+//                if (refName.length() > 0) {
+//                    try {
+//                        double refError = Double.parseDouble(refName);
+//                        errorNN = refError + 0.0001;
+//                        logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
+//                    } catch (Exception ex) {
+//
+//                    }
+//                }
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN2) {
                     retflag = TRtrainingNN2NeuralNetData(serviceAFWeb, ConstantKey.TR_NN2, nnNameSym, symbol, errorNN);
