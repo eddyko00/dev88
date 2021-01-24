@@ -1556,8 +1556,8 @@ public class NN1ProcessBySignal {
 
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
-                if (refData.getMinError() != 0) {
-                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getMinError());
+                if (refData.getmError() != 0) {
+                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getmError());
                     serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);
                 }
 //                if (refName != null) {
@@ -1599,8 +1599,8 @@ public class NN1ProcessBySignal {
 
             ReferNameData refData = new ReferNameData();
             refData = nnObj1.getReferNameData();
-            if (refData.getMinError() != 0) {
-                errorNN = refData.getMinError() + 0.0002;
+            if (refData.getmError() != 0) {
+                errorNN = refData.getmError() + 0.0002;
                 logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
             }
 //            String refName = nnObj1.getRefname();
@@ -2066,7 +2066,7 @@ public class NN1ProcessBySignal {
                 // redue multiple task update the same ref condition
                 nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 ReferNameData refData = nnObj0.getReferNameData();
-                refData.setNumReLearn(totalAdd);
+                refData.setnRLearn(totalAdd);
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
 
                 logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);

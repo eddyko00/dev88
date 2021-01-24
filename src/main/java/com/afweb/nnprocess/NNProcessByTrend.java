@@ -685,8 +685,8 @@ public class NNProcessByTrend {
                 }
                 ReferNameData refData = new ReferNameData();
                 refData = nnObj1.getReferNameData();
-                if (refData.getMinError() != 0) {
-                    errorNN = refData.getMinError() + 0.0002;
+                if (refData.getmError() != 0) {
+                    errorNN = refData.getmError() + 0.0002;
                     logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
                 }
 //                String refName = nnObj1.getRefname();
@@ -870,8 +870,8 @@ public class NNProcessByTrend {
 
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
-                if (refData.getMinError() != 0) {
-                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getMinError());
+                if (refData.getmError() != 0) {
+                    logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getmError());
                     serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);
                 }
 //                if (refName != null) {
