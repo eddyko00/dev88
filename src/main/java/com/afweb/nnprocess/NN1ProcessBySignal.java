@@ -2066,6 +2066,12 @@ public class NN1ProcessBySignal {
                 // redue multiple task update the same ref condition
                 nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
+                int cnt = refData.getnRLCnt();
+                if (cnt < 0) {
+                    cnt =0;                    
+                }
+                cnt +=1;
+                refData.setnRLCnt(cnt);
                 refData.setnRLearn(totalAdd);
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
 

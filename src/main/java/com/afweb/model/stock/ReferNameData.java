@@ -12,6 +12,20 @@ package com.afweb.model.stock;
 public class ReferNameData {
 
     /**
+     * @return the nRLCnt
+     */
+    public int getnRLCnt() {
+        return nRLCnt;
+    }
+
+    /**
+     * @param nRLCnt the nRLCnt to set
+     */
+    public void setnRLCnt(int nRLCnt) {
+        this.nRLCnt = nRLCnt;
+    }
+
+    /**
      * @return the nRLearn
      */
     public int getnRLearn() {
@@ -39,6 +53,7 @@ public class ReferNameData {
         this.mError = mError;
     }
     private int nRLearn = -1;
+    private int nRLCnt = 0;    
     private double mError = 0;
   
 

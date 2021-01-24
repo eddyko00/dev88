@@ -794,6 +794,9 @@ public class TrandingSignalProcess {
             if (numReLearn > 5) {
                 return false;
             }
+            if (refData.getnRLCnt() < 4) {
+                return false;
+            }
         }
 
         nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
@@ -825,6 +828,10 @@ public class TrandingSignalProcess {
             if (numReLearn > 5) {
                 return false;
             }
+            if (refData.getnRLCnt() < 4) {
+                return false;
+            }
+            
         }
         nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
         if (nnObj0 == null) {
