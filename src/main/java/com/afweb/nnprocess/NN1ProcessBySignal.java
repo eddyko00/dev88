@@ -1982,7 +1982,7 @@ public class NN1ProcessBySignal {
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
-    public int inputReTrainStockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
+    public int ReTrainNN1StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
         boolean nnsym = true;
         if (nnsym == true) {
             int totalAdd = 0;
@@ -2063,7 +2063,13 @@ public class NN1ProcessBySignal {
 //                        }
                     }
                 }
+                
+                ReferNameData refData = nnObj0.getReferNameData();
+                refData.setNumReLearn(totalAdd);
+                serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
+                
                 logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+
 
                 if (getEnv.checkLocalPC() == true) {
                     boolean flag = false;

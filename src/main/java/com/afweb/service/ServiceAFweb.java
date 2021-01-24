@@ -695,13 +695,14 @@ public class ServiceAFweb {
 
             nn2testflag = true;
 
-            String symbol = "HOU.TO";
+            String symbol = "SE";
             int trNN = ConstantKey.INT_TR_NN2;
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-            
-            
+
+            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
+
 //            delete NN2            
 //            AccountObj accountObj = getAdminObjFromCache();
 //            ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
@@ -717,7 +718,6 @@ public class ServiceAFweb {
 //                }
 //
 //            }
-
 //            int accountId = 3;
 //            AccountObj accountObj = SystemAccountObjByAccountID(accountId);
 //            getAccountProcessImp().updateTradingTransaction(this, accountObj, symbol);

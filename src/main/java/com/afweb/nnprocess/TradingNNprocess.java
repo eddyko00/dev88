@@ -142,11 +142,11 @@ public class TradingNNprocess {
                             try {
                                 if (trNN == ConstantKey.INT_TR_NN1) {
                                     NN1ProcessBySignal nn1Process = new NN1ProcessBySignal();
-                                    nn1Process.inputReTrainStockNeuralNetData(serviceAFWeb, trNN, symbol);
+                                    nn1Process.ReTrainNN1StockNeuralNetData(serviceAFWeb, trNN, symbol);
                                 }
                                 if (trNN == ConstantKey.INT_TR_NN2) {
                                     NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
-                                    nn2Process.inputReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
+                                    nn2Process.ReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
                                 }
                                 //////////
 //                                int cfgId = 0;;

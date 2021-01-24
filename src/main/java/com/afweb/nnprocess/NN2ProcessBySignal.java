@@ -1273,7 +1273,7 @@ public class NN2ProcessBySignal {
         return inputList;
     }
 
-    public int inputReTrainNN2StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
+    public int ReTrainNN2StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
         boolean nnsym = true;
         if (nnsym == true) {
             int totalAdd = 0;
@@ -1354,6 +1354,11 @@ public class NN2ProcessBySignal {
 //                        }
                     }
                 }
+                
+                ReferNameData refData = nnObj0.getReferNameData();
+                refData.setNumReLearn(totalAdd);
+                serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
+                                
                 logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
 
                 if (getEnv.checkLocalPC() == true) {
