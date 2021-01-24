@@ -773,7 +773,9 @@ public class TrandingSignalProcess {
     }
 
     ///////////////////////////////////////////////////////
-    public boolean checkNN1Ready(ServiceAFweb serviceAFWeb, String symbol) {
+    // only admin update need to check the CheckRefData = true
+    // relearn NN does not need to check the CheckRefData = false
+    public boolean checkNN1Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
 
         AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
         if (nnObj0 == null) {
@@ -783,15 +785,17 @@ public class TrandingSignalProcess {
             return false;
         }
 
-        ReferNameData refData = nnObj0.getReferNameData();
-        int numReLearn = refData.getnRLearn();
-        if (numReLearn == -1) {
-            return false;
+        if (CheckRefData == true) {
+            ReferNameData refData = nnObj0.getReferNameData();
+            int numReLearn = refData.getnRLearn();
+            if (numReLearn == -1) {
+                return false;
+            }
+            if (numReLearn > 5) {
+                return false;
+            }
         }
-        if (numReLearn > 5) {
-            return false;
-        }        
-        
+
         nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
         if (nnObj0 == null) {
             return false;
@@ -802,7 +806,7 @@ public class TrandingSignalProcess {
         return true;
     }
 
-    public boolean checkNN2Ready(ServiceAFweb serviceAFWeb, String symbol) {
+    public boolean checkNN2Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
 
         AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN2, symbol);
         if (nnObj0 == null) {
@@ -811,16 +815,17 @@ public class TrandingSignalProcess {
         if (nnObj0.getStatus() != ConstantKey.OPEN) {
             return false;
         }
-        
-        ReferNameData refData = nnObj0.getReferNameData();
-        int numReLearn = refData.getnRLearn();
-        if (numReLearn == -1) {
-            return false;
+
+        if (CheckRefData == true) {
+            ReferNameData refData = nnObj0.getReferNameData();
+            int numReLearn = refData.getnRLearn();
+            if (numReLearn == -1) {
+                return false;
+            }
+            if (numReLearn > 5) {
+                return false;
+            }
         }
-        if (numReLearn > 5) {
-            return false;
-        } 
-        
         nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
         if (nnObj0 == null) {
             return false;
@@ -851,15 +856,15 @@ public class TrandingSignalProcess {
                 int subStatus = trObj.getSubstatus();
 
                 if (trObj.getType() == ConstantKey.INT_TR_NN1) {
-                    if (checkNN1Ready(serviceAFWeb, symbol) == false) {
+                    if (checkNN1Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN2) {
-                    if (checkNN2Ready(serviceAFWeb, symbol) == false) {
+                    if (checkNN2Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                    if (checkNN1Ready(serviceAFWeb, symbol) == false) {
+                    if (checkNN1Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
                     }
                 }

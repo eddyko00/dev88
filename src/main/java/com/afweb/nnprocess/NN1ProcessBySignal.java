@@ -1990,7 +1990,7 @@ public class NN1ProcessBySignal {
             String nnName = ConstantKey.TR_NN1;
 
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            if (TRprocessImp.checkNN1Ready(serviceAFWeb, symbol) == false) {
+            if (TRprocessImp.checkNN1Ready(serviceAFWeb, symbol, false) == false) {
                 return 0;
             }
 
