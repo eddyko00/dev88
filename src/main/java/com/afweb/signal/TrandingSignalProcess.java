@@ -786,7 +786,7 @@ public class TrandingSignalProcess {
         }
 
         if (CheckRefData == true) {
-            ReferNameData refData = nnObj0.getReferNameData();
+            ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
             int numReLearn = refData.getnRLearn();
             if (numReLearn == -1) {
                 return false;
@@ -817,7 +817,7 @@ public class TrandingSignalProcess {
         }
 
         if (CheckRefData == true) {
-            ReferNameData refData = nnObj0.getReferNameData();
+            ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
             int numReLearn = refData.getnRLearn();
             if (numReLearn == -1) {
                 return false;
@@ -2702,7 +2702,7 @@ public class TrandingSignalProcess {
             serviceAFWeb.releaseNeuralNetObj(name);
 
             if (nnError == 1) {
-                ReferNameData refData = afNeuralNet.getReferNameData();
+                ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
                 refData.setmError(minError);
 
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
@@ -2710,7 +2710,7 @@ public class TrandingSignalProcess {
 
             } else {
 
-                ReferNameData refData = afNeuralNet.getReferNameData();
+                ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
                 if (refData.getmError() != 0) {
                     double refError = refData.getmError();
                     double refminError = minError + 0.002; //+ 0.001;

@@ -701,6 +701,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//              int ret = this.getAccountProcessImp().saveDBneuralnetProcess(this, "neuralnet");
+            
 //            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 
 //            delete NN2            
@@ -4473,6 +4475,24 @@ public class ServiceAFweb {
         return null;
     }
 
+    
+    
+    /////helper function
+    public ReferNameData getReferNameData(AFneuralNet nnObj0) {
+        ReferNameData refData = new ReferNameData();
+        String refName = nnObj0.getRefname();
+        try {
+            if ((refName != null) && (refName.length() > 0)) {
+                refName = refName.replaceAll("#", "\"");
+                refData = new ObjectMapper().readValue(refName, ReferNameData.class);
+                return refData;
+            }
+        } catch (Exception ex) {
+        }
+        return refData;
+    }
+    
+    
     public String SystemDownloadDBData() {
         boolean retSatus = false;
 

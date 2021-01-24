@@ -1543,7 +1543,7 @@ public class NN1ProcessBySignal {
                             logger.info("> inputStockNeuralNetData create existing Symbol ");
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
-                            refData = nnObj0.getReferNameData();
+                            refData = serviceAFWeb.getReferNameData(nnObj0);
 //                            refName = nnObj0.getRefname();
                         } else {
                             logger.info("> inputStockNeuralNetData create Static Base ");
@@ -1598,7 +1598,7 @@ public class NN1ProcessBySignal {
             }
 
             ReferNameData refData = new ReferNameData();
-            refData = nnObj1.getReferNameData();
+            refData = serviceAFWeb.getReferNameData(nnObj1);
             if (refData.getmError() != 0) {
                 errorNN = refData.getmError() + 0.0002;
                 logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
@@ -2065,7 +2065,7 @@ public class NN1ProcessBySignal {
                 }
                 // redue multiple task update the same ref condition
                 nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
-                ReferNameData refData = nnObj0.getReferNameData();
+                ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
                 refData.setnRLearn(totalAdd);
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
 

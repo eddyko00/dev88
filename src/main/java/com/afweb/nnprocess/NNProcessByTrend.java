@@ -684,7 +684,7 @@ public class NNProcessByTrend {
                     }
                 }
                 ReferNameData refData = new ReferNameData();
-                refData = nnObj1.getReferNameData();
+                refData = serviceAFWeb.getReferNameData(nnObj1);
                 if (refData.getmError() != 0) {
                     errorNN = refData.getmError() + 0.0002;
                     logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
@@ -857,7 +857,7 @@ public class NNProcessByTrend {
                             logger.info("> inputStockNeuralNetData create existing Symbol ");
                             ///just for testing
                             nnTemp.createNet(stWeight0);
-                            refData = nnObj0.getReferNameData();
+                            refData = serviceAFWeb.getReferNameData(nnObj0);
 //                            refName = nnObj0.getRefname();
                         } else {
                             logger.info("> inputStockNeuralNetData create Static Base ");

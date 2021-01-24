@@ -2149,7 +2149,7 @@ public class AccountProcess {
         return ret;
     }
 
-    private int saveDBneuralnetProcess(ServiceAFweb serviceAFWeb, String tableName) {
+    public int saveDBneuralnetProcess(ServiceAFweb serviceAFWeb, String tableName) {
 
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
