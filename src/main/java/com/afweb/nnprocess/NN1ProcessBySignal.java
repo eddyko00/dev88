@@ -1600,8 +1600,8 @@ public class NN1ProcessBySignal {
             ReferNameData refData = new ReferNameData();
             refData = nnObj1.getReferNameData();
             if (refData.getMinError() != 0) {
-                 errorNN = refData.getMinError() + 0.0002;
-                  logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
+                errorNN = refData.getMinError() + 0.0002;
+                logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
             }
 //            String refName = nnObj1.getRefname();
 //            if (refName != null) {
@@ -2063,13 +2063,13 @@ public class NN1ProcessBySignal {
 //                        }
                     }
                 }
-                
+                // redue multiple task update the same ref condition
+                nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 ReferNameData refData = nnObj0.getReferNameData();
                 refData.setNumReLearn(totalAdd);
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
-                
-                logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
 
+                logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
 
                 if (getEnv.checkLocalPC() == true) {
                     boolean flag = false;
