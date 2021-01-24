@@ -698,9 +698,13 @@ public class ProcessNN2 {
                     AFstockI.setEntrydatedisplay(new java.sql.Date(nDat));
                     StockPredArray.add(0, AFstockI);
                 }
-                // MACD1
-                MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
-                int macdSignal = macdNN.trsignal;
+
+                EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+                int macdSignal = ema510.trsignal;
+
+//                // MACD1
+//                MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+//                int macdSignal = macdNN.trsignal;
 
                 return macdSignal;
             }
@@ -708,29 +712,28 @@ public class ProcessNN2 {
         return nnSignal;
     }
 
-    public int specialOverrideRule4(ADXObj adxObj, int currSignal, float thClose, float StClose) {
-        if (true) {
-            return currSignal;
-        }
-        float delPer = 100 * (StClose - thClose) / thClose;
-        float adxValue = (float) adxObj.adx;
-        adxValue = Math.abs(adxValue);
-        if (adxValue > 100) {
-            if (currSignal == ConstantKey.S_BUY) {
-                if (adxObj.adx < 100) {
-                    return ConstantKey.S_SELL;
-                }
-            } else if (currSignal == ConstantKey.S_SELL) {
-                if (adxObj.adx > 100) {
-                    return ConstantKey.S_BUY;
-                }
-            }
-        }
-
-        return currSignal;
-
-    }
-
+//    public int specialOverrideRule4(ADXObj adxObj, int currSignal, float thClose, float StClose) {
+//        if (true) {
+//            return currSignal;
+//        }
+//        float delPer = 100 * (StClose - thClose) / thClose;
+//        float adxValue = (float) adxObj.adx;
+//        adxValue = Math.abs(adxValue);
+//        if (adxValue > 100) {
+//            if (currSignal == ConstantKey.S_BUY) {
+//                if (adxObj.adx < 100) {
+//                    return ConstantKey.S_SELL;
+//                }
+//            } else if (currSignal == ConstantKey.S_SELL) {
+//                if (adxObj.adx > 100) {
+//                    return ConstantKey.S_BUY;
+//                }
+//            }
+//        }
+//
+//        return currSignal;
+//
+//    }
     ////////////////////////////////////////////////////////
     public ArrayList<NNInputDataObj> getAccountStockTRListHistoryADXNN2(ArrayList<StockTRHistoryObj> thObjListADX, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListMACD,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
