@@ -691,7 +691,7 @@ public class ServiceAFweb {
             NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-//select * FROM sampledb.neuralnetdata where name like '%NN2%';
+            //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
             nn2testflag = true;
 
@@ -700,8 +700,23 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
-            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
+            
+            
+//            delete NN2            
+//            AccountObj accountObj = getAdminObjFromCache();
+//            ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
+//            if (stockNameArray != null) {
+//                for (int i = 0; i < stockNameArray.size(); i++) {
+//                    symbol = (String) stockNameArray.get(i);
+//
+//                    trNN = ConstantKey.INT_TR_NN2;
+//                    TR_NN = trNN;
+//                    nnName = ConstantKey.TR_NN2;
+//                    BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//                    getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
+//                }
+//
+//            }
 
 //            int accountId = 3;
 //            AccountObj accountObj = SystemAccountObjByAccountID(accountId);
