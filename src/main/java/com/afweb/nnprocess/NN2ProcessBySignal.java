@@ -1130,8 +1130,9 @@ public class NN2ProcessBySignal {
 //                        }
                     }
                 }
-
-                String refName = "";
+                
+                ReferNameData refData = new ReferNameData();
+//                String refName = "";
                 AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj0 != null) {
                     String stWeight0 = nnObj0.getWeight();
@@ -1150,7 +1151,8 @@ public class NN2ProcessBySignal {
                             logger.info("> inputStockNeuralNetData create existing Symbol ");
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
-                            refName = nnObj0.getRefname();
+                            refData = nnObj0.getReferNameData();
+//                            refName = nnObj0.getRefname();
                         } else {
                             logger.info("> inputStockNeuralNetData create Static Base ");
                         }
@@ -1162,15 +1164,18 @@ public class NN2ProcessBySignal {
 
                 String weightSt = nnTemp.getNetObjSt();
                 int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
-
-                if (refName != null) {
-                    if (refName.length() > 0) {
-                        // just for testing
-//                    refName = "" + CKey.NN1_ERROR_THRESHOLD;
-                        logger.info("> inputStockNeuralNet  " + BPnameSym + " refError " + refName);
-                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
-                    }
+                if (refData.getMinError() != 0) {
+                        logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getMinError());
+                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);                    
                 }
+//                if (refName != null) {
+//                    if (refName.length() > 0) {
+//                        // just for testing
+////                    refName = "" + CKey.NN1_ERROR_THRESHOLD;
+//                        logger.info("> inputStockNeuralNet  " + BPnameSym + " refError " + refName);
+//                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+//                    }
+//                }
 
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
                 return ret;

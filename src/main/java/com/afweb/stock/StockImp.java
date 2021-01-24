@@ -2,6 +2,7 @@ package com.afweb.stock;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.StockInfoTranObj;
+import com.afweb.model.account.PerformData;
 import com.afweb.model.stock.*;
 import com.afweb.nn.NNInputDataObj;
 import com.afweb.nn.NNInputOutObj;
@@ -334,36 +335,33 @@ public class StockImp {
         return 0;
     }
 
-    public int updateNeuralNetRef0(String name, String refname) {
-        return stockdb.updateNeuralNetRef0(name, refname);
+    // return 0 for error
+    public int updateNeuralNetRef0(String name, ReferNameData refnameData) {
+        String nameSt = "";
+        
+        try {
+            nameSt = new ObjectMapper().writeValueAsString(refnameData);
+            nameSt = nameSt.replaceAll("\"", "#");
+        } catch (JsonProcessingException ex) {
+            return 0;
+        }
+        return stockdb.updateNeuralNetRef0(name, nameSt);
+    }
+    
+    
+
+    public int updateNeuralNetRef1(String name, ReferNameData refnameData) {
+        String nameSt = "";
+        
+        try {
+            nameSt = new ObjectMapper().writeValueAsString(refnameData);
+            nameSt = nameSt.replaceAll("\"", "#");
+        } catch (JsonProcessingException ex) {
+            return 0;
+        }        
+        return stockdb.updateNeuralNetRef1(name, nameSt);
     }
 
-    public int updateNeuralNetRef1(String name, String refname) {
-        return stockdb.updateNeuralNetRef1(name, refname);
-    }
-
-//    public int initNeuralNetBPObj() {
-//        return stockdb.initNeuralNetBPObj();
-//    }
-//
-//    public int releaseNeuralNetObj(String name) {
-//
-//        String nameSt = stockdb.getNeuralNetName1(name);
-//        if (nameSt != null) {
-//            AFneuralNet nnObj = getNeuralNetObjWeight1(name);
-//            NeuralNetwork nnTemp = new NeuralNetwork();
-//            nnTemp.createNeuralNetbyWeight(nnObj.getWeight());
-//            nnTemp.setInput(null);
-//            nnTemp.setTarget(null);
-//            String weightSt = nnTemp.getNeuralNetObjSt();
-//            int ret = setCreateNeuralNetObj0(name, weightSt);
-//            if (ret == 1) {
-//                setCreateNeuralNetObj1(name, "");
-//                return stockdb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
-//            }
-//        }
-//        return 0;
-//    }
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name) {
         return stockdb.getNeuralNetDataObj(name);
     }

@@ -2677,7 +2677,10 @@ public class TrandingSignalProcess {
             serviceAFWeb.releaseNeuralNetObj(name);
 
             if (nnError == 1) {
-                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, minError + "");
+                ReferNameData refData = afNeuralNet.getReferNameData();
+                refData.setMinError(minError);
+
+                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
                 logger.info("> TrainingNNBP override new minError " + name + " " + minError);
 
             } else {
@@ -2688,7 +2691,9 @@ public class TrandingSignalProcess {
                             double refError = Double.parseDouble(refName);
                             double refminError = minError + 0.002; //+ 0.001;
                             if (refminError < refError) {
-                                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refminError + "");
+                                ReferNameData refData = afNeuralNet.getReferNameData();
+                                refData.setMinError(refminError);
+                                serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
                                 logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
                             }
                         }
