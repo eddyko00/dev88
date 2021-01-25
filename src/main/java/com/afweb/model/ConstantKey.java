@@ -184,6 +184,8 @@ public class ConstantKey {
     public static final String TR_NN30 = "TR_NN30"; //NN for Trend 
     public static final int INT_TR_NN30 = 30;    
     
+    public static final String TR_NN40 = "TR_NN40"; //NN2 for Trend 
+    public static final int INT_TR_NN40 = 40;       
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final String TR_NN200 = "TR_NN200";
