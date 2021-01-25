@@ -1359,10 +1359,12 @@ public class NN2ProcessBySignal {
                 ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
                 int cnt = refData.getnRLCnt();
                 if (cnt < 0) {
-                    cnt =0;                    
+                    cnt = 0;
                 }
-                cnt +=1;
-                refData.setnRLCnt(cnt);                
+                if (cnt < 90) {
+                    cnt += 1;
+                }
+                refData.setnRLCnt(cnt);
                 refData.setnRLearn(totalAdd);
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
 

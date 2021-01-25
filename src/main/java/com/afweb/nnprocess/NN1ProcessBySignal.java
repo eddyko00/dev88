@@ -2070,7 +2070,9 @@ public class NN1ProcessBySignal {
                 if (cnt < 0) {
                     cnt =0;                    
                 }
-                cnt +=1;
+                if (cnt < 90) {
+                    cnt += 1;
+                }
                 refData.setnRLCnt(cnt);
                 refData.setnRLearn(totalAdd);
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
