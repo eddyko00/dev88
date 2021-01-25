@@ -25,7 +25,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.sql.Timestamp;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -4475,6 +4474,20 @@ public class ServiceAFweb {
         return null;
     }
 
+
+    public AccData getAccData(TradingRuleObj trObj) {
+        AccData refData = new AccData();
+        String refName = trObj.getComment();
+        try {
+            if ((refName != null) && (refName.length() > 0)) {
+                refName = refName.replaceAll("#", "\"");
+                refData = new ObjectMapper().readValue(refName, AccData.class);
+                return refData;
+            }
+        } catch (Exception ex) {
+        }
+        return refData;
+    }
     
     
     /////helper function

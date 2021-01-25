@@ -370,33 +370,21 @@ public class AccountImp {
         return accountdb.updateAccountAllStatus(accountObj);
 
     }
+    
+    // return 0 for error
+    public int updateAccountRef(AccountObj accountObj, AccData refnameData) {
+        String nameSt = "";
+        
+        try {
+            nameSt = new ObjectMapper().writeValueAsString(refnameData);
+            nameSt = nameSt.replaceAll("\"", "#");
+        } catch (JsonProcessingException ex) {
+            return 0;
+        }
+        return accountdb.updateAccountRef(accountObj, nameSt);
+    }
+    
 
-//    public int updateAccountStatusByCustomerAccountID(String UserName, String Password, int accountID,
-//            int substatus, float investment, float balance, float servicefee) {
-//
-//        CustomerObj customer = getCustomerPassword(UserName, Password);
-//        if (customer != null) {
-//            ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
-//            if (accountList == null) {
-//                return 0;
-//            }
-//            if (accountList.size() == 0) {
-//                return 0;
-//            }
-//            for (int i = 0; i < accountList.size(); i++) {
-//                AccountObj accountObj = (AccountObj) accountList.get(i);
-//                if (accountObj.getId() == accountID) {
-////                  accountObj.setStatus(accountObj.getStatus());
-//                    accountObj.setSubstatus(substatus);
-//                    accountObj.setInvestment(investment);
-//                    accountObj.setBalance(balance);
-//                    accountObj.setServicefee(servicefee);
-//                    return accountdb.updateAccountAllStatus(accountObj);
-//                }
-//            }
-//        }
-//        return 0;
-//    }
     public AccountObj getAccountByCustomerAccountID(String UserName, String Password, int accountID) {
 
         AccountObj account = null;

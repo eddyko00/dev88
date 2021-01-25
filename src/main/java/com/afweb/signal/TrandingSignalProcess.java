@@ -22,6 +22,7 @@ import com.afweb.nnprocess.NN1ProcessBySignal;
 
 import com.afweb.stock.*;
 import com.afweb.util.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -831,7 +832,7 @@ public class TrandingSignalProcess {
             if (refData.getnRLCnt() < 4) {
                 return false;
             }
-            
+
         }
         nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
         if (nnObj0 == null) {
@@ -1282,7 +1283,17 @@ public class TrandingSignalProcess {
                             trObj.setTrsignal(nn.getTrsignal());
                             if (nn.getConfident() != null) {
                                 if (nn.getConfident().length() > 0) {
-                                    trObj.setComment(nn.getConfident());
+                                    AccData accData = serviceAFWeb.getAccData(trObj);
+                                    accData.setConf(nn.getConfident());
+//                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
+                                    String nameSt = "";
+                                    try {
+                                        nameSt = new ObjectMapper().writeValueAsString(accData);
+                                        nameSt = nameSt.replaceAll("\"", "#");
+                                    } catch (JsonProcessingException ex) {
+                                    }
+                                    trObj.setComment(nameSt);
+//                                    trObj.setComment(nn.getConfident());
                                 }
                             }
                             UpdateTRList.add(trObj);
@@ -1304,7 +1315,17 @@ public class TrandingSignalProcess {
                             trObj.setTrsignal(nn.getTrsignal());
                             if (nn.getConfident() != null) {
                                 if (nn.getConfident().length() > 0) {
-                                    trObj.setComment(nn.getConfident());
+                                    AccData accData = serviceAFWeb.getAccData(trObj);
+                                    accData.setConf(nn.getConfident());
+//                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
+                                    String nameSt = "";
+                                    try {
+                                        nameSt = new ObjectMapper().writeValueAsString(accData);
+                                        nameSt = nameSt.replaceAll("\"", "#");
+                                    } catch (JsonProcessingException ex) {
+                                    }
+                                    trObj.setComment(nameSt);                                    
+//                                    trObj.setComment(nn.getConfident());
                                 }
                             }
                             UpdateTRList.add(trObj);
@@ -1321,7 +1342,17 @@ public class TrandingSignalProcess {
                             trObj.setTrsignal(nn.getTrsignal());
                             if (nn.getConfident() != null) {
                                 if (nn.getConfident().length() > 0) {
-                                    trObj.setComment(nn.getConfident());
+                                    AccData accData = serviceAFWeb.getAccData(trObj);
+                                    accData.setConf(nn.getConfident());
+//                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
+                                    String nameSt = "";
+                                    try {
+                                        nameSt = new ObjectMapper().writeValueAsString(accData);
+                                        nameSt = nameSt.replaceAll("\"", "#");
+                                    } catch (JsonProcessingException ex) {
+                                    }
+                                    trObj.setComment(nameSt);                                    
+//                                    trObj.setComment(nn.getConfident());
                                 }
                             }
                             UpdateTRList.add(trObj);

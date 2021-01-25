@@ -1414,6 +1414,19 @@ public class AccountDB {
         return sqlCMD;
     }
 
+    public int updateAccountRef(AccountObj acc, String refname) {
+        try {
+
+            String sqlCMD = "update account set comment='" + refname + "' where id=" + acc.getId();
+            processUpdateDB(sqlCMD);
+            return 1;
+
+        } catch (Exception e) {
+            logger.info("> updateAccountRef exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int updateAccountAllStatus(AccountObj account) {
         String sqlCMD = SQLUpupdateAccountAllStatus(account);
         try {
