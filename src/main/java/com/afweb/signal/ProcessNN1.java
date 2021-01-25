@@ -10,7 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.nnprocess.NNProcessByTrend;
+import com.afweb.nnprocess.NN1ProcessByTrend;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -546,7 +546,7 @@ public class ProcessNN1 {
                 }
 
                 // need to match getNNnormalizeStOutputClose futureDay
-                int futureDay = NNProcessByTrend.TREND_Day;
+                int futureDay = NN1ProcessByTrend.TREND_Day;
                 float step = (float) ((closeOutput - closeOutput0) / futureDay);
                 ArrayList<AFstockInfo> StockPredArray = new ArrayList();
                 for (int i = offset; i < StockArray.size(); i++) {

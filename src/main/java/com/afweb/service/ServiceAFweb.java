@@ -657,7 +657,7 @@ public class ServiceAFweb {
     public static boolean forceNNReadFileflag = false;
 
     private void AFprocessNN() {
-        NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+        NN1ProcessByTrend nnStProcByTrend = new NN1ProcessByTrend();
         NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
 
 //        nnProcBySig.processNeuralNet(this);
@@ -687,7 +687,7 @@ public class ServiceAFweb {
 
             // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
             logger.info("Start mydebugtestflag.....");
-            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
+            NN1ProcessByTrend nnStProcByTrend = new NN1ProcessByTrend();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';

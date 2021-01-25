@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author koed
  */
-public class NNProcessByTrend {
+public class NN1ProcessByTrend {
 
     public static Logger logger = Logger.getLogger("NNProcessStock");
 
@@ -1040,7 +1040,7 @@ public class NNProcessByTrend {
 
             boolean trainInFile = true;
             if (trainInFile == true) {
-                inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("", subSymbol);
+                inputDatalist = NN1ProcessByTrend.NeuralNetGetNN3InputfromStaticCode("", subSymbol);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());

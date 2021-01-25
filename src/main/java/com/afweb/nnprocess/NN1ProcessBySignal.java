@@ -48,7 +48,7 @@ public class NN1ProcessBySignal {
     public void mainProcessNeuralNet(ServiceAFweb serviceAFWeb) {
         cntNN++;
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        NNProcessByTrend nntrend = new NNProcessByTrend();
+        NN1ProcessByTrend nntrend = new NN1ProcessByTrend();
         NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
         if (cntNN == 1) {
             if (flagNNLearningSignal == true) {
@@ -72,7 +72,7 @@ public class NN1ProcessBySignal {
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        NNProcessByTrend nntrend = new NNProcessByTrend();
+        NN1ProcessByTrend nntrend = new NN1ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
         TrandingSignalProcess.forceToGenerateNewNN = false;

@@ -9,15 +9,15 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.nnprocess.NNProcessByTrend;
-import com.afweb.nnprocess.TradingNNprocess;
+import com.afweb.nnprocess.*;
+
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.stock.StockDB;
+
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.sql.Date;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -148,7 +148,7 @@ public class ProcessNN00 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN00_1dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        NNProcessByTrend NNProcessTrend = new NNProcessByTrend();
+        NN1ProcessByTrend NNProcessTrend = new NN1ProcessByTrend();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -199,7 +199,7 @@ public class ProcessNN00 {
     }
 
     public ArrayList<NNInputDataObj> trainingNN00_0dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        NNProcessByTrend NNProcessTrend = new NNProcessByTrend();
+        NN1ProcessByTrend NNProcessTrend = new NN1ProcessByTrend();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");
 
