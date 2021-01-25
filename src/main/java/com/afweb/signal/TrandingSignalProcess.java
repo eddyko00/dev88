@@ -1188,7 +1188,7 @@ public class TrandingSignalProcess {
                     boolean nn3Flag = false;
                     if (nn3Flag == true) {
 
-                        ProcessNN30 nn3 = new ProcessNN30();
+                        ProcessNN3 nn3 = new ProcessNN3();
                         int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn3Signal;
                     }
@@ -1336,7 +1336,7 @@ public class TrandingSignalProcess {
                 case ConstantKey.INT_TR_NN3:
                     boolean nn3Flag = false;
                     if (nn3Flag == true) {
-                        ProcessNN30 nn3 = new ProcessNN30();
+                        ProcessNN3 nn3 = new ProcessNN3();
                         NNObj nn = nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());

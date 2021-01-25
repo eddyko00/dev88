@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author koed
  */
-public class ProcessNN30 {
+public class ProcessNN3 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
 
@@ -39,7 +39,7 @@ public class ProcessNN30 {
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1 + "_" + symbol;
 
         ArrayList<NNInputDataObj> inputList = null;
-        ProcessNN30 nn3 = new ProcessNN30();
+        ProcessNN3 nn3 = new ProcessNN3();
         inputList = nn3.trainingNN3dataMACD(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
@@ -323,9 +323,9 @@ public class ProcessNN30 {
                 }
 
                 if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
-                    String confidentSt = stockDate.toString() + " NN " + confident + "% confident on " + ConstantKey.S_SELL_ST;
+                    String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
                     if (prevSignal == ConstantKey.S_SELL) {
-                        confidentSt = stockDate.toString() + " NN " + confident + "% confident on " + ConstantKey.S_BUY_ST;
+                        confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
                     nnRet.setConfident(confidentSt);
                 }

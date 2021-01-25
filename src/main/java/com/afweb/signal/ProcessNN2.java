@@ -572,9 +572,9 @@ public class ProcessNN2 {
                 }
 
                 if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
-                    String confidentSt = stockDate.toString() + " NN " + confident + "% confident on " + ConstantKey.S_SELL_ST;
+                    String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
                     if (prevSignal == ConstantKey.S_SELL) {
-                        confidentSt = stockDate.toString() + " NN " + confident + "% confident on " + ConstantKey.S_BUY_ST;
+                        confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
                     nnRet.setConfident(confidentSt);
                 }
