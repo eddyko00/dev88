@@ -1324,7 +1324,7 @@ public class TrandingSignalProcess {
                                         nameSt = nameSt.replaceAll("\"", "#");
                                     } catch (JsonProcessingException ex) {
                                     }
-                                    trObj.setComment(nameSt);                                    
+                                    trObj.setComment(nameSt);
 //                                    trObj.setComment(nn.getConfident());
                                 }
                             }
@@ -1351,7 +1351,7 @@ public class TrandingSignalProcess {
                                         nameSt = nameSt.replaceAll("\"", "#");
                                     } catch (JsonProcessingException ex) {
                                     }
-                                    trObj.setComment(nameSt);                                    
+                                    trObj.setComment(nameSt);
 //                                    trObj.setComment(nn.getConfident());
                                 }
                             }
@@ -1979,7 +1979,7 @@ public class TrandingSignalProcess {
         symbol = symbol.replace(".", "_");
         if (nnName.equals(ConstantKey.TR_NN30)) {
 
-            String nnIndex = "_nn31_";
+            String nnIndex = "_nn301_";
 
             for (int i = 1; i < 20; i++) {
                 String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
@@ -1992,7 +1992,7 @@ public class TrandingSignalProcess {
                     break;
                 }
             }
-            nnIndex = "_nn32_";
+            nnIndex = "_nn302_";
             for (int i = 1; i < 20; i++) {
                 String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
 //            logger.info("> initTrainingNeuralNet1 " + nnFileName);
@@ -2006,7 +2006,7 @@ public class TrandingSignalProcess {
             }
 
             return inputDatalist;
-        }
+        } 
 
         if (nnName.equals(ConstantKey.TR_NN2)) {
 
@@ -2039,35 +2039,39 @@ public class TrandingSignalProcess {
             return inputDatalist;
         }
         /////////////////////////////
-        // if (nnName.equals(ConstantKey.TR_NN1 or TR_NN2)) 
+        // if (nnName.equals(ConstantKey.TR_NN1 ))        
         /////////////////////////////
-        String nnIndex = "_nn1_";
+        if (nnName.equals(ConstantKey.TR_NN1)) {
 
-        for (int i = 1; i < 20; i++) {
-            String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-            boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
-            if (i == 0) {
-                continue;
-            }
-            if (ret == false) {
-                break;
-            }
-        }
-        nnIndex = "_nn2_";
-        for (int i = 1; i < 20; i++) {
-            String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-            boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
-            if (i == 0) {
-                continue;
-            }
-            if (ret == false) {
-                break;
-            }
-        }
+            String nnIndex = "_nn1_";
 
-        return inputDatalist;
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
+            nnIndex = "_nn2_";
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
+
+            return inputDatalist;
+        }
+        return null;
     }
 
     public ArrayList<NNInputDataObj> getStaticJavaInputDataFromFile(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
@@ -2089,6 +2093,20 @@ public class TrandingSignalProcess {
             }
         }
 
+        String symbolAll = "";
+        String symbolLAll[] = ServiceAFweb.allStock;
+
+        for (int i = 0; i < symbolLAll.length; i++) {
+            symbolAll = symbolLAll[i];
+            inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, nnName, symbolAll);
+            if (inputlist.size() == 0) {
+                return null;
+            }
+            inputlistRet.addAll(inputlist);
+            if (stockInputMap != null) {
+                stockInputMap.put(symbolAll, inputlist);
+            }
+        }
         return inputlistRet;
 
     }
@@ -2115,328 +2133,6 @@ public class TrandingSignalProcess {
         return inputlistRet;
 
     }
-//
-//    public ArrayList<NNInputDataObj> getTrainingInputDataFromFile(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
-//        ArrayList<NNInputDataObj> inputlist = new ArrayList();
-//        ArrayList<NNInputDataObj> inputlistRet = new ArrayList();
-//        String symbol = "";
-////        String symbolL[] = ServiceAFweb.neuralNetTrainStock;
-//        String symbolL[] = ServiceAFweb.primaryStock;
-//        for (int i = 0; i < symbolL.length; i++) {
-//            symbol = symbolL[i];
-//            inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, nnName, symbol);
-//            if (inputlist.size() == 0) {
-//                return null;
-//            }
-//            inputlistRet.addAll(inputlist);
-//            if (stockInputMap != null) {
-//                stockInputMap.put(symbol, inputlist);
-//            }
-//        }
-//
-//        return inputlistRet;
-//    }
-//
-////    private int TRtrainingNNNeuralNetProcessFile(ServiceAFweb serviceAFWeb, String BPnameTR, String nnNameSym, double nnError) {
-//        String BPnameSym = CKey.NN_version + "_" + nnNameSym;
-//        ArrayList<NNInputOutObj> inputlist = new ArrayList();
-//        boolean forceNN1flag = true;
-//        if (forceNN1flag == true) {
-//            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-//        }
-//
-//        boolean forceNNReadFileflag = true;
-//        if (forceNNReadFileflag == true) {
-//            inputlist = getTrainingInputFromFile(serviceAFWeb);
-//        }
-//
-//        if (inputlist.size() == 0) {
-//            return 0;
-//        }
-//        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputlist);
-//
-//        String NNnameSt = nnTraining.getNameNN() + "_" + nnNameSym;
-//        nnTraining.setNameNN(NNnameSt);
-//        nnTraining.setSymbol(nnNameSym);
-//
-//        /// start training or continue training           
-//        /// start training or continue training
-//        return TrainingNNBP(serviceAFWeb, nnNameSym, nnTraining, nnError);
-//    }
-//    public  int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
-//        String BPnameSym = CKey.NN_version + "_" + nnNameSym;
-//        ArrayList<NNInputOutObj> inputlist = new ArrayList();
-////
-////        BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-////        if (nnName.equals(ConstantKey.TR_NN3)) {
-////            BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN3;
-////        }
-//
-//        //just for testing
-////        ServiceAFweb.forceNNReadFileflag = false;
-//        //just for testing 
-//        ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
-//        if (ServiceAFweb.forceNNReadFileflag == true) {
-////            inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);
-//
-//            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-//            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-//            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-//            for (String sym : stockInputMap.keySet()) {
-//                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
-//                inputDatalist.addAll(inputL);
-//            }
-//            for (int i = 0; i < inputDatalist.size(); i++) {
-//                NNInputDataObj inputDObj = inputDatalist.get(i);
-//                NNInputOutObj inputObj = new NNInputOutObj();
-//                inputObj.setDateSt(inputDObj.getObj().getDateSt());
-//                inputObj.setClose(inputDObj.getObj().getClose());
-//                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-//                inputObj.setInput1(inputDObj.getObj().getInput1());
-//                inputObj.setInput2(inputDObj.getObj().getInput2());
-//                inputObj.setInput3(inputDObj.getObj().getInput3());
-//                inputObj.setInput4(inputDObj.getObj().getInput4());
-//                inputObj.setInput5(inputDObj.getObj().getInput5());
-//                inputObj.setInput6(inputDObj.getObj().getInput6());
-//                inputObj.setInput7(inputDObj.getObj().getInput7());
-//                inputObj.setInput8(inputDObj.getObj().getInput8());
-//                inputObj.setInput9(inputDObj.getObj().getInput9());
-//                inputObj.setInput10(inputDObj.getObj().getInput10());
-//                inputObj.setInput11(inputDObj.getObj().getInput11());
-//                inputObj.setInput12(inputDObj.getObj().getInput12());
-//                inputObj.setInput13(inputDObj.getObj().getInput13());
-//                //////
-//                inputObj.setOutput1(inputDObj.getObj().getOutput1());
-//                inputObj.setOutput2(inputDObj.getObj().getOutput2());
-//                inputObj.setOutput3(inputDObj.getObj().getOutput3());
-//                inputObj.setOutput4(inputDObj.getObj().getOutput4());
-//                if (inputObj.getOutput1() < 0) {
-//                    continue;
-//                }
-//                if (inputObj.getOutput2() < 0) {
-//                    continue;
-//                }
-//                inputlist.add(inputObj);
-//            }
-//        } else {
-//            /// new stock difficult to train need to remove the T.TO to see if it helps
-//            String subSymbol = null;
-//            if (symbol.length() != 0) {
-//                subSymbol = "RY.TO";
-//                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-//                    String stockN = ServiceAFweb.primaryStock[i];
-//                    if (stockN.equals(symbol)) {
-//                        subSymbol = null;
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            boolean trainInFile = true;
-//            if (trainInFile == true) {
-//                if (nnName.equals(ConstantKey.TR_NN3)) {
-//                    inputDatalist = NNProcessByTrend.NeuralNetGetNN3InputfromStaticCode("", subSymbol);
-//                } else {
-//                    inputDatalist = NN1ProcessBySignal.NeuralNetGetNN1InputfromStaticCode("", subSymbol);
-//                }
-//                if (inputDatalist != null) {
-////                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
-//
-//                    for (int i = 0; i < inputDatalist.size(); i++) {
-//                        NNInputDataObj inputDObj = inputDatalist.get(i);
-//                        NNInputOutObj inputObj = new NNInputOutObj();
-//                        inputObj.setDateSt(inputDObj.getObj().getDateSt());
-//                        inputObj.setClose(inputDObj.getObj().getClose());
-//                        inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-//                        inputObj.setInput1(inputDObj.getObj().getInput1());
-//                        inputObj.setInput2(inputDObj.getObj().getInput2());
-//                        inputObj.setInput3(inputDObj.getObj().getInput3());
-//                        inputObj.setInput4(inputDObj.getObj().getInput4());
-//                        inputObj.setInput5(inputDObj.getObj().getInput5());
-//                        inputObj.setInput6(inputDObj.getObj().getInput6());
-//                        inputObj.setInput7(inputDObj.getObj().getInput7());
-//                        inputObj.setInput8(inputDObj.getObj().getInput8());
-//                        inputObj.setInput9(inputDObj.getObj().getInput9());
-//                        inputObj.setInput10(inputDObj.getObj().getInput10());
-//                        inputObj.setInput11(inputDObj.getObj().getInput11());
-//                        inputObj.setInput12(inputDObj.getObj().getInput12());
-//                        inputObj.setInput13(inputDObj.getObj().getInput13());
-//                        //////
-//                        inputObj.setOutput1(inputDObj.getObj().getOutput1());
-//                        inputObj.setOutput2(inputDObj.getObj().getOutput2());
-//                        inputObj.setOutput3(inputDObj.getObj().getOutput3());
-//                        inputObj.setOutput4(inputDObj.getObj().getOutput4());
-//                        if (inputObj.getOutput1() < 0) {
-//                            continue;
-//                        }
-//                        if (inputObj.getOutput2() < 0) {
-//                            continue;
-//                        }
-//                        inputlist.add(inputObj);
-//                    }
-//                }
-//            }
-//            boolean trainAllInFile = true;
-//            if (trainAllInFile == true) {
-//                if (nnName.equals(ConstantKey.TR_NN3)) {
-//                    inputDatalist = NNProcessByTrend.NeuralNetAllStockGetNN3InputfromStaticCode(symbol, null);
-//                } else {
-//                    inputDatalist = NN1ProcessBySignal.NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
-//                }
-//                if (inputDatalist != null) {
-////                    logger.info("> NeuralNetAllStock " + BPnameSym + " " + inputDatalist.size());
-//
-//                    for (int i = 0; i < inputDatalist.size(); i++) {
-//                        NNInputDataObj inputDObj = inputDatalist.get(i);
-//                        NNInputOutObj inputObj = new NNInputOutObj();
-//                        inputObj.setDateSt(inputDObj.getObj().getDateSt());
-//                        inputObj.setClose(inputDObj.getObj().getClose());
-//                        inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-//                        inputObj.setInput1(inputDObj.getObj().getInput1());
-//                        inputObj.setInput2(inputDObj.getObj().getInput2());
-//                        inputObj.setInput3(inputDObj.getObj().getInput3());
-//                        inputObj.setInput4(inputDObj.getObj().getInput4());
-//                        inputObj.setInput5(inputDObj.getObj().getInput5());
-//                        inputObj.setInput6(inputDObj.getObj().getInput6());
-//                        inputObj.setInput7(inputDObj.getObj().getInput7());
-//                        inputObj.setInput8(inputDObj.getObj().getInput8());
-//                        inputObj.setInput9(inputDObj.getObj().getInput9());
-//                        inputObj.setInput10(inputDObj.getObj().getInput10());
-//                        inputObj.setInput11(inputDObj.getObj().getInput11());
-//                        inputObj.setInput12(inputDObj.getObj().getInput12());
-//                        inputObj.setInput13(inputDObj.getObj().getInput13());
-//                        //////
-//                        inputObj.setOutput1(inputDObj.getObj().getOutput1());
-//                        inputObj.setOutput2(inputDObj.getObj().getOutput2());
-//                        inputObj.setOutput3(inputDObj.getObj().getOutput3());
-//                        inputObj.setOutput4(inputDObj.getObj().getOutput4());
-//                        if (inputObj.getOutput1() < 0) {
-//                            continue;
-//                        }
-//                        if (inputObj.getOutput2() < 0) {
-//                            continue;
-//                        }
-//                        inputlist.add(inputObj);
-//                    }
-//                }
-//            }
-//
-//            ArrayList<AFneuralNetData> objDataList = new ArrayList();
-//
-//            if (BPnameTR.equals(BPnameSym)) {
-//                ;
-//            } else {
-//                objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
-//                if (objDataList != null) {
-//                    logger.info("> TRtrainingNNNeuralNetProcess " + BPnameSym + " " + inputlist.size() + " " + objDataList.size());
-//                    for (int i = 0; i < objDataList.size(); i++) {
-//                        String dataSt = objDataList.get(i).getData();
-//                        NNInputOutObj input;
-//                        try {
-//                            input = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
-//                            inputlist.add(input);
-//                        } catch (IOException ex) {
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
-//
-//        if (inputlist.size() == 0) {
-//            return 0;
-//        }
-//        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputlist, nnName);
-//
-//        String NNnameSt = nnTraining.getNameNN() + "_" + nnNameSym;
-//        nnTraining.setNameNN(NNnameSt);
-//        nnTraining.setSymbol(nnNameSym);
-//
-//        /// start training or continue training           
-//        /// start training or continue training
-//        return TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
-//    }
-//
-//    public void initTrainingNeuralNetData(ServiceAFweb serviceAFWeb, String nnName) {
-////        logger.info("> initTrainingNeuralNet1 ");
-//        if (getEnv.checkLocalPC() == true) {
-//            ArrayList<NNInputOutObj> inputlist = new ArrayList();
-//            String BPname = CKey.NN_version + "_" + nnName;
-//            ArrayList<AFneuralNetData> objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPname);
-//
-//            if ((objDataList == null) || (objDataList.size() < 10)) {
-//                return;
-//            } else {
-//                // get it from DB
-//                logger.info("> initTrainingNeuralNet1 objDataList " + objDataList.size());
-//                for (int i = 0; i < objDataList.size(); i++) {
-//                    String dataSt = objDataList.get(i).getData();
-//                    NNInputOutObj input;
-//                    try {
-//                        input = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
-//                        inputlist.add(input);
-//                    } catch (IOException ex) {
-//                    }
-//                }
-//            }
-//            if (inputlist.size() == 0) {
-//                return;
-//            }
-//            NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputlist, nnName);
-//
-//            String NNnameSt = nnTraining.getNameNN() + "_" + nnName;
-//            nnTraining.setNameNN(NNnameSt);
-//            nnTraining.setSymbol(nnName);
-//            /// start training or continue training           
-//            /// start training or continue training
-//            TrainingNNBP(serviceAFWeb, nnName, nnName, nnTraining, 0);
-//        }
-//    }
-//
-//
-//    public void initTrainingNeuralNetFile(ServiceAFweb serviceAFWeb, int TR_Name) {
-//        if (getEnv.checkLocalPC() == true) {
-//            //get sample
-//            String nnName = ConstantKey.TR_NN1;
-//            if (TR_Name == ConstantKey.INT_TR_NN2) {
-//                nnName = ConstantKey.TR_NN2;
-//            }
-//
-//            boolean flagClearInput = true;
-//            if (flagClearInput == true) {
-//                // delete TR nn1 transaction
-//                String BPname = CKey.NN_version + "_" + nnName;
-//                serviceAFWeb.getStockImp().deleteNeuralNetData(BPname);
-//            }
-//
-//            ArrayList<NNInputDataObj> inputlist = new ArrayList();
-//
-//            for (int i = 1; i < 20; i++) {
-//                String nnFileName = ServiceAFweb.FileLocalNNPath + "/" + nnName + i + ".csv";
-//                logger.info("> initTrainingNeuralNet1 " + nnFileName);
-//                boolean ret = readTrainingNeuralNet1(serviceAFWeb, inputlist, nnName, nnFileName);
-//                if (i == 0) {
-//                    continue;
-//                }
-//                if (ret == false) {
-//                    break;
-//                }
-//            }
-//        }
-//    }
-//    public void testXORneuralnet(ServiceAFweb serviceAFWeb) {
-//        String TestName = "xor";
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//        long lockDateValue = dateNow.getTimeInMillis();
-//        int lockReturn = serviceAFWeb.setLockNameProcess(TestName, ConstantKey.NN_TR_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessNeuralNet");
-//        if (lockReturn == 0) {
-//            System.out.println("locked");
-//            return;
-//        }
-//        testxor(TestName);
-//        serviceAFWeb.removeNameLock(TestName, ConstantKey.NN_TR_LOCKTYPE);
-//
-//    }
 
     public boolean readTrainingNeuralNet(ServiceAFweb serviceAFWeb, ArrayList<NNInputDataObj> inputlist, String nnFileName, String nnName) {
 

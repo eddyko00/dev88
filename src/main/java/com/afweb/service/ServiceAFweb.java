@@ -700,10 +700,20 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//              int ret = this.getAccountProcessImp().saveDBneuralnetProcess(this, "neuralnet");
+            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+            TrandingSignalProcess.forceToGenerateNewNN = false;
+            // start training
+            // TrainingNNBP inputpattern 1748
+            NN1ProcessBySignal.processRestinputflag = true;
+//            nn1trend.NeuralNetProcessTesting(this);
+            nn1trend.NeuralNetNN30CreatJava(this, ConstantKey.TR_NN30);
             
-//            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
+            
+//            nn1trend.processNN30InputNeuralNetTrend(this);
+//            nn1trend.processAllNN30StockInputNeuralNetTrend(this);
 
+//              int ret = this.getAccountProcessImp().saveDBneuralnetProcess(this, "neuralnet");
+//            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 //            delete NN2            
 //            AccountObj accountObj = getAdminObjFromCache();
 //            ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
@@ -4474,7 +4484,6 @@ public class ServiceAFweb {
         return null;
     }
 
-
     public AccData getAccData(TradingRuleObj trObj) {
         AccData refData = new AccData();
         String refName = trObj.getComment();
@@ -4488,8 +4497,7 @@ public class ServiceAFweb {
         }
         return refData;
     }
-    
-    
+
     /////helper function
     public ReferNameData getReferNameData(AFneuralNet nnObj0) {
         ReferNameData refData = new ReferNameData();
@@ -4504,8 +4512,7 @@ public class ServiceAFweb {
         }
         return refData;
     }
-    
-    
+
     public String SystemDownloadDBData() {
         boolean retSatus = false;
 

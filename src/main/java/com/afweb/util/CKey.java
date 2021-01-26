@@ -98,7 +98,7 @@ public class CKey {
     public static double PREDICT_THRESHOLD = 0.6;
     public static double NN1_ERROR_THRESHOLD = 0.156; // 0.159; //0.172; //0.131; 
     public static double NN2_ERROR_THRESHOLD = 0.07; //0.130; //0.126; // 0.159; //0.172;
-    public static double NN30_ERROR_THRESHOLD = 0.211; // 0.232; // 0.276; // 0.26; 
+    public static double NN30_ERROR_THRESHOLD = 0.052; //0.211; // 0.232; // 0.276; // 0.26; 
     public static double NN40_ERROR_THRESHOLD = 0.211; // 0.232; // 0.276; // 0.26;     
 //
     public static final int NN_OUTPUT_SIZE = 2;
@@ -114,8 +114,8 @@ public class CKey {
     public static String NN1_WEIGHT_0 = nnData.NN1_WEIGHT_0;
     public static String NN2_WEIGHT_0 = nn2Data.TR_NN2_WEIGHT_0;
 
-    public static String NN30_WEIGHT_0 = nn3Data.TR_NN30_WEIGHT_0;
-    public static String NN40_WEIGHT_0 = nn3Data.TR_NN30_WEIGHT_0;    
+    public static String NN30_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
+    public static String NN40_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;    
     //////////////////////
     public static final int MSSQL = 1;/////// do not use //jdbc:sqlserver://sql.freeasphost.net\\MSSQL2016;databaseName=eddyko00_SampleDB
 
