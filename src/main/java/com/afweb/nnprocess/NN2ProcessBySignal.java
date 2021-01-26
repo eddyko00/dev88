@@ -47,9 +47,9 @@ public class NN2ProcessBySignal {
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX1);
 //            logger.info("> processInputNeuralNet TR ADX2... ");
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
-            logger.info("> processInputNeuralNet TR EMA1... ");
+            logger.info("> processInputNeuralNet TR EMA0... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA0);
-            logger.info("> processInputNeuralNet TR EMA2... ");
+            logger.info("> processInputNeuralNet TR EMA1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;

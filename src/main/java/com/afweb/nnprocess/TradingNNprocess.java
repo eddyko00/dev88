@@ -11,18 +11,10 @@ import com.afweb.model.stock.*;
 
 import com.afweb.nn.*;
 import com.afweb.service.ServiceAFweb;
-import com.afweb.signal.ProcessNN1;
-import com.afweb.signal.ProcessNN2;
-import com.afweb.signal.TrandingSignalProcess;
 
-import com.afweb.util.CKey;
-import com.afweb.util.FileUtil;
-import com.afweb.util.StringTag;
+import com.afweb.util.*;
 
 import com.afweb.util.TimeConvertion;
-import com.afweb.util.getEnv;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
