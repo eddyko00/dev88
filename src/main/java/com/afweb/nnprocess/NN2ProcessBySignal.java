@@ -155,7 +155,7 @@ public class NN2ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN2 nn2 = new ProcessNN2();
 //            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 //        } else if (tr == ConstantKey.INT_TR_ADX2) {
         } else if (tr == ConstantKey.INT_TR_EMA1) {
             ProcessNN2 nn2 = new ProcessNN2();
@@ -1253,7 +1253,7 @@ public class NN2ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN2 nn2 = new ProcessNN2();
 //            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);            
-            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 //        } else if (tr == ConstantKey.INT_TR_ADX2) {
         } else if (tr == ConstantKey.INT_TR_EMA1) {
             ProcessNN2 nn2 = new ProcessNN2();

@@ -41,9 +41,9 @@ public class NN1ProcessByTrend {
 
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning
             TrandingSignalProcess.forceToGenerateNewNN = false;
-            logger.info("> processInputNeuralNet TR MACD1... ");
+            logger.info("> processInputTrend TR MACD1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-            logger.info("> processInputNeuralNet TR MACD... ");
+            logger.info("> processInputTrend TR MACD... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
 //            logger.info("> processInputNeuralNetTrend TR NN1... ");
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);

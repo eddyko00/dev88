@@ -107,32 +107,7 @@ public class NN1ProcessBySignal {
                 }
             }
 ////////////////////////////////////////////////////////////////////////////
-            if (processRestinputflag == true) {
-                if (ServiceAFweb.nn2testflag == false) {
-                    exitflag = true;
-                    /// reset weight0 and use latest stock
-                    /// remember to update nnData and nn3Data and version                
-                    processInputNeuralNet(serviceAFWeb);
-                    
-                    nn1trend.processNN30InputNeuralNetTrend(serviceAFWeb);
-                    
-                    processAllStockInputNeuralNet(serviceAFWeb);
-                    
-                    nn1trend.processAllNN3StockInputNeuralNetTrend(serviceAFWeb);
-                    return;
-                } else if (ServiceAFweb.nn2testflag == true) {
-                    exitflag = true;
-                    /// reset weight0 and use latest stock
-                    /// remember to update nnData and nn3Data and version                
-                    nn2ProcBySig.processNN2InputNeuralNet(serviceAFWeb);
-                    
-                    nn2trend.processNN40InputNeuralNetTrend(serviceAFWeb);                    
-                    ///////////////////////////////
-                    nn2ProcBySig.processAllNN2StockInputNeuralNet(serviceAFWeb);
-                    return;
-                }
-            }
-////////////////////////////////////////////////////////////////////////////
+
             if (flagNN3LearningTrend == true) {
                 exitflag = false;
                 if (ServiceAFweb.nn2testflag == false) {
@@ -161,6 +136,7 @@ public class NN1ProcessBySignal {
 
             }
 ////////////////////////////////////////////////////////////////////////////
+
             if (processNNSignalAdmin == true) {
                 exitflag = false;
                 logger.info("> processNNSignalAdmin  cycle " + k);
@@ -169,7 +145,34 @@ public class NN1ProcessBySignal {
                 TRprocessImp.UpdateAllStock(serviceAFWeb);
                 logger.info("> processNNSignalAdmin end... cycle " + k);
             }
+            
 ////////////////////////////////////////////////////////////////////////////            
+            if (processRestinputflag == true) {
+                if (ServiceAFweb.nn2testflag == false) {
+                    exitflag = true;
+                    /// reset weight0 and use latest stock
+                    /// remember to update nnData and nn3Data and version                
+                    processInputNeuralNet(serviceAFWeb);
+                    
+                    nn1trend.processNN30InputNeuralNetTrend(serviceAFWeb);
+                    
+                    processAllStockInputNeuralNet(serviceAFWeb);
+                    
+                    nn1trend.processAllNN3StockInputNeuralNetTrend(serviceAFWeb);
+                    return;
+                } else if (ServiceAFweb.nn2testflag == true) {
+                    exitflag = true;
+                    /// reset weight0 and use latest stock
+                    /// remember to update nnData and nn3Data and version                
+                    nn2ProcBySig.processNN2InputNeuralNet(serviceAFWeb);
+                    
+                    nn2trend.processNN40InputNeuralNetTrend(serviceAFWeb);                    
+                    ///////////////////////////////
+                    nn2ProcBySig.processAllNN2StockInputNeuralNet(serviceAFWeb);
+                    return;
+                }
+            }
+////////////////////////////////////////////////////////////////////////////
             if (processRestAllStockflag == true) {
                 exitflag = true;
                 ///////////////////////////////   
