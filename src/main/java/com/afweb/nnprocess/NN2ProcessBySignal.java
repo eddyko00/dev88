@@ -160,7 +160,7 @@ public class NN2ProcessBySignal {
         } else if (tr == ConstantKey.INT_TR_EMA1) {
             ProcessNN2 nn2 = new ProcessNN2();
 //            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
         }
         String nnName = ConstantKey.TR_NN2;
@@ -1258,7 +1258,7 @@ public class NN2ProcessBySignal {
         } else if (tr == ConstantKey.INT_TR_EMA1) {
             ProcessNN2 nn2 = new ProcessNN2();
 //            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
         }
 

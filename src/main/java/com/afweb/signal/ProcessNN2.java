@@ -199,7 +199,7 @@ public class ProcessNN2 {
         return inputDatalist;
     }
 
-    public ArrayList<NNInputDataObj> trainingNN2dataEMA2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+    public ArrayList<NNInputDataObj> trainingNN2dataEMA1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN2 ");
 
