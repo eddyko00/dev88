@@ -96,7 +96,7 @@ public class NN2ProcessByTrend {
         boolean initTrainNeuralNet = true;
         if (initTrainNeuralNet == true) {
 
-            double errorNN = CKey.NN3_ERROR_THRESHOLD;
+            double errorNN = CKey.NN30_ERROR_THRESHOLD;
             String nnName = ConstantKey.TR_NN30;
 
             String BPname = CKey.NN_version + "_" + nnName;
@@ -482,7 +482,7 @@ public class NN2ProcessByTrend {
     private static ArrayList stockNNinputNameArray = new ArrayList();
     private static ArrayList stockNNretrainprocessNameArray = new ArrayList();
 
-    private ArrayList UpdateStockNN3processNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
+    private ArrayList UpdateStockNN40processNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         if (stockNNprocessNameArray != null && stockNNprocessNameArray.size() > 0) {
             return stockNNprocessNameArray;
         }
@@ -499,7 +499,7 @@ public class NN2ProcessByTrend {
             ArrayList stockTRNameArray = new ArrayList();
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String sym = (String) stockNameArray.get(i);
-                String symTR = sym + "#" + ConstantKey.INT_TR_NN30;
+                String symTR = sym + "#" + ConstantKey.INT_TR_NN40;
                 stockTRNameArray.add(symTR);
             }
 
@@ -509,18 +509,9 @@ public class NN2ProcessByTrend {
     }
 
     public void ProcessTrainNeuralNeNN2tByTrend(ServiceAFweb serviceAFWeb) {
-//        logger.info("> ProcessTrainNeuralNet ");
-//        if (getEnv.checkLocalPC() != true) {
-//            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {
-//                ///Error R14 (Memory quota exceeded) in heroku
-//                ///Error R14 (Memory quota exceeded) in heroku
-//                if (ServiceAFweb.NN_AllowTraingStockFlag == false) {
-//                    return;
-//                }
-//            }
-//        }
+
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        UpdateStockNN3processNameArray(serviceAFWeb, accountAdminObj);
+        UpdateStockNN40processNameArray(serviceAFWeb, accountAdminObj);
         if (stockNNprocessNameArray == null) {
             return;
         }
@@ -532,13 +523,13 @@ public class NN2ProcessByTrend {
         for (int i = 0; i < stockNNprocessNameArray.size(); i++) {
             printName += stockNNprocessNameArray.get(i) + ",";
         }
-        logger.info("ProcessTrainNeuralNetByTrend " + printName);
+        logger.info("ProcessTrainNeuralNeNN2tByTrend " + printName);
 
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
-        LockName = "NN3_" + ServiceAFweb.getServerObj().getServerName();
+        LockName = "NN40_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
@@ -587,7 +578,7 @@ public class NN2ProcessByTrend {
                         continue;
                     }
 
-                    String LockStock = "NN3_TR_" + symbol; // + "_" + trNN;
+                    String LockStock = "NN40_TR_" + symbol; // + "_" + trNN;
                     LockStock = LockStock.toUpperCase();
 
                     long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
@@ -605,7 +596,7 @@ public class NN2ProcessByTrend {
                     }
                     if (lockReturnStock > 0) {
                         try {
-                            String nnName = ConstantKey.TR_NN30;
+                            String nnName = ConstantKey.TR_NN40;
                             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
                             AFneuralNet nnObj1 = ProcessTrainNeuralNetByTrend1(serviceAFWeb, BPnameSym, TR_NN, symbol);
@@ -624,7 +615,7 @@ public class NN2ProcessByTrend {
                                 }
                             }
                         } catch (Exception ex) {
-                            logger.info("> ProcessTrainNeuralNetByTrend Exception" + ex.getMessage());
+                            logger.info("> ProcessTrainNeuralNeNN2tByTrend Exception" + ex.getMessage());
                         }
                         serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //                        logger.info("ProcessTrainNeuralNetByTrend " + LockStock + " unLock LockStock ");
@@ -634,7 +625,7 @@ public class NN2ProcessByTrend {
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessTrainNeuralNetByTrend " + LockName + " unlock LockName");
         }
-        logger.info("> ProcessTrainNeuralNetByTrend ... done");
+        logger.info("> ProcessTrainNeuralNeNN2tByTrend ... done");
     }
 
     public AFneuralNet ProcessTrainNeuralNetByTrend1(ServiceAFweb serviceAFWeb, String BPnameSym, int TR_NN, String symbol) {
@@ -670,8 +661,8 @@ public class NN2ProcessByTrend {
 
         boolean nnsymTrain = true;
         if (nnsymTrain == true) {
-            String nnName = ConstantKey.TR_NN30;
-            double errorNN = CKey.NN3_ERROR_THRESHOLD;
+            String nnName = ConstantKey.TR_NN40;
+            double errorNN = CKey.NN40_ERROR_THRESHOLD;
 
             String nnNameSym = nnName + "_" + symbol;
             String BPname = CKey.NN_version + "_" + nnNameSym;
@@ -689,21 +680,10 @@ public class NN2ProcessByTrend {
                     errorNN = refData.getmError() + 0.0002;
                     logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
                 }
-//                String refName = nnObj1.getRefname();
-//                if (refName != null) {
-//                    if (refName.length() > 0) {
-//                        try {
-//                            double refError = Double.parseDouble(refName);
-//                            errorNN = refError + 0.0001;
-//                            logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
-//                        } catch (Exception ex) {
-//
-//                        }
-//                    }
-//                }
+
                 int retflag = 0;
-                if (TR_NN == ConstantKey.INT_TR_NN30) {
-                    retflag = TRtrainingNNTrendNeuralNetData(serviceAFWeb, ConstantKey.TR_NN30, nnNameSym, symbol, errorNN);
+                if (TR_NN == ConstantKey.INT_TR_NN40) {
+                    retflag = TRtrainingNNTrendNeuralNetData(serviceAFWeb, ConstantKey.TR_NN40, nnNameSym, symbol, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;
@@ -969,7 +949,7 @@ public class NN2ProcessByTrend {
 
         logger.info("> TRtrainingNNTrendNeuralNet " + BPnameSym + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
-        String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN30;
+        String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN40;
 
         return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
     }
