@@ -168,7 +168,7 @@ public class NN1ProcessBySignal {
                     
                     nn2trend.processNN40InputNeuralNetTrend(serviceAFWeb);                    
                     ///////////////////////////////
-                    nn2ProcBySig.processAllNN2StockInputNeuralNet(serviceAFWeb);
+                    nn2ProcBySig.processAllNN40StockInputNeuralNet(serviceAFWeb);
                     return;
                 }
             }
