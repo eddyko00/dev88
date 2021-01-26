@@ -164,7 +164,7 @@ public class ProcessNN2 {
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA1);
+        trObj2.setType(ConstantKey.INT_TR_EMA0);
 //      public static final int INT_ADX_5 = 5;         
 
         trObj2.setAccount(trObjNN2.getAccount());

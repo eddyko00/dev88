@@ -42,7 +42,7 @@ public class NN2ProcessByTrend {
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> processInputNeuralNet TR EMA1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA0);
             logger.info("> processInputNeuralNet TR EMA2... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
             
@@ -207,7 +207,7 @@ public class NN2ProcessByTrend {
         ArrayList<NNInputDataObj> inputList = null;
         ProcessNN00 nn00 = new ProcessNN00();
 
-        if (tr == ConstantKey.INT_TR_EMA1) {
+        if (tr == ConstantKey.INT_TR_EMA0) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date

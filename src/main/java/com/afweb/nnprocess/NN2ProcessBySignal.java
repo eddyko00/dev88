@@ -48,7 +48,7 @@ public class NN2ProcessBySignal {
 //            logger.info("> processInputNeuralNet TR ADX2... ");
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
             logger.info("> processInputNeuralNet TR EMA1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA0);
             logger.info("> processInputNeuralNet TR EMA2... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
             // need to debug to generate the java first time
@@ -79,7 +79,7 @@ public class NN2ProcessBySignal {
 //        logger.info("> processAllNN2StockInputNeuralNet TR ADX2... ");
 //        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
         logger.info("> processAllNN2StockInputNeuralNet TR EMA1... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA0);
         logger.info("> processAllNN2StockInputNeuralNet TR ADX2... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
 //        
@@ -148,7 +148,7 @@ public class NN2ProcessBySignal {
         ArrayList<NNInputDataObj> inputList = null;
 
 //        if (tr == ConstantKey.INT_TR_ADX1) {
-        if (tr == ConstantKey.INT_TR_EMA1) {
+        if (tr == ConstantKey.INT_TR_EMA0) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
@@ -1045,7 +1045,7 @@ public class NN2ProcessBySignal {
                 if (flag == true) {
 //                    inputlistSym1 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_ADX1, 0);
 //                    inputlistSym2 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_ADX2, 0);
-                    inputlistSym1 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_EMA1, 0);
+                    inputlistSym1 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_EMA0, 0);
                     inputlistSym2 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_EMA2, 0);
                 }
                 inputlistSym.addAll(inputlistSym1);
@@ -1245,7 +1245,7 @@ public class NN2ProcessBySignal {
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 //        if (tr == ConstantKey.INT_TR_ADX1) {
-        if (tr == ConstantKey.INT_TR_EMA1) {
+        if (tr == ConstantKey.INT_TR_EMA0) {
 
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              

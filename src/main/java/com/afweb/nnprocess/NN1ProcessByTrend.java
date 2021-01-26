@@ -231,8 +231,8 @@ public class NN1ProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date            
 
             inputList = nn00.trainingNN00_dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            
         } else if (tr == ConstantKey.INT_TR_MACD) {
-
             inputList = nn00.trainingNN00_dataMACD0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
