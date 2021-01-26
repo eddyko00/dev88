@@ -4618,7 +4618,7 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
 
-        retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN1);
+        retSatus = NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
 //            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
 
         return "" + retSatus;

@@ -508,7 +508,7 @@ public class NN2ProcessByTrend {
         return stockNNprocessNameArray;
     }
 
-    public void ProcessTrainNeuralNetByTrend(ServiceAFweb serviceAFWeb) {
+    public void ProcessTrainNeuralNeNN2tByTrend(ServiceAFweb serviceAFWeb) {
 //        logger.info("> ProcessTrainNeuralNet ");
 //        if (getEnv.checkLocalPC() != true) {
 //            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {

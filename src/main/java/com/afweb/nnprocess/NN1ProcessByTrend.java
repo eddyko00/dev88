@@ -508,7 +508,7 @@ public class NN1ProcessByTrend {
         return stockNNprocessNameArray;
     }
 
-    public void ProcessTrainNeuralNetByTrend(ServiceAFweb serviceAFWeb) {
+    public void ProcessTrainNeuralNetNN1ByTrend(ServiceAFweb serviceAFWeb) {
 //        logger.info("> ProcessTrainNeuralNet ");
 //        if (getEnv.checkLocalPC() != true) {
 //            if (CKey.SERVERDB_URL.equals(CKey.URL_PATH_HERO) == true) {

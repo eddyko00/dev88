@@ -57,7 +57,7 @@ public class NN1ProcessBySignal {
             return;
         } else if (cntNN == 2) {
             if (flagNN3LearningTrend == true) {
-                nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
+                nntrend.ProcessTrainNeuralNetNN1ByTrend(serviceAFWeb);
             }
             return;
         } else if (cntNN == 3) {
@@ -72,9 +72,10 @@ public class NN1ProcessBySignal {
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        NN1ProcessByTrend nntrend = new NN1ProcessByTrend();
+        NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-
+        NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
+        
         TrandingSignalProcess.forceToGenerateNewNN = false;
         int k = 0;
 
@@ -87,7 +88,7 @@ public class NN1ProcessBySignal {
                 if (ServiceAFweb.nn2testflag == false) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
-                        NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
+                        NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
                     ProcessTrainNeuralNetBySign(serviceAFWeb);
@@ -96,7 +97,7 @@ public class NN1ProcessBySignal {
                 } else if (ServiceAFweb.nn2testflag == true) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
-                        NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
+                        NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 2 cycle " + k);
 
@@ -112,10 +113,10 @@ public class NN1ProcessBySignal {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     processInputNeuralNet(serviceAFWeb);
-                    nntrend.processInputNeuralNetTrend(serviceAFWeb);
+                    nn1trend.processInputNeuralNetTrend(serviceAFWeb);
                     ///////////////////////////////
                     processAllStockInputNeuralNet(serviceAFWeb);
-                    nntrend.processAllNN3StockInputNeuralNetTrend(serviceAFWeb);
+                    nn1trend.processAllNN3StockInputNeuralNetTrend(serviceAFWeb);
                     return;
                 } else if (ServiceAFweb.nn2testflag == true) {
                     exitflag = true;
@@ -130,12 +131,21 @@ public class NN1ProcessBySignal {
 ////////////////////////////////////////////////////////////////////////////
             if (flagNN3LearningTrend == true) {
                 exitflag = false;
-                if (((k % 5) == 0) || (k == 0)) {
-                    NNProcessImp.ClearStockNNinputNameArray(serviceAFWeb, ConstantKey.TR_NN30);
+                if (ServiceAFweb.nn2testflag == false) {
+                    if (((k % 5) == 0) || (k == 0)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN30);
+                    }
+                    logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
+                    nn1trend.ProcessTrainNeuralNetNN1ByTrend(serviceAFWeb);
+                    logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
+                } else if (ServiceAFweb.nn2testflag == true) {
+                    if (((k % 5) == 0) || (k == 0)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN40);
+                    }
+                    logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
+                    nn2trend.ProcessTrainNeuralNeNN2tByTrend(serviceAFWeb);
+                    logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);                    
                 }
-                logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
-                nntrend.ProcessTrainNeuralNetByTrend(serviceAFWeb);
-                logger.info("> ProcessTrainNeuralNet NN 3 end... cycle " + k);
             }
 
 ////////////////////////////////////////////////////////////////////////////          
@@ -2068,7 +2078,7 @@ public class NN1ProcessBySignal {
                 ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
                 int cnt = refData.getnRLCnt();
                 if (cnt < 0) {
-                    cnt =0;                    
+                    cnt = 0;
                 }
                 if (cnt < 90) {
                     cnt += 1;

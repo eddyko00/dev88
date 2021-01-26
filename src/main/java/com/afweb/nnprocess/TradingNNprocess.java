@@ -271,7 +271,7 @@ public class TradingNNprocess {
         return 0;
     }
 
-    public int ClearStockNNinputNameArray(ServiceAFweb serviceAFWeb, String nnName) {
+    public int ClearStockNN_inputNameArray(ServiceAFweb serviceAFWeb, String nnName) {
 //        logger.info("> ClearStockNNinputNameArray ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
