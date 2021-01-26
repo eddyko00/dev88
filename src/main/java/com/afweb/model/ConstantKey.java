@@ -132,7 +132,7 @@ public class ConstantKey {
     public static final int INT_EMA_5 = 5;
     public static final int INT_EMA_10 = 10; 
 
-    public static final int INT_TR_EMA2 = 131;
+    public static final int INT_TR_EMA1 = 131;
 //    public static final int INT_EMA_10 = 10;
     public static final int INT_EMA_20 = 20;     
     

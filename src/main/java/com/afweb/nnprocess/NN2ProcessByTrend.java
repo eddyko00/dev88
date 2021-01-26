@@ -44,7 +44,7 @@ public class NN2ProcessByTrend {
             logger.info("> processInputNeuralNet TR EMA1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA0);
             logger.info("> processInputNeuralNet TR EMA2... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
             
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
@@ -212,10 +212,9 @@ public class NN2ProcessByTrend {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-
             inputList = nn00.trainingNN00_dataEMA0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-        } else if (tr == ConstantKey.INT_TR_EMA2) {
-
+            
+        } else if (tr == ConstantKey.INT_TR_EMA1) {
             inputList = nn00.trainingNN00_dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 

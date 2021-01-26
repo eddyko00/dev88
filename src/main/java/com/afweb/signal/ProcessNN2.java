@@ -212,7 +212,7 @@ public class ProcessNN2 {
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA2);
+        trObj2.setType(ConstantKey.INT_TR_EMA1);
 
         trObj2.setAccount(trObjNN2.getAccount());
         trObj2.setStockid(trObjNN2.getStockid());

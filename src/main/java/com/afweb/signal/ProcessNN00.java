@@ -328,7 +328,7 @@ public class ProcessNN00 {
     }
 
     public ArrayList<NNInputDataObj> trainingNN00_dataEMA1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        return this.ProcessTrainingNN00_dataEMA(serviceAFWeb, sym, StockArray, offset, monthSize, ConstantKey.INT_TR_EMA2);
+        return this.ProcessTrainingNN00_dataEMA(serviceAFWeb, sym, StockArray, offset, monthSize, ConstantKey.INT_TR_EMA1);
 //        TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_10, ConstantKey.INT_EMA_20);
     }
 
