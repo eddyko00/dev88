@@ -158,7 +158,7 @@ public class NN1ProcessBySignal {
                     
                     processAllStockInputNeuralNet(serviceAFWeb);
                     
-                    nn1trend.processAllNN3StockInputNeuralNetTrend(serviceAFWeb);
+                    nn1trend.processAllNN30StockInputNeuralNetTrend(serviceAFWeb);
                     return;
                 } else if (ServiceAFweb.nn2testflag == true) {
                     exitflag = true;
