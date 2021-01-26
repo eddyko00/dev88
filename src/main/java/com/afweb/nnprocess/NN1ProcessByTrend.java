@@ -79,7 +79,7 @@ public class NN1ProcessByTrend {
         logger.info("> processAllStockInputNeuralNetTrend TR MACD... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
 
-        NeuralNetAllStockNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+        NeuralNetAllStockNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
         logger.info("> processAllStockInputNeuralNetTrend TR NN3 end....... ");
 
     }
@@ -410,7 +410,7 @@ public class NN1ProcessByTrend {
         return false;
     }
 
-    public boolean NeuralNetAllStockNN3CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+    public boolean NeuralNetAllStockNN30CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

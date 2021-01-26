@@ -71,7 +71,7 @@ public class NN2ProcessBySignal {
         }
     }
 
-    public void processAllNN40StockInputNeuralNet(ServiceAFweb serviceAFWeb) {
+    public void processAllNN2StockInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
 
 //        logger.info("> processAllNN2StockInputNeuralNet TR ADX1... ");

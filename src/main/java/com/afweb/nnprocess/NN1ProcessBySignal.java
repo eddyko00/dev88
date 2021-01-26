@@ -153,11 +153,9 @@ public class NN1ProcessBySignal {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     processInputNeuralNet(serviceAFWeb);
-                    
-                    nn1trend.processNN30InputNeuralNetTrend(serviceAFWeb);
-                    
                     processAllStockInputNeuralNet(serviceAFWeb);
                     
+                    nn1trend.processNN30InputNeuralNetTrend(serviceAFWeb);
                     nn1trend.processAllNN30StockInputNeuralNetTrend(serviceAFWeb);
                     return;
                 } else if (ServiceAFweb.nn2testflag == true) {
@@ -165,10 +163,12 @@ public class NN1ProcessBySignal {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn2ProcBySig.processNN2InputNeuralNet(serviceAFWeb);
+                    nn2ProcBySig.processAllNN2StockInputNeuralNet(serviceAFWeb);
                     
                     nn2trend.processNN40InputNeuralNetTrend(serviceAFWeb);                    
+                    nn2trend.processAllNN40StockInputNeuralNetTrend(serviceAFWeb);
                     ///////////////////////////////
-                    nn2ProcBySig.processAllNN40StockInputNeuralNet(serviceAFWeb);
+
                     return;
                 }
             }
@@ -467,7 +467,7 @@ public class NN1ProcessBySignal {
 //                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
 //                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
-                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN1_WEIGHT_0");
+                    logger.info(">>> NeuralNetProcessNN1Testing " + BPname + " using NN1_WEIGHT_0");
                 } else {
                     String weightSt = afNeuralNet.getWeight();
                     if ((weightSt == null) || (weightSt.length() == 0)) {
@@ -487,7 +487,7 @@ public class NN1ProcessBySignal {
                             serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                         }
                     }
-                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
+                    logger.info(">>> NeuralNetProcessNN1Testing " + BPname + " using DB");
                 }
             }
 
@@ -585,7 +585,7 @@ public class NN1ProcessBySignal {
             for (int i = 0; i < symbolL.length; i++) {
                 stockNameArray.add(symbolL[i]);
             }
-            logger.info("updateRealTimeStock " + stockNameArray.size());
+            logger.info("AllStockHistoryCreatJavaProcess " + stockNameArray.size());
 
             int sizeyear = 5 * 52 * 5;
             for (int k = 0; k < stockNameArray.size(); k++) {
@@ -641,7 +641,7 @@ public class NN1ProcessBySignal {
                 if (StockArray == null) {
                     continue;
                 }
-                logger.info(">>> AllStockHistoryCreatJava " + symbol + " " + StockArray.size());
+                logger.info(">>> AllStockHistoryCreatJavaProcess " + symbol + " " + StockArray.size());
                 stockInputMap.put(symbol, StockArray);
 
             } // loop for stockNameArray
