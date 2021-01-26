@@ -45,11 +45,7 @@ public class NN2ProcessByTrend {
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
             logger.info("> processInputNeuralNet TR EMA2... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
-//            logger.info("> processInputNeuralNetTrend TR NN1... ");
-//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
-//            logger.info("> processInputNeuralNetTrend TR NN2... ");
-//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN2);
-            // need to debug to generate the java first time
+            
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
             TrandingSignalProcess.forceToErrorNewNN = true;
@@ -198,19 +194,6 @@ public class NN2ProcessByTrend {
     public ArrayList<NNInputDataObj> getTrainingNNtrendProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
 
-//        boolean trainStock = false;
-//        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
-//            String stockN = ServiceAFweb.neuralNetTrainStock[i];
-//            if (stockN.equals(symbol)) {
-//                trainStock = true;
-//                break;
-//            }
-//        }
-//        if (trainStock == false) {
-//            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
-//                return null;
-//            }
-//        }
         ///// just for testing
 //        symbol = "DIA";
         symbol = symbol.replace(".", "_");
@@ -230,10 +213,10 @@ public class NN2ProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
 
-            inputList = nn00.trainingNN00_1dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn00.trainingNN00_dataEMA0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_EMA2) {
 
-            inputList = nn00.trainingNN00_0dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn00.trainingNN00_dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN40;
@@ -886,7 +869,7 @@ public class NN2ProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN00 nn00 = new ProcessNN00();
-            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
+            inputList = nn00.trainingNN00_dataMACD0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
 
 //            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
         }
@@ -1261,7 +1244,7 @@ public class NN2ProcessByTrend {
         return null;
     }
 
-    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryTrendNN30(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryTrendNN40(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
 
         if ((thObjListMACD == null) || (thObjListMV == null)) {
@@ -1313,7 +1296,7 @@ public class NN2ProcessByTrend {
             if (contProcess == true) {
 
                 // setup input parameter in inputList
-                inputList = this.setupInputNN3(i, signal, thObjListMACD, thObjListMV, thObjListRSI);
+                inputList = this.setupInputNN40(i, signal, thObjListMACD, thObjListMV, thObjListRSI);
                 if (inputList == null) {
                     continue;
                 }
@@ -1426,7 +1409,7 @@ public class NN2ProcessByTrend {
 
     }
 
-    private NNInputOutObj setupInputNN3(int i, int signal, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
+    private NNInputOutObj setupInputNN40(int i, int signal, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
         NNInputOutObj inputList = new NNInputOutObj();
         inputList = TradingNNprocess.getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
         if (inputList == null) {

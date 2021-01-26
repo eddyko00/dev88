@@ -230,10 +230,10 @@ public class NN1ProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
 
-            inputList = nn00.trainingNN00_1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn00.trainingNN00_dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_MACD) {
 
-            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn00.trainingNN00_dataMACD0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN30;
@@ -897,7 +897,7 @@ public class NN1ProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN00 nn00 = new ProcessNN00();
-            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
+            inputList = nn00.trainingNN00_dataMACD0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
 
 //            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
         }
@@ -1324,7 +1324,7 @@ public class NN1ProcessByTrend {
             if (contProcess == true) {
 
                 // setup input parameter in inputList
-                inputList = this.setupInputNN3(i, signal, thObjListMACD, thObjListMV, thObjListRSI);
+                inputList = this.setupInputNN30(i, signal, thObjListMACD, thObjListMV, thObjListRSI);
                 if (inputList == null) {
                     continue;
                 }
@@ -1437,7 +1437,7 @@ public class NN1ProcessByTrend {
 
     }
 
-    private NNInputOutObj setupInputNN3(int i, int signal, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
+    private NNInputOutObj setupInputNN30(int i, int signal, ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI) {
         NNInputOutObj inputList = new NNInputOutObj();
         inputList = TradingNNprocess.getNNnormalizeInput(i, thObjListMACD, thObjListMV, thObjListRSI);
         if (inputList == null) {

@@ -191,8 +191,8 @@ public class ConstantKey {
     public static final String TR_NN200 = "TR_NN200";
     public static final int INT_TR_NN200 = 200;
 
-    public static final String TR_NN100 = "TR_NN100"; //NN for MV
-    public static final int INT_TR_NN100 = 100;
+//    public static final String TR_NN100 = "TR_NN100"; //NN for MV
+//    public static final int INT_TR_NN100 = 100;
 
     public static final String TR_MACD0 = "TR_MACD0";
     public static final int INT_TR_MACD0 = 102;
