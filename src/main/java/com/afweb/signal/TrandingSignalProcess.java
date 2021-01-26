@@ -1083,7 +1083,7 @@ public class TrandingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_EMA0:
                     // check if signal to buy or sell
-                    EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+                    EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
                     trObj.setTrsignal(ema510.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
                     trHistory.setParm1((float) ema510.ema);
@@ -1091,12 +1091,20 @@ public class TrandingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_EMA1:
                     // check if signal to buy or sell
-                    EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_10, ConstantKey.INT_EMA_20);
+                    EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
                     trObj.setTrsignal(ema1020.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
                     trHistory.setParm1((float) ema1020.ema);
                     trHistory.setParm2((float) ema1020.lastema);
                     break;
+                case ConstantKey.INT_TR_EMA2:
+                    // check if signal to buy or sell
+                    EMAObj ema816 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_8, ConstantKey.INT_EMA_16);
+                    trObj.setTrsignal(ema816.trsignal);
+                    trHistory.setTrsignal(trObj.getTrsignal());
+                    trHistory.setParm1((float) ema816.ema);
+                    trHistory.setParm2((float) ema816.lastema);
+                    break;                    
                 case ConstantKey.INT_TR_MACD: {
                     MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
                     trObj.setTrsignal(macd.trsignal);
@@ -1124,6 +1132,15 @@ public class TrandingSignalProcess {
                     trHistory.setParm3((float) macd.diff);
                     break;
                 }
+                case ConstantKey.INT_TR_MACD2: {
+                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+                    trObj.setTrsignal(macd.trsignal);
+                    trHistory.setTrsignal(trObj.getTrsignal());
+                    trHistory.setParm1((float) macd.macd);
+                    trHistory.setParm2((float) macd.signal);
+                    trHistory.setParm3((float) macd.diff);
+                    break;
+                }                
                 case ConstantKey.INT_TR_RSI:
                     RSIObj rsi = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
                     trObj.setTrsignal(rsi.trsignal);
@@ -1139,16 +1156,16 @@ public class TrandingSignalProcess {
                         prevSignal = nn1Signal;
                     }
                     break;
-                case ConstantKey.INT_TR_BB:
-                    BBObj bbObj = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
-
-                    trObj.setTrsignal(bbObj.trsignal);
-                    trHistory.setTrsignal(trObj.getTrsignal());
-                    trHistory.setParm1((float) bbObj.lowerBand);
-                    trHistory.setParm2((float) bbObj.upperBand);
-                    trHistory.setParm3((float) bbObj.rsiValue);
-
-                    break;
+//                case ConstantKey.INT_TR_BB:
+//                    BBObj bbObj = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
+//
+//                    trObj.setTrsignal(bbObj.trsignal);
+//                    trHistory.setTrsignal(trObj.getTrsignal());
+//                    trHistory.setParm1((float) bbObj.lowerBand);
+//                    trHistory.setParm2((float) bbObj.upperBand);
+//                    trHistory.setParm3((float) bbObj.rsiValue);
+//
+//                    break;
 //                case ConstantKey.INT_TR_ADX1:
 ////                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
 //                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_5);
@@ -1263,11 +1280,11 @@ public class TrandingSignalProcess {
                     trObj.setTrsignal(macd1.trsignal);
                     UpdateTRList.add(trObj);
                     break;
-//                case ConstantKey.INT_TR_MACD2:
-//                    MACDObj macd2 = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
-//                    trObj.setTrsignal(macd2.trsignal);
-//                    UpdateTRList.add(trObj);
-//                    break;
+                case ConstantKey.INT_TR_MACD2:
+                    MACDObj macd2 = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+                    trObj.setTrsignal(macd2.trsignal);
+                    UpdateTRList.add(trObj);
+                    break;
                 case ConstantKey.INT_TR_RSI:
                     RSIObj rsi = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
                     trObj.setTrsignal(rsi.trsignal);

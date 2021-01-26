@@ -180,7 +180,7 @@ public class NN1ProcessBySignal {
                 AllStockHistoryCreatJava(serviceAFWeb, symbolL, "nnAllStock", "NN_ALLSTOCK");
 
                 String symbolLallSt[] = ServiceAFweb.allStock;
-                AllStockHistoryCreatJava(serviceAFWeb, symbolLallSt, "nn1AllStock", "NN_1ALLSTOCK");
+                AllStockHistoryCreatJava(serviceAFWeb, symbolLallSt, "nnAllStock1", "NN_1ALLSTOCK");
 
                 return;
             }
@@ -208,9 +208,9 @@ public class NN1ProcessBySignal {
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> processInputNeuralNet TR MACD1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-            logger.info("> processInputNeuralNet TR MACD... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1); // normal 
+            logger.info("> processInputNeuralNet TR MACD2... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2); // slow 
             // need to debug to generate the java first time
             TrandingSignalProcess.forceToGenerateNewNN = true;
 
@@ -237,8 +237,8 @@ public class NN1ProcessBySignal {
 
         logger.info("> processAllStockInputNeuralNet TR MACD1... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-        logger.info("> processAllStockInputNeuralNet TR MACD... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
+        logger.info("> processAllStockInputNeuralNet TR MACD2... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2);
         NeuralNetAllStockCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
         logger.info("> processAllStockInputNeuralNet TR NN1 end....... ");
 
@@ -324,8 +324,8 @@ public class NN1ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-        } else if (tr == ConstantKey.INT_TR_MACD) {
+            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+        } else if (tr == ConstantKey.INT_TR_MACD2) {
 
             ProcessNN1 nn1 = new ProcessNN1();
             inputList = nn1.trainingNN1dataMACD2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
@@ -395,7 +395,7 @@ public class NN1ProcessBySignal {
 
         if (getEnv.checkLocalPC() == true) {
             String nn12 = "_nn1_";
-            if (tr == ConstantKey.INT_TR_MACD) {
+            if (tr == ConstantKey.INT_TR_MACD2) {
                 nn12 = "_nn2_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
@@ -1150,7 +1150,7 @@ public class NN1ProcessBySignal {
                     ///
                     + ""
             );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nnData.java";
+            fileN = ServiceAFweb.FileLocalDebugPath + "nn1Data.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -1218,7 +1218,7 @@ public class NN1ProcessBySignal {
                     ///
                     + ""
             );
-            String fileN = ServiceAFweb.FileLocalDebugPath + "nnAllData.java";
+            String fileN = ServiceAFweb.FileLocalDebugPath + "nn1AllData.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -1455,7 +1455,7 @@ public class NN1ProcessBySignal {
                 boolean flag = true;
                 if (flag == true) {
                     inputlistSym1 = getTrainingNNdataStockMACD(serviceAFWeb, symbol, ConstantKey.INT_TR_MACD1, 0);
-                    inputlistSym2 = getTrainingNNdataStockMACD(serviceAFWeb, symbol, ConstantKey.INT_TR_MACD, 0);
+                    inputlistSym2 = getTrainingNNdataStockMACD(serviceAFWeb, symbol, ConstantKey.INT_TR_MACD2, 0);
                 }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
@@ -1767,8 +1767,8 @@ public class NN1ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
-        } else if (tr == ConstantKey.INT_TR_MACD) {
+            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
+        } else if (tr == ConstantKey.INT_TR_MACD2) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date

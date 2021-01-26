@@ -110,7 +110,7 @@ public class ProcessNN3 {
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         trObjMACD1.setTrname(ConstantKey.TR_MACD);
-        trObjMACD1.setType(ConstantKey.INT_TR_MACD);
+        trObjMACD1.setType(ConstantKey.INT_TR_MACD2);
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());

@@ -128,13 +128,20 @@ public class ConstantKey {
     public static final int INT_MV_20 = 20;
     public static final int INT_MV_50 = 50; //50;
 
-    public static final int INT_TR_EMA0 = 130;
+    public static final int INT_TR_EMA0 = 130;  // fast
     public static final int INT_EMA_5 = 5;
-    public static final int INT_EMA_10 = 10; 
-
-    public static final int INT_TR_EMA1 = 131;
+    public static final int INT_EMA_10 = 10;
+    public static final int INT_EMA_3 = 6;    
+    public static final int INT_EMA_4 = 4;
+    public static final int INT_EMA_8 = 8;
+    public static final int INT_TR_EMA1 = 131;  // normal
 //    public static final int INT_EMA_10 = 10;
-    public static final int INT_EMA_20 = 20;     
+    public static final int INT_EMA_20 = 20;
+    public static final int INT_EMA_6 = 6;
+    public static final int INT_EMA_12 = 12;
+    
+    public static final int INT_TR_EMA2 = 132;  // slow
+    public static final int INT_EMA_16 = 16;    
     
     public static final String TR_MACD = "TR_MACD";
     public static final int INT_TR_MACD = 2;
@@ -150,15 +157,12 @@ public class ConstantKey {
 //    public static final int INT_RSI_5 = 5;    
 //    public static final int INT_TR_RSI2 = 111;
 //    public static final int INT_RSI_7 = 7;
-
-    
 //    public static final String TR_ADX = "TR_ACX";
 //    public static final int INT_TR_ADX1 = 120;
 //    public static final int INT_ADX_5 = 5;    
 //    public static final int INT_ADX_7 = 7;      
 //    public static final int INT_TR_ADX2 = 121;
 //    public static final int INT_ADX_14 = 14;    
-
     public static final String TR_NN1 = "TR_NN1"; //NN for MACD fast
     public static final int INT_TR_NN1 = 4;
 
@@ -167,11 +171,11 @@ public class ConstantKey {
 
     public static final String TR_NN3 = "TR_NN3"; //NN for 
     public static final int INT_TR_NN3 = 6;
-    
+
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final int SIZE_TR = 7;
-    
+
     public static final String TR_BB = "TR_BB"; //NN for 
     public static final int INT_TR_BB = 12;
     public static final int INT_BB_M_20 = 20;
@@ -180,12 +184,11 @@ public class ConstantKey {
     public static final int INT_BB_M_5 = 5;
     public static final int INT_BB_SD_1 = 1;
 
-    
     public static final String TR_NN30 = "TR_NN30"; //NN for Trend 
-    public static final int INT_TR_NN30 = 30;    
-    
+    public static final int INT_TR_NN30 = 30;
+
     public static final String TR_NN40 = "TR_NN40"; //NN2 for Trend 
-    public static final int INT_TR_NN40 = 40;       
+    public static final int INT_TR_NN40 = 40;
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final String TR_NN200 = "TR_NN200";
@@ -193,7 +196,6 @@ public class ConstantKey {
 
 //    public static final String TR_NN100 = "TR_NN100"; //NN for MV
 //    public static final int INT_TR_NN100 = 100;
-
     public static final String TR_MACD0 = "TR_MACD0";
     public static final int INT_TR_MACD0 = 102;
     public static final int INT_MACD0_3 = 3;
@@ -205,6 +207,8 @@ public class ConstantKey {
     public static final int INT_MACD1_6 = 6;
     public static final int INT_MACD1_12 = 12;
     public static final int INT_MACD1_4 = 4;
+
+    public static final int INT_TR_MACD2 = 103;
 
     public static int getTRtypeByName(String trname) {
         trname = trname.toUpperCase();

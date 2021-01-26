@@ -47,7 +47,7 @@ public class ProcessNN1 {
         //trainingNN1dataMACD will return oldest first to new date
         //trainingNN1dataMACD will return oldest first to new date
         ProcessNN1 nn1 = new ProcessNN1();
-        inputList = nn1.trainingNN1dataMACD(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
             // it is okay for input relearning
@@ -143,7 +143,7 @@ public class ProcessNN1 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> trainingNN1dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+    public ArrayList<NNInputDataObj> trainingNN1dataMACD1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN ");
@@ -160,9 +160,8 @@ public class ProcessNN1 {
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         trObjMACD1.setTrname(ConstantKey.TR_MACD1);
         trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
-//    public static final int INT_MACD1_6 = 6;
-//    public static final int INT_MACD1_12 = 12;
-//    public static final int INT_MACD1_4 = 4; 
+        // ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4
+        // Normal
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
@@ -213,11 +212,10 @@ public class ProcessNN1 {
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         trObjMACD1.setTrname(ConstantKey.TR_MACD);
-        trObjMACD1.setType(ConstantKey.INT_TR_MACD);
+        trObjMACD1.setType(ConstantKey.INT_TR_MACD2);
+        // MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+        // Slow
 
-//    public static final int INT_MACD_12 = 12;
-//    public static final int INT_MACD_26 = 26;
-//    public static final int INT_MACD_9 = 9;
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
 
@@ -568,6 +566,8 @@ public class ProcessNN1 {
                     StockPredArray.add(0, AFstockI);
                 }
                 // MACD1
+                // MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+                // Normal                
                 MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 int macdSignal = macdNN.trsignal;
 

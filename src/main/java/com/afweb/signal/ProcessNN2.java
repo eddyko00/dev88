@@ -46,7 +46,8 @@ public class ProcessNN2 {
         //trainingNN1dataMACD will return oldest first to new date
         ProcessNN2 nn2 = new ProcessNN2();
 //        inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
-        inputList = nn2.trainingNN2dataEMA0(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        // alway use normal
 
         if (inputList.size() == 0) {
             // it is okay for input relearning
@@ -149,7 +150,7 @@ public class ProcessNN2 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> trainingNN2dataEMA0(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+    public ArrayList<NNInputDataObj> trainingNN2dataEMA2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN2 ");
 
@@ -164,9 +165,8 @@ public class ProcessNN2 {
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA0);
-//        TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
-      
+        trObj2.setType(ConstantKey.INT_TR_EMA2);
+        // slow
 
         trObj2.setAccount(trObjNN2.getAccount());
         trObj2.setStockid(trObjNN2.getStockid());
@@ -214,7 +214,7 @@ public class ProcessNN2 {
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
         trObj2.setType(ConstantKey.INT_TR_EMA1);
-//        TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_10, ConstantKey.INT_EMA_20);
+        // normal
 
         trObj2.setAccount(trObjNN2.getAccount());
         trObj2.setStockid(trObjNN2.getStockid());
@@ -701,7 +701,7 @@ public class ProcessNN2 {
                     StockPredArray.add(0, AFstockI);
                 }
 
-                EMAObj ema510 = TechnicalCal.EMASignal(StockPredArray, 0, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+                EMAObj ema510 = TechnicalCal.EMASignal(StockPredArray, 0, ConstantKey.INT_EMA_6, ConstantKey.INT_EMA_12);
                 int macdSignal = ema510.trsignal;
 
 //                // MACD1

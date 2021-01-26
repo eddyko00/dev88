@@ -43,8 +43,8 @@ public class NN1ProcessByTrend {
             TrandingSignalProcess.forceToGenerateNewNN = false;
             logger.info("> processInputTrend TR MACD1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-            logger.info("> processInputTrend TR MACD... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
+            logger.info("> processInputTrend TR MACD0... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD0);
 //            logger.info("> processInputNeuralNetTrend TR NN1... ");
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
 //            logger.info("> processInputNeuralNetTrend TR NN2... ");
@@ -76,8 +76,8 @@ public class NN1ProcessByTrend {
 
         logger.info("> processAllStockInputNeuralNetTrend TR MACD1... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-        logger.info("> processAllStockInputNeuralNetTrend TR MACD... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
+        logger.info("> processAllStockInputNeuralNetTrend TR MACD0... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD0);
 
         NeuralNetAllStockNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
         logger.info("> processAllStockInputNeuralNetTrend TR NN3 end....... ");
@@ -231,9 +231,10 @@ public class NN1ProcessByTrend {
             //trainingNN1dataMACD will return oldest first to new date            
 
             inputList = nn00.trainingNN00_dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            
-        } else if (tr == ConstantKey.INT_TR_MACD) {
+            // normal 
+        } else if (tr == ConstantKey.INT_TR_MACD0) {
             inputList = nn00.trainingNN00_dataMACD0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            // fast
         }
 
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN30;
@@ -301,7 +302,7 @@ public class NN1ProcessByTrend {
 
         if (getEnv.checkLocalPC() == true) {
             String nn12 = "_nn301_";
-            if (tr == ConstantKey.INT_TR_MACD) {
+            if (tr == ConstantKey.INT_TR_MACD0) {
                 nn12 = "_nn302_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";

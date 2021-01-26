@@ -261,11 +261,13 @@ public class ProcessNN00 {
     public ArrayList<NNInputDataObj> trainingNN00_dataMACD0(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         return this.ProcessTrainingNN00_dataMACD(serviceAFWeb, sym, StockArray, offset, monthSize, ConstantKey.INT_TR_MACD0);
 //        MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD0_3, ConstantKey.INT_MACD0_6, ConstantKey.INT_MACD0_2);
+//        Fast        
     }
 
     public ArrayList<NNInputDataObj> trainingNN00_dataMACD1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         return this.ProcessTrainingNN00_dataMACD(serviceAFWeb, sym, StockArray, offset, monthSize, ConstantKey.INT_TR_MACD1);
 //        MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+//        Normal
     }
 
     private ArrayList<NNInputDataObj> ProcessTrainingNN00_dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize, int type) {
@@ -285,9 +287,7 @@ public class ProcessNN00 {
         // TR_NN1
         trObjMACD1.setTrname(ConstantKey.TR_MACD);
         trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
-//    public static final int INT_MACD1_6 = 6;
-//    public static final int INT_MACD1_12 = 12;
-//    public static final int INT_MACD1_4 = 4;
+        //ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());

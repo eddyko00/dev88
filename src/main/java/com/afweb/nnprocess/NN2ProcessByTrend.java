@@ -283,7 +283,7 @@ public class NN2ProcessByTrend {
 
         if (getEnv.checkLocalPC() == true) {
             String nn12 = "_nn41_";
-            if (tr == ConstantKey.INT_TR_MACD) {
+            if (tr == ConstantKey.INT_TR_MACD2) {
                 nn12 = "_nn42_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
