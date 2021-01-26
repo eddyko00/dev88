@@ -52,15 +52,15 @@ public class NN2ProcessByTrend {
             // start training
             // TrainingNNBP inputpattern 1748
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+            NeuralNetNN40CreatJava(serviceAFWeb, ConstantKey.TR_NN40);
 
             TrandingSignalProcess.forceToGenerateNewNN = false;
             // start training
             // TrainingNNBP inputpattern 1748
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+            NeuralNetNN40CreatJava(serviceAFWeb, ConstantKey.TR_NN40);
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+            NeuralNetNN40CreatJava(serviceAFWeb, ConstantKey.TR_NN40);
             logger.info("> processInputNeuralNetTrend TR NN3 end....... ");
 
         }
@@ -68,14 +68,14 @@ public class NN2ProcessByTrend {
         ////////////////////////////////////////////
     }
 
-    public void processAllNN3StockInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
+    public void processAllNN40StockInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
 
-        logger.info("> processAllStockInputNeuralNetTrend TR MACD1... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-        logger.info("> processAllStockInputNeuralNetTrend TR MACD... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD);
+        logger.info("> processAllStockInputNeuralNetTrend TR EMA1... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
+        logger.info("> processAllStockInputNeuralNetTrend TR EMA0... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA0);
 
-        NeuralNetAllStockNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+        NeuralNetAllStockNN40CreatJava(serviceAFWeb, ConstantKey.TR_NN40);
         logger.info("> processAllStockInputNeuralNetTrend TR NN3 end....... ");
 
     }
@@ -92,9 +92,9 @@ public class NN2ProcessByTrend {
         boolean initTrainNeuralNet = true;
         if (initTrainNeuralNet == true) {
 
-            double errorNN = CKey.NN30_ERROR_THRESHOLD;
-            String nnName = ConstantKey.TR_NN30;
-
+            double errorNN = CKey.NN40_ERROR_THRESHOLD;
+            String nnName = ConstantKey.TR_NN40;
+            
             String BPname = CKey.NN_version + "_" + nnName;
 
             boolean flagInit = true;
@@ -109,14 +109,14 @@ public class NN2ProcessByTrend {
                     Calendar dateDefault = TimeConvertion.getDefaultCalendar();
                     afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                     afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
-                    String weightSt = (CKey.NN30_WEIGHT_0);
+                    String weightSt = (CKey.NN40_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
 
 //                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
 //                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
 
-                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN30_WEIGHT_0");
+                    logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN40_WEIGHT_0");
                 } else {
                     String weightSt = afNeuralNet.getWeight();
                     if ((weightSt == null) || (weightSt.length() == 0)) {
@@ -299,7 +299,7 @@ public class NN2ProcessByTrend {
         return inputList;
     }
 
-    public boolean NeuralNetNN3CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+    public boolean NeuralNetNN40CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -320,7 +320,7 @@ public class NN2ProcessByTrend {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nn4Data {\n"
+                    + "public class nn40Data {\n"
                     + "\n"
                     + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
@@ -384,7 +384,7 @@ public class NN2ProcessByTrend {
                     ///
                     + ""
             );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nn4Data.java";
+            fileN = ServiceAFweb.FileLocalDebugPath + "nn40Data.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -392,7 +392,7 @@ public class NN2ProcessByTrend {
         return false;
     }
 
-    public boolean NeuralNetAllStockNN3CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+    public boolean NeuralNetAllStockNN40CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -406,7 +406,7 @@ public class NN2ProcessByTrend {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nn4AllData {\n"
+                    + "public class nn40AllData {\n"
                     + "\n");
             int sizeline = 1000;
             int len = inputListSt.length();
@@ -451,7 +451,7 @@ public class NN2ProcessByTrend {
                     ///
                     + ""
             );
-            String fileN = ServiceAFweb.FileLocalDebugPath + "nn4AllData.java";
+            String fileN = ServiceAFweb.FileLocalDebugPath + "nn40AllData.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -681,7 +681,7 @@ public class NN2ProcessByTrend {
         if (nnsym == true) {
             int totalAdd = 0;
             int totalDup = 0;
-            String nnName = ConstantKey.TR_NN30;
+            String nnName = ConstantKey.TR_NN40;
 
             String nnNameSym = nnName + "_" + symbol;
 
@@ -701,20 +701,20 @@ public class NN2ProcessByTrend {
 
                 String middlelayer = "";
                 String version = "";
-                if (TR_Name == ConstantKey.INT_TR_NN30) {
-                    if (CKey.NN30_WEIGHT_0.length() == 0) {
+                if (TR_Name == ConstantKey.INT_TR_NN40) {
+                    if (CKey.NN40_WEIGHT_0.length() == 0) {
                         return 0;
                     }
-                    nnTemp.createNet(CKey.NN30_WEIGHT_0);
+                    nnTemp.createNet(CKey.NN40_WEIGHT_0);
                     String weightSt = nnTemp.getNetObjSt();
-                    String[] strNetArray = CKey.NN30_WEIGHT_0.split(";");
+                    String[] strNetArray = CKey.NN40_WEIGHT_0.split(";");
                     version = strNetArray[0];
                     middlelayer = strNetArray[4];
                 }
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
-                inputlistSym = getTrainingNN3dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN30, 0);
+                inputlistSym = getTrainingNN3dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN40, 0);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
@@ -862,13 +862,13 @@ public class NN2ProcessByTrend {
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
-        if (tr == ConstantKey.INT_TR_NN30) {
+        if (tr == ConstantKey.INT_TR_NN40) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN00 nn00 = new ProcessNN00();
-            inputList = nn00.trainingNN00_dataMACD0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
+            inputList = nn00.trainingNN00_dataEMA0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
 
 //            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
         }
