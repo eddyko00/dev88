@@ -34,7 +34,7 @@ public class NN1ProcessByTrend {
 
     public static Logger logger = Logger.getLogger("NNProcessStock");
 
-    public void processInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
+    public void processNN30InputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
         boolean flagIntitNN3Input = true;
         if (flagIntitNN3Input == true) {

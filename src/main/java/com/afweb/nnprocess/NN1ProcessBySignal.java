@@ -113,9 +113,11 @@ public class NN1ProcessBySignal {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     processInputNeuralNet(serviceAFWeb);
-                    nn1trend.processInputNeuralNetTrend(serviceAFWeb);
-                    ///////////////////////////////
+                    
+                    nn1trend.processNN30InputNeuralNetTrend(serviceAFWeb);
+                    
                     processAllStockInputNeuralNet(serviceAFWeb);
+                    
                     nn1trend.processAllNN3StockInputNeuralNetTrend(serviceAFWeb);
                     return;
                 } else if (ServiceAFweb.nn2testflag == true) {
@@ -123,6 +125,8 @@ public class NN1ProcessBySignal {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn2ProcBySig.processNN2InputNeuralNet(serviceAFWeb);
+                    
+                    nn2trend.processNN40InputNeuralNetTrend(serviceAFWeb);                    
                     ///////////////////////////////
                     nn2ProcBySig.processAllNN2StockInputNeuralNet(serviceAFWeb);
                     return;
