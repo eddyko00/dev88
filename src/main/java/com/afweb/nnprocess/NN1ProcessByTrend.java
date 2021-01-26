@@ -56,15 +56,15 @@ public class NN1ProcessByTrend {
             // start training
             // TrainingNNBP inputpattern 1748
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+            NeuralNetNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
 
             TrandingSignalProcess.forceToGenerateNewNN = false;
             // start training
             // TrainingNNBP inputpattern 1748
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+            NeuralNetNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
             NeuralNetProcessTesting(serviceAFWeb);
-            NeuralNetNN3CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+            NeuralNetNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
             logger.info("> processInputNeuralNetTrend TR NN3 end....... ");
 
         }
@@ -317,7 +317,7 @@ public class NN1ProcessByTrend {
         return inputList;
     }
 
-    public boolean NeuralNetNN3CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+    public boolean NeuralNetNN30CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -338,7 +338,7 @@ public class NN1ProcessByTrend {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nn3Data {\n"
+                    + "public class nn30Data {\n"
                     + "\n"
                     + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
@@ -402,7 +402,7 @@ public class NN1ProcessByTrend {
                     ///
                     + ""
             );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nn3Data.java";
+            fileN = ServiceAFweb.FileLocalDebugPath + "nn30Data.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -424,7 +424,7 @@ public class NN1ProcessByTrend {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nn3AllData {\n"
+                    + "public class nn30AllData {\n"
                     + "\n");
             int sizeline = 1000;
             int len = inputListSt.length();
@@ -469,7 +469,7 @@ public class NN1ProcessByTrend {
                     ///
                     + ""
             );
-            String fileN = ServiceAFweb.FileLocalDebugPath + "nn3AllData.java";
+            String fileN = ServiceAFweb.FileLocalDebugPath + "nn30AllData.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -743,7 +743,7 @@ public class NN1ProcessByTrend {
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
-                inputlistSym = getTrainingNN3dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN30, 0);
+                inputlistSym = getTrainingNN30dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_NN30, 0);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
@@ -883,7 +883,7 @@ public class NN1ProcessByTrend {
 
     }
 
-    public ArrayList<NNInputDataObj> getTrainingNN3dataStock(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
+    public ArrayList<NNInputDataObj> getTrainingNN30dataStock(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> trainingNN ");
         int size1yearAll = 20 * 12 * 2 + (50 * 3);
 
