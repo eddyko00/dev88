@@ -1649,17 +1649,17 @@ public class NN1ProcessBySignal {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nnData.NN_INPUTLIST1);
-            inputBuf.append(nnData.NN_INPUTLIST2);
-            inputBuf.append(nnData.NN_INPUTLIST3);
-            inputBuf.append(nnData.NN_INPUTLIST4);
-            inputBuf.append(nnData.NN_INPUTLIST5);
-            inputBuf.append(nnData.NN_INPUTLIST6);
-            inputBuf.append(nnData.NN_INPUTLIST7);
-            inputBuf.append(nnData.NN_INPUTLIST8);
-            inputBuf.append(nnData.NN_INPUTLIST9); //need to check nnData file
-            inputBuf.append(nnData.NN_INPUTLIST10);
-//            inputBuf.append(nnData.NN_INPUTLIST11); //need to check nnData file
+            inputBuf.append(nn1Data.NN_INPUTLIST1);
+            inputBuf.append(nn1Data.NN_INPUTLIST2);
+            inputBuf.append(nn1Data.NN_INPUTLIST3);
+            inputBuf.append(nn1Data.NN_INPUTLIST4);
+            inputBuf.append(nn1Data.NN_INPUTLIST5);
+            inputBuf.append(nn1Data.NN_INPUTLIST6);
+            inputBuf.append(nn1Data.NN_INPUTLIST7);
+            inputBuf.append(nn1Data.NN_INPUTLIST8);
+            inputBuf.append(nn1Data.NN_INPUTLIST9); //need to check nn1Data file
+            inputBuf.append(nn1Data.NN_INPUTLIST10);
+//            inputBuf.append(nn1Data.NN_INPUTLIST11); //need to check nn1Data file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -1707,14 +1707,14 @@ public class NN1ProcessBySignal {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST1);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST2);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST3);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST4);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST5);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST6);
-            inputBuf.append(nnAllData.NN_ALLINPUTLIST7);
-//            inputBuf.append(nnAllData.NN_ALLINPUTLIST8); //need to check nnData file
+            inputBuf.append(nn1AllData.NN_ALLINPUTLIST1);
+            inputBuf.append(nn1AllData.NN_ALLINPUTLIST2);
+            inputBuf.append(nn1AllData.NN_ALLINPUTLIST3);
+            inputBuf.append(nn1AllData.NN_ALLINPUTLIST4);
+            inputBuf.append(nn1AllData.NN_ALLINPUTLIST5);
+//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST6);
+//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST7);
+//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST8); //need to check nnData file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
