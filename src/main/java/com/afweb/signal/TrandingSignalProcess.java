@@ -834,7 +834,7 @@ public class TrandingSignalProcess {
             }
 
         }
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
         if (nnObj0 == null) {
             return false;
         }
