@@ -1104,7 +1104,7 @@ public class TrandingSignalProcess {
                     trHistory.setTrsignal(trObj.getTrsignal());
                     trHistory.setParm1((float) ema816.ema);
                     trHistory.setParm2((float) ema816.lastema);
-                    break;                    
+                    break;
                 case ConstantKey.INT_TR_MACD: {
                     MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
                     trObj.setTrsignal(macd.trsignal);
@@ -1122,7 +1122,7 @@ public class TrandingSignalProcess {
                     trHistory.setParm2((float) macd.signal);
                     trHistory.setParm3((float) macd.diff);
                     break;
-                }                
+                }
                 case ConstantKey.INT_TR_MACD1: {    //normal
                     MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                     trObj.setTrsignal(macd.trsignal);
@@ -1141,7 +1141,7 @@ public class TrandingSignalProcess {
                     trHistory.setParm2((float) macd.signal);
                     trHistory.setParm3((float) macd.diff);
                     break;
-                }                
+                }
                 case ConstantKey.INT_TR_RSI:
                     RSIObj rsi = TechnicalCal.RSI(StockArray, offset, ConstantKey.INT_RSI_14);
                     trObj.setTrsignal(rsi.trsignal);
@@ -1157,48 +1157,17 @@ public class TrandingSignalProcess {
                         prevSignal = nn1Signal;
                     }
                     break;
-//                case ConstantKey.INT_TR_BB:
-//                    BBObj bbObj = TechnicalCal.BBSignal(StockArray, offset, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);
-//
-//                    trObj.setTrsignal(bbObj.trsignal);
-//                    trHistory.setTrsignal(trObj.getTrsignal());
-//                    trHistory.setParm1((float) bbObj.lowerBand);
-//                    trHistory.setParm2((float) bbObj.upperBand);
-//                    trHistory.setParm3((float) bbObj.rsiValue);
-//
-//                    break;
-//                case ConstantKey.INT_TR_ADX1:
-////                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
-//                    ADXObj adxObj1 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_5);
-//                    trObj.setTrsignal(adxObj1.trsignal);
-//                    trHistory.setTrsignal(trObj.getTrsignal());
-//                    trHistory.setParm1((float) adxObj1.adx);
-//                    break;
-//
-//                case ConstantKey.INT_TR_ADX2:
-//                    ADXObj adxObj2 = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_14);
-//                    trObj.setTrsignal(adxObj2.trsignal);
-//                    trHistory.setTrsignal(trObj.getTrsignal());
-//                    trHistory.setParm1((float) adxObj2.adx);
-//                    break;
                 case ConstantKey.INT_TR_NN2:
 
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
                         ProcessNN2 nn2 = new ProcessNN2();
+//                        if (ServiceAFweb.mydebugtestflag == true) {
+//                            logger.info(">ProcessTRHistoryOffset NN2 " + offset);
+//                        }
                         int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn2Signal;
 
-                        if (ServiceAFweb.mydebugtestflag == true) {
-                            AFstockInfo stocktmp = null;
-                            if (offset < 47) {
-                                stocktmp = null;
-                            }
-                            stocktmp = (AFstockInfo) StockArray.get(offset);
-                            logger.info("> NN2 " + stocktmp.getEntrydatedisplay() + " " + offset + " - "
-                                    + ", " + trHistory.getTrsignal() + ", " + trHistory.getParm1() + ", " + trHistory.getParm2()
-                                    + ", " + trHistory.getParm3() + ", " + trHistory.getParm4() + ", " + trHistory.getParm5());
-                        }
                     }
                     break;
 
@@ -1981,7 +1950,7 @@ public class TrandingSignalProcess {
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
-                if (nnName.equals(ConstantKey.TR_NN40)) {
+        if (nnName.equals(ConstantKey.TR_NN40)) {
 
             String nnIndex = "_nn401_";
 
@@ -2010,8 +1979,8 @@ public class TrandingSignalProcess {
             }
 
             return inputDatalist;
-        } 
-                
+        }
+
         if (nnName.equals(ConstantKey.TR_NN30)) {
 
             String nnIndex = "_nn301_";
@@ -2041,7 +2010,7 @@ public class TrandingSignalProcess {
             }
 
             return inputDatalist;
-        } 
+        }
 
         if (nnName.equals(ConstantKey.TR_NN2)) {
 
@@ -2230,10 +2199,12 @@ public class TrandingSignalProcess {
 
     public static AFneuralNet nn1ObjCache = null;
     public static AFneuralNet nn2ObjCache = null;
-    public static AFneuralNet nn3ObjCache = null;
+    public static AFneuralNet nn30ObjCache = null;
+    public static AFneuralNet nn40ObjCache = null;
     public static long lastUpdateTime1 = 0;
     public static long lastUpdateTime2 = 0;
-    public static long lastUpdateTime3 = 0;
+    public static long lastUpdateTime30 = 0;
+    public static long lastUpdateTime40 = 0;
 
     public int OutputNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
         double[][] inputpattern = null;
@@ -2289,14 +2260,14 @@ public class TrandingSignalProcess {
                 nn2ObjCache = nnObj1;
                 lastUpdateTime2 = System.currentTimeMillis();
             }
-        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN30)) {
-            if (nn3ObjCache != null) {
-                if (nn3ObjCache.getName().equals(name)) {
+        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN40)) {
+            if (nn40ObjCache != null) {
+                if (nn40ObjCache.getName().equals(name)) {
 
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime3, 10);
+                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime40, 10);
                     long currentTime = System.currentTimeMillis();
                     if (date5Min > currentTime) {
-                        nnObj1 = nn3ObjCache;
+                        nnObj1 = nn40ObjCache;
                     }
                 }
             }
@@ -2306,8 +2277,34 @@ public class TrandingSignalProcess {
                 if (nnObj1 == null) {
                     return 0;
                 }
-                nn3ObjCache = nnObj1;
-                lastUpdateTime3 = System.currentTimeMillis();
+                nn30ObjCache = nnObj1;
+                lastUpdateTime30 = System.currentTimeMillis();
+            }
+        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN30)) {
+            if (nn30ObjCache != null) {
+                if (nn30ObjCache.getName().equals(name)) {
+
+                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime30, 10);
+                    long currentTime = System.currentTimeMillis();
+                    if (date5Min > currentTime) {
+                        nnObj1 = nn30ObjCache;
+                    }
+                }
+            }
+
+            if (nnObj1 == null) {
+                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+                if (nnObj1 == null) {
+                    return 0;
+                }
+                nn30ObjCache = nnObj1;
+                lastUpdateTime30 = System.currentTimeMillis();
+            }
+        } else {
+            logger.info("> OutputNNBP exception - need to define new cache " + nnTraining.getTrname());
+            nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+            if (nnObj1 == null) {
+                return 0;
             }
         }
         String weightSt1 = nnObj1.getWeight();
