@@ -41,10 +41,10 @@ public class NN1ProcessByTrend {
 
             TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning
             TrandingSignalProcess.forceToGenerateNewNN = false;
+            logger.info("> processInputTrend TR MACD0... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD0);            
             logger.info("> processInputTrend TR MACD1... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-            logger.info("> processInputTrend TR MACD0... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD0);
 //            logger.info("> processInputNeuralNetTrend TR NN1... ");
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
 //            logger.info("> processInputNeuralNetTrend TR NN2... ");
@@ -73,11 +73,10 @@ public class NN1ProcessByTrend {
     }
 
     public void processAllNN30StockInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
-
-        logger.info("> processAllStockInputNeuralNetTrend TR MACD1... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
         logger.info("> processAllStockInputNeuralNetTrend TR MACD0... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD0);
+        logger.info("> processAllStockInputNeuralNetTrend TR MACD1... ");
+        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
 
         NeuralNetAllStockNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
         logger.info("> processAllStockInputNeuralNetTrend TR NN3 end....... ");

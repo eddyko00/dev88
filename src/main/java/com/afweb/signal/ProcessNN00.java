@@ -286,8 +286,8 @@ public class ProcessNN00 {
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         // TR_NN1
         trObjMACD1.setTrname(ConstantKey.TR_MACD);
-        trObjMACD1.setType(ConstantKey.INT_TR_MACD1);
-        //ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4
+        trObjMACD1.setType(type);
+
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
