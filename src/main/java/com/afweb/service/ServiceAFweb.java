@@ -702,16 +702,14 @@ public class ServiceAFweb {
 
 //            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
 //            TrandingSignalProcess.forceToGenerateNewNN = false;
-//            // start training
-//            // TrainingNNBP inputpattern 1748
-//            NN1ProcessBySignal.processRestinputflag = true;
-//            nn1trend.NeuralNetProcessTesting(this);
-//            nn1trend.NeuralNetNN30CreatJava(this, ConstantKey.TR_NN30);
-            
-            
+
+            NN1ProcessBySignal.processRestinputflag = true;
+            NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
+            nn2trend.processNN40InputNeuralNetTrend(this);
+            nn2trend.processAllNN40StockInputNeuralNetTrend(this);
+
 //            nn1trend.processNN30InputNeuralNetTrend(this);
 //            nn1trend.processAllNN30StockInputNeuralNetTrend(this);
-
 //              int ret = this.getAccountProcessImp().saveDBneuralnetProcess(this, "neuralnet");
 //            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 //            delete NN2            
