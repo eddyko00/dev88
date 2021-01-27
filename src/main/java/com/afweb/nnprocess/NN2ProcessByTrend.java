@@ -1185,8 +1185,8 @@ public class NN2ProcessByTrend {
             inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST1);
             inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST2);
             inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST3);
-//            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST4);
-//            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST5);
+            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST4);
+            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST5);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST6);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST7);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST8);
