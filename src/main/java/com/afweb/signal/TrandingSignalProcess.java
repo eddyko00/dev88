@@ -1089,7 +1089,7 @@ public class TrandingSignalProcess {
                     trHistory.setParm1((float) ema510.ema);
                     trHistory.setParm2((float) ema510.lastema);
                     break;
-                case ConstantKey.INT_TR_EMA1:
+                case ConstantKey.INT_TR_EMA1:   // normal
                     // check if signal to buy or sell
                     EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
                     trObj.setTrsignal(ema1020.trsignal);

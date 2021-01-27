@@ -701,7 +701,7 @@ public class ProcessNN2 {
                     StockPredArray.add(0, AFstockI);
                 }
 
-                EMAObj ema510 = TechnicalCal.EMASignal(StockPredArray, 0, ConstantKey.INT_EMA_6, ConstantKey.INT_EMA_12);
+                EMAObj ema510 = TechnicalCal.EMASignal(StockPredArray, 0, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
                 int macdSignal = ema510.trsignal;
 
 //                // MACD1

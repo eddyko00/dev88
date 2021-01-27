@@ -700,13 +700,13 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
-            TrandingSignalProcess.forceToGenerateNewNN = false;
-            // start training
-            // TrainingNNBP inputpattern 1748
-            NN1ProcessBySignal.processRestinputflag = true;
+//            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+//            TrandingSignalProcess.forceToGenerateNewNN = false;
+//            // start training
+//            // TrainingNNBP inputpattern 1748
+//            NN1ProcessBySignal.processRestinputflag = true;
 //            nn1trend.NeuralNetProcessTesting(this);
-            nn1trend.NeuralNetNN30CreatJava(this, ConstantKey.TR_NN30);
+//            nn1trend.NeuralNetNN30CreatJava(this, ConstantKey.TR_NN30);
             
             
 //            nn1trend.processNN30InputNeuralNetTrend(this);

@@ -1086,7 +1086,7 @@ public class NN1ProcessBySignal {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nnData {\n"
+                    + "public class nn1Data {\n"
                     + "\n"
                     + "    public static String NN1_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
@@ -1173,7 +1173,7 @@ public class NN1ProcessBySignal {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nnAllData {\n"
+                    + "public class nn1AllData {\n"
                     + "\n");
 
             int sizeline = 1000;
