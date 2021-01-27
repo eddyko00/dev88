@@ -1128,11 +1128,11 @@ public class NN2ProcessByTrend {
             inputBuf.append(nn40Data.TR_NN40_INPUTLIST2);
             inputBuf.append(nn40Data.TR_NN40_INPUTLIST3);
             inputBuf.append(nn40Data.TR_NN40_INPUTLIST4);
-//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST5);
-//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST6);
-//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST7);
-//            inputBuf.append(nn40Data.TR_NN30_INPUTLIST8);
-//            inputBuf.append(nn40Data.TR_NN30_INPUTLIST9);
+            inputBuf.append(nn40Data.TR_NN40_INPUTLIST5);
+            inputBuf.append(nn40Data.TR_NN40_INPUTLIST6);
+            inputBuf.append(nn40Data.TR_NN40_INPUTLIST7);
+            inputBuf.append(nn40Data.TR_NN40_INPUTLIST8);
+            inputBuf.append(nn40Data.TR_NN40_INPUTLIST9);
 //            inputBuf.append(nn40Data.TR_NN40_INPUTLIST10);
 
 
@@ -1228,13 +1228,13 @@ public class NN2ProcessByTrend {
         return null;
     }
 
-    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryTrendNN40(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryTrendNN40(ArrayList<StockTRHistoryObj> thObjListEMA, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
 
-        if ((thObjListMACD == null) || (thObjListMV == null)) {
+        if ((thObjListEMA == null) || (thObjListMV == null)) {
             return null;
         }
-        if (thObjListMACD.size() != thObjListMV.size()) {
+        if (thObjListEMA.size() != thObjListMV.size()) {
             return null;
         }
         if (thObjListRSI.size() != thObjListRSI.size()) {
@@ -1254,21 +1254,21 @@ public class NN2ProcessByTrend {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList<NNInputDataObj>();
         NNInputDataObj objDataPrev = null;
 
-        for (int i = 0; i < thObjListMACD.size(); i++) {
+        for (int i = 0; i < thObjListEMA.size(); i++) {
 
-            if (i + 1 == thObjListMACD.size()) {
+            if (i + 1 == thObjListEMA.size()) {
                 if (lastDateOutput == true) {
                     processLastDate = true;
                 }
             }
             NNInputOutObj inputList = new NNInputOutObj();
 
-            StockTRHistoryObj thObjMACD = thObjListMACD.get(i);
+            StockTRHistoryObj thObjEMA = thObjListEMA.get(i);
             if (i == 0) {
-                prevThObj = thObjMACD;
+                prevThObj = thObjEMA;
             }
 
-            int signal = thObjMACD.getTrsignal();
+            int signal = thObjEMA.getTrsignal();
             boolean contProcess = false;
             if (signal != prevThObj.getTrsignal()) {
                 contProcess = true;
@@ -1280,12 +1280,12 @@ public class NN2ProcessByTrend {
             if (contProcess == true) {
 
                 // setup input parameter in inputList
-                inputList = this.setupInputNN40(i, signal, thObjListMACD, thObjListMV, thObjListRSI);
+                inputList = this.setupInputNN40(i, signal, thObjListEMA, thObjListMV, thObjListRSI);
                 if (inputList == null) {
                     continue;
                 }
 
-                double output = getNNtrend4OutputClose(i, thObjListMACD);
+                double output = getNNtrend4OutputClose(i, thObjListEMA);
                 if ((output == -1) || (output == 0)) {
                     inputList.setOutput1(-1);
                     inputList.setOutput2(-1);
@@ -1309,14 +1309,14 @@ public class NN2ProcessByTrend {
                 }
 
                 NNInputDataObj objDataCur = new NNInputDataObj();
-                objDataCur.setUpdatedatel(thObjMACD.getUpdateDatel());
+                objDataCur.setUpdatedatel(thObjEMA.getUpdateDatel());
                 objDataCur.setObj(inputList);
                 if (objDataPrev != null) {
                     trInputList.add(objDataPrev.getObj());
                     inputDatalist.add(objDataPrev);
                 }
 
-                prevThObj = thObjMACD;
+                prevThObj = thObjEMA;
                 objDataPrev = objDataCur;
 
             }
@@ -1361,7 +1361,7 @@ public class NN2ProcessByTrend {
                             int signal = inputDaObj0.getObj().getTrsignal();
 
                             for (int k = index; k < index1; k++) {
-                                StockTRHistoryObj thObjMACD = thObjListMACD.get(index);
+                                StockTRHistoryObj thObjMACD = thObjListEMA.get(index);
                                 int signalIndex = thObjMACD.getTrsignal();
                                 if (signalIndex == signal) {
                                     index = k;
@@ -1370,14 +1370,14 @@ public class NN2ProcessByTrend {
                             }
 
                             ProcessNN1 nn1 = new ProcessNN1();
-                            inputList = nn1.setupInputNN1(index, signal, thObjListMACD, thObjListMV, thObjListRSI);
+                            inputList = nn1.setupInputNN1(index, signal, thObjListEMA, thObjListMV, thObjListRSI);
                             if (inputList == null) {
                                 continue;
                             }
                             inputList.setOutput1(output1);
                             inputList.setOutput2(output2);
 
-                            StockTRHistoryObj thObjMACDIndex = thObjListMACD.get(index);
+                            StockTRHistoryObj thObjMACDIndex = thObjListEMA.get(index);
                             inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
                             inputDaObj.setObj(inputList);
                             inputRetDatalist.add(inputDaObj);
@@ -1423,28 +1423,28 @@ public class NN2ProcessByTrend {
     // get next 5 days close price
     public static int TREND_Day = 4;
 
-    public static double getNNtrend4OutputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
+    public static double getNNtrend4OutputClose(int index, ArrayList<StockTRHistoryObj> thObjListEMA) {
 
-        if (thObjListMACD == null) {
+        if (thObjListEMA == null) {
             return -1;
         }
         // need to match specialOverrideRule3 futureDay
         int futureDay = TREND_Day;
         int cIndex = index + futureDay;
 
-        if (cIndex >= thObjListMACD.size()) {
+        if (cIndex >= thObjListEMA.size()) {
             return -1;
         }
 
         float close = 0;
-        close = thObjListMACD.get(index).getClose();
-        close += thObjListMACD.get(index - 1).getClose();
-        close += thObjListMACD.get(index - 2).getClose();
+        close = thObjListEMA.get(index).getClose();
+        close += thObjListEMA.get(index - 1).getClose();
+        close += thObjListEMA.get(index - 2).getClose();
         float closeOutput0 = close / 3;
 
-        close = thObjListMACD.get(cIndex).getClose();
-        close += thObjListMACD.get(cIndex - 1).getClose();
-        close += thObjListMACD.get(cIndex - 2).getClose();
+        close = thObjListEMA.get(cIndex).getClose();
+        close += thObjListEMA.get(cIndex - 1).getClose();
+        close += thObjListEMA.get(cIndex - 2).getClose();
         float closeOutput = close / 3;
 
         double closef = (closeOutput - closeOutput0) / closeOutput0;
