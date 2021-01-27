@@ -129,18 +129,21 @@ public class ConstantKey {
     public static final int INT_MV_50 = 50; //50;
 
     public static final int INT_TR_EMA0 = 130;  // fast
+    //ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6
     public static final int INT_EMA_5 = 5;
     public static final int INT_EMA_10 = 10;
     public static final int INT_EMA_3 = 6;    
     public static final int INT_EMA_4 = 4;
     public static final int INT_EMA_8 = 8;
+    
     public static final int INT_TR_EMA1 = 131;  // normal
-//    public static final int INT_EMA_10 = 10;
+    //ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10)
     public static final int INT_EMA_20 = 20;
     public static final int INT_EMA_6 = 6;
     public static final int INT_EMA_12 = 12;
     
     public static final int INT_TR_EMA2 = 132;  // slow
+    //ConstantKey.INT_EMA_8, ConstantKey.INT_EMA_16
     public static final int INT_EMA_16 = 16;    
     
     public static final String TR_MACD = "TR_MACD";
@@ -196,19 +199,22 @@ public class ConstantKey {
 
 //    public static final String TR_NN100 = "TR_NN100"; //NN for MV
 //    public static final int INT_TR_NN100 = 100;
-    public static final String TR_MACD0 = "TR_MACD0";
+    public static final String TR_MACD0 = "TR_MACD0";   //fase
     public static final int INT_TR_MACD0 = 102;
+    //ConstantKey.INT_MACD0_3, ConstantKey.INT_MACD0_6, ConstantKey.INT_MACD0_2    
     public static final int INT_MACD0_3 = 3;
     public static final int INT_MACD0_6 = 6;
     public static final int INT_MACD0_2 = 2;
 
-    public static final String TR_MACD1 = "TR_MACD1";
+    public static final String TR_MACD1 = "TR_MACD1";   // normal
+    //ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4
     public static final int INT_TR_MACD1 = 100;
     public static final int INT_MACD1_6 = 6;
     public static final int INT_MACD1_12 = 12;
     public static final int INT_MACD1_4 = 4;
 
     public static final int INT_TR_MACD2 = 103;
+    //INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9
 
     public static int getTRtypeByName(String trname) {
         trname = trname.toUpperCase();
