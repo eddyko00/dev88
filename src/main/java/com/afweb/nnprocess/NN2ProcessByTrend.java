@@ -282,9 +282,9 @@ public class NN2ProcessByTrend {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn12 = "_nn401_";
-            if (tr == ConstantKey.INT_TR_MACD2) {
-                nn12 = "_nn402_";
+            String nn12 = "_nn400_";
+            if (tr == ConstantKey.INT_TR_EMA1) {
+                nn12 = "_nn401_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
