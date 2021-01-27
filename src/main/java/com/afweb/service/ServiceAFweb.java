@@ -703,10 +703,10 @@ public class ServiceAFweb {
 //            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
 //            TrandingSignalProcess.forceToGenerateNewNN = false;
 
-            NN1ProcessBySignal.processRestinputflag = true;
-            NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
-            nn2trend.processNN40InputNeuralNetTrend(this);
-            nn2trend.processAllNN40StockInputNeuralNetTrend(this);
+//            NN1ProcessBySignal.processRestinputflag = true;
+//            NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
+//            nn2trend.processNN40InputNeuralNetTrend(this);
+//            nn2trend.processAllNN40StockInputNeuralNetTrend(this);
 
 //            nn1trend.processNN30InputNeuralNetTrend(this);
 //            nn1trend.processAllNN30StockInputNeuralNetTrend(this);
