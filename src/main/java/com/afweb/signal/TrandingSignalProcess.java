@@ -1981,6 +1981,37 @@ public class TrandingSignalProcess {
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
+                if (nnName.equals(ConstantKey.TR_NN40)) {
+
+            String nnIndex = "_nn401_";
+
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
+            nnIndex = "_nn400_";
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
+
+            return inputDatalist;
+        } 
+                
         if (nnName.equals(ConstantKey.TR_NN30)) {
 
             String nnIndex = "_nn301_";
@@ -1996,7 +2027,7 @@ public class TrandingSignalProcess {
                     break;
                 }
             }
-            nnIndex = "_nn302_";
+            nnIndex = "_nn300_";
             for (int i = 1; i < 20; i++) {
                 String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
 //            logger.info("> initTrainingNeuralNet1 " + nnFileName);

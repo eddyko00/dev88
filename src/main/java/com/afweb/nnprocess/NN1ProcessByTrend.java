@@ -65,7 +65,7 @@ public class NN1ProcessByTrend {
             NeuralNetNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
             NeuralNetProcessTesting(serviceAFWeb);
             NeuralNetNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
-            logger.info("> processInputNeuralNetTrend TR NN3 end....... ");
+            logger.info("> processInputNeuralNetTrend TR NN1 end....... ");
 
         }
 
@@ -79,7 +79,7 @@ public class NN1ProcessByTrend {
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
 
         NeuralNetAllStockNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
-        logger.info("> processAllStockInputNeuralNetTrend TR NN3 end....... ");
+        logger.info("> processAllStockInputNeuralNetTrend TR NN1 end....... ");
 
     }
 
@@ -302,7 +302,7 @@ public class NN1ProcessByTrend {
         if (getEnv.checkLocalPC() == true) {
             String nn12 = "_nn301_";
             if (tr == ConstantKey.INT_TR_MACD0) {
-                nn12 = "_nn302_";
+                nn12 = "_nn300_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 

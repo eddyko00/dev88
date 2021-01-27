@@ -231,7 +231,7 @@ public class NN2ProcessBySignal {
         if (getEnv.checkLocalPC() == true) {
             String nn12 = "_nn21_";
 //            if (tr == ConstantKey.INT_TR_ADX2) {
-            if (tr == ConstantKey.INT_TR_EMA1) {
+            if (tr == ConstantKey.INT_TR_EMA2) {
                 nn12 = "_nn22_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
