@@ -1148,6 +1148,19 @@ public class AccountDB {
         return sqlCMD;
     }
 
+    public int updateAccounStocktRef(TradingRuleObj tr, String refname) {
+        try {
+            String sqlCMD = "update tradingrule set comment='" + refname + "' "
+                    + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and type=" + tr.getType();
+            processUpdateDB(sqlCMD);
+            return 1;
+
+        } catch (Exception e) {
+            logger.info("> updateAccounStocktRef exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int addAccountStock(int AccountID, int StockID, TradingRuleObj tr) {
 
         if (tr == null) {
@@ -1412,19 +1425,6 @@ public class AccountDB {
                 + ",investment=" + acc.getInvestment() + ",balance=" + acc.getBalance() + ",servicefee=" + acc.getServicefee()
                 + " where id=" + acc.getId();
         return sqlCMD;
-    }
-
-    public int updateAccountRef(AccountObj acc, String refname) {
-        try {
-
-            String sqlCMD = "update account set comment='" + refname + "' where id=" + acc.getId();
-            processUpdateDB(sqlCMD);
-            return 1;
-
-        } catch (Exception e) {
-            logger.info("> updateAccountRef exception " + e.getMessage());
-        }
-        return 0;
     }
 
     public int updateAccountAllStatus(AccountObj account) {

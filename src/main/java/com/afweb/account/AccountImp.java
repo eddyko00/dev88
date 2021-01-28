@@ -372,7 +372,7 @@ public class AccountImp {
     }
     
     // return 0 for error
-    public int updateAccountRef(AccountObj accountObj, AccData refnameData) {
+    public int updateAccountRef( TradingRuleObj trObj, AccData refnameData) {
         String nameSt = "";
         
         try {
@@ -381,7 +381,7 @@ public class AccountImp {
         } catch (JsonProcessingException ex) {
             return 0;
         }
-        return accountdb.updateAccountRef(accountObj, nameSt);
+        return accountdb.updateAccounStocktRef(trObj, nameSt);
     }
     
 

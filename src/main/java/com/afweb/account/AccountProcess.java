@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  * @author eddy
  */
 public class AccountProcess {
-
+    
     protected static Logger logger = Logger.getLogger("AccountProcess");
 
 //    private ServiceAFweb serviceAFWeb = null;
@@ -49,7 +49,7 @@ public class AccountProcess {
         timerCnt = 0;
         accountIdNameArray = new ArrayList();
     }
-
+    
     public void ProcessSystemMaintance(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
 
@@ -57,7 +57,7 @@ public class AccountProcess {
         if (timerCnt < 0) {
             timerCnt = 0;
         }
-
+        
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ACC_" + CKey.AF_SYSTEM;
@@ -87,7 +87,7 @@ public class AccountProcess {
             }
         }
         serviceAFWeb.removeNameLock(LockName, ConstantKey.ACC_LOCKTYPE);
-
+        
     }
     //////////////////////////////////////////////
 
@@ -100,7 +100,7 @@ public class AccountProcess {
         int numCnt = 0;
         for (int i = 0; i < stockNameList.size(); i++) {
             String symbol = (String) stockNameList.get(i);
-
+            
             serviceAFWeb.deleteStockInfo(symbol);
             numCnt++;
             if (numCnt > 10) {
@@ -108,7 +108,7 @@ public class AccountProcess {
             }
         }
     }
-
+    
     private void ProcessCustomerRemoveMaintance(ServiceAFweb serviceAFWeb) {
         // reomve customer with no activity in 4 days        
         ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
@@ -130,7 +130,7 @@ public class AccountProcess {
 
                 //remove customer
                 serviceAFWeb.removeCustomer(custObj.getUsername());
-
+                
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
@@ -139,28 +139,28 @@ public class AccountProcess {
                 DateFormat format = new SimpleDateFormat(" hh:mm a");
                 format.setTimeZone(tz);
                 String ESTdate = format.format(d);
-
+                
                 String msg = ESTdate + " " + custObj.getUsername() + " Customer removed - 4 day after expired.";
                 this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
                 numCnt++;
                 if (numCnt > 10) {
                     break;
                 }
-
+                
             }
-
+            
         }
     }
-
+    
     public void ProcessCustomerDisableMaintanceTest(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
         ProcessCustomerDisableMaintance(serviceAFWeb);
     }
-
+    
     private void ProcessCustomerDisableMaintance(ServiceAFweb serviceAFWeb) {
         // disable cusotmer with no activity in 2 days
         ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
-
+        
         if (custList == null) {
             return;
         }
@@ -182,9 +182,9 @@ public class AccountProcess {
                 // disable customer
                 custObj.setStatus(ConstantKey.DISABLE);
             }
-
+            
             serviceAFWeb.updateCustStatusSubStatus(custObj.getUsername(), custObj.getStatus() + "", custObj.getSubstatus() + "");
-
+            
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
@@ -193,12 +193,12 @@ public class AccountProcess {
             DateFormat format = new SimpleDateFormat(" hh:mm a");
             format.setTimeZone(tz);
             String ESTdate = format.format(d);
-
+            
             String msg = ESTdate + " " + custObj.getUsername() + " Customer disabled - 2 day after expired.";
             this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-
+            
         }
-
+        
     }
 //////////////////
 
@@ -228,23 +228,23 @@ public class AccountProcess {
             }
         }
     }
-
+    
     private void ProcessStockkMaintance(ServiceAFweb serviceAFWeb) {
         // delete stock based on all customer account exclude the ADMIN_USERNAME account 
         // do Simulation trading
         logger.info("> ProcessStockkMaintance ");
-
+        
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }
         ArrayList StockNameList = serviceAFWeb.getAllOpenStockNameArray();
-
+        
         if (StockNameList == null) {
             return;
         }
         ArrayList AllAccountStockNameList = serviceAFWeb.SystemAllAccountStockNameListExceptionAdmin(accountAdminObj.getId());
-
+        
         if (AllAccountStockNameList == null) {
             return;
         }
@@ -265,7 +265,7 @@ public class AccountProcess {
             }
         }
     }
-
+    
     public void ProcessFundAccount(ServiceAFweb serviceAFWeb) {
         // add or remove stock in mutual fund account based on all stocks in the system
         //        logger.info("> ProcessFundAccount ......... ");
@@ -294,10 +294,10 @@ public class AccountProcess {
             lockReturn = 1;
         }
         if (lockReturn > 0) {
-
+            
             long currentTime = System.currentTimeMillis();
             long lockDate2Min = TimeConvertion.addMinutes(currentTime, 2);
-
+            
             for (int k = 0; k < 10; k++) {
                 currentTime = System.currentTimeMillis();
                 if (lockDate2Min < currentTime) {
@@ -314,7 +314,7 @@ public class AccountProcess {
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         ProcessTradingAccountUpdate(serviceAFWeb, accountObj);
                         ProcessFundAccountUpdate(serviceAFWeb, accountObj);
-
+                        
                     }
                 } catch (Exception e) {
                     logger.info("> ProcessFundAccount Exception " + e.getMessage());
@@ -323,7 +323,7 @@ public class AccountProcess {
             serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
         }
     }
-
+    
     public int ProcessFundAccountUpdate(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
@@ -332,7 +332,7 @@ public class AccountProcess {
             fundMgr = new ObjectMapper().readValue(portfolio, FundM.class);
         } catch (Exception ex) {
         }
-
+        
         if (fundMgr == null) {
             fundMgr = new FundM();
             try {
@@ -341,9 +341,9 @@ public class AccountProcess {
             } catch (JsonProcessingException ex) {
             }
         }
-
+        
         ArrayList portAccArray = fundMgr.getAccL();
-
+        
         ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
             return 0;
@@ -366,7 +366,7 @@ public class AccountProcess {
                 if (AccountStockNameList == null) {
                     return 0;
                 }
-
+                
                 int numCnt = 0;
                 ArrayList addedList = new ArrayList();
                 ArrayList removeList = new ArrayList();
@@ -383,7 +383,7 @@ public class AccountProcess {
                             break;
                         }
                         ServiceAFweb.AFSleep();
-
+                        
                     }
                     // calculate performance for the account
                     AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accObj.getId());
@@ -409,7 +409,7 @@ public class AccountProcess {
                         if (trObj.getTrsignal() == ConstantKey.S_BUY) {
                             float delta = (curPrice * trObj.getLongshare()) - trObj.getLongamount();
                             sharebalance = delta;
-
+                            
                         } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
                             float delta = (curPrice * trObj.getShortshare()) - trObj.getShortamount();
                             sharebalance = -delta;
@@ -421,10 +421,10 @@ public class AccountProcess {
                     accObj.setBalance(accountTotal);
                     /////////
                     float totalBal = accObj.getInvestment();
-
+                    
                     try {
                         for (int i = 0; i < removeList.size(); i++) {
-
+                            
                             String symbol = (String) removeList.get(i);
                             AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
                             if (stock == null) {
@@ -433,10 +433,10 @@ public class AccountProcess {
                             if (stock.getAfstockInfo() == null) {
                                 continue;
                             }
-
+                            
                             boolean notRemoveFlag = true;
                             if (notRemoveFlag == true) {
-
+                                
                                 String trName = ConstantKey.TR_ACC;
                                 TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
                                 // need to get the latest TR object after the SystemAddTransactionOrder
@@ -448,14 +448,14 @@ public class AccountProcess {
                                     serviceAFWeb.SystemUpdateSQLList(sqlList);
                                 }
                             }
-
+                            
                             ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
                             if (thList != null) {
                                 if (thList.size() != 0) {
                                     TransationOrderObj thObj = thList.get(0);
                                     int sig = thObj.getTrsignal();
                                     long entrydatel = thObj.getEntrydatel();
-
+                                    
                                     long currentTime = System.currentTimeMillis();
                                     long day5befor = TimeConvertion.addDays(currentTime, -5);
                                     if (entrydatel > day5befor) {
@@ -463,12 +463,12 @@ public class AccountProcess {
                                     }
                                 }
                             }
-
+                            
                             int signal = ConstantKey.S_NEUTRAL;
                             String trName = ConstantKey.TR_ACC;
                             TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
                             int curSignal = tradingRuleObj.getTrsignal();
-
+                            
                             boolean updateTran = true;
                             if (curSignal == ConstantKey.S_BUY) {
                                 ;
@@ -479,7 +479,7 @@ public class AccountProcess {
                             }
                             if (updateTran == true) {
                                 TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-
+                                
                                 tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
                                 ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
                                 UpdateTRList.add(tradingRuleObj);
@@ -488,12 +488,12 @@ public class AccountProcess {
                                 //////calcuate performance
                                 float curPrice = stock.getAfstockInfo().getFclose();
                                 TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
-
+                                
                                 float sharebalance = 0;
                                 if (trObj.getTrsignal() == ConstantKey.S_BUY) {
                                     float delta = (curPrice * trObj.getLongshare()) - trObj.getLongamount();
                                     sharebalance = delta;
-
+                                    
                                 } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
                                     float delta = (curPrice * trObj.getShortshare()) - trObj.getShortamount();
                                     sharebalance = -delta;
@@ -501,9 +501,9 @@ public class AccountProcess {
                                 float total = sharebalance;
 //                                logger.info("> ProcessFundAccount " + accObj.getAccountname() + " " + symbol + " stockProfit " + total);
                                 totalBal += total;
-
+                                
                                 TRprocessImp.AddTransactionOrderWithComm(serviceAFWeb, accObj, stock, trName, signal, null, false);
-
+                                
                             }
 //            
                             int resultRemove = serviceAFWeb.removeAccountStockSymbol(accObj, symbol);
@@ -519,7 +519,7 @@ public class AccountProcess {
 
                         // update account Obj performance
                         accObj.setInvestment(totalBal);
-
+                        
                         int substatus = accObj.getSubstatus();
                         float investment = accObj.getInvestment();
                         float balance = accObj.getBalance();
@@ -533,7 +533,7 @@ public class AccountProcess {
         }
         return 0;
     }
-
+    
     public int ProcessTradingAccountUpdate(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
@@ -542,7 +542,7 @@ public class AccountProcess {
             fundMgr = new ObjectMapper().readValue(portfolio, FundM.class);
         } catch (Exception ex) {
         }
-
+        
         if (fundMgr == null) {
             fundMgr = new FundM();
             try {
@@ -551,9 +551,9 @@ public class AccountProcess {
             } catch (JsonProcessingException ex) {
             }
         }
-
+        
         ArrayList portfolioArray = fundMgr.getFunL();
-
+        
         ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
             return 0;
@@ -565,7 +565,7 @@ public class AccountProcess {
                 if (AccountStockNameList == null) {
                     return 0;
                 }
-
+                
                 int numCnt = 0;
                 ArrayList addedList = new ArrayList();
                 ArrayList removeList = new ArrayList();
@@ -583,12 +583,12 @@ public class AccountProcess {
                             break;
                         }
                         ServiceAFweb.AFSleep();
-
+                        
                     }
                     /////////
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
-
+                        
                         AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
                         if (stock == null) {
                             continue;
@@ -609,7 +609,7 @@ public class AccountProcess {
         }
         return 0;
     }
-
+    
     public void ProcessAdminAccount(ServiceAFweb serviceAFWeb) {
         // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
 //        logger.info("> ProcessAdminAccount ......... ");
@@ -618,21 +618,21 @@ public class AccountProcess {
         if (accountAdminObj == null) {
             return;
         }
-
+        
         ArrayList StockNameList = serviceAFWeb.getAllOpenStockNameArray();
-
+        
         if (StockNameList == null) {
             return;
         }
-
+        
         ArrayList AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accountAdminObj.getId());
         if (AccountStockNameList == null) {
             return;
         }
-
+        
         ServiceAFweb.getServerObj().setTotalStock(StockNameList.size());
         ServiceAFweb.getServerObj().setTotalStockAcc(AccountStockNameList.size());
-
+        
         int numCnt = 0;
         ArrayList addedList = new ArrayList();
         ArrayList removeList = new ArrayList();
@@ -647,7 +647,7 @@ public class AccountProcess {
                     break;
                 }
                 ServiceAFweb.AFSleep();
-
+                
             }
             /////////
             for (int i = 0; i < removeList.size(); i++) {
@@ -658,13 +658,13 @@ public class AccountProcess {
                 if (numCnt > 10) {
                     break;
                 }
-
+                
                 ServiceAFweb.AFSleep();
-
+                
             }
         }
     }
-
+    
     public static boolean compareStockList(ArrayList<String> masterList, ArrayList<String> current, ArrayList<String> addedList, ArrayList<String> removeList) {
         try {
             for (String a : masterList) {
@@ -677,7 +677,7 @@ public class AccountProcess {
                     removeList.add(a);
                 }
             }
-
+            
             return true;
         } catch (Exception e) {
             return false;
@@ -715,14 +715,14 @@ public class AccountProcess {
             lockReturn = 1;
         }
         logger.info("ProcessAllAccountTradingSignal " + LockName + " LockName " + lockReturn);
-
+        
         if (lockReturn > 0) {
-
+            
             long LastServUpdateTimer = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 5); // add 3 minutes
             // update Trading signal
             for (int i = 0; i < 10; i++) {
-
+                
                 long currentTime = System.currentTimeMillis();
                 if (testing == true) {
                     currentTime = 0;
@@ -745,7 +745,7 @@ public class AccountProcess {
                 if (accountObj == null) {
                     continue;
                 }
-
+                
                 ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountId);
                 if (stockNameArray == null) {
                     continue;
@@ -756,11 +756,11 @@ public class AccountProcess {
                         || ("acc-4-MutualFund".equals(accountObj.getAccountname()))) {
                     logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
                 }
-
+                
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);
                     boolean ret = TRprocessImp.checkStock(serviceAFWeb, symbol);
-
+                    
                     if (ret == true) {
                         updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
                         updateTradingTransaction(serviceAFWeb, accountObj, symbol);
@@ -770,16 +770,16 @@ public class AccountProcess {
             serviceAFWeb.removeNameLock(LockName, ConstantKey.SIGNAL_LOCKTYPE);
             logger.info("ProcessAllAccountTradingSignal " + LockName + " unlock LockName ");
         }
-
+        
     }
-
+    
     public void updateTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj, AccountObj accountObj, String symbol) {
 //        logger.info("> updateTradingsignal " + symbol + " " + accountObj.getAccountname());
         // update Trading signal
         ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.SystemAccountStockListByAccountID(accountAdminObj.getId(), symbol);
-
+        
         ArrayList<TradingRuleObj> tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
-
+        
         if ((tradingRuleList == null) || (tradingRuleAdminList == null)) {
             return;
         }
@@ -787,18 +787,18 @@ public class AccountProcess {
         // update Trading signal
         ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
         Calendar dateNowUpdate = TimeConvertion.getCurrentCalendar();
-
+        
         for (int j = 0; j < tradingRuleList.size(); j++) {
-
+            
             TradingRuleObj trObj = tradingRuleList.get(j);
-
+            
             if (trObj.getType() == ConstantKey.INT_TR_ACC) {
                 trObj.setUpdatedatedisplay(new java.sql.Date(dateNowUpdate.getTimeInMillis()));
                 trObj.setUpdatedatel(dateNowUpdate.getTimeInMillis());
                 trTradingACCObj = trObj;
                 continue;
             }
-
+            
             for (int k = 0; k < tradingRuleAdminList.size(); k++) {
                 TradingRuleObj trAdminObj = tradingRuleAdminList.get(k);
                 if (trObj.getType() == trAdminObj.getType()) {
@@ -807,23 +807,23 @@ public class AccountProcess {
                     trObj.setTrsignal(trAdminObj.getTrsignal());
                     trObj.setUpdatedatel(trAdminObj.getUpdatedatel());
                     trObj.setUpdatedatedisplay(new java.sql.Date(trAdminObj.getUpdatedatel()));
-
+                    
                     trObj.setInvestment(trAdminObj.getInvestment());
                     trObj.setBalance(trAdminObj.getBalance());
                     trObj.setLongshare(trAdminObj.getLongshare());
                     trObj.setLongamount(trAdminObj.getLongamount());
                     trObj.setShortamount(trAdminObj.getShortamount());
                     trObj.setShortshare(trAdminObj.getShortshare());
-
+                    
                     trObj.setComment(trAdminObj.getComment());
-
+                    
                     UpdateTRList.add(trObj);
                 }
             }
         }
         if (trTradingACCObj != null) {
             int subStatus = trTradingACCObj.getSubstatus();
-
+            
             if (subStatus == ConstantKey.INITIAL) {
                 serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, trTradingACCObj.getStockid(), trTradingACCObj.getTrname());
                 // udpate tr Status to open
@@ -834,7 +834,7 @@ public class AccountProcess {
                 sqlList.add(updateSQL);
                 serviceAFWeb.SystemUpdateSQLList(sqlList);
             }
-
+            
             int trLinkId = trTradingACCObj.getLinktradingruleid();
             if (trLinkId != 0) {
                 boolean readySignal = false;
@@ -858,7 +858,7 @@ public class AccountProcess {
 //                    }
                 }
                 if (readySignal == true) {
-
+                    
                     for (int j = 0; j < tradingRuleAdminList.size(); j++) {
                         TradingRuleObj trAdminObj = (TradingRuleObj) tradingRuleAdminList.get(j);
                         if (trLinkId == trAdminObj.getType()) {
@@ -867,7 +867,7 @@ public class AccountProcess {
                             }
                             if (trTradingACCObj.getTrsignal() != trAdminObj.getTrsignal()) {
                                 trTradingACCObj.setTrsignal(trAdminObj.getTrsignal());
-
+                                
                                 UpdateTRList.add(trTradingACCObj);
                                 String tzid = "America/New_York"; //EDT
                                 TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -876,7 +876,7 @@ public class AccountProcess {
                                 DateFormat format = new SimpleDateFormat(" hh:mm a");
                                 format.setTimeZone(tz);
                                 String ESTdate = format.format(d);
-
+                                
                                 String sig = "exit";
                                 if (trAdminObj.getTrsignal() == ConstantKey.S_BUY) {
                                     sig = ConstantKey.S_BUY_ST;
@@ -897,42 +897,42 @@ public class AccountProcess {
         stockTRObj.setTrlist(UpdateTRList);
         serviceAFWeb.updateAccountStockSignal(stockTRObj);
     }
-
+    
     public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type, CommData commDataObj) {
         try {
             return serviceAFWeb.getAccountImp().addAccountCommMessage(accountObj, name, type, commDataObj);
-
+            
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
         }
         return 0;
     }
-
+    
     public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, String messageData) {
         try {
             logger.info("> AddCommMessage  " + messageData);
             return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, name, messageData);
-
+            
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
         }
         return 0;
     }
-
+    
     public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
-
+            
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
                 logger.info("> AddCommMessage  " + messageData);
                 return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
             }
-
+            
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
         }
         return 0;
     }
-
+    
     public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
 //        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -944,7 +944,7 @@ public class AccountProcess {
                 }
             }
             TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
-
+            
             if (trObj == null) {
                 return;
             }
@@ -956,23 +956,23 @@ public class AccountProcess {
             // process performance
             String trName = trObj.getTrname();
             ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-
+            
             int currentTS = ConstantKey.S_NEUTRAL;
             currentTS = trObj.getTrsignal();
             if ((currentTS == ConstantKey.S_EXIT_LONG) || (currentTS == ConstantKey.S_EXIT_SHORT)) {
                 currentTS = ConstantKey.S_NEUTRAL;
             }
-
+            
             int orderTS = ConstantKey.S_NEUTRAL;
             if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
                 TransationOrderObj tranOrder = tranOrderList.get(0);
-
+                
                 orderTS = tranOrder.getTrsignal();
                 if ((orderTS == ConstantKey.S_EXIT_LONG) || (orderTS == ConstantKey.S_EXIT_SHORT)) {
                     orderTS = ConstantKey.S_NEUTRAL;
                 }
             }
-
+            
             if (currentTS != orderTS) {
                 int ret = TRprocessImp.AddTransactionOrder(serviceAFWeb, accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null, true);
 //                newTran = serviceAFWeb.SystemAddTransactionOrder(accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null);
@@ -980,7 +980,7 @@ public class AccountProcess {
             // Get transaction again process performance
             tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
-
+                
                 ArrayList<PerformanceObj> performanceList = TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, true); // buyOnly true for TR_ACC
                 if (performanceList != null) {
                     if (performanceList.size() == 1) {
@@ -1003,7 +1003,7 @@ public class AccountProcess {
                     }
                 }
             }
-
+            
         } catch (Exception ex) {
             logger.info("> updateTradingTransaction Exception" + ex.getMessage());
         }
@@ -1090,7 +1090,7 @@ public class AccountProcess {
             }
             offset++;
         }
-
+        
         if ((StockArray.size() - offset) < 50) {
             offset = 0;
         }
@@ -1211,31 +1211,31 @@ public class AccountProcess {
         if (FileUtil.FileTest(ServiceAFweb.FileLocalPath + "customer.txt") == false) {
             return false;
         }
-
+        
         int ret = restoreDBcustomer(serviceAFWeb);
         if (ret == 0) {
             return false;
         }
         restoreDBstockinfo(serviceAFWeb);
-
+        
         restoreDBaccount(serviceAFWeb);
         restoreDBstock(serviceAFWeb);
         restoreDBaccountstock_tradingrule(serviceAFWeb);
         restoreDBneuralnet(serviceAFWeb);
-
+        
         restoreDBtransationorder(serviceAFWeb);
         restoreDBcomm(serviceAFWeb);
         restoreDBbilling(serviceAFWeb);
         restoreDBperformance(serviceAFWeb);
 //        restoreDBstockinfo();
         restoreDBdummy(serviceAFWeb);
-
+        
         return true;
-
+        
     }
-
+    
     private int restoreDBdummy(ServiceAFweb serviceAFWeb) {
-
+        
         logger.info("> restoreDBdummy ");
         ArrayList<String> writeSQLArray = new ArrayList();
         String sql = StockDB.createDummytable();
@@ -1256,17 +1256,17 @@ public class AccountProcess {
         }
         return 0;
     }
-
+    
     private int restoreDBneuralnet(ServiceAFweb serviceAFWeb) {
-
+        
         int ret = restoreDBneuralnetProcess(serviceAFWeb, "neuralnet");
         ret = restoreDBneuralnetProcess(serviceAFWeb, "neuralnet1");
         ret = restoreDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
         return ret;
     }
-
+    
     private int restoreDBneuralnetProcess(ServiceAFweb serviceAFWeb, String tableName) {
-
+        
         try {
             ArrayList<String> writeArray = new ArrayList();
             String fName = ServiceAFweb.FileLocalPath + tableName + ".txt";
@@ -1292,18 +1292,18 @@ public class AccountProcess {
                     writeSQLArray.clear();
                     ServiceAFweb.AFSleep();
                 }
-
+                
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBneuralnetProcess - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBneuralnetDataProcess(ServiceAFweb serviceAFWeb, String tableName) {
-
+        
         try {
             ArrayList<String> writeArray = new ArrayList();
             String fName = ServiceAFweb.FileLocalPath + tableName + ".txt";
@@ -1329,16 +1329,16 @@ public class AccountProcess {
                     writeSQLArray.clear();
                     ServiceAFweb.AFSleep();
                 }
-
+                
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBneuralnetDataProcess - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBstockinfo(ServiceAFweb serviceAFWeb) {
         int fileCont = 0;
         String tableName = "stockinfo";
@@ -1357,11 +1357,11 @@ public class AccountProcess {
             //////only require for VMware local
             ret = restoreDBstockinfo(serviceAFWeb, fileCont);
             fileCont++;
-
+            
         }
         return ret;
     }
-
+    
     private int restoreDBstockinfo(ServiceAFweb serviceAFWeb, int fileCont) {
         String tableName = "stockinfo";
         try {
@@ -1369,7 +1369,7 @@ public class AccountProcess {
             String fileName = tableName + "_" + fileCont + ".txt";
             FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + fileName, writeArray);
             ArrayList<String> writeSQLArray = new ArrayList();
-
+            
             logger.info("> restoreDBstockinfo " + writeArray.size());
             int index = 0;
             for (int i = 0; i < writeArray.size(); i++) {
@@ -1386,19 +1386,19 @@ public class AccountProcess {
                     }
                     writeSQLArray.clear();
                     logger.info("> restoreDBstockinfo " + fileName + " total=" + writeArray.size() + " index=" + i);
-
+                    
                     ServiceAFweb.AFSleep();
                 }
-
+                
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBaccount - exception " + ex);
         }
         return 0;
     }
-
+    
     private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
         try {
@@ -1420,7 +1420,7 @@ public class AccountProcess {
         }
         return 0;
     }
-
+    
     private int restoreDBstock(ServiceAFweb serviceAFWeb) {
         String tableName = "stock";
         try {
@@ -1433,16 +1433,16 @@ public class AccountProcess {
                 AFstockObj item = new ObjectMapper().readValue(output, AFstockObj.class);
                 String sql = StockDB.insertStock(item);
                 writeSQLArray.add(sql);
-
+                
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBaccount - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBaccount(ServiceAFweb serviceAFWeb) {
         String tableName = "account";
         try {
@@ -1457,17 +1457,17 @@ public class AccountProcess {
                 writeSQLArray.add(sql);
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBaccount - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBcustomer(ServiceAFweb serviceAFWeb) {
         String tableName = "customer";
         try {
-
+            
             ArrayList<String> writeArray = new ArrayList();
             FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             ArrayList<String> writeSQLArray = new ArrayList();
@@ -1479,13 +1479,13 @@ public class AccountProcess {
                 writeSQLArray.add(sql);
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBcustomer - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBaccountstock_tradingrule(ServiceAFweb serviceAFWeb) {
         String tableName = "tradingrule";
         try {
@@ -1509,16 +1509,16 @@ public class AccountProcess {
                     writeSQLArray.clear();
                     ServiceAFweb.AFSleep();
                 }
-
+                
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBaccountstock - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBbilling(ServiceAFweb serviceAFWeb) {
         String tableName = "billing";
         try {
@@ -1545,19 +1545,19 @@ public class AccountProcess {
                     }
                     writeSQLArray.clear();
                     logger.info("> restoreDBbilling " + fileName + " total=" + writeArray.size() + " index=" + i);
-
+                    
                     ServiceAFweb.AFSleep();
                 }
-
+                
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBbilling - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBcomm(ServiceAFweb serviceAFWeb) {
         String tableName = "comm";
         try {
@@ -1584,19 +1584,19 @@ public class AccountProcess {
                     }
                     writeSQLArray.clear();
                     logger.info("> restoreDBcomm " + fileName + " total=" + writeArray.size() + " index=" + i);
-
+                    
                     ServiceAFweb.AFSleep();
                 }
-
+                
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBcomm - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBtransationorder(ServiceAFweb serviceAFWeb) {
         String tableName = "transationorder";
         try {
@@ -1623,19 +1623,19 @@ public class AccountProcess {
                     }
                     writeSQLArray.clear();
                     logger.info("> restoreDBtransationorder total=" + writeArray.size() + " index=" + i);
-
+                    
                     ServiceAFweb.AFSleep();
                 }
-
+                
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBtransationorder - exception " + ex);
         }
         return 0;
     }
-
+    
     private int restoreDBperformance(ServiceAFweb serviceAFWeb) {
         String tableName = "performance";
         try {
@@ -1654,7 +1654,7 @@ public class AccountProcess {
                 writeSQLArray.add(sql);
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
-
+            
         } catch (IOException ex) {
             logger.info("> restoreDBperformance - exception " + ex);
         }
@@ -1670,7 +1670,7 @@ public class AccountProcess {
         saveDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
         return true;
     }
-
+    
     public boolean downloadDBData(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
 
@@ -1688,14 +1688,14 @@ public class AccountProcess {
 
         return true;
     }
-
+    
     private int saveDBperformance(ServiceAFweb serviceAFWeb) {
-
+        
         String tableName = "performance";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
-
+        
         if (len > 0) {
             for (int id = 0; id < len; id += 500) {
                 String first = idList.get(id);
@@ -1716,15 +1716,15 @@ public class AccountProcess {
                     }
                     break;
                 }
-
+                
             }
             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
-
+        
     }
-
+    
     private int saveDBperformance(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBperformance - " + first + " " + last);
@@ -1735,7 +1735,7 @@ public class AccountProcess {
                 sql = "select * from " + tableName + " where id = " + first;
             }
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
@@ -1748,27 +1748,27 @@ public class AccountProcess {
             PerformanceObj[] arrayItem = new ObjectMapper().readValue(output, PerformanceObj[].class);
             List<PerformanceObj> listItem = Arrays.<PerformanceObj>asList(arrayItem);
             array = new ArrayList<PerformanceObj>(listItem);
-
+            
             for (int i = 0; i < array.size(); i++) {
                 PerformanceObj obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
             return 1;
-
+            
         } catch (Exception ex) {
             logger.info("> saveDBperformance " + ex);
         }
         return 0;
     }
-
+    
     private int saveDBbilling(ServiceAFweb serviceAFWeb) {
-
+        
         String tableName = "billing";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
-
+        
         if (len > 0) {
             for (int id = 0; id < len; id += 500) {
                 String first = idList.get(id);
@@ -1789,17 +1789,17 @@ public class AccountProcess {
                     }
                     break;
                 }
-
+                
             }
             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
-
+        
     }
-
+    
     private int saveDBbilling(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
-
+        
         try {
             logger.info("> saveDBbilling - " + first + " " + last);
             RequestObj sqlObj = new RequestObj();
@@ -1809,7 +1809,7 @@ public class AccountProcess {
                 sql = "select * from " + tableName + " where id = " + first;
             }
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
@@ -1822,27 +1822,27 @@ public class AccountProcess {
             BillingObj[] arrayItem = new ObjectMapper().readValue(output, BillingObj[].class);
             List<BillingObj> listItem = Arrays.<BillingObj>asList(arrayItem);
             array = new ArrayList<BillingObj>(listItem);
-
+            
             for (int i = 0; i < array.size(); i++) {
                 BillingObj obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
             return 1;
-
+            
         } catch (Exception ex) {
             logger.info("> saveDBbilling " + ex);
         }
         return 0;
     }
-
+    
     private int saveDBcomm(ServiceAFweb serviceAFWeb) {
-
+        
         String tableName = "comm";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
-
+        
         if (len > 0) {
             for (int id = 0; id < len; id += 500) {
                 String first = idList.get(id);
@@ -1863,17 +1863,17 @@ public class AccountProcess {
                     }
                     break;
                 }
-
+                
             }
             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
-
+        
     }
-
+    
     private int saveDBcomm(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
-
+        
         try {
             logger.info("> saveDBcomm - " + first + " " + last);
             RequestObj sqlObj = new RequestObj();
@@ -1883,7 +1883,7 @@ public class AccountProcess {
                 sql = "select * from " + tableName + " where id = " + first;
             }
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
@@ -1892,32 +1892,32 @@ public class AccountProcess {
             if (output.equals("null")) {
                 return 0;
             }
-
+            
             ArrayList<CommObj> array = null;
             CommObj[] arrayItem = new ObjectMapper().readValue(output, CommObj[].class);
             List<CommObj> listItem = Arrays.<CommObj>asList(arrayItem);
             array = new ArrayList<CommObj>(listItem);
-
+            
             for (int i = 0; i < array.size(); i++) {
                 CommObj obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
             return 1;
-
+            
         } catch (Exception ex) {
             logger.info("> saveDBcomm " + ex);
         }
         return 0;
     }
-
+    
     private int saveDBtransationorder(ServiceAFweb serviceAFWeb) {
-
+        
         String tableName = "transationorder";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
-
+        
         if (len > 0) {
             for (int id = 0; id < len; id += 500) {
                 String first = idList.get(id);
@@ -1938,17 +1938,17 @@ public class AccountProcess {
                     }
                     break;
                 }
-
+                
             }
             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
-
+        
     }
-
+    
     private int saveDBtransationorder(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
-
+        
         try {
             logger.info("> saveDBtransationorder - " + first + " " + last);
             RequestObj sqlObj = new RequestObj();
@@ -1958,7 +1958,7 @@ public class AccountProcess {
                 sql = "select * from " + tableName + " where id = " + first;
             }
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
@@ -1971,27 +1971,27 @@ public class AccountProcess {
             TransationOrderObj[] arrayItem = new ObjectMapper().readValue(output, TransationOrderObj[].class);
             List<TransationOrderObj> listItem = Arrays.<TransationOrderObj>asList(arrayItem);
             array = new ArrayList<TransationOrderObj>(listItem);
-
+            
             for (int i = 0; i < array.size(); i++) {
                 TransationOrderObj obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
             return 1;
-
+            
         } catch (Exception ex) {
             logger.info("> saveDBtransationorder " + ex);
         }
         return 0;
     }
-
+    
     private int saveDBaccountstock_tradingrule(ServiceAFweb serviceAFWeb) {
-
+        
         String tableName = "tradingrule";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
-
+        
         if (len > 0) {
             for (int id = 0; id < len; id += 500) {
                 String first = idList.get(id);
@@ -2012,19 +2012,19 @@ public class AccountProcess {
                     }
                     break;
                 }
-
+                
             }
             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
         return 0;
-
+        
     }
-
+    
     private int saveDBaccountstock(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
-
+        
         try {
-
+            
             logger.info("> saveDBaccountstock - " + first + " " + last);
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllAccountStock + "");
@@ -2033,31 +2033,42 @@ public class AccountProcess {
                 sql = "select tradingrule.*, tradingrule.trname as symbol from " + tableName + " where id = " + first;
             }
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
                 return 0;
             }
-
+            
             ArrayList<TradingRuleObj> array = null;
             TradingRuleObj[] arrayItem = new ObjectMapper().readValue(output, TradingRuleObj[].class);
             List<TradingRuleObj> listItem = Arrays.<TradingRuleObj>asList(arrayItem);
             array = new ArrayList<TradingRuleObj>(listItem);
-
+            
             for (int i = 0; i < array.size(); i++) {
                 TradingRuleObj obj = array.get(i);
+                if (ServiceAFweb.mydebugtestflag == true) {
+                    AccData accData = serviceAFWeb.getAccData(obj);
+                    String nameSt = "";
+                    
+                    try {
+                        nameSt = new ObjectMapper().writeValueAsString(accData);
+                        nameSt = nameSt.replaceAll("\"", "#");
+                    } catch (JsonProcessingException ex) {                       
+                    }
+                    obj.setComment(nameSt);
+                }
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
             return 1;
-
+            
         } catch (Exception ex) {
             logger.info("> saveDBaccountstock " + ex);
         }
         return 0;
     }
-
+    
     private int saveDBaccount(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "account";
@@ -2074,7 +2085,7 @@ public class AccountProcess {
                     sql = "select * from " + tableName + " where id = " + first;
                 }
                 sqlObj.setReq(sql);
-
+                
                 RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
@@ -2084,7 +2095,7 @@ public class AccountProcess {
                 AccountObj[] arrayItem = new ObjectMapper().readValue(output, AccountObj[].class);
                 List<AccountObj> listItem = Arrays.<AccountObj>asList(arrayItem);
                 array = new ArrayList<AccountObj>(listItem);
-
+                
                 ArrayList<String> writeArray = new ArrayList();
                 for (int i = 0; i < array.size(); i++) {
                     AccountObj obj = array.get(i);
@@ -2099,7 +2110,7 @@ public class AccountProcess {
         }
         return 0;
     }
-
+    
     private int saveDBcustomer(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "customer";
@@ -2116,7 +2127,7 @@ public class AccountProcess {
                     sql = "select * from " + tableName + " where id = " + first;
                 }
                 sqlObj.setReq(sql);
-
+                
                 RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
@@ -2126,7 +2137,7 @@ public class AccountProcess {
                 CustomerObj[] arrayItem = new ObjectMapper().readValue(output, CustomerObj[].class);
                 List<CustomerObj> listItem = Arrays.<CustomerObj>asList(arrayItem);
                 array = new ArrayList<CustomerObj>(listItem);
-
+                
                 ArrayList<String> writeArray = new ArrayList();
                 for (int i = 0; i < array.size(); i++) {
                     CustomerObj obj = array.get(i);
@@ -2141,16 +2152,16 @@ public class AccountProcess {
         }
         return 0;
     }
-
+    
     private int saveDBneuralnet(ServiceAFweb serviceAFWeb) {
         int ret = saveDBneuralnetProcess(serviceAFWeb, "neuralnet");
         ret = saveDBneuralnetProcess(serviceAFWeb, "neuralnet1");
         ret = saveDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
         return ret;
     }
-
+    
     public int saveDBneuralnetProcess(ServiceAFweb serviceAFWeb, String tableName) {
-
+        
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
@@ -2178,14 +2189,14 @@ public class AccountProcess {
             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
-
+        
         return 0;
     }
-
+    
     private int saveDBneuralnet(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBneuralnet - " + tableName + " " + first + " " + last);
-
+            
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllNeuralNet + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
@@ -2193,7 +2204,7 @@ public class AccountProcess {
                 sql = "select * from " + tableName + " where id = " + first;
             }
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
@@ -2203,22 +2214,22 @@ public class AccountProcess {
             AFneuralNet[] arrayItem = new ObjectMapper().readValue(output, AFneuralNet[].class);
             List<AFneuralNet> listItem = Arrays.<AFneuralNet>asList(arrayItem);
             array = new ArrayList<AFneuralNet>(listItem);
-
+            
             for (int i = 0; i < array.size(); i++) {
                 AFneuralNet obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
             return 1;
-
+            
         } catch (Exception ex) {
             logger.info("> saveDBneuralnet " + ex);
         }
         return 0;
     }
-
+    
     private int saveDBneuralnetDataProcess(ServiceAFweb serviceAFWeb, String tableName) {
-
+        
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
         ArrayList<String> writeArray = new ArrayList();
@@ -2246,14 +2257,14 @@ public class AccountProcess {
             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + ".txt", writeArray);
             return 1;
         }
-
+        
         return 0;
     }
-
+    
     private int saveDBneuralnetData(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBneuralnetData - " + tableName + " " + first + " " + last);
-
+            
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllNeuralNetData + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
@@ -2261,7 +2272,7 @@ public class AccountProcess {
                 sql = "select * from " + tableName + " where id = " + first;
             }
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
@@ -2271,22 +2282,22 @@ public class AccountProcess {
             AFneuralNetData[] arrayItem = new ObjectMapper().readValue(output, AFneuralNetData[].class);
             List<AFneuralNetData> listItem = Arrays.<AFneuralNetData>asList(arrayItem);
             array = new ArrayList<AFneuralNetData>(listItem);
-
+            
             for (int i = 0; i < array.size(); i++) {
                 AFneuralNetData obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
             return 1;
-
+            
         } catch (Exception ex) {
             logger.info("> saveDBneuralnetData " + ex);
         }
         return 0;
     }
-
+    
     private int saveDBstockinfo(ServiceAFweb serviceAFWeb) {
-
+        
         String tableName = "stockinfo";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
@@ -2324,14 +2335,14 @@ public class AccountProcess {
             FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + "_" + fileCont + ".txt", writeArray);
             return 1;
         }
-
+        
         return 0;
     }
-
+    
     private int saveDBstockinfo(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBstockinfo - " + first + " " + last);
-
+            
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllStockInfo + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
@@ -2339,7 +2350,7 @@ public class AccountProcess {
                 sql = "select * from " + tableName + " where id = " + first;
             }
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
@@ -2349,20 +2360,20 @@ public class AccountProcess {
             AFstockInfo[] arrayItem = new ObjectMapper().readValue(output, AFstockInfo[].class);
             List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
             array = new ArrayList<AFstockInfo>(listItem);
-
+            
             for (int i = 0; i < array.size(); i++) {
                 AFstockInfo obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
             return 1;
-
+            
         } catch (Exception ex) {
             logger.info("> saveDBstockinfo " + ex);
         }
         return 0;
     }
-
+    
     private int saveDBstock(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "stock";
@@ -2379,7 +2390,7 @@ public class AccountProcess {
                     sql = "select * from " + tableName + " where id = " + first;
                 }
                 sqlObj.setReq(sql);
-
+                
                 RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
@@ -2389,7 +2400,7 @@ public class AccountProcess {
                 AFstockObj[] arrayItem = new ObjectMapper().readValue(output, AFstockObj[].class);
                 List<AFstockObj> listItem = Arrays.<AFstockObj>asList(arrayItem);
                 array = new ArrayList<AFstockObj>(listItem);
-
+                
                 ArrayList<String> writeArray = new ArrayList();
                 for (int i = 0; i < array.size(); i++) {
                     AFstockObj obj = array.get(i);
@@ -2404,7 +2415,7 @@ public class AccountProcess {
         }
         return 0;
     }
-
+    
     private int saveDBlockobject(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "lockobject";
@@ -2421,7 +2432,7 @@ public class AccountProcess {
                     sql = "select * from " + tableName + " where id = " + first;
                 }
                 sqlObj.setReq(sql);
-
+                
                 RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
@@ -2431,7 +2442,7 @@ public class AccountProcess {
                 AFLockObject[] arrayItem = new ObjectMapper().readValue(output, AFLockObject[].class);
                 List<AFLockObject> listItem = Arrays.<AFLockObject>asList(arrayItem);
                 array = new ArrayList<AFLockObject>(listItem);
-
+                
                 ArrayList<String> writeArray = new ArrayList();
                 for (int i = 0; i < array.size(); i++) {
                     AFLockObject obj = array.get(i);
@@ -2446,23 +2457,23 @@ public class AccountProcess {
         }
         return 0;
     }
-
+    
     private ArrayList<String> getDBDataTableId(ServiceAFweb serviceAFWeb, String table) {
         try {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllId + "");
             String sql = "select id from " + table + " order by id asc";
             sqlObj.setReq(sql);
-
+            
             RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             ArrayList<String> array = null;
-
+            
             String[] arrayItem = new ObjectMapper().readValue(output, String[].class);
             List<String> listItem = Arrays.<String>asList(arrayItem);
             array = new ArrayList<String>(listItem);
             return array;
-
+            
         } catch (IOException ex) {
             logger.info("> getDBDataTableId " + ex);
         }
@@ -2537,9 +2548,9 @@ public class AccountProcess {
         442.93,
         439.66,
         441.35
-
+    
     };
-
+    
     public static double[] daRSI = {
         45.15,
         46.26,
@@ -2643,7 +2654,7 @@ public class AccountProcess {
         44.71,
         45.38,
         45.54
-
+    
     };
-
+    
 }

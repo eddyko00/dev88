@@ -700,14 +700,14 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            getAccountProcessImp().downloadDBData(this);
+
 //            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
 //            TrandingSignalProcess.forceToGenerateNewNN = false;
-
 //            NN1ProcessBySignal.processRestinputflag = true;
 //            NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
 //            nn2trend.processNN40InputNeuralNetTrend(this);
 //            nn2trend.processAllNN40StockInputNeuralNetTrend(this);
-
 //            nn1trend.processNN30InputNeuralNetTrend(this);
 //            nn1trend.processAllNN30StockInputNeuralNetTrend(this);
 //              int ret = this.getAccountProcessImp().saveDBneuralnetProcess(this, "neuralnet");
