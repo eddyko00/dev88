@@ -76,7 +76,7 @@ var app = {
             preClose = stockObj.prevClose;
             var percent = 100 * (close - preClose) / preClose;
             if (percent > 0) {
-               percentSt = "<font style= color:green>" + percent.toFixed(2) + '%' + "</font>";
+                percentSt = "<font style= color:green>" + percent.toFixed(2) + '%' + "</font>";
             } else {
                 percentSt = "<font style= color:red>" + percent.toFixed(2) + '%' + "</font>";
             }
@@ -183,12 +183,15 @@ var app = {
             var comment = "Training in progress ...";
             if (trObj.comment != "") {
                 if (trObj.comment != "null") {
-                    var objDataStr = trObj.comment.replaceAll('#', '"');
-                    var objData = JSON.parse(objDataStr);
-                    if (objData != null) {
-                        if (objData.conf != "") {
-                            comment = objData.conf;
+                    try {
+                        var objDataStr = trObj.comment.replaceAll('#', '"');
+                        var objData = JSON.parse(objDataStr);
+                        if (objData != null) {
+                            if (objData.conf != "") {
+                                comment = objData.conf;
+                            }
                         }
+                    } catch (err) {
                     }
                 }
             }
