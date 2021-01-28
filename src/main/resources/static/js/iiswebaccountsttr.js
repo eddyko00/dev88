@@ -75,7 +75,11 @@ var app = {
             close = stockObj.afstockInfo.fclose;
             preClose = stockObj.prevClose;
             var percent = 100 * (close - preClose) / preClose;
-            percentSt = percent.toFixed(2) + '%';
+            if (percent > 0) {
+               percentSt = "<font style= color:green>" + percent.toFixed(2) + '%' + "</font>";
+            } else {
+                percentSt = "<font style= color:red>" + percent.toFixed(2) + '%' + "</font>";
+            }
         }
 
         var stStr = 'Trading Model Listing<br>';
@@ -92,6 +96,8 @@ var app = {
         if (stockObj.substatus == 0) { //INITIAL = 2;
             stStatus = "<font style= color:green>St: Ready</font>";
         }
+
+
 
         stStr += stockObj.stockname + '<br>' + stockObj.updateDateD + " " + stStatus + '<br>' +
                 'Pre Cl:' + preClose + '  Close:' + close + '  Per:' + percentSt
@@ -177,15 +183,21 @@ var app = {
             var comment = "Training in progress ...";
             if (trObj.comment != "") {
                 if (trObj.comment != "null") {
-                    comment = trObj.comment;
+                    var objDataStr = trObj.comment.replaceAll('#', '"');
+                    var objData = JSON.parse(objDataStr);
+                    if (objData != null) {
+                        if (objData.conf != "") {
+                            comment = objData.conf;
+                        }
+                    }
                 }
             }
             if (trObj.trname === "TR_MACD") {
                 htmlName += 'Technical Indicator for MACD';
             } else if (trObj.trname === "TR_NN1") {
-                htmlName += 'Auto AI (macd) : ' + comment;
+                htmlName += 'Auto AI (MACD) : ' + comment;
             } else if (trObj.trname === "TR_NN2") {
-                htmlName += 'Auto AI (adx) -Beta : ' + comment;
+                htmlName += 'Auto AI (EMA) -Beta : ' + comment;
             } else if (trObj.trname === "TR_ACC") {
 
                 var link = trObj.linktradingruleid;
@@ -443,7 +455,7 @@ var app = {
                                 htmlName += '</div>';
                                 htmlName += '<br>';
                                 htmlName += '<div class="ui-grid-a">';
-                                htmlName += '<div class="ui-block-a" >Date: ' + perfEnd + '</div>';                                
+                                htmlName += '<div class="ui-block-a" >Date: ' + perfEnd + '</div>';
                                 htmlName += '<div class="ui-block-b" >From: ' + perfStart + '</div>';
                                 htmlName += '</div>';
 //                                htmlName += '<div class="ui-grid-a">';

@@ -69,7 +69,11 @@ var app = {
         var close = stockObj.afstockInfo.fclose;
         var preClose = stockObj.prevClose;
         var percent = 100 * (close - preClose) / preClose;
-        var percentSt = percent.toFixed(2) + '%';
+        if (percent > 0) {
+            percentSt = "<font style= color:green>" + percent.toFixed(2) + '%' + "</font>";
+        } else {
+            percentSt = "<font style= color:red>" + percent.toFixed(2) + '%' + "</font>";
+        }
 
         var stStr = 'Trading Model Transaction Listing<br>';
         stStr += stockObj.stockname + '<br>' + stockObj.updateDateD + '<br>' +
@@ -168,7 +172,7 @@ var app = {
                     var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
 
-                    tranhtml += 'Share=' + tranObj.share + ' Tran on close: ' + diffSt; // + ' Total: ' + totalSt;
+                    tranhtml += 'Share=' + tranObj.share + ' Tran amt change: ' + diffSt; // + ' Total: ' + totalSt;
                 }
             }
             if (tranObj.trsignal == 1) {
