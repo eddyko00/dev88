@@ -340,7 +340,7 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
-                displayStr += "\r\n" + (">>>>> System nn2testflag:" + ServiceAFweb.nn2testflag);
+                displayStr += "\r\n" + (">>>>> System nn2testflag:" + NN1ProcessBySignal.nn2testflag);
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
@@ -676,7 +676,7 @@ public class ServiceAFweb {
     }
 
     public static boolean mydebugtestflag = false;
-    public static boolean nn2testflag = false;
+
 
     private void AFprocessDebug() {
 
@@ -692,7 +692,7 @@ public class ServiceAFweb {
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            nn2testflag = true;
+            NN1ProcessBySignal.nn2testflag = true;
 
             String symbol = "SE";
             int trNN = ConstantKey.INT_TR_NN2;

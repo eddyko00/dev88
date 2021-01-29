@@ -54,7 +54,10 @@ public class Javamain {
             CKey.DELAY_RESTORE = true;
 
         } else if (cmd.indexOf("nn2testflag") != -1) {
-            ServiceAFweb.nn2testflag = true;
+            NN1ProcessBySignal.nn2testflag = true;
+            
+        } else if (cmd.indexOf("nn3testflag") != -1) {
+            NN1ProcessBySignal.nn3testflag = true;
 
         } else if (cmd.indexOf("mydebugtestflag") != -1) {
             CKey.NN_DEBUG = true;
