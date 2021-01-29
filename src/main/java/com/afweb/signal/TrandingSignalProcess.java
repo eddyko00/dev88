@@ -1083,6 +1083,14 @@ public class TrandingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_EMA0:
                     // check if signal to buy or sell
+                    if (NN1ProcessBySignal.nn3testflag == true) {
+                        EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
+                        trObj.setTrsignal(ema1020.trsignal);
+                        trHistory.setTrsignal(trObj.getTrsignal());
+                        trHistory.setParm1((float) ema1020.ema);
+                        trHistory.setParm2((float) ema1020.lastema);
+                        break;
+                    }
                     EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
                     trObj.setTrsignal(ema510.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
@@ -1091,6 +1099,14 @@ public class TrandingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_EMA1:   // normal
                     // check if signal to buy or sell
+                    if (NN1ProcessBySignal.nn3testflag == true) {
+                        EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_4, ConstantKey.INT_EMA_8);
+                        trObj.setTrsignal(ema1020.trsignal);
+                        trHistory.setTrsignal(trObj.getTrsignal());
+                        trHistory.setParm1((float) ema1020.ema);
+                        trHistory.setParm2((float) ema1020.lastema);
+                        break;
+                    }
                     EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
                     trObj.setTrsignal(ema1020.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
@@ -1099,6 +1115,14 @@ public class TrandingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_EMA2:
                     // check if signal to buy or sell
+                    if (NN1ProcessBySignal.nn3testflag == true) {
+                        EMAObj ema816 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_6, ConstantKey.INT_EMA_12);
+                        trObj.setTrsignal(ema816.trsignal);
+                        trHistory.setTrsignal(trObj.getTrsignal());
+                        trHistory.setParm1((float) ema816.ema);
+                        trHistory.setParm2((float) ema816.lastema);
+                        break;
+                    }
                     EMAObj ema816 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_8, ConstantKey.INT_EMA_16);
                     trObj.setTrsignal(ema816.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());

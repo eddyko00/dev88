@@ -130,6 +130,7 @@ public class ConstantKey {
 
     public static final int INT_TR_EMA0 = 130;  // fast
     //ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6
+    public static final int INT_EMA_2 = 2;       
     public static final int INT_EMA_3 = 3;    
     public static final int INT_EMA_6 = 6;   
     public static final int INT_EMA_4 = 4;
