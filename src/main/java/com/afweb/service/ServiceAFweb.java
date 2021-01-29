@@ -313,22 +313,24 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + (">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
                 displayStr += "\r\n" + (">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
+                String dbStr = "";
                 if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
                     String dsURL = CKey.dataSourceURL;
-                    displayStr += "\r\n" + (">>>>> System Local DB URL:" + dsURL);
+                    dbStr += "\r\n" + (">>>>> System Local DB URL:" + dsURL);
                 }
                 if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                     if (CKey.OTHER_PHP1_MYSQL == true) {
-                        displayStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
+                        dbStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
                     } else {
-                        displayStr += "\r\n" + (">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
+                        dbStr += "\r\n" + (">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
                     }
                 } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                     if (dataSource != null) {
                         DriverManagerDataSource dataSourceObj = (DriverManagerDataSource) dataSource;
-                        displayStr += "\r\n" + (">>>>> System LOCAL_MYSQL DB URL:" + dataSourceObj.getUrl());
+                        dbStr += "\r\n" + (">>>>> System LOCAL_MYSQL DB URL:" + dataSourceObj.getUrl());
                     }
                 }
+                displayStr += "\r\n" + dbStr;
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
                 displayStr += "\r\n" + (">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
@@ -341,9 +343,11 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + NN1ProcessBySignal.nn2testflag);
+                displayStr += "\r\n" + (">>>>> System nn3testflag:" + NN1ProcessBySignal.nn3testflag);
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-
+                displayStr += "\r\n" + dbStr;
+                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");                
                 logger.info(displayStr);
 
 //                boolean CKey.backupFlag = false;
@@ -677,7 +681,6 @@ public class ServiceAFweb {
 
     public static boolean mydebugtestflag = false;
 
-
     private void AFprocessDebug() {
 
         if (mydebugtestflag == true) {
@@ -701,7 +704,6 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 //            getAccountProcessImp().downloadDBData(this);
-
 //            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
 //            TrandingSignalProcess.forceToGenerateNewNN = false;
 //            NN1ProcessBySignal.processRestinputflag = true;
