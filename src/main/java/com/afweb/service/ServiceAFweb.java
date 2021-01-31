@@ -714,7 +714,7 @@ public class ServiceAFweb {
         if (processNeuralNetFlag == true) {
             while (true) {
                 AFprocessNeuralNet();
-                logger.info("> Waiting 30 sec........");
+                logger.info("> Waiting 30 sec cntNN " + cntNN + "........");
                 try {
                     Thread.sleep(30 * 1000);
                 } catch (InterruptedException ex) {
