@@ -679,23 +679,25 @@ public class ServiceAFweb {
     public void AFprocessNeuralNet() {
         cntNN++;
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        NN1ProcessByTrend nntrend = new NN1ProcessByTrend();
-        NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
+        NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+        NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
+        NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
+        NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();        
 
         nn1testflag = true;
         nn2testflag = true;
 
         if (cntNN == 1) {
-            nnProcBySig.ProcessTrainNeuralNetBySign(this);
+            nn1ProcBySig.ProcessTrainNeuralNetBySign(this);
             return;
         } else if (cntNN == 2) {
-            nntrend.ProcessTrainNeuralNetNN1ByTrend(this);
+            nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
             return;
         } else if (cntNN == 3) {
             NNProcessImp.ProcessReLearnInputNeuralNet(this);
             return;
         } else if (cntNN == 4) {
-            nnProcBySig.ProcessTrainNeuralNetBySign(this);
+            nn1ProcBySig.ProcessTrainNeuralNetBySign(this);
             return;
         }
         cntNN = 0;
