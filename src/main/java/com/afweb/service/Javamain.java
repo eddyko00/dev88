@@ -51,10 +51,11 @@ public class Javamain {
 
         } else if (cmd.indexOf("delayrestoryflag") != -1) {
             CKey.DELAY_RESTORE = true;
-
-        } else if (cmd.indexOf("nn2testflag") != -1) {
-            ServiceAFweb.nn2testflag = true;
             
+        } else if (cmd.indexOf("nn1testflag") != -1) {
+            ServiceAFweb.nn1testflag = true;
+        } else if (cmd.indexOf("nn2testflag") != -1) {
+            ServiceAFweb.nn2testflag = true;           
         } else if (cmd.indexOf("nn3testflag") != -1) {
             ServiceAFweb.nn3testflag = true;
 

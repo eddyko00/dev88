@@ -342,12 +342,14 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
+                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + dbStr;
-                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");                
+                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 logger.info(displayStr);
 
 //                boolean CKey.backupFlag = false;
@@ -552,7 +554,7 @@ public class ServiceAFweb {
 ///////////////////////////////////////////////////////////////////////////////////
                     AFprocessDebug();
                     processNeuralNetTrain();
-                    
+
 ///////////////////////////////////////////////////////////////////////////////////
                     logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
                 }
@@ -658,17 +660,19 @@ public class ServiceAFweb {
 
     public static String debugSymbol = "HOU.TO";
 
-    public static boolean forceNNReadFileflag = false;   
+    public static boolean forceNNReadFileflag = false;
     public static boolean flagNNLearningSignal = false;
     public static boolean flagNN3LearningTrend = false;
     public static boolean flagNNReLearning = false;
     public static boolean processNNSignalAdmin = false;
     public static boolean processRestinputflag = false;
     public static boolean processRestAllStockflag = false;
+
+    public static boolean nn1testflag = false;
     public static boolean nn2testflag = false;
-    public static boolean nn3testflag = false;        
+    public static boolean nn3testflag = false;
     public static int cntNN = 0;
-    
+
     public void AFprocessNeuralNet() {
         cntNN++;
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -700,7 +704,7 @@ public class ServiceAFweb {
         NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
         NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
-        
+
         TrandingSignalProcess.forceToGenerateNewNN = false;
         int k = 0;
 
@@ -710,7 +714,7 @@ public class ServiceAFweb {
 
 ////////////////////////////////////////////////////////////////////////////
             if (flagNNLearningSignal == true) {
-                if (nn2testflag == false) {
+                if (nn1testflag == true) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
@@ -735,7 +739,7 @@ public class ServiceAFweb {
 
             if (flagNN3LearningTrend == true) {
                 exitflag = false;
-                if (nn2testflag == false) {
+                if (nn1testflag == true) {
                     if (((k % 5) == 0) || (k == 0)) {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN30);
                     }
@@ -748,7 +752,7 @@ public class ServiceAFweb {
                     }
                     logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
                     nn2trend.ProcessTrainNeuralNeNN2tByTrend(this);
-                    logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);                    
+                    logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);
                 }
             }
 
@@ -770,16 +774,16 @@ public class ServiceAFweb {
                 TRprocessImp.UpdateAllStock(this);
                 logger.info("> processNNSignalAdmin end... cycle " + k);
             }
-            
+
 ////////////////////////////////////////////////////////////////////////////            
             if (processRestinputflag == true) {
-                if (nn2testflag == false) {
+                if (nn1testflag == true) {
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn1ProcBySig.processInputNeuralNet(this);
                     nn1ProcBySig.processAllStockInputNeuralNet(this);
-                    
+
                     nn1trend.processNN30InputNeuralNetTrend(this);
                     nn1trend.processAllNN30StockInputNeuralNetTrend(this);
                     return;
@@ -789,8 +793,8 @@ public class ServiceAFweb {
                     /// remember to update nnData and nn3Data and version                
                     nn2ProcBySig.processNN2InputNeuralNet(this);
                     nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
-                    
-                    nn2trend.processNN40InputNeuralNetTrend(this);                    
+
+                    nn2trend.processNN40InputNeuralNetTrend(this);
                     nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
 
@@ -824,7 +828,7 @@ public class ServiceAFweb {
 
     }
 ///////////////////////////////
-    
+
     public static boolean mydebugtestflag = false;
 
     private void AFprocessDebug() {
@@ -979,8 +983,6 @@ public class ServiceAFweb {
             }
         }
 
-        
-        
         boolean dbhero2opflag = false;
         if (dbhero2opflag == true) {
             boolean prevOPSHIFT = CKey.OTHER_PHP1_MYSQL;

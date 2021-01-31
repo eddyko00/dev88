@@ -46,7 +46,7 @@ public class TradingNNprocess {
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
             ArrayList stockTRNameArray = new ArrayList();
-            if (ServiceAFweb.nn2testflag == false) {
+            if (ServiceAFweb.nn1testflag == true) {
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     String sym = (String) stockNameArray.get(i);
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
