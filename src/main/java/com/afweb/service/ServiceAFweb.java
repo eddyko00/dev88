@@ -343,6 +343,8 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+                displayStr += "\r\n" + (">>>>> System processNeuralNetFlag:" + processNeuralNetFlag);
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
@@ -668,6 +670,7 @@ public class ServiceAFweb {
     public static boolean processRestinputflag = false;
     public static boolean processRestAllStockflag = false;
 
+    public static boolean processNeuralNetFlag = false;
     public static boolean nn1testflag = false;
     public static boolean nn2testflag = false;
     public static boolean nn3testflag = false;
@@ -678,20 +681,21 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessByTrend nntrend = new NN1ProcessByTrend();
         NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
+
+        nn1testflag = true;
+        nn2testflag = true;
+
         if (cntNN == 1) {
-            if (flagNNLearningSignal == true) {
-                nnProcBySig.ProcessTrainNeuralNetBySign(this);
-            }
+            nnProcBySig.ProcessTrainNeuralNetBySign(this);
             return;
         } else if (cntNN == 2) {
-            if (flagNN3LearningTrend == true) {
-                nntrend.ProcessTrainNeuralNetNN1ByTrend(this);
-            }
+            nntrend.ProcessTrainNeuralNetNN1ByTrend(this);
             return;
         } else if (cntNN == 3) {
-            if (flagNNReLearning == true) {
-                NNProcessImp.ProcessReLearnInputNeuralNet(this);
-            }
+            NNProcessImp.ProcessReLearnInputNeuralNet(this);
+            return;
+        } else if (cntNN == 4) {
+            nnProcBySig.ProcessTrainNeuralNetBySign(this);
             return;
         }
         cntNN = 0;
@@ -706,8 +710,20 @@ public class ServiceAFweb {
         NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
 
         TrandingSignalProcess.forceToGenerateNewNN = false;
-        int k = 0;
 
+        if (processNeuralNetFlag == true) {
+            while (true) {
+                AFprocessNeuralNet();
+                logger.info("> Waiting 30 sec........");
+                try {
+                    Thread.sleep(30 * 1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+
+        int k = 0;
         while (true) {
             k++;
             boolean exitflag = true;
