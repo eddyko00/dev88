@@ -343,7 +343,7 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn1testflag);
+                displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
