@@ -342,8 +342,8 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
-                displayStr += "\r\n" + (">>>>> System nn2testflag:" + NN1ProcessBySignal.nn2testflag);
-                displayStr += "\r\n" + (">>>>> System nn3testflag:" + NN1ProcessBySignal.nn3testflag);
+                displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
+                displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + dbStr;
@@ -551,7 +551,8 @@ public class ServiceAFweb {
 
 ///////////////////////////////////////////////////////////////////////////////////
                     AFprocessDebug();
-                    AFprocessNN();
+                    processNeuralNetTrain();
+                    
 ///////////////////////////////////////////////////////////////////////////////////
                     logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
                 }
@@ -635,8 +636,7 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);
-            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
-            nnProcBySig.mainProcessNeuralNet(this);
+            AFprocessNeuralNet();
 //            getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
@@ -658,27 +658,173 @@ public class ServiceAFweb {
 
     public static String debugSymbol = "HOU.TO";
 
-    public static boolean forceNNReadFileflag = false;
-
-    private void AFprocessNN() {
-        NN1ProcessByTrend nnStProcByTrend = new NN1ProcessByTrend();
+    public static boolean forceNNReadFileflag = false;   
+    public static boolean flagNNLearningSignal = false;
+    public static boolean flagNN3LearningTrend = false;
+    public static boolean flagNNReLearning = false;
+    public static boolean processNNSignalAdmin = false;
+    public static boolean processRestinputflag = false;
+    public static boolean processRestAllStockflag = false;
+    public static boolean nn2testflag = false;
+    public static boolean nn3testflag = false;        
+    public static int cntNN = 0;
+    
+    public void AFprocessNeuralNet() {
+        cntNN++;
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        NN1ProcessByTrend nntrend = new NN1ProcessByTrend();
         NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
-
-//        nnProcBySig.processNeuralNet(this);
-//        nnStProcByTrend.processNeuralNetTrendPred(this);
-        ///////////////////////////////////////////////////////////////////////////////        
-//        TrandingSignalProcess.forceToGenerateNewNN = false;
-//        // start training
-//        // TrainingNNBP inputpattern 1748
-        // Main training nn and trend
-        boolean processinputTrainflag = true;
-        if (processinputTrainflag == true) {
-            nnProcBySig.processNeuralNetTrain(this);
+        if (cntNN == 1) {
+            if (flagNNLearningSignal == true) {
+                nnProcBySig.ProcessTrainNeuralNetBySign(this);
+            }
+            return;
+        } else if (cntNN == 2) {
+            if (flagNN3LearningTrend == true) {
+                nntrend.ProcessTrainNeuralNetNN1ByTrend(this);
+            }
+            return;
+        } else if (cntNN == 3) {
+            if (flagNNReLearning == true) {
+                NNProcessImp.ProcessReLearnInputNeuralNet(this);
+            }
+            return;
         }
-
-/////////////////////////////////        
+        cntNN = 0;
     }
 
+    public void processNeuralNetTrain() {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
+        NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+        NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
+        NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
+        
+        TrandingSignalProcess.forceToGenerateNewNN = false;
+        int k = 0;
+
+        while (true) {
+            k++;
+            boolean exitflag = true;
+
+////////////////////////////////////////////////////////////////////////////
+            if (flagNNLearningSignal == true) {
+                if (nn2testflag == false) {
+                    exitflag = false;
+                    if (((k % 5) == 0) || (k == 0)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
+                    }
+                    logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
+                    nn1ProcBySig.ProcessTrainNeuralNetBySign(this);
+                    logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
+
+                } else if (nn2testflag == true) {
+                    exitflag = false;
+                    if (((k % 5) == 0) || (k == 0)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN2);
+                    }
+                    logger.info("> ProcessTrainNeuralNet NN 2 cycle " + k);
+
+                    nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
+                    logger.info("> ProcessTrainNeuralNet NN 2 end... cycle " + k);
+
+                }
+            }
+////////////////////////////////////////////////////////////////////////////
+
+            if (flagNN3LearningTrend == true) {
+                exitflag = false;
+                if (nn2testflag == false) {
+                    if (((k % 5) == 0) || (k == 0)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN30);
+                    }
+                    logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
+                    nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
+                    logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
+                } else if (nn2testflag == true) {
+                    if (((k % 5) == 0) || (k == 0)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN40);
+                    }
+                    logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
+                    nn2trend.ProcessTrainNeuralNeNN2tByTrend(this);
+                    logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);                    
+                }
+            }
+
+////////////////////////////////////////////////////////////////////////////          
+            if (flagNNReLearning == true) {
+                exitflag = false;
+                logger.info("> ProcessReLeanInput NN 1 cycle " + k);
+                NNProcessImp.ProcessReLearnInputNeuralNet(this);
+                logger.info("> ProcessReLeanInput end... cycle " + k);
+
+            }
+////////////////////////////////////////////////////////////////////////////
+
+            if (processNNSignalAdmin == true) {
+                exitflag = false;
+                logger.info("> processNNSignalAdmin  cycle " + k);
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.UpdateAllStock(this);
+                logger.info("> processNNSignalAdmin end... cycle " + k);
+            }
+            
+////////////////////////////////////////////////////////////////////////////            
+            if (processRestinputflag == true) {
+                if (nn2testflag == false) {
+                    exitflag = true;
+                    /// reset weight0 and use latest stock
+                    /// remember to update nnData and nn3Data and version                
+                    nn1ProcBySig.processInputNeuralNet(this);
+                    nn1ProcBySig.processAllStockInputNeuralNet(this);
+                    
+                    nn1trend.processNN30InputNeuralNetTrend(this);
+                    nn1trend.processAllNN30StockInputNeuralNetTrend(this);
+                    return;
+                } else if (nn2testflag == true) {
+                    exitflag = true;
+                    /// reset weight0 and use latest stock
+                    /// remember to update nnData and nn3Data and version                
+                    nn2ProcBySig.processNN2InputNeuralNet(this);
+                    nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
+                    
+                    nn2trend.processNN40InputNeuralNetTrend(this);                    
+                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
+                    ///////////////////////////////
+
+                    return;
+                }
+            }
+////////////////////////////////////////////////////////////////////////////
+            if (processRestAllStockflag == true) {
+                exitflag = true;
+                ///////////////////////////////   
+                String symbolL[] = ServiceAFweb.primaryStock;
+                nn1ProcBySig.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_ALLSTOCK");
+
+                String symbolLallSt[] = ServiceAFweb.allStock;
+                nn1ProcBySig.AllStockHistoryCreatJava(this, symbolLallSt, "nnAllStock1", "NN_1ALLSTOCK");
+
+                return;
+            }
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+            if (exitflag == true) {
+                break;
+            }
+            logger.info("> Waiting 30 sec........");
+            try {
+                Thread.sleep(30 * 1000);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+    }
+///////////////////////////////
+    
     public static boolean mydebugtestflag = false;
 
     private void AFprocessDebug() {
@@ -695,7 +841,7 @@ public class ServiceAFweb {
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            NN1ProcessBySignal.nn2testflag = true;
+            nn2testflag = true;
 
             String symbol = "SE";
             int trNN = ConstantKey.INT_TR_NN2;
@@ -833,63 +979,8 @@ public class ServiceAFweb {
             }
         }
 
-//        boolean saveStockDBFlag = false;
-//        if (saveStockDBFlag == true) {
-//            ArrayList stockNameArray = getAllOpenStockNameArray();
-//            logger.info("updateRealTimeStock " + stockNameArray.size());
-//            for (int k = 0; k < stockNameArray.size(); k++) {
-//                String sym = (String) stockNameArray.get(k);
-//
-//                String StFileName = FileLocalPath + sym + ".txt";
-//                ArrayList<String> writeArray = new ArrayList();
-//                FileUtil.FileReadTextArray(StFileName, writeArray);
-//                if (writeArray.size() == 0) {
-//                    continue;
-//                }
-//                ArrayList StockArray = new ArrayList();
-//                for (int j = 0; j < writeArray.size(); j++) {
-//                    String st = writeArray.get(j);
-//                    try {
-//                        AFstockInfo stockInfo = new ObjectMapper().readValue(st, AFstockInfo.class);
-//                        StockArray.add(stockInfo);
-//                    } catch (IOException ex) {
-//                    }
-//                }
-//                ArrayList<AFstockInfo> StockSendArray = new ArrayList();
-//                int index = 0;
-//                ///make it last date fisrt
-//                Collections.reverse(StockArray);
-//
-//                for (int i = 0; i < StockArray.size(); i++) {
-//
-//                    StockSendArray.add((AFstockInfo) StockArray.get(i));
-//                    index++;
-//                    if (index > 99) {
-//                        index = 0;
-//                        Collections.reverse(StockSendArray);
-//                        StockInfoTranObj stockInfoTran = new StockInfoTranObj();
-//                        stockInfoTran.setNormalizeName(sym);
-//                        stockInfoTran.setStockInfoList(StockSendArray);
-//
-//                        int ret = updateStockInfoTransaction(stockInfoTran);
-//                        if (ret == 0) {
-//                            continue;
-//                        }
-//                        StockSendArray.clear();
-//                    }
-//
-//                }
-//                Collections.reverse(StockSendArray);
-//                StockInfoTranObj stockInfoTran = new StockInfoTranObj();
-//                stockInfoTran.setNormalizeName(sym);
-//                stockInfoTran.setStockInfoList(StockSendArray);
-//                if (StockSendArray.size() == 0) {
-//                    continue;
-//                }
-//                updateStockInfoTransaction(stockInfoTran);
-//            }
-//        }
-//
+        
+        
         boolean dbhero2opflag = false;
         if (dbhero2opflag == true) {
             boolean prevOPSHIFT = CKey.OTHER_PHP1_MYSQL;

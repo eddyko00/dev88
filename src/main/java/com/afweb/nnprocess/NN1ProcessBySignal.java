@@ -11,14 +11,14 @@ import com.afweb.model.account.*;
 
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.nnBP.NNBPservice;
+import com.afweb.nnBP.*;
 import com.afweb.service.*;
 
 import com.afweb.signal.*;
-import com.afweb.stock.StockInternet;
+import com.afweb.stock.*;
 import com.afweb.util.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,170 +36,9 @@ import java.util.logging.Logger;
 public class NN1ProcessBySignal {
 
     public static Logger logger = Logger.getLogger("NNProcess");
-    public static boolean flagNNLearningSignal = false;
-    public static boolean flagNN3LearningTrend = false;
-    public static boolean flagNNReLearning = false;
-    public static boolean processNNSignalAdmin = false;
-    public static boolean processRestinputflag = false;
-    public static boolean processRestAllStockflag = false;
-    public static boolean nn2testflag = false;
-    public static boolean nn3testflag = false;    
-    public static int cntNN = 0;
 
-    public void mainProcessNeuralNet(ServiceAFweb serviceAFWeb) {
-        cntNN++;
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        NN1ProcessByTrend nntrend = new NN1ProcessByTrend();
-        NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
-        if (cntNN == 1) {
-            if (flagNNLearningSignal == true) {
-                nnProcBySig.ProcessTrainNeuralNetBySign(serviceAFWeb);
-            }
-            return;
-        } else if (cntNN == 2) {
-            if (flagNN3LearningTrend == true) {
-                nntrend.ProcessTrainNeuralNetNN1ByTrend(serviceAFWeb);
-            }
-            return;
-        } else if (cntNN == 3) {
-            if (flagNNReLearning == true) {
-                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
-            }
-            return;
-        }
-        cntNN = 0;
-    }
 
-    public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
-        NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-        NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
-        
-        TrandingSignalProcess.forceToGenerateNewNN = false;
-        int k = 0;
 
-        while (true) {
-            k++;
-            boolean exitflag = true;
-
-////////////////////////////////////////////////////////////////////////////
-            if (flagNNLearningSignal == true) {
-                if (NN1ProcessBySignal.nn2testflag == false) {
-                    exitflag = false;
-                    if (((k % 5) == 0) || (k == 0)) {
-                        NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
-                    }
-                    logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
-                    ProcessTrainNeuralNetBySign(serviceAFWeb);
-                    logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
-
-                } else if (NN1ProcessBySignal.nn2testflag == true) {
-                    exitflag = false;
-                    if (((k % 5) == 0) || (k == 0)) {
-                        NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
-                    }
-                    logger.info("> ProcessTrainNeuralNet NN 2 cycle " + k);
-
-                    nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(serviceAFWeb);
-                    logger.info("> ProcessTrainNeuralNet NN 2 end... cycle " + k);
-
-                }
-            }
-////////////////////////////////////////////////////////////////////////////
-
-            if (flagNN3LearningTrend == true) {
-                exitflag = false;
-                if (NN1ProcessBySignal.nn2testflag == false) {
-                    if (((k % 5) == 0) || (k == 0)) {
-                        NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN30);
-                    }
-                    logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
-                    nn1trend.ProcessTrainNeuralNetNN1ByTrend(serviceAFWeb);
-                    logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
-                } else if (NN1ProcessBySignal.nn2testflag == true) {
-                    if (((k % 5) == 0) || (k == 0)) {
-                        NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN40);
-                    }
-                    logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
-                    nn2trend.ProcessTrainNeuralNeNN2tByTrend(serviceAFWeb);
-                    logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);                    
-                }
-            }
-
-////////////////////////////////////////////////////////////////////////////          
-            if (flagNNReLearning == true) {
-                exitflag = false;
-                logger.info("> ProcessReLeanInput NN 1 cycle " + k);
-                NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
-                logger.info("> ProcessReLeanInput end... cycle " + k);
-
-            }
-////////////////////////////////////////////////////////////////////////////
-
-            if (processNNSignalAdmin == true) {
-                exitflag = false;
-                logger.info("> processNNSignalAdmin  cycle " + k);
-                TRprocessImp.ProcessAdminSignalTrading(serviceAFWeb);
-                serviceAFWeb.getAccountProcessImp().ProcessAllAccountTradingSignal(serviceAFWeb);
-                TRprocessImp.UpdateAllStock(serviceAFWeb);
-                logger.info("> processNNSignalAdmin end... cycle " + k);
-            }
-            
-////////////////////////////////////////////////////////////////////////////            
-            if (processRestinputflag == true) {
-                if (NN1ProcessBySignal.nn2testflag == false) {
-                    exitflag = true;
-                    /// reset weight0 and use latest stock
-                    /// remember to update nnData and nn3Data and version                
-                    processInputNeuralNet(serviceAFWeb);
-                    processAllStockInputNeuralNet(serviceAFWeb);
-                    
-                    nn1trend.processNN30InputNeuralNetTrend(serviceAFWeb);
-                    nn1trend.processAllNN30StockInputNeuralNetTrend(serviceAFWeb);
-                    return;
-                } else if (NN1ProcessBySignal.nn2testflag == true) {
-                    exitflag = true;
-                    /// reset weight0 and use latest stock
-                    /// remember to update nnData and nn3Data and version                
-                    nn2ProcBySig.processNN2InputNeuralNet(serviceAFWeb);
-                    nn2ProcBySig.processAllNN2StockInputNeuralNet(serviceAFWeb);
-                    
-                    nn2trend.processNN40InputNeuralNetTrend(serviceAFWeb);                    
-                    nn2trend.processAllNN40StockInputNeuralNetTrend(serviceAFWeb);
-                    ///////////////////////////////
-
-                    return;
-                }
-            }
-////////////////////////////////////////////////////////////////////////////
-            if (processRestAllStockflag == true) {
-                exitflag = true;
-                ///////////////////////////////   
-                String symbolL[] = ServiceAFweb.primaryStock;
-                AllStockHistoryCreatJava(serviceAFWeb, symbolL, "nnAllStock", "NN_ALLSTOCK");
-
-                String symbolLallSt[] = ServiceAFweb.allStock;
-                AllStockHistoryCreatJava(serviceAFWeb, symbolLallSt, "nnAllStock1", "NN_1ALLSTOCK");
-
-                return;
-            }
-////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-            if (exitflag == true) {
-                break;
-            }
-            logger.info("> Waiting 30 sec........");
-            try {
-                Thread.sleep(30 * 1000);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-        }
-
-    }
-///////////////////////////////
 
     public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////

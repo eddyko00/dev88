@@ -46,13 +46,13 @@ public class TradingNNprocess {
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
             ArrayList stockTRNameArray = new ArrayList();
-            if (NN1ProcessBySignal.nn2testflag == false) {
+            if (ServiceAFweb.nn2testflag == false) {
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     String sym = (String) stockNameArray.get(i);
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                     stockTRNameArray.add(symTR);
                 }
-            } else if (NN1ProcessBySignal.nn2testflag == true) {
+            } else if (ServiceAFweb.nn2testflag == true) {
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     String sym = (String) stockNameArray.get(i);
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN2;

@@ -914,7 +914,7 @@ public class TrandingSignalProcess {
                     }
 
                     if (CKey.NN_DEBUG == true) {
-                        if (NN1ProcessBySignal.processRestinputflag == true) {
+                        if (ServiceAFweb.processRestinputflag == true) {
                             boolean flag = true;
                             if (flag == true) {
                                 ArrayList<String> writeArray = new ArrayList();
@@ -1083,7 +1083,7 @@ public class TrandingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_EMA0:
                     // check if signal to buy or sell
-                    if (NN1ProcessBySignal.nn3testflag == true) {
+                    if (ServiceAFweb.nn3testflag == true) {
                         EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
                         trObj.setTrsignal(ema1020.trsignal);
                         trHistory.setTrsignal(trObj.getTrsignal());
@@ -1099,7 +1099,7 @@ public class TrandingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_EMA1:   // normal
                     // check if signal to buy or sell
-                    if (NN1ProcessBySignal.nn3testflag == true) {
+                    if (ServiceAFweb.nn3testflag == true) {
                         EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_4, ConstantKey.INT_EMA_8);
                         trObj.setTrsignal(ema1020.trsignal);
                         trHistory.setTrsignal(trObj.getTrsignal());
@@ -1115,7 +1115,7 @@ public class TrandingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_EMA2:
                     // check if signal to buy or sell
-                    if (NN1ProcessBySignal.nn3testflag == true) {
+                    if (ServiceAFweb.nn3testflag == true) {
                         EMAObj ema816 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_6, ConstantKey.INT_EMA_12);
                         trObj.setTrsignal(ema816.trsignal);
                         trHistory.setTrsignal(trObj.getTrsignal());
@@ -2599,7 +2599,7 @@ public class TrandingSignalProcess {
                         }
                         logger.info("> predictTest release " + num0 + " num0Err=" + num0Err + ", " + num1 + " num1Err=" + num1Err);
 
-                        if (NN1ProcessBySignal.processRestinputflag == true) {
+                        if (ServiceAFweb.processRestinputflag == true) {
                             boolean flag = true;
                             if (flag == true) {
                                 FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + nnNameSym + "_nnPredit.csv", writeArray);

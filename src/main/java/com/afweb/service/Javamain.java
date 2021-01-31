@@ -5,7 +5,6 @@
  */
 package com.afweb.service;
 
-import com.afweb.nnprocess.NN1ProcessBySignal;
 import com.afweb.util.CKey;
 
 /**
@@ -17,17 +16,17 @@ public class Javamain {
     public static void checkParameterFlag(String cmd) {
 
         if (cmd.indexOf("flagNNLearningSignal") != -1) {
-            NN1ProcessBySignal.flagNNLearningSignal = true;
+            ServiceAFweb.flagNNLearningSignal = true;
         } else if (cmd.indexOf("flagNN3LearningTrend") != -1) {
-            NN1ProcessBySignal.flagNN3LearningTrend = true;
+            ServiceAFweb.flagNN3LearningTrend = true;
         } else if (cmd.indexOf("flagNNReLearning") != -1) {
-            NN1ProcessBySignal.flagNNReLearning = true;
+            ServiceAFweb.flagNNReLearning = true;
         } else if (cmd.indexOf("processNNSignalAdmin") != -1) {
-            NN1ProcessBySignal.processNNSignalAdmin = true;
+            ServiceAFweb.processNNSignalAdmin = true;
         } else if (cmd.indexOf("processRestinputflag") != -1) {
-            NN1ProcessBySignal.processRestinputflag = true;
+            ServiceAFweb.processRestinputflag = true;
         } else if (cmd.indexOf("processRestAllStockflag") != -1) {
-            NN1ProcessBySignal.processRestAllStockflag = true;
+            ServiceAFweb.processRestAllStockflag = true;
 
         } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
             CKey.OTHER_PHP1_MYSQL = true;
@@ -54,10 +53,10 @@ public class Javamain {
             CKey.DELAY_RESTORE = true;
 
         } else if (cmd.indexOf("nn2testflag") != -1) {
-            NN1ProcessBySignal.nn2testflag = true;
+            ServiceAFweb.nn2testflag = true;
             
         } else if (cmd.indexOf("nn3testflag") != -1) {
-            NN1ProcessBySignal.nn3testflag = true;
+            ServiceAFweb.nn3testflag = true;
 
         } else if (cmd.indexOf("mydebugtestflag") != -1) {
             CKey.NN_DEBUG = true;
