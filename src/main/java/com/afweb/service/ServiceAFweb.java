@@ -514,9 +514,9 @@ public class ServiceAFweb {
     public boolean debugFlag = false;
 
     public static int initTrainNeuralNetNumber = 0;
+    
 //    public static ArrayList writeArrayNeuralNet = new ArrayList();
-
-    public boolean systemNNFlag = false;
+//    public boolean systemNNFlag = false;
 
     private void processTimer(String cmd) {
 
@@ -677,40 +677,42 @@ public class ServiceAFweb {
     public static int cntNN = 0;
 
     public void AFprocessNeuralNet() {
-        cntNN++;
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
-        NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
-        NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-        NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
+        if (processNeuralNetFlag == true) {
+            cntNN++;
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+            NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
+            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
+            NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
 
-        nn1testflag = true;
-        nn2testflag = true;
+            nn1testflag = true;
+            nn2testflag = true;
 
-        if (cntNN == 1) {
-            nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
-            return;
-        } else if (cntNN == 2) {
-            nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
-            return;
-        } else if (cntNN == 3) {
-            nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
-            return;
-        } else if (cntNN == 4) {
-            nn2trend.ProcessTrainNeuralNetNN2tByTrend(this);
-            return;            
-        } else if (cntNN == 5) {
-            NNProcessImp.ProcessReLearnInputNeuralNet(this);
-            return;
-        } else if (cntNN == 6) {
-            nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
-            return;
-        } else if (cntNN == 7) {
-             nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
-            return;            
+            if (cntNN == 1) {
+                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
+                return;
+            } else if (cntNN == 2) {
+                nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
+                return;
+            } else if (cntNN == 3) {
+                nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
+                return;
+            } else if (cntNN == 4) {
+                nn2trend.ProcessTrainNeuralNetNN2tByTrend(this);
+                return;
+            } else if (cntNN == 5) {
+                NNProcessImp.ProcessReLearnInputNeuralNet(this);
+                return;
+            } else if (cntNN == 6) {
+                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
+                return;
+            } else if (cntNN == 7) {
+                nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
+                return;
+            }
+
+            cntNN = 0;
         }
-
-        cntNN = 0;
     }
 
     public void processNeuralNetTrain() {

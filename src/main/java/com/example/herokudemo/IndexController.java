@@ -1394,7 +1394,7 @@ public class IndexController {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse("" + afWebService.systemNNFlag);
+                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
                 msg.setResult(true);
                 return msg;
             }
@@ -1403,7 +1403,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.systemNNFlag);
+                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
                 msg.setResult(true);
                 return msg;
             }
@@ -1420,13 +1420,9 @@ public class IndexController {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                afWebService.systemNNFlag = true;
+                ServiceAFweb.processNeuralNetFlag = true;
 
-                ServiceAFweb.flagNNLearningSignal = true;
-                ServiceAFweb.flagNN3LearningTrend = true;
-                ServiceAFweb.flagNNReLearning = true;
-
-                msg.setResponse("" + afWebService.systemNNFlag);
+                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
                 msg.setResult(true);
                 return msg;
             }
@@ -1435,13 +1431,9 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                afWebService.systemNNFlag = true;
+                ServiceAFweb.processNeuralNetFlag = true;
 
-                ServiceAFweb.flagNNLearningSignal = true;
-                ServiceAFweb.flagNN3LearningTrend = true;
-                ServiceAFweb.flagNNReLearning = true;
-
-                msg.setResponse("" + afWebService.systemNNFlag);
+                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
                 msg.setResult(true);
                 return msg;
             }
@@ -1458,13 +1450,10 @@ public class IndexController {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                afWebService.systemNNFlag = false;
+                ServiceAFweb.processNeuralNetFlag = false;
 
-                ServiceAFweb.flagNNLearningSignal = false;
-                ServiceAFweb.flagNN3LearningTrend = false;
-                ServiceAFweb.flagNNReLearning = false;
 
-                msg.setResponse("" + afWebService.systemNNFlag);
+                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
                 msg.setResult(true);
                 return msg;
             }
@@ -1473,13 +1462,9 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                afWebService.systemNNFlag = false;
+                ServiceAFweb.processNeuralNetFlag = false;
 
-                ServiceAFweb.flagNNLearningSignal = false;
-                ServiceAFweb.flagNN3LearningTrend = false;
-                ServiceAFweb.flagNNReLearning = false;
-
-                msg.setResponse("" + afWebService.systemNNFlag);
+                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
                 msg.setResult(true);
                 return msg;
             }
