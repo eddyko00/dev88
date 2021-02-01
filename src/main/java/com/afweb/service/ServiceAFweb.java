@@ -682,24 +682,34 @@ public class ServiceAFweb {
         NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-        NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();        
+        NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
 
         nn1testflag = true;
         nn2testflag = true;
 
         if (cntNN == 1) {
-            nn1ProcBySig.ProcessTrainNeuralNetBySign(this);
+            nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
             return;
         } else if (cntNN == 2) {
-            nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
+            nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
             return;
         } else if (cntNN == 3) {
-            NNProcessImp.ProcessReLearnInputNeuralNet(this);
+            nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
             return;
         } else if (cntNN == 4) {
-            nn1ProcBySig.ProcessTrainNeuralNetBySign(this);
+            nn2trend.ProcessTrainNeuralNetNN2tByTrend(this);
+            return;            
+        } else if (cntNN == 5) {
+            NNProcessImp.ProcessReLearnInputNeuralNet(this);
             return;
+        } else if (cntNN == 6) {
+            nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
+            return;
+        } else if (cntNN == 7) {
+             nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
+            return;            
         }
+
         cntNN = 0;
     }
 
@@ -738,7 +748,7 @@ public class ServiceAFweb {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
-                    nn1ProcBySig.ProcessTrainNeuralNetBySign(this);
+                    nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
                     logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
 
                 } else if (nn2testflag == true) {
@@ -769,7 +779,7 @@ public class ServiceAFweb {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN40);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
-                    nn2trend.ProcessTrainNeuralNeNN2tByTrend(this);
+                    nn2trend.ProcessTrainNeuralNetNN2tByTrend(this);
                     logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);
                 }
             }

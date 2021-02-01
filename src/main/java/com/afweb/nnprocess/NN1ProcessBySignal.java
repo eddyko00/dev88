@@ -1073,7 +1073,7 @@ public class NN1ProcessBySignal {
         return stockNNprocessNameArray;
     }
 
-    public void ProcessTrainNeuralNetBySign(ServiceAFweb serviceAFWeb) {
+    public void ProcessTrainNN1NeuralNetBySign(ServiceAFweb serviceAFWeb) {
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         UpdateStockNNprocessNameArray(serviceAFWeb, accountAdminObj);
