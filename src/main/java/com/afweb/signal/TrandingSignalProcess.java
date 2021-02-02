@@ -1631,11 +1631,10 @@ public class TrandingSignalProcess {
         return 0;
     }
 
-    public int updateRealTimeStockTest(ServiceAFweb serviceAFWeb, AFstockObj stock) {
-//        this.serviceAFWeb = serviceAFWeb;
-        return updateRealTimeStock(serviceAFWeb, stock);
-    }
-
+//    public int updateRealTimeStockTest(ServiceAFweb serviceAFWeb, AFstockObj stock) {
+////        this.serviceAFWeb = serviceAFWeb;
+//        return updateRealTimeStock(serviceAFWeb, stock);
+//    }
     public int updateRealTimeStock(ServiceAFweb serviceAFWeb, AFstockObj stock) {
 //        logger.warning("> updateRealTimeStock ");
 
@@ -1778,15 +1777,17 @@ public class TrandingSignalProcess {
                     }
 
                 }
-
+                    
+                // splitFlag == false     
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                     stock.setSubstatus(ConstantKey.OPEN);
-//                    String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-//                    ArrayList sqlList = new ArrayList();
-//                    sqlList.add(sockNameSQL);
-//                    serviceAFWeb.SystemUpdateSQLList(sqlList);
-//                    logger.info("updateRealTimeStock " + NormalizeSymbol + " Stock Split cleared");
-//                    return 0;
+
+                    String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+                    ArrayList sqlList = new ArrayList();
+                    sqlList.add(sockNameSQL);
+                    serviceAFWeb.SystemUpdateSQLList(sqlList);
+                    logger.info("updateRealTimeStock " + NormalizeSymbol + " Split flag was not correct. Clear Split flag");
+                    return 0;
                 }
 
 //                boolean primarySt = true;

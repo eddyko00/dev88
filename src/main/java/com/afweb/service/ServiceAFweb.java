@@ -877,12 +877,18 @@ public class ServiceAFweb {
 
             nn2testflag = true;
 
-            String symbol = "SE";
+            String symbol = "DIA";
             int trNN = ConstantKey.INT_TR_NN2;
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            
+            
+            
+//             AFstockObj stock = getRealTimeStockImp(symbol);
+//             int resultUpdate = TRprocessImp.updateRealTimeStock(this, stock);
+            
 //            getAccountProcessImp().downloadDBData(this);
 //            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
 //            TrandingSignalProcess.forceToGenerateNewNN = false;
@@ -1276,7 +1282,7 @@ public class ServiceAFweb {
         sqlList.add(sockUpdateSQL);
         SystemUpdateSQLList(sqlList);
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-        TRprocessImp.updateRealTimeStockTest(this, stock);
+        TRprocessImp.updateRealTimeStock(this, stock);
     }
 
     public void forceRemoveCustTest(String login, String pass) {
