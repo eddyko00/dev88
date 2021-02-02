@@ -135,6 +135,10 @@ public class CKey {
     public static final float TRADING_AMOUNT = 6000;
     public static final float TRADING_COMMISSION = 7;
 
+    public static final String UA="edabcdykabco2336";
+    public static final String PA="nabcgai0000";
+    public static final String UU="eabcddyabcko88@yahoo.ca";
+    
 ////////////////////////////////////////////////////////////////////////////////    
 //    public static final String MSG_PENDING = "PENDING";
 //    public static final int PENDING = 3;

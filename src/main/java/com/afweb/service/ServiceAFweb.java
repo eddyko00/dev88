@@ -9,6 +9,7 @@ import com.afweb.nnprocess.*;
 import com.afweb.model.*;
 import com.afweb.account.*;
 import com.afweb.chart.ChartService;
+import com.afweb.mail.GmailSender;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
@@ -76,6 +77,10 @@ public class ServiceAFweb {
     public static String URL_LOCALDB = "";
     public static String FileLocalPath = "";
 
+    public static String UA_Str="";
+    public static String PA_Str="";
+    public static String UU_Str="";    
+    
     private static ArrayList TRList = new ArrayList();
 
     private static AccountObj cacheAccountAdminObj = null;
@@ -204,7 +209,16 @@ public class ServiceAFweb {
         if (FileLocalPath.length() == 0) {
             FileLocalPath = CKey.FileLocalPathTemp;
         }
-
+        String paStr = CKey.PA;
+        paStr = StringTag.replaceAll("abc", "", paStr);
+        PA_Str = paStr;
+        paStr = CKey.UA;
+        paStr = StringTag.replaceAll("abc", "", paStr);
+        UA_Str = paStr;
+        paStr = CKey.UU;
+        paStr = StringTag.replaceAll("abc", "", paStr);
+        UU_Str = paStr;        
+        
     }
 
     public int timerThread() {
@@ -883,7 +897,17 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            
+        try {
+            GmailSender sender = new GmailSender();
+            sender.setSender(UA_Str, PA_Str);
+            sender.addRecipient(UU_Str);
+            sender.setSubject("The subject");
+            sender.setBody("The body");
+//            sender.addAttachment("TestFile.txt");
+            sender.send();
+        } catch (Exception ex) {
+
+        }            
             
             
 //             AFstockObj stock = getRealTimeStockImp(symbol);

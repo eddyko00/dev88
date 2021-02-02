@@ -11,6 +11,8 @@ package com.afweb.mail;
  */
 //https://stackoverflow.com/questions/46663/how-can-i-send-an-email-by-java-application-using-gmail-yahoo-or-hotmail
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -41,7 +43,7 @@ public class GmailSender {
     public void GmailMain() {
         try {
             GmailSender sender = new GmailSender();
-            sender.setSender("myEmailNameWithout@gmail.com", "mypassword");
+            sender.setSender("myEmailName", "mypassword");
             sender.addRecipient("recipient@somehost.com");
             sender.setSubject("The subject");
             sender.setBody("The body");
@@ -57,7 +59,7 @@ public class GmailSender {
     }
 
     public void setSender(String username, String password) {
-        this.username = username;
+        this.username = username+"@gmail.com";
         this.password = password;
 
         this.session = getSession();
