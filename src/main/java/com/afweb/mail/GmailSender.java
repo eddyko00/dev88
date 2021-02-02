@@ -45,7 +45,7 @@ public class GmailSender {
             sender.addRecipient("recipient@somehost.com");
             sender.setSubject("The subject");
             sender.setBody("The body");
-            sender.addAttachment("TestFile.txt");
+//            sender.addAttachment("TestFile.txt");
             sender.send();
         } catch (Exception ex) {
 
