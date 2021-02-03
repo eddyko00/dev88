@@ -1302,9 +1302,9 @@ public class AccountDB {
         return sqlCMD;
     }
 
-    public int removeCommByCustID(int id) {
+    public int removeCommByCustID(int custId) {
         try {
-            String deleteSQL = "delete from comm where customerid=" + id;
+            String deleteSQL = "delete from comm where customerid=" + custId;
             processExecuteDB(deleteSQL);
             return 1;
         } catch (Exception e) {
@@ -1360,6 +1360,18 @@ public class AccountDB {
             return 1;
         } catch (Exception e) {
             logger.info("> updateAccountCommData exception " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int updateAccountCommSubStatusById(CommObj newA) {
+        String sqlCMD = "update comm set updatedatedisplay='" + new java.sql.Date(newA.getUpdatedatel())
+                + "', updatedatel=" + newA.getUpdatedatel() + ",substatus=" + newA.getSubstatus() + " where id=" + newA.getId();
+        try {
+            processExecuteDB(sqlCMD);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> updateAccountCommSubStatusById exception " + e.getMessage());
         }
         return 0;
     }

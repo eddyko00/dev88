@@ -105,7 +105,7 @@ public class AccountImp {
     }
 
     public ArrayList getCustomerNList(int length) {
-         return accountdb.getCustomerNList(0);
+        return accountdb.getCustomerNList(0);
     }
 
     public ArrayList getCustomerNameList(String name) {
@@ -196,8 +196,8 @@ public class AccountImp {
         return accountdb.removeCommByCommID(id);
     }
 
-    public int removeCommByCustID(int id) {
-        return accountdb.removeCommByCustID(id);
+    public int removeCommByCustID(int custId) {
+        return accountdb.removeCommByCustID(custId);
     }
 
     public int removeCustComm(CustomerObj custObj) {
@@ -370,11 +370,11 @@ public class AccountImp {
         return accountdb.updateAccountAllStatus(accountObj);
 
     }
-    
+
     // return 0 for error
-    public int updateAccountRef( TradingRuleObj trObj, AccData refnameData) {
+    public int updateAccountRef(TradingRuleObj trObj, AccData refnameData) {
         String nameSt = "";
-        
+
         try {
             nameSt = new ObjectMapper().writeValueAsString(refnameData);
             nameSt = nameSt.replaceAll("\"", "#");
@@ -383,7 +383,6 @@ public class AccountImp {
         }
         return accountdb.updateAccounStocktRef(trObj, nameSt);
     }
-    
 
     public AccountObj getAccountByCustomerAccountID(String UserName, String Password, int accountID) {
 
@@ -1016,7 +1015,8 @@ public class AccountImp {
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
-   public int addAccountEmailMessage(AccountObj accountObj, String name, String msg) {
+
+    public int addAccountEmailMessage(AccountObj accountObj, String name, String msg) {
         if (accountObj == null) {
             return -1;
         }
@@ -1067,6 +1067,10 @@ public class AccountImp {
         message.setUpdatedatel(dateNowLong);
         message.setData(data);
         return accountdb.insertAccountCommData(message);
+    }
+
+    public int updateAccountCommSubStatusById(CommObj newA) {
+        return accountdb.updateAccountCommSubStatusById(newA);
     }
 
     public int updateCommByCustNameById(CommObj message) {
