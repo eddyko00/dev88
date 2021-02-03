@@ -13,6 +13,8 @@ package com.afweb.mail;
 // login issue
 //https://gist.github.com/darwin/ee9e7855882b6f6b450fe45e9a5aa0b0
 //https://stackoverflow.com/questions/16512592/login-credentials-not-working-with-gmail-smtp
+import com.afweb.service.ServiceAFweb;
+import com.afweb.util.CKey;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,7 +64,7 @@ public class GmailSender {
     }
 
     public void setSender(String username, String password) {
-        this.username = username+"@gmail.com";
+        this.username = username + "@gmail.com";
         this.password = password;
 
         this.session = getSession();
@@ -86,7 +88,11 @@ public class GmailSender {
     }
 
     public void send() throws MessagingException {
+        if (CKey.PROXY == true) {
+            throw new ArithmeticException("Proxy not working...");
+        }
         Transport transport = session.getTransport(protocol);
+
         transport.connect(username, password);
         transport.sendMessage(message, message.getAllRecipients());
 
@@ -124,7 +130,11 @@ public class GmailSender {
         properties.put("mail.smtp.password", password);
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.auth", "true");
-
+//        if (CKey.PROXY == true) {
+//            properties.put("proxySet", "true");
+//            properties.put("socksProxyHost", ServiceAFweb.PROXYURL);
+//            properties.put("socksProxyPort", "8080");
+//        }
         return properties;
     }
 }

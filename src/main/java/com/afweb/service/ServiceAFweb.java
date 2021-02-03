@@ -900,8 +900,8 @@ public class ServiceAFweb {
                 GmailSender sender = new GmailSender();
                 sender.setSender(UA_Str, PA_Str);
                 sender.addRecipient(UU_Str);
-                sender.setSubject("The subject");
-                sender.setBody("The body");
+                sender.setSubject("The subject1");
+                sender.setBody("The body1");
 //            sender.addAttachment("TestFile.txt");
                 sender.send();
             } catch (Exception ex) {
