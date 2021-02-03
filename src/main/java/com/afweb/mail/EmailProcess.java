@@ -68,6 +68,9 @@ public class EmailProcess {
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
                         int ret = EmailTradingAccount(serviceAFWeb, accountObj);
+                        if (ret ==0 ) {
+                          accountFundIdNameArray.remove(0);
+                        }
                     }
                 } catch (Exception e) {
                     logger.info("> ProcessEmailAccount Exception " + e.getMessage());
