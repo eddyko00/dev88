@@ -77,10 +77,10 @@ public class ServiceAFweb {
     public static String URL_LOCALDB = "";
     public static String FileLocalPath = "";
 
-    public static String UA_Str="";
-    public static String PA_Str="";
-    public static String UU_Str="";    
-    
+    public static String UA_Str = "";
+    public static String PA_Str = "";
+    public static String UU_Str = "";
+
     private static ArrayList TRList = new ArrayList();
 
     private static AccountObj cacheAccountAdminObj = null;
@@ -217,8 +217,8 @@ public class ServiceAFweb {
         UA_Str = paStr;
         paStr = CKey.UU;
         paStr = StringTag.replaceAll("abc", "", paStr);
-        UU_Str = paStr;        
-        
+        UU_Str = paStr;
+
     }
 
     public int timerThread() {
@@ -528,10 +528,9 @@ public class ServiceAFweb {
     public boolean debugFlag = false;
 
     public static int initTrainNeuralNetNumber = 0;
-    
+
 //    public static ArrayList writeArrayNeuralNet = new ArrayList();
 //    public boolean systemNNFlag = false;
-
     private void processTimer(String cmd) {
 
         if (getEnv.checkLocalPC() == true) {
@@ -897,22 +896,20 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-        try {
-            GmailSender sender = new GmailSender();
-            sender.setSender(UA_Str, PA_Str);
-            sender.addRecipient(UU_Str);
-            sender.setSubject("The subject");
-            sender.setBody("The body");
+            try {
+                GmailSender sender = new GmailSender();
+                sender.setSender(UA_Str, PA_Str);
+                sender.addRecipient(UU_Str);
+                sender.setSubject("The subject");
+                sender.setBody("The body");
 //            sender.addAttachment("TestFile.txt");
-            sender.send();
-        } catch (Exception ex) {
+                sender.send();
+            } catch (Exception ex) {
+                logger.info("> Exception ...." + ex.getMessage());
+            }
 
-        }            
-            
-            
 //             AFstockObj stock = getRealTimeStockImp(symbol);
 //             int resultUpdate = TRprocessImp.updateRealTimeStock(this, stock);
-            
 //            getAccountProcessImp().downloadDBData(this);
 //            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
 //            TrandingSignalProcess.forceToGenerateNewNN = false;

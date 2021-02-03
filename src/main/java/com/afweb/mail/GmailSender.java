@@ -10,6 +10,9 @@ package com.afweb.mail;
  * @author koed
  */
 //https://stackoverflow.com/questions/46663/how-can-i-send-an-email-by-java-application-using-gmail-yahoo-or-hotmail
+// login issue
+//https://gist.github.com/darwin/ee9e7855882b6f6b450fe45e9a5aa0b0
+//https://stackoverflow.com/questions/16512592/login-credentials-not-working-with-gmail-smtp
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
