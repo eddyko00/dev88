@@ -1016,6 +1016,24 @@ public class AccountImp {
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
+   public int addAccountEmailMessage(AccountObj accountObj, String name, String msg) {
+        if (accountObj == null) {
+            return -1;
+        }
+
+        CommObj message = new CommObj();
+        message.setCustomerid(accountObj.getCustomerid());
+        message.setAccountid(accountObj.getId());
+        message.setName(name); //ConstantKey.COM_SIGNAL
+        message.setType(ConstantKey.INT_COM_EMAIL); //ConstantKey.INT_COM_SIGNAL
+
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+        message.setUpdatedatel(dateNowLong);
+        message.setData(msg);
+        return accountdb.insertAccountCommData(message);
+    }
 
     public int addAccountMessage(AccountObj accountObj, String name, String msg) {
         if (accountObj == null) {

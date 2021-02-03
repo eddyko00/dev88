@@ -1773,6 +1773,7 @@ public class TrandingSignalProcess {
 
                         commDataObj.setMsg(commMsg);
                         serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
+                       
                         return 0;
                     }
 

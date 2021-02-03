@@ -87,6 +87,9 @@ public class ConstantKey {
     public static final String COM_SPLIT = "MSG_SPLIT";
     public static final int INT_COM_SPLIT = 2;
 
+    public static final String COM_EMAIL = "MSG_EMAIL";
+    public static final int INT_COM_EMAIL = 4;
+    
     public static final String BILLING = "BILLING";
     public static final int INT_BILLING = 10;
 //// Android configuration      

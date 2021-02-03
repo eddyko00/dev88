@@ -896,17 +896,17 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            try {
-                GmailSender sender = new GmailSender();
-                sender.setSender(UA_Str, PA_Str);
-                sender.addRecipient(UU_Str);
-                sender.setSubject("The subject1");
-                sender.setBody("The body1");
-//            sender.addAttachment("TestFile.txt");
-                sender.send();
-            } catch (Exception ex) {
-                logger.info("> Exception ...." + ex.getMessage());
-            }
+//            try {
+//                GmailSender sender = new GmailSender();
+//                sender.setSender(UA_Str, PA_Str);
+//                sender.addRecipient(UU_Str);
+//                sender.setSubject("The subject1");
+//                sender.setBody("The body1");
+////            sender.addAttachment("TestFile.txt");
+//                sender.send();
+//            } catch (Exception ex) {
+//                logger.info("> Exception ...." + ex.getMessage());
+//            }
 
 //             AFstockObj stock = getRealTimeStockImp(symbol);
 //             int resultUpdate = TRprocessImp.updateRealTimeStock(this, stock);

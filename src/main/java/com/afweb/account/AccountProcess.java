@@ -885,6 +885,8 @@ public class AccountProcess {
                                 }
                                 String msg = ESTdate + " " + symbol + " Sig:" + sig;
                                 this.AddCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
+                                // send email
+                                this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
 //                                logger.info("> updateTradingsignal update " + msg);
                             }
                             break;
@@ -919,6 +921,20 @@ public class AccountProcess {
         return 0;
     }
     
+    public int AddEmailCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
+        try {
+            
+            if (tr.getType() == ConstantKey.INT_TR_ACC) {
+//                logger.info("> AddCommMessage  " + messageData);
+                return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAIL, messageData);
+            }
+            
+        } catch (Exception e) {
+            logger.info("> AddEmailCommMessage exception " + e.getMessage());
+        }
+        return 0;
+    }
+        
     public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
             
