@@ -191,6 +191,25 @@ public class AccountDB {
         return null;
     }
 
+    public CustomerObj getCustomerByAccount(AccountObj accountObj) {
+        CustomerObj customer = null;
+        try {
+            String sql = "select * from customer where id = " + accountObj.getCustomerid();
+
+            ArrayList<CustomerObj> entries = getCustomerListSQL(sql, 1);
+            if (entries == null) {
+                return null;
+            }
+            if (entries.size() != 0) {
+                customer = entries.get(0);
+                return customer;
+            }
+        } catch (Exception e) {
+            logger.info("> getCustomer exception " + accountObj.getAccountname() + " - " + e.getMessage());
+        }
+        return null;
+    }
+
     public CustomerObj getCustomer(String UserName, String Password) {
         CustomerObj customer = null;
         try {

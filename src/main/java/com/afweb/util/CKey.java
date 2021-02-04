@@ -11,6 +11,7 @@ public class CKey {
     public static final String FUND_MANAGER_USERNAME = "FundMgr";
     public static final String INDEXFUND_MANAGER_USERNAME = "IndexMgr";
     public static final String AF_SYSTEM = "AFsystem";
+    public static final String G_USERNAME = "GUEST";
 
     public static final String MASTER_SRV = "MasterDBSRV";
     public static final String WEB_SRV = "WebSRV";
@@ -116,7 +117,7 @@ public class CKey {
     public static String NN2_WEIGHT_0 = nn2Data.TR_NN2_WEIGHT_0;
 
     public static String NN30_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
-    public static String NN40_WEIGHT_0 = nn40Data.TR_NN40_WEIGHT_0;    
+    public static String NN40_WEIGHT_0 = nn40Data.TR_NN40_WEIGHT_0;
     //////////////////////
     public static final int MSSQL = 1;/////// do not use //jdbc:sqlserver://sql.freeasphost.net\\MSSQL2016;databaseName=eddyko00_SampleDB
 
@@ -135,10 +136,10 @@ public class CKey {
     public static final float TRADING_AMOUNT = 6000;
     public static final float TRADING_COMMISSION = 7;
 
-    public static final String UA="edabcdykabco4399";
-    public static final String PA="nabcgai0000";
-    public static final String UU="eabcddyabc.ko00@yahoo.ca";
-    
+    public static final String UA = "edabcdykabco4399";
+    public static final String PA = "nabcgai0000";
+    public static final String UU = "eabcddyabc.ko00@yahoo.ca";
+
 ////////////////////////////////////////////////////////////////////////////////    
 //    public static final String MSG_PENDING = "PENDING";
 //    public static final int PENDING = 3;

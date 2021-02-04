@@ -14,6 +14,8 @@ import com.afweb.util.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -26,6 +28,7 @@ public class EmailProcess {
     private static ArrayList accountFundIdNameArray = new ArrayList();
 
     public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {
+
 //        logger.info("> UpdateAccountSignal ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
@@ -66,10 +69,12 @@ public class EmailProcess {
 
                     int accountId = Integer.parseInt(accountIdSt);
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
-                    if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                        int ret = EmailTradingAccount(serviceAFWeb, accountObj);
-                        if (ret ==0 ) {
-                          accountFundIdNameArray.remove(0);
+                    if (accountObj != null) {
+                        if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+                            int ret = EmailTradingAccount(serviceAFWeb, accountObj);
+                            if (ret == 0) {
+                                accountFundIdNameArray.remove(0);
+                            }
                         }
                     }
                 } catch (Exception e) {
@@ -81,7 +86,17 @@ public class EmailProcess {
     }
 
     public int EmailTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
-
+        CustomerObj cust = serviceAFWeb.getAccountImp().getCustomerByAccount(accObj);
+        String emailAddr = cust.getEmail();
+        if (cust.getUsername().equals(CKey.G_USERNAME)) {
+            emailAddr = ServiceAFweb.UU_Str;
+        } else {
+            if (validate(emailAddr) == false) {
+                emailAddr = "";
+            }
+            // ignore sending email
+            emailAddr = "";
+        }
         if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
             ArrayList<CommObj> commList = serviceAFWeb.getAccountImp().getComObjByAccountName(accObj.getId(),
                     ConstantKey.COM_EMAIL);
@@ -90,12 +105,16 @@ public class EmailProcess {
                     for (int i = 0; i < commList.size(); i++) {
                         CommObj comObj = commList.get(i);
                         try {
-                            GmailSender sender = new GmailSender();
-                            sender.setSender(ServiceAFweb.UA_Str, ServiceAFweb.PA_Str);
-                            sender.addRecipient(ServiceAFweb.UU_Str);
-                            sender.setSubject("IISWeb Signal");
-                            sender.setBody(comObj.getData());
-                            sender.send();
+                            if (ServiceAFweb.processEmailFlag == true) {
+                                if ((emailAddr != null) || (emailAddr.length() > 0)) {
+                                    GmailSender sender = new GmailSender();
+                                    sender.setSender(ServiceAFweb.UA_Str, ServiceAFweb.PA_Str);
+                                    sender.addRecipient(emailAddr);
+                                    sender.setSubject("IISWeb Signal");
+                                    sender.setBody(comObj.getData());
+                                    sender.send();
+                                }
+                            }
                             // remove comObj;
                             serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
                             return 2; // successful
@@ -116,6 +135,29 @@ public class EmailProcess {
             }
         }
         return 0;
+    }
+
+    private Pattern pattern;
+    private Matcher matcher;
+
+    private static final String EMAIL_PATTERN
+            = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+    public EmailProcess() {
+        pattern = Pattern.compile(EMAIL_PATTERN);
+    }
+
+    /**
+     * Validate hex with regular expression
+     *
+     * @param hex hex for validation
+     * @return true valid hex, false invalid hex
+     */
+    public boolean validate(final String hex) {
+
+        matcher = pattern.matcher(hex);
+        return matcher.matches();
+
     }
 /////////////////////////
 }

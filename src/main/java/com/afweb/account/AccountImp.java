@@ -153,6 +153,15 @@ public class AccountImp {
         return customer;
     }
 
+    public CustomerObj getCustomerByAccount(AccountObj accountObj) {
+
+        CustomerObj customer = accountdb.getCustomerByAccount(accountObj);
+        if (customer != null) {
+            return customer;
+        }
+        return null;
+    }    
+    
     public CustomerObj getCustomerPasswordNull(String UserName) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();

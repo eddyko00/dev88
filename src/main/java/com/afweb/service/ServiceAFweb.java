@@ -9,6 +9,7 @@ import com.afweb.nnprocess.*;
 import com.afweb.model.*;
 import com.afweb.account.*;
 import com.afweb.chart.ChartService;
+import com.afweb.mail.EmailProcess;
 import com.afweb.mail.GmailSender;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
@@ -683,6 +684,7 @@ public class ServiceAFweb {
     public static boolean processRestinputflag = false;
     public static boolean processRestAllStockflag = false;
 
+    public static boolean processEmailFlag = false;
     public static boolean processNeuralNetFlag = false;
     public static boolean nn1testflag = false;
     public static boolean nn2testflag = false;
@@ -888,13 +890,17 @@ public class ServiceAFweb {
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            nn2testflag = true;
-
             String symbol = "DIA";
             int trNN = ConstantKey.INT_TR_NN2;
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+            EmailProcess eProcess = new EmailProcess();
+            ServiceAFweb.processEmailFlag=true;
+            for (int i = 0; i < 10; i++) {
+                eProcess.ProcessEmailAccount(this);
+            }
 
 //            try {
 //                GmailSender sender = new GmailSender();
@@ -907,7 +913,6 @@ public class ServiceAFweb {
 //            } catch (Exception ex) {
 //                logger.info("> Exception ...." + ex.getMessage());
 //            }
-
 //             AFstockObj stock = getRealTimeStockImp(symbol);
 //             int resultUpdate = TRprocessImp.updateRealTimeStock(this, stock);
 //            getAccountProcessImp().downloadDBData(this);
@@ -1212,7 +1217,7 @@ public class ServiceAFweb {
         ///////////////////////////////////////////////////////////////////////////////////
         boolean comtestflag = false;
         if (comtestflag == true) {
-            AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
+            AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
 
             ArrayList<BillingObj> billingObjList = getAccountImp().getBillingObjByAccountID(account.getId());
             String bill = "eddy testing billing";
@@ -4871,7 +4876,7 @@ public class ServiceAFweb {
             getAccountImp().addCustomer(newCustomer);
             if (retSatus == 0) {
 
-                newCustomer.setUsername("GUEST");
+                newCustomer.setUsername(CKey.G_USERNAME);
                 newCustomer.setPassword("guest");
                 newCustomer.setType(CustomerObj.INT_GUEST_USER);
                 getAccountImp().addCustomer(newCustomer);
@@ -4886,7 +4891,7 @@ public class ServiceAFweb {
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
                 getAccountImp().addCustomer(newCustomer);
 
-                AccountObj account = getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
+                AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
                 if (account != null) {
                     int result = 0;
                     for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
