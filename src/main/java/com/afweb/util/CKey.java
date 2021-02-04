@@ -7,10 +7,10 @@ public class CKey {
     //local pc
     public static String FileLocalPathTemp = "T:/Netbean/db/";
 
-    public static final String ADMIN_USERNAME = "Admin1";
-    public static final String FUND_MANAGER_USERNAME = "FundMgr";
-    public static final String INDEXFUND_MANAGER_USERNAME = "IndexMgr";
-    public static final String AF_SYSTEM = "AFsystem";
+    public static final String ADMIN_USERNAME = "ADMIN1";
+    public static final String FUND_MANAGER_USERNAME = "FUNDMGR";
+    public static final String INDEXFUND_MANAGER_USERNAME = "INDEXMGR";
+    public static final String AF_SYSTEM = "AFSYSTEM";
     public static final String G_USERNAME = "GUEST";
     public static final String E_USERNAME = "EDDY";
     
