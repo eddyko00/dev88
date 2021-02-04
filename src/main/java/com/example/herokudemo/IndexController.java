@@ -69,6 +69,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
 //        arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&payment=&balance=&servicefee=");
+        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove");
@@ -457,6 +458,7 @@ public class IndexController {
 //        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 //        return ret;
 //    }
+    // "/cust/{username}/acc/{accountid}/billing?length="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList<BillingObj> getAccountBillingList(
@@ -498,7 +500,30 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }
+    //"/cust/{username}/acc/{accountid}/emailcomm?length=" 
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/emailcomm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList<CommObj> getAccountEmailCommList(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+        @RequestParam(value = "length", required = false) String lengthSt,          
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        int length = 20;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+        ArrayList<CommObj> commObjList = afWebService.getEmailCommByCustomerAccountID(username, null, accountid, length);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return commObjList;
+    }
 
+    
     //"/cust/{username}/acc/{accountid}/comm?length=" 
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -558,6 +583,7 @@ public class IndexController {
     }
 
     ///////////////////////////////////////
+    // "/cust/{username}/acc/{accountid}/st?length="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getAccountStock_StockList(
@@ -759,7 +785,7 @@ public class IndexController {
 
         return ret;
     }
-
+    //"/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran?length=0"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getAccountStockTran(
@@ -910,6 +936,7 @@ public class IndexController {
         return ret;
     }
 
+    // "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf?length=0"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getAccountStockTranPerf(

@@ -2393,7 +2393,23 @@ public class ServiceAFweb {
         return null;
 
     }
+  public ArrayList<CommObj> getEmailCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
 
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            int accountid = Integer.parseInt(AccountIDSt);
+            return getAccountImp().getEmailCommByCustomerAccountID(UserName, Password, accountid, length);
+        } catch (Exception e) {
+        }
+        return null;
+
+    }
+
+  
     public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

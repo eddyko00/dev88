@@ -432,6 +432,18 @@ public class AccountImp {
         return null;
     }
 
+    public ArrayList<CommObj> getEmailCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
+
+        CustomerObj customer = getCustomerPassword(UserName, Password);
+        if (customer != null) {
+            if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
+                return accountdb.getEmailComObjByName(ConstantKey.COM_EMAIL, length);
+            }
+        }
+        return null;
+    }
+
+    
     public ArrayList<CommObj> getCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
