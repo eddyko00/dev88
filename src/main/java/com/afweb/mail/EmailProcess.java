@@ -75,6 +75,9 @@ public class EmailProcess {
                             if (ret == 2) {
                                 break; // only allow send 1 at a time
                             }
+                            if (ret == 1) {
+                                break; // try again next time
+                            }                            
                             if (ret == 0) {
                                 accountFundIdNameArray.remove(0);
                             }
