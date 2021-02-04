@@ -141,11 +141,11 @@ public class AccountProcess {
                 String ESTdate = format.format(d);
 
                 String msg = ESTdate + " " + custObj.getUsername() + " Customer removed - 4 day after expired.";
-           if (custObj.getUsername().equals(CKey.E_USERNAME)) {
-                ;
-            } else {                
-                this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-           }
+                if (custObj.getUsername().equals(CKey.E_USERNAME)) {
+                    ;
+                } else {
+                    this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+                }
                 numCnt++;
                 if (numCnt > 10) {
                     break;
