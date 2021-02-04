@@ -72,6 +72,9 @@ public class EmailProcess {
                     if (accountObj != null) {
                         if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
                             int ret = EmailTradingAccount(serviceAFWeb, accountObj);
+                            if (ret == 2) {
+                                break; // only allow send 1 at a time
+                            }
                             if (ret == 0) {
                                 accountFundIdNameArray.remove(0);
                             }
@@ -88,15 +91,18 @@ public class EmailProcess {
     public int EmailTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
         CustomerObj cust = serviceAFWeb.getAccountImp().getCustomerByAccount(accObj);
         String emailAddr = cust.getEmail();
-        if (cust.getUsername().equals(CKey.G_USERNAME)) {
-            emailAddr = ServiceAFweb.UU_Str;
-        } else {
+        if ((emailAddr != null) || (emailAddr.length() > 0)) {
             if (validate(emailAddr) == false) {
                 emailAddr = "";
             }
-            // ignore sending email
+        } else {
             emailAddr = "";
         }
+
+        if (cust.getUsername().equals(CKey.G_USERNAME)) {
+            emailAddr = ServiceAFweb.UU_Str;
+        }
+        
         if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
             ArrayList<CommObj> commList = serviceAFWeb.getAccountImp().getComObjByAccountName(accObj.getId(),
                     ConstantKey.COM_EMAIL);
