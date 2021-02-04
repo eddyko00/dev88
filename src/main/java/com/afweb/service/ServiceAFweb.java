@@ -898,7 +898,7 @@ public class ServiceAFweb {
 
             EmailProcess eProcess = new EmailProcess();
             ServiceAFweb.processEmailFlag=true;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 eProcess.ProcessEmailAccount(this);
             }
 

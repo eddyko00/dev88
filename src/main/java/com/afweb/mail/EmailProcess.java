@@ -78,6 +78,8 @@ public class EmailProcess {
                             if (ret == 0) {
                                 accountFundIdNameArray.remove(0);
                             }
+                        } else {
+                            accountFundIdNameArray.remove(0);
                         }
                     }
                 } catch (Exception e) {
@@ -91,7 +93,7 @@ public class EmailProcess {
     public int EmailTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
         CustomerObj cust = serviceAFWeb.getAccountImp().getCustomerByAccount(accObj);
         String emailAddr = cust.getEmail();
-        if ((emailAddr != null) || (emailAddr.length() > 0)) {
+        if ((emailAddr != null) && (emailAddr.length() > 0)) {
             if (validate(emailAddr) == false) {
                 emailAddr = "";
             }
@@ -112,7 +114,7 @@ public class EmailProcess {
                         CommObj comObj = commList.get(i);
                         try {
                             if (ServiceAFweb.processEmailFlag == true) {
-                                if ((emailAddr != null) || (emailAddr.length() > 0)) {
+                                if ((emailAddr != null) && (emailAddr.length() > 0)) {
                                     GmailSender sender = new GmailSender();
                                     sender.setSender(ServiceAFweb.UA_Str, ServiceAFweb.PA_Str);
                                     sender.addRecipient(emailAddr);
