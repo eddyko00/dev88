@@ -17,10 +17,10 @@ var app = {
         var iisWebObjStr = window.localStorage.getItem(iisWebSession);
         var iisWebObj = JSON.parse(iisWebObjStr);
 //        console.log(iisWebObj);
-        
+
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-        
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -66,7 +66,7 @@ var app = {
                 var htmlName = '<div class="ui-grid-b">';
                 htmlName += '<div class="ui-block-a" style="width:15%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="width:5%">' + commId + '</div>';
-                htmlName += '<div class="ui-block-c">' + commObj.name + ' ' + commObj.data + '</div>';
+                htmlName += '<div class="ui-block-c">' + commObj.name + ' ' + commObj.accountid + ' ' + commObj.data + '</div>';
                 htmlName += '</div>';
 
                 $("#commid").append('<li id="' + commId + '" >' + htmlName + '</li>');
@@ -99,7 +99,7 @@ var app = {
             for (i = beg; i < end; i++) {
 
                 var CustN = CustNList[i];
-                var commId = i+1;
+                var commId = i + 1;
 
                 var htmlName = '<div class="ui-grid-b">';
                 htmlName += '<div class="ui-block-a" style="width:30%"><strong>' + CustN + '</strong></div>';
@@ -121,7 +121,7 @@ var app = {
             if (Id === 0) {
                 return;
             }
-            var username = CustNList[Id-1];
+            var username = CustNList[Id - 1];
             var cuObj = {'cmd': 'name', 'username': username,
                 'firstid': '0', 'lastid': '0'};
             var cuObjStr = JSON.stringify(cuObj);
@@ -270,6 +270,31 @@ var app = {
         });
 
 
+        $("#getEmailComm").click(function () {
+            //"/cust/{username}/acc/{accountid}/emailcomm?length=            
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/emailcomm",
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(resultCommObjList) {
+                console.log(resultCommObjList);
+                var commObjListStr = "";
+
+                if (resultCommObjList !== "") {
+                    commObjListStr = JSON.stringify(resultCommObjList, null, '\t');
+                }
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountadm.html";
+            }
+
+        });
 
 // example        
 //alert("AJAX request successfully completed");
