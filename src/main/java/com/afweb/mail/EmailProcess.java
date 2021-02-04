@@ -73,10 +73,10 @@ public class EmailProcess {
                         if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
                             int ret = EmailTradingAccount(serviceAFWeb, accountObj);
                             if (ret == 2) {
-                                break; // only allow send 1 at a time
+                                break; // try again next time 
                             }
                             if (ret == 1) {
-                                break; // try again next time
+                                break; // only allow send 1 at a time
                             }                            
                             if (ret == 0) {
                                 accountFundIdNameArray.remove(0);
@@ -128,7 +128,7 @@ public class EmailProcess {
                             }
                             // remove comObj;
                             serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
-                            return 2; // successful
+                            return 1; // successful
                         } catch (Exception ex) {
                             logger.info("> Exception ...." + ex.getMessage());
                         }
@@ -136,11 +136,11 @@ public class EmailProcess {
                         int subSt = comObj.getSubstatus();
                         if (subSt > 4) {
                             serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
-                            return 1; // error                            
+                            return 2; // error                            
                         }
                         comObj.setSubstatus(subSt + 1);
                         serviceAFWeb.getAccountImp().updateAccountCommSubStatusById(comObj);
-                        return 1;
+                        return 2;
                     }
                 }
             }
