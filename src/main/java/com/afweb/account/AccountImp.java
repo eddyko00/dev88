@@ -432,7 +432,7 @@ public class AccountImp {
         return null;
     }
 
-    public ArrayList<CommObj> getCommByCustomerAccountID(String UserName, String Password, int accountID) {
+    public ArrayList<CommObj> getCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -442,7 +442,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.getComObjByAccountID(accountID);
+                            return accountdb.getComObjByAccountID(accountID, length);
                         }
                     }
                 }
@@ -962,8 +962,8 @@ public class AccountImp {
         return accountdb.getComObjByName(accountID, name);
     }
 
-    public ArrayList<CommObj> getComObjByAccountID(int accountID) {
-        return accountdb.getComObjByAccountID(accountID);
+    public ArrayList<CommObj> getComObjByAccountID(int accountID, int length) {
+        return accountdb.getComObjByAccountID(accountID, length);
     }
 
     public ArrayList<CommObj> getComObjByCustName(int custID, String name) {

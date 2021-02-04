@@ -1238,10 +1238,10 @@ public class ServiceAFweb {
                 getAccountImp().updateAccountBillingData(billObj.getId(), 1, 1, billObj.getData());
             }
 
-            ArrayList<CommObj> comObjList = getAccountImp().getComObjByAccountID(account.getId());
+            ArrayList<CommObj> comObjList = getAccountImp().getComObjByAccountID(account.getId(), 0);
             String msg = "eddy testing communication";
             getAccountImp().addAccountMessage(account, ConstantKey.COM_SIGNAL, msg);
-            comObjList = getAccountImp().getComObjByAccountID(account.getId());
+            comObjList = getAccountImp().getComObjByAccountID(account.getId(), 0);
             if (comObjList != null) {
                 ;
             }
@@ -2394,7 +2394,7 @@ public class ServiceAFweb {
 
     }
 
-    public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+    public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -2403,7 +2403,7 @@ public class ServiceAFweb {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().getCommByCustomerAccountID(UserName, Password, accountid);
+            return getAccountImp().getCommByCustomerAccountID(UserName, Password, accountid, length);
         } catch (Exception e) {
         }
         return null;

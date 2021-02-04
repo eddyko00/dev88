@@ -69,7 +69,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
 //        arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&payment=&balance=&servicefee=");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm");
+        arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
@@ -499,11 +499,13 @@ public class IndexController {
         return ret;
     }
 
+    //"/cust/{username}/acc/{accountid}/comm?length=" 
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList<CommObj> getAccountCommList(
             @PathVariable("username") String username,
             @PathVariable("accountid") String accountid,
+        @RequestParam(value = "length", required = false) String lengthSt,          
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -511,7 +513,11 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        ArrayList<CommObj> commObjList = afWebService.getCommByCustomerAccountID(username, null, accountid);
+        int length = 20;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+        ArrayList<CommObj> commObjList = afWebService.getCommByCustomerAccountID(username, null, accountid, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return commObjList;
     }
