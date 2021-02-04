@@ -4915,7 +4915,7 @@ public class ServiceAFweb {
                 }
             }
 
-            newCustomer.setUsername("EDDY");
+            newCustomer.setUsername(CKey.E_USERNAME);
             newCustomer.setPassword("pass");
             newCustomer.setType(CustomerObj.INT_CLIENT_BASIC_USER);
             getAccountImp().addCustomer(newCustomer);

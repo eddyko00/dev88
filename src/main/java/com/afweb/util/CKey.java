@@ -12,7 +12,8 @@ public class CKey {
     public static final String INDEXFUND_MANAGER_USERNAME = "IndexMgr";
     public static final String AF_SYSTEM = "AFsystem";
     public static final String G_USERNAME = "GUEST";
-
+    public static final String E_USERNAME = "EDDY";
+    
     public static final String MASTER_SRV = "MasterDBSRV";
     public static final String WEB_SRV = "WebSRV";
     //local pc
