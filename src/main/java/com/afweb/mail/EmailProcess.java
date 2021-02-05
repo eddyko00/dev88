@@ -121,7 +121,7 @@ public class EmailProcess {
                                     GmailSender sender = new GmailSender();
                                     sender.setSender(ServiceAFweb.UA_Str, ServiceAFweb.PA_Str);
                                     sender.addRecipient(emailAddr);
-                                    sender.setSubject("IISWeb Signal");
+                                    sender.setSubject("IISWeb");
                                     sender.setBody(comObj.getData());
                                     sender.send();
                                 }
