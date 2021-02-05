@@ -560,7 +560,7 @@ public class AccountDB {
     }
 
     public ArrayList<CommObj> getComObjByAccountIDtype(int accountID, int type, int length) {
-        String sql = "select * from comm where type=" + type + " accountid=" + accountID;
+        String sql = "select * from comm where type=" + type + " and accountid=" + accountID;
         sql += " order by updatedatel";
 
         sql = ServiceAFweb.getSQLLengh(sql, length);
