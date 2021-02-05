@@ -444,7 +444,6 @@ public class AccountImp {
     }
 
     public ArrayList<CommObj> getCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
-
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
