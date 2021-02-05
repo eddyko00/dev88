@@ -531,17 +531,39 @@ public class AccountDB {
         return getCommBySQL(sql);
     }
 
-    public ArrayList<CommObj> getEmailComObjByName(String name, int length) {
-        String sql = "select * from comm where name='" + name + "' ";
+    public ArrayList<CommObj> getEmailComObjByType(int type, int length) {
+        String sql = "select * from comm where type=" + type;
         sql += " order by updatedatel";
         sql = ServiceAFweb.getSQLLengh(sql, length);
 
         return getCommBySQL(sql);
     }
 
+//    public ArrayList<CommObj> getEmailComObjByName(String name, int length) {
+//        String sql = "select * from comm where name='" + name + "' ";
+//        sql += " order by updatedatel";
+//        sql = ServiceAFweb.getSQLLengh(sql, length);
+//
+//        return getCommBySQL(sql);
+//    }
+    public ArrayList<CommObj> getComObjByType(int accountID, int type, int length) {
+        String sql = "select * from comm where accountid=" + accountID + " and type=" + type;
+        sql += " order by updatedatel";
+        sql = ServiceAFweb.getSQLLengh(sql, length);
+        return getCommBySQL(sql);
+    }
+
     public ArrayList<CommObj> getComObjByName(int accountID, String name) {
         String sql = "select * from comm where accountid=" + accountID + " and name='" + name + "' ";
         sql += " order by updatedatel";
+        return getCommBySQL(sql);
+    }
+
+    public ArrayList<CommObj> getComObjByAccountIDtype(int accountID, int type, int length) {
+        String sql = "select * from comm where type=" + type + " accountid=" + accountID;
+        sql += " order by updatedatel";
+
+        sql = ServiceAFweb.getSQLLengh(sql, length);
         return getCommBySQL(sql);
     }
 

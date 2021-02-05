@@ -88,8 +88,9 @@ public class ConstantKey {
     public static final int INT_COM_SPLIT = 2;
 
     public static final String COM_EMAIL = "MSG_EMAIL";
+    public static final String COM_EMAILMSG = "MSG_EMAILMSG";
     public static final int INT_COM_EMAIL = 4;
-    
+
     public static final String BILLING = "BILLING";
     public static final int INT_BILLING = 10;
 //// Android configuration      
@@ -133,24 +134,23 @@ public class ConstantKey {
 
     public static final int INT_TR_EMA0 = 130;  // fast
     //ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6
-    public static final int INT_EMA_2 = 2;       
-    public static final int INT_EMA_3 = 3;    
-    public static final int INT_EMA_6 = 6;   
+    public static final int INT_EMA_2 = 2;
+    public static final int INT_EMA_3 = 3;
+    public static final int INT_EMA_6 = 6;
     public static final int INT_EMA_4 = 4;
-   
+
     public static final int INT_TR_EMA1 = 131;  // normal
     //ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10)
     public static final int INT_EMA_5 = 5;
-    public static final int INT_EMA_10 = 10;    
-    public static final int INT_EMA_12 = 12;    
-       
+    public static final int INT_EMA_10 = 10;
+    public static final int INT_EMA_12 = 12;
+
     public static final int INT_TR_EMA2 = 132;  // slow
     //ConstantKey.INT_EMA_8, ConstantKey.INT_EMA_16
-    public static final int INT_EMA_8 = 8;    
-    public static final int INT_EMA_16 = 16;  
+    public static final int INT_EMA_8 = 8;
+    public static final int INT_EMA_16 = 16;
     public static final int INT_EMA_20 = 20;
-    
-    
+
     public static final String TR_MACD = "TR_MACD";
     public static final int INT_TR_MACD = 2;
     public static final int INT_MACD_12 = 12;

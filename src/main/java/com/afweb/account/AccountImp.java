@@ -160,8 +160,8 @@ public class AccountImp {
             return customer;
         }
         return null;
-    }    
-    
+    }
+
     public CustomerObj getCustomerPasswordNull(String UserName) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
@@ -437,13 +437,12 @@ public class AccountImp {
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-                return accountdb.getEmailComObjByName(ConstantKey.COM_EMAIL, length);
+                return accountdb.getEmailComObjByType(ConstantKey.INT_COM_EMAIL, length);
             }
         }
         return null;
     }
 
-    
     public ArrayList<CommObj> getCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
@@ -454,7 +453,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.getComObjByAccountID(accountID, length);
+                            return accountdb.getComObjByAccountIDtype(accountID, ConstantKey.INT_COM_SIGNAL, length);
                         }
                     }
                 }
@@ -970,6 +969,10 @@ public class AccountImp {
     }
 
     ///////
+    public ArrayList<CommObj> getComObjByType(int accountID, int type, int length) {
+        return accountdb.getComObjByType(accountID, type, length);
+    }
+
     public ArrayList<CommObj> getComObjByAccountName(int accountID, String name) {
         return accountdb.getComObjByName(accountID, name);
     }

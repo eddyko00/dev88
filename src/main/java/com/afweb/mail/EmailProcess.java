@@ -109,8 +109,8 @@ public class EmailProcess {
         }
         
         if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-            ArrayList<CommObj> commList = serviceAFWeb.getAccountImp().getComObjByAccountName(accObj.getId(),
-                    ConstantKey.COM_EMAIL);
+            ArrayList<CommObj> commList = serviceAFWeb.getAccountImp().getComObjByType(accObj.getId(),
+                    ConstantKey.INT_COM_EMAIL, 0);
             if (commList != null) {
                 if (commList.size() > 0) {
                     for (int i = 0; i < commList.size(); i++) {
