@@ -9,8 +9,7 @@ import com.afweb.nnprocess.*;
 import com.afweb.model.*;
 import com.afweb.account.*;
 import com.afweb.chart.ChartService;
-import com.afweb.mail.EmailProcess;
-import com.afweb.mail.GmailSender;
+import com.afweb.mail.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
@@ -359,7 +358,9 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
+                displayStr += "\r\n" + (">>>>> System processEmailFlag:" + processEmailFlag);
                 displayStr += "\r\n" + (">>>>> System processNeuralNetFlag:" + processNeuralNetFlag);
+                
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
@@ -661,6 +662,13 @@ public class ServiceAFweb {
             TRprocessImp.UpdateAllStock(this);
             TRprocessImp.ProcessAdminSignalTrading(this);
             getAccountProcessImp().ProcessAdminAccount(this);
+            //
+            if (CKey.PROXY == false) {
+                if (ServiceAFweb.processEmailFlag == true) {
+                    EmailProcess eProcess = new EmailProcess();
+                    eProcess.ProcessEmailAccount(this);
+                }
+            }
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             TRprocessImp.UpdateAllStock(this);
@@ -895,7 +903,6 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
 
 //            EmailProcess eProcess = new EmailProcess();
 //            ServiceAFweb.processEmailFlag = true;
@@ -2394,7 +2401,8 @@ public class ServiceAFweb {
         return null;
 
     }
-  public ArrayList<CommObj> getEmailCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
+
+    public ArrayList<CommObj> getEmailCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -2410,7 +2418,6 @@ public class ServiceAFweb {
 
     }
 
-  
     public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

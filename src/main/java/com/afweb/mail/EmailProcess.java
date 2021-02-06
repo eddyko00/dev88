@@ -77,7 +77,7 @@ public class EmailProcess {
                             }
                             if (ret == 1) {
                                 break; // only allow send 1 at a time
-                            }                            
+                            }
                             if (ret == 0) {
                                 accountFundIdNameArray.remove(0);
                             }
@@ -107,7 +107,7 @@ public class EmailProcess {
         if (cust.getUsername().equals(CKey.G_USERNAME)) {
             emailAddr = ServiceAFweb.UU_Str;
         }
-        
+
         if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
             ArrayList<CommObj> commList = serviceAFWeb.getAccountImp().getComObjByType(accObj.getId(),
                     ConstantKey.INT_COM_EMAIL, 0);
@@ -125,10 +125,11 @@ public class EmailProcess {
                                     sender.setBody(comObj.getData());
                                     sender.send();
                                 }
+                                // remove comObj;
+                                serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
+                                return 1; // successful
                             }
-                            // remove comObj;
-                            serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
-                            return 1; // successful
+                            return 1;
                         } catch (Exception ex) {
                             logger.info("> Exception ...." + ex.getMessage());
                         }
