@@ -959,7 +959,6 @@ public class ServiceAFweb {
 //                }
 //
 //            }
-
 //            symbol = "H.TO";
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
@@ -982,7 +981,6 @@ public class ServiceAFweb {
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 //            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);    
 //            
-            
 //            int accountId = 3;
 //            AccountObj accountObj = SystemAccountObjByAccountID(accountId);
 //            getAccountProcessImp().updateTradingTransaction(this, accountObj, symbol);
@@ -3090,13 +3088,18 @@ public class ServiceAFweb {
         Collections.reverse(StockArray);
         Collections.reverse(thList);
 
+        ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
+
         float closeFirst = StockArray.get(StockArray.size() - 1).getFclose();
         float closeLast = StockArray.get(0).getFclose();
         float perC = 100 * (closeFirst - closeLast) / closeLast;
         perC = Math.abs(perC);
         float thold = 45; // 35;
+
+        int index = sizeLen;
+        int j = 0;
         if (perC > thold) { //35) {
-            int j = 0;
+
             for (j = 0; j < StockArray.size(); j++) {
                 closeLast = StockArray.get(j).getFclose();
                 perC = 100 * (closeFirst - closeLast) / closeLast;
@@ -3105,15 +3108,13 @@ public class ServiceAFweb {
                     break;
                 }
             }
-//            if (j > (sizeLen / 2)) {
-//                j = sizeLen / 2;
-//            }
-            int index = j;
-            ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
-            for (int i = index; i < StockArray.size(); i++) {
-                StockArrayTmp.add(StockArray.get(i));
-            }
-            StockArray = StockArrayTmp;
+        }
+        if (j > (sizeLen - (sizeLen / 3))) {
+            j = sizeLen / 3;
+            index = j;
+        } else if (j > (sizeLen - (sizeLen / 2))) {
+            j = sizeLen / 2;
+            index = j;
         }
 
         List<Date> xDate = new ArrayList<Date>();
@@ -3123,6 +3124,50 @@ public class ServiceAFweb {
         List<Double> buyD = new ArrayList<Double>();
         List<Date> sellDate = new ArrayList<Date>();
         List<Double> sellD = new ArrayList<Double>();
+
+        xDate = new ArrayList<Date>();
+        yD = new ArrayList<Double>();
+        buyDate = new ArrayList<Date>();
+        buyD = new ArrayList<Double>();
+        sellDate = new ArrayList<Date>();
+        sellD = new ArrayList<Double>();
+
+        StockArrayTmp = new ArrayList();
+        for (int i = index; i < StockArray.size(); i++) {
+            StockArrayTmp.add(StockArray.get(i));
+        }
+        int numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
+
+        if (numBS < 5) {
+            if (index > (sizeLen - (sizeLen / 2))) {
+                index = sizeLen / 2;
+
+                xDate = new ArrayList<Date>();
+                yD = new ArrayList<Double>();
+                buyDate = new ArrayList<Date>();
+                buyD = new ArrayList<Double>();
+                sellDate = new ArrayList<Date>();
+                sellD = new ArrayList<Double>();
+
+                StockArrayTmp = new ArrayList();
+                for (int i = index; i < StockArray.size(); i++) {
+                    StockArrayTmp.add(StockArray.get(i));
+                }
+                numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
+
+            }
+        }
+        ChartService chart = new ChartService();
+        byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
+                xDate, yD, buyDate, buyD, sellDate, sellD);
+
+        return ioStream;
+
+    }
+
+    private int checkCurrentChartDisplay(ArrayList<AFstockInfo> StockArray, List<Date> xDate, List<Double> yD,
+            List<Date> buyDate, List<Double> buyD, List<Date> sellDate, List<Double> sellD,
+            ArrayList<TransationOrderObj> thList) {
 
         for (int j = 0; j < StockArray.size(); j++) {
             AFstockInfo stockinfo = StockArray.get(j);
@@ -3175,55 +3220,14 @@ public class ServiceAFweb {
             }
         }
 
-        /// add this one to show the trend line
+//        /// add this one to show the trend line
         Date da = new Date(stockinfo.getEntrydatel());
         xDate.add(da);
         float close = stockinfo.getFclose();
         double norClose = close;
         yD.add(norClose);
 
-//            if (trname.equals(ConstantKey.TR_NN3)) {
-//                //StockArray assume recent date to old data 
-//                int sizeNewLen = 20 * 24;
-//                StockArray = this.getStockHistorical(stock.getSymbol(), sizeNewLen);
-//
-//                List<Date> compDate = new ArrayList<Date>();
-//                List<Double> compD = new ArrayList<Double>();
-//                AccountObj accountObj = this.getAdminObjFromCache();
-//                ArrayList UpdateTRList = this.SystemAccountStockListByAccountID(accountObj.getId(), stock.getSymbol());
-//
-////                int sizeTR = 20 * CKey.MONTH_SIZE / 2; //20 * 14/2;
-////                StockArray = this.getStockHistorical(stock.getSymbol(), sizeTR);
-////                int start = StockArray.size() - sizeLen;
-//                for (int j = 0; j < sizeLen; j++) {
-//                    AFstockInfo stockinfoC = StockArray.get(j);
-//
-//                    if (j < 20) {
-//                        //StockArray assume recent date to old data     
-//                        NNObj nn = NNCal.NNpredict(this, ConstantKey.INT_TR_NN3, accountObj, stock, UpdateTRList, StockArray, j);
-//                        norClose = nn.getPrediction();
-//                        Date daC = new Date(stockinfoC.getEntrydatel());
-//                        compDate.add(daC);
-////                        close = stockinfoC.getFclose();
-////                        norClose = close * 1.05;
-//                        compD.add(norClose);
-//                    }
-//
-//                }
-//
-//                ChartService chart = new ChartService();
-//                byte[] ioStream = chart.streamCompareChartToByte(stockidsymbol + "_" + trname,
-//                        xDate, yD, buyDate, buyD, sellDate, sellD, compDate, compD);
-//
-//                return ioStream;
-//
-//            }
-        ChartService chart = new ChartService();
-        byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
-                xDate, yD, buyDate, buyD, sellDate, sellD);
-
-        return ioStream;
-
+        return buyD.size() + sellD.size();
     }
 
     public String getAccountStockTRLIstCurrentChartFile(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
