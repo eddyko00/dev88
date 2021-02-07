@@ -360,7 +360,7 @@ public class ServiceAFweb {
 
                 displayStr += "\r\n" + (">>>>> System processEmailFlag:" + processEmailFlag);
                 displayStr += "\r\n" + (">>>>> System processNeuralNetFlag:" + processNeuralNetFlag);
-                
+
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
@@ -959,6 +959,30 @@ public class ServiceAFweb {
 //                }
 //
 //            }
+
+//            symbol = "H.TO";
+//            trNN = ConstantKey.INT_TR_NN2;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN2;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
+//            trNN = ConstantKey.INT_TR_NN1;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN1;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);            
+//            trNN = ConstantKey.INT_TR_NN30;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN30;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);   
+//            trNN = ConstantKey.INT_TR_NN40;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN40;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);    
+//            
+            
 //            int accountId = 3;
 //            AccountObj accountObj = SystemAccountObjByAccountID(accountId);
 //            getAccountProcessImp().updateTradingTransaction(this, accountObj, symbol);
