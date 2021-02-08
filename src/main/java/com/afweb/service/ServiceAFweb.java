@@ -738,6 +738,33 @@ public class ServiceAFweb {
         }
     }
 
+    public void processNewNeuralNet() {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
+        NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+        NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
+        NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
+        
+        
+        AccountObj accountAdminObj = getAdminObjFromCache();
+        ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
+
+        if (stockNameArray != null) {
+            for (int i = 0; i < stockNameArray.size(); i++) {
+                String symbol = (String) stockNameArray.get(i);
+
+                if (TRprocessImp.checkNN1Ready(this, symbol, true) == false) {
+                    // process train symbol
+                    nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1);
+                }
+
+                if (TRprocessImp.checkNN2Ready(this, symbol, true) == false) {
+                    // process train symbol
+                }
+            }
+        }
+    }
+
     public void processNeuralNetTrain() {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -880,8 +907,8 @@ public class ServiceAFweb {
         }
 
     }
-///////////////////////////////
 
+///////////////////////////////
     public static boolean mydebugtestflag = false;
 
     private void AFprocessDebug() {
