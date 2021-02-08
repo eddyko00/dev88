@@ -749,9 +749,10 @@ public class ServiceAFweb {
         AccountObj accountAdminObj = getAdminObjFromCache();
         ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
 
-        logger.info("Start processNewNeuralNet.....");
         if (stockNameArray != null) {
+            logger.info("Start processNewNeuralNet.....Stock Size " + stockNameArray.size());
             for (int i = 0; i < stockNameArray.size(); i++) {
+
                 String symbol = (String) stockNameArray.get(i);
                 AFstockObj stock = getRealTimeStockImp(symbol);
                 if (stock == null) {
@@ -769,7 +770,7 @@ public class ServiceAFweb {
                         NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
                     }
                     NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
-                    logger.info("Start processNewNeuralNet.....NN1 " + symbol);
+                    logger.info("End processNewNeuralNet.....NN1 " + symbol);
                     return true;
                 }
 
@@ -783,12 +784,12 @@ public class ServiceAFweb {
                         NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
                     }
                     NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
-                    logger.info("Start processNewNeuralNet.....NN2 " + symbol);
+                    logger.info("End processNewNeuralNet.....NN2 " + symbol);
                     return true;
                 }
             }
         }
-        logger.info("Start processNewNeuralNet.....");
+        logger.info("End processNewNeuralNet.....");
         return false;
     }
 
