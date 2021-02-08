@@ -797,11 +797,21 @@ public class ServiceAFweb {
         TrandingSignalProcess.forceToGenerateNewNN = false;
 
         if (processNeuralNetFlag == true) {
+            int num = 0;
             while (true) {
-                boolean ret = processNewNeuralNet();
-                if (ret == false) {
+                if (num == 0) {
+                    boolean ret = processNewNeuralNet();
+                    if (ret == false) {        
+                        num++;
+                    }
+                } else {
                     AFprocessNeuralNet();
+                    num++;
+                    if (num > 6) {
+                        num = 0;
+                    }
                 }
+
                 logger.info("> Waiting 30 sec cntNN " + cntNN + "........");
                 try {
                     Thread.sleep(30 * 1000);
