@@ -744,22 +744,30 @@ public class ServiceAFweb {
         NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
         NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
-        
-        
+
         AccountObj accountAdminObj = getAdminObjFromCache();
         ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String symbol = (String) stockNameArray.get(i);
-
+                AFstockObj stock = getRealTimeStockImp(symbol);
+                if (stock == null) {
+                    continue;
+                }
+                if (stock.getAfstockInfo() == null) {
+                    continue;
+                }
                 if (TRprocessImp.checkNN1Ready(this, symbol, true) == false) {
                     // process train symbol
-                    nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1);
+                    nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
+                    nn1trend.PTrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
                 }
 
                 if (TRprocessImp.checkNN2Ready(this, symbol, true) == false) {
                     // process train symbol
+                    nn2ProcBySig.PTrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
+                    nn2trend.PTrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);                    
                 }
             }
         }

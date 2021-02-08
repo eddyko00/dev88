@@ -1128,8 +1128,17 @@ public class NN1ProcessBySignal {
 //                    symbol = "BABA";
 
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
+                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
 
-                    this.PTrainNN1NeuralNetBySign(serviceAFWeb, symbol, TR_NN);
+                    if (stock == null) {
+                        stockNNprocessNameArray.remove(0);
+                        return;
+                    }
+                    if (stock.getAfstockInfo() == null) {
+                        stockNNprocessNameArray.remove(0);
+                        return;
+                    }
+                    this.PTrainNN1NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
 
 //                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
 //                    if (stock == null) {
@@ -1191,17 +1200,7 @@ public class NN1ProcessBySignal {
         logger.info("> ProcessTrainNeuralNetBySign ... done");
     }
 
-    public void PTrainNN1NeuralNetBySign(ServiceAFweb serviceAFWeb, String symbol, int TR_NN) {
-        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-
-        if (stock == null) {
-            stockNNprocessNameArray.remove(0);
-            return;
-        }
-        if (stock.getAfstockInfo() == null) {
-            stockNNprocessNameArray.remove(0);
-            return;
-        }
+    public void PTrainNN1NeuralNetBySign(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
 
         String LockStock = "NN1_TR_" + symbol; // + "_" + trNN;
         LockStock = LockStock.toUpperCase();
@@ -1213,7 +1212,9 @@ public class NN1ProcessBySignal {
 
 //                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
         if (lockReturnStock == 0) {
-            stockNNprocessNameArray.remove(0);
+            if (stockNNprocessNameArray != null) {
+                stockNNprocessNameArray.remove(0);
+            }
             return;
         }
         if (lockReturnStock > 0) {
@@ -1225,8 +1226,9 @@ public class NN1ProcessBySignal {
 
                 if (nnObj1 != null) {
                     if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
-                        stockNNprocessNameArray.remove(0);
-
+                        if (stockNNprocessNameArray != null) {
+                            stockNNprocessNameArray.remove(0);
+                        }
                         serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
 
 //                                    if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
