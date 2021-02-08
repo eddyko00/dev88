@@ -3096,25 +3096,22 @@ public class ServiceAFweb {
         perC = Math.abs(perC);
         float thold = 45; // 35;
 
+        boolean highdif = false;
         int index = sizeLen;
-        int j = 0;
-        if (perC > thold) { //35) {
 
-            for (j = 0; j < StockArray.size(); j++) {
+        if (perC > thold) { //35) {
+            for (int j = 0; j < StockArray.size(); j++) {
                 closeLast = StockArray.get(j).getFclose();
                 perC = 100 * (closeFirst - closeLast) / closeLast;
                 perC = Math.abs(perC);
                 if (perC < thold) { // 35) {
+                    highdif = true;
                     break;
                 }
             }
         }
-        if (j > (sizeLen - (sizeLen / 3))) {
-            j = sizeLen / 3;
-            index = j;
-        } else if (j > (sizeLen - (sizeLen / 2))) {
-            j = sizeLen / 2;
-            index = j;
+        if (highdif == true) {
+            index = sizeLen - (sizeLen / 4);
         }
 
         List<Date> xDate = new ArrayList<Date>();
@@ -3139,23 +3136,19 @@ public class ServiceAFweb {
         int numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
 
         if (numBS < 5) {
-            if (index > (sizeLen - (sizeLen / 2))) {
-                index = sizeLen / 2;
+            index = sizeLen / 2;
+            xDate = new ArrayList<Date>();
+            yD = new ArrayList<Double>();
+            buyDate = new ArrayList<Date>();
+            buyD = new ArrayList<Double>();
+            sellDate = new ArrayList<Date>();
+            sellD = new ArrayList<Double>();
 
-                xDate = new ArrayList<Date>();
-                yD = new ArrayList<Double>();
-                buyDate = new ArrayList<Date>();
-                buyD = new ArrayList<Double>();
-                sellDate = new ArrayList<Date>();
-                sellD = new ArrayList<Double>();
-
-                StockArrayTmp = new ArrayList();
-                for (int i = index; i < StockArray.size(); i++) {
-                    StockArrayTmp.add(StockArray.get(i));
-                }
-                numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
-
+            StockArrayTmp = new ArrayList();
+            for (int i = index; i < StockArray.size(); i++) {
+                StockArrayTmp.add(StockArray.get(i));
             }
+            numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
         }
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
