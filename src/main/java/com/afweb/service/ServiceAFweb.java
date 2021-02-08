@@ -749,6 +749,7 @@ public class ServiceAFweb {
         AccountObj accountAdminObj = getAdminObjFromCache();
         ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
 
+        logger.info("Start processNewNeuralNet.....");
         if (stockNameArray != null) {
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String symbol = (String) stockNameArray.get(i);
@@ -768,6 +769,7 @@ public class ServiceAFweb {
                         NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
                     }
                     NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
+                    logger.info("Start processNewNeuralNet.....NN1 " + symbol);
                     return true;
                 }
 
@@ -781,10 +783,12 @@ public class ServiceAFweb {
                         NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
                     }
                     NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+                    logger.info("Start processNewNeuralNet.....NN2 " + symbol);
                     return true;
                 }
             }
         }
+        logger.info("Start processNewNeuralNet.....");
         return false;
     }
 
@@ -803,7 +807,7 @@ public class ServiceAFweb {
             while (true) {
                 if (num == 0) {
                     boolean ret = processNewNeuralNet();
-                    if (ret == false) {        
+                    if (ret == false) {
                         num++;
                     }
                 } else {
@@ -1054,14 +1058,14 @@ public class ServiceAFweb {
 //                NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
 //                nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 //            }
-//            symbol = "SU";
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
-//
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);            
+            symbol = "SU";
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 ////            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //            String symbol = "HOU.TO";
 //            int trNN = ConstantKey.INT_TR_NN2;
