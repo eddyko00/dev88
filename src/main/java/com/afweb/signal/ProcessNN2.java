@@ -194,7 +194,7 @@ public class ProcessNN2 {
         TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryADXNN2(thObjListADX, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
+        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN2(thObjListADX, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
 
         return inputDatalist;
     }
@@ -242,7 +242,7 @@ public class ProcessNN2 {
         TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryADXNN2(thObjListADX, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
+        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN2(thObjListADX, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
 
         return inputDatalist;
     }
@@ -380,7 +380,7 @@ public class ProcessNN2 {
         TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
 
-        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryADXNN2(thObjListADX, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
+        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN2(thObjListADX, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
 
         return inputDatalist;
     }
@@ -389,7 +389,7 @@ public class ProcessNN2 {
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
 
         int nnSignal = prevSignal;
-        int adxSignal = nnSignal;
+        int emaSignal = nnSignal;
         float prediction = -1;
 ///////////////////////////////        
 
@@ -397,7 +397,7 @@ public class ProcessNN2 {
 //        ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_5);
 //        adxSignal = adxObj.trsignal;
         EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
-        adxSignal = ema510.trsignal;
+        emaSignal = ema510.trsignal;
 ///////////////////////////////////////////////////
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
         Date stockDate = new Date(stockinfoT.getEntrydatel());
@@ -405,9 +405,9 @@ public class ProcessNN2 {
 //        logger.info("> ProcessTRHistoryOffsetNN1 " + stock.getSymbol() + " " + stockDate.toString());
 
         if (nnSignal == ConstantKey.S_NEUTRAL) {
-            nnSignal = adxSignal;
+            nnSignal = emaSignal;
         }
-        if (adxSignal == nnSignal) {
+        if (emaSignal == nnSignal) {
             trObj.setTrsignal(nnSignal);
 
         } else {
@@ -420,7 +420,7 @@ public class ProcessNN2 {
                     nn.setTrsignal(nnSignal);
                     float predictionV = nn.getPrediction();
                     if (predictionV > CKey.PREDICT_THRESHOLD) { //0.6) {
-                        nnSignal = adxSignal;
+                        nnSignal = emaSignal;
                     }
                 } else {
                     //
@@ -441,17 +441,15 @@ public class ProcessNN2 {
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
 //                              logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
-                                    nnSignal = adxSignal;
+                                    nnSignal = emaSignal;
                                 } else {
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
-                                        nnSignal = adxSignal;
+                                        nnSignal = emaSignal;
                                     }
                                 }
-
                                 break;
-
                             }
                         }  // for loop
                     }
@@ -480,7 +478,7 @@ public class ProcessNN2 {
         trHistory.setParm1((float) ema510.ema);
         trHistory.setParm2((float) ema510.lastema);
 
-        trHistory.setParm3(adxSignal);
+        trHistory.setParm3(emaSignal);
         trHistory.setParm4(prediction);
 
         prevSignal = nnSignal;
@@ -498,7 +496,7 @@ public class ProcessNN2 {
 //                ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
 //                int adxSignal = adxObj.trsignal;
                 EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
-                int adxSignal = ema510.trsignal;
+                int emaSignal = ema510.trsignal;
 /////////////////////////////////////////////                
 
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -506,10 +504,10 @@ public class ProcessNN2 {
                 int prevSignal = trObj.getTrsignal();
                 int nnSignal = trObj.getTrsignal();
                 if (nnSignal == ConstantKey.S_NEUTRAL) {
-                    nnSignal = adxSignal;
+                    nnSignal = emaSignal;
                 }
-                if (adxSignal == nnSignal) {
-                    nnRet.setTrsignal(adxSignal);
+                if (emaSignal == nnSignal) {
+                    nnRet.setTrsignal(emaSignal);
                     return nnRet;
                 }
                 confident += 30;
@@ -522,7 +520,7 @@ public class ProcessNN2 {
                         nn.setTrsignal(nnSignal);
                         float predictionV = nn.getPrediction();
                         if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
-                            nnSignal = adxSignal;
+                            nnSignal = emaSignal;
                             confident += 30;
                         }
                     } else {
@@ -546,14 +544,14 @@ public class ProcessNN2 {
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
 //                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
-                                    nnSignal = adxSignal;
+                                    nnSignal = emaSignal;
                                     confident += 15;
                                 } else {
 
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
-                                        nnSignal = adxSignal;
+                                        nnSignal = emaSignal;
                                         confident += 15;
                                     }
                                 }
@@ -591,9 +589,9 @@ public class ProcessNN2 {
     }
 
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
-        if (true) {
-            return 0;
-        }
+//        if (true) {
+//            return 0;
+//        }
         float delPer = 100 * (StClose - thClose) / thClose;
 
         if (currSignal == ConstantKey.S_BUY) {
@@ -737,16 +735,16 @@ public class ProcessNN2 {
 //
 //    }
     ////////////////////////////////////////////////////////
-    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryADXNN2(ArrayList<StockTRHistoryObj> thObjListADX, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListMACD,
+    public ArrayList<NNInputDataObj> getAccountStockTRListHistoryEMANN2(ArrayList<StockTRHistoryObj> thObjListEMA, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListMACD,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        if ((thObjListADX == null) || (thObjListMV == null)) {
+        if ((thObjListEMA == null) || (thObjListMV == null)) {
             return null;
         }
-        if (thObjListADX.size() != thObjListMV.size()) {
+        if (thObjListEMA.size() != thObjListMV.size()) {
             return null;
         }
-        if (thObjListADX.size() != thObjListADX.size()) {
+        if (thObjListEMA.size() != thObjListEMA.size()) {
             return null;
         }
         NNTrainObj nnTr = new NNTrainObj();
@@ -763,16 +761,16 @@ public class ProcessNN2 {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList<NNInputDataObj>();
         NNInputDataObj objDataPrev = null;
 
-        for (int i = 0; i < thObjListADX.size(); i++) {
+        for (int i = 0; i < thObjListEMA.size(); i++) {
 
-            if (i + 1 == thObjListADX.size()) {
+            if (i + 1 == thObjListEMA.size()) {
                 if (lastDateOutput == true) {
                     processLastDate = true;
                 }
             }
             NNInputOutObj inputList = new NNInputOutObj();
 
-            StockTRHistoryObj thObjADX = thObjListADX.get(i);
+            StockTRHistoryObj thObjADX = thObjListEMA.get(i);
             if (i == 0) {
                 prevThObj = thObjADX;
             }
@@ -788,7 +786,7 @@ public class ProcessNN2 {
 
             if (contProcess == true) {
                 // setup input parameter in inputList
-                inputList = this.setupInputNN2(i, signal, thObjListMACD, thObjListMV, thObjListADX);
+                inputList = this.setupInputNN2(i, signal, thObjListMACD, thObjListMV, thObjListEMA);
                 if (inputList == null) {
                     continue;
                 }
@@ -880,7 +878,7 @@ public class ProcessNN2 {
                                 int signal = inputDaObj0.getObj().getTrsignal();
 
                                 for (int k = index; k < index1; k++) {
-                                    StockTRHistoryObj thObjADX = thObjListADX.get(index);
+                                    StockTRHistoryObj thObjADX = thObjListEMA.get(index);
                                     int signalIndex = thObjADX.getTrsignal();
                                     if (signalIndex == signal) {
                                         index = k;
@@ -888,14 +886,14 @@ public class ProcessNN2 {
                                     }
                                 }
 
-                                inputList = this.setupInputNN2(index, signal, thObjListMACD, thObjListMV, thObjListADX);
+                                inputList = this.setupInputNN2(index, signal, thObjListMACD, thObjListMV, thObjListEMA);
                                 if (inputList == null) {
                                     continue;
                                 }
                                 inputList.setOutput1(output1);
                                 inputList.setOutput2(output2);
 
-                                StockTRHistoryObj thObjADXIndex = thObjListADX.get(index);
+                                StockTRHistoryObj thObjADXIndex = thObjListEMA.get(index);
                                 inputDaObj.setUpdatedatel(thObjADXIndex.getUpdateDatel());
                                 inputDaObj.setObj(inputList);
                                 inputRetDatalist.add(inputDaObj);
