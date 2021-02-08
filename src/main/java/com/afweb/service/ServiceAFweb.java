@@ -738,8 +738,9 @@ public class ServiceAFweb {
         }
     }
 
-    public void processNewNeuralNet() {
+    public boolean processNewNeuralNet() {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
@@ -761,16 +762,25 @@ public class ServiceAFweb {
                 if (TRprocessImp.checkNN1Ready(this, symbol, true) == false) {
                     // process train symbol
                     nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
-                    nn1trend.PTrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
+                    for (int j = 0; j < 5; j++) {
+                        nn1trend.PTrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
+                        NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
+                    }
+                    return true;
                 }
 
                 if (TRprocessImp.checkNN2Ready(this, symbol, true) == false) {
                     // process train symbol
                     nn2ProcBySig.PTrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
-                    nn2trend.PTrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);                    
+                    for (int j = 0; j < 5; j++) {
+                        nn2trend.PTrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
+                        NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
+                    }
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public void processNeuralNetTrain() {
@@ -785,7 +795,10 @@ public class ServiceAFweb {
 
         if (processNeuralNetFlag == true) {
             while (true) {
-                AFprocessNeuralNet();
+                boolean ret = processNewNeuralNet();
+                if (ret == false) {
+                    AFprocessNeuralNet();
+                }
                 logger.info("> Waiting 30 sec cntNN " + cntNN + "........");
                 try {
                     Thread.sleep(30 * 1000);

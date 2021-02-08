@@ -52,7 +52,7 @@ public class TradingNNprocess {
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                     stockTRNameArray.add(symTR);
                 }
-            } 
+            }
             if (ServiceAFweb.nn2testflag == true) {
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     String sym = (String) stockNameArray.get(i);
@@ -121,50 +121,52 @@ public class TradingNNprocess {
 
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
                     if (stock != null) {
+                        
+                        this.PReLearnInputNeuralNet(serviceAFWeb, symbol, trNN);
 
-                        String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
-                        LockStock = LockStock.toUpperCase();
-
-                        long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                        long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
-                        if (testing == true) {
-                            lockReturnStock = 1;
-                        }
-//                        logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
-                        if (lockReturnStock > 0) {
-                            try {
-                                if (trNN == ConstantKey.INT_TR_NN1) {
-                                    NN1ProcessBySignal nn1Process = new NN1ProcessBySignal();
-                                    nn1Process.ReTrainNN1StockNeuralNetData(serviceAFWeb, trNN, symbol);
-                                }
-                                if (trNN == ConstantKey.INT_TR_NN2) {
-                                    NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
-                                    nn2Process.ReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
-                                }
-                                //////////
-//                                int cfgId = 0;;
-//                                String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
-//                                ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
-//                                if (commObjArry != null) {
-//                                    if (commObjArry.size() > 0) {
-//                                        CommObj commObj = commObjArry.get(0);
-//                                        String dataSt = "";
-//                                        try {
-//                                            dataSt = new ObjectMapper().writeValueAsString(stockNNretrainNameArray);
-//                                        } catch (JsonProcessingException ex) {
-//                                        }
-//                                        dataSt = StringTag.replaceAll("\"", "^", dataSt);
-//                                        commObj.setData(dataSt);
-//                                        serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
-//                                    }
+//                        String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
+//                        LockStock = LockStock.toUpperCase();
+//
+//                        long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+//                        long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
+//                        if (testing == true) {
+//                            lockReturnStock = 1;
+//                        }
+////                        logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+//                        if (lockReturnStock > 0) {
+//                            try {
+//                                if (trNN == ConstantKey.INT_TR_NN1) {
+//                                    NN1ProcessBySignal nn1Process = new NN1ProcessBySignal();
+//                                    nn1Process.ReTrainNN1StockNeuralNetData(serviceAFWeb, trNN, symbol);
 //                                }
-                                ////////////
-                            } catch (Exception ex) {
-                                logger.info("> ProcessReLearnInputNeuralNet Exception" + ex.getMessage());
-                            }
-                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-//                            logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
-                        }
+//                                if (trNN == ConstantKey.INT_TR_NN2) {
+//                                    NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
+//                                    nn2Process.ReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
+//                                }
+//                                //////////
+////                                int cfgId = 0;;
+////                                String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
+////                                ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
+////                                if (commObjArry != null) {
+////                                    if (commObjArry.size() > 0) {
+////                                        CommObj commObj = commObjArry.get(0);
+////                                        String dataSt = "";
+////                                        try {
+////                                            dataSt = new ObjectMapper().writeValueAsString(stockNNretrainNameArray);
+////                                        } catch (JsonProcessingException ex) {
+////                                        }
+////                                        dataSt = StringTag.replaceAll("\"", "^", dataSt);
+////                                        commObj.setData(dataSt);
+////                                        serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
+////                                    }
+////                                }
+//                                ////////////
+//                            } catch (Exception ex) {
+//                                logger.info("> ProcessReLearnInputNeuralNet Exception" + ex.getMessage());
+//                            }
+//                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+////                            logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
+//                        }
                     }
                 }
             }  // end for loop
@@ -172,6 +174,33 @@ public class TradingNNprocess {
 //            logger.info("ProcessReLearnInputNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> ProcessReLearnInputNeuralNet ... done");
+    }
+
+    public void PReLearnInputNeuralNet(ServiceAFweb serviceAFWeb, String symbol, int trNN) {
+        String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
+        LockStock = LockStock.toUpperCase();
+
+        long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+        long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
+
+//      logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+        if (lockReturnStock > 0) {
+            try {
+                if (trNN == ConstantKey.INT_TR_NN1) {
+                    NN1ProcessBySignal nn1Process = new NN1ProcessBySignal();
+                    nn1Process.ReTrainNN1StockNeuralNetData(serviceAFWeb, trNN, symbol);
+                }
+                if (trNN == ConstantKey.INT_TR_NN2) {
+                    NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
+                    nn2Process.ReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
+                }
+
+            } catch (Exception ex) {
+                logger.info("> PReLearnInputNeuralNet Exception" + ex.getMessage());
+            }
+            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+//          logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
+        }
     }
 
     public int ClearStockNNTranHistory(ServiceAFweb serviceAFWeb, String nnName) {
@@ -1033,7 +1062,6 @@ public class TradingNNprocess {
 //
 //        return -1;
 //    }
-
 //    public static int checkNNsignalDecision(NNInputOutObj thObj, NNInputOutObj prevThObj) {
 //        if (prevThObj == null) {
 //            prevThObj = thObj;
@@ -1057,7 +1085,6 @@ public class TradingNNprocess {
 //        }
 //        return -1;
 //    }
-
 //////////////////////////////////////////////////////////////////   
     /**
      * @param aStockNNretrainNameArray the stockNNretrainNameArray to set
