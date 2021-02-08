@@ -761,9 +761,10 @@ public class ServiceAFweb {
                 }
                 if (TRprocessImp.checkNN1Ready(this, symbol, true) == false) {
                     // process train symbol
-                    nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
+                    nn1trend.PTrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
+
                     for (int j = 0; j < 5; j++) {
-                        nn1trend.PTrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
+                        nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
                         NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
                     }
                     return true;
@@ -771,9 +772,11 @@ public class ServiceAFweb {
 
                 if (TRprocessImp.checkNN2Ready(this, symbol, true) == false) {
                     // process train symbol
-                    nn2ProcBySig.PTrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
+                    nn2trend.PTrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
+
                     for (int j = 0; j < 5; j++) {
-                        nn2trend.PTrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
+                        nn2ProcBySig.PTrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
+
                         NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
                     }
                     return true;
