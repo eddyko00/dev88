@@ -1186,12 +1186,14 @@ public class TrandingSignalProcess {
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
                         ProcessNN2 nn2 = new ProcessNN2();
-//                        if (ServiceAFweb.mydebugtestflag == true) {
-//                            logger.info(">ProcessTRHistoryOffset NN2 " + offset);
-//                        }
                         int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn2Signal;
-
+//                        if (ServiceAFweb.mydebugtestflag == true) {
+//                            if (offset < 99) {
+//                                prevSignal = nn2Signal;
+//                            }
+//                            logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal);
+//                        }
                     }
                     break;
 
@@ -1773,12 +1775,12 @@ public class TrandingSignalProcess {
 
                         commDataObj.setMsg(commMsg);
                         serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
-                       
+
                         return 0;
                     }
 
                 }
-                    
+
                 // splitFlag == false     
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                     stock.setSubstatus(ConstantKey.OPEN);

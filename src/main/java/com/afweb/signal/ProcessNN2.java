@@ -387,7 +387,7 @@ public class ProcessNN2 {
 
     int ProcessTRHistoryOffsetNN2(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
-
+        int confident = 0;
         int nnSignal = prevSignal;
         int emaSignal = nnSignal;
         float prediction = -1;
@@ -411,7 +411,7 @@ public class ProcessNN2 {
             trObj.setTrsignal(nnSignal);
 
         } else {
-
+            confident += 30;
             NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, tradingRuleList, StockArray, offset);
             if (nn != null) {
                 float output1 = nn.getOutput1();
@@ -421,6 +421,7 @@ public class ProcessNN2 {
                     float predictionV = nn.getPrediction();
                     if (predictionV > CKey.PREDICT_THRESHOLD) { //0.6) {
                         nnSignal = emaSignal;
+                        confident += 30;
                     }
                 } else {
                     //
@@ -442,11 +443,13 @@ public class ProcessNN2 {
                                 if (delta > 0) {
 //                              logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     nnSignal = emaSignal;
+                                    confident += 15;
                                 } else {
                                     delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = emaSignal;
+                                        confident += 15;
                                     }
                                 }
                                 break;
@@ -465,9 +468,11 @@ public class ProcessNN2 {
             // signal change double check wiht NN trend
             int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
             //override the previous NN1 prediction
-
-            if (nnSignal != trendSignal) {
+            if (nnSignal == trendSignal) {
+                confident += 30;
+            } else {
 //                logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
+
             }
             nnSignal = trendSignal;
         }
@@ -480,6 +485,7 @@ public class ProcessNN2 {
 
         trHistory.setParm3(emaSignal);
         trHistory.setParm4(prediction);
+        trHistory.setParm5(confident);
 
         prevSignal = nnSignal;
         return nnSignal;
@@ -705,7 +711,6 @@ public class ProcessNN2 {
 //                // MACD1
 //                MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
 //                int macdSignal = macdNN.trsignal;
-
                 return macdSignal;
             }
         }

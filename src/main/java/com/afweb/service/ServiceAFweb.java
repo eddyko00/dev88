@@ -1059,7 +1059,7 @@ public class ServiceAFweb {
 //                NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
 //                nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 //            }
-//            symbol = "SU";
+//            symbol = "DIA";
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
