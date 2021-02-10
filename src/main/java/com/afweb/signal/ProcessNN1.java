@@ -285,6 +285,7 @@ public class ProcessNN1 {
     int ProcessTRHistoryOffsetNN1(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
         int confident = 0;
+        boolean stopLoss = false;
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
         float prediction = -1;
@@ -329,6 +330,7 @@ public class ProcessNN1 {
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
 //                                    logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
+                                    stopLoss = true;
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
@@ -372,7 +374,7 @@ public class ProcessNN1 {
         trHistory.setParm3(macdSignal);
         trHistory.setParm4(prediction);
         trHistory.setParm5(confident);
-        
+
         prevSignal = nnSignal;
         return nnSignal;
 
@@ -382,6 +384,7 @@ public class ProcessNN1 {
             TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
         int confident = 0;
+        boolean stopLoss = false;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 //                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
@@ -427,7 +430,8 @@ public class ProcessNN1 {
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-//                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
+                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
+                                    stopLoss = true;
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
@@ -460,6 +464,10 @@ public class ProcessNN1 {
                     if (prevSignal == ConstantKey.S_SELL) {
                         confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
+                    if (stopLoss == true) {
+                        confidentSt = confidentSt + " (Stop Loss)";
+                    }
+
                     nnRet.setConfident(confidentSt);
                 }
 
@@ -472,6 +480,7 @@ public class ProcessNN1 {
         return null;
     }
 
+    // stop loss 
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
 

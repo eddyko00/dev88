@@ -388,6 +388,7 @@ public class ProcessNN2 {
     int ProcessTRHistoryOffsetNN2(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
         int confident = 0;
+        boolean stopLoss = false;
         int nnSignal = prevSignal;
         int emaSignal = nnSignal;
         float prediction = -1;
@@ -441,7 +442,8 @@ public class ProcessNN2 {
                                 long lastTHLong = lastTH.getUpdateDatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-//                              logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
+//                              logger.info("> ProcessTRH NN2 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
+                                    stopLoss = true;
                                     nnSignal = emaSignal;
                                     confident += 15;
                                 } else {
@@ -495,6 +497,7 @@ public class ProcessNN2 {
     public NNObj updateAdminTradingsignalnn2(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
             TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
+        boolean stopLoss = false;
         int confident = 0;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
@@ -549,7 +552,8 @@ public class ProcessNN2 {
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-//                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
+                                    logger.info("> updateAdminTR nn2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
+                                    stopLoss = true;
                                     nnSignal = emaSignal;
                                     confident += 15;
                                 } else {
@@ -581,6 +585,9 @@ public class ProcessNN2 {
                     String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
                     if (prevSignal == ConstantKey.S_SELL) {
                         confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
+                    }
+                    if (stopLoss == true) {
+                        confidentSt = confidentSt + " (Stop Loss)";
                     }
                     nnRet.setConfident(confidentSt);
                 }
