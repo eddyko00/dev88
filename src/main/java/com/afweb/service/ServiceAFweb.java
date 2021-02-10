@@ -953,7 +953,7 @@ public class ServiceAFweb {
     public static boolean mydebugtestflag = false;
 
     private void AFprocessDebug() {
-
+        //Feb 10, 2021 db size = 5,543 InnoDB utf8_general_ci 4.7 MiB	
         if (mydebugtestflag == true) {
             //set up run parm 
             // javamain localmysqlflag proxyflag mydebugtestflag
@@ -1059,10 +1059,10 @@ public class ServiceAFweb {
 //                NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
 //                nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 //            }
-//            symbol = "DIA";
+//            symbol = "IWM";
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
 //
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);

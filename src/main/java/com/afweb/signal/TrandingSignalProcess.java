@@ -1179,6 +1179,18 @@ public class TrandingSignalProcess {
                         ProcessNN1 nn1 = new ProcessNN1();
                         int nn1Signal = nn1.ProcessTRHistoryOffsetNN1(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn1Signal;
+                        if (ServiceAFweb.mydebugtestflag == true) {
+                            if (offset < 99) {
+                                prevSignal = nn1Signal;
+                            }
+                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+                            ADXObj adx1 = TechnicalCal.AvgDir(StockArray, offset, 14);
+
+                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
+                                    + " L:" + LTerm1 + " S:" + STerm1 + " D:" + adx1.trsignal);
+                            
+                         }
                     }
                     break;
                 case ConstantKey.INT_TR_NN2:
@@ -1188,12 +1200,17 @@ public class TrandingSignalProcess {
                         ProcessNN2 nn2 = new ProcessNN2();
                         int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn2Signal;
-//                        if (ServiceAFweb.mydebugtestflag == true) {
-//                            if (offset < 99) {
-//                                prevSignal = nn2Signal;
-//                            }
-//                            logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal);
-//                        }
+                        if (ServiceAFweb.mydebugtestflag == true) {
+                            if (offset < 99) {
+                                prevSignal = nn2Signal;
+                            }
+                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+                            ADXObj adx1 = TechnicalCal.AvgDir(StockArray, offset, 14);
+
+                            logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal + " C:" + trHistory.getParm5()
+                                    + " L:" + LTerm1 + " S:" + STerm1 + " D:" + adx1.trsignal);
+                        }
                     }
                     break;
 
