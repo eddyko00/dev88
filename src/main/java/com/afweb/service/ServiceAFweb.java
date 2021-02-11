@@ -4234,29 +4234,78 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
+
         customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
+            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+            if (customer == null) {
+                return 0;
+            }
+            ArrayList accountList = getAccountList(UserName, null);
+
+            if (accountList == null) {
+                return 0;
+            }
+            AccountObj accountObj = null;
+            for (int i = 0; i < accountList.size(); i++) {
+                AccountObj accountTmp = (AccountObj) accountList.get(i);
+                if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+                    accountObj = accountTmp;
+                    break;
+                }
+            }
+            if (accountObj == null) {
+                return 0;
+            }
+            String emailSt = "";
             int status = -9999;
             if (statusSt != null) {
                 if (!statusSt.equals("")) {
                     status = Integer.parseInt(statusSt);
+                    String st = "Disabled";
+                    if (status == ConstantKey.OPEN) {
+                        st = "Enabled";
+                    }
+                    emailSt += "\n\rAccout Status changed - " + st;
                 }
             }
             float payment = -9999;
             if (paymenttSt != null) {
                 if (!paymenttSt.equals("")) {
                     payment = Float.parseFloat(paymenttSt);
+                    emailSt += "\n\rAccout payment changed - " + payment;
                 }
             }
             float balance = -9999;
             if (balanceSt != null) {
                 if (!balanceSt.equals("")) {
                     balance = Float.parseFloat(balanceSt);
+                    emailSt += "\n\rAccout adjustment - " + balance;
                 }
             }
-            return getAccountImp().updateCustAllStatus(UserName, status, payment, balance);
+            int ret = getAccountImp().updateCustAllStatus(UserName, status, payment, balance);
+            if (ret == 1) {
+                String tzid = "America/New_York"; //EDT
+                TimeZone tz = TimeZone.getTimeZone(tzid);
+                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                DateFormat format = new SimpleDateFormat(" hh:mm a");
+                format.setTimeZone(tz);
+                String ESTtime = format.format(d);
+
+                String msg = ESTtime + " " + emailSt;
+                getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAILMSG, msg);
+                // send email
+                DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+                formatD.setTimeZone(tz);
+                String ESTdateD = formatD.format(d);
+                String msgD = ESTdateD + " " + emailSt;
+                getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_ACCBILLMSG, msgD);
+
+            }
+            return ret;
 
         } catch (Exception e) {
         }
