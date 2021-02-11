@@ -1397,6 +1397,17 @@ public class AccountDB {
         return 0;
     }
 
+    public int removeCommByName(String name) {
+        try {
+            String deleteSQL = "delete from comm where name='" + name + "' ";
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> removeCommByName exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int insertAccountCommData(CommObj newA) {
 
         String sqlCMD

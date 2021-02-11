@@ -2556,7 +2556,7 @@ public class ServiceAFweb {
         }
         return 0;
     }
-
+ 
     public int removeCommByID(String EmailUserName, String Password, String AccountIDSt, String IDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;

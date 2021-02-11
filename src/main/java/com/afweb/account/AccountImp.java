@@ -525,6 +525,17 @@ public class AccountImp {
         return 0;
     }
 
+    public int removeCommByName(String UserName, String Password, String name) {
+
+        CustomerObj customer = getCustomerPassword(UserName, Password);
+        if (customer != null) {
+            if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
+                return accountdb.removeCommByName(name);
+            }
+        }
+        return 0;
+    }
+
     public int clearAccountStockTranByAccountID(AccountObj accountObj, int stockID, String trName) {
         TradingRuleObj tr = getAccountStockIDByTRname(accountObj.getId(), stockID, trName);
         if (tr == null) {
