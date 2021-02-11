@@ -972,9 +972,10 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            
 //
-            EmailProcess eProcess = new EmailProcess();
-            ServiceAFweb.processEmailFlag = true;
+//            EmailProcess eProcess = new EmailProcess();
+//            ServiceAFweb.processEmailFlag = true;
 //            String tzid = "America/New_York"; //EDT
 //            TimeZone tz = TimeZone.getTimeZone(tzid);
 //            java.sql.Date d = new java.sql.Date(System.currentTimeMillis());
@@ -985,15 +986,15 @@ public class ServiceAFweb {
 //            String msg = ESTdate + " " + symbol + " Sig:" + sig;
 //            AccountObj accountObj = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
 //            getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAIL, msg);
-            for (int i = 0; i < 100; i++) {
-                eProcess.ProcessEmailAccount(this);
-                try {
-                    Thread.sleep(30 * 1000);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-//
+//            for (int i = 0; i < 100; i++) {
+//                eProcess.ProcessEmailAccount(this);
+//                try {
+//                    Thread.sleep(30 * 1000);
+//                } catch (InterruptedException ex) {
+//                    Thread.currentThread().interrupt();
+//                }
+//            }
+///////////////////////////////////////////////////////////
 //            try {
 //                GmailSender sender = new GmailSender();
 //                sender.setSender(UA_Str, PA_Str);
@@ -1005,6 +1006,8 @@ public class ServiceAFweb {
 //            } catch (Exception ex) {
 //                logger.info("> Exception ...." + ex.getMessage());
 //            }
+//
+////////////////////////////////////////////////////////////////////
 //             AFstockObj stock = getRealTimeStockImp(symbol);
 //             int resultUpdate = TRprocessImp.updateRealTimeStock(this, stock);
 //            getAccountProcessImp().downloadDBData(this);
@@ -1016,7 +1019,7 @@ public class ServiceAFweb {
 //            nn2trend.processAllNN40StockInputNeuralNetTrend(this);
 //            nn1trend.processNN30InputNeuralNetTrend(this);
 //            nn1trend.processAllNN30StockInputNeuralNetTrend(this);
-//              int ret = this.getAccountProcessImp().saveDBneuralnetProcess(this, "neuralnet");
+//            int ret = this.getAccountProcessImp().saveDBneuralnetProcess(this, "neuralnet");
 //            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 //            delete NN2            
 //            AccountObj accountObj = getAdminObjFromCache();
@@ -1031,8 +1034,9 @@ public class ServiceAFweb {
 //                    BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 //                    getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
 //                }
-//
 //            }
+//
+//////////////////////////////////////////////////////////////
 //            symbol = "H.TO";
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
@@ -1065,6 +1069,8 @@ public class ServiceAFweb {
 //                NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
 //                nn2Process.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
 //            }
+//
+///////////////////////////////////////////////////////////////////////
 //            symbol = "IWM";
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -1074,6 +1080,8 @@ public class ServiceAFweb {
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 ////            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//
+//////////////////////////////////////////////////////////////
 //            String symbol = "HOU.TO";
 //            int trNN = ConstantKey.INT_TR_NN2;
 //            String nnName = ConstantKey.TR_NN2;
@@ -1088,6 +1096,8 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//
+////////////////////////////////////////////////////////////
 //            while (true) {
 //                TRprocessImp.ProcessAdminSignalTrading(this);
 //                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
@@ -1098,6 +1108,8 @@ public class ServiceAFweb {
 //                    Thread.currentThread().interrupt();
 //                }
 //            }
+//
+/////////////////////////////////////////////////////////////
 //            getStockImp().deleteNeuralNet1(BPnameSym);
 //            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, trNN, symbol);
 //            int ret = nn2ProcBySig.inputReTrainNN2StockNeuralNetData(this, trNN, symbol);
