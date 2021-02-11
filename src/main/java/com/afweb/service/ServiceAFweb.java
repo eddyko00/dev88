@@ -972,8 +972,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            EmailProcess eProcess = new EmailProcess();
-//            ServiceAFweb.processEmailFlag = true;
+//
+            EmailProcess eProcess = new EmailProcess();
+            ServiceAFweb.processEmailFlag = true;
 //            String tzid = "America/New_York"; //EDT
 //            TimeZone tz = TimeZone.getTimeZone(tzid);
 //            java.sql.Date d = new java.sql.Date(System.currentTimeMillis());
@@ -984,9 +985,14 @@ public class ServiceAFweb {
 //            String msg = ESTdate + " " + symbol + " Sig:" + sig;
 //            AccountObj accountObj = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
 //            getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAIL, msg);
-//            for (int i = 0; i < 100; i++) {
-//                eProcess.ProcessEmailAccount(this);
-//            }
+            for (int i = 0; i < 100; i++) {
+                eProcess.ProcessEmailAccount(this);
+                try {
+                    Thread.sleep(30 * 1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
 //
 //            try {
 //                GmailSender sender = new GmailSender();

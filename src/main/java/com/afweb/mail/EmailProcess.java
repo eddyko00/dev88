@@ -124,6 +124,7 @@ public class EmailProcess {
                                     sender.setSubject("IISWeb");
                                     sender.setBody(comObj.getData());
                                     sender.send();
+                                    logger.info("> EmailTradingAccount " + emailAddr);
                                 }
                                 // remove comObj;
                                 serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
@@ -131,7 +132,7 @@ public class EmailProcess {
                             }
                             return 1;
                         } catch (Exception ex) {
-                            logger.info("> Exception ...." + ex.getMessage());
+                            logger.info("> EmailTradingAccount Exception ...." + ex.getMessage());
                         }
                         //update error count
                         int subSt = comObj.getSubstatus();

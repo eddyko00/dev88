@@ -883,7 +883,8 @@ public class AccountProcess {
 //                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
                                 DateFormat format = new SimpleDateFormat(" hh:mm a");
                                 format.setTimeZone(tz);
-                                String ESTdate = format.format(d);
+                                String ESTtime = format.format(d);
+
 
                                 String sig = "exit";
                                 if (trAdminObj.getTrsignal() == ConstantKey.S_BUY) {
@@ -891,10 +892,15 @@ public class AccountProcess {
                                 } else if (trAdminObj.getTrsignal() == ConstantKey.S_SELL) {
                                     sig = ConstantKey.S_SELL_ST;
                                 }
-                                String msg = ESTdate + " " + symbol + " Sig:" + sig;
+                                String msg = ESTtime + " " + symbol + " Sig:" + sig;
                                 this.AddCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
+
                                 // send email
-                                this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
+                                DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+                                formatD.setTimeZone(tz);
+                                String ESTdateD = formatD.format(d);                                
+                                String msgD = ESTdateD + " " + symbol + " Sig:" + sig;
+                                this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
 //                                logger.info("> updateTradingsignal update " + msg);
                             }
                             break;
@@ -931,12 +937,10 @@ public class AccountProcess {
 
     public int AddEmailCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
-
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
 //                logger.info("> AddCommMessage  " + messageData);
                 return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAIL, messageData);
             }
-
         } catch (Exception e) {
             logger.info("> AddEmailCommMessage exception " + e.getMessage());
         }
@@ -945,12 +949,10 @@ public class AccountProcess {
 
     public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
-
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
                 logger.info("> AddCommMessage  " + messageData);
                 return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
             }
-
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
         }
