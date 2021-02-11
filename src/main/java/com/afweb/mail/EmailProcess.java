@@ -124,7 +124,7 @@ public class EmailProcess {
                                     sender.setSubject("IISWeb");
                                     sender.setBody(comObj.getData());
                                     sender.send();
-                                    logger.info("> EmailTradingAccount " + emailAddr);
+                                    logger.info("> EmailTradingAccount id " + accObj.getId() + emailAddr + "size " + commList.size());
                                 }
                                 // remove comObj;
                                 serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());

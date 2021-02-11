@@ -663,17 +663,17 @@ public class ServiceAFweb {
             TRprocessImp.ProcessAdminSignalTrading(this);
             getAccountProcessImp().ProcessAdminAccount(this);
             //
+
+        } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
+            TRprocessImp.UpdateAllStock(this);
+            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+            getAccountProcessImp().ProcessAdminAccount(this);
             if (CKey.PROXY == false) {
                 if (ServiceAFweb.processEmailFlag == true) {
                     EmailProcess eProcess = new EmailProcess();
                     eProcess.ProcessEmailAccount(this);
                 }
             }
-
-        } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-            TRprocessImp.UpdateAllStock(this);
-            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
 
