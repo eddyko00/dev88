@@ -1341,61 +1341,61 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-        boolean comtestflag = false;
-        if (comtestflag == true) {
-            AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
+//        boolean comtestflag = false;
+//        if (comtestflag == true) {
+//            AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
+//
+//            ArrayList<BillingObj> billingObjList = getAccountImp().getBillingObjByAccountID(account.getId());
+//            String bill = "eddy testing billing";
+//            getAccountImp().addAccountBilling(account, 10, 20, bill);
+//            billingObjList = getAccountImp().getBillingObjByAccountID(account.getId());
+//            if (billingObjList != null) {
+//                BillingObj billObj = billingObjList.get(0);
+//                getAccountImp().updateAccountBillingData(billObj.getId(), 1, 1, billObj.getData());
+//            }
+//
+//            ArrayList<CommObj> comObjList = getAccountImp().getComObjByAccountID(account.getId(), 0);
+//            String msg = "eddy testing communication";
+//            getAccountImp().addAccountMessage(account, ConstantKey.COM_SIGNAL, msg);
+//            comObjList = getAccountImp().getComObjByAccountID(account.getId(), 0);
+//            if (comObjList != null) {
+//                ;
+//            }
+//        }
 
-            ArrayList<BillingObj> billingObjList = getAccountImp().getBillingObjByAccountID(account.getId());
-            String bill = "eddy testing billing";
-            getAccountImp().addAccountBilling(account, 10, 20, bill);
-            billingObjList = getAccountImp().getBillingObjByAccountID(account.getId());
-            if (billingObjList != null) {
-                BillingObj billObj = billingObjList.get(0);
-                getAccountImp().updateAccountBillingData(billObj.getId(), 1, 1, billObj.getData());
-            }
-
-            ArrayList<CommObj> comObjList = getAccountImp().getComObjByAccountID(account.getId(), 0);
-            String msg = "eddy testing communication";
-            getAccountImp().addAccountMessage(account, ConstantKey.COM_SIGNAL, msg);
-            comObjList = getAccountImp().getComObjByAccountID(account.getId(), 0);
-            if (comObjList != null) {
-                ;
-            }
-        }
-
-        boolean commadmflag = false;
-        if (commadmflag == true) {
-
-            //clear all communication
-//            this.getAccountImp().removeCommByCommID(65);
-//            this.getAccountImp().removeCommByCommID(215);
-//            this.getAccountImp().removeCommByCommID(216);
-            String tzid = "America/New_York"; //EDT
-            TimeZone tz = TimeZone.getTimeZone(tzid);
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            long dateNowLong = dateNow.getTimeInMillis();
-            java.sql.Date d = new java.sql.Date(dateNowLong);
-            DateFormat format = new SimpleDateFormat(" hh:mm a");
-            format.setTimeZone(tz);
-            String ESTdate = format.format(d);
-            String msg = ESTdate + " testing Cust signup Result: 0";
-            this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-
-            // send admin messsage
-            String commMsg = ESTdate + " Test" + " stock split= 10";
-            CommData commDataObj = new CommData();
-            commDataObj.setType(0);
-            commDataObj.setSymbol("test");
-            commDataObj.setEntrydatedisplay(new java.sql.Date(dateNowLong));
-            commDataObj.setEntrydatel(dateNowLong);
-            commDataObj.setSplit(10);
-            commDataObj.setOldclose(1);
-            commDataObj.setNewclose(2);
-            commDataObj.setMsg(commMsg);
-            getAccountProcessImp().AddCommObjMessage(this, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
-
-        }
+//        boolean commadmflag = false;
+//        if (commadmflag == true) {
+//
+//            //clear all communication
+////            this.getAccountImp().removeCommByCommID(65);
+////            this.getAccountImp().removeCommByCommID(215);
+////            this.getAccountImp().removeCommByCommID(216);
+//            String tzid = "America/New_York"; //EDT
+//            TimeZone tz = TimeZone.getTimeZone(tzid);
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//            long dateNowLong = dateNow.getTimeInMillis();
+//            java.sql.Date d = new java.sql.Date(dateNowLong);
+//            DateFormat format = new SimpleDateFormat(" hh:mm a");
+//            format.setTimeZone(tz);
+//            String ESTdate = format.format(d);
+//            String msg = ESTdate + " testing Cust signup Result: 0";
+//            this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+//
+//            // send admin messsage
+//            String commMsg = ESTdate + " Test" + " stock split= 10";
+//            CommData commDataObj = new CommData();
+//            commDataObj.setType(0);
+//            commDataObj.setSymbol("test");
+//            commDataObj.setEntrydatedisplay(new java.sql.Date(dateNowLong));
+//            commDataObj.setEntrydatel(dateNowLong);
+//            commDataObj.setSplit(10);
+//            commDataObj.setOldclose(1);
+//            commDataObj.setNewclose(2);
+//            commDataObj.setMsg(commMsg);
+//            getAccountProcessImp().AddCommObjMessage(this, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
+//
+//        }
 
         boolean flagNeuralData = false;
         if (flagNeuralData == true) {
@@ -4296,7 +4296,11 @@ public class ServiceAFweb {
                 String ESTtime = format.format(d);
 
                 String msg = ESTtime + " " + emailSt;
-                getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAILMSG, msg);
+
+                getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_ACCBILLMSG, msg);
+                AccountObj accountAdminObj = getAdminObjFromCache();
+                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_ACCBILLMSG, msg);
+
                 // send email
                 DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
                 formatD.setTimeZone(tz);
