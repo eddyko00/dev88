@@ -28,6 +28,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.TimeZone;
@@ -4274,14 +4276,19 @@ public class ServiceAFweb {
             if (paymenttSt != null) {
                 if (!paymenttSt.equals("")) {
                     payment = Float.parseFloat(paymenttSt);
-                    emailSt += "\n\rAccout payment changed - " + payment;
+                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+                    String currency = formatter.format(payment);                    
+                    emailSt += "\n\rAccout payment change update " + currency;
                 }
             }
             float balance = -9999;
             if (balanceSt != null) {
                 if (!balanceSt.equals("")) {
                     balance = Float.parseFloat(balanceSt);
-                    emailSt += "\n\rAccout adjustment - " + balance;
+
+                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+                    String currency = formatter.format(balance);
+                    emailSt += "\n\rAccout adjustment " + currency;
                 }
             }
             int ret = getAccountImp().updateCustAllStatus(UserName, status, payment, balance);
