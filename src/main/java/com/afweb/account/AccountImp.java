@@ -107,15 +107,15 @@ public class AccountImp {
         return accountdb.getAllSQLqueryDBSQL(sql);
     }
 
-    public ArrayList getCustomerNList(int length) {
+    public ArrayList<String> getCustomerNList(int length) {
         return accountdb.getCustomerNList(0);
     }
 
-    public ArrayList getCustomerNameList(String name) {
+    public ArrayList<CustomerObj> getCustomerObjByNameList(String name) {
         return accountdb.getCustomerNameList(name);
     }
 
-    public ArrayList getCustomerList(int length) {
+    public ArrayList getCustomerObjList(int length) {
         ArrayList customerList = new ArrayList();
 
         ArrayList customerDBList = accountdb.getCustomerList(0);

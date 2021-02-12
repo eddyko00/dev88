@@ -91,14 +91,14 @@ public class AccountDB {
         return null;
     }
 
-    public ArrayList getCustomerNList(int length) {
+    public ArrayList<String> getCustomerNList(int length) {
         String sql = "select username as username from customer order by id asc";
         sql = ServiceAFweb.getSQLLengh(sql, length);
         return getAllUserNameSQL(sql);
 
     }
 
-    public ArrayList getCustomerNameList(String name) {
+    public ArrayList<CustomerObj>  getCustomerNameList(String name) {
         String sql = "select * from customer where username='" + name + "'";
         return this.getCustomerListSQL(sql, 0);
     }

@@ -1849,12 +1849,12 @@ public class ServiceAFweb {
         return result;
     }
 
-    public ArrayList getCustomerNameList(String name) {
+    public ArrayList<CustomerObj> getCustomerObjByNameList(String name) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = getAccountImp().getCustomerNameList(name);
+        result = getAccountImp().getCustomerObjByNameList(name);
         return result;
     }
 
@@ -1863,7 +1863,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = getAccountImp().getCustomerList(length);
+        result = getAccountImp().getCustomerObjList(length);
 
         return result;
     }

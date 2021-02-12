@@ -5,8 +5,15 @@
  */
 package com.afweb.account;
 
+import com.afweb.model.*;
+import com.afweb.model.account.*;
+import com.afweb.service.*;
+import com.afweb.util.*;
+
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,6 +84,7 @@ public class BillingProcess {
 //        return bType;
 //    }
     //Payment method
+
     public static final int PAYMENT_INIT = 100;
     public static final int PAYMENT_CREDIT_CARD = 101;
     public static final int PAYMENT_PAY_PAL = 102;
@@ -85,8 +93,85 @@ public class BillingProcess {
     public static final int PAYMENT_CREDIT = 105;
     public static final int PAYMENT_ADJUST = 106;
 
-    public String updateUserBillingAll() {
-//        applog.debugLog("updateUserBillingAll", " ");
+    protected static Logger logger = Logger.getLogger("BillingProcess");
+    private static ArrayList stockNNprocessNameArray = new ArrayList();
+
+    private ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
+        if (stockNNprocessNameArray != null && stockNNprocessNameArray.size() > 0) {
+            return stockNNprocessNameArray;
+        }
+        ArrayList stockNameArray = serviceAFWeb.getAccountImp().getCustomerNList(0);
+        if (stockNameArray != null) {
+            stockNNprocessNameArray = stockNameArray;
+        }
+        return stockNNprocessNameArray;
+    }
+
+    public void processUserBillingAll(ServiceAFweb serviceAFWeb) {
+        logger.info("> updateUserBillingAll ");
+
+        UpdateStockNNprocessNameArray(serviceAFWeb);
+        if (stockNNprocessNameArray == null) {
+            return;
+        }
+        if (stockNNprocessNameArray.size() == 0) {
+            return;
+        }
+
+        String printName = "";
+        for (int i = 0; i < stockNNprocessNameArray.size(); i++) {
+            printName += stockNNprocessNameArray.get(i) + ",";
+        }
+        logger.info("ProcessTrainNN2NeuralNetBySign " + printName);
+
+        String LockName = null;
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long lockDateValue = dateNow.getTimeInMillis();
+
+        LockName = "BILL_" + ServiceAFweb.getServerObj().getServerName();
+        LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
+        long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+        boolean testing = false;
+        if (testing == true) {
+            lockReturn = 1;
+        }
+        if (lockReturn > 0) {
+            long LastServUpdateTimer = System.currentTimeMillis();
+            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 15); // add 3 minutes
+
+            while (true) {
+                long currentTime = System.currentTimeMillis();
+                if (testing == true) {
+                    currentTime = 0;
+                }
+                if (lockDate5Min < currentTime) {
+//                    logger.info("ProcessTrainNeuralNet exit after 15 minutes");
+                    break;
+                }
+
+                if (stockNNprocessNameArray.size() == 0) {
+                    break;
+                }
+                String custName = (String) stockNNprocessNameArray.get(0);
+                ArrayList custNameList = serviceAFWeb.getCustomerObjByNameList(custName);
+                if (custNameList == null) {
+                    stockNNprocessNameArray.remove(0);
+                    continue;
+                }
+                if (custNameList.size() == 0) {
+                    stockNNprocessNameArray.remove(0);
+                    continue;
+                }
+                CustomerObj customer = (CustomerObj) custNameList.get(0);
+
+                String symbolTR = (String) stockNNprocessNameArray.get(0);
+
+            }  // end for loop
+            serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
+//            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
+        }
+        logger.info("> updateUserBillingAll ... done");
+
 //        String[] namelist = SQLObject.getUserAll();
 //        if (namelist == null) {
 //            return CKey.WS_SUCCESS;
@@ -104,7 +189,6 @@ public class BillingProcess {
 //        }
 //
 //        return CKey.WS_SUCCESS;
-        return "";
     }
 //
 
