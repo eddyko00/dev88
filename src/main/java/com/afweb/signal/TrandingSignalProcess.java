@@ -466,7 +466,7 @@ public class TrandingSignalProcess {
                     }
                 }
 
-                pObj.setRating(2);
+                pObj.setRating(1);
                 if (perfData.getRatioavgwinloss() != 0) {
                     pObj.setRating(perfData.getRatioavgwinloss());
                 }
@@ -548,7 +548,7 @@ public class TrandingSignalProcess {
                         perfData.setRatioavgwinloss(ratio);
                     }
                 }
-                pObj.setRating(2);
+                pObj.setRating(1);
                 if (perfData.getRatioavgwinloss() != 0) {
                     pObj.setRating(perfData.getRatioavgwinloss());
                 }
@@ -666,7 +666,7 @@ public class TrandingSignalProcess {
                     }
                 }
 
-                pObj.setRating(2);
+                pObj.setRating(1);
                 if (perfData.getRatioavgwinloss() != 0) {
                     pObj.setRating(perfData.getRatioavgwinloss());
                 }
@@ -754,7 +754,7 @@ public class TrandingSignalProcess {
                         perfData.setRatioavgwinloss(ratio);
                     }
                 }
-                pObj.setRating(2);
+                pObj.setRating(1);
                 if (perfData.getRatioavgwinloss() != 0) {
                     pObj.setRating(perfData.getRatioavgwinloss());
                 }
