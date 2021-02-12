@@ -972,6 +972,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            getAccountImp().removeCommByName(CKey.ADMIN_USERNAME, null, ConstantKey.COM_EMAIL);
 //            
 //
 //            EmailProcess eProcess = new EmailProcess();
@@ -1362,7 +1363,6 @@ public class ServiceAFweb {
 //                ;
 //            }
 //        }
-
 //        boolean commadmflag = false;
 //        if (commadmflag == true) {
 //
@@ -1396,7 +1396,6 @@ public class ServiceAFweb {
 //            getAccountProcessImp().AddCommObjMessage(this, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
 //
 //        }
-
         boolean flagNeuralData = false;
         if (flagNeuralData == true) {
             SystemClearNNData();
@@ -2556,7 +2555,7 @@ public class ServiceAFweb {
         }
         return 0;
     }
- 
+
     public int removeCommByID(String EmailUserName, String Password, String AccountIDSt, String IDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
