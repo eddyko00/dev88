@@ -1083,6 +1083,13 @@ public class ServiceAFweb {
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 ////            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            symbol = "T.TO";
+            AccountObj account = getAccountImp().getAccountByType("GUEST", null, AccountObj.INT_TRADING_ACCOUNT);
+            AFstockObj stock = getRealTimeStockImp(symbol);
+            TradingRuleObj trObj = getAccountStockByTRname("GUEST", null, account.getId() + "", symbol, ConstantKey.TR_ACC);
+            ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockListByAccountID(account.getId(), stock.getId());
+            ArrayList<PerformanceObj> currentPerfList = this.SystemAccountStockPerfList(account.getId(), stock.getId(), trObj.getTrname(), 1);
+
 //
 //////////////////////////////////////////////////////////////
 //            String symbol = "HOU.TO";
@@ -4277,7 +4284,7 @@ public class ServiceAFweb {
                 if (!paymenttSt.equals("")) {
                     payment = Float.parseFloat(paymenttSt);
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);                    
+                    String currency = formatter.format(payment);
                     emailSt += "\n\rAccout payment change update " + currency;
                 }
             }
