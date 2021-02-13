@@ -64,8 +64,9 @@ public class BillingProcess {
 //    public static final String MSG_PARTIAL_COMPLETE = "PARTIAL_COMPLETE";
 //    public static final int PARTIAL_COMPLETE = 12;
 //    public static final String INT_ST_PARTIAL_COMPLETE = "12";
-//    public static final int NO_PAYMENT_1 = 55;
-//    public static final int NO_PAYMENT_2 = 56;
+
+    public static final int NO_PAYMENT_1 = 55;
+    public static final int NO_PAYMENT_2 = 56;
 //    //Billing type
 //    public static final int BILLING_SYSTEM = 121;
 //    public static final int BILLING_MONTHLY = 122;
@@ -155,17 +156,13 @@ public class BillingProcess {
                 }
                 String custName = (String) stockNNprocessNameArray.get(0);
                 ArrayList custNameList = serviceAFWeb.getCustomerObjByNameList(custName);
-                if (custNameList == null) {
-                    stockNNprocessNameArray.remove(0);
-                    continue;
+                if (custNameList != null) {
+                    if (custNameList.size() == 0) {
+                        CustomerObj customer = (CustomerObj) custNameList.get(0);
+                        this.updateUserBilling(serviceAFWeb, customer);
+                    }
                 }
-                if (custNameList.size() == 0) {
-                    stockNNprocessNameArray.remove(0);
-                    continue;
-                }
-                CustomerObj customer = (CustomerObj) custNameList.get(0);
-
-                String symbolTR = (String) stockNNprocessNameArray.get(0);
+                stockNNprocessNameArray.remove(0);
 
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
@@ -194,6 +191,92 @@ public class BillingProcess {
         if (billingObjList == null) {
             return 0;
         }
+        if (billingObjList.size() == 0) {
+            return 0;
+        }
+        BillingObj billing = billingObjList.get(0);
+        // check if expire
+        int status = billing.getStatus();
+
+        float userBalance = customer.getBalance();
+        float fPayment = customer.getPayment();
+
+        if (status == ConstantKey.DISABLE) {
+            //no actiion
+            ;
+        } else if (status == ConstantKey.INITIAL) {
+            if (userBalance >= fPayment) {
+                //the remaining goes to the next invoice.
+                userBalance = userBalance - fPayment;
+                customer.setBalance(userBalance);
+                customer.setPayment(0);
+                int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
+                result = serviceAFWeb.getAccountImp().updateAccountBillingData(billing.getId(), fPayment, userBalance, "");
+
+                return 1;
+            } else {
+                Date entryDate = billing.getUpdatedatedisplay();
+                long dateWeek = TimeConvertion.nextWeek(entryDate.getTime());
+                if (date.getTime() > dateWeek) {
+                    if (customer.getStatus() != ConstantKey.DISABLE) {
+                        if (status != NO_PAYMENT_2) {
+                            billing.setStatus(NO_PAYMENT_2);
+
+                            customer.setStatus(ConstantKey.DISABLE);
+                            int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), customer.getStatus() + "", null, null);
+                            result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
+                            //********
+                            // send email disable
+                            //********
+                            String msg = "The " + customer.getUsername() + " account had been disabled!\r\nThank you for using IIS.\r\n\r\n";
+
+                            logger.info("updateUserBilling***Disable user " + customer.getUsername() + ", billing id" + billing.getId());
+                        }
+                    }
+                } else if (date.getTime() > entryDate.getTime()) {
+                    if (status != NO_PAYMENT_1) {
+                        billing.setStatus(NO_PAYMENT_1);
+                        int result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
+
+                        // send email reminder
+                        String msg = "The " + customer.getUsername() + " account has past due amount!\r\nPlease submit the payment now.\r\n\r\n";
+
+                    }
+
+                }
+
+            }
+        }
+
+//
+//                    } else if (date.getTime() > entryDate.getTime()) {
+//                        if (paymentStatue != CKey.NO_PAYMENT_1) {
+//                            billing.setPayStatus(CKey.NO_PAYMENT_1);
+//                            billing.save();
+//                            // send email reminder
+//                            String msg = Billing.getReminderMessage(username, billing.getBillingId(), fPayment);
+//                            com.afund.message.emailsystem.sendEmailPayment(username, "", email, msg);
+//                        }
+//                    }
+//                    return CKey.WS_SUCCESS;
+//                }
+//            } else if (status == CKey.COMPLETE) {
+//                Date expireDate = billing.getExpiryDate();
+//                Billcycle = expireDate;
+//                long date3day = TimeConvertion.addDays(date.getTime(), 3);
+//
+////                if (date.getTime() < expireDate.getTime()) {
+//                if (date3day < expireDate.getTime()) {
+//                    // Not yet expire
+//                    if (customer.getStatus() == CKey.DISABLE) {
+//                        customer.setStatus(CKey.ENABLE);
+//                        customer.save();
+//                    }
+//                    return CKey.WS_SUCCESS;
+//                }
+//            }
+//
+//        }
 //
 //        Date Billcycle = date;
 //        try {
@@ -347,390 +430,387 @@ public class BillingProcess {
 ////            default:
 ////                return CKey.WS_SUCCESS;
 //        }
-
 //        return processBilling(customer, feature, fInvoice, fInvoice1, fCredit, Billcycle);
         return 0;
     }
-
-//    private String processBilling(AFcustomer customer, int feature, float fInvoice, float fInvoice1, float fCredit, Date Billcycle) {
+    //    private String processBilling(AFcustomer customer, int feature, float fInvoice, float fInvoice1, float fCredit, Date Billcycle) {
+    //
+    //        String username = customer.getUserName();
+    //
+    //        try {
+    //
+    //            String mirrorAccountName = SQLObject.getMirrorAccountFromUsername(username);
+    //            if (mirrorAccountName != null) {
+    //                AFtradingAccount mirrorAccount = TradingAccount.getTradingAccount(mirrorAccountName);
+    //                if (mirrorAccount != null) {
+    //                    String mirrorUsername = mirrorAccount.getaFcustomer().getUserName();
+    //                    String reference = mirrorUsername;
+    //
+    //                    AFtradingOpt mirrorTradeOption = TradingAccount.getAccountTradeOption(mirrorAccount);
+    //                    float fee = mirrorTradeOption.getMirrorAccountFee();
+    //
+    //                    float fFeatureInvoice1 = CKey.FEATURE_MIRROR_FUND;
+    //
+    //                    if (fee == -1) {
+    //                        fFeatureInvoice1 = 0;
+    //                    } else if (fee == 0) {
+    //                        fFeatureInvoice1 = CKey.FEATURE_MIRROR_FUND;
+    //                    } else {
+    //                        fFeatureInvoice1 = fee;
+    //                    }
+    //                    int iBillingType = CKey.BILLING_SERVICE;
+    //                    int iPaymentType = CKey.PAYMENT_ADJUST;
+    //
+    //                    String sentMsg = "";
+    //                    String ret = AcceptUserInvoice(username, iBillingType, reference, iPaymentType, fFeatureInvoice1, sentMsg, Billcycle);
+    //                    if (ret.equals(CKey.WS_FAIL)) {
+    //                        System.out.println("processBilling cannot set AcceptUserInvoice");
+    //                    }
+    //                    //need to clear the mirror list for the username account
+    //                    String AccountName = SQLObject.getAccountFromMirrorAccount(username, mirrorAccountName);
+    //                    AFtradingAccount tradingAccount = TradingAccount.getTradingAccount(AccountName);
+    //
+    //                    if (tradingAccount != null) {
+    //                        AFtradingOpt tradeOption = TradingAccount.getAccountTradeOption(tradingAccount);
+    //                        tradeOption.setCurrMirrorList(mirrorAccountName);
+    //                        tradeOption.save();
+    //                    }
+    //                }
+    //
+    //            }
+    //
+    //
+    //
+    //            BillingInfo serviceBilling = Billing.getAllServiceAfterMTMBilling(username);
+    //            fInvoice1 += serviceBilling.getInvoice1();
+    //            fCredit += serviceBilling.getCredit();
+    //
+    //            BillingInfo systemBilling = Billing.getAllSystemAfterMTMBilling(username);
+    //            fInvoice1 += systemBilling.getInvoice1();
+    //            fCredit += systemBilling.getCredit();
+    //
+    //            PersistentTransaction t = com.trading.message.StockTradingPersistentManager.instance().getSession().beginTransaction();
+    //
+    //            try {
+    //                String billingId = "" + CKey.getUniqueId();
+    //                //if (lastBill.length == 1) {
+    //                AFbilling payment = new AFbilling();
+    //
+    //                payment.setBillingId(billingId);
+    //                payment.setType(CKey.BILLING_MONTHLY); //BILLING_MONTHLY
+    //                payment.setMethod(CKey.PAYMENT_INIT); //PAYMENT_PAY_PAL
+    //                payment.setFeature(feature);
+    //                payment.setEntryDate(Billcycle);
+    //                payment.setEntryDateValue("" + Billcycle.getTime());
+    //                long dateValue = TimeConvertion.getNextMonth(Billcycle.getTime());
+    //                payment.setExpiryDate(new java.sql.Date(dateValue));
+    //                payment.setExpiryDateValue("" + dateValue);
+    //                payment.setReference(" ");
+    //                payment.setnStock(0);
+    //
+    //                if (customer.getType() == CKey.INT_API_USER) {
+    //                    int lastMonthNStock = 0;
+    //                    int currentNStock = 0;
+    //                    String[] auditS = SQLObject.getLatestAuditStock(customer.getUserName());
+    //
+    //                    if (auditS != null) {
+    //                        if (auditS.length > 3) {
+    //
+    //                            int id = Integer.parseInt(auditS[1]);
+    //                            // get current stock holding - add stock will update this field
+    //                            currentNStock = Integer.parseInt(auditS[3]);
+    //
+    //                            long cur = TimeConvertion.getCurrentTimeStamp().getTime();
+    //                            long prev = TimeConvertion.getPreviousMonth(cur);
+    //                            // get number of stock that is added between the current time Bill cycle and 1 month ago
+    //                            // total number of stock that had been added
+    //                            String[] lastMonthauditS = SQLObject.getLatestMonthAuditStock(customer.getUserName(), cur, prev);
+    //                            if (lastMonthauditS != null) {
+    //                                lastMonthNStock = lastMonthauditS.length - 1;
+    //                            }
+    //                        }
+    //                    }
+    //
+    //                    int nStock = currentNStock;
+    //                    if (lastMonthNStock > currentNStock) {
+    //                        nStock = lastMonthNStock;
+    //                    }
+    //                    payment.setnStock(nStock);
+    //                    float apiInvoice = BusinessRule.businessgetAPIinvoice(currentNStock, lastMonthNStock);
+    //                    applog.debugLog("updateUserBillingAll", "API user invoice = " + apiInvoice + ", c=" + currentNStock + ", l=" + lastMonthNStock);
+    //
+    //                    fInvoice += apiInvoice;
+    //                }
+    //
+    //                String employee = customer.getEmployeeNo();
+    //                if (employee != null) {
+    //                    if (employee.equals("1")) {
+    //                        fCredit = fInvoice + fInvoice1;
+    //                    }
+    //                }
+    //
+    //                // need to clear the ending???????????
+    //                fInvoice = (float) ((int) (fInvoice * 1000 + 5) / 10) / 100;
+    //                fInvoice1 = (float) ((int) (fInvoice1 * 1000 + 5) / 10) / 100;
+    //                fCredit = (float) ((int) (fCredit * 1000 + 5) / 10) / 100;
+    //
+    //                payment.setStatus(CKey.INITIAL);
+    //                payment.setPayStatus(CKey.INITIAL);
+    //                payment.setInvoice(fInvoice);
+    //                payment.setInvoice1(fInvoice1); // feature
+    //                payment.setCredit(fCredit);
+    //
+    //                payment.setBalance(0);
+    //                payment.setComment("");
+    //                payment.setaFcustomer(customer);
+    //
+    //
+    //                float userBalance = customer.getBalance();
+    //                if (userBalance < 0) {
+    //                    Billing.paymentloginfo("updateUserBilling", "***user " + username + ", userBalance " + userBalance);
+    //
+    //                    fInvoice1 = fInvoice1 - userBalance; // add to invoice for outstanding amount
+    //                    payment.setInvoice1(fInvoice1);
+    //
+    //                    userBalance = 0;
+    //                    customer.setBalance(userBalance);
+    //                    customer.save();
+    //                }
+    //
+    //                if ((fInvoice + fInvoice1) > 0) {
+    //
+    //                    if ((fInvoice + fInvoice1) > fCredit) {
+    //                        //userBalance can only be 0 or > 0
+    //                        if (userBalance > 0) {
+    //                            Billing.paymentloginfo("updateUserBilling", "***user " + username + ", userBalance " + userBalance);
+    //                            float paymentBalance = ((fInvoice + fInvoice1) - fCredit);
+    //                            if (userBalance >= paymentBalance) {
+    //                                //deduct from userbalance
+    //                                userBalance = userBalance - paymentBalance;
+    //                                fCredit = paymentBalance + fCredit;
+    //                            } else {
+    //                                // used up all the user balance into credit
+    //                                fCredit = userBalance + fCredit;
+    //                                userBalance = 0;
+    //                            }
+    //                            payment.setCredit(fCredit);
+    //                            customer.setBalance(userBalance);
+    //                            customer.save();
+    //
+    //                        }
+    //                    }
+    //
+    //                    // business rule - if < $1
+    //                    if (((fInvoice + fInvoice1) - fCredit) < 1) {
+    //                        fCredit = (fInvoice + fInvoice1);
+    //                        payment.setCredit(fCredit);
+    //                    }
+    //
+    //                    if ((fInvoice + fInvoice1) <= fCredit) {
+    //                        // no payment 
+    //                        payment.setStatus(CKey.COMPLETE);
+    //                        payment.setMethod(CKey.PAYMENT_CREDIT);
+    //                    } else { // send email for the payment request
+    //                        float fBalance = (fInvoice + fInvoice1) - fCredit;
+    //                        String paymentMsg = Billing.getPaymentMessage(username, billingId, fBalance);
+    //                        String emailAddr = customer.getEmail();
+    //                        String firstname = "";
+    //                        com.afund.message.emailsystem.sendEmailPayment(username, firstname, emailAddr, paymentMsg);
+    //
+    //                    }
+    //                }
+    //                payment.save();
+    //
+    //                t.commit();
+    //
+    //                Billing.auditlog("updateUserBilling", username, payment);
+    //
+    //                return CKey.WS_SUCCESS;
+    //
+    //            } catch (Exception e) {
+    //                applog.debugLog("updateUserBilling exception", "" + username);
+    //                t.rollback();
+    //            }
+    //
+    //        } catch (PersistentException ex) {
+    //            ex.printStackTrace();
+    //            Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
+    //            return CKey.WS_FAIL;
+    //        }
+    //        return CKey.WS_SUCCESS;
+    //    }
+//    private String completeBilling(String username, String billingId, float fPayment) {
 //
-//        String username = customer.getUserName();
-//
-//        try {
-//
-//            String mirrorAccountName = SQLObject.getMirrorAccountFromUsername(username);
-//            if (mirrorAccountName != null) {
-//                AFtradingAccount mirrorAccount = TradingAccount.getTradingAccount(mirrorAccountName);
-//                if (mirrorAccount != null) {
-//                    String mirrorUsername = mirrorAccount.getaFcustomer().getUserName();
-//                    String reference = mirrorUsername;
-//
-//                    AFtradingOpt mirrorTradeOption = TradingAccount.getAccountTradeOption(mirrorAccount);
-//                    float fee = mirrorTradeOption.getMirrorAccountFee();
-//
-//                    float fFeatureInvoice1 = CKey.FEATURE_MIRROR_FUND;
-//
-//                    if (fee == -1) {
-//                        fFeatureInvoice1 = 0;
-//                    } else if (fee == 0) {
-//                        fFeatureInvoice1 = CKey.FEATURE_MIRROR_FUND;
-//                    } else {
-//                        fFeatureInvoice1 = fee;
-//                    }
-//                    int iBillingType = CKey.BILLING_SERVICE;
-//                    int iPaymentType = CKey.PAYMENT_ADJUST;
-//
-//                    String sentMsg = "";
-//                    String ret = AcceptUserInvoice(username, iBillingType, reference, iPaymentType, fFeatureInvoice1, sentMsg, Billcycle);
-//                    if (ret.equals(CKey.WS_FAIL)) {
-//                        System.out.println("processBilling cannot set AcceptUserInvoice");
-//                    }
-//                    //need to clear the mirror list for the username account
-//                    String AccountName = SQLObject.getAccountFromMirrorAccount(username, mirrorAccountName);
-//                    AFtradingAccount tradingAccount = TradingAccount.getTradingAccount(AccountName);
-//
-//                    if (tradingAccount != null) {
-//                        AFtradingOpt tradeOption = TradingAccount.getAccountTradeOption(tradingAccount);
-//                        tradeOption.setCurrMirrorList(mirrorAccountName);
-//                        tradeOption.save();
-//                    }
-//                }
-//
-//            }
-//
-//
-//
-//            BillingInfo serviceBilling = Billing.getAllServiceAfterMTMBilling(username);
-//            fInvoice1 += serviceBilling.getInvoice1();
-//            fCredit += serviceBilling.getCredit();
-//
-//            BillingInfo systemBilling = Billing.getAllSystemAfterMTMBilling(username);
-//            fInvoice1 += systemBilling.getInvoice1();
-//            fCredit += systemBilling.getCredit();
-//
-//            PersistentTransaction t = com.trading.message.StockTradingPersistentManager.instance().getSession().beginTransaction();
-//
-//            try {
-//                String billingId = "" + CKey.getUniqueId();
-//                //if (lastBill.length == 1) {
-//                AFbilling payment = new AFbilling();
-//
-//                payment.setBillingId(billingId);
-//                payment.setType(CKey.BILLING_MONTHLY); //BILLING_MONTHLY
-//                payment.setMethod(CKey.PAYMENT_INIT); //PAYMENT_PAY_PAL
-//                payment.setFeature(feature);
-//                payment.setEntryDate(Billcycle);
-//                payment.setEntryDateValue("" + Billcycle.getTime());
-//                long dateValue = TimeConvertion.getNextMonth(Billcycle.getTime());
-//                payment.setExpiryDate(new java.sql.Date(dateValue));
-//                payment.setExpiryDateValue("" + dateValue);
-//                payment.setReference(" ");
-//                payment.setnStock(0);
-//
-//                if (customer.getType() == CKey.INT_API_USER) {
-//                    int lastMonthNStock = 0;
-//                    int currentNStock = 0;
-//                    String[] auditS = SQLObject.getLatestAuditStock(customer.getUserName());
-//
-//                    if (auditS != null) {
-//                        if (auditS.length > 3) {
-//
-//                            int id = Integer.parseInt(auditS[1]);
-//                            // get current stock holding - add stock will update this field
-//                            currentNStock = Integer.parseInt(auditS[3]);
-//
-//                            long cur = TimeConvertion.getCurrentTimeStamp().getTime();
-//                            long prev = TimeConvertion.getPreviousMonth(cur);
-//                            // get number of stock that is added between the current time Bill cycle and 1 month ago
-//                            // total number of stock that had been added
-//                            String[] lastMonthauditS = SQLObject.getLatestMonthAuditStock(customer.getUserName(), cur, prev);
-//                            if (lastMonthauditS != null) {
-//                                lastMonthNStock = lastMonthauditS.length - 1;
-//                            }
-//                        }
-//                    }
-//
-//                    int nStock = currentNStock;
-//                    if (lastMonthNStock > currentNStock) {
-//                        nStock = lastMonthNStock;
-//                    }
-//                    payment.setnStock(nStock);
-//                    float apiInvoice = BusinessRule.businessgetAPIinvoice(currentNStock, lastMonthNStock);
-//                    applog.debugLog("updateUserBillingAll", "API user invoice = " + apiInvoice + ", c=" + currentNStock + ", l=" + lastMonthNStock);
-//
-//                    fInvoice += apiInvoice;
-//                }
-//
-//                String employee = customer.getEmployeeNo();
-//                if (employee != null) {
-//                    if (employee.equals("1")) {
-//                        fCredit = fInvoice + fInvoice1;
-//                    }
-//                }
-//
-//                // need to clear the ending???????????
-//                fInvoice = (float) ((int) (fInvoice * 1000 + 5) / 10) / 100;
-//                fInvoice1 = (float) ((int) (fInvoice1 * 1000 + 5) / 10) / 100;
-//                fCredit = (float) ((int) (fCredit * 1000 + 5) / 10) / 100;
-//
-//                payment.setStatus(CKey.INITIAL);
-//                payment.setPayStatus(CKey.INITIAL);
-//                payment.setInvoice(fInvoice);
-//                payment.setInvoice1(fInvoice1); // feature
-//                payment.setCredit(fCredit);
-//
-//                payment.setBalance(0);
-//                payment.setComment("");
-//                payment.setaFcustomer(customer);
-//
-//
-//                float userBalance = customer.getBalance();
-//                if (userBalance < 0) {
-//                    Billing.paymentloginfo("updateUserBilling", "***user " + username + ", userBalance " + userBalance);
-//
-//                    fInvoice1 = fInvoice1 - userBalance; // add to invoice for outstanding amount
-//                    payment.setInvoice1(fInvoice1);
-//
-//                    userBalance = 0;
-//                    customer.setBalance(userBalance);
-//                    customer.save();
-//                }
-//
-//                if ((fInvoice + fInvoice1) > 0) {
-//
-//                    if ((fInvoice + fInvoice1) > fCredit) {
-//                        //userBalance can only be 0 or > 0
-//                        if (userBalance > 0) {
-//                            Billing.paymentloginfo("updateUserBilling", "***user " + username + ", userBalance " + userBalance);
-//                            float paymentBalance = ((fInvoice + fInvoice1) - fCredit);
-//                            if (userBalance >= paymentBalance) {
-//                                //deduct from userbalance
-//                                userBalance = userBalance - paymentBalance;
-//                                fCredit = paymentBalance + fCredit;
-//                            } else {
-//                                // used up all the user balance into credit
-//                                fCredit = userBalance + fCredit;
-//                                userBalance = 0;
-//                            }
-//                            payment.setCredit(fCredit);
-//                            customer.setBalance(userBalance);
-//                            customer.save();
-//
-//                        }
-//                    }
-//
-//                    // business rule - if < $1
-//                    if (((fInvoice + fInvoice1) - fCredit) < 1) {
-//                        fCredit = (fInvoice + fInvoice1);
-//                        payment.setCredit(fCredit);
-//                    }
-//
-//                    if ((fInvoice + fInvoice1) <= fCredit) {
-//                        // no payment 
-//                        payment.setStatus(CKey.COMPLETE);
-//                        payment.setMethod(CKey.PAYMENT_CREDIT);
-//                    } else { // send email for the payment request
-//                        float fBalance = (fInvoice + fInvoice1) - fCredit;
-//                        String paymentMsg = Billing.getPaymentMessage(username, billingId, fBalance);
-//                        String emailAddr = customer.getEmail();
-//                        String firstname = "";
-//                        com.afund.message.emailsystem.sendEmailPayment(username, firstname, emailAddr, paymentMsg);
-//
-//                    }
-//                }
-//                payment.save();
-//
-//                t.commit();
-//
-//                Billing.auditlog("updateUserBilling", username, payment);
-//
-//                return CKey.WS_SUCCESS;
-//
-//            } catch (Exception e) {
-//                applog.debugLog("updateUserBilling exception", "" + username);
-//                t.rollback();
-//            }
-//
-//        } catch (PersistentException ex) {
-//            ex.printStackTrace();
-//            Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
-//            return CKey.WS_FAIL;
-//        }
-//        return CKey.WS_SUCCESS;
+//        String reference = "0"; // admin user ID
+//        int iPaymentType = 0; //CKey.PAYMENT_PAY_PAL;
+//        String sentMsg = "";
+//        String ret = AcceptUserPayment(username, billingId, reference, iPaymentType, fPayment, sentMsg);
+//        return ret;
 //    }
-    private String completeBilling(String username, String billingId, float fPayment) {
-        String reference = "0"; // admin user ID
-        int iPaymentType = 0; //CKey.PAYMENT_PAY_PAL;
-        String sentMsg = "";
-        String ret = AcceptUserPayment(username, billingId, reference, iPaymentType, fPayment, sentMsg);
-        return ret;
-    }
 
-    public String updateUserPayment(String username, String billingId, int iBillingType, int feature, float fInvoice, float fInvoice1, float fCredit, String sentMsg) {
-//        applog.debugLog("updateUserPayment", " " + username + " - " + feature + " - " + fInvoice + " - " + fInvoice1 + " - " + fCredit);
+//    public String updateUserPayment(String username, String billingId, int iBillingType, int feature, float fInvoice, float fInvoice1, float fCredit, String sentMsg) {
+////        applog.debugLog("updateUserPayment", " " + username + " - " + feature + " - " + fInvoice + " - " + fInvoice1 + " - " + fCredit);
+////
+////        AFcustomer customer = null;
+////        try {
+////            customer = AFcustomerFactory.loadAFcustomerByQuery("userName='" + username + "'", null);
+////        } catch (PersistentException ex) {
+////            Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+////
+////
+////        Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
+////        java.sql.Date date = new java.sql.Date(currentDate.getTime());
+////
+////        if (customer != null) {
+////            try {
+////                PersistentTransaction t = com.trading.message.StockTradingPersistentManager.instance().getSession().beginTransaction();
+////                try {
+////                    AFbilling payment = new AFbilling();
+////
+////                    payment.setBillingId(billingId);
+////                    payment.setType(iBillingType);
+////                    payment.setMethod(CKey.PAYMENT_INIT); //PAYMENT_PAY_PAL
+////                    payment.setFeature(feature);
+////                    payment.setEntryDate(date);
+////                    payment.setEntryDateValue("" + date.getTime());
+////                    long dateValue = TimeConvertion.getNextMonth(currentDate.getTime());
+////                    payment.setExpiryDate(new java.sql.Date(dateValue));
+////                    payment.setExpiryDateValue("" + dateValue);
+////                    // businessRule
+////
+////                    payment.setReference(" ");
+////
+////                    payment.setStatus(CKey.INITIAL);
+////                    payment.setPayStatus(CKey.INITIAL);
+////                    payment.setInvoice(fInvoice);
+////                    payment.setInvoice1(fInvoice1);
+////
+////                    payment.setCredit(fCredit);
+////
+////                    payment.setBalance(0);
+////                    payment.setComment("");
+////                    payment.setaFcustomer(customer);
+////
+////                    if ((fInvoice + fInvoice1) > 0) {
+////                        if ((fInvoice + fInvoice1) <= fCredit) {
+////                            // no payment 
+////                            payment.setStatus(CKey.COMPLETE);
+////                            payment.setMethod(CKey.PAYMENT_CREDIT);
+////
+////                            customer.setStatus(CKey.ENABLE);
+////                            customer.save();
+////                        }
+////                    } else {//if (fInvoice == 0) {
+////                        // no payment 
+////                        payment.setStatus(CKey.COMPLETE);
+////                        payment.setMethod(CKey.PAYMENT_CREDIT);
+////
+////                        customer.setStatus(CKey.ENABLE);
+////                        customer.save();
+////                    }
+////                    payment.setnStock(0);
+////                    payment.save();
+////                    t.commit();
+////
+////                    Billing.auditlog("updateUserPayment", username, payment);
+////
+////                    // send email payment
+////                    String emailAddr = customer.getEmail();
+////                    String firstname = "";
+////                    if (customer.getaFcustInfo() != null) {
+////                        firstname = customer.getaFcustInfo().getFirstName();
+////                    }
+////                    if (emailAddr.length() > 0) {
+////                        String paymentMsg = sentMsg;
+////                        if (paymentMsg != null) {
+////                            float fBalance = fInvoice - fCredit;
+////
+////                            if (paymentMsg.length() == 0) {
+////                                paymentMsg = Billing.getPaymentMessage(username, billingId, fBalance);
+////                            }
+////
+////                            com.afund.message.emailsystem.sendEmailPayment(username, firstname, emailAddr, paymentMsg);
+////                        }
+////                    }
+////
+////                    return CKey.WS_SUCCESS;
+////                } catch (Exception e) {
+////                    t.rollback();
+////                }
+////
+////            } catch (PersistentException ex) {
+////                Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
+////            }
+////
+////        }
 //
-//        AFcustomer customer = null;
-//        try {
-//            customer = AFcustomerFactory.loadAFcustomerByQuery("userName='" + username + "'", null);
-//        } catch (PersistentException ex) {
-//            Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//
-//        Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
-//        java.sql.Date date = new java.sql.Date(currentDate.getTime());
-//
-//        if (customer != null) {
-//            try {
-//                PersistentTransaction t = com.trading.message.StockTradingPersistentManager.instance().getSession().beginTransaction();
-//                try {
-//                    AFbilling payment = new AFbilling();
-//
-//                    payment.setBillingId(billingId);
-//                    payment.setType(iBillingType);
-//                    payment.setMethod(CKey.PAYMENT_INIT); //PAYMENT_PAY_PAL
-//                    payment.setFeature(feature);
-//                    payment.setEntryDate(date);
-//                    payment.setEntryDateValue("" + date.getTime());
-//                    long dateValue = TimeConvertion.getNextMonth(currentDate.getTime());
-//                    payment.setExpiryDate(new java.sql.Date(dateValue));
-//                    payment.setExpiryDateValue("" + dateValue);
-//                    // businessRule
-//
-//                    payment.setReference(" ");
-//
-//                    payment.setStatus(CKey.INITIAL);
-//                    payment.setPayStatus(CKey.INITIAL);
-//                    payment.setInvoice(fInvoice);
-//                    payment.setInvoice1(fInvoice1);
-//
-//                    payment.setCredit(fCredit);
-//
-//                    payment.setBalance(0);
-//                    payment.setComment("");
-//                    payment.setaFcustomer(customer);
-//
-//                    if ((fInvoice + fInvoice1) > 0) {
-//                        if ((fInvoice + fInvoice1) <= fCredit) {
-//                            // no payment 
-//                            payment.setStatus(CKey.COMPLETE);
-//                            payment.setMethod(CKey.PAYMENT_CREDIT);
-//
-//                            customer.setStatus(CKey.ENABLE);
-//                            customer.save();
-//                        }
-//                    } else {//if (fInvoice == 0) {
-//                        // no payment 
-//                        payment.setStatus(CKey.COMPLETE);
-//                        payment.setMethod(CKey.PAYMENT_CREDIT);
-//
-//                        customer.setStatus(CKey.ENABLE);
-//                        customer.save();
-//                    }
-//                    payment.setnStock(0);
-//                    payment.save();
-//                    t.commit();
-//
-//                    Billing.auditlog("updateUserPayment", username, payment);
-//
-//                    // send email payment
-//                    String emailAddr = customer.getEmail();
-//                    String firstname = "";
-//                    if (customer.getaFcustInfo() != null) {
-//                        firstname = customer.getaFcustInfo().getFirstName();
-//                    }
-//                    if (emailAddr.length() > 0) {
-//                        String paymentMsg = sentMsg;
-//                        if (paymentMsg != null) {
-//                            float fBalance = fInvoice - fCredit;
-//
-//                            if (paymentMsg.length() == 0) {
-//                                paymentMsg = Billing.getPaymentMessage(username, billingId, fBalance);
-//                            }
-//
-//                            com.afund.message.emailsystem.sendEmailPayment(username, firstname, emailAddr, paymentMsg);
-//                        }
-//                    }
-//
-//                    return CKey.WS_SUCCESS;
-//                } catch (Exception e) {
-//                    t.rollback();
-//                }
-//
-//            } catch (PersistentException ex) {
-//                Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//        }
-
-        return "";
-    }
-
-    public String updateUserAdjustment(String username, String billingId, int iBillingType, int feature, float fInvoice, float fInvoice1, float fCredit, String sentMsg) {
-//        applog.debugLog("updateUserAdjustment", " " + username + " - " + feature + " - " + fInvoice + " - " + fInvoice1 + " - " + fCredit);
-//
-//        AFcustomer customer = null;
-//        try {
-//            customer = AFcustomerFactory.loadAFcustomerByQuery("userName='" + username + "'", null);
-//        } catch (PersistentException ex) {
-//            Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//
-//        Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
-//        java.sql.Date date = new java.sql.Date(currentDate.getTime());
-//
-//        if (customer != null) {
-//            try {
-//                PersistentTransaction t = com.trading.message.StockTradingPersistentManager.instance().getSession().beginTransaction();
-//                try {
-//                    AFbilling payment = new AFbilling();
-//
-//                    payment.setBillingId(billingId);
-//                    payment.setType(iBillingType);
-//                    payment.setMethod(CKey.PAYMENT_ADJUST);
-//                    payment.setFeature(feature);
-//                    payment.setEntryDate(date);
-//                    payment.setEntryDateValue("" + date.getTime());
-//                    long dateValue = TimeConvertion.getNextMonth(currentDate.getTime());
-//                    payment.setExpiryDate(new java.sql.Date(dateValue));
-//                    payment.setExpiryDateValue("" + dateValue);
-//
-//                    payment.setReference(" ");
-//
-//                    payment.setStatus(CKey.COMPLETE);
-//                    payment.setPayStatus(CKey.COMPLETE);
-//                    payment.setInvoice(fInvoice);
-//                    payment.setInvoice1(fInvoice1);
-//
-//                    payment.setCredit(fCredit);
-//
-//                    payment.setBalance(0);
-//                    payment.setComment("");
-//                    payment.setaFcustomer(customer);
-//
-//                    payment.setnStock(0);
-//                    payment.save();
-//                    t.commit();
-//
-//                    Billing.auditlog("updateUserPayment", username, payment);
-//
-//
-//                    return CKey.WS_SUCCESS;
-//                } catch (Exception e) {
-//                    t.rollback();
-//                }
-//
-//            } catch (PersistentException ex) {
-//                Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//        }
-//
-//        return CKey.WS_FAIL;
-        return "";
-    }
-
+//        return "";
+//    }
+//    public String updateUserAdjustment(String username, String billingId, int iBillingType, int feature, float fInvoice, float fInvoice1, float fCredit, String sentMsg) {
+////        applog.debugLog("updateUserAdjustment", " " + username + " - " + feature + " - " + fInvoice + " - " + fInvoice1 + " - " + fCredit);
+////
+////        AFcustomer customer = null;
+////        try {
+////            customer = AFcustomerFactory.loadAFcustomerByQuery("userName='" + username + "'", null);
+////        } catch (PersistentException ex) {
+////            Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+////
+////
+////        Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
+////        java.sql.Date date = new java.sql.Date(currentDate.getTime());
+////
+////        if (customer != null) {
+////            try {
+////                PersistentTransaction t = com.trading.message.StockTradingPersistentManager.instance().getSession().beginTransaction();
+////                try {
+////                    AFbilling payment = new AFbilling();
+////
+////                    payment.setBillingId(billingId);
+////                    payment.setType(iBillingType);
+////                    payment.setMethod(CKey.PAYMENT_ADJUST);
+////                    payment.setFeature(feature);
+////                    payment.setEntryDate(date);
+////                    payment.setEntryDateValue("" + date.getTime());
+////                    long dateValue = TimeConvertion.getNextMonth(currentDate.getTime());
+////                    payment.setExpiryDate(new java.sql.Date(dateValue));
+////                    payment.setExpiryDateValue("" + dateValue);
+////
+////                    payment.setReference(" ");
+////
+////                    payment.setStatus(CKey.COMPLETE);
+////                    payment.setPayStatus(CKey.COMPLETE);
+////                    payment.setInvoice(fInvoice);
+////                    payment.setInvoice1(fInvoice1);
+////
+////                    payment.setCredit(fCredit);
+////
+////                    payment.setBalance(0);
+////                    payment.setComment("");
+////                    payment.setaFcustomer(customer);
+////
+////                    payment.setnStock(0);
+////                    payment.save();
+////                    t.commit();
+////
+////                    Billing.auditlog("updateUserPayment", username, payment);
+////
+////
+////                    return CKey.WS_SUCCESS;
+////                } catch (Exception e) {
+////                    t.rollback();
+////                }
+////
+////            } catch (PersistentException ex) {
+////                Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
+////            }
+////
+////        }
+////
+////        return CKey.WS_FAIL;
+//        return "";
+//    }
     public String getUserPayment(String username, String billingId) {
 //        applog.debugLog("getUserPayment", " " + username + " - " + billingId);
 //        String ret = "";

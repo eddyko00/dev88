@@ -98,7 +98,7 @@ public class AccountDB {
 
     }
 
-    public ArrayList<CustomerObj>  getCustomerNameList(String name) {
+    public ArrayList<CustomerObj> getCustomerNameList(String name) {
         String sql = "select * from customer where username='" + name + "'";
         return this.getCustomerListSQL(sql, 0);
     }
@@ -1336,6 +1336,18 @@ public class AccountDB {
             return 1;
         } catch (Exception e) {
             logger.info("> updateAccountBillingData exception " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int updateAccountBillingStatus(BillingObj newA) {
+        String sqlCMD = "update billing set updatedatedisplay='" + new java.sql.Date(newA.getUpdatedatel()) + "', updatedatel=" + newA.getUpdatedatel()
+                + ", status=" + newA.getStatus() + ", substatus=" + newA.getSubstatus() + "' where id=" + newA.getId();
+        try {
+            processExecuteDB(sqlCMD);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> updateAccountBillingStatus exception " + e.getMessage());
         }
         return 0;
     }

@@ -1164,5 +1164,20 @@ public class AccountImp {
         logger.info("> updateAccountBillingData error more than one billing id=" + billingId);
         return -1;
     }
+    public int updateAccountBillingStatus(int billingId, int status, int subStatus) {
+        ArrayList<BillingObj> billingObjList = accountdb.getBillingObjByBillingID(billingId);
+        if (billingObjList == null) {
+            return -1;
+        }
+        if (billingObjList.size() == 1) {
+            BillingObj billingObj = billingObjList.get(0);
+            billingObj.setStatus(status);
+            billingObj.setSubstatus(subStatus);
+            return accountdb.updateAccountBillingStatus(billingObj);
+        }
+        logger.info("> updateAccountBillingData error more than one billing id=" + billingId);
+        return -1;
+    }
+    
 ///////
 }
