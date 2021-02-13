@@ -12,9 +12,10 @@ import com.afweb.util.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
 /**
@@ -171,24 +172,6 @@ public class BillingProcess {
 //            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> updateUserBillingAll ... done");
-
-//        String[] namelist = SQLObject.getUserAll();
-//        if (namelist == null) {
-//            return CKey.WS_SUCCESS;
-//        }
-//
-//        for (int i = 1; i < namelist.length; i++) {
-//            if (CKey.isSystemEnable() == false) {
-//                return CKey.WS_SUCCESS;
-//            }
-//
-//            String name = namelist[i];
-//            updateUserBilling(name);
-////            updateMemberBalance(name);
-//
-//        }
-//
-//        return CKey.WS_SUCCESS;
     }
 //
 
@@ -196,18 +179,21 @@ public class BillingProcess {
         return ""; //CKey.WS_SUCCESS;
     }
 
-    public String updateUserBilling(String username) {
-//        AFcustomer customer = null;
-//        Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
-//        java.sql.Date date = new java.sql.Date(currentDate.getTime());
-//
-//        // just for testing
-////        System.out.println("Debug updateUserBilling "+username);
-////        long d = 41;
-////        username = "silveruser@iisystem.com";
-////        long testDate = d * 1000 * 60 * 60 * 24;
-////        date = new java.sql.Date(currentDate.getTime() + testDate);
-//        // just for testing
+    public int updateUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer) {
+
+        Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
+        Date date = new java.sql.Date(currentDate.getTime());
+        Date Billcycle = date;
+        if (customer == null) {
+            return 0;
+        }
+
+        AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+        // get last bill
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getBillingByCustomerAccountID(customer.getUsername(), null, account.getId() + "", 1);
+        if (billingObjList == null) {
+            return 0;
+        }
 //
 //        Date Billcycle = date;
 //        try {
@@ -363,7 +349,7 @@ public class BillingProcess {
 //        }
 
 //        return processBilling(customer, feature, fInvoice, fInvoice1, fCredit, Billcycle);
-        return "";
+        return 0;
     }
 
 //    private String processBilling(AFcustomer customer, int feature, float fInvoice, float fInvoice1, float fCredit, Date Billcycle) {
