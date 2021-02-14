@@ -172,10 +172,6 @@ public class BillingProcess {
     }
 //
 
-    public String disableUserBillingID(String username, String billId) {
-        return ""; //CKey.WS_SUCCESS;
-    }
-
     public int updateUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer) {
 
         Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
@@ -213,7 +209,6 @@ public class BillingProcess {
                 int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
                 result = serviceAFWeb.getAccountImp().updateAccountBillingData(billing.getId(), fPayment, userBalance, "");
 
-                return 1;
             } else {
                 Date entryDate = billing.getUpdatedatedisplay();
                 long dateWeek = TimeConvertion.nextWeek(entryDate.getTime());
@@ -246,141 +241,23 @@ public class BillingProcess {
                 }
 
             }
-        }
+        } else if (status == ConstantKey.COMPLETED) {
+            /// not sure why this
+            Date expireDate = billing.getUpdatedatedisplay();
+            Billcycle = expireDate;
+            long date3day = TimeConvertion.addDays(date.getTime(), 3);
 
-//
-//                    } else if (date.getTime() > entryDate.getTime()) {
-//                        if (paymentStatue != CKey.NO_PAYMENT_1) {
-//                            billing.setPayStatus(CKey.NO_PAYMENT_1);
-//                            billing.save();
-//                            // send email reminder
-//                            String msg = Billing.getReminderMessage(username, billing.getBillingId(), fPayment);
-//                            com.afund.message.emailsystem.sendEmailPayment(username, "", email, msg);
-//                        }
-//                    }
-//                    return CKey.WS_SUCCESS;
-//                }
-//            } else if (status == CKey.COMPLETE) {
-//                Date expireDate = billing.getExpiryDate();
-//                Billcycle = expireDate;
-//                long date3day = TimeConvertion.addDays(date.getTime(), 3);
-//
-////                if (date.getTime() < expireDate.getTime()) {
-//                if (date3day < expireDate.getTime()) {
-//                    // Not yet expire
-//                    if (customer.getStatus() == CKey.DISABLE) {
-//                        customer.setStatus(CKey.ENABLE);
-//                        customer.save();
-//                    }
-//                    return CKey.WS_SUCCESS;
-//                }
-//            }
-//
-//        }
-//
-//        Date Billcycle = date;
-//        try {
-//            customer = AFcustomerFactory.loadAFcustomerByQuery("userName='" + username + "'", null);
-//
-//        } catch (PersistentException ex) {
-//            Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        if (customer == null) {
-//            return CKey.WS_FAIL;
-//        }
-//
-//        String email = customer.getEmail();
-//
-//        AFbilling billing = Billing.getlastMTMBilling(username);
-//
-//
-//        if (billing != null) {
-//
-//            // check if expire
-//            int status = billing.getStatus();
-//            // used for non-payment status
-//            int paymentStatue = billing.getPayStatus();
-//            float userBalance = customer.getBalance();
-//            boolean employeeFlag = false;
-//            String employee = customer.getEmployeeNo();
-//            if (employee != null) {
-//                if (employee.equals("1")) {
-//                    employeeFlag = true;
-//                }
-//            }
-//            float fPayment = (billing.getInvoice() + billing.getInvoice1()) - billing.getCredit();
-//            String billingId = billing.getBillingId();
-//            if (status == CKey.DISABLE) {
-//                //no actiion
-//                ;
-//
-//            } else if (status == CKey.INITIAL) {
-//
-//                if (userBalance >= fPayment) {
-//                    //the remaining goes to the next invoice.
-//                    userBalance = userBalance - fPayment;
-//                    customer.setBalance(userBalance);
-//                    customer.save();
-//                    return completeBilling(username, billingId, fPayment);
-//
-//                } else {
-//
-//                    if (employeeFlag == true) {
-//                        return completeBilling(username, billingId, fPayment);
-//                    }
-//
-//                    Date entryDate = billing.getEntryDate();
-//                    long dateWeek = TimeConvertion.nextWeek(entryDate.getTime());
-//                    if (date.getTime() > dateWeek) {
-//                        if (customer.getStatus() != CKey.DISABLE) {
-//                            if (paymentStatue != CKey.NO_PAYMENT_2) {
-//                                billing.setPayStatus(CKey.NO_PAYMENT_2);
-//                                billing.save();
-//                                //********
-//                                // send email disable
-//                                //********
-//                                customer.setStatus(CKey.DISABLE);
-//                                customer.save();
-//                                Billing.paymentloginfo("updateUserBilling", "***Disable user " + username + ", billing id" + billing.getBillingId());
-//
-//                                //clear the billing status.
-////                                billing.setStatus(CKey.DISABLE);
-//                                billing.save();
-//
-//                                String msg = "The username had been disabled!\r\nThank you for using IIS.\r\n\r\n";
-//                                com.afund.message.emailsystem.sendEmailRegistrationError(username, "", email, msg);
-//
-//                            }
-//                        }
-//                    } else if (date.getTime() > entryDate.getTime()) {
-//                        if (paymentStatue != CKey.NO_PAYMENT_1) {
-//                            billing.setPayStatus(CKey.NO_PAYMENT_1);
-//                            billing.save();
-//                            // send email reminder
-//                            String msg = Billing.getReminderMessage(username, billing.getBillingId(), fPayment);
-//                            com.afund.message.emailsystem.sendEmailPayment(username, "", email, msg);
-//                        }
-//                    }
-//                    return CKey.WS_SUCCESS;
-//                }
-//            } else if (status == CKey.COMPLETE) {
-//                Date expireDate = billing.getExpiryDate();
-//                Billcycle = expireDate;
-//                long date3day = TimeConvertion.addDays(date.getTime(), 3);
-//
-////                if (date.getTime() < expireDate.getTime()) {
-//                if (date3day < expireDate.getTime()) {
-//                    // Not yet expire
-//                    if (customer.getStatus() == CKey.DISABLE) {
-//                        customer.setStatus(CKey.ENABLE);
-//                        customer.save();
-//                    }
-//                    return CKey.WS_SUCCESS;
-//                }
-//            }
-//
-//        }
+            if (date3day < expireDate.getTime()) {
+                // Not yet expire
+                if (customer.getStatus() == ConstantKey.DISABLE) {
+                    customer.setStatus(ConstantKey.ENABLE);
+                    int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), customer.getStatus() + "", null, null);
+                }
+            }
+        }
+        return 0;
+    }
+
 //
 //        customer.setStatus(CKey.ENABLE);
 //        customer.save();
@@ -431,8 +308,32 @@ public class BillingProcess {
 ////                return CKey.WS_SUCCESS;
 //        }
 //        return processBilling(customer, feature, fInvoice, fInvoice1, fCredit, Billcycle);
+//        return 0;
+//    }
+    public String disableUserBillingID(String username, String billId) {
+        return ""; //CKey.WS_SUCCESS;
+    }
+
+    public int createUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer) {
+   //                String billingId = "" + CKey.getUniqueId();
+    //                //if (lastBill.length == 1) {
+    //                AFbilling payment = new AFbilling();
+    //
+    //                payment.setBillingId(billingId);
+    //                payment.setType(CKey.BILLING_MONTHLY); //BILLING_MONTHLY
+    //                payment.setMethod(CKey.PAYMENT_INIT); //PAYMENT_PAY_PAL
+    //                payment.setFeature(feature);
+    //                payment.setEntryDate(Billcycle);
+    //                payment.setEntryDateValue("" + Billcycle.getTime());
+    //                long dateValue = TimeConvertion.getNextMonth(Billcycle.getTime());
+    //                payment.setExpiryDate(new java.sql.Date(dateValue));
+    //                payment.setExpiryDateValue("" + dateValue);
+    //                payment.setReference(" ");
+    //                payment.setnStock(0);
+ 
         return 0;
     }
+
     //    private String processBilling(AFcustomer customer, int feature, float fInvoice, float fInvoice1, float fCredit, Date Billcycle) {
     //
     //        String username = customer.getUserName();
@@ -647,7 +548,6 @@ public class BillingProcess {
 //        String ret = AcceptUserPayment(username, billingId, reference, iPaymentType, fPayment, sentMsg);
 //        return ret;
 //    }
-
 //    public String updateUserPayment(String username, String billingId, int iBillingType, int feature, float fInvoice, float fInvoice1, float fCredit, String sentMsg) {
 ////        applog.debugLog("updateUserPayment", " " + username + " - " + feature + " - " + fInvoice + " - " + fInvoice1 + " - " + fCredit);
 ////
