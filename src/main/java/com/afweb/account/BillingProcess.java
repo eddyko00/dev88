@@ -162,7 +162,6 @@ public class BillingProcess {
                         CustomerObj customer = (CustomerObj) custNameList.get(0);
                         if (customer.getType() != CustomerObj.INT_ADMIN_USER) {
                             this.updateUserBilling(serviceAFWeb, customer);
-                            this.createUserBilling(serviceAFWeb, customer);
                         }
                     }
                 }
@@ -191,7 +190,9 @@ public class BillingProcess {
             return 0;
         }
         if (billingObjList.size() == 0) {
-            return 0;
+            // create first bill 
+            createUserBilling(serviceAFWeb, customer, null);
+            return 1;
         }
         BillingObj billing = billingObjList.get(0);
 
@@ -249,20 +250,27 @@ public class BillingProcess {
 
             }
         } else if (status == ConstantKey.COMPLETED) {
+            // check for next bill
+            createUserBilling(serviceAFWeb, customer, billing);
         }
         return 1;
     }
 
-    public int createUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer) {
+    public int createUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer, BillingObj billing) {
         if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
             return 1;
         }
+        
         AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
-        long billCycleDate = account.getUpdatedatel();
 
-        Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
-        Date date = new java.sql.Date(currentDate.getTime());
-        long date3day = TimeConvertion.addDays(date.getTime(), 3);
+        long billCycleDate = account.getUpdatedatel();
+        if (billing != null) {
+           long lastBillDate =  billing.getUpdatedatel();
+           billCycleDate = TimeConvertion.addMonths(lastBillDate, 1);
+        }
+        Timestamp cDate = TimeConvertion.getCurrentTimeStamp();
+        Date curDate = new java.sql.Date(cDate.getTime());
+        long date3day = TimeConvertion.addDays(curDate.getTime(), 3);
 
         if (date3day > billCycleDate) {
             float payment = customer.getBalance();
@@ -279,7 +287,10 @@ public class BillingProcess {
                     fInvoice = ConstantKey.INT_PP_DELUXE_PRICE;
                     break;
             }
-            payment += fInvoice;
+            // first bill alreay add the payment
+            if (billing != null) {
+                payment += fInvoice;
+            }
             float balance = 0;
             String msg = "";
 
@@ -336,6 +347,5 @@ public class BillingProcess {
 //        return ret;
         return "";
     }
-
 
 }
