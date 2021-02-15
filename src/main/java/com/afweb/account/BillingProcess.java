@@ -96,35 +96,35 @@ public class BillingProcess {
     public static final int PAYMENT_ADJUST = 106;
 
     protected static Logger logger = Logger.getLogger("BillingProcess");
-    private static ArrayList stockNNprocessNameArray = new ArrayList();
+    private static ArrayList custProcessNameArray = new ArrayList();
 
     private ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
-        if (stockNNprocessNameArray != null && stockNNprocessNameArray.size() > 0) {
-            return stockNNprocessNameArray;
+        if (custProcessNameArray != null && custProcessNameArray.size() > 0) {
+            return custProcessNameArray;
         }
-        ArrayList stockNameArray = serviceAFWeb.getAccountImp().getCustomerNList(0);
-        if (stockNameArray != null) {
-            stockNNprocessNameArray = stockNameArray;
+        ArrayList custNameArray = serviceAFWeb.getAccountImp().getCustomerNList(0);
+        if (custNameArray != null) {
+            custProcessNameArray = custNameArray;
         }
-        return stockNNprocessNameArray;
+        return custProcessNameArray;
     }
 
     public void processUserBillingAll(ServiceAFweb serviceAFWeb) {
         logger.info("> updateUserBillingAll ");
 
         UpdateStockNNprocessNameArray(serviceAFWeb);
-        if (stockNNprocessNameArray == null) {
+        if (custProcessNameArray == null) {
             return;
         }
-        if (stockNNprocessNameArray.size() == 0) {
+        if (custProcessNameArray.size() == 0) {
             return;
         }
 
         String printName = "";
-        for (int i = 0; i < stockNNprocessNameArray.size(); i++) {
-            printName += stockNNprocessNameArray.get(i) + ",";
+        for (int i = 0; i < custProcessNameArray.size(); i++) {
+            printName += custProcessNameArray.get(i) + ",";
         }
-        logger.info("ProcessTrainNN2NeuralNetBySign " + printName);
+        logger.info("processUserBillingAll " + printName);
 
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -134,7 +134,7 @@ public class BillingProcess {
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
-        if (testing == true) {
+        if (ServiceAFweb.mydebugtestflag == true) {
             lockReturn = 1;
         }
         if (lockReturn > 0) {
@@ -151,21 +151,24 @@ public class BillingProcess {
                     break;
                 }
 
-                if (stockNNprocessNameArray.size() == 0) {
+                if (custProcessNameArray.size() == 0) {
                     break;
                 }
-                String custName = (String) stockNNprocessNameArray.get(0);
+                String custName = (String) custProcessNameArray.get(0);
                 ArrayList custNameList = serviceAFWeb.getCustomerObjByNameList(custName);
                 if (custNameList != null) {
-                    if (custNameList.size() == 0) {
+                    if (custNameList.size() == 1) {
 
                         CustomerObj customer = (CustomerObj) custNameList.get(0);
-                        if (customer.getType() != CustomerObj.INT_ADMIN_USER) {
+                        if ((customer.getType() != CustomerObj.INT_ADMIN_USER)
+                                || (customer.getType() != CustomerObj.INT_FUND_USER)) {
+                            ;
+                        } else {
                             this.updateUserBilling(serviceAFWeb, customer);
                         }
                     }
                 }
-                stockNNprocessNameArray.remove(0);
+                custProcessNameArray.remove(0);
 
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
@@ -187,6 +190,8 @@ public class BillingProcess {
         // get last bill
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId());
         if (billingObjList == null) {
+            // create first bill 
+            createUserBilling(serviceAFWeb, customer, null);
             return 0;
         }
         if (billingObjList.size() == 0) {
@@ -207,16 +212,23 @@ public class BillingProcess {
         float fPayment = customer.getPayment();
 
         if (status == ConstantKey.INITIAL) {
+            // override payment
+            if ((customer.getType() != CustomerObj.INT_ADMIN_USER)
+                    || (customer.getType() != CustomerObj.INT_FUND_USER)
+                    || (customer.getType() != CustomerObj.INT_GUEST_USER)) {
+                userBalance = fPayment;
+            }
+
             if (userBalance >= fPayment) {
                 //the remaining goes to the next invoice.
                 userBalance = userBalance - fPayment;
                 customer.setBalance(userBalance);
                 customer.setPayment(0);
-                
+
                 // transaction
                 int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
-                
-                billing.setStatus( ConstantKey.COMPLETED);
+
+                billing.setStatus(ConstantKey.COMPLETED);
                 billing.setBalance(fPayment);
                 result = serviceAFWeb.getAccountImp().updateAccountBillingData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), "");
                 // transaction
@@ -263,14 +275,15 @@ public class BillingProcess {
         if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
             return 1;
         }
-        
-        AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
 
+        AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
         long billCycleDate = account.getUpdatedatel();
+
         if (billing != null) {
-           long lastBillDate =  billing.getUpdatedatel();
-           billCycleDate = TimeConvertion.addMonths(lastBillDate, 1);
+            long lastBillDate = billing.getUpdatedatel();
+            billCycleDate = TimeConvertion.addMonths(lastBillDate, 1);
         }
+
         Timestamp cDate = TimeConvertion.getCurrentTimeStamp();
         Date curDate = new java.sql.Date(cDate.getTime());
         long date3day = TimeConvertion.addDays(curDate.getTime(), 3);
@@ -298,57 +311,14 @@ public class BillingProcess {
             String msg = "";
 
             customer.setPayment(payment);
-            int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", null);
+            int result = 0;
+            // first bill alreay add the payment
+            if (billing != null) {
+                result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", null);
+            }
             serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, msg, billCycleDate);
         }
         return 0;
-    }
-
-    public String getUserPayment(String username, String billingId) {
-//        applog.debugLog("getUserPayment", " " + username + " - " + billingId);
-//        String ret = "";
-//        if (billingId.length() == 0) {
-//            return CKey.WS_BILL_INVALID_ID_MSG;
-//        }
-//        AFcustomer customer = null;
-//        try {
-//            customer = AFcustomerFactory.loadAFcustomerByQuery("userName='" + username + "'", null);
-//        } catch (PersistentException ex) {
-//            Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        if (customer != null) {
-//            AFbilling payment = null;
-//            try {
-//                payment = AFbillingFactory.loadAFbillingByQuery("billingId='" + billingId + "'", null);
-//            } catch (PersistentException ex) {
-//                Logger.getLogger(TradingSystem.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            if (payment != null) {
-//                payment.refresh();
-//            }
-//            if (payment == null) {
-//                return CKey.WS_BILL_INVALID_ID_MSG;
-//            } else {
-//                ret = ""
-//                        + "BillingId - " + payment.getBillingId()
-//                        + ", method - " + payment.getMethod()
-//                        + ", type - " + payment.getType()
-//                        + ", entryDate - " + payment.getEntryDate().toString()
-//                        + "\nstatus - " + payment.getStatus()
-//                        + ", RC - " + payment.getFeature()
-//                        + ", payStatus - " + payment.getPayStatus()
-//                        + ", invoice - " + payment.getInvoice()
-//                        + ", invoice1 - " + payment.getInvoice1()
-//                        + ", credit - " + payment.getCredit()
-//                        + ", balance - " + payment.getBalance()
-//                        + ", nStock - " + payment.getnStock()
-//                        + "";
-//
-//            }
-//        }
-//        return ret;
-        return "";
     }
 
 }
