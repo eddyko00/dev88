@@ -212,10 +212,13 @@ public class BillingProcess {
                 userBalance = userBalance - fPayment;
                 customer.setBalance(userBalance);
                 customer.setPayment(0);
-
+                
                 // transaction
                 int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
-                result = serviceAFWeb.getAccountImp().updateAccountBillingData(billing.getId(), ConstantKey.COMPLETED, fPayment, userBalance, "");
+                
+                billing.setStatus( ConstantKey.COMPLETED);
+                billing.setBalance(fPayment);
+                result = serviceAFWeb.getAccountImp().updateAccountBillingData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), "");
                 // transaction
 
             } else {
