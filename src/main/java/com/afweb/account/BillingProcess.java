@@ -226,11 +226,11 @@ public class BillingProcess {
                 customer.setPayment(0);
 
                 // transaction
-                int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
+                int result = serviceAFWeb.setCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
 
                 billing.setStatus(ConstantKey.COMPLETED);
                 billing.setBalance(fPayment);
-                result = serviceAFWeb.getAccountImp().updateAccountBillingData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), "");
+                result = serviceAFWeb.getAccountImp().updateAccountBillingStatusPaymentData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), "");
                 // transaction
 
             } else {
@@ -244,7 +244,7 @@ public class BillingProcess {
                             billing.setSubstatus(NO_PAYMENT_2);
 
                             customer.setStatus(ConstantKey.DISABLE);
-                            int result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), customer.getStatus() + "", null, null);
+                            int result = serviceAFWeb.setCustAllStatus(customer.getUsername(), customer.getStatus() + "", null, null);
                             result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
                             //********
                             // send email disable

@@ -351,12 +351,12 @@ public class AccountImp {
                 upd = true;
             }
             if (payment != -9999) {
-                payment = customer.getPayment();
+                payment += customer.getPayment();
                 customer.setPayment(payment);
                 upd = true;
             }
             if (balance != -9999) {
-                balance = customer.getBalance();
+                balance += customer.getBalance();
                 customer.setBalance(balance);
                 upd = true;
             }
@@ -369,7 +369,38 @@ public class AccountImp {
         }
         return 0;
     }
-    
+
+ 
+    public int setCustAllStatus(String UserName,
+            int status, float payment, float balance) {
+        
+        CustomerObj customer = getCustomerPasswordNull(UserName);
+        if (customer != null) {
+            boolean upd = false;
+            if (status != -9999) {
+                customer.setStatus(status);
+                upd = true;
+            }
+            if (payment != -9999) {
+//                payment += customer.getPayment();
+                customer.setPayment(payment);
+                upd = true;
+            }
+            if (balance != -9999) {
+//                balance += customer.getBalance();
+                customer.setBalance(balance);
+                upd = true;
+            }
+            if (upd == false) {
+                return 1;
+            }
+
+            ///// System admin update
+            return accountdb.updateCustAllStatus(customer);
+        }
+        return 0;
+    }
+       
     public int updateAccountStatusByAccountID(int accountID,
             int substatus, float investment, float balance, float servicefee) {
         
@@ -428,7 +459,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.getBillingObjByAccountID(accountID);
+                            return accountdb.getBillingObjByAccountID(accountID, 12);
                         }
                     }
                 }
@@ -1120,12 +1151,12 @@ public class AccountImp {
         return accountdb.updateAccountCommDataById(message);
     }
     
-    public ArrayList<BillingObj> getBillingObjByName(int accountID, String name) {
-        return accountdb.getBillingObjByName(accountID, name);
+    public ArrayList<BillingObj> getBillingObjByName(int accountID, String name, int length) {
+        return accountdb.getBillingObjByName(accountID, name, length);
     }
     
-    public ArrayList<BillingObj> getBillingObjByAccountID(int accountID) {
-        return accountdb.getBillingObjByAccountID(accountID);
+    public ArrayList<BillingObj> getBillingObjByAccountID(int accountID, int length) {
+        return accountdb.getBillingObjByAccountID(accountID, length);
     }
     
     public int addAccountBilling(String name, AccountObj accountObj, float payment, float balance, String msg, long billcycle) {
@@ -1149,7 +1180,7 @@ public class AccountImp {
         return accountdb.insertAccountBillingData(billObj);
     }
     
-    public int updateAccountBillingData(int billingId, int status, float payment, float balance, String data) {
+    public int updateAccountBillingStatusPaymentData(int billingId, int status, float payment, float balance, String data) {
         ArrayList<BillingObj> billingObjList = accountdb.getBillingObjByBillingID(billingId);
         if (billingObjList == null) {
             return -1;
@@ -1160,7 +1191,7 @@ public class AccountImp {
             billingObj.setBalance(balance);
             billingObj.setStatus(status);
             billingObj.setData(data);
-            return accountdb.updateAccountBillingData(billingObj);
+            return accountdb.updateAccountBillingStatusPaymentData(billingObj);
         }
         logger.info("> updateAccountBillingData error more than one billing id=" + billingId);
         return -1;

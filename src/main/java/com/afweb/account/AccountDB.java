@@ -456,15 +456,19 @@ public class AccountDB {
         return null;
     }
 
-    public ArrayList<BillingObj> getBillingObjByName(int accountID, String name) {
+    public ArrayList<BillingObj> getBillingObjByName(int accountID, String name, int length) {
         String sql = "select * from billing where accountid=" + accountID + " and name='" + name + "' ";
-        sql += " order by updatedatel";
+
+        sql += " order by updatedatel desc";
+        sql = ServiceAFweb.getSQLLengh(sql, length);
         return getBillingBySQL(sql);
     }
 
-    public ArrayList<BillingObj> getBillingObjByAccountID(int accountID) {
+    public ArrayList<BillingObj> getBillingObjByAccountID(int accountID, int length) {
         String sql = "select * from billing where accountid=" + accountID;
-        sql += " order by updatedatel";
+
+        sql += " order by updatedatel desc";
+        sql = ServiceAFweb.getSQLLengh(sql, length);
         return getBillingBySQL(sql);
     }
 
@@ -1328,14 +1332,14 @@ public class AccountDB {
         return 0;
     }
 
-    public int updateAccountBillingData(BillingObj newA) {
+    public int updateAccountBillingStatusPaymentData(BillingObj newA) {
         String sqlCMD = "update billing set updatedatedisplay='" + new java.sql.Date(newA.getUpdatedatel()) + "', updatedatel=" + newA.getUpdatedatel()
-                + ", payment=" + newA.getPayment() + ", balance=" + newA.getBalance() + ",data='" + newA.getData() + "' where id=" + newA.getId();
+                + ", status=" + newA.getStatus() + ", payment=" + newA.getPayment() + ", balance=" + newA.getBalance() + ",data='" + newA.getData() + "' where id=" + newA.getId();
         try {
             processExecuteDB(sqlCMD);
             return 1;
         } catch (Exception e) {
-            logger.info("> updateAccountBillingData exception " + e.getMessage());
+            logger.info("> updateAccountBillingStatusPaymentData exception " + e.getMessage());
         }
         return 0;
     }
