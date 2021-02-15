@@ -351,12 +351,12 @@ public class AccountImp {
                 upd = true;
             }
             if (payment != -9999) {
-                payment += customer.getPayment();
+                payment = customer.getPayment();
                 customer.setPayment(payment);
                 upd = true;
             }
             if (balance != -9999) {
-                balance += customer.getBalance();
+                balance = customer.getBalance();
                 customer.setBalance(balance);
                 upd = true;
             }
@@ -1140,8 +1140,9 @@ public class AccountImp {
         billObj.setType(ConstantKey.INT_BILLING);
         billObj.setStatus(ConstantKey.INITIAL);
         
+        billObj.setUpdatedatel(billcycle);        
         billObj.setUpdatedatedisplay(new java.sql.Date(billcycle));
-        billObj.setUpdatedatel(billcycle);
+
         billObj.setPayment(payment);
         billObj.setBalance(balance);
         billObj.setData(msg);

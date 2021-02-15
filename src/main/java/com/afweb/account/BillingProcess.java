@@ -160,8 +160,8 @@ public class BillingProcess {
                     if (custNameList.size() == 1) {
 
                         CustomerObj customer = (CustomerObj) custNameList.get(0);
-                        if ((customer.getType() != CustomerObj.INT_ADMIN_USER)
-                                || (customer.getType() != CustomerObj.INT_FUND_USER)) {
+                        if ((customer.getType() == CustomerObj.INT_ADMIN_USER)
+                                || (customer.getType() == CustomerObj.INT_FUND_USER)) {
                             ;
                         } else {
                             this.updateUserBilling(serviceAFWeb, customer);
@@ -213,9 +213,9 @@ public class BillingProcess {
 
         if (status == ConstantKey.INITIAL) {
             // override payment
-            if ((customer.getType() != CustomerObj.INT_ADMIN_USER)
-                    || (customer.getType() != CustomerObj.INT_FUND_USER)
-                    || (customer.getType() != CustomerObj.INT_GUEST_USER)) {
+            if ((customer.getType() == CustomerObj.INT_ADMIN_USER)
+                    || (customer.getType() == CustomerObj.INT_FUND_USER)
+                    || (customer.getType() == CustomerObj.INT_GUEST_USER)) {
                 userBalance = fPayment;
             }
 
@@ -277,7 +277,8 @@ public class BillingProcess {
         }
 
         AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
-        long billCycleDate = account.getUpdatedatel();
+        Date startDate = account.getStartdate();
+        long billCycleDate = startDate.getTime();
 
         if (billing != null) {
             long lastBillDate = billing.getUpdatedatel();
@@ -289,10 +290,10 @@ public class BillingProcess {
         long date3day = TimeConvertion.addDays(curDate.getTime(), 3);
 
         if (date3day > billCycleDate) {
-            float payment = customer.getBalance();
-            int type = account.getType();
+            float payment = customer.getPayment();
+            int subType = account.getSubstatus();
             float fInvoice = 0;
-            switch (type) {
+            switch (subType) {
                 case ConstantKey.INT_PP_BASIC:
                     fInvoice = ConstantKey.INT_PP_BASIC_PRICE;
                     break;
@@ -316,7 +317,7 @@ public class BillingProcess {
             if (billing != null) {
                 result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", null);
             }
-            serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, msg, billCycleDate);
+            return serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, msg, billCycleDate);
         }
         return 0;
     }

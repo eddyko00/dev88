@@ -974,10 +974,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            
             BillingProcess billProc = new BillingProcess();
-            billProc.processUserBillingAll(this);
-            
+            ArrayList custNameList = getCustomerObjByNameList(CKey.G_USERNAME);
+            CustomerObj customer = (CustomerObj) custNameList.get(0);
+            billProc.updateUserBilling(this, customer);
+//            billProc.processUserBillingAll(this);
+
 //            getAccountImp().removeCommByName(CKey.ADMIN_USERNAME, null, ConstantKey.COM_EMAIL);
 //            
 //
@@ -4288,7 +4290,7 @@ public class ServiceAFweb {
                     payment = Float.parseFloat(paymenttSt);
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
-                    emailSt += "\n\rAccout payment change update " + currency;
+                    emailSt += "\n\rAccout payment change to " + currency;
                 }
             }
             float balance = -9999;
@@ -4298,7 +4300,7 @@ public class ServiceAFweb {
 
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(balance);
-                    emailSt += "\n\rAccout adjustment " + currency;
+                    emailSt += "\n\rAccout balance change to " + currency;
                 }
             }
             int ret = getAccountImp().updateCustAllStatus(UserName, status, payment, balance);
