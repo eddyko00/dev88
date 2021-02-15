@@ -974,11 +974,11 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            BillingProcess billProc = new BillingProcess();
-            ArrayList custNameList = getCustomerObjByNameList(CKey.G_USERNAME);
-            CustomerObj customer = (CustomerObj) custNameList.get(0);
-            billProc.updateUserBilling(this, customer);
-//            billProc.processUserBillingAll(this);
+//            BillingProcess billProc = new BillingProcess();
+//            ArrayList custNameList = getCustomerObjByNameList(CKey.G_USERNAME);
+//            CustomerObj customer = (CustomerObj) custNameList.get(0);
+//            billProc.updateUserBilling(this, customer);
+
 
 //            getAccountImp().removeCommByName(CKey.ADMIN_USERNAME, null, ConstantKey.COM_EMAIL);
 //            

@@ -32,15 +32,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author eddy
  */
 public class AccountImp {
-    
+
     protected static Logger logger = Logger.getLogger("AccountImp");
     public AccountDB accountdb = new AccountDB();
-    
+
     public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         accountdb.setJdbcTemplate(jdbcTemplate);
         accountdb.setDataSource(dataSource);
     }
-    
+
     public ArrayList getExpiredCustomerList(int length) {
         ArrayList customerList = new ArrayList();
         //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
@@ -60,7 +60,7 @@ public class AccountImp {
         }
         return customerList;
     }
-    
+
     public ArrayList getAllIdSQL(String sql) {
 //        if (CKey.SEPARATE_STOCKINFO_DB == true) {
 //            if (sql.indexOf(" stockinfo ") != -1) {
@@ -70,54 +70,54 @@ public class AccountImp {
 //        }
         return accountdb.getAllIdSQL(sql);
     }
-    
+
     public ArrayList getAllUserNameSQL(String sql) {
         return accountdb.getAllUserNameSQL(sql);
     }
-    
+
     public String getAllCustomerDBSQL(String sql) {
         return accountdb.getAllCustomerDBSQL(sql);
     }
-    
+
     public String getAllAccountDBSQL(String sql) {
         return accountdb.getAllAccountDBSQL(sql);
     }
-    
+
     public String getAllAccountStockDBSQL(String sql) {
         return accountdb.getAllAccountStockDBSQL(sql);
     }
-    
+
     public String getAllTransationOrderDBSQL(String sql) {
         return accountdb.getAllTransationOrderDBSQL(sql);
     }
-    
+
     public String getAllBillingDBSQL(String sql) {
         return accountdb.getAllBillingDBSQL(sql);
     }
-    
+
     public String getAllCommDBSQL(String sql) {
         return accountdb.getAllCommDBSQL(sql);
     }
-    
+
     public String getAllPerformanceDBSQL(String sql) {
         return accountdb.getAllPerformanceDBSQL(sql);
     }
-    
+
     public String getAllSQLquery(String sql) {
         return accountdb.getAllSQLqueryDBSQL(sql);
     }
-    
+
     public ArrayList<String> getCustomerNList(int length) {
         return accountdb.getCustomerNList(0);
     }
-    
+
     public ArrayList<CustomerObj> getCustomerObjByNameList(String name) {
         return accountdb.getCustomerNameList(name);
     }
-    
+
     public ArrayList getCustomerObjList(int length) {
         ArrayList customerList = new ArrayList();
-        
+
         ArrayList customerDBList = accountdb.getCustomerList(0);
         if (customerDBList != null && customerDBList.size() > 0) {
             if (length == 0) {
@@ -134,16 +134,16 @@ public class AccountImp {
         }
         return customerList;
     }
-    
+
     public int updateCustStatusSubStatus(CustomerObj custObj) {
         return accountdb.updateCustStatusSubStatus(custObj);
     }
-    
+
     public CustomerObj getCustomerStatus(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
         CustomerObj customer = accountdb.getCustomer(UserName, Password);
-        
+
         if (customer != null) {
             return customer;
         }
@@ -155,16 +155,16 @@ public class AccountImp {
         CustomerObj customer = accountdb.getCustomerByCustID(custId);
         return customer;
     }
-    
+
     public CustomerObj getCustomerByAccount(AccountObj accountObj) {
-        
+
         CustomerObj customer = accountdb.getCustomerByAccount(accountObj);
         if (customer != null) {
             return customer;
         }
         return null;
     }
-    
+
     public CustomerObj getCustomerPasswordNull(String UserName) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
@@ -174,7 +174,7 @@ public class AccountImp {
         }
         return null;
     }
-    
+
     public CustomerObj getCustomerPassword(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
@@ -193,7 +193,7 @@ public class AccountImp {
         }
         return null;
     }
-    
+
     public CustomerObj getCustomerPasswordForce(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
@@ -203,36 +203,36 @@ public class AccountImp {
         }
         return null;
     }
-    
+
     public int removeCommByCommID(int id) {
         return accountdb.removeCommByCommID(id);
     }
-    
+
     public int removeCommByCustID(int custId) {
         return accountdb.removeCommByCustID(custId);
     }
-    
+
     public int removeCustComm(CustomerObj custObj) {
         if (custObj == null) {
             return 0;
         }
         return accountdb.removeAccountCommSignal(custObj.getId());
     }
-    
+
     public int removeAccountComm(AccountObj accountObj) {
         if (accountObj == null) {
             return 0;
         }
         return accountdb.removeAccountCommSignal(accountObj.getId());
     }
-    
+
     public int removeAccountBilling(AccountObj accountObj) {
         if (accountObj == null) {
             return 0;
         }
         return accountdb.removeAccountBilling(accountObj.getId());
     }
-    
+
     public int removeCustomer(CustomerObj custObj) {
         if (custObj == null) {
             return 0;
@@ -241,12 +241,12 @@ public class AccountImp {
         accountdb.removeCustComm(custObj.getId());
         return accountdb.DeleteCustomer(custObj);
     }
-    
+
     public int removeAccount(AccountObj accountObj) {
         if (accountObj == null) {
             return 0;
         }
-        
+
         return accountdb.removeAccount(accountObj);
     }
 
@@ -267,19 +267,19 @@ public class AccountImp {
         }
         return result;
     }
-    
+
     public ArrayList getAccountListByCustomerObj(CustomerObj customer) {
         ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
         return accountList;
     }
-    
+
     public ArrayList getAccountListByCustomerId(int custId) {
         ArrayList accountList = accountdb.getAccountByCustomerID(custId);
         return accountList;
     }
-    
+
     public AccountObj getAccountByType(String UserName, String Password, int accType) {
-        
+
         AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -297,17 +297,17 @@ public class AccountImp {
         }
         return account;
     }
-    
+
     public int updateAccountPortfolio(String accountName, String portfolio) {
         return accountdb.updateAccountPortfolio(accountName, portfolio);
     }
-    
+
     public int addAccount(CustomerObj customer, String accountName, int accType, int accPPlan) {
         return accountdb.addAccount(customer, accountName, accType, accPPlan);
     }
-    
+
     public ArrayList getAccountList(String UserName, String Password) {
-        
+
         ArrayList accountList = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -315,15 +315,15 @@ public class AccountImp {
         }
         return accountList;
     }
-    
+
     public ArrayList getUserNamebyAccountID(int accountID) {
         return accountdb.getUserNamebyAccountID(accountID);
     }
-    
+
     public ArrayList getAllOpenAccountID() {
         return accountdb.getAllOpenAccountID();
     }
-    
+
     public AccountObj getAccountObjByAccountID(int accountID) {
         ArrayList accountList = accountdb.getAccountObjByAccountID(accountID);
         if (accountList != null) {
@@ -342,7 +342,7 @@ public class AccountImp {
 
     public int updateCustAllStatus(String UserName,
             int status, float payment, float balance) {
-        
+
         CustomerObj customer = getCustomerPasswordNull(UserName);
         if (customer != null) {
             boolean upd = false;
@@ -370,10 +370,9 @@ public class AccountImp {
         return 0;
     }
 
- 
     public int setCustAllStatus(String UserName,
             int status, float payment, float balance) {
-        
+
         CustomerObj customer = getCustomerPasswordNull(UserName);
         if (customer != null) {
             boolean upd = false;
@@ -400,10 +399,10 @@ public class AccountImp {
         }
         return 0;
     }
-       
+
     public int updateAccountStatusByAccountID(int accountID,
             int substatus, float investment, float balance, float servicefee) {
-        
+
         AccountObj accountObj = getAccountObjByAccountID(accountID);
         if (accountObj == null) {
             return 0;
@@ -413,13 +412,13 @@ public class AccountImp {
         accountObj.setBalance(balance);
         accountObj.setServicefee(servicefee);
         return accountdb.updateAccountAllStatus(accountObj);
-        
+
     }
 
     // return 0 for error
     public int updateAccountRef(TradingRuleObj trObj, AccData refnameData) {
         String nameSt = "";
-        
+
         try {
             nameSt = new ObjectMapper().writeValueAsString(refnameData);
             nameSt = nameSt.replaceAll("\"", "#");
@@ -428,9 +427,9 @@ public class AccountImp {
         }
         return accountdb.updateAccounStocktRef(trObj, nameSt);
     }
-    
+
     public AccountObj getAccountByCustomerAccountID(String UserName, String Password, int accountID) {
-        
+
         AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -448,9 +447,9 @@ public class AccountImp {
         }
         return account;
     }
-    
+
     public ArrayList<BillingObj> getBillingByCustomerAccountID(String UserName, String Password, int accountID) {
-        
+
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
@@ -467,9 +466,9 @@ public class AccountImp {
         }
         return null;
     }
-    
+
     public ArrayList<CommObj> getEmailCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
-        
+
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
@@ -478,7 +477,7 @@ public class AccountImp {
         }
         return null;
     }
-    
+
     public ArrayList<CommObj> getCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -496,9 +495,9 @@ public class AccountImp {
         }
         return null;
     }
-    
+
     public int addCommByCustomerAccountID(String UserName, String Password, int accountID, String data) {
-        
+
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
@@ -515,9 +514,9 @@ public class AccountImp {
         }
         return 0;
     }
-    
+
     public int removeAccountCommByID(String UserName, String Password, int accountID, int id) {
-        
+
         AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -535,9 +534,9 @@ public class AccountImp {
         }
         return 0;
     }
-    
+
     public int removeCommSignalByCustomerAccountID(String UserName, String Password, int accountID) {
-        
+
         AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -555,9 +554,9 @@ public class AccountImp {
         }
         return 0;
     }
-    
+
     public int removeCommByName(String UserName, String Password, String name) {
-        
+
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
@@ -566,18 +565,18 @@ public class AccountImp {
         }
         return 0;
     }
-    
+
     public int clearAccountStockTranByAccountID(AccountObj accountObj, int stockID, String trName) {
         TradingRuleObj tr = getAccountStockIDByTRname(accountObj.getId(), stockID, trName);
         if (tr == null) {
             return 0;
         }
-        
+
         boolean TRlinkflag = false;
         if (TRlinkflag == true) {
             tr.setLinktradingruleid(ConstantKey.INT_TR_NN1);
         }
-        
+
         if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
             return accountdb.getAccountStockClrTranByAccountID(accountObj.getId() + "", stockID + "", tr);
         }
@@ -589,7 +588,7 @@ public class AccountImp {
         }
         return 0;
     }
-    
+
     public ArrayList<PerformanceObj> getAccountStockPerfList(int accountID, int stockID, String trName, int length) {
         TradingRuleObj tr = getAccountStockIDByTRname(accountID, stockID, trName);
         if (tr == null) {
@@ -597,38 +596,38 @@ public class AccountImp {
         }
         return accountdb.getAccountStockPerfList(accountID + "", stockID + "", tr.getId() + "", length);
     }
-    
+
     public ArrayList<TransationOrderObj> getAccountStockTransList(int accountID, int stockID, String trName, int length) {
-        
+
         TradingRuleObj tr = getAccountStockIDByTRname(accountID, stockID, trName);
         if (tr == null) {
             return null;
         }
         return accountdb.getAccountStockTransList(accountID + "", stockID + "", tr.getId() + "", length);
     }
-    
+
     public ArrayList<TradingRuleObj> getAccountStockListByAccountID(int accountId, int stockId) {
         return accountdb.getAccountStockListByStockID(accountId + "", stockId + "", null, 0);
     }
-    
+
     public TradingRuleObj getAccountStockIDByTRname(int accountID, int stockID, String trName) {
         // not sure why it does not work in Open shift but work local
         return accountdb.getAccountStockByStockID(accountID + "", stockID + "", trName);
     }
-    
+
     public ArrayList getAllAccountStockNameListExceptionAdmin(int accountId) {
         return accountdb.getAllAccountStockNameListExceptionAdmin(accountId);
-        
+
     }
-    
+
     public ArrayList getAccountStockNameList(int accountId) {
         return accountdb.getAccountStockNameList(accountId);
     }
-    
+
     public int updateAccountStockSignal(ArrayList<TradingRuleObj> TRList) {
         return accountdb.updateAccountStockSignal(TRList);
     }
-    
+
     public int updateTransactionOrder(ArrayList transSQL) {
         try {
             return accountdb.updateTransactionOrder(transSQL);
@@ -637,9 +636,9 @@ public class AccountImp {
         }
         return 0;
     }
-    
+
     public int addAccountStockId(AccountObj accountObj, int StockID, ArrayList TRList) {
-        
+
         if (accountObj != null) {
             if (accountObj.getType() != AccountObj.INT_ADMIN_ACCOUNT) {
                 ArrayList stockNameList = accountdb.getAccountStockNameList(accountObj.getId());
@@ -671,7 +670,7 @@ public class AccountImp {
         }
         return 0;
     }
-    
+
     public int removeAccountStock(AccountObj accountObj, int StockID) {
         if (accountObj != null) {
             ArrayList<TradingRuleObj> tradingRuleList = getAccountStockListByAccountID(accountObj.getId(), StockID);
@@ -689,7 +688,7 @@ public class AccountImp {
 
     ////////////////////////////transaction order
     public int AddTransactionOrder(AccountObj accountObj, AFstockObj stock, String trName, int tran, Calendar tranDate, boolean fromSystem) {
-        
+
         Calendar daOffset0 = tranDate;
         Calendar daOffset = tranDate;
         try {
@@ -714,7 +713,7 @@ public class AccountImp {
             }
             int tranSiganl0 = ConstantKey.S_NEUTRAL;
             int tranSiganl = ConstantKey.S_NEUTRAL;
-            
+
             switch (tran) {
                 case ConstantKey.S_LONG_BUY:
                     if (currentTran == ConstantKey.S_LONG_BUY) {
@@ -753,12 +752,12 @@ public class AccountImp {
             }
             TradingRuleObj trObj = null;
             ArrayList transSQL = new ArrayList();
-            
+
             if (tranSiganl != ConstantKey.S_NEUTRAL) {
                 long newDaL = TimeConvertion.addMiniSeconds(daOffset0.getTimeInMillis(), -10);
                 daOffset0 = TimeConvertion.getCurrentCalendar(newDaL);
             }
-            
+
             int retTrans = 1;
             if (tranSiganl0 != ConstantKey.S_NEUTRAL) {
                 //process buysell
@@ -784,7 +783,7 @@ public class AccountImp {
                         break;
                 }
             }
-            
+
             if (retTrans == 0) {
                 return 0;
             }
@@ -828,23 +827,23 @@ public class AccountImp {
                 int ret = updateTransactionOrder(transSQL);
                 return ret;
             }
-            
+
         } catch (Exception e) {
             logger.info("> transactionOrder exception " + e.getMessage());
         }
         return 0;
     }
-    
+
     private int TransactionOrderEXIT_SHORT(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
-        
+
         float originalPrice = trObj.getShortamount() / trObj.getShortshare();
         float deltaPrice = curPrice - originalPrice; //final price - original price
         deltaPrice = -deltaPrice; // negative for exit short
         float netPrice = originalPrice + deltaPrice;
-        
+
         float amount = trObj.getShortshare() * netPrice;
-        
+
         trObj.setBalance(trObj.getBalance() + amount);
 
         // add trading order
@@ -878,7 +877,7 @@ public class AccountImp {
 
         return 1;
     }
-    
+
     private int TransactionOrderSHORT_SELL(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
@@ -888,10 +887,10 @@ public class AccountImp {
         }
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
-        
+
         if (trObj.getBalance() < amount) {
             trObj.setInvestment(trObj.getInvestment() + amount);
-            
+
         } else {
             trObj.setBalance(trObj.getBalance() - amount);
         }
@@ -927,11 +926,11 @@ public class AccountImp {
 
         return 1;
     }
-    
+
     private int TransactionOrderEXIT_LONG(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float amount = curPrice * trObj.getLongshare();
-        
+
         trObj.setBalance(trObj.getBalance() + amount);
 
         // add trading order
@@ -965,7 +964,7 @@ public class AccountImp {
 
         return 1;
     }
-    
+
     private int TransactionOrderLONG_BUY(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
@@ -975,10 +974,10 @@ public class AccountImp {
         }
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
-        
+
         if (trObj.getBalance() < amount) {
             trObj.setInvestment(trObj.getInvestment() + amount);
-            
+
         } else {
             trObj.setBalance(trObj.getBalance() - amount);
         }
@@ -1018,23 +1017,23 @@ public class AccountImp {
     public ArrayList<CommObj> getComObjByType(int accountID, int type, int length) {
         return accountdb.getComObjByType(accountID, type, length);
     }
-    
+
     public ArrayList<CommObj> getComObjByAccountName(int accountID, String name) {
         return accountdb.getComObjByName(accountID, name);
     }
-    
+
     public ArrayList<CommObj> getComObjByAccountID(int accountID, int length) {
         return accountdb.getComObjByAccountID(accountID, length);
     }
-    
+
     public ArrayList<CommObj> getComObjByCustName(int custID, String name) {
         return accountdb.getComObjByCustName(custID, name);
     }
-    
+
     public ArrayList<CommObj> getComObjByCustID(int custID) {
         return accountdb.getComObjByCustID(custID);
     }
-    
+
     public CommData getCommDataObj(CommObj commObj) {
         if (commObj.getType() == ConstantKey.INT_COM_SPLIT) {
             String name = commObj.getData();
@@ -1049,7 +1048,7 @@ public class AccountImp {
         }
         return null;
     }
-    
+
     public CommObj getCommObjByID(int commID) {
         ArrayList<CommObj> commObjList = accountdb.getComObjByID(commID);
         if (commObjList != null) {
@@ -1060,12 +1059,12 @@ public class AccountImp {
         }
         return null;
     }
-    
+
     public int addAccountCommMessage(AccountObj accountObj, String name, int type, CommData commDataObj) {
         if (accountObj == null) {
             return -1;
         }
-        
+
         CommObj message = new CommObj();
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
@@ -1085,12 +1084,12 @@ public class AccountImp {
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
-    
+
     public int addAccountEmailMessage(AccountObj accountObj, String name, String msg) {
         if (accountObj == null) {
             return -1;
         }
-        
+
         CommObj message = new CommObj();
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
@@ -1104,12 +1103,12 @@ public class AccountImp {
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
-    
+
     public int addAccountMessage(AccountObj accountObj, String name, String msg) {
         if (accountObj == null) {
             return -1;
         }
-        
+
         CommObj message = new CommObj();
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
@@ -1123,14 +1122,14 @@ public class AccountImp {
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
-    
+
     public int addCommByCustName(int custID, String name, String data) {
         CommObj message = new CommObj();
         message.setCustomerid(custID);
         message.setAccountid(custID);
         message.setName(name);
         message.setType(ConstantKey.INT_COM_CFG);
-        
+
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
         message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
@@ -1138,11 +1137,11 @@ public class AccountImp {
         message.setData(data);
         return accountdb.insertAccountCommData(message);
     }
-    
+
     public int updateAccountCommSubStatusById(CommObj newA) {
         return accountdb.updateAccountCommSubStatusById(newA);
     }
-    
+
     public int updateCommByCustNameById(CommObj message) {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
@@ -1150,28 +1149,28 @@ public class AccountImp {
         message.setUpdatedatel(dateNowLong);
         return accountdb.updateAccountCommDataById(message);
     }
-    
+
     public ArrayList<BillingObj> getBillingObjByName(int accountID, String name, int length) {
         return accountdb.getBillingObjByName(accountID, name, length);
     }
-    
+
     public ArrayList<BillingObj> getBillingObjByAccountID(int accountID, int length) {
         return accountdb.getBillingObjByAccountID(accountID, length);
     }
-    
+
     public int addAccountBilling(String name, AccountObj accountObj, float payment, float balance, String msg, long billcycle) {
         if (accountObj == null) {
             return -1;
         }
-        
+
         BillingObj billObj = new BillingObj();
         billObj.setCustomerid(accountObj.getCustomerid());
         billObj.setAccountid(accountObj.getId());
         billObj.setName(name);
         billObj.setType(ConstantKey.INT_BILLING);
         billObj.setStatus(ConstantKey.INITIAL);
-        
-        billObj.setUpdatedatel(billcycle);        
+
+        billObj.setUpdatedatel(billcycle);
         billObj.setUpdatedatedisplay(new java.sql.Date(billcycle));
 
         billObj.setPayment(payment);
@@ -1179,7 +1178,7 @@ public class AccountImp {
         billObj.setData(msg);
         return accountdb.insertAccountBillingData(billObj);
     }
-    
+
     public int updateAccountBillingStatusPaymentData(int billingId, int status, float payment, float balance, String data) {
         ArrayList<BillingObj> billingObjList = accountdb.getBillingObjByBillingID(billingId);
         if (billingObjList == null) {
@@ -1196,7 +1195,7 @@ public class AccountImp {
         logger.info("> updateAccountBillingData error more than one billing id=" + billingId);
         return -1;
     }
-    
+
     public int updateAccountBillingStatus(int billingId, int status, int subStatus) {
         ArrayList<BillingObj> billingObjList = accountdb.getBillingObjByBillingID(billingId);
         if (billingObjList == null) {
