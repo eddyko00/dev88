@@ -76,8 +76,9 @@ public class AccountProcess {
                 ProcessAllLockCleanup(serviceAFWeb);
                 // cleanup Lock entry pass 30 min
             } else if (timerCnt % 5 == 0) {
+                // disable customer will be handle by billing process
                 // disable cusotmer with no activity in 2 days
-                ProcessCustomerDisableMaintance(serviceAFWeb);
+//                ProcessCustomerDisableMaintance(serviceAFWeb);
 
                 // reomve customer with no activity in 4 days  
                 ProcessCustomerRemoveMaintance(serviceAFWeb);
@@ -140,7 +141,7 @@ public class AccountProcess {
                 format.setTimeZone(tz);
                 String ESTdate = format.format(d);
 
-                String msg = ESTdate + " " + custObj.getUsername() + " Customer removed - 4 day after expired.";
+                String msg = ESTdate + " " + custObj.getUsername() + " Customer removed - 15 day after expired.";
                 if (custObj.getUsername().equals(CKey.E_USERNAME)) {
                     ;
                 } else {
@@ -156,60 +157,59 @@ public class AccountProcess {
         }
     }
 
-    public void ProcessCustomerDisableMaintanceTest(ServiceAFweb serviceAFWeb) {
-//        this.serviceAFWeb = serviceAFWeb;
-        ProcessCustomerDisableMaintance(serviceAFWeb);
-    }
-
-    private void ProcessCustomerDisableMaintance(ServiceAFweb serviceAFWeb) {
-        // disable cusotmer with no activity in 2 days
-        ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
-
-        if (custList == null) {
-            return;
-        }
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long dateNowLong = dateNow.getTimeInMillis();
-        long cust2DayAgo = TimeConvertion.addDays(dateNowLong, -2); // 2 day ago and no update  
-        for (int i = 0; i < custList.size(); i++) {
-            CustomerObj custObj = (CustomerObj) custList.get(i);
-            if (custObj.getStatus() == ConstantKey.DISABLE) {
-                continue;
-            }
-            float bal = custObj.getBalance();
-            float payment = custObj.getPayment();
-            float outstand = bal - payment;
-            if (outstand >= 0) {  //No out standing payment 
-                continue;
-            }
-            if (custObj.getUpdatedatel() < cust2DayAgo) {
-                // disable customer
-                custObj.setStatus(ConstantKey.DISABLE);
-            }
-
-            serviceAFWeb.updateCustStatusSubStatus(custObj.getUsername(), custObj.getStatus() + "", custObj.getSubstatus() + "");
-
-            String tzid = "America/New_York"; //EDT
-            TimeZone tz = TimeZone.getTimeZone(tzid);
-            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-            java.sql.Date d = new java.sql.Date(dateNowLong);
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-            DateFormat format = new SimpleDateFormat(" hh:mm a");
-            format.setTimeZone(tz);
-            String ESTdate = format.format(d);
-
-            String msg = ESTdate + " " + custObj.getUsername() + " Customer disabled - 2 day after expired.";
-            if (custObj.getUsername().equals(CKey.E_USERNAME)) {
-                ;
-            } else {
-                this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-            }
-
-        }
-
-    }
-//////////////////
-
+//    public void ProcessCustomerDisableMaintanceTest(ServiceAFweb serviceAFWeb) {
+//
+//        ProcessCustomerDisableMaintance(serviceAFWeb);
+//    }
+//
+//    private void ProcessCustomerDisableMaintance(ServiceAFweb serviceAFWeb) {
+//        // disable cusotmer with no activity in 2 days
+//        ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
+//
+//        if (custList == null) {
+//            return;
+//        }
+//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//        long dateNowLong = dateNow.getTimeInMillis();
+//        long cust2DayAgo = TimeConvertion.addDays(dateNowLong, -2); // 2 day ago and no update  
+//        for (int i = 0; i < custList.size(); i++) {
+//            CustomerObj custObj = (CustomerObj) custList.get(i);
+//            if (custObj.getStatus() == ConstantKey.DISABLE) {
+//                continue;
+//            }
+//            float bal = custObj.getBalance();
+//            float payment = custObj.getPayment();
+//            float outstand = bal - payment;
+//            if (outstand >= 0) {  //No out standing payment 
+//                continue;
+//            }
+//            if (custObj.getUpdatedatel() < cust2DayAgo) {
+//                // disable customer
+//                custObj.setStatus(ConstantKey.DISABLE);
+//            }
+//
+//            serviceAFWeb.updateCustStatusSubStatus(custObj.getUsername(), custObj.getStatus() + "", custObj.getSubstatus() + "");
+//
+//            String tzid = "America/New_York"; //EDT
+//            TimeZone tz = TimeZone.getTimeZone(tzid);
+//            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+//            java.sql.Date d = new java.sql.Date(dateNowLong);
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//            DateFormat format = new SimpleDateFormat(" hh:mm a");
+//            format.setTimeZone(tz);
+//            String ESTdate = format.format(d);
+//
+//            String msg = ESTdate + " " + custObj.getUsername() + " Customer disabled - 2 day after expired.";
+//            if (custObj.getUsername().equals(CKey.E_USERNAME)) {
+//                ;
+//            } else {
+//                this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+//            }
+//
+//        }
+//
+//    }
+////////////////////
     private void ProcessAllLockCleanup(ServiceAFweb serviceAFWeb) {
         // clean up old lock name
         // clean Lock entry pass 30 min
