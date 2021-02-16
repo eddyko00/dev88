@@ -225,7 +225,7 @@ public class BillingProcess {
                     }
                 } else if (currDate.getTime() > billcycleDate) {
                     if ((subStatus != NO_PAYMENT_1) && (subStatus != NO_PAYMENT_2)) {
-                        billing.setStatus(NO_PAYMENT_1);
+                        billing.setSubstatus(NO_PAYMENT_1);
                         int result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                         // send email reminder
