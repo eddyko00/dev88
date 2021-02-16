@@ -1346,7 +1346,7 @@ public class AccountDB {
 
     public int updateAccountBillingStatus(BillingObj newA) {
         String sqlCMD = "update billing set updatedatedisplay='" + new java.sql.Date(newA.getUpdatedatel()) + "', updatedatel=" + newA.getUpdatedatel()
-                + ", status=" + newA.getStatus() + ", substatus=" + newA.getSubstatus() + "' where id=" + newA.getId();
+                + ", status=" + newA.getStatus() + ", substatus=" + newA.getSubstatus() + " where id=" + newA.getId();
         try {
             processExecuteDB(sqlCMD);
             return 1;
