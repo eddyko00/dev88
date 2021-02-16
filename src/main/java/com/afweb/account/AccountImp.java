@@ -340,7 +340,7 @@ public class AccountImp {
     }
 //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&payment=0&balance=15
 
-    public int updateCustAllStatus(String UserName,
+    public int updateAddCustStatusPaymentBalance(String UserName,
             int status, float payment, float balance) {
 
         CustomerObj customer = getCustomerPasswordNull(UserName);
@@ -370,7 +370,7 @@ public class AccountImp {
         return 0;
     }
 
-    public int setCustAllStatus(String UserName,
+    public int setCustStatusPaymentBalance(String UserName,
             int status, float payment, float balance) {
 
         CustomerObj customer = getCustomerPasswordNull(UserName);

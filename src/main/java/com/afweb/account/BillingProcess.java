@@ -176,7 +176,7 @@ public class BillingProcess {
         }
         logger.info("> updateUserBillingAll ... done");
     }
-//
+////////////////////////////////////////////////////
 
     public int updateUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer) {
 
@@ -197,11 +197,11 @@ public class BillingProcess {
         if (billingObjList.size() == 0) {
             // create first bill 
             createUserBilling(serviceAFWeb, customer, null);
-            return 1;
+            return 0;
         }
         BillingObj billing = billingObjList.get(0);
 
-        // check if expire
+        // check if current bill cycle expire
         if (currDate.getTime() < billing.getUpdatedatel()) {
             return 0;
         }
@@ -226,7 +226,7 @@ public class BillingProcess {
                 customer.setPayment(0);
 
                 // transaction
-                int result = serviceAFWeb.setCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
+                int result = serviceAFWeb.setCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
 
                 billing.setStatus(ConstantKey.COMPLETED);
                 billing.setBalance(fPayment);
@@ -244,13 +244,11 @@ public class BillingProcess {
                             billing.setSubstatus(NO_PAYMENT_2);
 
                             customer.setStatus(ConstantKey.DISABLE);
-                            int result = serviceAFWeb.setCustAllStatus(customer.getUsername(), customer.getStatus() + "", null, null);
+                            int result = serviceAFWeb.setCustStatusPaymentBalance(customer.getUsername(), customer.getStatus() + "", null, null);
                             result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
-                            //********
-                            // send email disable
-                            //********
-                            String msg = "The " + customer.getUsername() + " account had been disabled!\r\nThank you for using IIS.\r\n\r\n";
 
+                            // send email disable
+                            String msg = "The " + customer.getUsername() + " account had been disabled!\r\nThank you for using IIS.\r\n\r\n";
                             logger.info("updateUserBilling***Disable user " + customer.getUsername() + ", billing id" + billing.getId());
                         }
                     }
@@ -258,6 +256,7 @@ public class BillingProcess {
                     if ((subStatus != NO_PAYMENT_1) && (subStatus != NO_PAYMENT_2)) {
                         billing.setStatus(NO_PAYMENT_1);
                         int result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
+                        
                         // send email reminder
                         String msg = "The " + customer.getUsername() + " account has past due amount!\r\nPlease submit the payment now.\r\n\r\n";
                     }
@@ -315,7 +314,7 @@ public class BillingProcess {
             int result = 0;
             // first bill alreay add the payment
             if (billing != null) {
-                result = serviceAFWeb.updateCustAllStatus(customer.getUsername(), null, customer.getPayment() + "", null);
+                result = serviceAFWeb.updateAddCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
             }
             return serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, msg, billCycleDate);
         }

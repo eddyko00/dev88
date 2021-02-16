@@ -674,6 +674,8 @@ public class ServiceAFweb {
                 if (ServiceAFweb.processEmailFlag == true) {
                     EmailProcess eProcess = new EmailProcess();
                     eProcess.ProcessEmailAccount(this);
+                    BillingProcess billProc = new BillingProcess();
+                    billProc.processUserBillingAll(this);
                 }
             }
 
@@ -4242,7 +4244,7 @@ public class ServiceAFweb {
     }
 
     //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15
-    public int updateCustAllStatus(String customername,
+    public int updateAddCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -4303,7 +4305,7 @@ public class ServiceAFweb {
                     emailSt += "\n\rAccout balance change " + currency;
                 }
             }
-            int ret = getAccountImp().updateCustAllStatus(UserName, status, payment, balance);
+            int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
             if (ret == 1) {
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -4334,7 +4336,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-        public int setCustAllStatus(String customername,
+        public int setCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -4395,7 +4397,7 @@ public class ServiceAFweb {
                     emailSt += "\n\rAccout balance change to " + currency;
                 }
             }
-            int ret = getAccountImp().setCustAllStatus(UserName, status, payment, balance);
+            int ret = getAccountImp().setCustStatusPaymentBalance(UserName, status, payment, balance);
             if (ret == 1) {
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);
