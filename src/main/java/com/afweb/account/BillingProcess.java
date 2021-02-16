@@ -249,7 +249,7 @@ public class BillingProcess {
 
                             // send email disable
                             String msg = "The " + customer.getUsername() + " account had been disabled!\r\nThank you for using IIS.\r\n\r\n";
-                            logger.info("updateUserBilling***Disable user " + customer.getUsername() + ", billing id" + billing.getId());
+                            logger.info("updateUserBilling***Disable user " + customer.getUsername() + ", billing id " + billing.getId());
                         }
                     }
                 } else if (currDate.getTime() > billcycleDate) {
@@ -259,7 +259,7 @@ public class BillingProcess {
 
                         // send email reminder
                         String msg = "The " + customer.getUsername() + " account has past due amount!\r\nPlease submit the payment now.\r\n\r\n";
-                        logger.info("updateUserBilling***Past due user " + customer.getUsername() + ", billing id" + billing.getId());
+                        logger.info("updateUserBilling***Past due user " + customer.getUsername() + ", billing id " + billing.getId());
                     }
                 }
 
