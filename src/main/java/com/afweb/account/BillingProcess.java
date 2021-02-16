@@ -131,7 +131,11 @@ public class BillingProcess {
                                 || (customer.getType() == CustomerObj.INT_FUND_USER)) {
                             ;
                         } else {
-                            this.updateUserBilling(serviceAFWeb, customer);
+                            try {
+                                this.updateUserBilling(serviceAFWeb, customer);
+                            } catch (Exception ex) {
+                                logger.info("> updateUserBillingAll Exception " + ex.getMessage());
+                            }
                         }
                     }
                 }
@@ -292,7 +296,12 @@ public class BillingProcess {
 
             // send email reminder            
             String msg = "The " + customer.getUsername() + " account billing invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
-            logger.info("Billing***BillingReady user " + customer.getUsername() + ", billing id " + billing.getId() + ", payment=" + payment);
+            
+            int billId = 0;
+            if (billing != null) {
+                billId = billing.getId();
+            }
+            logger.info("Billing***BillingReady user " + customer.getUsername() + ", billing id " + billId + ", payment=" + payment);
 
             return result;
         }

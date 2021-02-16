@@ -976,8 +976,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            BillingProcess billProc = new BillingProcess();
-            billProc.processUserBillingAll(this);
+//            BillingProcess billProc = new BillingProcess();
+//            billProc.processUserBillingAll(this);
 //            ArrayList custNameList = getCustomerObjByNameList(CKey.G_USERNAME);
 //            CustomerObj customer = (CustomerObj) custNameList.get(0);
 //            billProc.updateUserBilling(this, customer);
