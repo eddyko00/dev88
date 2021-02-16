@@ -58,42 +58,9 @@ public class BillingProcess {
 //    public static final int CANCEL = 10;
 //    public static final String INT_ST_CANCEL = "10";
 //    //
-//    public static final String MSG_COMPLETE = "COMPLETE";
-//    public static final int COMPLETE = 11;
-//    public static final String INT_ST_COMPLETE = "11";
-//    public static final String MSG_PARTIAL_COMPLETE = "PARTIAL_COMPLETE";
-//    public static final int PARTIAL_COMPLETE = 12;
-//    public static final String INT_ST_PARTIAL_COMPLETE = "12";
 
     public static final int NO_PAYMENT_1 = 55;
     public static final int NO_PAYMENT_2 = 56;
-//    //Billing type
-//    public static final int BILLING_SYSTEM = 121;
-//    public static final int BILLING_MONTHLY = 122;
-//    public static final int BILLING_SERVICE = 125;
-//
-//    public static String getBillingType(int type) {
-//        String bType = "MTM";
-//        switch (type) {
-//            case BILLING_SYSTEM:
-//                bType = "SYS";
-//                break;
-//
-//            case BILLING_SERVICE:
-//                bType = "SRV";
-//                break;
-//        }
-//        return bType;
-//    }
-    //Payment method
-
-    public static final int PAYMENT_INIT = 100;
-    public static final int PAYMENT_CREDIT_CARD = 101;
-    public static final int PAYMENT_PAY_PAL = 102;
-    public static final int PAYMENT_CHEQUE = 103;
-    public static final int PAYMENT_CASH = 104;
-    public static final int PAYMENT_CREDIT = 105;
-    public static final int PAYMENT_ADJUST = 106;
 
     protected static Logger logger = Logger.getLogger("BillingProcess");
     private static ArrayList custProcessNameArray = new ArrayList();
@@ -191,12 +158,12 @@ public class BillingProcess {
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId());
         if (billingObjList == null) {
             // create first bill 
-            createUserBilling(serviceAFWeb, customer, null);
+            createUserBilling(serviceAFWeb, customer, account, null);
             return 0;
         }
         if (billingObjList.size() == 0) {
             // create first bill 
-            createUserBilling(serviceAFWeb, customer, null);
+            createUserBilling(serviceAFWeb, customer, account, null);
             return 0;
         }
         BillingObj billing = billingObjList.get(0);
@@ -241,6 +208,10 @@ public class BillingProcess {
                 if (billcycleDate > dateWeek) {
                     if (customer.getStatus() != ConstantKey.DISABLE) {
                         if (subStatus != NO_PAYMENT_2) {
+                            if (fPayment < 5) {
+                                //ignore if payment less than 4 dollor
+                                return 1;
+                            }
                             billing.setSubstatus(NO_PAYMENT_2);
 
                             customer.setStatus(ConstantKey.DISABLE);
@@ -264,19 +235,20 @@ public class BillingProcess {
                 }
 
             }
-        } else if (status == ConstantKey.COMPLETED) {
-            // check for next bill
-            createUserBilling(serviceAFWeb, customer, billing);
         }
+//        if (status == ConstantKey.COMPLETED) {
+//            // check for next bill
+//            createUserBilling(serviceAFWeb, customer, billing);
+//        }
+        // check for next bill
+        createUserBilling(serviceAFWeb, customer, account, billing);
         return 1;
     }
 
-    public int createUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer, BillingObj billing) {
+    public int createUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj account, BillingObj billing) {
         if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
             return 1;
         }
-
-        AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
         Date startDate = account.getStartdate();
         long billCycleDate = startDate.getTime();
 
