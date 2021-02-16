@@ -4283,7 +4283,7 @@ public class ServiceAFweb {
                     if (status == ConstantKey.OPEN) {
                         st = "Enabled";
                     }
-                    emailSt += "\n\r "+customername+" Accout Status changed - " + st;
+                    emailSt += "\n\r "+customername+" Accout Status change to " + st;
                 }
             }
             float payment = -9999;
@@ -4292,7 +4292,7 @@ public class ServiceAFweb {
                     payment = Float.parseFloat(paymenttSt);
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
-                    emailSt += "\n\r "+customername+" Accout invoice bill change " + currency;
+                    emailSt += "\n\r "+customername+" Accout invoice bill adjust " + currency;
                 }
             }
             float balance = -9999;
@@ -4302,7 +4302,7 @@ public class ServiceAFweb {
 
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(balance);
-                    emailSt += "\n\r "+customername+" Accout balance change " + currency;
+                    emailSt += "\n\r "+customername+" Accout balance adjust " + currency;
                 }
             }
             int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
@@ -4375,7 +4375,7 @@ public class ServiceAFweb {
                     if (status == ConstantKey.OPEN) {
                         st = "Enabled";
                     }
-                    emailSt += "\n\r "+customername+" Accout Status changed - " + st;
+                    emailSt += "\n\r "+customername+" Accout Status change to" + st;
                 }
             }
             float payment = -9999;

@@ -286,7 +286,7 @@ public class BillingProcess {
             int result = 0;
             // first bill alreay add the payment
             if (billing != null) {
-                result = serviceAFWeb.updateAddCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+                result = serviceAFWeb.setCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
             }
             result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, "", billCycleDate);
 
