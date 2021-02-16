@@ -256,9 +256,10 @@ public class BillingProcess {
                     if ((subStatus != NO_PAYMENT_1) && (subStatus != NO_PAYMENT_2)) {
                         billing.setStatus(NO_PAYMENT_1);
                         int result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
-                        
+
                         // send email reminder
                         String msg = "The " + customer.getUsername() + " account has past due amount!\r\nPlease submit the payment now.\r\n\r\n";
+                        logger.info("updateUserBilling***Past due user " + customer.getUsername() + ", billing id" + billing.getId());
                     }
                 }
 
@@ -308,7 +309,6 @@ public class BillingProcess {
                 payment += fInvoice;
             }
             float balance = 0;
-            String msg = "";
 
             customer.setPayment(payment);
             int result = 0;
@@ -316,7 +316,13 @@ public class BillingProcess {
             if (billing != null) {
                 result = serviceAFWeb.updateAddCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
             }
-            return serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, msg, billCycleDate);
+            result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, "", billCycleDate);
+
+            // send email reminder            
+            String msg = "The " + customer.getUsername() + " account billing invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
+            logger.info("createUserBilling*** Billing ready user " + customer.getUsername() + ", billing id " + billing.getId() + ", payment=" + payment);
+
+            return result;
         }
         return 0;
     }
