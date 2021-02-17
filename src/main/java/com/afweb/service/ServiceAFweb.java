@@ -4337,7 +4337,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-        public int setCustStatusPaymentBalance(String customername,
+        public int systemCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -4367,62 +4367,27 @@ public class ServiceAFweb {
             if (accountObj == null) {
                 return 0;
             }
-            String emailSt = "";
+
             int status = -9999;
             if (statusSt != null) {
                 if (!statusSt.equals("")) {
                     status = Integer.parseInt(statusSt);
-                    String st = "Disabled";
-                    if (status == ConstantKey.OPEN) {
-                        st = "Enabled";
-                    }
-                    emailSt += "\n\r "+customername+" Accout Status change to" + st;
                 }
             }
             float payment = -9999;
             if (paymenttSt != null) {
                 if (!paymenttSt.equals("")) {
                     payment = Float.parseFloat(paymenttSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    emailSt += "\n\r "+customername+" Accout invoice bill charge to " + currency;
                 }
             }
             float balance = -9999;
             if (balanceSt != null) {
                 if (!balanceSt.equals("")) {
                     balance = Float.parseFloat(balanceSt);
-
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(balance);
-                    emailSt += "\n\r "+customername+" Accout balance change to " + currency;
                 }
             }
-            int ret = getAccountImp().setCustStatusPaymentBalance(UserName, status, payment, balance);
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
+           return  getAccountImp().setCustStatusPaymentBalance(UserName, status, payment, balance);
 
-                String msg = ESTtime + " " + emailSt;
-
-                getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_ACCBILLMSG, msg);
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_ACCBILLMSG, msg);
-
-                // send email
-                DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
-                formatD.setTimeZone(tz);
-                String ESTdateD = formatD.format(d);
-                String msgD = ESTdateD + " " + emailSt;
-                getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_ACCBILLMSG, msgD);
-
-            }
-            return ret;
 
         } catch (Exception e) {
         }
