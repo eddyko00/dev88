@@ -356,6 +356,12 @@ public class BillingProcess {
                 payment = fInvoice + prevOwning;
                 customer.setPayment(payment);
                 result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+            } else {
+                if (payment == 0) {
+                    payment = fInvoice;
+                    customer.setPayment(payment);
+                    result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+                }
             }
 
             String data = "";
@@ -380,7 +386,7 @@ public class BillingProcess {
             if ((custName == null) || (custName.length() == 0)) {
                 custName = customer.getUsername();
             }
-            logger.info("Billing***BillingReady user " + custName + ", billing id " + billId + ", payment=" + payment);
+            logger.info("Billing***create user " + custName + ", billing id " + billId + ", payment=" + payment);
 
             return result;
         }
