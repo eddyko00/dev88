@@ -11,13 +11,27 @@ package com.afweb.model.account;
  */
 public class BillData {
 
+    /**
+     * @return the credit
+     */
+    public float getCredit() {
+        return credit;
+    }
+
+    /**
+     * @param credit the credit to set
+     */
+    public void setCredit(float credit) {
+        this.credit = credit;
+    }
+
     private String feat = "";
     private int status = 0;
     private float prevOwn = 0;
     private float curPaym = 0;
     private float tax = 0;
     private float service = 0;
-
+    private float credit = 0;
     /**
      * @return the feat
      */
