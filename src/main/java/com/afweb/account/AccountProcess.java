@@ -102,7 +102,7 @@ public class AccountProcess {
         for (int i = 0; i < stockNameList.size(); i++) {
             String symbol = (String) stockNameList.get(i);
 
-            serviceAFWeb.deleteStockInfo(symbol);
+            serviceAFWeb.removeStockInfo(symbol);
             numCnt++;
             if (numCnt > 10) {
                 break;

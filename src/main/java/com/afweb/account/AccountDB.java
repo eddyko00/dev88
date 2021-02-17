@@ -1303,6 +1303,17 @@ public class AccountDB {
         return 0;
     }
 
+    public int removeAccountBillingByID(int AccountID, int BillID) {
+        try {
+            String deleteSQL = "delete from billing where accountid=" + AccountID + " and id=" + BillID;
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> removeAccountBilling exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int removeAccountBilling(int AccountID) {
         try {
             String deleteSQL = "delete from billing where accountid=" + AccountID;

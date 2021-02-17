@@ -981,8 +981,6 @@ public class ServiceAFweb {
 //            ArrayList custNameList = getCustomerObjByNameList(CKey.G_USERNAME);
 //            CustomerObj customer = (CustomerObj) custNameList.get(0);
 //            billProc.updateUserBilling(this, customer);
-
-
 //            getAccountImp().removeCommByName(CKey.ADMIN_USERNAME, null, ConstantKey.COM_EMAIL);
 //            
 //
@@ -2526,6 +2524,23 @@ public class ServiceAFweb {
 
     }
 
+    public int removeBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            int accountid = Integer.parseInt(AccountIDSt);
+            int billid = Integer.parseInt(BillIDSt);
+            int ret = getAccountImp().removeBillingByCustomerAccountID(UserName, Password, accountid, billid);
+            return ret;
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     public ArrayList<CommObj> getEmailCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -3883,19 +3898,7 @@ public class ServiceAFweb {
         return result;
     }
 
-//    public int AddFailCntStock(String symbol) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return 0;
-//        }
-//        if (checkCallRemoveMysql() == true) {
-//            return getServiceAFwebREST().AddFailCntStock(symbol);
-//        }
-//        SymbolNameObj symObj = new SymbolNameObj(symbol);
-//        String NormalizeSymbol = symObj.getYahooSymbol();
-//        int result = getStockImp().AddFailCntStock(NormalizeSymbol);
-//        return result;
-//    }
-    public int deleteStockInfo(String symbol) {
+    public int removeStockInfo(String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -4284,7 +4287,7 @@ public class ServiceAFweb {
                     if (status == ConstantKey.OPEN) {
                         st = "Enabled";
                     }
-                    emailSt += "\n\r "+customername+" Accout Status change to " + st;
+                    emailSt += "\n\r " + customername + " Accout Status change to " + st;
                 }
             }
             float payment = -9999;
@@ -4293,7 +4296,7 @@ public class ServiceAFweb {
                     payment = Float.parseFloat(paymenttSt);
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
-                    emailSt += "\n\r "+customername+" Accout invoice bill adjust " + currency;
+                    emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
                 }
             }
             float balance = -9999;
@@ -4303,7 +4306,7 @@ public class ServiceAFweb {
 
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(balance);
-                    emailSt += "\n\r "+customername+" Accout balance adjust " + currency;
+                    emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
                 }
             }
             int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
@@ -4337,7 +4340,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-        public int systemCustStatusPaymentBalance(String customername,
+    public int systemCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -4386,15 +4389,13 @@ public class ServiceAFweb {
                     balance = Float.parseFloat(balanceSt);
                 }
             }
-           return  getAccountImp().setCustStatusPaymentBalance(UserName, status, payment, balance);
-
+            return getAccountImp().setCustStatusPaymentBalance(UserName, status, payment, balance);
 
         } catch (Exception e) {
         }
         return 0;
     }
 
-    
 //http://localhost:8080/cust/admin1/sys/cust/eddy/status/0/substatus/0
     public int updateCustStatusSubStatus(String customername, String statusSt, String substatusSt) {
         if (getServerObj().isSysMaintenance() == true) {

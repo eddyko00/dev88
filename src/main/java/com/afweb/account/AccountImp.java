@@ -467,6 +467,26 @@ public class AccountImp {
         return null;
     }
 
+    public int removeBillingByCustomerAccountID(String UserName, String Password, int accountID, int billID) {
+
+        CustomerObj customer = getCustomerPassword(UserName, Password);
+        if (customer != null) {
+            ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
+            if (accountList != null) {
+                if (accountList.size() > 0) {
+                    for (int i = 0; i < accountList.size(); i++) {
+                        AccountObj accountObj = (AccountObj) accountList.get(i);
+                        if (accountObj.getId() == accountID) {
+                            return accountdb.removeAccountBillingByID(accountID, billID);
+
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
     public ArrayList<CommObj> getEmailCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
