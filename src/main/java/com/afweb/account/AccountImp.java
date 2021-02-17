@@ -1158,7 +1158,7 @@ public class AccountImp {
         return accountdb.getBillingObjByAccountID(accountID, length);
     }
 
-    public int addAccountBilling(String name, AccountObj accountObj, float payment, float balance, String msg, long billcycle) {
+    public int addAccountBilling(String name, AccountObj accountObj, float payment, float balance, String data, long billcycle) {
         if (accountObj == null) {
             return -1;
         }
@@ -1175,7 +1175,7 @@ public class AccountImp {
 
         billObj.setPayment(payment);
         billObj.setBalance(balance);
-        billObj.setData(msg);
+        billObj.setData(data);
         return accountdb.insertAccountBillingData(billObj);
     }
 

@@ -10,6 +10,9 @@ import com.afweb.model.account.*;
 import com.afweb.service.*;
 import com.afweb.util.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -194,7 +197,7 @@ public class BillingProcess {
         if ((custName == null) || (custName.length() == 0)) {
             custName = customer.getUsername();
         }
-        
+
         if (status == ConstantKey.INITIAL) {
             // override payment
             if ((customer.getType() == CustomerObj.INT_ADMIN_USER)
@@ -277,7 +280,7 @@ public class BillingProcess {
             msg = "The " + custName + " account billing invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
             sendMsg = true;
         }
-        
+
         if (sendMsg == true) {
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -315,6 +318,7 @@ public class BillingProcess {
             long lastBillDate = billing.getUpdatedatel();
             billCycleDate = TimeConvertion.addMonths(lastBillDate, 1);
         }
+        BillData billData = new BillData();
 
         Timestamp cDate = TimeConvertion.getCurrentTimeStamp();
         Date curDate = new java.sql.Date(cDate.getTime());
@@ -322,32 +326,53 @@ public class BillingProcess {
 
         if (date3day > billCycleDate) {
             float payment = customer.getPayment();
+            float prevOwning = payment;
+
             int subType = account.getSubstatus();
             float fInvoice = 0;
             switch (subType) {
                 case ConstantKey.INT_PP_BASIC:
+                    billData.setFeat(ConstantKey.PP_BASIC);
+                    billData.setCurPaym(ConstantKey.INT_PP_BASIC_PRICE);
                     fInvoice = ConstantKey.INT_PP_BASIC_PRICE;
                     break;
                 case ConstantKey.INT_PP_PREMIUM:
+                    billData.setFeat(ConstantKey.PP_PREMIUM);
+                    billData.setCurPaym(ConstantKey.INT_PP_REMIUM_PRICE);
                     fInvoice = ConstantKey.INT_PP_REMIUM_PRICE;
                     break;
                 case ConstantKey.INT_PP_DELUXE:
+                    billData.setFeat(ConstantKey.PP_DELUXE);
+                    billData.setCurPaym(ConstantKey.INT_PP_DELUXE_PRICE);
                     fInvoice = ConstantKey.INT_PP_DELUXE_PRICE;
                     break;
             }
             // first bill alreay add the payment
             if (billing != null) {
-                payment += fInvoice;
+                billData.setPrevOwn(prevOwning);
+                payment = fInvoice + prevOwning;
+
             }
             float balance = 0;
 
             customer.setPayment(payment);
             int result = 0;
+
             // first bill alreay add the payment
             if (billing != null) {
                 result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
             }
-            result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, "", billCycleDate);
+            
+            String data = "";
+            String nameSt = "";
+            try {
+
+                nameSt = new ObjectMapper().writeValueAsString(billData);
+                nameSt = nameSt.replaceAll("\"", "#");
+                data = nameSt;
+            } catch (JsonProcessingException ex) {
+            }
+            result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, data, billCycleDate);
 
             int billId = 0;
             if (billing != null) {
