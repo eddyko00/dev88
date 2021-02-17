@@ -200,6 +200,7 @@ public class BillingProcess {
                 int result = serviceAFWeb.setCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
 
                 billing.setStatus(ConstantKey.COMPLETED);
+                
                 billing.setBalance(fPayment);
                 result = serviceAFWeb.getAccountImp().updateAccountBillingStatusPaymentData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), "");
                 // transaction
@@ -208,7 +209,7 @@ public class BillingProcess {
 //                Date entryDate = billing.getUpdatedatedisplay();
                 long billcycleDate = billing.getUpdatedatel();
                 long dateWeek = TimeConvertion.nextWeek(billcycleDate);
-                int subStatus = billing.getStatus();
+                int subStatus = billing.getSubstatus();
                 if (billcycleDate > dateWeek) {
                     if (customer.getStatus() != ConstantKey.DISABLE) {
                         if (subStatus != NO_PAYMENT_2) {
