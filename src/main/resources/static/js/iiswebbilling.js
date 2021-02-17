@@ -20,7 +20,7 @@ var app = {
 
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-        
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -29,110 +29,52 @@ var app = {
         var accObjListStr = iisWebObj.accObjListStr;
         var accObjList = JSON.parse(accObjListStr);
 
-        var commObjListStr = iisWebObj.commObjListStr;
-
-        var iisMsgSession = "iisMsgSession";
-        var msgObjStr = window.localStorage.getItem(iisMsgSession);
-//        msgObjStr ="This feature does not allow for GUEST account";
-        if (msgObjStr !== "") {
-            functionAlertConfirm(msgObjStr, function ok() {
-            });
-        }
-
-        if (commObjListStr !== "") {
-            var commObjList = JSON.parse(commObjListStr);
-
-            var htmlhead = '<div class="ui-grid-b">';
-            htmlhead += '<div class="ui-block-a" style="width:30%"><strong>Date</strong></div>';
-            htmlhead += '<div class="ui-block-b" style="width:5%"></div>';
-            htmlhead += '<div class="ui-block-c">Msg</div>';
-            htmlhead += '</div>';
-
-            $("#msgid").html('<li id="0" >' + htmlhead + '</li>');
-
-            for (i = 0; i < commObjList.length; i++) {
-                var commObj = commObjList[i];
-                var commId = commObj.id;
-
-                var htmlName = '<div class="ui-grid-b">';
-                htmlName += '<div class="ui-block-a" style="width:30%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="width:5%"> </div>';
-                htmlName += '<div class="ui-block-c">' + commObj.data + '</div>';
-                htmlName += '</div>';
-
-                $("#msgid").append('<li id="' + commId + '" >' + htmlName + '</li>');
-
-            }
-        }
+        var billObjListStr = iisWebObj.billObjListStr;
+        var billObjList = JSON.parse(billObjListStr);
 
 
-        var htmlAdmin = '<button id="configbtn"  >Configuration</button>';
-        htmlAdmin += '<button id="invoicebtn"  >Billing Invoice</button>';
-
-        $("#adminid").html(htmlAdmin);
-        if (custObj.type == 99) {
-            var htmlAdmin = '<br><br><button id="sysbtn" >System Status</button>';
-            htmlAdmin += '<button id="admsgbtn"  >Admin Msg</button>';
-            $("#adminid").append(htmlAdmin);
-        }
-
-        $("#accheader").html("Customer Account");
+        $("#accheader").html("Account Billing");
 
         $("#myid").html(" "); //clear the field
-        for (i = 0; i < accObjList.length; i++) {
-            var accObj = accObjList[i];
-            console.log(accObj);
-            var accName = accObj.accountname;
-            var accId = accObj.id;
+        for (i = 0; i < billObjList.length; i++) {
+            var billObj = billObjList[i];
+            console.log(billObj);
+            var billName = billObj.name;
+            var billId = billObj.id;
 
             var htmlName = '';
-            htmlName += '<li id="' + accId + '"><a href="#">';
-            htmlName += '<br>Account: ' + accName;
-            if (accObj.type == 110) { //INT_TRADING_ACCOUNT           
-                var pp = "Basic Plan - Max 2 stocks";
-                if (custObj.substatus == 0) {
-                    pp = "Basic Plan - Max 2 stocks";
-                } else if (custObj.substatus == 10) {
-                    pp = "Premium Plan - Max 10 stocks";
-                } else if (custObj.substatus == 20) {
-                    pp = "Deluxe Plan - Max 20 stocks";
-                }
+            htmlName += '<br>Billing id: (' + billId + ') Account: ' + billName;
 
-                htmlName += '<br>Plan: ' + pp;
-
-                htmlName += '<br>Date: ' + accObj.startdate;
-                htmlName += '<br>Bal: $' + custObj.balance.toFixed(2)
-                        + ' Amount due: $' + custObj.payment.toFixed(2);
-
+            htmlName += '<br>Due date: ' + billObj.updatedatedisplay
+            var statusSt = 'NA';
+            if (billObj.status === 2) {
+                statusSt = 'Amount Due';
             }
-            if (accObj.type == 120) { //INT_MUTUAL_FUND_ACCOUNT = 120;
-                var total = accObj.investment + accObj.balance;
-                htmlName += '<br>Past: $' + accObj.investment.toFixed(2)
-                        + ' Cur: $' + accObj.balance.toFixed(2)
-                        + '   Total: $' + total.toFixed(2);
-
+            if (billObj.status === 5) {
+                statusSt = 'Amount Paid';
             }
+            htmlName += '<br>Status:' + statusSt + ' Invoice due: ' + billObj.payment;
 
-            htmlName += '</a></li>';
-            $("#myid").append(htmlName);
+            $("#myid").append('<li id="' + billId + '" >' + htmlName + '</li>');
+
         }
 
 
 
-        $("ul[id*=myid] li").click(function () {
-//            alert($(this).html()); // gets innerHTML of clicked li
-//            alert($(this).text()); // gets text contents of clicked li
-            var accId = $(this).attr('id');
-            console.log(accId);
-            if (accId == 0) {
-//                alert(accId);
-                return;
-            }
-
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
-            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-            window.location.href = "accountst_1.html";
-        });
+//        $("ul[id*=myid] li").click(function () {
+////            alert($(this).html()); // gets innerHTML of clicked li
+////            alert($(this).text()); // gets text contents of clicked li
+//            var accId = $(this).attr('id');
+//            console.log(accId);
+//            if (accId == 0) {
+////                alert(accId);
+//                return;
+//            }
+//
+//            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
+//            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+//            window.location.href = "accountst_1.html";
+//        });
 
 
         $("#clrbtn").click(function () {
@@ -273,25 +215,11 @@ var app = {
         });
 
         $("#invoicebtn").click(function () {
-//            if (custObj.username.toUpperCase() === "GUEST") {
-//                msgObjStr = "This feature does not allow for GUEST account";
-//                window.localStorage.setItem(iisMsgSession, msgObjStr);
-//                window.location.href = "account.html";
-//            }
-            var accObjList = JSON.parse(accObjListStr);
-
-            var accObj = null;
-            for (i = 0; i < accObjList.length; i++) {
-                var accObjTmp = accObjList[i];
-                if (accObjTmp.type == 110) { //INT_TRADING_ACCOUNT
-                    accObj = accObjTmp;
-                    break;
-                }
+            if (custObj.username.toUpperCase() === "GUEST") {
+                msgObjStr = "This feature does not allow for GUEST account";
+                window.localStorage.setItem(iisMsgSession, msgObjStr);
+                window.location.href = "account.html";
             }
-            var accId = accObj.id;
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
-            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-            window.location.href = "billing_1.html";
         });
 
         function functionConfirm(msg, myYes, myNo, myOk) {
