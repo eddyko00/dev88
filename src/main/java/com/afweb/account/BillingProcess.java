@@ -227,10 +227,12 @@ public class BillingProcess {
                 if (billcycleDate > dateWeek) {
                     if (customer.getStatus() != ConstantKey.DISABLE) {
                         if (subStatus != NO_PAYMENT_2) {
-                            if (fPayment < 5) {
-                                //ignore if payment less than 4 dollor
-                                return 1;
-                            }
+//                            if (fPayment < 2) {
+//                                //ignore if payment less than 4 dollor
+//                                billing.setSubstatus(NO_PAYMENT_2);
+//                                serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
+//                                return 1;
+//                            }
                             billing.setSubstatus(NO_PAYMENT_2);
 
                             customer.setStatus(ConstantKey.DISABLE);
@@ -259,7 +261,18 @@ public class BillingProcess {
 
             }
         }
-
+//        if (status == ConstantKey.COMPLETED) {
+//            // check for next bill
+//            createUserBilling(serviceAFWeb, customer, billing);
+//        }
+        // check for next bill
+        int retCreatebill = createUserBilling(serviceAFWeb, customer, account, billing);
+        if (retCreatebill == 1) {
+            // send email reminder            
+            msg = "The " + customer.getUsername() + " account billing invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
+            sendMsg = true;
+        }
+        
         if (sendMsg == true) {
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -282,12 +295,7 @@ public class BillingProcess {
             String msgD = ESTdateD + " " + msg;
             serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
         }
-//        if (status == ConstantKey.COMPLETED) {
-//            // check for next bill
-//            createUserBilling(serviceAFWeb, customer, billing);
-//        }
-        // check for next bill
-        createUserBilling(serviceAFWeb, customer, account, billing);
+
         return 1;
     }
 
@@ -335,9 +343,6 @@ public class BillingProcess {
                 result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
             }
             result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, "", billCycleDate);
-
-            // send email reminder            
-            String msg = "The " + customer.getUsername() + " account billing invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
 
             int billId = 0;
             if (billing != null) {
