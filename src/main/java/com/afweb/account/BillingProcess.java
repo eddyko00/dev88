@@ -190,6 +190,11 @@ public class BillingProcess {
         boolean sendMsg = false;
         String msg = "";
 
+        String custName = customer.getEmail();
+        if ((custName == null) || (custName.length() == 0)) {
+            custName = customer.getUsername();
+        }
+        
         if (status == ConstantKey.INITIAL) {
             // override payment
             if ((customer.getType() == CustomerObj.INT_ADMIN_USER)
@@ -215,9 +220,9 @@ public class BillingProcess {
                 // send email disable
                 NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                 String currency = formatter.format(fPayment);
-                msg = "The " + customer.getUsername() + " account payment " + currency + " completed!\r\nThank you.\r\n\r\n";
+                msg = "The " + custName + " account payment " + currency + " completed!\r\nThank you.\r\n\r\n";
                 sendMsg = true;
-                logger.info("Billing***Completed user " + customer.getUsername() + ", billing id " + billing.getId());
+                logger.info("Billing***Completed user " + custName + ", billing id " + billing.getId());
 
             } else {
 //                Date entryDate = billing.getUpdatedatedisplay();
@@ -240,9 +245,9 @@ public class BillingProcess {
                             result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                             // send email disable
-                            msg = "The " + customer.getUsername() + " account had been disabled!\r\nThank you for using IIS.\r\n\r\n";
+                            msg = "The " + custName + " account had been disabled!\r\nThank you for using IIS.\r\n\r\n";
                             sendMsg = true;
-                            logger.info("Billing***Disable user " + customer.getUsername() + ", billing id " + billing.getId());
+                            logger.info("Billing***Disable user " + custName + ", billing id " + billing.getId());
                         }
                     }
                 } else if (currDate.getTime() > billcycleDate) {
@@ -253,9 +258,9 @@ public class BillingProcess {
                         // send email reminder
                         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                         String currency = formatter.format(fPayment);
-                        msg = "The " + customer.getUsername() + " account has past due " + currency + " amount!\r\nPlease submit the payment now.\r\n\r\n";
+                        msg = "The " + custName + " account has past due " + currency + " amount!\r\nPlease submit the payment now.\r\n\r\n";
                         sendMsg = true;
-                        logger.info("Billing***PastDue user " + customer.getUsername() + ", billing id " + billing.getId());
+                        logger.info("Billing***PastDue user " + custName + ", billing id " + billing.getId());
                     }
                 }
 
@@ -269,7 +274,7 @@ public class BillingProcess {
         int retCreatebill = createUserBilling(serviceAFWeb, customer, account, billing);
         if (retCreatebill == 1) {
             // send email reminder            
-            msg = "The " + customer.getUsername() + " account billing invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
+            msg = "The " + custName + " account billing invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
             sendMsg = true;
         }
         
