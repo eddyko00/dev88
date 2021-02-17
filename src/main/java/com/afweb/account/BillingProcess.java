@@ -333,36 +333,31 @@ public class BillingProcess {
             switch (subType) {
                 case ConstantKey.INT_PP_BASIC:
                     billData.setFeat(ConstantKey.PP_BASIC);
-                    billData.setCurPaym(ConstantKey.INT_PP_BASIC_PRICE);
                     fInvoice = ConstantKey.INT_PP_BASIC_PRICE;
                     break;
                 case ConstantKey.INT_PP_PREMIUM:
                     billData.setFeat(ConstantKey.PP_PREMIUM);
-                    billData.setCurPaym(ConstantKey.INT_PP_REMIUM_PRICE);
                     fInvoice = ConstantKey.INT_PP_REMIUM_PRICE;
                     break;
                 case ConstantKey.INT_PP_DELUXE:
                     billData.setFeat(ConstantKey.PP_DELUXE);
-                    billData.setCurPaym(ConstantKey.INT_PP_DELUXE_PRICE);
                     fInvoice = ConstantKey.INT_PP_DELUXE_PRICE;
                     break;
             }
-            // first bill alreay add the payment
-            if (billing != null) {
-                billData.setPrevOwn(prevOwning);
-                payment = fInvoice + prevOwning;
 
-            }
-            float balance = 0;
-
+            billData.setCurPaym(fInvoice);
             customer.setPayment(payment);
             int result = 0;
 
             // first bill alreay add the payment
+            // but the next bill need to add prev owning
             if (billing != null) {
+                billData.setPrevOwn(prevOwning);
+                payment = fInvoice + prevOwning;
+                customer.setPayment(payment);
                 result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
             }
-            
+
             String data = "";
             String nameSt = "";
             try {
@@ -372,13 +367,20 @@ public class BillingProcess {
                 data = nameSt;
             } catch (JsonProcessingException ex) {
             }
+
+            float balance = 0;
             result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, data, billCycleDate);
 
             int billId = 0;
             if (billing != null) {
                 billId = billing.getId();
             }
-            logger.info("Billing***BillingReady user " + customer.getUsername() + ", billing id " + billId + ", payment=" + payment);
+
+            String custName = customer.getEmail();
+            if ((custName == null) || (custName.length() == 0)) {
+                custName = customer.getUsername();
+            }
+            logger.info("Billing***BillingReady user " + custName + ", billing id " + billId + ", payment=" + payment);
 
             return result;
         }
