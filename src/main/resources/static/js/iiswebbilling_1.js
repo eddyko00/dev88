@@ -30,7 +30,7 @@ var app = {
         var accId = iisWebObj.accId;
         console.log(accId);
         $.ajax({
-            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/billing",
+            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/billing?length=5",
             crossDomain: true,
             cache: false,
             beforeSend: function () {

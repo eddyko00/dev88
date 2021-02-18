@@ -75,7 +75,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
-        arrayString.add("/cust/{username}/acc/{accountid}/billing");
+        arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
 
         arrayString.add("/cust/{username}/acc/{accountid}/st?length={0 for all} - default 20");
@@ -127,7 +127,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/fundmgr");
         arrayString.add("/cust/{username}/sys/processfundmgr");
         arrayString.add("/cust/{username}/sys/deletenn1table");
-        arrayString.add("/cust/{username}/sys/billing/{id}/remove");
+
         //DB Backup
         arrayString.add("/cust/{username}/sys/downloaddb");
 
@@ -455,7 +455,7 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        int length = 20;
+        int length = 12;
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }

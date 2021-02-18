@@ -2516,7 +2516,7 @@ public class ServiceAFweb {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(UserName, Password, accountid);
+            ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(UserName, Password, accountid, length);
             return billingObjList;
         } catch (Exception e) {
         }

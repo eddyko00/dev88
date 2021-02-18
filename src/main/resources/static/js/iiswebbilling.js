@@ -43,9 +43,8 @@ var app = {
             var billId = billObj.id;
 
             var htmlName = '';
-            htmlName += '<br>Billing id: (' + billId + ') Account: ' + billName;
+            htmlName += '<br>Billing id: (' + billId + ') Account due date: ' + billObj.updatedatedisplay;
 
-            htmlName += '<br>Due date: ' + billObj.updatedatedisplay
             var statusSt = 'NA';
             if (billObj.status === 2) {
                 statusSt = 'Amount due';
@@ -57,6 +56,29 @@ var app = {
             var curPaySt = Number(billObj.payment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
             htmlName += '<br>Status:' + statusSt + ' invoice: ' + curPaySt;
 
+            var dataSt = billObj.data;
+            try {
+                if (dataSt != null) {
+                    if (dataSt !== "") {
+                        dataSt = dataSt.replaceAll('#', '"');
+                        var detailObj = JSON.parse(dataSt);
+                        if (detailObj != null) {
+                            htmlName += '<br><br>Plan:' + detailObj.feat;
+                            var currencySt = Number(detailObj.prevOwn).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+
+                            htmlName += '<br>Previous outstanding:' + currencySt;
+
+                            currencySt = Number(detailObj.curPaym).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                            htmlName += '<br>Current payment:' + currencySt;
+
+                            currencySt = Number(detailObj.prevOwn + detailObj.curPaym).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                            htmlName += '<br>Total amount:' + currencySt;
+                        }
+                    }
+                }
+            } catch (err) {
+
+            }
             $("#myid").append('<li id="' + billId + '" >' + htmlName + '</li>');
 
         }

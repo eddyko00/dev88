@@ -113,9 +113,9 @@ var app = {
             var htmlName = '<div class="ui-grid-c">';
             htmlName += '<div class="ui-block-a" ><strong>' + tranObj.entrydatedisplay + '</strong></div>';
             var signal = "B";
-            if (tranObj.trsignal == 1) {
+            if (tranObj.trsignal === S_BUY) {
                 signal = "B";
-            } else if (tranObj.trsignal == 2) {
+            } else if (tranObj.trsignal === S_SELL) {
                 signal = "S";
                 if (buyOnly === 1) {
                     // assume buy only and no short selling
@@ -129,10 +129,10 @@ var app = {
             if (signal === "E") {
                 if (prevTranObj != null) {
                     var diff = (tranObj.avgprice - prevTranObj.avgprice) * tranObj.share;
-                    if (prevTranObj.trsignal == 1) {
+                    if (prevTranObj.trsignal === S_BUY) {
                         ;
                     }
-                    if (prevTranObj.trsignal == 2) {
+                    if (prevTranObj.trsignal === S_SELL) {
                         diff = -diff;
                         if (buyOnly === 1) {
                             // assume buy only and no short selling
@@ -155,10 +155,10 @@ var app = {
                 if (i == tranObjList.length - 1) {
                     //calculate the result on the last one
                     var diff = (close - tranObj.avgprice) * tranObj.share;
-                    if (tranObj.trsignal == 1) {
+                    if (tranObj.trsignal === S_BUY) {
                         ;
                     }
-                    if (tranObj.trsignal == 2) {
+                    if (tranObj.trsignal === S_SELL) {
                         diff = -diff;
                         if (buyOnly === 1) {
                             // assume buy only and no short selling
@@ -175,9 +175,9 @@ var app = {
                     tranhtml += 'Share=' + tranObj.share + ' Tran amt change: ' + diffSt; // + ' Total: ' + totalSt;
                 }
             }
-            if (tranObj.trsignal == 1) {
+            if (tranObj.trsignal === S_BUY) {
                 htmlName += '<div class="ui-block-b" style="color:green;text-align: center">:' + signal + '</div>';
-            } else if (tranObj.trsignal == 2) {
+            } else if (tranObj.trsignal === S_SELL) {
                 htmlName += '<div class="ui-block-b" style="color:red;text-align: center">:' + signal + '</div>';
             } else {
                 htmlName += '<div class="ui-block-b" style="text-align: center">:' + signal + '</div>';

@@ -74,11 +74,11 @@ var app = {
 //https://demos.jquerymobile.com/1.1.2/docs/content/content-grids.html
             var htmlName = '<div class="ui-grid-d">';
             var signal = "B";
-            if (stockObj.trsignal == 1) {
+            if (stockObj.trsignal === S_BUY) {
                 signal = "B";
                 htmlName += '<div class="ui-block-a" style="color:green;width:20%"><strong>' + stockObj.symbol + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="text-align: center;color:green;width:20%">:' + signal + '</div>';
-            } else if (stockObj.trsignal == 2) {
+            } else if (stockObj.trsignal === S_SELL) {
                 signal = "S";
                 htmlName += '<div class="ui-block-a" style="color:red;width:20%"><strong>' + stockObj.symbol + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="text-align: center;color:red;width:20%">:' + signal + '</div>';

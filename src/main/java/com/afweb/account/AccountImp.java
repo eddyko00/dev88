@@ -448,7 +448,7 @@ public class AccountImp {
         return account;
     }
 
-    public ArrayList<BillingObj> getBillingByCustomerAccountID(String UserName, String Password, int accountID) {
+    public ArrayList<BillingObj> getBillingByCustomerAccountID(String UserName, String Password, int accountID, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -458,7 +458,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.getBillingObjByAccountID(accountID, 12);
+                            return accountdb.getBillingObjByAccountID(accountID, length);
                         }
                     }
                 }

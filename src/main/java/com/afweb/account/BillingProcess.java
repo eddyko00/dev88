@@ -132,7 +132,7 @@ public class BillingProcess {
 
         AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
         // get last bill
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId());
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId(), 1);
         if (billingObjList == null) {
             // create first bill 
             createUserBilling(serviceAFWeb, customer, account, null);

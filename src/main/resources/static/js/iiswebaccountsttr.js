@@ -433,11 +433,11 @@ var app = {
 
                                 var balance = PerfObj.balance;
                                 var shareAmount = 0;
-                                if (trsignal == 1) {
+                                if (trsignal === S_BUY) {
                                     shareAmount = PerfObj.performData.share * PerfObj.performData.close;
                                     balance += shareAmount;
                                 }
-                                if (trsignal == 2) {
+                                if (trsignal === S_SELL) {
                                     shareAmount = PerfObj.performData.share * PerfObj.performData.close;
                                     balance += shareAmount;
                                 }
