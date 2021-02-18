@@ -361,7 +361,7 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
                 displayStr += "\r\n" + (">>>>> System processEmailFlag:" + processEmailFlag);
-                displayStr += "\r\n" + (">>>>> System processEmailFlag:" + processBilligFlag);
+                displayStr += "\r\n" + (">>>>> System processBilligFlag:" + processBilligFlag);
 
                 displayStr += "\r\n" + (">>>>> System processNeuralNetFlag:" + processNeuralNetFlag);
 
