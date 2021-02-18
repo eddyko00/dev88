@@ -20,7 +20,7 @@ var app = {
 
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-        
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -99,17 +99,19 @@ var app = {
                 }
 
                 htmlName += '<br>Plan: ' + pp;
-
+                var balanceSt = Number(custObj.balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                var curPaySt = Number(custObj.payment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                 htmlName += '<br>Date: ' + accObj.startdate;
-                htmlName += '<br>Bal: $' + custObj.balance.toFixed(2)
-                        + ' Amount due: $' + custObj.payment.toFixed(2);
+                htmlName += '<br>Bal: ' + balanceSt + ' Amount paymment due: ' + curPaySt;
 
             }
             if (accObj.type == 120) { //INT_MUTUAL_FUND_ACCOUNT = 120;
                 var total = accObj.investment + accObj.balance;
-                htmlName += '<br>Past: $' + accObj.investment.toFixed(2)
-                        + ' Cur: $' + accObj.balance.toFixed(2)
-                        + '   Total: $' + total.toFixed(2);
+                var investSt = Number(accObj.investment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                var balSt = Number(accObj.balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+
+                var totSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                htmlName += '<br>Past: ' + investSt + ' Cur: ' + balSt + ' Total: ' + totSt;
 
             }
 

@@ -48,12 +48,14 @@ var app = {
             htmlName += '<br>Due date: ' + billObj.updatedatedisplay
             var statusSt = 'NA';
             if (billObj.status === 2) {
-                statusSt = 'Amount Due';
+                statusSt = 'Amount due';
             }
             if (billObj.status === 5) {
-                statusSt = 'Amount Paid';
+                statusSt = 'Amount paid';
             }
-            htmlName += '<br>Status:' + statusSt + ' Invoice due: ' + billObj.payment;
+
+            var curPaySt = Number(billObj.payment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+            htmlName += '<br>Status:' + statusSt + ' invoice: ' + curPaySt;
 
             $("#myid").append('<li id="' + billId + '" >' + htmlName + '</li>');
 
