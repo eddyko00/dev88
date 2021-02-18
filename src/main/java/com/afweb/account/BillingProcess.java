@@ -31,41 +31,6 @@ import java.util.logging.Logger;
  * @author eddyko
  */
 public class BillingProcess {
-//    public static final int OPEN = 0;
-//    public static final String INT_ST_OPEN = "0";
-//    public static final String MSG_CLOSE = "CLOSE";
-//    public static final int CLOSE = 1;
-//    public static final String INT_ST_CLOSE = "1";
-//    public static final String MSG_ENABLE = "ENABLE";
-//    public static final int ENABLE = 0;
-//    public static final String INT_ST_ENABLE = "0";
-//    public static final String MSG_DISABLE = "DISABLE";
-//    public static final int DISABLE = 1;
-//    public static final String INT_ST_DISABLE = "1";
-//    //
-//    public static final String MSG_INITIAL = "INITIAL";
-//    public static final int INITIAL = 2;
-//    public static final String INT_ST_INITIAL = "2";
-//    //
-//    public static final String MSG_PENDING = "PENDING";
-//    public static final int PENDING = 3;
-//    public static final String INT_ST_PENDING = "3";
-//    //
-//    public static final String MSG_PROCESS = "PROCESS";
-//    public static final int PROCESS = 4;
-//    public static final String INT_ST_PROCESS = "4";
-//    //
-//    public static final String MSG_FAIL = "FAIL";
-//    public static final int FAIL = 5;
-//    public static final String INT_ST_FAIL = "5";
-//    //    
-//    public static final String MSG_DELETE = "DELETE";
-//    public static final int DELETE = 9;
-//    public static final String INT_ST_DELETE = "9";
-//    public static final String MSG_CANCEL = "CANCEL";
-//    public static final int CANCEL = 10;
-//    public static final String INT_ST_CANCEL = "10";
-//    //
 
     public static final int NO_PAYMENT_1 = 55;
     public static final int NO_PAYMENT_2 = 56;
@@ -322,9 +287,14 @@ public class BillingProcess {
 
         Timestamp cDate = TimeConvertion.getCurrentTimeStamp();
         Date curDate = new java.sql.Date(cDate.getTime());
-        long date3day = TimeConvertion.addDays(curDate.getTime(), 3);
+        long date5day = TimeConvertion.addDays(curDate.getTime(), 5);
 
-        if (date3day > billCycleDate) {
+        if (date5day > billCycleDate) {
+            String custName = customer.getEmail();
+            if ((custName == null) || (custName.length() == 0)) {
+                custName = customer.getUsername();
+            }            
+            
             float payment = customer.getPayment();
             float prevOwning = payment;
 
@@ -355,12 +325,12 @@ public class BillingProcess {
                 billData.setPrevOwn(prevOwning);
                 payment = fInvoice + prevOwning;
                 customer.setPayment(payment);
-                result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+                result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
             } else {
                 if (payment == 0) {
                     payment = fInvoice;
                     customer.setPayment(payment);
-                    result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+                    result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
                 }
             }
 
@@ -375,17 +345,14 @@ public class BillingProcess {
             }
 
             float balance = 0;
-            result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, data, billCycleDate);
+            result = serviceAFWeb.getAccountImp().addAccountBilling(custName, account, payment, balance, data, billCycleDate);
 
             int billId = 0;
             if (billing != null) {
                 billId = billing.getId();
             }
 
-            String custName = customer.getEmail();
-            if ((custName == null) || (custName.length() == 0)) {
-                custName = customer.getUsername();
-            }
+
             logger.info("Billing***create user " + custName + ", billing id " + billId + ", payment=" + payment);
 
             return result;
