@@ -361,6 +361,8 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
                 displayStr += "\r\n" + (">>>>> System processEmailFlag:" + processEmailFlag);
+                displayStr += "\r\n" + (">>>>> System processEmailFlag:" + processBilligFlag);
+
                 displayStr += "\r\n" + (">>>>> System processNeuralNetFlag:" + processNeuralNetFlag);
 
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
@@ -674,9 +676,12 @@ public class ServiceAFweb {
                 if (ServiceAFweb.processEmailFlag == true) {
                     EmailProcess eProcess = new EmailProcess();
                     eProcess.ProcessEmailAccount(this);
-                    BillingProcess billProc = new BillingProcess();
-                    billProc.processUserBillingAll(this);
+
                 }
+            }
+            if (ServiceAFweb.processBilligFlag == true) {
+                BillingProcess billProc = new BillingProcess();
+                billProc.processUserBillingAll(this);
             }
 
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
@@ -696,6 +701,7 @@ public class ServiceAFweb {
     public static boolean processRestinputflag = false;
     public static boolean processRestAllStockflag = false;
 
+    public static boolean processBilligFlag = false;
     public static boolean processEmailFlag = false;
     public static boolean processNeuralNetFlag = false;
     public static boolean nn1testflag = false;

@@ -51,18 +51,21 @@ public class Javamain {
 
         } else if (cmd.indexOf("delayrestoryflag") != -1) {
             CKey.DELAY_RESTORE = true;
-            
+
         } else if (cmd.indexOf("processEmailFlag") != -1) {
-            ServiceAFweb.processEmailFlag = true;              
+            ServiceAFweb.processEmailFlag = true;
+            ServiceAFweb.processBilligFlag = true;
+        } else if (cmd.indexOf("processBilligFlag") != -1) {
+            ServiceAFweb.processBilligFlag = true;
         } else if (cmd.indexOf("processNeuralNetFlag") != -1) {
-            ServiceAFweb.processNeuralNetFlag = true;                                
-            
+            ServiceAFweb.processNeuralNetFlag = true;
+
         } else if (cmd.indexOf("nn1testflag") != -1) {
-            ServiceAFweb.nn1testflag = true;                    
+            ServiceAFweb.nn1testflag = true;
         } else if (cmd.indexOf("nn1testflag") != -1) {
             ServiceAFweb.nn1testflag = true;
         } else if (cmd.indexOf("nn2testflag") != -1) {
-            ServiceAFweb.nn2testflag = true;           
+            ServiceAFweb.nn2testflag = true;
         } else if (cmd.indexOf("nn3testflag") != -1) {
             ServiceAFweb.nn3testflag = true;
 
