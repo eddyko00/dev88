@@ -492,7 +492,7 @@ public class AccountImp {
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-                return accountdb.getEmailComObjByType(ConstantKey.INT_COM_EMAIL, length);
+                return accountdb.getEmailComObjByType(ConstantKey.INT_TYPE_COM_EMAIL, length);
             }
         }
         return null;
@@ -507,7 +507,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.getComObjByAccountIDtype(accountID, ConstantKey.INT_COM_SIGNAL, length);
+                            return accountdb.getComObjByAccountIDtype(accountID, ConstantKey.INT_TYPE_COM_SIGNAL, length);
                         }
                     }
                 }
@@ -575,6 +575,7 @@ public class AccountImp {
         return 0;
     }
 
+    
     public int removeCommByName(String UserName, String Password, String name) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
@@ -1114,7 +1115,7 @@ public class AccountImp {
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
         message.setName(name); //ConstantKey.COM_SIGNAL
-        message.setType(ConstantKey.INT_COM_EMAIL); //ConstantKey.INT_COM_SIGNAL
+        message.setType(ConstantKey.INT_TYPE_COM_EMAIL); //ConstantKey.INT_COM_SIGNAL
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
@@ -1133,7 +1134,7 @@ public class AccountImp {
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
         message.setName(name); //ConstantKey.COM_SIGNAL
-        message.setType(ConstantKey.INT_COM_SIGNAL); //ConstantKey.INT_COM_SIGNAL
+        message.setType(ConstantKey.INT_TYPE_COM_SIGNAL); //ConstantKey.INT_COM_SIGNAL
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();

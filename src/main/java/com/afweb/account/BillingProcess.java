@@ -183,12 +183,12 @@ public class BillingProcess {
                 billing.setStatus(ConstantKey.COMPLETED);
 
                 billing.setBalance(fPayment);
-                result = serviceAFWeb.getAccountImp().updateAccountBillingStatusPaymentData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), "");
+                result = serviceAFWeb.getAccountImp().updateAccountBillingStatusPaymentData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), billing.getData());
                 // transaction
                 // send email disable
                 NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                 String currency = formatter.format(fPayment);
-                msg = "The " + custName + " account payment " + currency + " completed!\r\nThank you.\r\n\r\n";
+                msg = "The " + custName + " account bill (" + billing.getId() + ") payment " + currency + " completed!\r\nThank you.\r\n\r\n";
                 sendMsg = true;
                 logger.info("Billing***Completed user " + custName + ", billing id " + billing.getId());
 
@@ -226,7 +226,7 @@ public class BillingProcess {
                         // send email reminder
                         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                         String currency = formatter.format(fPayment);
-                        msg = "The " + custName + " account has past due " + currency + " amount!\r\nPlease submit the payment now.\r\n\r\n";
+                        msg = "The " + custName + " account  bill (" + billing.getId() + ") has past due " + currency + " amount!\r\nPlease submit the payment now.\r\n\r\n";
                         sendMsg = true;
                         logger.info("Billing***PastDue user " + custName + ", billing id " + billing.getId());
                     }
@@ -239,12 +239,6 @@ public class BillingProcess {
 //            createUserBilling(serviceAFWeb, customer, billing);
 //        }
         // check for next bill
-        int retCreatebill = createUserBilling(serviceAFWeb, customer, account, billing);
-        if (retCreatebill == 1) {
-            // send email reminder            
-            msg = "The " + custName + " account billing invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
-            sendMsg = true;
-        }
 
         if (sendMsg == true) {
             String tzid = "America/New_York"; //EDT
@@ -268,7 +262,8 @@ public class BillingProcess {
             String msgD = ESTdateD + " " + msg;
             serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
         }
-
+        int retCreatebill = createUserBilling(serviceAFWeb, customer, account, billing);
+        
         return 1;
     }
 
@@ -293,8 +288,8 @@ public class BillingProcess {
             String custName = customer.getEmail();
             if ((custName == null) || (custName.length() == 0)) {
                 custName = customer.getUsername();
-            }            
-            
+            }
+
             float payment = customer.getPayment();
             float prevOwning = payment;
 
@@ -347,13 +342,36 @@ public class BillingProcess {
             float balance = 0;
             result = serviceAFWeb.getAccountImp().addAccountBilling(custName, account, payment, balance, data, billCycleDate);
 
-            int billId = 0;
-            if (billing != null) {
-                billId = billing.getId();
-            }
+            String tzid = "America/New_York"; //EDT
+            TimeZone tz = TimeZone.getTimeZone(tzid);
+            java.sql.Date d = new java.sql.Date(billCycleDate);
+            DateFormat format = new SimpleDateFormat("M/dd/yyyy");
+            format.setTimeZone(tz);
+            String billcycleESTtime = format.format(d);
+            String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
 
+            tzid = "America/New_York"; //EDT
+            tz = TimeZone.getTimeZone(tzid);
+            d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+            format = new SimpleDateFormat(" hh:mm a");
+            format.setTimeZone(tz);
+            String ESTtime = format.format(d);
 
-            logger.info("Billing***create user " + custName + ", billing id " + billId + ", payment=" + payment);
+            String msgSt = ESTtime + " " + msg;
+
+            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_ACCBILLMSG, msg);
+            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_ACCBILLMSG, msg);
+
+            // send email
+            DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+            formatD.setTimeZone(tz);
+            String ESTdateD = formatD.format(d);
+            String msgD = ESTdateD + " " + msg;
+            serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
+
+            logger.info("Billing***create user " + custName + ", billing cycle " + billcycleESTtime + ", payment=" + payment);
 
             return result;
         }

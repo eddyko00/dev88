@@ -1404,7 +1404,7 @@ public class AccountDB {
 
     public int removeCustComm(int custID) {
         try {
-            String deleteSQL = "delete from comm where customerid=" + custID + " and type=" + ConstantKey.INT_COM_SIGNAL;
+            String deleteSQL = "delete from comm where customerid=" + custID + " and type=" + ConstantKey.INT_TYPE_COM_SIGNAL;
             processExecuteDB(deleteSQL);
             return 1;
         } catch (Exception e) {
@@ -1415,7 +1415,7 @@ public class AccountDB {
 
     public int removeAccountCommSignal(int AccountID) {
         try {
-            String deleteSQL = "delete from comm where accountid=" + AccountID + " and type=" + ConstantKey.INT_COM_SIGNAL;
+            String deleteSQL = "delete from comm where accountid=" + AccountID + " and type=" + ConstantKey.INT_TYPE_COM_SIGNAL;
             processExecuteDB(deleteSQL);
             return 1;
         } catch (Exception e) {

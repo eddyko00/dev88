@@ -982,8 +982,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            systemRemoveAllEmail();
+
 //            BillingProcess billProc = new BillingProcess();
-//            billProc.processUserBillingAll(this);
+//            for (int i = 0; i < 10; i++) {
+//                billProc.processUserBillingAll(this);
+//            }
 //            ArrayList custNameList = getCustomerObjByNameList(CKey.G_USERNAME);
 //            CustomerObj customer = (CustomerObj) custNameList.get(0);
 //            billProc.updateUserBilling(this, customer);
@@ -3829,6 +3833,13 @@ public class ServiceAFweb {
             }
         }
         return getAccountImp().addAccountStockId(accountObj, stockObj.getId(), TRList);
+    }
+
+    public int systemRemoveAllEmail() {
+        getAccountImp().removeCommByName(CKey.ADMIN_USERNAME, null, ConstantKey.COM_SIGNAL);
+        getAccountImp().removeCommByName(CKey.ADMIN_USERNAME, null, ConstantKey.COM_ACCBILLMSG);
+
+        return 1;
     }
 
     public int removeAccountStock(String EmailUserName, String Password, String AccountIDSt, String symbol) {
