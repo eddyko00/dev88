@@ -100,9 +100,13 @@ var app = {
 
                 htmlName += '<br>Plan: ' + pp;
                 var balanceSt = Number(custObj.balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                var curPaySt = Number(custObj.payment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<br>Date: ' + accObj.startdate;
-                htmlName += '<br>Bal: ' + balanceSt + ' Amount paymment due: ' + curPaySt;
+                htmlName += '<br>Acc Open Date: ' + accObj.startdate;
+                htmlName += '<br>Acc Bal: ' + balanceSt;
+                if (custObj.payment != 0) {
+                    var curPaySt = Number(custObj.payment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+
+                    htmlName += ' Paymment due: <font style= color:red>' + curPaySt+ '</font>';
+                }
 
             }
             if (accObj.type == 120) { //INT_MUTUAL_FUND_ACCOUNT = 120;

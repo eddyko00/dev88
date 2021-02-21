@@ -1668,7 +1668,9 @@ public class IndexController {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                     if (nameSt != null) {
-                        ArrayList custNameList = afWebService.getCustomerObjByNameList(nameSt);
+                        NameObj nameObj = new NameObj(nameSt);
+                        String UserName = nameObj.getNormalizeName();
+                        ArrayList custNameList = afWebService.getCustomerObjByNameList(UserName);
                         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                         return custNameList;
                     }

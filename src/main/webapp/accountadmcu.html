@@ -75,7 +75,19 @@
                                             <button type="submit" id="accbalancesubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
                                         </div>
                                 </form>
-                    </div>                
+                    </div>         
+                    <a href="#popupAddPayment" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Account Payment Update</a>                   
+                    <div data-role="popup" id="popupAddPayment" data-theme="a" class="ui-corner-all">
+                            <form>
+                                    <div style="padding:0px 0px;">
+                                            <h3>Account Payment Update</h3>
+                                            <label for="un" class="ui-hidden-accessible">amount</label>
+                                            <input type="text" name="accpayment" id="accpayment" value="" placeholder="amount" data-theme="a">
+                                           
+                                            <button type="submit" id="accpaymentsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
+                                        </div>
+                                </form>
+                    </div>                     
                     <a href="#popupRemove" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Enable/Disable Status</a>
                     <div data-role="popup" id="popupRemove" data-theme="a" class="ui-corner-all">
                             <form>

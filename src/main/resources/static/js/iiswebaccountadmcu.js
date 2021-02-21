@@ -154,7 +154,6 @@ var app = {
         });
 
 
-
         $("#accbalancesubmit").click(function () {
             var accbalance = document.getElementById("accbalance").value;
             if (accbalance === "") {
@@ -177,6 +176,44 @@ var app = {
             function handleResult(result) {
                 console.log(result);
                 var resultmsg = "Account Balance Update result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'cuObjStr': cuObjStr};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmcu_1.html";
+            }
+        });
+        
+        $("#accpaymentsubmit").click(function () {
+            var accbalance = document.getElementById("accpayment").value;
+            if (accbalance === "") {
+                window.location.href = "accountadm.html";
+                return;
+            }
+
+            var customername = cuObj.username;
+            var balance = accbalance;
+            //cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance="
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/cust/" + customername
+                        + "/update?payment=" + balance,
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Account payment Update result: " + result;
                 if (result == '1') {
                     resultmsg += "  - success";
                 } else {
