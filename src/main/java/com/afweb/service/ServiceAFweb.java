@@ -1768,7 +1768,6 @@ public class ServiceAFweb {
         return loginObj;
     }
 
-
     // result 1 = success, 2 = existed,  0 = fail
     public LoginObj updateCustomerPassword(String EmailUserName, String AccountID, String Email, String Password, String FirstName, String LastName, String Plan) {
 
@@ -1901,6 +1900,30 @@ public class ServiceAFweb {
         String UserName = nameObj.getNormalizeName();
         custObj = getAccountImp().getCustomerPassword(UserName, Password);
 
+        LoginObj loginObj = new LoginObj();
+        loginObj.setCustObj(custObj);
+        WebStatus webStatus = new WebStatus();
+        webStatus.setResultID(1);
+        if (custObj == null) {
+            webStatus.setResultID(0);
+        }
+        loginObj.setWebMsg(webStatus);
+        return loginObj;
+
+    }
+
+    public LoginObj getCustomerAccLogin(String EmailUserName, String AccountIDSt) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        CustomerObj custObj = null;
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, null, AccountIDSt);
+        if (accountObj != null) {
+            custObj = getAccountImp().getCustomerPassword(UserName, null);
+        }
         LoginObj loginObj = new LoginObj();
         loginObj.setCustObj(custObj);
         WebStatus webStatus = new WebStatus();

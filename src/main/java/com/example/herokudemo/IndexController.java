@@ -66,7 +66,7 @@ public class IndexController {
         arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
         arrayString.add("/cust/login?email={email}&pass={pass}");
         arrayString.add("/cust/{username}/login&pass={pass}");
-        
+
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
 
@@ -77,8 +77,9 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
-        arrayString.add("/cust/{username}/acc/{accountid}/updatecust?email=&pass=&firstName=&lastName=&plan=");
         
+        arrayString.add("/cust/{username}/acc/{accountid}/custacc");        
+        arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
         arrayString.add("/cust/{username}/acc/{accountid}/st?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
@@ -410,9 +411,8 @@ public class IndexController {
         return loginObj;
     }
 
-
-    //"/cust/{username}/acc/{accountid}/updatecust?email=&pass=&firstName=&lastName=&plan="
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/updatecust", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //"/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan="
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/custupdate", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     LoginObj updateCustomerPassword(
             @PathVariable("username") String username,
@@ -436,6 +436,30 @@ public class IndexController {
         }
 //       SUCC = 1;  EXISTED = 2; FAIL =0;
         LoginObj loginObj = afWebService.updateCustomerPassword(username, accountid, emailSt, passSt, firstNameSt, lastNameSt, planSt);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return loginObj;
+    }
+
+    //"/cust/{username}/acc/{accountid}/custacc"
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/custacc", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    LoginObj getCustomerAcc(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            LoginObj loginObj = new LoginObj();
+            loginObj.setCustObj(null);
+            WebStatus webStatus = new WebStatus();
+            webStatus.setResultID(100);
+            loginObj.setWebMsg(webStatus);
+            return loginObj;
+        }
+//       SUCC = 1;  EXISTED = 2; FAIL =0;
+        LoginObj loginObj = afWebService.getCustomerAccLogin(username, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
     }
