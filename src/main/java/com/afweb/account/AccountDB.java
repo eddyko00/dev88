@@ -233,10 +233,10 @@ public class AccountDB {
         return null;
     }
 
-    public static String SQLUupdateCustAllStatus(CustomerObj acc) {
-        String sqlCMD = "update customer set status=" + acc.getStatus() + ",substatus=" + acc.getSubstatus()
-                + ",payment=" + acc.getPayment() + ",balance=" + acc.getBalance()
-                + " where id=" + acc.getId();
+    public static String SQLUupdateCustAllStatus(CustomerObj cust) {
+        String sqlCMD = "update customer set status=" + cust.getStatus() + ",substatus=" + cust.getSubstatus()
+                + ",payment=" + cust.getPayment() + ",balance=" + cust.getBalance()
+                + " where id=" + cust.getId();
         return sqlCMD;
     }
 
@@ -362,6 +362,35 @@ public class AccountDB {
             return ConstantKey.NEW;
         } catch (Exception e) {
             logger.info("> addCustomer exception " + e.getMessage());
+
+        }
+        return 0;
+    }
+
+    public int updateCustomer(CustomerObj newC) {
+        try {
+
+            String userN = newC.getUsername();
+            userN = userN.toUpperCase();
+            CustomerObj cust = getCustomer(userN, null);
+
+            if (cust != null) {
+                int status = cust.getStatus();
+                if (status != ConstantKey.OPEN) {
+                    return 0;
+                }
+
+                String sqlCMD = "update customer set password='" + newC.getPassword() + "',"
+                        + ",email='" + newC.getEmail() + "',"
+                        + ",firstname='" + newC.getFirstname() + "',lastname='" + newC.getLastname() + "'"
+                        + " where id=" + cust.getId();
+
+                processUpdateDB(sqlCMD);
+                return 1;
+            }
+
+        } catch (Exception e) {
+            logger.info("> updateCustomer exception " + e.getMessage());
 
         }
         return 0;
@@ -1503,15 +1532,29 @@ public class AccountDB {
         return sqlCMD;
     }
 
-    public static String SQLUpdateAccountPortfoli(String accountName, String portfolio) {
-        String sqlCMD = "update account set portfolio='" + portfolio + "'"
-                + " where accountname='" + accountName + "'";
-        return sqlCMD;
+//    public static String SQLUpdateAccountPortfoli(String accountName, String portfolio) {
+//        String sqlCMD = "update account set portfolio='" + portfolio + "'"
+//                + " where accountname='" + accountName + "'";
+//        return sqlCMD;
+//    }
+    public int updateCustomerPortfolio(String username, String portfolio) {
+        portfolio = portfolio.replaceAll("\"", "#");
+        String sqlCMD = "update customer set portfolio='" + portfolio + "'"
+                + " where username='" + username + "'";
+        try {
+            processUpdateDB(sqlCMD);
+            return 1;
+        } catch (Exception ex) {
+            logger.info("> updateCustomerPortfolio exception " + ex.getMessage());
+        }
+        return 0;
     }
 
     public int updateAccountPortfolio(String accountName, String portfolio) {
         portfolio = portfolio.replaceAll("\"", "#");
-        String sqlCMD = SQLUpdateAccountPortfoli(accountName, portfolio);
+
+        String sqlCMD = "update account set portfolio='" + portfolio + "'"
+                + " where accountname='" + accountName + "'";
         try {
             processUpdateDB(sqlCMD);
             return 1;

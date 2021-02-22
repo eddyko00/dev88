@@ -298,6 +298,14 @@ public class AccountImp {
         return account;
     }
 
+    public int updateCustomer(CustomerObj newC) {
+        return accountdb.updateCustomer(newC);
+    }
+
+    public int updateCustomerPortfolio(String customerName, String portfolio) {
+        return accountdb.updateCustomerPortfolio(customerName, portfolio);
+    }
+
     public int updateAccountPortfolio(String accountName, String portfolio) {
         return accountdb.updateAccountPortfolio(accountName, portfolio);
     }
@@ -575,7 +583,6 @@ public class AccountImp {
         return 0;
     }
 
-    
     public int removeCommByName(String UserName, String Password, String name) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);

@@ -983,7 +983,6 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 //            systemRemoveAllEmail();
-
 //            BillingProcess billProc = new BillingProcess();
 //            for (int i = 0; i < 10; i++) {
 //                billProc.processUserBillingAll(this);
@@ -1763,6 +1762,77 @@ public class ServiceAFweb {
             this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
 //            
             webStatus.setResultID(result);
+            return loginObj;
+        }
+        webStatus.setResultID(0);
+        return loginObj;
+    }
+
+    // result 1 = success, 2 = existed,  0 = fail
+    public LoginObj updateCustomerPassword(String EmailUserName, String custid, String Email, String Password, String FirstName, String LastName, String Plan) {
+
+        CustomerObj custObj = null;
+        LoginObj loginObj = new LoginObj();
+        loginObj.setCustObj(null);
+        WebStatus webStatus = new WebStatus();
+        webStatus.setResultID(0);
+        loginObj.setWebMsg(webStatus);
+        if (getServerObj().isSysMaintenance() == true) {
+            return loginObj;
+        }
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+
+        custObj = getAccountImp().getCustomerPassword(UserName, null);
+        if (custObj == null) {
+            return loginObj;
+        }
+        if (custObj != null) {
+            if (custObj.getStatus() != ConstantKey.OPEN) {
+                return loginObj;
+            }
+
+            if (custid.equals(custObj.getId() + "")) {
+                if ((Email != null) && (Email.length() > 0)) {
+                    boolean validEmail = NameObj.isEmailValid(Email);
+                    if (validEmail == true) {
+                        custObj.setEmail(Email);
+                    }
+                }
+                if ((Password != null) && (Password.length() > 0)) {
+                    custObj.setPassword(Password);
+                }
+                if ((FirstName != null) && (FirstName.length() > 0)) {
+                    custObj.setFirstname(FirstName);
+                }
+                if ((LastName != null) && (LastName.length() > 0)) {
+                    custObj.setLastname(LastName);
+                }
+                if ((Plan != null) && (Plan.length() > 0)) {
+                    try {
+                        int planid = Integer.parseInt(Plan);
+                        // update pending plan
+                    } catch (Exception e) {
+                    }
+                }
+                int result = getAccountImp().updateCustomer(custObj);
+                String tzid = "America/New_York"; //EDT
+                TimeZone tz = TimeZone.getTimeZone(tzid);
+                AccountObj accountAdminObj = getAdminObjFromCache();
+                Calendar dateNow = TimeConvertion.getCurrentCalendar();
+                long dateNowLong = dateNow.getTimeInMillis();
+                java.sql.Date d = new java.sql.Date(dateNowLong);
+                DateFormat format = new SimpleDateFormat(" hh:mm a");
+                format.setTimeZone(tz);
+                String ESTdate = format.format(d);
+                String msg = ESTdate + " " + custObj.getUsername() + " Cust update Result:" + result;
+                this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+//                            
+                webStatus.setResultID(result);
+            }
+
+//        loginObj.setCustObj(custObj);
+            loginObj.setWebMsg(webStatus);
             return loginObj;
         }
         webStatus.setResultID(0);

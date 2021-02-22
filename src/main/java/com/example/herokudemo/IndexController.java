@@ -66,6 +66,8 @@ public class IndexController {
         arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
         arrayString.add("/cust/login?email={email}&pass={pass}");
         arrayString.add("/cust/{username}/login&pass={pass}");
+        arrayString.add("/cust/{username}/custid/{custid}/update?email=&pass=&firstName=&lastName=&plan=");
+        
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
 
@@ -404,6 +406,35 @@ public class IndexController {
             return null;
         }
         LoginObj loginObj = afWebService.getCustomerLogin(username, passSt);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return loginObj;
+    }
+
+    //"/cust/{username}/custid/{custid}/update?email=&pass=&firstName=&lastName=&plan="
+    @RequestMapping(value = "/cust/{username}/custid/{custid}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    LoginObj addCustomerPassword(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custid,
+            @RequestParam(value = "email", required = false) String emailSt,
+            @RequestParam(value = "pass", required = false) String passSt,
+            @RequestParam(value = "firstName", required = false) String firstNameSt,
+            @RequestParam(value = "lastName", required = false) String lastNameSt,
+            @RequestParam(value = "plan", required = false) String planSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            LoginObj loginObj = new LoginObj();
+            loginObj.setCustObj(null);
+            WebStatus webStatus = new WebStatus();
+            webStatus.setResultID(100);
+            loginObj.setWebMsg(webStatus);
+            return loginObj;
+        }
+//       SUCC = 1;  EXISTED = 2; FAIL =0;
+        LoginObj loginObj = afWebService.updateCustomerPassword(username, custid, emailSt, passSt, firstNameSt, lastNameSt, planSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
     }
@@ -2108,7 +2139,7 @@ public class IndexController {
         return 0;
     }
 
-    ///cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance="
+    //"/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance="
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateCustAllStatus(
@@ -2137,31 +2168,6 @@ public class IndexController {
         return 0;
     }
 
-//    //cust/{username}/sys/cust/{customername}/update?status=&payment=&balance=");
-//    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    int updateCustAllStatus(
-//            @PathVariable("username") String username,
-//            @PathVariable("customername") String customername,
-//            @RequestParam(value = "status", required = true) String statusSt,
-//            @RequestParam(value = "payment", required = true) String paymentSt,
-//            @RequestParam(value = "balance", required = true) String balanceSt
-//    ) {
-//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-//        if (customername == null) {
-//            return 0;
-//        }
-//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-//        if (cust != null) {
-//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-//                //updating the real customer in custSt not the addmin user
-//                int result = afWebService.updateCustAllStatus(customername, statusSt, paymentSt, balanceSt);
-//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-//                return result;
-//            }
-//        }
-//        return 0;
-//    }
     /////////////////////////////////////////////////////////////////////////    
     @RequestMapping(value = "/timer")
     public ModelAndView timerPage() {
