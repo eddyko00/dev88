@@ -361,11 +361,17 @@ public class ProcessNN1 {
                 confident += 30;
             } else {
 //                logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
-
             }
-
             nnSignal = trendSignal;
         }
+        if (nnSignal != prevSignal) {
+            int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+            if (nnSignal == retSignal) {
+                confident += 10;
+            }
+            nnSignal = retSignal;
+        }
+
         trObj.setTrsignal(nnSignal);
         trHistory.setTrsignal(nnSignal);
         trHistory.setParm1((float) macdNN.macd); // getNNnormalizeInput must be set to macd vaule for NN input
@@ -452,13 +458,20 @@ public class ProcessNN1 {
                     // signal change double check wiht NN trend
                     int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
                     //override the previous NN1 prediction
-
                     if (nnSignal == trendSignal) {
                         confident += 30;
                     }
                     nnSignal = trendSignal;
                 }
 
+                if (nnSignal != prevSignal) {
+                    int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+                    if (nnSignal == retSignal) {
+                        confident += 10;
+                    }
+                    nnSignal = retSignal;
+                }
+                
                 if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
                     String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
                     if (prevSignal == ConstantKey.S_SELL) {
@@ -480,7 +493,7 @@ public class ProcessNN1 {
         return null;
     }
 
-    // stop loss 
+    // check stop loss
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
 
@@ -516,6 +529,7 @@ public class ProcessNN1 {
         return 0;
     }
 
+    // check current trend change
     public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
         NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, tradingRuleList, StockArray, offset);
         if (nn != null) {
@@ -592,6 +606,28 @@ public class ProcessNN1 {
             }
         }
         return nnSignal;
+    }
+    
+    // check current day change
+    public int specialOverrideRule4(int newSignal, int preSignal, ArrayList StockArray, int offset) {
+
+        AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+        float StClose = stockinfo.getFclose();
+        AFstockInfo stockinfoPrev = (AFstockInfo) StockArray.get(offset + 1);
+        float StClosePrev = stockinfoPrev.getFclose();
+
+        float delPer = 100 * (StClose - StClosePrev) / StClosePrev;
+
+        if (newSignal == ConstantKey.S_BUY) {
+            if (delPer < -3) {
+                return preSignal;
+            }
+        } else if (newSignal == ConstantKey.S_SELL) {
+            if (delPer > 3) {
+                return preSignal;
+            }
+        }
+        return newSignal;
     }
 
 /////////////////////////////////////////////////////////

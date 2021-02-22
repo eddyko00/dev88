@@ -474,10 +474,17 @@ public class ProcessNN2 {
                 confident += 30;
             } else {
 //                logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
-
             }
             nnSignal = trendSignal;
         }
+        if (nnSignal != prevSignal) {
+            int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+            if (nnSignal == retSignal) {
+                confident += 10;
+            }
+            nnSignal = retSignal;
+        }
+        
         trObj.setTrsignal(nnSignal);
         trHistory.setTrsignal(nnSignal);
 //        trHistory.setParm1((float) adxObj.adx); // getNNnormalizeInput must be set to macd vaule for NN input
@@ -574,13 +581,20 @@ public class ProcessNN2 {
                     // signal change double check wiht NN trend
                     int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
                     //override the previous NN1 prediction
-
                     if (nnSignal == trendSignal) {
                         confident += 30;
                     }
                     nnSignal = trendSignal;
                 }
-
+                
+                if (nnSignal != prevSignal) {
+                    int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+                    if (nnSignal == retSignal) {
+                        confident += 10;
+                    }
+                    nnSignal = retSignal;
+                }
+                
                 if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
                     String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
                     if (prevSignal == ConstantKey.S_SELL) {
@@ -601,6 +615,7 @@ public class ProcessNN2 {
         return null;
     }
 
+    // check stop loss
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
 //        if (true) {
 //            return 0;
@@ -640,6 +655,7 @@ public class ProcessNN2 {
     }
 
     // return signal
+    // check current trend change
     public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
 //        if (true) {
 //            return nnSignal;
@@ -663,7 +679,6 @@ public class ProcessNN2 {
                         if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
                             nn = nn1;
                             break;
-
                         }
 
                     }
@@ -724,28 +739,28 @@ public class ProcessNN2 {
         return nnSignal;
     }
 
-//    public int specialOverrideRule4(ADXObj adxObj, int currSignal, float thClose, float StClose) {
-//        if (true) {
-//            return currSignal;
-//        }
-//        float delPer = 100 * (StClose - thClose) / thClose;
-//        float adxValue = (float) adxObj.adx;
-//        adxValue = Math.abs(adxValue);
-//        if (adxValue > 100) {
-//            if (currSignal == ConstantKey.S_BUY) {
-//                if (adxObj.adx < 100) {
-//                    return ConstantKey.S_SELL;
-//                }
-//            } else if (currSignal == ConstantKey.S_SELL) {
-//                if (adxObj.adx > 100) {
-//                    return ConstantKey.S_BUY;
-//                }
-//            }
-//        }
-//
-//        return currSignal;
-//
-//    }
+    // check current day change
+    public int specialOverrideRule4(int newSignal, int preSignal, ArrayList StockArray, int offset) {
+
+        AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+        float StClose = stockinfo.getFclose();
+        AFstockInfo stockinfoPrev = (AFstockInfo) StockArray.get(offset + 1);
+        float StClosePrev = stockinfoPrev.getFclose();
+
+        float delPer = 100 * (StClose - StClosePrev) / StClosePrev;
+
+        if (newSignal == ConstantKey.S_BUY) {
+            if (delPer < -3) {
+                return preSignal;
+            }
+        } else if (newSignal == ConstantKey.S_SELL) {
+            if (delPer > 3) {
+                return preSignal;
+            }
+        }
+        return newSignal;
+    }
+
     ////////////////////////////////////////////////////////
     public ArrayList<NNInputDataObj> getAccountStockTRListHistoryEMANN2(ArrayList<StockTRHistoryObj> thObjListEMA, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListMACD,
             String stockidsymbol, NNTrainObj nnTraining, boolean lastDateOutput) {

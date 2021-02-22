@@ -1090,7 +1090,7 @@ public class ServiceAFweb {
 //            }
 //
 ///////////////////////////////////////////////////////////////////////
-//            symbol = "IWM";
+//            symbol = "HOU.TO";
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
@@ -1098,7 +1098,7 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-////            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+//            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //
 //            symbol = "T.TO";
 //            AccountObj account = getAccountImp().getAccountByType("GUEST", null, AccountObj.INT_TRADING_ACCOUNT);
