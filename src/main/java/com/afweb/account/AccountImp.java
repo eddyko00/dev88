@@ -298,8 +298,22 @@ public class AccountImp {
         return account;
     }
 
-    public int updateCustomer(CustomerObj newC) {
-        return accountdb.updateCustomer(newC);
+    // success 1, fail 0
+    public int updateCustomer(CustomerObj newC, int accountid) {
+
+        ArrayList accountList = accountdb.getAccountByCustomerID(newC.getId());
+        if (accountList != null) {
+            if (accountList.size() > 0) {
+                for (int i = 0; i < accountList.size(); i++) {
+                    AccountObj accountObj = (AccountObj) accountList.get(i);
+                    if (accountObj.getId() == accountid) {
+                        return accountdb.updateCustomer(newC);
+                    }
+                }
+            }
+        }
+
+        return 0;
     }
 
     public int updateCustomerPortfolio(String customerName, String portfolio) {

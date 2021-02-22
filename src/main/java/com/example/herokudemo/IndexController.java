@@ -66,12 +66,10 @@ public class IndexController {
         arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
         arrayString.add("/cust/login?email={email}&pass={pass}");
         arrayString.add("/cust/{username}/login&pass={pass}");
-        arrayString.add("/cust/{username}/custid/{custid}/update?email=&pass=&firstName=&lastName=&plan=");
         
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
 
-//        arrayString.add("/cust/{username}/acc/{accountid}/update?substatus=&payment=&balance=&servicefee=");
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
@@ -79,6 +77,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
+        arrayString.add("/cust/{username}/acc/{accountid}/updatecust?email=&pass=&firstName=&lastName=&plan=");
+        
 
         arrayString.add("/cust/{username}/acc/{accountid}/st?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
@@ -410,12 +410,13 @@ public class IndexController {
         return loginObj;
     }
 
-    //"/cust/{username}/custid/{custid}/update?email=&pass=&firstName=&lastName=&plan="
-    @RequestMapping(value = "/cust/{username}/custid/{custid}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+
+    //"/cust/{username}/acc/{accountid}/updatecust?email=&pass=&firstName=&lastName=&plan="
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/updatecust", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    LoginObj addCustomerPassword(
+    LoginObj updateCustomerPassword(
             @PathVariable("username") String username,
-            @PathVariable("custid") String custid,
+            @PathVariable("accountid") String accountid,
             @RequestParam(value = "email", required = false) String emailSt,
             @RequestParam(value = "pass", required = false) String passSt,
             @RequestParam(value = "firstName", required = false) String firstNameSt,
@@ -434,7 +435,7 @@ public class IndexController {
             return loginObj;
         }
 //       SUCC = 1;  EXISTED = 2; FAIL =0;
-        LoginObj loginObj = afWebService.updateCustomerPassword(username, custid, emailSt, passSt, firstNameSt, lastNameSt, planSt);
+        LoginObj loginObj = afWebService.updateCustomerPassword(username, accountid, emailSt, passSt, firstNameSt, lastNameSt, planSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
     }

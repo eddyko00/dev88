@@ -1768,8 +1768,9 @@ public class ServiceAFweb {
         return loginObj;
     }
 
+
     // result 1 = success, 2 = existed,  0 = fail
-    public LoginObj updateCustomerPassword(String EmailUserName, String custid, String Email, String Password, String FirstName, String LastName, String Plan) {
+    public LoginObj updateCustomerPassword(String EmailUserName, String AccountID, String Email, String Password, String FirstName, String LastName, String Plan) {
 
         CustomerObj custObj = null;
         LoginObj loginObj = new LoginObj();
@@ -1788,9 +1789,6 @@ public class ServiceAFweb {
             return loginObj;
         }
         if (custObj.getStatus() != ConstantKey.OPEN) {
-            return loginObj;
-        }
-        if (!custid.equals(custObj.getId() + "")) {
             return loginObj;
         }
 
@@ -1816,7 +1814,13 @@ public class ServiceAFweb {
             } catch (Exception e) {
             }
         }
-        int result = getAccountImp().updateCustomer(custObj);
+        int result = 0;
+        try {
+            int accountid = Integer.parseInt(AccountID);
+            result = getAccountImp().updateCustomer(custObj, accountid);
+        } catch (Exception e) {
+        }
+
         String tzid = "America/New_York"; //EDT
         TimeZone tz = TimeZone.getTimeZone(tzid);
         AccountObj accountAdminObj = getAdminObjFromCache();
