@@ -750,11 +750,11 @@ public class ProcessNN2 {
         float delPer = 100 * (StClose - StClosePrev) / StClosePrev;
 
         if (newSignal == ConstantKey.S_BUY) {
-            if (delPer < -3) {
+            if (delPer < -1.1) {
                 return preSignal;
             }
         } else if (newSignal == ConstantKey.S_SELL) {
-            if (delPer > 3) {
+            if (delPer > 1.1) {
                 return preSignal;
             }
         }
