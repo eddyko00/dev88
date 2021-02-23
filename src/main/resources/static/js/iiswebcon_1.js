@@ -9,7 +9,6 @@ var app = {
         });
 
 //        var iisurl = "https://iiswebsrv.herokuapp.com/";
-        var iisMsgSession = "iisMsgSession";
         var iisWebSession = "iisWebSession";
 //        var custObj = 'custObj';
 //        var accList = 'accList';
@@ -28,6 +27,10 @@ var app = {
         var accObjListStr = iisWebObj.accObjListStr;
         var accId = iisWebObj.accId;
         console.log(accId);
+
+        var iisMsgSession = "iisMsgSession";
+        var msgObjStr = window.localStorage.getItem(iisMsgSession);
+
         $.ajax({
             url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/custacc",
             crossDomain: true,
@@ -47,7 +50,8 @@ var app = {
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "config.html";
+                window.localStorage.setItem(iisMsgSession, msgObjStr);
+                window.location.href = "conf.html";
             }
         });
     }

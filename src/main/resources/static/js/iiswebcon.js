@@ -15,7 +15,7 @@ var app = {
 //            
             document.getElementById("txt-first-name").setAttribute('value', custObj.firstname);
             document.getElementById("txt-last-name").setAttribute('value', custObj.lastname);
-            
+
             document.getElementById("txt-email-address-signup").setAttribute('value', custObj.email);
             document.getElementById("txt-password-signup").setAttribute('value', custObj.password);
 
@@ -45,13 +45,21 @@ var app = {
         if (custObjStr == null) {
             window.location.href = "index.html";
         }
-        
+
         var custObj = JSON.parse(custObjStr);
         var accObjListStr = iisWebObj.accObjListStr;
         var accId = iisWebObj.accId;
         console.log(accId);
 
-      $("#btn-submit").click(function () {
+        var iisMsgSession = "iisMsgSession";
+        var msgObjStr = window.localStorage.getItem(iisMsgSession);
+//        msgObjStr ="This feature does not allow for GUEST account";
+        if (msgObjStr !== "") {
+            functionAlertConfirm(msgObjStr, function ok() {
+            });
+        }
+
+        $("#btn-submit").click(function () {
             var txtfirstname = document.getElementById("txt-first-name").value;
             var txtlastname = document.getElementById("txt-last-name").value;
             var txtemailaddress = document.getElementById("txt-email-address-signup").value;
@@ -74,11 +82,23 @@ var app = {
                 var webMsg = result.webMsg;
                 console.log(webMsg);
                 var resultID = webMsg.resultID;
-                
+
+                msgObjStr = '';
+                // 0 - general fail, 1 - successful, 2 - email fail 3 - password
+                if (resultID === 0) {
+                    msgObjStr = "Update failed. Please try again.";
+                }
+                if (resultID === 2) {
+                    msgObjStr = "Update failed. Please correct the email address.";
+                }
+                if (resultID === 3) {
+                    msgObjStr = "Update failed. Please use another password.";
+                }                
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "config_1.html";                
-   
+                 window.localStorage.setItem(iisMsgSession, msgObjStr);
+                window.location.href = "conf_1.html";
+
             }
         });
 

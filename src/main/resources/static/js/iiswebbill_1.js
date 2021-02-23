@@ -48,7 +48,7 @@ var app = {
                 var billObjListStr = JSON.stringify(resultBillingList, null, '\t');
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 'billObjListStr': billObjListStr};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "billing.html";
+                window.location.href = "bill.html";
             }
         });
     }

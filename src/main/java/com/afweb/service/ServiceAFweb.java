@@ -1796,10 +1796,15 @@ public class ServiceAFweb {
             boolean validEmail = NameObj.isEmailValid(Email);
             if (validEmail == true) {
                 custObj.setEmail(Email);
+            } else {
+                // error code 2 for invalid email address
+                webStatus.setResultID(2);
+                return loginObj;
             }
         }
         if ((Password != null) && (Password.length() > 0)) {
             custObj.setPassword(Password);
+            // error code 3 for invalid password
         }
         if ((FirstName != null) && (FirstName.length() > 0)) {
             custObj.setFirstname(FirstName);
@@ -1812,6 +1817,7 @@ public class ServiceAFweb {
                 int planid = Integer.parseInt(Plan);
                 // update pending plan
             } catch (Exception e) {
+                
             }
         }
         int result = 0;
