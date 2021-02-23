@@ -60,11 +60,11 @@ public class BillingProcess {
             return;
         }
 
-        String printName = "";
-        for (int i = 0; i < custProcessNameArray.size(); i++) {
-            printName += custProcessNameArray.get(i) + ",";
-        }
-        logger.info("processUserBillingAll " + printName);
+//        String printName = "";
+//        for (int i = 0; i < custProcessNameArray.size(); i++) {
+//            printName += custProcessNameArray.get(i) + ",";
+//        }
+//        logger.info("processUserBillingAll " + printName);
 
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
