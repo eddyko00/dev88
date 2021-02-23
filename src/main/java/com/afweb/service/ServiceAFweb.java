@@ -1090,14 +1090,14 @@ public class ServiceAFweb {
 //            }
 //
 ///////////////////////////////////////////////////////////////////////
-            symbol = "HOU.TO";
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
-
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//            symbol = "HOU.TO";
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+////            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
+//
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
             
 //            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //

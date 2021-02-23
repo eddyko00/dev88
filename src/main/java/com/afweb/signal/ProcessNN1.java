@@ -466,12 +466,17 @@ public class ProcessNN1 {
 
                 if (nnSignal != prevSignal) {
                     int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+//                    if (ServiceAFweb.mydebugtestflag == true) {
+//                        if (stock.getSymbol().equals("HOU.TO")) {
+//                            logger.info("> updateAdminTradingsignalnn1 " + ", offset=" + offset + ", retSignal=" + retSignal + ", nnSignal=" + nnSignal);
+//                        }
+//                    }
                     if (nnSignal == retSignal) {
                         confident += 10;
                     }
                     nnSignal = retSignal;
                 }
-                
+
                 if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
                     String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
                     if (prevSignal == ConstantKey.S_SELL) {
@@ -607,7 +612,7 @@ public class ProcessNN1 {
         }
         return nnSignal;
     }
-    
+
     // check current day change
     public int specialOverrideRule4(int newSignal, int preSignal, ArrayList StockArray, int offset) {
 
