@@ -105,7 +105,7 @@ var app = {
                 if (custObj.payment != 0) {
                     var curPaySt = Number(custObj.payment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
 
-                    htmlName += ' Paymment due: <font style= color:red>' + curPaySt+ '</font>';
+                    htmlName += ' Paymment due: <font style= color:red>' + curPaySt + '</font>';
                 }
 
             }
@@ -196,53 +196,8 @@ var app = {
                 'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountadm_1.html";
-//            $.ajax({
-//                url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/comm",
-//
-//                crossDomain: true,
-//                cache: false,
-//                success: function (resultCommAdmObjList) {
-//                    console.log(resultCommAdmObjList);
-//                    if (resultCommAdmObjList !== "") {
-//                        ;
-//                    } else {
-//                        window.location.href = "#page-index";
-//                        return;
-//                    }
-//                    var commAdmObjListStr = JSON.stringify(resultCommAdmObjList, null, '\t');
-//                    console.log(commAdmObjListStr);
-//                    if (commAdmObjListStr !== "") {
-//                        var commAdmObjList = JSON.parse(commAdmObjListStr);
-//
-//                        var htmlhead = '<div class="ui-grid-b">';
-//                        htmlhead += '<div class="ui-block-a" style="width:30%"><strong>Date</strong></div>';
-//                        htmlhead += '<div class="ui-block-b" style="width:5%"></div>';
-//                        htmlhead += '<div class="ui-block-c">Msg</div>';
-//                        htmlhead += '</div>';
-//
-//                        $("#admmsgid").html('<li id="0" >' + htmlhead + '</li>');
-//
-//                        for (i = 0; i < commAdmObjList.length; i++) {
-//                            var commObj = commAdmObjList[i];
-//                            var commId = commObj.id;
-//
-//                            var htmlName = '<div class="ui-grid-b">';
-//                            htmlName += '<div class="ui-block-a" style="width:30%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
-//                            htmlName += '<div class="ui-block-b" style="width:5%"> </div>';
-//                            htmlName += '<div class="ui-block-c">id:' + commId + " " + commObj.data + '</div>';
-//                            htmlName += '</div>';
-//
-//                            $("#admmsgid").append('<li id="' + commId + '" >' + htmlName + '</li>');
-//
-//                        }
-//                        window.location.href = "#page-admmsg";
-//                        return;
-//                    }
-//
-//                }
-//            });
         });
-
+/////////////////
         $("#admclrbtn").click(function () {
 
             var accObjList = JSON.parse(accObjListStr);
@@ -275,7 +230,22 @@ var app = {
                 msgObjStr = "This feature does not allow for GUEST account";
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "account.html";
+                return;
             }
+            var accObjList = JSON.parse(accObjListStr);
+
+            var accObj = null;
+            for (i = 0; i < accObjList.length; i++) {
+                var accObjTmp = accObjList[i];
+                if (accObjTmp.type == 110) { //INT_TRADING_ACCOUNT
+                    accObj = accObjTmp;
+                    break;
+                }
+            }
+            var accId = accObj.id;
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "config_1.html";
         });
 
         $("#invoicebtn").click(function () {

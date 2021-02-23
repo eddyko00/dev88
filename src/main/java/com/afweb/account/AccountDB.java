@@ -380,8 +380,8 @@ public class AccountDB {
                     return 0;
                 }
 
-                String sqlCMD = "update customer set password='" + newC.getPassword() + "',"
-                        + ",email='" + newC.getEmail() + "',"
+                String sqlCMD = "update customer set password='" + newC.getPassword() + "'"
+                        + ",email='" + newC.getEmail() + "'"
                         + ",firstname='" + newC.getFirstname() + "',lastname='" + newC.getLastname() + "'"
                         + " where id=" + cust.getId();
 
