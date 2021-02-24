@@ -61,7 +61,7 @@
             #confirm .message {
                 text-align: left;
             }
-            
+
             #alertconfirm {
                 display: none;
                 background-color: #f2f4ef;
@@ -76,7 +76,7 @@
                 box-sizing: border-box;
                 text-align: center;
             }
-            
+
             #alertconfirm button {
                 background-color: #3388cc;
                 display: inline-block;
@@ -92,8 +92,8 @@
                 text-align: left;
             }
         </style>        
-         
-        
+
+
     </head>
     <body>
         <div data-role="page" id="page-index">
@@ -113,16 +113,19 @@
                 <label for="txt-last-name">Last Name</label>
                 <input type="text" name="txt-last-name" id="txt-last-name" value="">
                 <label for="txt-email-address">Email Address</label>
-                <input type="text" name="txt-email-address-signup" id="txt-email-address-signup" value="">
+                <input type="text" name="txt-email-address" id="txt-email-address" value="">
                 <label for="txt-password">Password</label>
-                <input type="password" name="txt-password-signup" id="txt-password-signup" value="">
-                <!--<a href="#dlg-sign-up-sent" data-rel="popup" data-transition="pop" data-position-to="window" id="btn-submit" class="ui-btn ui-btn-b ui-corner-all mc-top-margin-1-5">Submit</a>-->
+                <input type="password" name="txt-password" id="txt-password" value="">
 
-
-                <label for="pricemodel">
-                    Please note that the plan change will be effective in the next bill cycle. </label>
+                <label for="txt-first-name">Current Plan</label>
+                <input type="text" name="txt-cur-plan" id="txt-cur-plan" value="" readonly>
+                <br>
+                <label for="pricemodel">Note that changing the plan will be effective in the next bill cycle. </label>
                 <select id="pricemodel">
-                    <option value="P_BASIC">Basic Price plan - $30 for max 2 stocks.</option>
+                    <option value="-1"> No price plan change.</option>                       
+                    <option value="0"> $30 - Basic Price plan for max 2 stocks.</option>                    
+                    <option value="10"> $60 - Premium Price plan for max 10 stocks.</option>
+                    <option value="20">$100 - Deluxe Price plan for max 20 stocks.</option>
                 </select>
                 <P></P> 
                 <font color="red">

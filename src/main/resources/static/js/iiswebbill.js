@@ -39,7 +39,7 @@ var app = {
         for (i = 0; i < billObjList.length; i++) {
             var billObj = billObjList[i];
             console.log(billObj);
-   
+
             var billId = billObj.id;
 
             var htmlName = '';
@@ -64,15 +64,16 @@ var app = {
                         var detailObj = JSON.parse(dataSt);
                         if (detailObj != null) {
                             htmlName += '<br><br>Plan:' + detailObj.feat;
-                            var currencySt = Number(detailObj.prevOwn).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-
-                            htmlName += '<br>Previous outstanding:' + currencySt;
-
-                            currencySt = Number(detailObj.curPaym).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                            var currencySt = Number(detailObj.curPaym).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                             htmlName += '<br>Current payment:' + currencySt;
 
-                            currencySt = Number(detailObj.prevOwn + detailObj.curPaym).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                            htmlName += '<br>Total amount:' + currencySt;
+                            currencySt = Number(detailObj.prevOwn).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                            htmlName += '<br>Previous outstanding:' + currencySt;
+                            currencySt = Number(detailObj.service).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                            htmlName += '<br>Other service:' + currencySt;
+
+//                            currencySt = Number(detailObj.prevOwn + detailObj.curPaym).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+//                            htmlName += '<br>Total amount:' + currencySt;
                         }
                     }
                 }

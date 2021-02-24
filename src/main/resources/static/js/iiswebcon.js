@@ -16,8 +16,18 @@ var app = {
             document.getElementById("txt-first-name").setAttribute('value', custObj.firstname);
             document.getElementById("txt-last-name").setAttribute('value', custObj.lastname);
 
-            document.getElementById("txt-email-address-signup").setAttribute('value', custObj.email);
-            document.getElementById("txt-password-signup").setAttribute('value', custObj.password);
+            document.getElementById("txt-email-address").setAttribute('value', custObj.email);
+            document.getElementById("txt-password").setAttribute('value', custObj.password);
+
+            var pp = "Basic Plan - Max 2 stocks";
+            if (custObj.substatus == 0) {
+                pp = "Basic Plan - Max 2 stocks";
+            } else if (custObj.substatus == 10) {
+                pp = "Premium Plan - Max 10 stocks";
+            } else if (custObj.substatus == 20) {
+                pp = "Deluxe Plan - Max 20 stocks";
+            }
+            document.getElementById("txt-cur-plan").setAttribute('value', pp);
 
 //            document.getElementById("txt-first-name").setAttribute('value', 'firstname');
 //            document.getElementById("txt-last-name").setAttribute('value', 'lastname');
@@ -62,14 +72,17 @@ var app = {
         $("#btn-submit").click(function () {
             var txtfirstname = document.getElementById("txt-first-name").value;
             var txtlastname = document.getElementById("txt-last-name").value;
-            var txtemailaddress = document.getElementById("txt-email-address-signup").value;
-            var txtpassword = document.getElementById("txt-password-signup").value;
+            var txtemailaddress = document.getElementById("txt-email-address").value;
+            var txtpassword = document.getElementById("txt-password").value;
 
+            var plan = $('#pricemodel').val();
+//            console.log(plan);
 
 //          ""/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=""
 //          SUCC = 1;  EXISTED = 2; FAIL =0;
             $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/custupdate?email=" + txtemailaddress + "&pass=" + txtpassword + "&firstName=" + txtfirstname + "&lastName=" + txtlastname,
+                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/custupdate?email=" + txtemailaddress + "&pass=" + txtpassword + "&firstName="
+                        + txtfirstname + "&lastName=" + txtlastname + "&plan=" + plan,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
@@ -93,10 +106,10 @@ var app = {
                 }
                 if (resultID === 3) {
                     msgObjStr = "Update failed. Please use another password.";
-                }                
+                }
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                 window.localStorage.setItem(iisMsgSession, msgObjStr);
+                window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "conf_1.html";
 
             }

@@ -1816,6 +1816,10 @@ public class ServiceAFweb {
             try {
                 int planid = Integer.parseInt(Plan);
                 // update pending plan
+                // -1 no change, 0, 10, 20
+                if (planid == -1) {
+                    // no change
+                }
             } catch (Exception e) {
                 
             }
