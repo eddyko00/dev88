@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.logging.Level;
 
 import java.util.logging.Logger;
 
@@ -65,7 +66,6 @@ public class BillingProcess {
 //            printName += custProcessNameArray.get(i) + ",";
 //        }
 //        logger.info("processUserBillingAll " + printName);
-
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
@@ -263,7 +263,7 @@ public class BillingProcess {
             serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
         }
         int retCreatebill = createUserBilling(serviceAFWeb, customer, account, billing);
-        
+
         return 1;
     }
 
@@ -288,6 +288,37 @@ public class BillingProcess {
             String custName = customer.getEmail();
             if ((custName == null) || (custName.length() == 0)) {
                 custName = customer.getUsername();
+            }
+
+            String portfolio = customer.getPortfolio();
+            CustPort custPortfilio = new CustPort();
+            if ((portfolio != null) && (portfolio.length() > 0)) {
+                try {
+                    portfolio = portfolio.replaceAll("#", "\"");
+                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+                } catch (Exception ex) {
+                }
+            }
+
+            if (custPortfilio.getnPlan() != -1) {
+                custPortfilio.setnPlan(-1);
+                String portfStr;
+                try {
+
+                    int plan = custPortfilio.getnPlan();
+                    portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+                    serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+
+                    account.setSubstatus(plan);
+
+                    int substatus = account.getSubstatus();
+                    float investment = account.getInvestment();
+                    float balance = account.getBalance();
+                    float servicefee = account.getServicefee();
+                    serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(account.getId(), substatus, investment, balance, servicefee);
+
+                } catch (JsonProcessingException ex) {
+                }
             }
 
             float payment = customer.getPayment();

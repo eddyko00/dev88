@@ -1098,7 +1098,6 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-            
 //            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //
 //            symbol = "T.TO";
@@ -1792,6 +1791,16 @@ public class ServiceAFweb {
             return loginObj;
         }
 
+        String portfolio = custObj.getPortfolio();
+        CustPort custPortfilio = new CustPort();
+        if ((portfolio != null) && (portfolio.length() > 0)) {
+            try {
+                portfolio = portfolio.replaceAll("#", "\"");
+                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+            } catch (Exception ex) {
+            }
+        }
+
         if ((Email != null) && (Email.length() > 0)) {
             boolean validEmail = NameObj.isEmailValid(Email);
             if (validEmail == true) {
@@ -1819,16 +1828,27 @@ public class ServiceAFweb {
                 // -1 no change, 0, 10, 20
                 if (planid == -1) {
                     // no change
+                } else {
+                    if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_PREMIUM)
+                            || (planid == ConstantKey.INT_PP_DELUXE)) {
+                        custPortfilio.setnPlan(planid);
+                    } else {
+                        // error
+                        return loginObj;
+                    }
                 }
             } catch (Exception e) {
-                
             }
         }
         int result = 0;
         try {
             int accountid = Integer.parseInt(AccountID);
             result = getAccountImp().updateCustomer(custObj, accountid);
-        } catch (Exception e) {
+
+            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+            result = getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
+        } catch (Exception ex) {
+            logger.info("> updateCustomerPassword exception " + ex.getMessage());
         }
 
         String tzid = "America/New_York"; //EDT
