@@ -304,7 +304,6 @@ public class BillingProcess {
                 custPortfilio.setnPlan(-1);
                 String portfStr;
                 try {
-
                     int plan = custPortfilio.getnPlan();
                     portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
                     serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
