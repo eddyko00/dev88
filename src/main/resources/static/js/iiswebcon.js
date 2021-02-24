@@ -6,12 +6,6 @@ var app = {
 
         $(document).ready(function () {
 
-
-//            var iisWebSession = "iisWebSession";
-//            var iisWebObjStr = window.localStorage.getItem(iisWebSession);
-//            var iisWebObj = JSON.parse(iisWebObjStr);
-//            var custObjStr = iisWebObj1.custObjStr;
-//            var custObj = JSON.parse(custObjStr);
 //            
             document.getElementById("txt-first-name").setAttribute('value', custObj.firstname);
             document.getElementById("txt-last-name").setAttribute('value', custObj.lastname);
@@ -29,12 +23,32 @@ var app = {
             }
             document.getElementById("txt-cur-plan").setAttribute('value', pp);
 
-//            document.getElementById("txt-first-name").setAttribute('value', 'firstname');
-//            document.getElementById("txt-last-name").setAttribute('value', 'lastname');
-//            
-//            document.getElementById("txt-email-address-signup").setAttribute('value', 'email');
-//            document.getElementById("txt-password-signup").setAttribute('value', 'password');
+            var dataSt = custObj.portfolio;
+            try {
+                if (dataSt != null) {
+                    if (dataSt !== "") {
+                        dataSt = dataSt.replaceAll('#', '"');
+                        var detailObj = JSON.parse(dataSt);
+                        if (detailObj != null) {
+                            if (detailObj.nPlan !== -1) {
+                                if (custObj.substatus != detailObj.nPlan) {
+                                    var pp = "Basic Plan - Max 2 stocks";
+                                    if (detailObj.nPlan == 0) {
+                                        pp = "Basic Plan - Max 2 stocks";
+                                    } else if (detailObj.nPlan == 10) {
+                                        pp = "Premium Plan - Max 10 stocks";
+                                    } else if (detailObj.nPlan == 20) {
+                                        pp = "Deluxe Plan - Max 20 stocks";
+                                    }
+                                    document.getElementById("txt-cur-plan").setAttribute('value', '*Pending to change* ' + pp);
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
 
+            }
         });
 
 
