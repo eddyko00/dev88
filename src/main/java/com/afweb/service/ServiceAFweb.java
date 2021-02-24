@@ -983,10 +983,10 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 //            systemRemoveAllEmail();
-            BillingProcess billProc = new BillingProcess();
-            for (int i = 0; i < 10; i++) {
-                billProc.processUserBillingAll(this);
-            }
+//            BillingProcess billProc = new BillingProcess();
+//            for (int i = 0; i < 10; i++) {
+//                billProc.processUserBillingAll(this);
+//            }
 //            ArrayList custNameList = getCustomerObjByNameList(CKey.G_USERNAME);
 //            CustomerObj customer = (CustomerObj) custNameList.get(0);
 //            billProc.updateUserBilling(this, customer);
