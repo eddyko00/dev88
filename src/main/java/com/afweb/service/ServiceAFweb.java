@@ -983,10 +983,10 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 //            systemRemoveAllEmail();
-//            BillingProcess billProc = new BillingProcess();
-//            for (int i = 0; i < 10; i++) {
-//                billProc.processUserBillingAll(this);
-//            }
+            BillingProcess billProc = new BillingProcess();
+            for (int i = 0; i < 10; i++) {
+                billProc.processUserBillingAll(this);
+            }
 //            ArrayList custNameList = getCustomerObjByNameList(CKey.G_USERNAME);
 //            CustomerObj customer = (CustomerObj) custNameList.get(0);
 //            billProc.updateUserBilling(this, customer);
@@ -1744,7 +1744,7 @@ public class ServiceAFweb {
                     // set pending for new customer
                     if (custObj.getStatus() == ConstantKey.OPEN) {
                         custObj.setStatus(ConstantKey.PENDING);
-                        getAccountImp().updateCustStatusSubStatus(custObj);
+                        getAccountImp().updateCustStatusSubStatus(custObj, custObj.getStatus(), custObj.getSubstatus());
                     }
                 }
             }
@@ -4559,7 +4559,7 @@ public class ServiceAFweb {
         CustomerObj custObj = getAccountImp().getCustomerStatus(customername, null);
         custObj.setStatus(status);
         custObj.setSubstatus(substatus);
-        return getAccountImp().updateCustStatusSubStatus(custObj);
+        return getAccountImp().updateCustStatusSubStatus(custObj, custObj.getStatus(), custObj.getSubstatus());
     }
 
     public WebStatus serverPing() {

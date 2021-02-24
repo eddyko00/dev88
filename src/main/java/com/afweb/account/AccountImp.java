@@ -135,8 +135,8 @@ public class AccountImp {
         return customerList;
     }
 
-    public int updateCustStatusSubStatus(CustomerObj custObj) {
-        return accountdb.updateCustStatusSubStatus(custObj);
+    public int updateCustStatusSubStatus(CustomerObj custObj, int status, int subStatus) {
+        return accountdb.updateCustStatusSubStatus(custObj, status, subStatus);
     }
 
     public CustomerObj getCustomerStatus(String UserName, String Password) {

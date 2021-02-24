@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.logging.Level;
 
 import java.util.logging.Logger;
 
@@ -291,30 +290,38 @@ public class BillingProcess {
             }
 
             String portfolio = customer.getPortfolio();
+            String portfStr;
             CustPort custPortfilio = new CustPort();
-            if ((portfolio != null) && (portfolio.length() > 0)) {
-                try {
+            try {
+                if ((portfolio != null) && (portfolio.length() > 0)) {
                     portfolio = portfolio.replaceAll("#", "\"");
                     custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-                } catch (Exception ex) {
-                }
-            }
-
-            if (custPortfilio.getnPlan() != -1) {
-                custPortfilio.setnPlan(-1);
-                String portfStr;
-                try {
-                    int plan = custPortfilio.getnPlan();
+                } else {
                     portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
                     serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
 
-                    account.setSubstatus(plan);
+                }
+            } catch (Exception ex) {
+                logger.info("createUserBilling exception");
+            }
 
+            if (custPortfilio.getnPlan() != -1) {
+
+                try {
+                    int plan = custPortfilio.getnPlan();
+                    account.setSubstatus(plan);
                     int substatus = account.getSubstatus();
                     float investment = account.getInvestment();
                     float balance = account.getBalance();
                     float servicefee = account.getServicefee();
                     serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(account.getId(), substatus, investment, balance, servicefee);
+
+                    customer.setSubstatus(plan);
+                    serviceAFWeb.getAccountImp().updateCustStatusSubStatus(customer, customer.getStatus(), customer.getSubstatus());
+                    
+                    custPortfilio.setnPlan(-1);
+                    portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+                    serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
 
                 } catch (JsonProcessingException ex) {
                 }
@@ -323,7 +330,7 @@ public class BillingProcess {
             float payment = customer.getPayment();
             float prevOwning = payment;
 
-            int subType = account.getSubstatus();
+            int subType = customer.getType();
             float fInvoice = 0;
             switch (subType) {
                 case ConstantKey.INT_PP_BASIC:

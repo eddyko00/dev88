@@ -251,13 +251,13 @@ public class AccountDB {
         return 0;
     }
 
-    public int updateCustStatusSubStatus(CustomerObj custObj) {
+    public int updateCustStatusSubStatus(CustomerObj custObj, int status, int subStatus) {
 
         if (custObj == null) {
             return 0;
         }
         try {
-            String sqlCMD = "update customer set status=" + custObj.getStatus() + ", substatus=" + custObj.getSubstatus() + " where id=" + custObj.getId();
+            String sqlCMD = "update customer set status=" + status + ", substatus=" + subStatus + " where id=" + custObj.getId();
             processUpdateDB(sqlCMD);
             return 1;
         } catch (Exception e) {
