@@ -144,13 +144,13 @@ var app = {
                 var status = trObj.status;
                 if (status == 2) { //int PENDING = 2;
                     dispName = 'PENDING'
-                    htmlName += '<div class="ui-block-a" style="color:red" ><strong> ' + dispName + '</strong></div>';
+                    htmlName += '<div class="ui-block-a" style="color:red" ><strong>' + dispName + '</strong></div>';
                 } else {
                     dispName = "ACCOUNT"
                     htmlName += '<div class="ui-block-a" ><strong>' + dispName + '</strong></div>';
                 }
             } else {
-                htmlName += '<div class="ui-block-a" ><strong>' + dispName + '</strong></div>';
+                htmlName += '<div class="ui-block-a" style="color:SteelBlue" ><strong>' + dispName + '</strong></div>';
             }
 
 
@@ -198,9 +198,9 @@ var app = {
             if (trObj.trname === "TR_MACD") {
                 htmlName += 'Technical Indicator for MACD';
             } else if (trObj.trname === "TR_NN1") {
-                htmlName += 'Auto AI (MACD) : ' + comment;
+                htmlName += '<div style="color:SteelBlue" >Auto AI (MACD) : ' + comment + '</div>';
             } else if (trObj.trname === "TR_NN2") {
-                htmlName += 'Auto AI (EMA) -Beta : ' + comment;
+                htmlName += '<div style="color:SteelBlue" >Auto AI (EMA) -Beta : ' + comment + '</div>';
             } else if (trObj.trname === "TR_ACC") {
 
                 var link = trObj.linktradingruleid;
