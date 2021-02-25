@@ -93,7 +93,11 @@ public class TradingNNprocess {
 //        logger.info("ProcessReLearnInputNeuralNet " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
             long LastServUpdateTimer = System.currentTimeMillis();
-            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 15); // add 3 minutes
+            int timeout = 15;
+            if (ServiceAFweb.processNeuralNetFlag == true) {
+                timeout = timeout * 2;
+            }
+            long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, timeout); // add 3 minutes
 
 //            for (int i = 0; i < 10; i++) {
             while (true) {
