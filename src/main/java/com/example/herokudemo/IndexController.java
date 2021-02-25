@@ -54,7 +54,7 @@ public class IndexController {
 //        arrayString.add("/server/url0/set?url=stop");
 //        arrayString.add("/server/dburl");
 //        arrayString.add("/server/dburl/set?url=");         
-        arrayString.add("/help");
+        arrayString.add("/helphelp");
         arrayString.add("/st?length={0 for all}");
         arrayString.add("/st/{symbol}");
         arrayString.add("/st/{symbol}/history?length={0 for all}");
@@ -65,7 +65,7 @@ public class IndexController {
         //
         arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
         arrayString.add("/cust/login?email={email}&pass={pass}");
-        arrayString.add("/cust/{username}/login&pass={pass}");
+//        arrayString.add("/cust/{username}/login&pass={pass}");
 
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
@@ -92,14 +92,13 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chartfile");
+//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chartfile");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/clear");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/{signal}/order");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history/display");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
-        //
+//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history/display");
+//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
 
         arrayString.add("/cust/{username}/uisys/{custid}/custNlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
@@ -132,25 +131,25 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/deletenn1table");
 
         //DB Backup
-        arrayString.add("/cust/{username}/sys/downloaddb");
+//        arrayString.add("/cust/{username}/sys/downloaddb");
 
         //DB restore
-        arrayString.add("/cust/{username}/sys/cleandb");
-        arrayString.add("/cust/{username}/sys/restoredb");
+//        arrayString.add("/cust/{username}/sys/cleandb");
+//        arrayString.add("/cust/{username}/sys/restoredb");
 
-        arrayString.add("/cust/{username}/sys/request");
-        arrayString.add("/cust/{username}/sys/request");
+//        arrayString.add("/cust/{username}/sys/request");
+
         arrayString.add("/cust/{username}/sys/lock");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/value/{lockdate}/comment/{comment}/setlock");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/removelock");
 
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
 
         return arrayString;
     }
@@ -387,29 +386,29 @@ public class IndexController {
         return loginObj;
     }
 
-    @RequestMapping(value = "/cust/{username}/login", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    LoginObj getCustObjUserLogin(
-            @PathVariable("username") String username,
-            @RequestParam(value = "pass", required = true) String passSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            LoginObj loginObj = new LoginObj();
-            loginObj.setCustObj(null);
-            WebStatus webStatus = new WebStatus();
-            webStatus.setResultID(100);
-            loginObj.setWebMsg(webStatus);
-            return loginObj;
-        }
-        if (passSt == null) {
-            return null;
-        }
-        LoginObj loginObj = afWebService.getCustomerLogin(username, passSt);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return loginObj;
-    }
+//    @RequestMapping(value = "/cust/{username}/login", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    LoginObj getCustObjUserLogin(
+//            @PathVariable("username") String username,
+//            @RequestParam(value = "pass", required = true) String passSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            LoginObj loginObj = new LoginObj();
+//            loginObj.setCustObj(null);
+//            WebStatus webStatus = new WebStatus();
+//            webStatus.setResultID(100);
+//            loginObj.setWebMsg(webStatus);
+//            return loginObj;
+//        }
+//        if (passSt == null) {
+//            return null;
+//        }
+//        LoginObj loginObj = afWebService.getCustomerLogin(username, passSt);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return loginObj;
+//    }
 
     //"/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/custupdate", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

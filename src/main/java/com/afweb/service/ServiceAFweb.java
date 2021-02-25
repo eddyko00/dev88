@@ -1812,7 +1812,10 @@ public class ServiceAFweb {
             }
         }
         if ((Password != null) && (Password.length() > 0)) {
-            custObj.setPassword(Password);
+            // ignore "***"
+            if (!Password.equals("***")) {
+                custObj.setPassword(Password);
+            }
             // error code 3 for invalid password
         }
         if ((FirstName != null) && (FirstName.length() > 0)) {
@@ -1921,28 +1924,27 @@ public class ServiceAFweb {
         return loginObj;
     }
 
-    public LoginObj getCustomerLogin(String EmailUserName, String Password) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        CustomerObj custObj = null;
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        custObj = getAccountImp().getCustomerPassword(UserName, Password);
-
-        LoginObj loginObj = new LoginObj();
-        loginObj.setCustObj(custObj);
-        WebStatus webStatus = new WebStatus();
-        webStatus.setResultID(1);
-        if (custObj == null) {
-            webStatus.setResultID(0);
-        }
-        loginObj.setWebMsg(webStatus);
-        return loginObj;
-
-    }
-
+//    public LoginObj getCustomerLogin(String EmailUserName, String Password) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        CustomerObj custObj = null;
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//
+//        LoginObj loginObj = new LoginObj();
+//        loginObj.setCustObj(custObj);
+//        WebStatus webStatus = new WebStatus();
+//        webStatus.setResultID(1);
+//        if (custObj == null) {
+//            webStatus.setResultID(0);
+//        }
+//        loginObj.setWebMsg(webStatus);
+//        return loginObj;
+//
+//    }
     public LoginObj getCustomerAccLogin(String EmailUserName, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -1956,6 +1958,9 @@ public class ServiceAFweb {
             custObj = getAccountImp().getCustomerPassword(UserName, null);
         }
         LoginObj loginObj = new LoginObj();
+        if (custObj != null) {
+            custObj.setPassword("***");
+        }
         loginObj.setCustObj(custObj);
         WebStatus webStatus = new WebStatus();
         webStatus.setResultID(1);
