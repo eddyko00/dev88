@@ -5,11 +5,27 @@
  */
 package com.afweb.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author koed
  */
 public class CustPort {
+
+    /**
+     * @return the featL
+     */
+    public ArrayList getFeatL() {
+        return featL;
+    }
+
+    /**
+     * @param featL the featL to set
+     */
+    public void setFeatL(ArrayList featL) {
+        this.featL = featL;
+    }
 
     /**
      * @return the serv
@@ -38,6 +54,8 @@ public class CustPort {
     public void setnPlan(int nPlan) {
         this.nPlan = nPlan;
     }
+    
     private int nPlan = -1;
     private int serv = 0;
+    private ArrayList featL = new ArrayList();    
 }
