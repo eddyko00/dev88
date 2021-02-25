@@ -122,11 +122,31 @@
                 </ul>                
             </div>
         </div>   
-        
+
         <div id="alertconfirm">
             <div class="message"></div>
             <button class="ok">OK</button>            
         </div> 
+
+        <div data-role="page" id="page-intro">
+            <div class="bi-header" data-role="header" data-theme="c" data-position="fixed">
+                <a href="#page-index" data-icon="back" data-iconpos="notext" data-transition="slide" data-direction="reverse"></a>
+                <h1>IISWEB System</h1>
+            </div><!-- /header -->
+            <div role="main" class="ui-content">
+                <h2 class="mc-text-center">Help Info</h2>
+                <p class="mc-top-margin-1-5">You can add or remove stock symbol. For Canadian stock, you have to add '.TO' at the end of the stock symbol. e.g. RY.TO.</p>
+                <br>
+                <p class="mc-top-margin-1-5">Field names:</p>
+                <ul>
+                    <li>Sig - Stock signal for Buy or Sell</li>
+                    <li>Trend - Stock Trend direction (-100 to 100) </li>                      
+                    <li>Daily - Stock Daily percentage change</li>                    
+                    <li>NN1 - AI NN1 trading performance in 1 year</li>     
+                </ul> 
+                <p></p>
+            </div><!-- /content -->
+        </div><!-- /page -->  
 
         <script src="lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
         <script src="lib/jqm/1.4.5/jquery.mobile-1.4.5.min.js"></script>

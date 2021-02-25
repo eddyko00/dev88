@@ -61,7 +61,7 @@
             #confirm .message {
                 text-align: left;
             }
-            
+
             #alertconfirm {
                 display: none;
                 background-color: #f2f4ef;
@@ -76,7 +76,7 @@
                 box-sizing: border-box;
                 text-align: center;
             }
-            
+
             #alertconfirm button {
                 background-color: #3388cc;
                 display: inline-block;
@@ -92,7 +92,7 @@
                 text-align: left;
             }
         </style>        
- 
+
     </head>
     <!--
     https://demos.jquerymobile.com/1.3.2/widgets/listviews/index.html#&ui-state=dialog
@@ -164,6 +164,26 @@
             <div class="message"></div>
             <button class="ok">OK</button>            
         </div>            
+
+        <div data-role="page" id="page-intro">
+            <div class="bi-header" data-role="header" data-theme="c" data-position="fixed">
+                <a href="#page-index" data-icon="back" data-iconpos="notext" data-transition="slide" data-direction="reverse"></a>
+                <h1>IISWEB System</h1>
+            </div><!-- /header -->
+            <div role="main" class="ui-content">
+                <h2 class="mc-text-center">Help Info</h2>
+                <p class="mc-top-margin-1-5">You can update account information or view the billing invoice.
+                    Payment is done through e.transfer from the bank to iisweb email address. 
+                    The e.transfer question is the user login name and the password is the Acc Open Date from the customer account page.</p>
+                <br>
+                <p class="mc-top-margin-1-5">Features:</p>
+                <ul>
+                    <li>Configuration - update email, password or change plan</li>
+                    <li>Billing Invoice - show the last 3 bill invoices</li>                        
+                </ul> 
+                <p></p>
+            </div><!-- /content -->
+        </div><!-- /page -->  
 
         <script src="lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
         <script src="lib/jqm/1.4.5/jquery.mobile-1.4.5.min.js"></script>

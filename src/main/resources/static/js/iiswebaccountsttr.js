@@ -103,7 +103,7 @@ var app = {
                 'Pre Cl:' + preClose + '  Close:' + close + '  Per:' + percentSt
         $("#0").html('<h1>' + stStr + '</h1>');
 
-        $("#accheader").html(" " + accObj.accountname + " " + stockObj.symbol);
+        $("#accheader").html(' ' + accObj.accountname + ' ' + stockObj.symbol + ' ' + '<a href="#page-intro">Help</a>');
 
 
         for (i = 0; i < trObjList.length; i++) {

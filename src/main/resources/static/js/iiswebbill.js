@@ -47,7 +47,7 @@ var app = {
 
             var statusSt = 'NA';
             if (billObj.status === 2) {
-                statusSt = 'Amount due';
+                statusSt = '<font style= color:red>Amount due</font>';
             }
             if (billObj.status === 5) {
                 statusSt = 'Amount paid';

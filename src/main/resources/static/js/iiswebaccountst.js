@@ -19,7 +19,7 @@ var app = {
 //        console.log(iisWebObj);
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-        
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -54,7 +54,7 @@ var app = {
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
 
-        $("#accheader").html("Account " + accObj.accountname);
+        $("#accheader").html('Account ' + accObj.accountname + ' ' + '<a href="#page-intro">Help</a>');
 
         var htmlhead = '<div class="ui-grid-d">';
         htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym</strong></div>';
@@ -155,7 +155,7 @@ var app = {
                 msgObjStr = "This feature does not allow for GUEST account";
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountst.html";
-
+                return;
 //                alert("Not supproted feature for GUEST accont");
 //                window.location.href = "accountst.html";
 //                return;
@@ -182,7 +182,7 @@ var app = {
 
                 }
                 if (result == 100) {
-                    msgObjStr += " : Max number of stock exceeded the user plan";                    
+                    msgObjStr += " : Max number of stock exceeded the user plan";
                 }
 
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
@@ -202,6 +202,7 @@ var app = {
                 msgObjStr = "This feature does not allow for GUEST account";
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountst.html";
+                return;
 //                alert("Not supproted feature for GUEST accont");
 //                window.location.href = "accountst.html";
 //                return;
@@ -223,8 +224,8 @@ var app = {
                     return;
                 }
                 var msgObjStr = "Fail to remove stock " + rsymbol;
-                 //NOTEXISTED = 3;
-                 if (result == 3) {
+                //NOTEXISTED = 3;
+                if (result == 3) {
                     msgObjStr += " : Stock not found";
 
                 }
