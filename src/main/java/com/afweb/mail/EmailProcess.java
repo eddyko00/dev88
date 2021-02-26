@@ -29,7 +29,7 @@ public class EmailProcess {
 
     public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {
 
-//        logger.info("> UpdateAccountSignal ");
+        logger.info("> ProcessEmailAccount ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
