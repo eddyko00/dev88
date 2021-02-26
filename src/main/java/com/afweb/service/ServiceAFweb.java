@@ -776,7 +776,7 @@ public class ServiceAFweb {
                         nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
                         NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
                     }
-                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
+//                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
                     logger.info("End processNewNeuralNet.....NN1 " + symbol);
                     return true;
                 }
@@ -790,7 +790,7 @@ public class ServiceAFweb {
 
                         NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
                     }
-                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
+//                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
                     logger.info("End processNewNeuralNet.....NN2 " + symbol);
                     return true;
                 }
