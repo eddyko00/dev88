@@ -725,10 +725,10 @@ public class ServiceAFweb {
                 nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
                 return;
             } else if (cntNN == 3) {
-                nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
+                nn2trend.ProcessTrainNeuralNetNN2ByTrend(this);
                 return;
             } else if (cntNN == 4) {
-                nn2trend.ProcessTrainNeuralNetNN2tByTrend(this);
+                nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
                 return;
             } else if (cntNN == 5) {
                 NNProcessImp.ProcessReLearnInputNeuralNet(this);
@@ -879,7 +879,7 @@ public class ServiceAFweb {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN40);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
-                    nn2trend.ProcessTrainNeuralNetNN2tByTrend(this);
+                    nn2trend.ProcessTrainNeuralNetNN2ByTrend(this);
                     logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);
                 }
             }
