@@ -54,9 +54,7 @@ public class Javamain {
 
         } else if (cmd.indexOf("processEmailFlag") != -1) {
             ServiceAFweb.processEmailFlag = true;
-            ServiceAFweb.processBilligFlag = true;
-        } else if (cmd.indexOf("processBilligFlag") != -1) {
-            ServiceAFweb.processBilligFlag = true;
+
         } else if (cmd.indexOf("processNeuralNetFlag") != -1) {
             ServiceAFweb.processNeuralNetFlag = true;
 
