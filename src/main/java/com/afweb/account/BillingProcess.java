@@ -117,7 +117,7 @@ public class BillingProcess {
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
-        logger.info("> updateUserBillingAll ... done");
+//        logger.info("> updateUserBillingAll ... done");
     }
 ////////////////////////////////////////////////////
 
