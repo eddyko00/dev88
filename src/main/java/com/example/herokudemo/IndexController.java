@@ -77,8 +77,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
-        
-        arrayString.add("/cust/{username}/acc/{accountid}/custacc");        
+
+        arrayString.add("/cust/{username}/acc/{accountid}/custacc");
         arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
         arrayString.add("/cust/{username}/acc/{accountid}/st?length={0 for all} - default 20");
@@ -132,13 +132,10 @@ public class IndexController {
 
         //DB Backup
 //        arrayString.add("/cust/{username}/sys/downloaddb");
-
         //DB restore
 //        arrayString.add("/cust/{username}/sys/cleandb");
 //        arrayString.add("/cust/{username}/sys/restoredb");
-
 //        arrayString.add("/cust/{username}/sys/request");
-
         arrayString.add("/cust/{username}/sys/lock");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock");
@@ -150,7 +147,6 @@ public class IndexController {
 //        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
 //        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
 //        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
-
         return arrayString;
     }
 
@@ -363,22 +359,34 @@ public class IndexController {
         }
         if (emailSt.equals("11")) {
             emailSt = "admin1";
-            passSt = "Passw0rd";
+            if (passSt.equals("00")) {
+                passSt = "Passw0rd";
+            }
         } else if (emailSt.equals("22")) {
             emailSt = "fundmgr";
-            passSt = "Passw0rd";
+            if (passSt.equals("00")) {
+                passSt = "Passw0rd";
+            }
         } else if (emailSt.equals("33")) {
             emailSt = "indexmgr";
-            passSt = "Passw0rd";
+            if (passSt.equals("00")) {
+                passSt = "Passw0rd";
+            }
         } else if (emailSt.equals("00")) {
             emailSt = "admin1";
-            passSt = "Passw0rd";
+            if (passSt.equals("00")) {
+                passSt = "Passw0rd";
+            }
         } else if (emailSt.equals("111")) {
             emailSt = "admin1";
-            passSt = "Passw0rd";
+            if (passSt.equals("00")) {
+                passSt = "Passw0rd";
+            }
         } else if (emailSt.equals("1111")) {
             emailSt = "admin1";
-            passSt = "Passw0rd";
+            if (passSt.equals("00")) {
+                passSt = "Passw0rd";
+            }
         }
 
         LoginObj loginObj = afWebService.getCustomerEmailLogin(emailSt, passSt);
@@ -409,7 +417,6 @@ public class IndexController {
 //        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 //        return loginObj;
 //    }
-
     //"/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/custupdate", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
