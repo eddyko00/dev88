@@ -131,7 +131,7 @@ public class BillingProcess {
 
         AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
         // get last bill
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId(), 1);
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId(), 2);
         if (billingObjList == null) {
             // create first bill 
             createUserBilling(serviceAFWeb, customer, account, null);
@@ -141,6 +141,10 @@ public class BillingProcess {
             // create first bill 
             createUserBilling(serviceAFWeb, customer, account, null);
             return 0;
+        }
+        boolean firstBill = false;
+        if (billingObjList.size() == 1) {
+            firstBill = true;
         }
         BillingObj billing = billingObjList.get(0);
 
@@ -195,6 +199,10 @@ public class BillingProcess {
 //                Date entryDate = billing.getUpdatedatedisplay();
                 long billcycleDate = billing.getUpdatedatel();
                 long dateWeek = TimeConvertion.nextWeek(billcycleDate);
+                
+                if (firstBill == true) {
+                    dateWeek = TimeConvertion.nextWeek(dateWeek);
+                }
                 int subStatus = billing.getSubstatus();
                 if (billcycleDate > dateWeek) {
                     if (customer.getStatus() != ConstantKey.DISABLE) {
@@ -318,7 +326,7 @@ public class BillingProcess {
 
                     customer.setSubstatus(plan);
                     serviceAFWeb.getAccountImp().updateCustStatusSubStatus(customer, customer.getStatus(), customer.getSubstatus());
-                    
+
                     custPortfilio.setnPlan(-1);
                     portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
                     serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
