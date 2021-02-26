@@ -61,7 +61,7 @@
             #confirm .message {
                 text-align: left;
             }
-            
+
             #alertconfirm {
                 display: none;
                 background-color: #f2f4ef;
@@ -76,7 +76,7 @@
                 box-sizing: border-box;
                 text-align: center;
             }
-            
+
             #alertconfirm button {
                 background-color: #3388cc;
                 display: inline-block;
@@ -92,7 +92,7 @@
                 text-align: left;
             }
         </style>        
- 
+
     </head>
     <!--
     https://demos.jquerymobile.com/1.3.2/widgets/listviews/index.html#&ui-state=dialog
@@ -126,10 +126,6 @@
             </div>
         </div>
 
-
-
-
-
         <div data-role="page" id="page-admmsg">
             <div data-role="header" data-theme="c" data-position="fixed">
                 <a href="#page-index" data-icon="back" data-iconpos="notext" data-transition="slide" data-direction="reverse"></a>
@@ -153,6 +149,22 @@
             <div class="message"></div>
             <button class="ok">OK</button>            
         </div>            
+
+
+        <div data-role="page" id="page-intro">
+            <div class="bi-header" data-role="header" data-theme="c" data-position="fixed">
+                <a href="#page-index" data-icon="back" data-iconpos="notext" data-transition="slide" data-direction="reverse"></a>
+                <h1>IISWEB System</h1>
+            </div><!-- /header -->
+            <div role="main" class="ui-content">
+                <h2 class="mc-text-center">Help Info</h2>
+                <p class="mc-top-margin-1-5">You can review the current bill invoice. </p>
+                <p class="mc-top-margin-1-5">Payment is done through e.transfer from your bank to the iisweb payment email address. 
+                    The e.transfer question is the 'iisweb-' plus user login name (e.g. iisweb-email@domain.com) and the answer is the user login name.</p>
+                <br>
+                <p></p>
+            </div><!-- /content -->
+        </div><!-- /page -->  
 
         <script src="lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
         <script src="lib/jqm/1.4.5/jquery.mobile-1.4.5.min.js"></script>
