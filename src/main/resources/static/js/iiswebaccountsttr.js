@@ -572,7 +572,7 @@ var app = {
                 msgObjStr = "This feature does not allow for GUEST account";
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountsttr.html";
-
+                return;
 //                alert("Not supproted feature for GUEST accont");
 //                window.location.href = "accountsttr.html";
 //                return;

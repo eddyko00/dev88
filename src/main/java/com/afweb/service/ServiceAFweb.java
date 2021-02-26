@@ -1810,7 +1810,7 @@ public class ServiceAFweb {
         }
         if ((Password != null) && (Password.length() > 0)) {
             // ignore "***"
-            if (!Password.equals("***")) {
+            if (!Password.equals(CKey.MASK_PASS)) {
                 custObj.setPassword(Password);
             }
             // error code 3 for invalid password
@@ -1914,7 +1914,7 @@ public class ServiceAFweb {
         }
         LoginObj loginObj = new LoginObj();
         if (custObj != null) {
-            custObj.setPassword("***");
+            custObj.setPassword(CKey.MASK_PASS);
         }
         loginObj.setCustObj(custObj);
         loginObj.setWebMsg(webStatus);
@@ -1956,7 +1956,7 @@ public class ServiceAFweb {
         }
         LoginObj loginObj = new LoginObj();
         if (custObj != null) {
-            custObj.setPassword("***");
+            custObj.setPassword(CKey.MASK_PASS);
         }
         loginObj.setCustObj(custObj);
         WebStatus webStatus = new WebStatus();

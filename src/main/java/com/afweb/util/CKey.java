@@ -13,6 +13,7 @@ public class CKey {
     public static final String AF_SYSTEM = "AFSYSTEM";
     public static final String G_USERNAME = "GUEST";
     public static final String E_USERNAME = "EDDY";
+    public static final String MASK_PASS = "*****";    
     
     public static final String MASTER_SRV = "MasterDBSRV";
     public static final String WEB_SRV = "WebSRV";

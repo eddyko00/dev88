@@ -11,7 +11,7 @@ var app = {
             document.getElementById("txt-last-name").setAttribute('value', custObj.lastname);
 
             document.getElementById("txt-email-address").setAttribute('value', custObj.email);
-            document.getElementById("txt-password").setAttribute('value', custObj.password);
+//            document.getElementById("txt-password").setAttribute('value', custObj.password);
 
             var pp = "Basic Plan - Max 2 stocks";
             if (custObj.substatus == 0) {
@@ -88,7 +88,15 @@ var app = {
             var txtlastname = document.getElementById("txt-last-name").value;
             var txtemailaddress = document.getElementById("txt-email-address").value;
             var txtpassword = document.getElementById("txt-password").value;
-
+            if (txtpassword ==="") {
+                txtpassword = custObj.password;
+            }
+            if (txtpassword.length < 4) {
+                msgObjStr = "The password must > 4 characters";
+                window.localStorage.setItem(iisMsgSession, msgObjStr);
+                window.location.href = "conf.html";
+                return;
+            }
             var plan = $('#pricemodel').val();
 //            console.log(plan);
 
