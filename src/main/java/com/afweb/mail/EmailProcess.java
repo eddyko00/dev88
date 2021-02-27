@@ -121,10 +121,10 @@ public class EmailProcess {
                                     GmailSender sender = new GmailSender();
                                     sender.setSender(ServiceAFweb.UA_Str, ServiceAFweb.PA_Str);
                                     sender.addRecipient(emailAddr);
-                                    sender.setSubject("IISWeb - "+comObj.getName());
+                                    sender.setSubject("IISWeb - " + comObj.getName());
                                     sender.setBody(comObj.getData());
                                     sender.send();
-                                    logger.info("> EmailTradingAccount id " + accObj.getId() + " " + emailAddr + " size " + commList.size());
+                                    logger.info("> EmailTradingAccount Acc id:" + accObj.getId() + ", com id:" + comObj.getId() + " " + emailAddr + " size " + commList.size());
                                 }
                                 // remove comObj;
                                 serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());

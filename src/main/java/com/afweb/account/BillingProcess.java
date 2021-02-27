@@ -199,7 +199,7 @@ public class BillingProcess {
 //                Date entryDate = billing.getUpdatedatedisplay();
                 long billcycleDate = billing.getUpdatedatel();
                 long dateWeek = TimeConvertion.nextWeek(billcycleDate);
-                
+
                 if (firstBill == true) {
                     dateWeek = TimeConvertion.nextWeek(dateWeek);
                 }
@@ -361,12 +361,15 @@ public class BillingProcess {
 
             // first bill alreay add the payment
             // but the next bill need to add prev owning
+            boolean firstBill = false;
             if (billing != null) {
                 billData.setPrevOwn(prevOwning);
                 payment = fInvoice + prevOwning;
                 customer.setPayment(payment);
                 result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
             } else {
+                // first bill
+                firstBill = true;
                 if (payment == 0) {
                     payment = fInvoice;
                     customer.setPayment(payment);
@@ -393,7 +396,12 @@ public class BillingProcess {
             DateFormat format = new SimpleDateFormat("M/dd/yyyy");
             format.setTimeZone(tz);
             String billcycleESTtime = format.format(d);
-            String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice ready!\r\nPlease submit the payment now.\r\n\r\n";
+
+            NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+            String currency = formatter.format(payment);
+            String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice for the amount " + currency + " ready!\r\nPlease submit the payment now.\r\n\r\n";
+            msg += "Payment is done through e.transfer from your bank to the iisweb payment email address.\r\n"
+                    + "The e.transfer question is the 'iisweb-' plus user login name (e.g. iisweb-email@domain.com) and the answer is the user login name.";
 
             tzid = "America/New_York"; //EDT
             tz = TimeZone.getTimeZone(tzid);
