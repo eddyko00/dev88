@@ -399,7 +399,7 @@ public class BillingProcess {
 
             NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
             String currency = formatter.format(payment);
-            String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice for the amount " + currency + " ready!\r\nPlease submit the payment now.\r\n\r\n";
+            String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice for the amount " + currency + " is ready!\r\nPlease submit the payment now.\r\n\r\n";
             msg += "Payment is done through e.transfer from your bank to the iisweb payment email address.\r\n"
                     + "The e.transfer question is the 'iisweb-' plus user login name (e.g. iisweb-email@domain.com) and the answer is the user login name.";
 
