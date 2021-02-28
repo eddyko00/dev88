@@ -220,7 +220,7 @@ public class BillingProcess {
                             result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                             // send email disable
-                            msg = "The " + custName + " account had been disabled!\r\nThank you for using IIS.\r\n\r\n";
+                            msg = "The " + custName + " account had been disabled due to outstanding payment!\r\nThank you for using IIS.\r\n\r\n";
                             sendMsg = true;
                             logger.info("Billing***Disable user " + custName + ", billing id " + billing.getId());
                         }
