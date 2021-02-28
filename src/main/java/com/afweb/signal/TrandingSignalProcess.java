@@ -1082,15 +1082,6 @@ public class TrandingSignalProcess {
                     trHistory.setParm4((float) STerm);
                     break;
                 case ConstantKey.INT_TR_EMA0:
-                    // check if signal to buy or sell
-//                    if (ServiceAFweb.nn3testflag == true) {
-//                        EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
-//                        trObj.setTrsignal(ema1020.trsignal);
-//                        trHistory.setTrsignal(trObj.getTrsignal());
-//                        trHistory.setParm1((float) ema1020.ema);
-//                        trHistory.setParm2((float) ema1020.lastema);
-//                        break;
-//                    }
                     EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
                     trObj.setTrsignal(ema510.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
@@ -1098,15 +1089,6 @@ public class TrandingSignalProcess {
                     trHistory.setParm2((float) ema510.lastema);
                     break;
                 case ConstantKey.INT_TR_EMA1:   // normal
-                    // check if signal to buy or sell
-//                    if (ServiceAFweb.nn3testflag == true) {
-//                        EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_4, ConstantKey.INT_EMA_8);
-//                        trObj.setTrsignal(ema1020.trsignal);
-//                        trHistory.setTrsignal(trObj.getTrsignal());
-//                        trHistory.setParm1((float) ema1020.ema);
-//                        trHistory.setParm2((float) ema1020.lastema);
-//                        break;
-//                    }
                     EMAObj ema1020 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
                     trObj.setTrsignal(ema1020.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
@@ -1114,15 +1096,6 @@ public class TrandingSignalProcess {
                     trHistory.setParm2((float) ema1020.lastema);
                     break;
                 case ConstantKey.INT_TR_EMA2:
-                    // check if signal to buy or sell
-//                    if (ServiceAFweb.nn3testflag == true) {
-//                        EMAObj ema816 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_6, ConstantKey.INT_EMA_12);
-//                        trObj.setTrsignal(ema816.trsignal);
-//                        trHistory.setTrsignal(trObj.getTrsignal());
-//                        trHistory.setParm1((float) ema816.ema);
-//                        trHistory.setParm2((float) ema816.lastema);
-//                        break;
-//                    }
                     EMAObj ema816 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_8, ConstantKey.INT_EMA_16);
                     trObj.setTrsignal(ema816.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
@@ -1157,7 +1130,7 @@ public class TrandingSignalProcess {
                     trHistory.setParm2((float) macd.signal);
                     trHistory.setParm3((float) macd.diff);
                     break;
-                }                
+                }
                 case ConstantKey.INT_TR_MACD: {
                     MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
                     trObj.setTrsignal(macd.trsignal);
@@ -1208,21 +1181,29 @@ public class TrandingSignalProcess {
                             }
                             float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
                             float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-                            ADXObj adx1 = TechnicalCal.AvgDir(StockArray, offset, 14);
-
                             logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal + " C:" + trHistory.getParm5()
-                                    + " L:" + LTerm1 + " S:" + STerm1 + " D:" + adx1.trsignal);
+                                    + " L:" + LTerm1 + " S:" + STerm1);
                         }
                     }
                     break;
 
                 case ConstantKey.INT_TR_NN3:
-                    boolean nn3Flag = false;
+                    boolean nn3Flag = true;
                     if (nn3Flag == true) {
-
-                        ProcessNN3 nn3 = new ProcessNN3();
-                        int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
-                        prevSignal = nn3Signal;
+                        if (ServiceAFweb.nn3testflag == true) {
+                            ProcessNN3 nn3 = new ProcessNN3();
+                            int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                            prevSignal = nn3Signal;
+                            if (ServiceAFweb.mydebugtestflag == true) {
+                                if (offset < 99) {
+                                    prevSignal = nn3Signal;
+                                }
+                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+                                logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
+                                        + " L:" + LTerm1 + " S:" + STerm1);
+                            }
+                        }
                     }
                     break;
 //                case ConstantKey.INT_TR_NN4:
@@ -1352,30 +1333,31 @@ public class TrandingSignalProcess {
 
                     break;
                 case ConstantKey.INT_TR_NN3:
-                    boolean nn3Flag = false;
+                    boolean nn3Flag = true;
                     if (nn3Flag == true) {
-                        ProcessNN3 nn3 = new ProcessNN3();
-                        NNObj nn = nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
-                        if (nn != null) {
-                            trObj.setTrsignal(nn.getTrsignal());
-                            if (nn.getConfident() != null) {
-                                if (nn.getConfident().length() > 0) {
-                                    AccData accData = serviceAFWeb.getAccData(trObj);
-                                    accData.setConf(nn.getConfident());
+                        if (ServiceAFweb.nn3testflag == true) {
+                            ProcessNN3 nn3 = new ProcessNN3();
+                            NNObj nn = nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                            if (nn != null) {
+                                trObj.setTrsignal(nn.getTrsignal());
+                                if (nn.getConfident() != null) {
+                                    if (nn.getConfident().length() > 0) {
+                                        AccData accData = serviceAFWeb.getAccData(trObj);
+                                        accData.setConf(nn.getConfident());
 //                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
-                                    String nameSt = "";
-                                    try {
-                                        nameSt = new ObjectMapper().writeValueAsString(accData);
-                                        nameSt = nameSt.replaceAll("\"", "#");
-                                    } catch (JsonProcessingException ex) {
-                                    }
-                                    trObj.setComment(nameSt);
+                                        String nameSt = "";
+                                        try {
+                                            nameSt = new ObjectMapper().writeValueAsString(accData);
+                                            nameSt = nameSt.replaceAll("\"", "#");
+                                        } catch (JsonProcessingException ex) {
+                                        }
+                                        trObj.setComment(nameSt);
 //                                    trObj.setComment(nn.getConfident());
+                                    }
                                 }
+                                UpdateTRList.add(trObj);
                             }
-                            UpdateTRList.add(trObj);
                         }
-
                     }
                     break;
 
