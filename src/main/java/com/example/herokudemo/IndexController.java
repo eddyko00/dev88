@@ -1424,7 +1424,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemFundMgr());
+                msg.setResponse("" + afWebService.SystemResetGlobalFundMgr());
                 msg.setResult(true);
                 return msg;
             }
@@ -1450,7 +1450,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemPocessFundMgr());
+                msg.setResponse("" + afWebService.SystemPocessUpdateFundMgr());
                 msg.setResult(true);
                 return msg;
             }
