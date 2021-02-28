@@ -126,7 +126,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
         arrayString.add("/cust/{username}/sys/autonnflag/disable");
 
-        arrayString.add("/cust/{username}/sys/fundmgr");
+        arrayString.add("/cust/{username}/sys/reloadfundmg");
         arrayString.add("/cust/{username}/sys/processfundmgr");
         arrayString.add("/cust/{username}/sys/deletenn1table");
 
@@ -1407,7 +1407,7 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/fundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/reloadfundmg", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemFundMgr(@PathVariable("username") String username) {
         WebStatus msg = new WebStatus();
