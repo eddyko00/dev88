@@ -258,7 +258,11 @@ public class AccountImp {
         String userN = newCustomer.getUsername();
         userN = userN.toUpperCase();
         newCustomer.setUsername(userN);
-        logger.info("> addCustomer  " + newCustomer.getUsername());
+        if (userN.equals(CKey.ADMIN_USERNAME)) {
+            logger.info("> addCustomer  ADM");
+        } else {
+            logger.info("> addCustomer  " + newCustomer.getUsername());
+        }
         int result = 0;
         try {
             result = accountdb.addCustomerAccount(newCustomer);
