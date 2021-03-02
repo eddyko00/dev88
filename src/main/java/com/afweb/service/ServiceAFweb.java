@@ -991,16 +991,16 @@ public class ServiceAFweb {
                 AccountObj accountAdminObj = getAdminObjFromCache();
                 TradingNNprocess NNProcessImp = new TradingNNprocess();
                 NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
-//                for (int j = 0; j < 5; j++) {
-//                    NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
-//                    nn3ProcBySig.PTrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
-//
-//                }
-                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+                for (int j = 0; j < 5; j++) {
+                    NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
+                    nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
 
-                TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-                TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+                }
+//                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+//
+//                TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//                TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
             }
 ////////////////////////////////////////////////////////
