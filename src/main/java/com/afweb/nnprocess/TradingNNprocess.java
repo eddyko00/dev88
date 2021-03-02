@@ -194,15 +194,15 @@ public class TradingNNprocess {
             try {
                 if (trNN == ConstantKey.INT_TR_NN1) {
                     NN1ProcessBySignal nn1Process = new NN1ProcessBySignal();
-                    nn1Process.ReTrainNN1StockNeuralNetData(serviceAFWeb, trNN, symbol);
+                    nn1Process.ReLearnNN1StockNeuralNetData(serviceAFWeb, trNN, symbol);
                 }
                 if (trNN == ConstantKey.INT_TR_NN2) {
                     NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
-                    nn2Process.ReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
+                    nn2Process.ReLearnNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
                 }
                 if (trNN == ConstantKey.INT_TR_NN3) {
                     NN3ProcessBySignal nn3Process = new NN3ProcessBySignal();
-                    nn3Process.ReTrainNN3StockNeuralNetData(serviceAFWeb, trNN, symbol);
+                    nn3Process.ReLearnNN3StockNeuralNetData(serviceAFWeb, trNN, symbol);
                 }
             } catch (Exception ex) {
                 logger.info("> PReLearnInputNeuralNet Exception" + ex.getMessage());

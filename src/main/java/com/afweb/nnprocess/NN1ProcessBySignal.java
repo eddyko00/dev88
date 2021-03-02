@@ -330,7 +330,7 @@ public class NN1ProcessBySignal {
 
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
-                retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnName, "", errorNN);
+                retflag = TrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnName, "", errorNN);
 
                 if (retflag == 1) {
                     break;
@@ -1503,7 +1503,7 @@ public class NN1ProcessBySignal {
 //            }
             int retflag = 0;
             if (TR_NN == ConstantKey.INT_TR_NN1) {
-                retflag = TRtrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, symbol, errorNN);
+                retflag = TrainingNN1NeuralNetData(serviceAFWeb, ConstantKey.TR_NN1, nnNameSym, symbol, errorNN);
             }
 //                logger.info("> processStockNeuralNet ... Done");
             return retflag;
@@ -1657,7 +1657,7 @@ public class NN1ProcessBySignal {
         return inputList;
     }
 
-    public int TRtrainingNN1NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
+    public int TrainingNN1NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
 
         ///NeuralNetObj1 transition
@@ -1681,10 +1681,10 @@ public class NN1ProcessBySignal {
         logger.info("> TRtrainingNeuralNet " + BPnameSym + " Statue=" + nnObj1.getStatus() + " Type=" + nnObj1.getType());
 
         String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN1;
-        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
+        return TrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
     }
 
-    public int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
+    public int TrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
@@ -1868,7 +1868,7 @@ public class NN1ProcessBySignal {
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
-    public int ReTrainNN1StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
+    public int ReLearnNN1StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
         boolean nnsym = true;
         if (nnsym == true) {
             int totalAdd = 0;

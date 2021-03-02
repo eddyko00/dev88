@@ -142,7 +142,7 @@ public class NN2ProcessByTrend {
 
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
-                retflag = TRtrainingNNTrendNeuralNetData(serviceAFWeb, nnName, nnName, "", errorNN);
+                retflag = TrainingNNTrendNeuralNetData(serviceAFWeb, nnName, nnName, "", errorNN);
 
                 if (retflag == 1) {
                     break;
@@ -716,7 +716,7 @@ public class NN2ProcessByTrend {
 
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN40) {
-                    retflag = TRtrainingNNTrendNeuralNetData(serviceAFWeb, ConstantKey.TR_NN40, nnNameSym, symbol, errorNN);
+                    retflag = TrainingNNTrendNeuralNetData(serviceAFWeb, ConstantKey.TR_NN40, nnNameSym, symbol, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;
@@ -958,7 +958,7 @@ public class NN2ProcessByTrend {
         return stockNNretrainprocessNameArray;
     }
 
-    public int TRtrainingNNTrendNeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
+    public int TrainingNNTrendNeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
 
         ///NeuralNetObj1 transition
@@ -984,10 +984,10 @@ public class NN2ProcessByTrend {
 
         String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN40;
 
-        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
+        return TrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
     }
 
-    public int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
+    public int TrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 

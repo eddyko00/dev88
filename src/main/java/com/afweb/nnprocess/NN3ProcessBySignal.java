@@ -320,7 +320,7 @@ public class NN3ProcessBySignal {
 
             for (int i = 0; i < 20; i++) {
                 int retflag = 0;
-                retflag = TRtrainingNN3NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnName, "", errorNN);
+                retflag = TainingNN3NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnName, "", errorNN);
 
                 if (retflag == 1) {
                     break;
@@ -330,7 +330,7 @@ public class NN3ProcessBySignal {
         }
     }
 
-    public int TRtrainingNN3NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
+    public int TainingNN3NeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
 
         ///NeuralNetObj1 transition
@@ -355,10 +355,10 @@ public class NN3ProcessBySignal {
 
         String BPnameTR = CKey.NN_version + "_" + ConstantKey.TR_NN3;
 
-        return TRtrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
+        return TrainingNNNeuralNetProcess(serviceAFWeb, BPnameTR, nnName, nnNameSym, symbol, nnError);
     }
 
-    public int TRtrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
+    public int TrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
@@ -1227,7 +1227,7 @@ public class NN3ProcessBySignal {
 //                }
                 int retflag = 0;
                 if (TR_NN == ConstantKey.INT_TR_NN3) {
-                    retflag = TRtrainingNN3NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, symbol, errorNN);
+                    retflag = TainingNN3NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, symbol, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
                 return retflag;
@@ -1273,7 +1273,7 @@ public class NN3ProcessBySignal {
         return inputList;
     }
 
-    public int ReTrainNN3StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
+    public int ReLearnNN3StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
         boolean nnsym = true;
         if (nnsym == true) {
             int totalAdd = 0;
