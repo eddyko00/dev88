@@ -774,7 +774,7 @@ public class ServiceAFweb {
 
                     for (int j = 0; j < 5; j++) {
                         nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
-                        NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
+                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
                     }
 //                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
                     logger.info("End processNewNeuralNet.....NN1 " + symbol);
@@ -788,7 +788,7 @@ public class ServiceAFweb {
                     for (int j = 0; j < 5; j++) {
                         nn2ProcBySig.PTrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
 
-                        NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
+                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
                     }
 //                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
                     logger.info("End processNewNeuralNet.....NN2 " + symbol);
@@ -992,7 +992,7 @@ public class ServiceAFweb {
                 TradingNNprocess NNProcessImp = new TradingNNprocess();
                 NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
                 for (int j = 0; j < 5; j++) {
-                    NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
+                    NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
                     nn3ProcBySig.PTrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
 
                 }

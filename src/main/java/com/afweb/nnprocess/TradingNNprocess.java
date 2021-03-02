@@ -126,7 +126,7 @@ public class TradingNNprocess {
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
                     if (stock != null) {
                         
-                        this.PReLearnInputNeuralNet(serviceAFWeb, symbol, trNN);
+                        this.ReLearnInputNeuralNet(serviceAFWeb, symbol, trNN);
 
 //                        String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
 //                        LockStock = LockStock.toUpperCase();
@@ -180,7 +180,7 @@ public class TradingNNprocess {
         logger.info("> ProcessReLearnInputNeuralNet ... done");
     }
 
-    public void PReLearnInputNeuralNet(ServiceAFweb serviceAFWeb, String symbol, int trNN) {
+    public void ReLearnInputNeuralNet(ServiceAFweb serviceAFWeb, String symbol, int trNN) {
         String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
         LockStock = LockStock.toUpperCase();
 
