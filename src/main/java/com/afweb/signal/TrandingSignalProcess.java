@@ -844,6 +844,40 @@ public class TrandingSignalProcess {
         return true;
     }
 
+    public boolean checkNN3Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
+
+        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
+        if (nnObj0 == null) {
+            return false;
+        }
+        if (nnObj0.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+
+        if (CheckRefData == true) {
+            ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
+            int numReLearn = refData.getnRLearn();
+            if (numReLearn == -1) {
+                return false;
+            }
+            if (numReLearn > 5) {
+                return false;
+            }
+            if (refData.getnRLCnt() < 4) {
+                return false;
+            }
+
+        }
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
+        if (nnObj0 == null) {
+            return false;
+        }
+        if (nnObj0.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+        return true;
+    }
+
     public void upateAdminTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         try {
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -872,7 +906,7 @@ public class TrandingSignalProcess {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                    if (checkNN1Ready(serviceAFWeb, symbol, true) == false) {
+                    if (checkNN3Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
                     }
                 }
@@ -1195,13 +1229,14 @@ public class TrandingSignalProcess {
                             int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                             prevSignal = nn3Signal;
                             if (ServiceAFweb.mydebugtestflag == true) {
-                                if (offset < 99) {
-                                    prevSignal = nn3Signal;
-                                }
-                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-                                logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
-                                        + " L:" + LTerm1 + " S:" + STerm1);
+
+//                                if (offset < 99) {
+//                                    prevSignal = nn3Signal;
+//                                }
+//                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+//                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+//                                logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
+//                                        + " L:" + LTerm1 + " S:" + STerm1);
                             }
                         }
                     }
@@ -2228,10 +2263,12 @@ public class TrandingSignalProcess {
 
     public static AFneuralNet nn1ObjCache = null;
     public static AFneuralNet nn2ObjCache = null;
+    public static AFneuralNet nn3ObjCache = null;    
     public static AFneuralNet nn30ObjCache = null;
     public static AFneuralNet nn40ObjCache = null;
     public static long lastUpdateTime1 = 0;
     public static long lastUpdateTime2 = 0;
+    public static long lastUpdateTime3 = 0;    
     public static long lastUpdateTime30 = 0;
     public static long lastUpdateTime40 = 0;
 
@@ -2289,6 +2326,26 @@ public class TrandingSignalProcess {
                 nn2ObjCache = nnObj1;
                 lastUpdateTime2 = System.currentTimeMillis();
             }
+        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN3)) {
+            if (nn3ObjCache != null) {
+                if (nn3ObjCache.getName().equals(name)) {
+
+                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime3, 10);
+                    long currentTime = System.currentTimeMillis();
+                    if (date5Min > currentTime) {
+                        nnObj1 = nn3ObjCache;
+                    }
+                }
+            }
+
+            if (nnObj1 == null) {
+                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+                if (nnObj1 == null) {
+                    return 0;
+                }
+                nn3ObjCache = nnObj1;
+                lastUpdateTime3 = System.currentTimeMillis();
+            }            
         } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN40)) {
             if (nn40ObjCache != null) {
                 if (nn40ObjCache.getName().equals(name)) {

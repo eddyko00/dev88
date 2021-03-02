@@ -935,7 +935,9 @@ public class NN3ProcessBySignal {
         long lockReturnStock = 1;
 
         lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
-
+        if (ServiceAFweb.mydebugtestflag == true) {
+            lockReturnStock = 1;
+        }
 //                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
         if (lockReturnStock == 0) {
             if (stockNNprocessNameArray != null) {
@@ -1194,7 +1196,7 @@ public class NN3ProcessBySignal {
 
         boolean nnsymTrain = true;
         if (nnsymTrain == true) {
-            String nnName = ConstantKey.TR_NN2;
+            String nnName = ConstantKey.TR_NN3;
             double errorNN = CKey.NN2_ERROR_THRESHOLD;
 
             String nnNameSym = nnName + "_" + symbol;
@@ -1224,7 +1226,7 @@ public class NN3ProcessBySignal {
 //                    }
 //                }
                 int retflag = 0;
-                if (TR_NN == ConstantKey.INT_TR_NN2) {
+                if (TR_NN == ConstantKey.INT_TR_NN3) {
                     retflag = TRtrainingNN3NeuralNetData(serviceAFWeb, ConstantKey.TR_NN3, nnNameSym, symbol, errorNN);
                 }
 //                logger.info("> processStockNeuralNet ... Done");
@@ -1279,7 +1281,7 @@ public class NN3ProcessBySignal {
             String nnName = ConstantKey.TR_NN3;
 
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
-            if (TRprocessImp.checkNN2Ready(serviceAFWeb, symbol, false) == false) {
+            if (TRprocessImp.checkNN3Ready(serviceAFWeb, symbol, false) == false) {
                 return 0;
             }
 
@@ -1371,7 +1373,7 @@ public class NN3ProcessBySignal {
                 if (getEnv.checkLocalPC() == true) {
                     boolean flag = false;
                     if (flag == true) {
-                        String nn12 = "_nn1_retarin_";
+                        String nn12 = "_nn3_retarin_";
                         String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ".csv";
                         FileUtil.FileWriteTextArray(filename, writeArray);
                     }

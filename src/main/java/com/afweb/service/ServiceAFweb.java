@@ -979,6 +979,31 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+/////////////////////////////////////////////////////            
+            if (nn3testflag == true) {
+                // javamain localmysqlflag nn3testflag mydebugtestflag
+                symbol = "GLD";
+                trNN = ConstantKey.INT_TR_NN3;
+                TR_NN = trNN;
+                nnName = ConstantKey.TR_NN3;
+                BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+                AccountObj accountAdminObj = getAdminObjFromCache();
+                TradingNNprocess NNProcessImp = new TradingNNprocess();
+                NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
+                for (int j = 0; j < 5; j++) {
+                    NNProcessImp.PReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
+                    nn3ProcBySig.PTrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
+
+                }
+//                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+//
+//                TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//                TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+
+            }
+////////////////////////////////////////////////////////
 //            systemRemoveAllEmail();
 //            BillingProcess billProc = new BillingProcess();
 //            for (int i = 0; i < 10; i++) {
@@ -1010,19 +1035,6 @@ public class ServiceAFweb {
 //                    Thread.currentThread().interrupt();
 //                }
 //            }
-///////////////////////////////////////////////////////////
-//            try {
-//                GmailSender sender = new GmailSender();
-//                sender.setSender(UA_Str, PA_Str);
-//                sender.addRecipient(UU_Str);
-//                sender.setSubject("The subject1");
-//                sender.setBody("The body1");
-////            sender.addAttachment("TestFile.txt");
-//                sender.send();
-//            } catch (Exception ex) {
-//                logger.info("> Exception ...." + ex.getMessage());
-//            }
-//
 ////////////////////////////////////////////////////////////////////
 //             AFstockObj stock = getRealTimeStockImp(symbol);
 //             int resultUpdate = TRprocessImp.updateRealTimeStock(this, stock);

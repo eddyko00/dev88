@@ -186,7 +186,9 @@ public class TradingNNprocess {
 
         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
         long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
-
+//        if (ServiceAFweb.nn3testflag == true) {
+//            lockReturnStock = 1;
+//        }
 //      logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
         if (lockReturnStock > 0) {
             try {
@@ -198,7 +200,10 @@ public class TradingNNprocess {
                     NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
                     nn2Process.ReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
                 }
-
+                if (trNN == ConstantKey.INT_TR_NN3) {
+                    NN3ProcessBySignal nn3Process = new NN3ProcessBySignal();
+                    nn3Process.ReTrainNN3StockNeuralNetData(serviceAFWeb, trNN, symbol);
+                }
             } catch (Exception ex) {
                 logger.info("> PReLearnInputNeuralNet Exception" + ex.getMessage());
             }

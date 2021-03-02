@@ -1428,7 +1428,7 @@ public class NN2ProcessBySignal {
                 if (getEnv.checkLocalPC() == true) {
                     boolean flag = false;
                     if (flag == true) {
-                        String nn12 = "_nn1_retarin_";
+                        String nn12 = "_nn2_retarin_";
                         String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ".csv";
                         FileUtil.FileWriteTextArray(filename, writeArray);
                     }

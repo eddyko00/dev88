@@ -33,6 +33,8 @@ public class NNCal {
                 return ProcessNN1.NNpredictNN1(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
             case ConstantKey.INT_TR_NN2:
                 return ProcessNN2.NNpredictNN2(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+            case ConstantKey.INT_TR_NN3:
+                return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
 
             case ConstantKey.INT_TR_NN30:
                 return ProcessNN00.NNpredictNN30(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
