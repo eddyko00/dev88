@@ -770,10 +770,10 @@ public class ServiceAFweb {
                 }
                 if (TRprocessImp.checkNN1Ready(this, symbol, true) == false) {
                     // process train symbol
-                    nn1trend.PTrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
+                    nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
 
                     for (int j = 0; j < 5; j++) {
-                        nn1ProcBySig.PTrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
+                        nn1ProcBySig.TrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
                         NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
                     }
 //                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
@@ -783,10 +783,10 @@ public class ServiceAFweb {
 
                 if (TRprocessImp.checkNN2Ready(this, symbol, true) == false) {
                     // process train symbol
-                    nn2trend.PTrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
+                    nn2trend.TrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
 
                     for (int j = 0; j < 5; j++) {
-                        nn2ProcBySig.PTrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
+                        nn2ProcBySig.TrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
 
                         NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
                     }
@@ -991,16 +991,16 @@ public class ServiceAFweb {
                 AccountObj accountAdminObj = getAdminObjFromCache();
                 TradingNNprocess NNProcessImp = new TradingNNprocess();
                 NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
-                for (int j = 0; j < 5; j++) {
-                    NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
-                    nn3ProcBySig.PTrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
-
-                }
-//                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+//                for (int j = 0; j < 5; j++) {
+//                    NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
+//                    nn3ProcBySig.PTrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
 //
-//                TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//                TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//                }
+                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+
+                TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+                TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
             }
 ////////////////////////////////////////////////////////

@@ -917,7 +917,7 @@ public class NN3ProcessBySignal {
                         stockNNprocessNameArray.remove(0);
                         continue;
                     }
-                    this.PTrainNN3NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
+                    this.TrainNN3NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
                     
                 }
             }  // end for loop
@@ -927,7 +927,7 @@ public class NN3ProcessBySignal {
         logger.info("> ProcessTrainNN3NeuralNetBySign ... done");
     }
 
-    public void PTrainNN3NeuralNetBySign(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
+    public void TrainNN3NeuralNetBySign(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
         String LockStock = "NN3_TR_" + symbol; // + "_" + trNN;
         LockStock = LockStock.toUpperCase();
 

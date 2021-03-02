@@ -581,7 +581,7 @@ public class NN1ProcessByTrend {
                         stockNNprocessNameArray.remove(0);
                         continue;
                     }
-                    this.PTrainNN30NeuralNetByTrend(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
+                    this.TrainNN30NeuralNetByTrend(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
 
 //                    String LockStock = "NN30_TR_" + symbol; // + "_" + trNN;
 //                    LockStock = LockStock.toUpperCase();
@@ -633,7 +633,7 @@ public class NN1ProcessByTrend {
         logger.info("> ProcessTrainNeuralNetNN1ByTrend ... done");
     }
 
-    public void PTrainNN30NeuralNetByTrend(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
+    public void TrainNN30NeuralNetByTrend(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
 
         String LockStock = "NN30_TR_" + symbol; // + "_" + trNN;
         LockStock = LockStock.toUpperCase();

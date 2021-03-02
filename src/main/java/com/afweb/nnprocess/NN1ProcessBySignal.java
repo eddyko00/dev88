@@ -1142,7 +1142,7 @@ public class NN1ProcessBySignal {
                         stockNNprocessNameArray.remove(0);
                         return;
                     }
-                    this.PTrainNN1NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
+                    this.TrainNN1NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
 
 //                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
 //                    if (stock == null) {
@@ -1204,7 +1204,7 @@ public class NN1ProcessBySignal {
         logger.info("> ProcessTrainNeuralNetBySign ... done");
     }
 
-    public void PTrainNN1NeuralNetBySign(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
+    public void TrainNN1NeuralNetBySign(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
 
         String LockStock = "NN1_TR_" + symbol; // + "_" + trNN;
         LockStock = LockStock.toUpperCase();

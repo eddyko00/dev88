@@ -926,7 +926,7 @@ public class NN2ProcessBySignal {
                         stockNNprocessNameArray.remove(0);
                         continue;
                     }
-                    this.PTrainNN2NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
+                    this.TrainNN2NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
                     
 //                    String LockStock = "NN2_TR_" + symbol; // + "_" + trNN;
 //                    LockStock = LockStock.toUpperCase();
@@ -979,7 +979,7 @@ public class NN2ProcessBySignal {
         logger.info("> ProcessTrainNN2NeuralNetBySign ... done");
     }
 
-    public void PTrainNN2NeuralNetBySign(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
+    public void TrainNN2NeuralNetBySign(ServiceAFweb serviceAFWeb, String symbol, int TR_NN, ArrayList stockNNprocessNameArray) {
         String LockStock = "NN2_TR_" + symbol; // + "_" + trNN;
         LockStock = LockStock.toUpperCase();
 
