@@ -979,38 +979,42 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            symbol = "FAZ";
+            TRprocessImp.updateAllStockProcess(this, symbol);
 /////////////////////////////////////////////////////            
             if (nn3testflag == true) {
                 // javamain localmysqlflag nn3testflag mydebugtestflag
                 // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/tran/history/chart
                 // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/perf
                 // https://iiswebsrv.herokuapp.com/cust/admin1/acc/1/st/gld/tr/TR_NN2/tran/history/chart
-                symbol = "HOU.TO"; // "GLD";
-                trNN = ConstantKey.INT_TR_NN3;
-                TR_NN = trNN;
-                nnName = ConstantKey.TR_NN3;
-                BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                TradingNNprocess NNProcessImp = new TradingNNprocess();
-                NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
-                boolean init = true;
                 
-                init = false;
-                if (init == true) {
-                    for (int j = 0; j < 5; j++) {
-                        nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
-                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
-
-                    }
-                    
-                } else {
-                    int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
-
-                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-                }
+                
+//                symbol = "HOU.TO"; // "GLD";
+//                trNN = ConstantKey.INT_TR_NN3;
+//                TR_NN = trNN;
+//                nnName = ConstantKey.TR_NN3;
+//                BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                TradingNNprocess NNProcessImp = new TradingNNprocess();
+//                NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
+//                boolean init = true;
+//                
+//                init = false;
+//                if (init == true) {
+//                    for (int j = 0; j < 5; j++) {
+//                        nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
+//                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
+//
+//                    }
+//                    
+//                } else {
+//                    int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+//
+//                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//                }
             }
 ////////////////////////////////////////////////////////
 //            systemRemoveAllEmail();

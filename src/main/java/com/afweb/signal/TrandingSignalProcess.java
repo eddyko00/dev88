@@ -1121,7 +1121,7 @@ public class TrandingSignalProcess {
                     trHistory.setTrsignal(trObj.getTrsignal());
                     trHistory.setParm1((float) ema24.ema);
                     trHistory.setParm2((float) ema24.lastema);
-                    break;                    
+                    break;
                 case ConstantKey.INT_TR_EMA0:
                     EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
                     trObj.setTrsignal(ema510.trsignal);
@@ -1744,83 +1744,98 @@ public class TrandingSignalProcess {
 
                 if (stockRTinternet != null) {
                     // check for stock split
-                    AFstockInfo stockInfoObj = StockArray.get(0);
-                    boolean splitFlag = false;
 
                     int size1yearAll = 20;
-                    float splitF = 0;
-                    String msg = "";
-                    CommData commDataObj = new CommData();
-                    ArrayList<AFstockInfo> StockArrayTemp = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
-                    if (StockArrayTemp != null && StockArrayTemp.size() > 0) {
-                        AFstockInfo stockInfo = StockArrayTemp.get(0);
-                        long historydate = stockInfo.getEntrydatel();
-                        historydate = TimeConvertion.endOfDayInMillis(historydate);
-                        float newClose = stockInfo.getFclose();
-                        for (int j = 0; j < StockArray.size(); j++) {
-                            AFstockInfo stockInfoObjTmp = StockArray.get(j);
-                            long currentdate = TimeConvertion.endOfDayInMillis(stockInfoObjTmp.getEntrydatel());
-                            if (historydate == currentdate) {
+                    ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
+//                    AFstockInfo stockInfoObj = StockArray.get(0);
+                    AFstockInfo stockInfoHistory = StockArrayHistory.get(0);
+                    boolean ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
+                    if (ret == false) {
+//                        stockInfoObj = StockArray.get(1);
+                        stockInfoHistory = StockArrayHistory.get(1);
+                        ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
+                        if (ret == false) {
+//                            stockInfoObj = StockArray.get(2);
+                            stockInfoHistory = StockArrayHistory.get(2);
+                            ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
 
-                                float oldClose = stockInfoObjTmp.getFclose();
-                                float deltaPTmp = 0;
-                                if (newClose > oldClose) {
-                                    deltaPTmp = newClose / oldClose;
-                                    splitF = deltaPTmp;
-                                } else {
-                                    deltaPTmp = oldClose / newClose;
-                                    splitF = -deltaPTmp;
-                                }
-                                if (deltaPTmp > CKey.SPLIT_VAL) {
-//                                
-                                    splitFlag = true;
-                                    msg = "updateRealTimeStock " + NormalizeSymbol + " Split=" + splitF + " "
-                                            + stockInfoObj.getEntrydatedisplay() + " newClose " + newClose + " oldClose " + oldClose;
-
-                                    commDataObj.setType(0);
-                                    commDataObj.setSymbol(NormalizeSymbol);
-                                    commDataObj.setEntrydatedisplay(stockInfoObj.getEntrydatedisplay());
-                                    commDataObj.setEntrydatel(stockInfoObj.getEntrydatel());
-                                    commDataObj.setSplit(splitF);
-                                    commDataObj.setOldclose(oldClose);
-                                    commDataObj.setNewclose(newClose);
-                                }
-                                break;
-                            }
                         }
-
                     }
-                    if (splitFlag == true) {
-                        if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                            //just for testing
-                            return 0;
-                        }
-                        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
-                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-                        ArrayList sqlList = new ArrayList();
-                        sqlList.add(sockNameSQL);
-                        serviceAFWeb.SystemUpdateSQLList(sqlList);
-                        logger.info(msg);
-
-                        // send admin messsage
-                        String tzid = "America/New_York"; //EDT
-                        TimeZone tz = TimeZone.getTimeZone(tzid);
-                        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-                        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-                        long dateNowLong = dateNow.getTimeInMillis();
-                        java.sql.Date d = new java.sql.Date(dateNowLong);
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                        DateFormat format = new SimpleDateFormat(" hh:mm a");
-                        format.setTimeZone(tz);
-                        String ESTdate = format.format(d);
-
-                        String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
-
-                        commDataObj.setMsg(commMsg);
-                        serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
-
+                    if (ret == true) {
                         return 0;
                     }
+//                    float splitF = 0;
+//                    String msg = "";
+//                    CommData commDataObj = new CommData();
+//                    if (StockArrayTemp != null && StockArrayTemp.size() > 0) {
+//                        AFstockInfo stockInfo = StockArrayTemp.get(0);
+//                        long historydate = stockInfo.getEntrydatel();
+//                        historydate = TimeConvertion.endOfDayInMillis(historydate);
+//                        float newClose = stockInfo.getFclose();
+//                        for (int j = 0; j < StockArray.size(); j++) {
+//                            AFstockInfo stockInfoObjTmp = StockArray.get(j);
+//                            long currentdate = TimeConvertion.endOfDayInMillis(stockInfoObjTmp.getEntrydatel());
+//                            if (historydate == currentdate) {
+//
+//                                float oldClose = stockInfoObjTmp.getFclose();
+//                                float deltaPTmp = 0;
+//                                if (newClose > oldClose) {
+//                                    deltaPTmp = newClose / oldClose;
+//                                    splitF = deltaPTmp;
+//                                } else {
+//                                    deltaPTmp = oldClose / newClose;
+//                                    splitF = -deltaPTmp;
+//                                }
+//                                if (deltaPTmp > CKey.SPLIT_VAL) {
+////                                
+//                                    splitFlag = true;
+//                                    msg = "updateRealTimeStock " + NormalizeSymbol + " Split=" + splitF + " "
+//                                            + stockInfoObj.getEntrydatedisplay() + " newClose " + newClose + " oldClose " + oldClose;
+//
+//                                    commDataObj.setType(0);
+//                                    commDataObj.setSymbol(NormalizeSymbol);
+//                                    commDataObj.setEntrydatedisplay(stockInfoObj.getEntrydatedisplay());
+//                                    commDataObj.setEntrydatel(stockInfoObj.getEntrydatel());
+//                                    commDataObj.setSplit(splitF);
+//                                    commDataObj.setOldclose(oldClose);
+//                                    commDataObj.setNewclose(newClose);
+//                                }
+//                                break;
+//                            }
+//                        }
+//
+//                    }
+//                    if (splitFlag == true) {
+//                        if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+//                            //just for testing
+//                            return 0;
+//                        }
+//                        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
+//                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+//                        ArrayList sqlList = new ArrayList();
+//                        sqlList.add(sockNameSQL);
+//                        serviceAFWeb.SystemUpdateSQLList(sqlList);
+//                        logger.info(msg);
+//
+//                        // send admin messsage
+//                        String tzid = "America/New_York"; //EDT
+//                        TimeZone tz = TimeZone.getTimeZone(tzid);
+//                        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+//                        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//                        long dateNowLong = dateNow.getTimeInMillis();
+//                        java.sql.Date d = new java.sql.Date(dateNowLong);
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                        DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                        format.setTimeZone(tz);
+//                        String ESTdate = format.format(d);
+//
+//                        String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
+//
+//                        commDataObj.setMsg(commMsg);
+//                        serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
+//
+//                        return 0;
+//                    }
 
                 }
 
@@ -1899,6 +1914,89 @@ public class TrandingSignalProcess {
             logger.info("> updateRealTimeStock " + NormalizeSymbol + " exception " + e.getMessage());
         }
         return 0;
+    }
+
+    private boolean checkStockSplit(ServiceAFweb serviceAFWeb, AFstockObj stock,
+            ArrayList<AFstockInfo> StockArray,
+            ArrayList<AFstockInfo> StockArrayHistory, AFstockInfo stockInfoHistory,
+            String NormalizeSymbol) {
+
+        boolean splitFlag = false;
+        float splitF = 0;
+        String msg = "";
+        CommData commDataObj = new CommData();
+        AFstockInfo stockInfoObjInternet = null;
+
+        if (StockArrayHistory != null && StockArrayHistory.size() > 0) {
+
+            long historydate = stockInfoHistory.getEntrydatel();
+            historydate = TimeConvertion.endOfDayInMillis(historydate);
+            float newClose = stockInfoHistory.getFclose();
+            for (int j = 0; j < StockArray.size(); j++) {
+                stockInfoObjInternet = StockArray.get(j);
+                long currentdate = TimeConvertion.endOfDayInMillis(stockInfoObjInternet.getEntrydatel());
+                if (historydate == currentdate) {
+
+                    float oldClose = stockInfoObjInternet.getFclose();
+                    float deltaPTmp = 0;
+                    if (newClose > oldClose) {
+                        deltaPTmp = newClose / oldClose;
+                        splitF = deltaPTmp;
+                    } else {
+                        deltaPTmp = oldClose / newClose;
+                        splitF = -deltaPTmp;
+                    }
+                    if (deltaPTmp > CKey.SPLIT_VAL) {
+//                                
+                        splitFlag = true;
+                        msg = "updateRealTimeStock " + NormalizeSymbol + " Split=" + splitF + " "
+                                + stockInfoHistory.getEntrydatedisplay() + " newClose " + newClose + " oldClose " + oldClose;
+
+                        commDataObj.setType(0);
+                        commDataObj.setSymbol(NormalizeSymbol);
+                        commDataObj.setEntrydatedisplay(stockInfoHistory.getEntrydatedisplay());
+                        commDataObj.setEntrydatel(stockInfoHistory.getEntrydatel());
+                        commDataObj.setSplit(splitF);
+                        commDataObj.setOldclose(oldClose);
+                        commDataObj.setNewclose(newClose);
+                    }
+                    break;
+                }
+            }
+
+        }
+        if (splitFlag == true) {
+            if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+                //just for testing
+                return true;
+            }
+            stock.setSubstatus(ConstantKey.STOCK_SPLIT);
+            String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+            ArrayList sqlList = new ArrayList();
+            sqlList.add(sockNameSQL);
+            serviceAFWeb.SystemUpdateSQLList(sqlList);
+            logger.info(msg);
+
+            // send admin messsage
+            String tzid = "America/New_York"; //EDT
+            TimeZone tz = TimeZone.getTimeZone(tzid);
+            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            long dateNowLong = dateNow.getTimeInMillis();
+            java.sql.Date d = new java.sql.Date(dateNowLong);
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+            DateFormat format = new SimpleDateFormat(" hh:mm a");
+            format.setTimeZone(tz);
+            String ESTdate = format.format(d);
+
+            String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
+
+            commDataObj.setMsg(commMsg);
+            serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
+
+            return true;
+        }
+        return false;
     }
 
     ///////////////////////
@@ -2270,12 +2368,12 @@ public class TrandingSignalProcess {
 
     public static AFneuralNet nn1ObjCache = null;
     public static AFneuralNet nn2ObjCache = null;
-    public static AFneuralNet nn3ObjCache = null;    
+    public static AFneuralNet nn3ObjCache = null;
     public static AFneuralNet nn30ObjCache = null;
     public static AFneuralNet nn40ObjCache = null;
     public static long lastUpdateTime1 = 0;
     public static long lastUpdateTime2 = 0;
-    public static long lastUpdateTime3 = 0;    
+    public static long lastUpdateTime3 = 0;
     public static long lastUpdateTime30 = 0;
     public static long lastUpdateTime40 = 0;
 
@@ -2352,7 +2450,7 @@ public class TrandingSignalProcess {
                 }
                 nn3ObjCache = nnObj1;
                 lastUpdateTime3 = System.currentTimeMillis();
-            }            
+            }
         } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN40)) {
             if (nn40ObjCache != null) {
                 if (nn40ObjCache.getName().equals(name)) {
