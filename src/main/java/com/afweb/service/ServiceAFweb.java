@@ -982,6 +982,9 @@ public class ServiceAFweb {
 /////////////////////////////////////////////////////            
             if (nn3testflag == true) {
                 // javamain localmysqlflag nn3testflag mydebugtestflag
+                // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/tran/history/chart
+                // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/perf
+                // https://iiswebsrv.herokuapp.com/cust/admin1/acc/1/st/gld/tr/TR_NN2/tran/history/chart
                 symbol = "GLD";
                 trNN = ConstantKey.INT_TR_NN3;
                 TR_NN = trNN;
@@ -991,17 +994,20 @@ public class ServiceAFweb {
                 AccountObj accountAdminObj = getAdminObjFromCache();
                 TradingNNprocess NNProcessImp = new TradingNNprocess();
                 NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
-                for (int j = 0; j < 5; j++) {
-                    NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
-                    nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
+                boolean init = true;
+                if (init == true) {
+                    for (int j = 0; j < 5; j++) {
+                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
+                        nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
 
+                    }
+                } else {
+                    int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+
+                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
                 }
-//                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
-//
-//                TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//                TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-
             }
 ////////////////////////////////////////////////////////
 //            systemRemoveAllEmail();
