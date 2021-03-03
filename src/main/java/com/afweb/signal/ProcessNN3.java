@@ -28,7 +28,7 @@ public class ProcessNN3 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
 
-   public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
+    public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         NNObj nn = new NNObj();
@@ -164,7 +164,8 @@ public class ProcessNN3 {
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA2);
+//        trObj2.setType(ConstantKey.INT_TR_EMA2);
+        trObj2.setType(ConstantKey.INT_TR_EMA0);
         // slow
 
         trObj2.setAccount(trObjNN2.getAccount());
@@ -212,9 +213,10 @@ public class ProcessNN3 {
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA1);
-        // normal
+//        trObj2.setType(ConstantKey.INT_TR_EMA1);
+        trObj2.setType(ConstantKey.INT_TR_EMA00);
 
+        // normal
         trObj2.setAccount(trObjNN2.getAccount());
         trObj2.setStockid(trObjNN2.getStockid());
 
@@ -245,7 +247,6 @@ public class ProcessNN3 {
 
         return inputDatalist;
     }
-
 
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
@@ -292,10 +293,8 @@ public class ProcessNN3 {
         float prediction = -1;
 ///////////////////////////////        
 
-//        ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_7);
-//        ADXObj adxObj = TechnicalCal.AvgDir(StockArray, offset, ConstantKey.INT_ADX_5);
-//        adxSignal = adxObj.trsignal;
-        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+//        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
         emaSignal = ema510.trsignal;
 ///////////////////////////////////////////////////
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -382,7 +381,7 @@ public class ProcessNN3 {
             }
             nnSignal = retSignal;
         }
-        
+
         trObj.setTrsignal(nnSignal);
         trHistory.setTrsignal(nnSignal);
 
@@ -406,7 +405,9 @@ public class ProcessNN3 {
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 /////////////////////////////////////////////                
-                EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+//                EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+                EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
+
                 int emaSignal = ema510.trsignal;
 /////////////////////////////////////////////                
 
@@ -481,7 +482,7 @@ public class ProcessNN3 {
                     }
                     nnSignal = trendSignal;
                 }
-                
+
                 if (nnSignal != prevSignal) {
                     int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
                     if (nnSignal == retSignal) {
@@ -489,7 +490,7 @@ public class ProcessNN3 {
                     }
                     nnSignal = retSignal;
                 }
-                
+
                 if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
                     String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
                     if (prevSignal == ConstantKey.S_SELL) {
@@ -899,6 +900,5 @@ public class ProcessNN3 {
 
         return -1;
     }
-    
-    
+
 }

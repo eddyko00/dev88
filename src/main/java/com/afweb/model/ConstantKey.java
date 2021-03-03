@@ -81,16 +81,15 @@ public class ConstantKey {
     public static final int INT_COM_CFG = -1;
 
     public static final String COM_SIGNAL = "MESSAGE";
-    public static final String COM_ACCBILLMSG = "ACCOUNT";      
+    public static final String COM_ACCBILLMSG = "ACCOUNT";
     public static final String COM_ADD_ACC_MSG = "ADDACC";
     public static final int INT_TYPE_COM_SIGNAL = 0;
 //
     public static final String COM_SPLIT = "MSG_SPLIT";
     public static final int INT_COM_SPLIT = 2;
 
-    public static final String COM_EMAIL = "MSG_EMAIL";  
+    public static final String COM_EMAIL = "MSG_EMAIL";
     public static final int INT_TYPE_COM_EMAIL = 4;
-    
 
     public static final String BILLING = "BILLING";
     public static final int INT_BILLING = 10;
@@ -133,6 +132,7 @@ public class ConstantKey {
     public static final int INT_MV_20 = 20;
     public static final int INT_MV_50 = 50; //50;
 
+    public static final int INT_TR_EMA00 = 134;
     public static final int INT_TR_EMA0 = 130;  // fast
     //ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6
     public static final int INT_EMA_2 = 2;

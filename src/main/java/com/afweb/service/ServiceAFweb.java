@@ -985,7 +985,7 @@ public class ServiceAFweb {
                 // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/tran/history/chart
                 // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/perf
                 // https://iiswebsrv.herokuapp.com/cust/admin1/acc/1/st/gld/tr/TR_NN2/tran/history/chart
-                symbol = "GLD";
+                symbol = "HOU.TO"; // "GLD";
                 trNN = ConstantKey.INT_TR_NN3;
                 TR_NN = trNN;
                 nnName = ConstantKey.TR_NN3;
@@ -995,12 +995,15 @@ public class ServiceAFweb {
                 TradingNNprocess NNProcessImp = new TradingNNprocess();
                 NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
                 boolean init = true;
+                
+                init = false;
                 if (init == true) {
                     for (int j = 0; j < 5; j++) {
-                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
                         nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
+                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN3);
 
                     }
+                    
                 } else {
                     int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
 
