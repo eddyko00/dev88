@@ -979,16 +979,24 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "FAZ";
-            TRprocessImp.updateAllStockProcess(this, symbol);
+            String sym = "FAZ";
+            TRprocessImp.updateAllStockProcess(this, sym);
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC, sym);
+
 /////////////////////////////////////////////////////            
             if (nn3testflag == true) {
                 // javamain localmysqlflag nn3testflag mydebugtestflag
                 // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/tran/history/chart
                 // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/perf
                 // https://iiswebsrv.herokuapp.com/cust/admin1/acc/1/st/gld/tr/TR_NN2/tran/history/chart
-                
-                
+
 //                symbol = "HOU.TO"; // "GLD";
 //                trNN = ConstantKey.INT_TR_NN3;
 //                TR_NN = trNN;

@@ -688,7 +688,7 @@ public class NN1ProcessBySignal {
             inputBuf.append(nnAllStock.NN_ALLSTOCK174);
             inputBuf.append(nnAllStock.NN_ALLSTOCK175);
             inputBuf.append(nnAllStock.NN_ALLSTOCK176);
-//            inputBuf.append(nnAllStock.NN_ALLSTOCK177);  // check nnAllStock data 
+            inputBuf.append(nnAllStock.NN_ALLSTOCK177);  // check nnAllStock data 
 //            inputBuf.append(nnAllStock.NN_ALLSTOCK178);
 //            inputBuf.append(nnAllStock.NN_ALLSTOCK179);
 
@@ -827,8 +827,8 @@ public class NN1ProcessBySignal {
 
             inputBuf.append(nnAllStock1.NN_1ALLSTOCK80);
             inputBuf.append(nnAllStock1.NN_1ALLSTOCK81);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK82);
-//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK83);
+            inputBuf.append(nnAllStock1.NN_1ALLSTOCK82);  
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK83);  // check nnAllStock data
 //            inputBuf.append(nnAllStock1.NN_1ALLSTOCK84);
 //            inputBuf.append(nnAllStock1.NN_1ALLSTOCK85);
 //            inputBuf.append(nnAllStock1.NN_1ALLSTOCK86);
