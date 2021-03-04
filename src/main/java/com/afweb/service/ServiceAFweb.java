@@ -1047,6 +1047,7 @@ public class ServiceAFweb {
 //            }
 ///////////////////////////////////////////////////// 
 //            String sym = "FAZ";
+//            sym="TMO";
 //            TRprocessImp.updateAllStockProcess(this, sym);
 //            
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();

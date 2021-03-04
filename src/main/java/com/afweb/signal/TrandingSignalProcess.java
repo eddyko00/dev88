@@ -1747,22 +1747,24 @@ public class TrandingSignalProcess {
 
                     int size1yearAll = 20;
                     ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
+                    if ((StockArrayHistory != null) && (StockArrayHistory.size() > 10)) {
 //                    AFstockInfo stockInfoObj = StockArray.get(0);
-                    AFstockInfo stockInfoHistory = StockArrayHistory.get(0);
-                    boolean ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
-                    if (ret == false) {
-//                        stockInfoObj = StockArray.get(1);
-                        stockInfoHistory = StockArrayHistory.get(1);
-                        ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
+                        AFstockInfo stockInfoHistory = StockArrayHistory.get(0);
+                        boolean ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
                         if (ret == false) {
-//                            stockInfoObj = StockArray.get(2);
-                            stockInfoHistory = StockArrayHistory.get(2);
+//                        stockInfoObj = StockArray.get(1);
+                            stockInfoHistory = StockArrayHistory.get(1);
                             ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
+                            if (ret == false) {
+//                            stockInfoObj = StockArray.get(2);
+                                stockInfoHistory = StockArrayHistory.get(2);
+                                ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
 
+                            }
                         }
-                    }
-                    if (ret == true) {
-                        return 0;
+                        if (ret == true) {
+                            return 0;
+                        }
                     }
 //                    float splitF = 0;
 //                    String msg = "";
