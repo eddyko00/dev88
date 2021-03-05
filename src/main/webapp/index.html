@@ -42,7 +42,7 @@
                 <p class="mc-top-margin-1-5"><b>Existing Users</b></p>
                 <a href="#page-signin" class="ui-btn ui-btn-b ui-corner-all">Sign In</a>
                 <p class="mc-top-margin-1-5"><b>Don't have an account?</b></p>
-                <a href="#page-signup" class="ui-btn ui-btn-b ui-corner-all">Sign Up</a>
+                <a href="#page-signup" class="ui-btn ui-btn-b ui-corner-all">Sign Up Registration</a>
                 <br><br>
                 <a href="#page-intro" class="ui-btn ui-btn-b ui-corner-all">Introduction</a>
                 <p></p>
@@ -90,7 +90,7 @@
                 <h1>IISWEB System</h1>
             </div><!-- /header -->
             <div role="main" class="ui-content">
-                <h3>Sign Up</h3>
+                <h3>Sign Up Registration</h3>
                 <div id="ctn-err" class="bi-invisible"></div>
                 <label for="txt-first-name">First Name</label>
                 <input type="text" name="txt-first-name" id="txt-first-name" value="">
@@ -105,9 +105,7 @@
                 <!--<a href="#dlg-sign-up-sent" data-rel="popup" data-transition="pop" data-position-to="window" id="btn-submit" class="ui-btn ui-btn-b ui-corner-all mc-top-margin-1-5">Submit</a>-->
 
 
-                <label for="pricemodel">
-                    Please login and select the account invoice to pay in paypal before the account expired.
-                </label>
+
                 <select id="pricemodel">
                     <option value="P_BASIC">Basic Price plan - $30 for max 2 stocks.</option>
                 </select>
@@ -115,7 +113,11 @@
                 <font color="red">
                 <div id="error_message-signup" class="ajax_response" style="float:left"></div>   
                 </font>
+                <label for="pricemodel">
+                    You will receive an email for the account invoice to make payment before the account expired.
+                </label>                
                 <button id="btn-submit" class="ui-btn ui-btn-b ui-corner-all mc-top-margin-1-5">Submit</button>
+
             </div><!-- /content -->
         </div><!-- /page -->
         <div data-role="page" id="page-signup-succeeded">
@@ -136,22 +138,22 @@
             </div><!-- /header -->
             <div role="main" class="ui-content">
                 <h2 class="mc-text-center">Introduction</h2>
-                <p class="mc-top-margin-1-5">Now we have a great opportunity to use neural networks in trading strategy. 
+                <p class="mc-top-margin-1-5">Now, we have a great opportunity to use Neural Networks AI in trading strategy. 
                     This application provides stock trading signal predication based on the historical data from market data feed. 
-                    The program combines both Neural Network AI and Technical Analysis to tactical choices on the timing of buying and selling. 
+                    The system combines both Neural Network AI and Technical Analysis to tactical choices on the timing of buying and selling. 
                 </p>
 
                 <p class="mc-top-margin-1-5">
                     <br>  What problem are we trying to solve?
                 <ul>
                     <li>Technical Analysis is an excellent on historical track records because they were created to fit old data.  
-                        However, market is keep changing, and this strategy will not work in the future.</li>                 
+                        However, market is keep changing and this strategy will not work in the future based on the static model.</li>                 
                 </ul>                     
 
                 <br>  Solution:
                 <ul>
                     <li>The application is using neural network AI to train the technical signal and learn the best stock price for buying or selling.
-                        This process will continue to learn the best trading signal every day to adapt the market changes.</li>                 
+                        This process will continue to find the best trading signal every day to adapt the market changes.</li>                 
                 </ul>                      
 
                 <br>                
