@@ -1127,6 +1127,7 @@ public class AccountImp {
         } catch (JsonProcessingException ex) {
         }
         msg = StringTag.replaceAll("\"", "#", msg);
+        msg = StringTag.replaceAll("'", "|", msg);        
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
@@ -1146,7 +1147,9 @@ public class AccountImp {
         long dateNowLong = dateNow.getTimeInMillis();
         message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
         message.setUpdatedatel(dateNowLong);
-        message.setData(msg);
+        msg = StringTag.replaceAll("\"", "#", msg);
+        msg = StringTag.replaceAll("'", "|", msg);        
+        message.setData(msg);        
         return accountdb.insertAccountCommData(message);
     }
 

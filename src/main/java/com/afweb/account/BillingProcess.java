@@ -400,8 +400,6 @@ public class BillingProcess {
             NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
             String currency = formatter.format(payment);
             String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice for the amount " + currency + " is ready!\r\nPlease submit the payment now.\r\n\r\n";
-            msg += "Payment is done through e.transfer from your bank to the iisweb payment email address.\r\n"
-                    + "The e.transfer question is the 'iisweb-' plus user login name (e.g. iisweb-email@domain.com) and the answer is the user login name.";
 
             tzid = "America/New_York"; //EDT
             tz = TimeZone.getTimeZone(tzid);
@@ -412,16 +410,20 @@ public class BillingProcess {
             String ESTtime = format.format(d);
 
             String msgSt = ESTtime + " " + msg;
-
-            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_ACCBILLMSG, msg);
+//            String compassMsgSt = ServiceAFweb.compress(msgSt);
+            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_ACCBILLMSG, msgSt);
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_ACCBILLMSG, msg);
+            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_ACCBILLMSG, msgSt);
 
             // send email
             DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
             formatD.setTimeZone(tz);
             String ESTdateD = formatD.format(d);
             String msgD = ESTdateD + " " + msg;
+            msgD += "Payment is done through e.transfer from your bank to the iisweb payment email address.\r\n"
+                    + "The e.transfer question is the 'iisweb-' plus user login name (e.g. iisweb-email@domain.com) and the answer is the user login name.";
+
+//            compassMsgSt = ServiceAFweb.compress(msgD);
             serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
 
             logger.info("Billing***create user " + custName + ", billing cycle " + billcycleESTtime + ", payment=" + payment);

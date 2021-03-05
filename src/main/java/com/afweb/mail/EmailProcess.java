@@ -122,7 +122,10 @@ public class EmailProcess {
                                     sender.setSender(ServiceAFweb.UA_Str, ServiceAFweb.PA_Str);
                                     sender.addRecipient(emailAddr);
                                     sender.setSubject("IISWeb - " + comObj.getName());
-                                    sender.setBody(comObj.getData());
+                                    String dataSt = comObj.getData();
+                                    dataSt = StringTag.replaceAll("#", "\"", dataSt);
+                                    dataSt = StringTag.replaceAll("|", "'", dataSt);
+                                    sender.setBody(dataSt);
                                     sender.send();
                                     logger.info("> EmailTradingAccount Acc id:" + accObj.getId() + ", com id:" + comObj.getId() + " " + emailAddr + " size " + commList.size());
                                 }
