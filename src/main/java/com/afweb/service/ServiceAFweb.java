@@ -979,10 +979,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            BillingProcess billProc = new BillingProcess();
-            for (int i = 0; i < 10; i++) {
-                billProc.processUserBillingAll(this);
-            }            
+             SystemPerformanceFundMgr();
+             
+//            BillingProcess billProc = new BillingProcess();
+//            for (int i = 0; i < 10; i++) {
+//                billProc.processUserBillingAll(this);
+//            }            
             
 /////////////////////////////////////////////////////            
             if (nn3testflag == true) {
@@ -5187,15 +5189,20 @@ public class ServiceAFweb {
         FundMgrProcess fundmgr = new FundMgrProcess();
         logger.info(">SystemFundMgr start ");
         fundmgr.ProcessIISWebGlobalFundMgr(this);
-        fundmgr.ProcessFundMgrAccount(this);
-        logger.info(">SystemFundMgr end ");
+//        fundmgr.ProcessFundMgrAccount(this);
         return true;
     }
 
+    public boolean SystemPerformanceFundMgr() {
+        FundMgrProcess fundmgr = new FundMgrProcess();
+        logger.info(">SystemPerformanceFundMgr start ");
+        fundmgr.ProcessFundMgrAccount(this);
+        return true;
+    }
+    
     public boolean SystemPocessUpdateFundMgr() {
         logger.info(">SystemPocessFundMgr start ");
         getAccountProcessImp().ProcessFundAccount(this);
-        logger.info(">SystemPocessFundMgr end ");
         return true;
     }
 

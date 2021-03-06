@@ -1432,6 +1432,33 @@ public class IndexController {
 
         return null;
     }
+    
+    
+    @RequestMapping(value = "/cust/{username}/sys/performfundmg", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus getSystemPerfFundMgr(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse("System in Maintenance");
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse("" + afWebService.SystemPerformanceFundMgr());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
 
     @RequestMapping(value = "/cust/{username}/sys/processfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
