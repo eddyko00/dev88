@@ -220,7 +220,7 @@ public class BillingProcess {
                             result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                             // send email disable
-                            msg = "The " + custName + " account had been disabled due to outstanding payment!\r\nThank you for using IIS.\r\n\r\n";
+                            msg = "The " + custName + " account had been disabled due to outstanding payment!!\r\n Thank you for using IIS.\r\n\r\n";
                             sendMsg = true;
                             logger.info("Billing***Disable user " + custName + ", billing id " + billing.getId());
                         }
@@ -233,7 +233,7 @@ public class BillingProcess {
                         // send email reminder
                         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                         String currency = formatter.format(fPayment);
-                        msg = "The " + custName + " account  bill (" + billing.getId() + ") has past due " + currency + " amount!\r\nPlease submit the payment now.\r\n\r\n";
+                        msg = "The " + custName + " account  bill (" + billing.getId() + ") has past due " + currency + " amount!!\r\n Please submit the payment now.\r\n\r\n";
                         sendMsg = true;
                         logger.info("Billing***PastDue user " + custName + ", billing id " + billing.getId());
                     }
@@ -399,7 +399,7 @@ public class BillingProcess {
 
             NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
             String currency = formatter.format(payment);
-            String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice for the amount " + currency + " is ready!\r\nPlease submit the payment now.\r\n\r\n";
+            String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice for the amount " + currency + " is ready!!\r\n Please submit the payment now.\r\n\r\n";
 
             tzid = "America/New_York"; //EDT
             tz = TimeZone.getTimeZone(tzid);
@@ -420,7 +420,7 @@ public class BillingProcess {
             formatD.setTimeZone(tz);
             String ESTdateD = formatD.format(d);
             String msgD = ESTdateD + " " + msg;
-            msgD += "Payment is done through e.transfer from your bank to the iisweb payment email address.\r\n"
+            msgD += " Payment is done through e.transfer from your bank to the iisweb payment email address.\r\n"
                     + "The e.transfer question is the 'iisweb-' plus user login name (e.g. iisweb-email@domain.com) and the answer is the user login name.";
 
 //            compassMsgSt = ServiceAFweb.compress(msgD);
