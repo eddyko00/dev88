@@ -126,9 +126,11 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
         arrayString.add("/cust/{username}/sys/autonnflag/disable");
 
-        arrayString.add("/cust/{username}/sys/reloadfundmg");
+        arrayString.add("/cust/{username}/sys/globalfundmgr");
+        arrayString.add("/cust/{username}/sys/performfundmgr");        
         arrayString.add("/cust/{username}/sys/processfundmgr");
-        arrayString.add("/cust/{username}/sys/deletenn1table");
+    
+//        arrayString.add("/cust/{username}/sys/deletenn1table");
 
         //DB Backup
 //        arrayString.add("/cust/{username}/sys/downloaddb");
@@ -136,6 +138,7 @@ public class IndexController {
 //        arrayString.add("/cust/{username}/sys/cleandb");
 //        arrayString.add("/cust/{username}/sys/restoredb");
 //        arrayString.add("/cust/{username}/sys/request");
+
         arrayString.add("/cust/{username}/sys/lock");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock");
@@ -1407,7 +1410,7 @@ public class IndexController {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/reloadfundmg", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/globalfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemFundMgr(@PathVariable("username") String username) {
         WebStatus msg = new WebStatus();
@@ -1434,7 +1437,7 @@ public class IndexController {
     }
     
     
-    @RequestMapping(value = "/cust/{username}/sys/performfundmg", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/performfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemPerfFundMgr(@PathVariable("username") String username) {
         WebStatus msg = new WebStatus();
