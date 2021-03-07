@@ -191,7 +191,7 @@ public class BillingProcess {
                 // send email disable
                 NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                 String currency = formatter.format(fPayment);
-                msg = "The " + custName + " account bill id (" + billing.getId() + ") payment " + currency + " is completed!\r\nThank you.\r\n\r\n";
+                msg = "The " + custName + " account bill id (" + billing.getId() + ") payment " + currency + " is completed! Thank you.";
                 sendMsg = true;
                 logger.info("Billing***Completed user " + custName + ", billing id " + billing.getId());
 
