@@ -16,8 +16,7 @@ package com.afweb.mail;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.CKey;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -81,9 +80,9 @@ public class GmailSender {
 
     public void setBody(String body) throws MessagingException {
         BodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(body);
+//        messageBodyPart.setText(body);
+        messageBodyPart.setContent(body, "text/html");
         multipart.addBodyPart(messageBodyPart);
-
         message.setContent(multipart);
     }
 

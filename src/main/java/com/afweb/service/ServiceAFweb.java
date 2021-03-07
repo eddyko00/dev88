@@ -40,10 +40,12 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.TimeZone;
+import java.util.logging.Level;
 
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import javax.mail.MessagingException;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -671,17 +673,16 @@ public class ServiceAFweb {
             TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             getAccountProcessImp().ProcessAdminAccount(this);
+//            
+            BillingProcess billProc = new BillingProcess();
+            billProc.processUserBillingAll(this);
+//            
             if (CKey.PROXY == false) {
                 if (ServiceAFweb.processEmailFlag == true) {
                     EmailProcess eProcess = new EmailProcess();
                     eProcess.ProcessEmailAccount(this);
-
                 }
             }
-
-            BillingProcess billProc = new BillingProcess();
-            billProc.processUserBillingAll(this);
-
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
 
         } else {
@@ -979,13 +980,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-             SystemPerformanceFundMgr();
-             
+
+
 //            BillingProcess billProc = new BillingProcess();
 //            for (int i = 0; i < 10; i++) {
 //                billProc.processUserBillingAll(this);
 //            }            
-            
 /////////////////////////////////////////////////////            
             if (nn3testflag == true) {
                 // javamain localmysqlflag nn3testflag mydebugtestflag
@@ -5199,7 +5199,7 @@ public class ServiceAFweb {
         fundmgr.ProcessFundMgrAccount(this);
         return true;
     }
-    
+
     public boolean SystemPocessUpdateFundMgr() {
         logger.info(">SystemPocessFundMgr start ");
         getAccountProcessImp().ProcessFundAccount(this);
