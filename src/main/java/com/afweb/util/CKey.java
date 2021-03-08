@@ -138,9 +138,9 @@ public class CKey {
     public static final float TRADING_AMOUNT = 6000;
     public static final float TRADING_COMMISSION = 7;
 
-    public static final String UA = "edabcdykabco4399";
-    public static final String PA = "nabcgai0000";
-    public static final String UU = "eabcddyabc.ko00@yahoo.ca";
+    public static final String UA = "iabciswabcebemaiabcl";
+    public static final String PA = "eabcddykabco100";
+    public static final String UU = "eabcdabcdy.ko00@yahoo.ca";
 
 ////////////////////////////////////////////////////////////////////////////////    
 //    public static final String MSG_PENDING = "PENDING";
