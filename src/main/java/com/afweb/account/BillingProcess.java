@@ -233,7 +233,7 @@ public class BillingProcess {
                         // send email reminder
                         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                         String currency = formatter.format(fPayment);
-                        msg = "The " + custName + " account  bill (" + billing.getId() + ") has past due " + currency + " amount! Please submit the payment now.";
+                        msg = "The " + custName + " account  bill (" + billing.getId() + ") has past due " + currency + " amount! Please submit the payment now to iisweb88@gmail.com.";
                         sendMsg = true;
                         logger.info("Billing***PastDue user " + custName + ", billing id " + billing.getId());
                     }
@@ -420,7 +420,7 @@ public class BillingProcess {
             formatD.setTimeZone(tz);
             String ESTdateD = formatD.format(d);
             String msgD = ESTdateD + " " + msg;
-            msgD += "<p>Payment is done through e.transfer from your bank to the iisweb payment email address."
+            msgD += "<p>Payment is done through e.transfer from your bank to the iisweb payment email address (iisweb88@gmail.com)."
                     + "<br>The e.transfer question is the 'iisweb-' plus user login name (e.g. iisweb-email@domain.com) and the answer is the user login name.";
 
 //            compassMsgSt = ServiceAFweb.compress(msgD);
