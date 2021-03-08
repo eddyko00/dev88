@@ -16,7 +16,7 @@ var app = {
         var iisWebObjStr = window.localStorage.getItem(iisWebSession);
         var iisWebObj = JSON.parse(iisWebObjStr);
 //        console.log(iisWebObj);
-        
+
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
 
@@ -39,10 +39,10 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
-        
+
         var CustNListStr = iisWebObj.CustNListStr;
         var CustNListCnt = iisWebObj.CustNListCnt;
-        
+
         $.ajax({
             url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/comm",
             crossDomain: true,
@@ -50,15 +50,18 @@ var app = {
             beforeSend: function () {
                 $("#loader").show();
             },
-
+            error: function () {
+                alert('Network failure. Please try again later.');
+                window.location.href = "index.html";
+            },
             success: function (resultCommObjList) {
                 console.log(resultCommObjList);
                 var commObjListStr = "";
-                
+
                 if (resultCommObjList !== "") {
                     commObjListStr = JSON.stringify(resultCommObjList, null, '\t');
                 }
-                
+
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
                     'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));

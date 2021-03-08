@@ -36,11 +36,10 @@ var app = {
             beforeSend: function () {
                 $("#loader").show();
             },
-
             error: function () {
+                alert('Network failure. Please try again later.');
                 window.location.href = "index.html";
             },
-
             success: function (resultStockList) {
                 console.log(resultStockList);
                 window.localStorage.setItem(iisMsgSession, "");

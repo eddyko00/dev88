@@ -18,7 +18,7 @@ var app = {
 //        console.log(iisWebObj);
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-        
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -57,7 +57,10 @@ var app = {
                 beforeSend: function () {
                     $("#loader").show();
                 },
-
+                error: function () {
+                    alert('Network failure. Please try again later.');
+                    window.location.href = "index.html";
+                },
                 success: function (resultCuObjList) {
                     console.log(resultCuObjList);
 
@@ -67,7 +70,7 @@ var app = {
                             'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt,
                             'cuObjStr': cuObjStr, 'cuObjListStr': cuObjListStr};
                         window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                        
+
                         if (resultCuObjList.length == 0) {
                             window.location.href = "accountadm_1.html";
                             return;

@@ -42,18 +42,28 @@ var app = {
                 if (txemail === "1111") {
                     iisurlStr = iisurl_OP;
                 }
-
                 $.ajax({
                     url: iisurl + "cust/login?email=" + txemail + "&pass=" + txtpassword,
                     crossDomain: true,
                     cache: false,
+                    error: function () {
+                        alert('Network failure. Please try again later.');
+                        window.location.href = "index.html";
+                    },
                     success: handleResult
                 }); // use promises
 
                 // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
 
                 function handleResult(result) {
-
+                    if (result === null) {
+                        $('#error_message').fadeIn().html('Network error. Please try again later. ');
+                        return;
+                    }
+                    if (result.webMsg.resultID === 100) {
+                        $('#error_message').fadeIn().html('System is in maintenance. Please try again later. ');
+                        return;
+                    }
                     var custObj = result.custObj;
                     console.log(custObj);
 
@@ -90,6 +100,10 @@ var app = {
                 url: iisurl + "/cust/add?email=" + txtemailaddress + "&pass=" + txtpassword + "&firstName=" + txtfirstname + "&lastName=" + txtlastname,
                 crossDomain: true,
                 cache: false,
+                error: function () {
+                    alert('Network failure. Please try again later.');
+                    window.location.href = "index.html";
+                },                
                 success: handleResult
             }); // use promises
 
@@ -144,6 +158,10 @@ var app = {
                 url: iisurl + "cust/login?email=" + txemail + "&pass=" + txtpassword,
                 crossDomain: true,
                 cache: false,
+                error: function () {
+                    alert('Network failure. Please try again later.');
+                    window.location.href = "index.html";
+                },
                 success: handleResult
             }); // use promises
 
@@ -151,6 +169,14 @@ var app = {
 
             function handleResult(result) {
 
+                if (result === null) {
+                    $('#error_message').fadeIn().html('Network error. Please try again later. ');
+                    return;
+                }
+                if (result.webMsg.resultID === 100) {
+                    $('#error_message').fadeIn().html('System is in maintenance. Please try again later. ');
+                    return;
+                }
                 var custObj = result.custObj;
                 console.log(custObj);
 
