@@ -421,7 +421,7 @@ public class BillingProcess {
             String ESTdateD = formatD.format(d);
             String msgD = ESTdateD + " " + msg;
             msgD += "<p>Payment is done through e.transfer from your bank to the iisweb payment email address (iisweb88@gmail.com)."
-                    + "<br>The e.transfer question is the 'iisweb-' plus user login name (e.g. iisweb-email@domain.com) and the answer is the user login name.";
+                    + "<br>The e.transfer question is the 'iisweb-' plus user login email (e.g. iisweb-email@domain.com) and the answer is the user login email.";
 
 //            compassMsgSt = ServiceAFweb.compress(msgD);
             serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
