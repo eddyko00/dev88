@@ -171,8 +171,15 @@ var app = {
 //                    var totalSt = total.toFixed(2);
                     var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    var perTran = 1.0 * diff / (tranObj.share * prevTranObj.avgprice);
+                    perTran = perTran * 100;
+                    if (perTran > 0) {
+                        perTranSt = "<font style= color:green>" + diffSt + ' (' + perTran.toFixed(1) + '%)' + "</font>";
+                    } else {
+                        perTranSt = "<font style= color:red>" + diffSt + ' (' + perTran.toFixed(1) + '%)' + "</font>";
+                    }
 
-                    tranhtml += 'Share=' + tranObj.share + ' Tran amt change: ' + diffSt; // + ' Total: ' + totalSt;
+                    tranhtml += 'Share=' + tranObj.share + ' Tran amt change: ' + perTranSt; // + ' Total: ' + totalSt;
                 }
             }
             if (tranObj.trsignal === S_BUY) {
