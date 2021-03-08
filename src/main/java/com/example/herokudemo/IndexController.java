@@ -73,7 +73,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove");
+        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
@@ -127,18 +127,16 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/autonnflag/disable");
 
         arrayString.add("/cust/{username}/sys/globalfundmgr");
-        arrayString.add("/cust/{username}/sys/performfundmgr");        
+        arrayString.add("/cust/{username}/sys/performfundmgr");
         arrayString.add("/cust/{username}/sys/processfundmgr");
-    
-//        arrayString.add("/cust/{username}/sys/deletenn1table");
 
+//        arrayString.add("/cust/{username}/sys/deletenn1table");
         //DB Backup
 //        arrayString.add("/cust/{username}/sys/downloaddb");
         //DB restore
 //        arrayString.add("/cust/{username}/sys/cleandb");
 //        arrayString.add("/cust/{username}/sys/restoredb");
 //        arrayString.add("/cust/{username}/sys/request");
-
         arrayString.add("/cust/{username}/sys/lock");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock");
@@ -615,11 +613,13 @@ public class IndexController {
         return commObjList;
     }
 
+    //"/cust/{username}/acc/{accountid}/comm/remove?idlist=");
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int getAccountCommListRemove(
             @PathVariable("username") String username,
             @PathVariable("accountid") String accountid,
+            @RequestParam(value = "idlist", required = true) String idlist,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -627,7 +627,28 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int ret = afWebService.removeCommByCustomerAccountID(username, null, accountid);
+        if (idlist == null) {
+            return 0;
+        }
+        if (idlist.length() == 0) {
+            return 0;
+        }
+        int ret = 1;
+        try {
+            String[] idlistArray = idlist.split(",");
+            for (int i = 0; i < idlistArray.length; i++) {
+                String idSt = idlistArray[i];
+                int comid = Integer.parseInt(idSt);
+                if (comid == -1) {
+                    ret = afWebService.removeCommByCustomerAccountID(username, null, accountid);
+                } else {
+                    ret = afWebService.removeCommByID(username, null, accountid, comid + "");
+                }
+            }
+        } catch (Exception ex) {
+            ret = 0;
+        }
+
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }
@@ -1435,8 +1456,7 @@ public class IndexController {
 
         return null;
     }
-    
-    
+
     @RequestMapping(value = "/cust/{username}/sys/performfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemPerfFundMgr(@PathVariable("username") String username) {

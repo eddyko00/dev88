@@ -79,12 +79,24 @@
 
                     <button id="nextCust"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Next Customer</button>
                     <button id="prevCust"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Prev Customer</button>
+                    <br>
 
-                    <a href="#popupRemove" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Clear Msg Id</a>
+                    <button id="getAllComm"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Get All Comm Msg</button>                   
+                    <button id="getEmailComm"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Get Email Msg</button>
+                    <a href="#popupRemovemsgsig" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Delete All Comm Msg</a>
+                    <div data-role="popup" id="popupRemovemsgsig" data-theme="a" class="ui-corner-all">
+                            <form>
+                                    <div style="padding:0px 0px;">
+                                            <h3>Delete All Comm Msg</h3>
+                                            <button type="submit" id="removemsgsigsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
+                                        </div>
+                                </form>
+                    </div>                        
+                    <a href="#popupRemove" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Delete Msg Id</a>
                     <div data-role="popup" id="popupRemove" data-theme="a" class="ui-corner-all">
                             <form>
                                     <div style="padding:0px 0px;">
-                                            <h3>Clear Message Id</h3>
+                                            <h3>Delete Message Id List with comma</h3>
                                             <label for="un" class="ui-hidden-accessible">MsgId</label>
                                             <input type="text" name="removemsgid" id="removemsgid" value="" placeholder="MsgId" data-theme="a">
                                            
@@ -92,19 +104,7 @@
                                         </div>
                                 </form>
                     </div>  
-                    <a href="#popupRemovemsgsig" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Clear All Msg_sig</a>
-                    <div data-role="popup" id="popupRemovemsgsig" data-theme="a" class="ui-corner-all">
-                            <form>
-                                    <div style="padding:0px 0px;">
-                                            <h3>Clear All Msg_sig</h3>
-                                            <button type="submit" id="removemsgsigsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
-                                        </div>
-                                </form>
-                    </div>                      
-                    <button id="getEmailComm"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Get Email Msg</button>
-
                 </div>
-
 
                 <p><br></p>                 
                 <ul id="commid" data-role="listview" data-theme="d" data-divider-theme="d">
