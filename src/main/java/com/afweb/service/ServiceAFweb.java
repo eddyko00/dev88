@@ -979,6 +979,18 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            symbol = "FAS";
+//            trNN = ConstantKey.INT_TR_NN1;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN1;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
+//            symbol = "FAZ";
+//            trNN = ConstantKey.INT_TR_NN1;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN1;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
 
 //            BillingProcess billProc = new BillingProcess();
 //            for (int i = 0; i < 10; i++) {
