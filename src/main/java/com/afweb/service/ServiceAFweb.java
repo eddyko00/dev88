@@ -980,7 +980,6 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 
-
 //            BillingProcess billProc = new BillingProcess();
 //            for (int i = 0; i < 10; i++) {
 //                billProc.processUserBillingAll(this);

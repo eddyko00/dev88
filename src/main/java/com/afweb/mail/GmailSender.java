@@ -45,6 +45,7 @@ public class GmailSender {
     private Multipart multipart;
 
     public void GmailMain() {
+        // Google Security Turn on Less secure app access
         try {
             GmailSender sender = new GmailSender();
             sender.setSender("myEmailName", "mypassword");
