@@ -153,7 +153,7 @@ var app = {
                 }
             }
             $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/comm/remove",
+                url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/comm/remove?idlist=-1",
                 crossDomain: true,
                 cache: false,
                 beforeSend: function () {
