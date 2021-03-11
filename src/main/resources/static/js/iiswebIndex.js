@@ -11,7 +11,7 @@ var app = {
 //            $("#txt-password").val('guest');
 
         });
-
+        $("#accheader").html('Welcome - ' + iisversion);
 
 //        var iisurl = "https://iiswebsrv.herokuapp.com/";
         var iisMsgSession = "iisMsgSession";
@@ -103,7 +103,7 @@ var app = {
                 error: function () {
                     alert('Network failure. Please try again later.');
                     window.location.href = "index.html";
-                },                
+                },
                 success: handleResult
             }); // use promises
 

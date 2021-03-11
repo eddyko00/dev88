@@ -1,5 +1,5 @@
 
-
+var iisversion = "v1.1";
 var iisurl_HERO = "https://iiswebsrv.herokuapp.com/";
 var iisurl_OP = "https://iiswebsrv1.herokuapp.com/";
 var iisurl_LOCAL = "http://localhost:8080/";
