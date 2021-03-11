@@ -979,6 +979,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN2;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            this.getAccountProcessImp().ProcessStockInfodeleteMaintance(this);
+
 //            symbol = "FAS";
 //            trNN = ConstantKey.INT_TR_NN1;
 //            TR_NN = trNN;
@@ -991,7 +993,6 @@ public class ServiceAFweb {
 //            nnName = ConstantKey.TR_NN1;
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 //            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
-
 //            BillingProcess billProc = new BillingProcess();
 //            for (int i = 0; i < 10; i++) {
 //                billProc.processUserBillingAll(this);

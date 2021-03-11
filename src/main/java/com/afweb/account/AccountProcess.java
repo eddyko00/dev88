@@ -92,21 +92,36 @@ public class AccountProcess {
     }
     //////////////////////////////////////////////
 
-    private void ProcessStockInfodeleteMaintance(ServiceAFweb serviceAFWeb) {
+    public void ProcessStockInfodeleteMaintance(ServiceAFweb serviceAFWeb) {
         //delete stock if disable
         ArrayList stockNameList = serviceAFWeb.getExpiredStockNameList(20);
         if (stockNameList == null) {
             return;
         }
+        if (stockNameList.size() == 0) {
+            return;
+        }
         int numCnt = 0;
-        for (int i = 0; i < stockNameList.size(); i++) {
-            String symbol = (String) stockNameList.get(i);
+        try {
 
-            serviceAFWeb.removeStockInfo(symbol);
-            numCnt++;
-            if (numCnt > 10) {
-                break;
+            for (int i = 0; i < stockNameList.size(); i++) {
+                String symbol = (String) stockNameList.get(i);
+                serviceAFWeb.removeStockInfo(symbol);
+
+                AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+                stock.setStatus(ConstantKey.COMPLETED);
+                //send SQL update
+                String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
+                ArrayList sqlList = new ArrayList();
+                sqlList.add(sockUpdateSQL);
+                serviceAFWeb.SystemUpdateSQLList(sqlList);
+
+                numCnt++;
+                if (numCnt > 10) {
+                    break;
+                }
             }
+        } catch (Exception ex) {
         }
     }
 
@@ -764,7 +779,6 @@ public class AccountProcess {
 //                        || ("acc-4-MutualFund".equals(accountObj.getAccountname()))) {
 //                    logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
 //                }
-
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);
                     boolean ret = TRprocessImp.checkStock(serviceAFWeb, symbol);
