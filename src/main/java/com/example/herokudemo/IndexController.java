@@ -37,9 +37,11 @@ public class IndexController {
 //    public String indexMessage() {
 //        return "index";
 //    }
+    String iisVer = "v1.1";
+
     @GetMapping("/")
     public String index() {
-        return "Hello there! I'm running v1.1";
+        return "Hello there! I'm running " + iisVer;
     }
 
     /////////////////////////////////////////////////////////////////////////    
@@ -77,7 +79,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
-
+        arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
         arrayString.add("/cust/{username}/acc/{accountid}/custacc");
         arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
@@ -502,6 +504,36 @@ public class IndexController {
         AccountObj account = afWebService.getAccountByCustomerAccountID(username, null, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return account;
+    }
+
+    // "/cust/{username}/acc/{accountid}/banner?ver="
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/banner?ver=", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList<String> getAccountBannerList(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @RequestParam(value = "ver", required = false) String verSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        ArrayList<String> messageList = new ArrayList();
+        messageList.add(iisVer);
+        
+        if (verSt != null) {
+            verSt = verSt.replace("v", "");
+            float version = Float.parseFloat(verSt);
+            if (1.1 > version) {
+                // return update messagemessage
+                messageList.add("Please upgrade the app to version v1.1");
+            }
+        }
+
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return messageList;
     }
 
     // "/cust/{username}/acc/{accountid}/billing?length="
