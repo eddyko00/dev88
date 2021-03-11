@@ -189,6 +189,15 @@ public class FundMgrProcess {
                 if (customer == null) {
                     return 0;
                 }
+                
+                // only perform auto select stock from IISWeb Manager Fund
+                if (customer.getUsername().equals(CKey.FUND_MANAGER_USERNAME)) {
+                    ;
+                }if (customer.getUsername().equals(CKey.INDEXFUND_MANAGER_USERNAME)) {
+                    ;
+                } else {
+                    return 0;
+                }
 //                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
                 ArrayList<PerformanceObj> perfList = new ArrayList();

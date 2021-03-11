@@ -760,10 +760,10 @@ public class AccountProcess {
                 }
 //                logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
 
-                if (("acc-3-MutualFund".equals(accountObj.getAccountname()))
-                        || ("acc-4-MutualFund".equals(accountObj.getAccountname()))) {
-                    logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
-                }
+//                if (("acc-3-MutualFund".equals(accountObj.getAccountname()))
+//                        || ("acc-4-MutualFund".equals(accountObj.getAccountname()))) {
+//                    logger.info("> ProcessAllAccountTradingSignal " + accountObj.getAccountname() + " stock size=" + stockNameArray.size());
+//                }
 
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);
