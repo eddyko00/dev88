@@ -115,7 +115,7 @@ var app = {
                 var balSt = Number(accObj.balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
 
                 var totSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<br>Past: ' + investSt + ' Cur: ' + balSt + ' Total: ' + totSt;
+                htmlName += '<br>Acc Bal: ' + investSt + ' Cur Bal: ' + balSt + ' Total: ' + totSt;
 
             }
 
