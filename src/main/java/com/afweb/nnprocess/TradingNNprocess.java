@@ -125,52 +125,7 @@ public class TradingNNprocess {
 
                     AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
                     if (stock != null) {
-
                         this.ReLearnInputNeuralNet(serviceAFWeb, symbol, trNN);
-
-//                        String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
-//                        LockStock = LockStock.toUpperCase();
-//
-//                        long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-//                        long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
-//                        if (testing == true) {
-//                            lockReturnStock = 1;
-//                        }
-////                        logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
-//                        if (lockReturnStock > 0) {
-//                            try {
-//                                if (trNN == ConstantKey.INT_TR_NN1) {
-//                                    NN1ProcessBySignal nn1Process = new NN1ProcessBySignal();
-//                                    nn1Process.ReTrainNN1StockNeuralNetData(serviceAFWeb, trNN, symbol);
-//                                }
-//                                if (trNN == ConstantKey.INT_TR_NN2) {
-//                                    NN2ProcessBySignal nn2Process = new NN2ProcessBySignal();
-//                                    nn2Process.ReTrainNN2StockNeuralNetData(serviceAFWeb, trNN, symbol);
-//                                }
-//                                //////////
-////                                int cfgId = 0;;
-////                                String cfgName = TradingNNprocess.cfg_stockNNretrainNameArray;
-////                                ArrayList<CommObj> commObjArry = serviceAFWeb.getAccountImp().getComObjByCustName(cfgId, cfgName);
-////                                if (commObjArry != null) {
-////                                    if (commObjArry.size() > 0) {
-////                                        CommObj commObj = commObjArry.get(0);
-////                                        String dataSt = "";
-////                                        try {
-////                                            dataSt = new ObjectMapper().writeValueAsString(stockNNretrainNameArray);
-////                                        } catch (JsonProcessingException ex) {
-////                                        }
-////                                        dataSt = StringTag.replaceAll("\"", "^", dataSt);
-////                                        commObj.setData(dataSt);
-////                                        serviceAFWeb.getAccountImp().updateCommByCustNameById(commObj);
-////                                    }
-////                                }
-//                                ////////////
-//                            } catch (Exception ex) {
-//                                logger.info("> ProcessReLearnInputNeuralNet Exception" + ex.getMessage());
-//                            }
-//                            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-////                            logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
-//                        }
                     }
                 }
             }  // end for loop
@@ -816,62 +771,6 @@ public class TradingNNprocess {
         return 0.5;
     }
 
-//    public static int checkNNsignalDecision(StockTRHistoryObj thObj, StockTRHistoryObj prevThObj) {
-//        if (prevThObj == null) {
-//            prevThObj = thObj;
-//        }
-//        int retDecision = -1;
-//        int pervSignal = prevThObj.getTrsignal();
-//
-//        float pricePrev = prevThObj.getClose();
-//        float price = thObj.getClose();
-//        float percent = (price - pricePrev) / pricePrev;
-//        percent = percent * 100 * 15;
-//        float percentAbs = Math.abs(percent);
-//        if (percentAbs < 30) { //20){
-//            return -1;
-//        }
-//
-//        if (pervSignal == ConstantKey.S_BUY) {
-//            retDecision = 0;
-//            if (thObj.getClose() > prevThObj.getClose()) {
-//                retDecision = 1;
-//            }
-//            return retDecision;
-//        }
-//        if (pervSignal == ConstantKey.S_SELL) {
-//            retDecision = 0;
-//            if (prevThObj.getClose() > thObj.getClose()) {
-//                retDecision = 1;
-//            }
-//            return retDecision;
-//        }
-//
-//        return -1;
-//    }
-//    public static int checkNNsignalDecision(NNInputOutObj thObj, NNInputOutObj prevThObj) {
-//        if (prevThObj == null) {
-//            prevThObj = thObj;
-//        }
-//        int retDecision = -1;
-//        int pervSignal = prevThObj.getTrsignal();
-//
-//        if (pervSignal == ConstantKey.S_BUY) {
-//            retDecision = 0;
-//            if (thObj.getClose() > prevThObj.getClose()) {
-//                retDecision = 1;
-//            }
-//            return retDecision;
-//        }
-//        if (pervSignal == ConstantKey.S_SELL) {
-//            retDecision = 0;
-//            if (prevThObj.getClose() > thObj.getClose()) {
-//                retDecision = 1;
-//            }
-//            return retDecision;
-//        }
-//        return -1;
-//    }
 //////////////////////////////////////////////////////////////////   
     /**
      * @param aStockNNretrainNameArray the stockNNretrainNameArray to set
