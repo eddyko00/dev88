@@ -2023,6 +2023,15 @@ public class ServiceAFweb {
     }
 
     ////////////////////////////
+    public ArrayList getRemoveStockNameList(int length) {
+        ArrayList result = null;
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = this.getStockImp().getAllRemoveStockNameList(length);
+
+        return result;
+    }    
     public ArrayList getExpiredStockNameList(int length) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {

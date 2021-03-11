@@ -249,8 +249,8 @@ public class StockDB {
         return getStockListSQL(sql);
     }
 
-    public ArrayList getAllDisableStockName() {
-        String sql = "select symbol as symbol from stock where status=" + ConstantKey.DISABLE + " order by updatedatel asc";
+    public ArrayList getAllDisableStockName(int status) {
+        String sql = "select symbol as symbol from stock where status=" + status + " order by updatedatel asc";
         return getAllSymbolSQL(sql);
     }
 

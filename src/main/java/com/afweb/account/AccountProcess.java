@@ -93,8 +93,11 @@ public class AccountProcess {
     //////////////////////////////////////////////
 
     public void ProcessStockInfodeleteMaintance(ServiceAFweb serviceAFWeb) {
+        ArrayList stockRemoveList = serviceAFWeb.getRemoveStockNameList(20);
         //delete stock if disable
+
         ArrayList stockNameList = serviceAFWeb.getExpiredStockNameList(20);
+        // delete stock info if disable
         if (stockNameList == null) {
             return;
         }

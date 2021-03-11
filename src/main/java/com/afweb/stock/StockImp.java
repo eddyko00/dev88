@@ -87,9 +87,15 @@ public class StockImp {
 
     }
 
+    public ArrayList getAllRemoveStockNameList(int length) {
+        ArrayList returnStocNamekArray = new ArrayList();
+        returnStocNamekArray = stockdb.getAllDisableStockName(ConstantKey.COMPLETED);
+        return returnStocNamekArray;
+    }
+
     public ArrayList getAllDisableStockNameList(int length) {
         ArrayList returnStocNamekArray = new ArrayList();
-        returnStocNamekArray = stockdb.getAllDisableStockName();
+        returnStocNamekArray = stockdb.getAllDisableStockName(ConstantKey.DISABLE);
         return returnStocNamekArray;
     }
 
@@ -338,7 +344,7 @@ public class StockImp {
     // return 0 for error
     public int updateNeuralNetRef0(String name, ReferNameData refnameData) {
         String nameSt = "";
-        
+
         try {
             nameSt = new ObjectMapper().writeValueAsString(refnameData);
             nameSt = nameSt.replaceAll("\"", "#");
@@ -347,18 +353,16 @@ public class StockImp {
         }
         return stockdb.updateNeuralNetRef0(name, nameSt);
     }
-    
-    
 
     public int updateNeuralNetRef1(String name, ReferNameData refnameData) {
         String nameSt = "";
-        
+
         try {
             nameSt = new ObjectMapper().writeValueAsString(refnameData);
             nameSt = nameSt.replaceAll("\"", "#");
         } catch (JsonProcessingException ex) {
             return 0;
-        }        
+        }
         return stockdb.updateNeuralNetRef1(name, nameSt);
     }
 
