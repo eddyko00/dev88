@@ -3111,7 +3111,7 @@ public class TrandingSignalProcess {
         float amount = curPrice * shareInt;
 
         if (trObj.getType() == ConstantKey.INT_TR_ACC) {
-            // TR ACC can only support INT_ACC
+             // TR ACC can only support BUY transaction
         } else {
 
             if (trObj.getBalance() < amount) {
