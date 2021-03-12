@@ -3059,8 +3059,11 @@ public class TrandingSignalProcess {
 
         float amount = trObj.getShortshare() * netPrice;
 
-        trObj.setBalance(trObj.getBalance() + amount);
-
+        if (trObj.getType() == ConstantKey.INT_TR_ACC) {
+            // TR ACC can only support BUY transaction
+        } else {
+            trObj.setBalance(trObj.getBalance() + amount);
+        }
         // add trading order
         TransationOrderObj trOrder = new TransationOrderObj();
         trOrder.setAccountid(trObj.getAccountid());
@@ -3107,13 +3110,17 @@ public class TrandingSignalProcess {
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 
-        if (trObj.getBalance() < amount) {
-            trObj.setInvestment(trObj.getInvestment() + amount);
-
+        if (trObj.getType() == ConstantKey.INT_TR_ACC) {
+            // TR ACC can only support INT_ACC
         } else {
-            trObj.setBalance(trObj.getBalance() - amount);
-        }
 
+            if (trObj.getBalance() < amount) {
+                trObj.setInvestment(trObj.getInvestment() + amount);
+
+            } else {
+                trObj.setBalance(trObj.getBalance() - amount);
+            }
+        }
         // add trading order
         TransationOrderObj trOrder = new TransationOrderObj();
         trOrder.setAccountid(trObj.getAccountid());
