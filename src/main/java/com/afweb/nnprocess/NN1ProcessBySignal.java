@@ -1590,7 +1590,7 @@ public class NN1ProcessBySignal {
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST3);
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST4);
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST5);
-            inputBuf.append(nn1AllData.NN_ALLINPUTLIST6);
+//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST6);
 //            inputBuf.append(nn1AllData.NN_ALLINPUTLIST7);
 //            inputBuf.append(nn1AllData.NN_ALLINPUTLIST8); //need to check nnData file
 
