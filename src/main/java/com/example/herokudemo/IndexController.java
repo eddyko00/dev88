@@ -73,11 +73,12 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}");
 
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");        
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm/removeemail?idlist=");
+
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
@@ -647,8 +648,8 @@ public class IndexController {
         return commObjList;
     }
 
-    //"/cust/{username}/acc/{accountid}/comm/removeemail?idlist=");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/removeemail", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //"/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/emailcomm/removeemail", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int getAccountCommListRemoveemail(
             @PathVariable("username") String username,
@@ -674,7 +675,7 @@ public class IndexController {
                 String idSt = idlistArray[i];
                 int comid = Integer.parseInt(idSt);
                 if (comid == -1) {
-                    ret = afWebService.removeCommEmailByCustomerAccountID(username, null, accountid);
+                    ret = afWebService.removeAllCommEmailByCustomerAccountID(username, null, accountid);
                 } else {
                     ret = afWebService.removeCommByID(username, null, accountid, comid + "");
                 }

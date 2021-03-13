@@ -1420,6 +1420,17 @@ public class AccountDB {
         return 0;
     }
 
+    public int removeAllCommByType(int type) {
+        try {
+            String deleteSQL = "delete from comm where type=" + type;
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> removeAccountCommByID exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int removeCommByCommID(int id) {
         try {
             String deleteSQL = "delete from comm where id=" + id;
@@ -1431,7 +1442,7 @@ public class AccountDB {
         return 0;
     }
 
-    public int removeCustComm(int custID, int type ) {
+    public int removeCustComm(int custID, int type) {
         try {
             String deleteSQL = "delete from comm where customerid=" + custID + " and type=" + type;
             if (type == -1) {

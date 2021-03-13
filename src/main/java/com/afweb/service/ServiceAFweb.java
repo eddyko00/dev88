@@ -979,9 +979,9 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-            for (int i = 0; i < 30; i++) {
-                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
-            }
+//            for (int i = 0; i < 30; i++) {
+//                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
+//            }
 //            nn1ProcBySig.TrainNN1NeuralNetBySign(this, symbol, TR_NN, null);
 
 //            this.getAccountProcessImp().ProcessStockInfodeleteMaintance(this);
@@ -2808,7 +2808,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int removeCommEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+    public int removeAllCommEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -2816,8 +2816,10 @@ public class ServiceAFweb {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().removeCommSignalByCustomerAccountID(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_EMAIL);
+            if (UserName.equals(CKey.ADMIN_USERNAME)) {
+                int accountid = Integer.parseInt(AccountIDSt);
+                return getAccountImp().removeAllCommByType(ConstantKey.INT_TYPE_COM_EMAIL);
+            }
         } catch (Exception e) {
         }
         return 0;

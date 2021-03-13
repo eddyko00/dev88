@@ -561,6 +561,10 @@ public class AccountImp {
         return 0;
     }
 
+    public int removeAllCommByType(int type) {
+        return accountdb.removeAllCommByType(type);
+    }
+
     public int removeAccountCommByID(String UserName, String Password, int accountID, int id) {
 
         AccountObj account = null;
@@ -1127,7 +1131,7 @@ public class AccountImp {
         } catch (JsonProcessingException ex) {
         }
         msg = StringTag.replaceAll("\"", "#", msg);
-        msg = StringTag.replaceAll("'", "|", msg);        
+        msg = StringTag.replaceAll("'", "|", msg);
         message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
@@ -1148,8 +1152,8 @@ public class AccountImp {
         message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
         message.setUpdatedatel(dateNowLong);
         msg = StringTag.replaceAll("\"", "#", msg);
-        msg = StringTag.replaceAll("'", "|", msg);        
-        message.setData(msg);        
+        msg = StringTag.replaceAll("'", "|", msg);
+        message.setData(msg);
         return accountdb.insertAccountCommData(message);
     }
 
