@@ -13,6 +13,7 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.nnBP.*;
 import com.afweb.service.*;
+import static com.afweb.service.ServiceAFweb.mydebugtestflag;
 
 import com.afweb.signal.*;
 import com.afweb.stock.*;
@@ -827,7 +828,7 @@ public class NN1ProcessBySignal {
 
             inputBuf.append(nnAllStock1.NN_1ALLSTOCK80);
             inputBuf.append(nnAllStock1.NN_1ALLSTOCK81);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK82);  
+            inputBuf.append(nnAllStock1.NN_1ALLSTOCK82);
 //            inputBuf.append(nnAllStock1.NN_1ALLSTOCK83);  // check nnAllStock data
 //            inputBuf.append(nnAllStock1.NN_1ALLSTOCK84);
 //            inputBuf.append(nnAllStock1.NN_1ALLSTOCK85);
@@ -1136,12 +1137,20 @@ public class NN1ProcessBySignal {
 
                     if (stock == null) {
                         stockNNprocessNameArray.remove(0);
-                        return;
+                        continue;
                     }
                     if (stock.getAfstockInfo() == null) {
                         stockNNprocessNameArray.remove(0);
-                        return;
+                        continue;
                     }
+//                    if (ServiceAFweb.mydebugtestflag == true) {
+//                        if (symbol.equals("XIU.TO")) {
+//
+//                        } else {
+//                            stockNNprocessNameArray.remove(0);
+//                            continue;
+//                        }
+//                    }
                     this.TrainNN1NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
 
 //                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
@@ -1581,7 +1590,7 @@ public class NN1ProcessBySignal {
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST3);
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST4);
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST5);
-//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST6);
+            inputBuf.append(nn1AllData.NN_ALLINPUTLIST6);
 //            inputBuf.append(nn1AllData.NN_ALLINPUTLIST7);
 //            inputBuf.append(nn1AllData.NN_ALLINPUTLIST8); //need to check nnData file
 

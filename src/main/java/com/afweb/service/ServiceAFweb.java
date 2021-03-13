@@ -969,18 +969,22 @@ public class ServiceAFweb {
             // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
             logger.info("Start mydebugtestflag.....");
             NN1ProcessByTrend nnStProcByTrend = new NN1ProcessByTrend();
+            NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            String symbol = "DIA";
-            int trNN = ConstantKey.INT_TR_NN2;
+            String symbol = "XIU.TO";
+            int trNN = ConstantKey.INT_TR_NN1;
             int TR_NN = trNN;
-            String nnName = ConstantKey.TR_NN2;
+            String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            for (int i = 0; i < 30; i++) {
+                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
+            }
+//            nn1ProcBySig.TrainNN1NeuralNetBySign(this, symbol, TR_NN, null);
 
-            this.getAccountProcessImp().ProcessStockInfodeleteMaintance(this);
-
+//            this.getAccountProcessImp().ProcessStockInfodeleteMaintance(this);
 //            symbol = "FAS";
 //            trNN = ConstantKey.INT_TR_NN1;
 //            TR_NN = trNN;
@@ -2031,7 +2035,8 @@ public class ServiceAFweb {
         result = this.getStockImp().getAllRemoveStockNameList(length);
 
         return result;
-    }    
+    }
+
     public ArrayList getExpiredStockNameList(int length) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {

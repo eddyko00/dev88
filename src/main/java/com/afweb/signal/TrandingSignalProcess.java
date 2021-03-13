@@ -2904,6 +2904,10 @@ public class TrandingSignalProcess {
                 daOffset0 = TimeConvertion.getCurrentCalendar();
                 daOffset = TimeConvertion.getCurrentCalendar();
             }
+            boolean buyOnly = false;
+            if (trObj.getType() == ConstantKey.INT_TR_ACC) {
+                buyOnly = true;
+            }
             //get the current transaction order to see the last transaction
             int currentTranOrderSiganl = ConstantKey.S_NEUTRAL;
             if (currTranOrderList != null) {
@@ -2974,10 +2978,10 @@ public class TrandingSignalProcess {
                         retTrans = TransactionOrderEXIT_LONG(trObj, stock, signal, dateOffset, transSQL);
                         break;
                     case ConstantKey.S_SHORT_SELL:
-                        retTrans = TransactionOrderSHORT_SELL(trObj, stock, signal, dateOffset, transSQL);
+                        retTrans = TransactionOrderSHORT_SELL(trObj, stock, signal, dateOffset, transSQL, buyOnly);
                         break;
                     case ConstantKey.S_EXIT_SHORT:
-                        retTrans = TransactionOrderEXIT_SHORT(trObj, stock, signal, dateOffset, transSQL);
+                        retTrans = TransactionOrderEXIT_SHORT(trObj, stock, signal, dateOffset, transSQL, buyOnly);
                         break;
                     default:
                         break;
@@ -3001,10 +3005,10 @@ public class TrandingSignalProcess {
                         retTrans = TransactionOrderEXIT_LONG(trObj, stock, signal, dateOffset, transSQL);
                         break;
                     case ConstantKey.S_SHORT_SELL:
-                        retTrans = TransactionOrderSHORT_SELL(trObj, stock, signal, dateOffset, transSQL);
+                        retTrans = TransactionOrderSHORT_SELL(trObj, stock, signal, dateOffset, transSQL, buyOnly);
                         break;
                     case ConstantKey.S_EXIT_SHORT:
-                        retTrans = TransactionOrderEXIT_SHORT(trObj, stock, signal, dateOffset, transSQL);
+                        retTrans = TransactionOrderEXIT_SHORT(trObj, stock, signal, dateOffset, transSQL, buyOnly);
                         break;
                     default:
                         break;
@@ -3049,7 +3053,7 @@ public class TrandingSignalProcess {
         return null;
     }
 
-    private int TransactionOrderEXIT_SHORT(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
+    private int TransactionOrderEXIT_SHORT(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL, boolean buyOnly) {
         float curPrice = stock.getAfstockInfo().getFclose();
 
         float originalPrice = trObj.getShortamount() / trObj.getShortshare();
@@ -3059,7 +3063,7 @@ public class TrandingSignalProcess {
 
         float amount = trObj.getShortshare() * netPrice;
 
-        if (trObj.getType() == ConstantKey.INT_TR_ACC) {
+        if (buyOnly == true) {
             // TR ACC can only support BUY transaction
         } else {
             trObj.setBalance(trObj.getBalance() + amount);
@@ -3100,7 +3104,7 @@ public class TrandingSignalProcess {
         return 1;
     }
 
-    private int TransactionOrderSHORT_SELL(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
+    private int TransactionOrderSHORT_SELL(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL, boolean buyOnly) {
         float curPrice = stock.getAfstockInfo().getFclose();
         float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
         shareTmp += 0.5;
@@ -3110,8 +3114,10 @@ public class TrandingSignalProcess {
         int shareInt = (int) shareTmp;
         float amount = curPrice * shareInt;
 
-        if (trObj.getType() == ConstantKey.INT_TR_ACC) {
-             // TR ACC can only support BUY transaction
+        if (buyOnly == true) {
+            // TR ACC can only support BUY transaction
+            shareInt = 0;
+            amount = 0;
         } else {
 
             if (trObj.getBalance() < amount) {

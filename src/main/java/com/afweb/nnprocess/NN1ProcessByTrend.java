@@ -1223,7 +1223,8 @@ public class NN1ProcessByTrend {
             inputBuf.append(nn30Data.TR_NN30_INPUTLIST16);
             inputBuf.append(nn30Data.TR_NN30_INPUTLIST17);
             inputBuf.append(nn30Data.TR_NN30_INPUTLIST18);
-//            inputBuf.append(nn30Data.TR_NN30_INPUTLIST19); // check nn3 data
+            inputBuf.append(nn30Data.TR_NN30_INPUTLIST19); // check nn3 data
+//            inputBuf.append(nn30Data.TR_NN30_INPUTLIST20); // check nn3 data
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -1280,7 +1281,7 @@ public class NN1ProcessByTrend {
             inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST7);
             inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST8);
             inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST9);
-            inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST10);
+            inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST10); // check nn3 data 
 //            inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST11);
 //            inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST12);
 //            inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST13);  // check nn3 data  
