@@ -77,6 +77,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
+        arrayString.add("/cust/{username}/acc/{accountid}/comm/removeemail?idlist=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
@@ -522,7 +523,7 @@ public class IndexController {
         }
         ArrayList<String> messageList = new ArrayList();
         messageList.add(iisVer);
-        
+
         if (verSt != null) {
             verSt = verSt.replace("v", "");
             float version = Float.parseFloat(verSt);
@@ -559,7 +560,7 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return billingObjList;
     }
-
+          
     // "/cust/{username}/acc/{accountid}/billing/{billid}/remove"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing/{billid}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -579,6 +580,7 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }
+    
 //            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
 
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -645,6 +647,47 @@ public class IndexController {
         return commObjList;
     }
 
+    //"/cust/{username}/acc/{accountid}/comm/removeemail?idlist=");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/removeemail", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int getAccountCommListRemoveemail(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @RequestParam(value = "idlist", required = true) String idlist,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+        if (idlist == null) {
+            return 0;
+        }
+        if (idlist.length() == 0) {
+            return 0;
+        }
+        int ret = 1;
+        try {
+            String[] idlistArray = idlist.split(",");
+            for (int i = 0; i < idlistArray.length; i++) {
+                String idSt = idlistArray[i];
+                int comid = Integer.parseInt(idSt);
+                if (comid == -1) {
+                    ret = afWebService.removeCommEmailByCustomerAccountID(username, null, accountid);
+                } else {
+                    ret = afWebService.removeCommByID(username, null, accountid, comid + "");
+                }
+            }
+        } catch (Exception ex) {
+            ret = 0;
+        }
+
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return ret;
+    }
+    
+    
     //"/cust/{username}/acc/{accountid}/comm/remove?idlist=");
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

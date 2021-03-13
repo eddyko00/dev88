@@ -1431,9 +1431,13 @@ public class AccountDB {
         return 0;
     }
 
-    public int removeCustComm(int custID) {
+    public int removeCustComm(int custID, int type ) {
         try {
-            String deleteSQL = "delete from comm where customerid=" + custID + " and type=" + ConstantKey.INT_TYPE_COM_SIGNAL;
+            String deleteSQL = "delete from comm where customerid=" + custID + " and type=" + type;
+            if (type == -1) {
+                deleteSQL = "delete from comm where customerid=" + custID;
+            }
+//            String deleteSQL = "delete from comm where customerid=" + custID + " and type=" + ConstantKey.INT_TYPE_COM_SIGNAL;
             processExecuteDB(deleteSQL);
             return 1;
         } catch (Exception e) {
@@ -1442,9 +1446,13 @@ public class AccountDB {
         return 0;
     }
 
-    public int removeAccountCommSignal(int AccountID) {
+    public int removeAccountCommSignal(int AccountID, int type) {
         try {
-            String deleteSQL = "delete from comm where accountid=" + AccountID + " and type=" + ConstantKey.INT_TYPE_COM_SIGNAL;
+            String deleteSQL = "delete from comm where accountid=" + AccountID + " and type=" + type;
+            if (type == -1) {
+                deleteSQL = "delete from comm where accountid=" + AccountID;
+            }
+//            String deleteSQL = "delete from comm where accountid=" + AccountID + " and type=" + ConstantKey.INT_TYPE_COM_SIGNAL;
             processExecuteDB(deleteSQL);
             return 1;
         } catch (Exception e) {

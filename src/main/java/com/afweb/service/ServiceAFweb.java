@@ -2808,6 +2808,21 @@ public class ServiceAFweb {
         return 0;
     }
 
+    public int removeCommEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            int accountid = Integer.parseInt(AccountIDSt);
+            return getAccountImp().removeCommSignalByCustomerAccountID(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_EMAIL);
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     public int removeCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -2817,7 +2832,7 @@ public class ServiceAFweb {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().removeCommSignalByCustomerAccountID(UserName, Password, accountid);
+            return getAccountImp().removeCommSignalByCustomerAccountID(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_SIGNAL);
         } catch (Exception e) {
         }
         return 0;

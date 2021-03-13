@@ -212,18 +212,18 @@ public class AccountImp {
         return accountdb.removeCommByCustID(custId);
     }
 
-    public int removeCustComm(CustomerObj custObj) {
+    public int removeCustComm(CustomerObj custObj, int type) {
         if (custObj == null) {
             return 0;
         }
-        return accountdb.removeAccountCommSignal(custObj.getId());
+        return accountdb.removeAccountCommSignal(custObj.getId(), type);
     }
 
-    public int removeAccountComm(AccountObj accountObj) {
+    public int removeAccountComm(AccountObj accountObj, int type) {
         if (accountObj == null) {
             return 0;
         }
-        return accountdb.removeAccountCommSignal(accountObj.getId());
+        return accountdb.removeAccountCommSignal(accountObj.getId(), type);
     }
 
     public int removeAccountBilling(AccountObj accountObj) {
@@ -238,7 +238,7 @@ public class AccountImp {
             return 0;
         }
         accountdb.removeCustBilling(custObj.getId());
-        accountdb.removeCustComm(custObj.getId());
+        accountdb.removeCustComm(custObj.getId(), -1);
         return accountdb.DeleteCustomer(custObj);
     }
 
@@ -581,7 +581,7 @@ public class AccountImp {
         return 0;
     }
 
-    public int removeCommSignalByCustomerAccountID(String UserName, String Password, int accountID) {
+    public int removeCommSignalByCustomerAccountID(String UserName, String Password, int accountID, int type) {
 
         AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
@@ -592,7 +592,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.removeAccountCommSignal(accountID);
+                            return accountdb.removeAccountCommSignal(accountID, type);
                         }
                     }
                 }
