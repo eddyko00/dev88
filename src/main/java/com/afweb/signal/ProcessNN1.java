@@ -497,18 +497,19 @@ public class ProcessNN1 {
         }
         return null;
     }
-
+    public static float nn1StopLoss = 16;  // 20
     // check stop loss
+
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
 
         if (currSignal == ConstantKey.S_BUY) {
-            if (delPer < -20) {
+            if (delPer < -nn1StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
         } else if (currSignal == ConstantKey.S_SELL) {
-            if (delPer > 20) {
+            if (delPer > nn1StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }

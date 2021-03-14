@@ -979,6 +979,9 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            
+            
+            
 //            for (int i = 0; i < 30; i++) {
 //                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
 //            }

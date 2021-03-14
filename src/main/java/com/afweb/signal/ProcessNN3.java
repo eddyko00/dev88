@@ -510,7 +510,7 @@ public class ProcessNN3 {
         }
         return null;
     }
-
+    public static float nn3StopLoss = 16;  // 20
     // check stop loss
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
 //        if (true) {
@@ -519,12 +519,12 @@ public class ProcessNN3 {
         float delPer = 100 * (StClose - thClose) / thClose;
 
         if (currSignal == ConstantKey.S_BUY) {
-            if (delPer < -20) {
+            if (delPer < -nn3StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
         } else if (currSignal == ConstantKey.S_SELL) {
-            if (delPer > 20) {
+            if (delPer > nn3StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }

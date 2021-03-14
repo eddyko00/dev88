@@ -145,10 +145,16 @@ var app = {
 //                    var totalSt = total.toFixed(2);
                     var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                    var tran = ' Tran on loss:' + diffSt;
+
+                    var perTran1 = 1.0 * diff / (tranObj.share * prevTranObj.avgprice);
+                    perTran1 = perTran1 * 100;
+
+                    var tran = ' Tran on loss:' + diffSt + ' (' + perTran1.toFixed(1) + '%)';
                     if (diff > 0) {
-                        tran = ' Tran on gain:' + diffSt;
+                        tran = ' Tran on gain:' + diffSt + ' (' + perTran1.toFixed(1) + '%)';
                     }
+
+
                     tranhtml += 'Share=' + tranObj.share + tran; // + ' Total: ' + totalSt;
                 }
             } else {

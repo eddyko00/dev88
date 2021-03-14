@@ -197,7 +197,7 @@ public class ProcessNN2 {
 
         return inputDatalist;
     }
-    
+
     public ArrayList<NNInputDataObj> trainingNN2dataEMA2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 //        logger.info("> trainingNN2 ");
@@ -247,7 +247,6 @@ public class ProcessNN2 {
 
         return inputDatalist;
     }
-
 
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
@@ -512,8 +511,9 @@ public class ProcessNN2 {
         }
         return null;
     }
-
+    public static float nn2StopLoss = 16;  // 20
     // check stop loss
+
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
 //        if (true) {
 //            return 0;
@@ -521,12 +521,12 @@ public class ProcessNN2 {
         float delPer = 100 * (StClose - thClose) / thClose;
 
         if (currSignal == ConstantKey.S_BUY) {
-            if (delPer < -20) {
+            if (delPer < -nn2StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
         } else if (currSignal == ConstantKey.S_SELL) {
-            if (delPer > 20) {
+            if (delPer > nn2StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
