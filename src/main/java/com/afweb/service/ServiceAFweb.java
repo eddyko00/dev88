@@ -926,7 +926,6 @@ public class ServiceAFweb {
 //                    nn2trend.processNN40InputNeuralNetTrend(this);
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
-
                     return;
                 }
             }
@@ -980,14 +979,23 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-            
-            
-            
+
+//            AccountObj accountObj = getAdminObjFromCache();
+//            ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
+//            for (int i = 0; i < stockNameArray.size(); i++) {
+//                symbol = (String) stockNameArray.get(i);
+//                trNN = ConstantKey.INT_TR_NN40;
+//                TR_NN = trNN;
+//                nnName = ConstantKey.TR_NN40;
+//                BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//                getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
+//                getStockImp().deleteNeuralNet0Rel(BPnameSym);
+//            }
+
 //            for (int i = 0; i < 30; i++) {
 //                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
 //            }
 //            nn1ProcBySig.TrainNN1NeuralNetBySign(this, symbol, TR_NN, null);
-
 //            this.getAccountProcessImp().ProcessStockInfodeleteMaintance(this);
 //            symbol = "FAS";
 //            trNN = ConstantKey.INT_TR_NN1;
@@ -2167,7 +2175,7 @@ public class ServiceAFweb {
         return getStockImp().getStockHistoricalRange(symbol, start, end);
     }
 
-    public ArrayList SystemAccountStockNameList(int accountId) {
+    public ArrayList<String> SystemAccountStockNameList(int accountId) {
         ArrayList<String> NameList = new ArrayList();
         if (getServerObj().isSysMaintenance() == true) {
             return null;

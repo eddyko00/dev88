@@ -1217,6 +1217,16 @@ public class StockDB {
         return sqlCMD;
     }
 
+    public int deleteNeuralNet0Rel(String name) {
+        try {
+            String deleteSQL = "delete from neuralnet where name='" + name + "'";
+            return processUpdateDB(deleteSQL);
+        } catch (Exception e) {
+            logger.info("> deleteNeuralNet1 exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int deleteNeuralNet1(String name) {
         try {
             String deleteSQL = "delete from neuralnet1 where name='" + name + "'";
