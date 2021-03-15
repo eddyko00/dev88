@@ -64,6 +64,11 @@ var app = {
                         $('#error_message').fadeIn().html('System is in maintenance. Please try again later. ');
                         return;
                     }
+                    var version = result.webMsg.ver * 1;
+                    if (parseFloat(version) > parseFloat(iis_ver)) {
+                        $('#error_message').fadeIn().html('Please upgrade to newer version v' + result.webMsg.ver);
+                        return;
+                    }
                     var custObj = result.custObj;
                     console.log(custObj);
 
@@ -173,10 +178,17 @@ var app = {
                     $('#error_message').fadeIn().html('Network error. Please try again later. ');
                     return;
                 }
+
                 if (result.webMsg.resultID === 100) {
                     $('#error_message').fadeIn().html('System is in maintenance. Please try again later. ');
                     return;
                 }
+                var version = result.webMsg.ver * 1;
+                if (parseFloat(version) > parseFloat(iis_ver)) {
+                    $('#error_message').fadeIn().html('Please upgrade to newer version v' + result.webMsg.ver);
+                    return;
+                }
+
                 var custObj = result.custObj;
                 console.log(custObj);
 
