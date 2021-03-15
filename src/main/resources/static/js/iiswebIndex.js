@@ -11,7 +11,7 @@ var app = {
 //            $("#txt-password").val('guest');
 
         });
-        $("#accheader").html('Welcome - ' + iisversion);
+        $("#accheader").html('Welcome - v' + iis_ver);
 
 //        var iisurl = "https://iiswebsrv.herokuapp.com/";
         var iisMsgSession = "iisMsgSession";
