@@ -5,14 +5,31 @@
  */
 package com.afweb.model;
 
+import com.afweb.util.CKey;
+
 /**
  *
  * @author eddy
  */
 public class WebStatus {
+
+    /**
+     * @return the ver
+     */
+    public float getVer() {
+        return ver;
+    }
+
+    /**
+     * @param ver the ver to set
+     */
+    public void setVer(float ver) {
+        this.ver = ver;
+    }
     private boolean result;
     private int resultID;
     private String response; 
+    private float ver = CKey.iis_ver;
 
     /**
      * @return the result

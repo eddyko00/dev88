@@ -37,11 +37,9 @@ public class IndexController {
 //    public String indexMessage() {
 //        return "index";
 //    }
-    String iisVer = "v1.1";
-
     @GetMapping("/")
     public String index() {
-        return "Hello there! I'm running " + iisVer;
+        return "Hello there! I'm running v" + CKey.iis_ver;
     }
 
     /////////////////////////////////////////////////////////////////////////    
@@ -73,7 +71,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}");
 
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");        
+        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
@@ -523,12 +521,11 @@ public class IndexController {
             return null;
         }
         ArrayList<String> messageList = new ArrayList();
-        messageList.add(iisVer);
+        messageList.add(""+CKey.iis_ver);
 
         if (verSt != null) {
-            verSt = verSt.replace("v", "");
             float version = Float.parseFloat(verSt);
-            if (1.1 > version) {
+            if (CKey.iis_ver > version) {
                 // return update messagemessage
                 messageList.add("Please upgrade the app to version v1.1");
             }
@@ -561,7 +558,7 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return billingObjList;
     }
-          
+
     // "/cust/{username}/acc/{accountid}/billing/{billid}/remove"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing/{billid}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -581,9 +578,8 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }
-    
-//            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
 
+//            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int getAccountCommAdd(
@@ -687,8 +683,7 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }
-    
-    
+
     //"/cust/{username}/acc/{accountid}/comm/remove?idlist=");
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

@@ -111,6 +111,8 @@ public class CKey {
 
     public static final boolean WEIGHT_COMPASS = false;
 
+    public static float iis_ver = (float) 1.1;
+    
     // must match to the nnData and nn3Data version  make sure both 
     // must match to the nnData and nn3Data version  make sure both 
     public static String version = "0.1224";
