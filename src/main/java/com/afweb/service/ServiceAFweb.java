@@ -783,7 +783,8 @@ public class ServiceAFweb {
 
                 if (TRprocessImp.checkNN2Ready(this, symbol, true) == false) {
                     // process train symbol
-                    nn2trend.TrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
+//                    nn2trend.TrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
+                    nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
 
                     for (int j = 0; j < 5; j++) {
                         nn2ProcBySig.TrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
@@ -874,13 +875,13 @@ public class ServiceAFweb {
                     logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
                     nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
                     logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
-                } else if (nn2testflag == true) {
-                    if (((k % 5) == 0) || (k == 0)) {
-                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN40);
-                    }
-                    logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
-                    nn2trend.ProcessTrainNeuralNetNN2ByTrend(this);
-                    logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);
+//                } else if (nn2testflag == true) {
+//                    if (((k % 5) == 0) || (k == 0)) {
+//                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN40);
+//                    }
+//                    logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
+//                    nn2trend.ProcessTrainNeuralNetNN2ByTrend(this);
+//                    logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);
                 }
             }
 
@@ -922,8 +923,8 @@ public class ServiceAFweb {
                     nn2ProcBySig.processNN2InputNeuralNet(this);
                     nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
 
-                    nn2trend.processNN40InputNeuralNetTrend(this);
-                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
+//                    nn2trend.processNN40InputNeuralNetTrend(this);
+//                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
 
                     return;

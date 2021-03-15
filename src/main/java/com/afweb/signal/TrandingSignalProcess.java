@@ -834,7 +834,8 @@ public class TrandingSignalProcess {
             }
 
         }
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
+//        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
         if (nnObj0 == null) {
             return false;
         }
@@ -868,7 +869,8 @@ public class TrandingSignalProcess {
             }
 
         }
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
+//        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
+        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
         if (nnObj0 == null) {
             return false;
         }
@@ -2121,36 +2123,36 @@ public class TrandingSignalProcess {
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
-        if (nnName.equals(ConstantKey.TR_NN40)) {
-
-            String nnIndex = "_nn401_";
-
-            for (int i = 1; i < 20; i++) {
-                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
-                if (i == 0) {
-                    continue;
-                }
-                if (ret == false) {
-                    break;
-                }
-            }
-            nnIndex = "_nn400_";
-            for (int i = 1; i < 20; i++) {
-                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
-                if (i == 0) {
-                    continue;
-                }
-                if (ret == false) {
-                    break;
-                }
-            }
-
-            return inputDatalist;
-        }
+//        if (nnName.equals(ConstantKey.TR_NN40)) {
+//
+//            String nnIndex = "_nn401_";
+//
+//            for (int i = 1; i < 20; i++) {
+//                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+////            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+//                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+//                if (i == 0) {
+//                    continue;
+//                }
+//                if (ret == false) {
+//                    break;
+//                }
+//            }
+//            nnIndex = "_nn400_";
+//            for (int i = 1; i < 20; i++) {
+//                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+////            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+//                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+//                if (i == 0) {
+//                    continue;
+//                }
+//                if (ret == false) {
+//                    break;
+//                }
+//            }
+//
+//            return inputDatalist;
+//        }
 
         if (nnName.equals(ConstantKey.TR_NN30)) {
 
@@ -2453,26 +2455,26 @@ public class TrandingSignalProcess {
                 nn3ObjCache = nnObj1;
                 lastUpdateTime3 = System.currentTimeMillis();
             }
-        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN40)) {
-            if (nn40ObjCache != null) {
-                if (nn40ObjCache.getName().equals(name)) {
-
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime40, 10);
-                    long currentTime = System.currentTimeMillis();
-                    if (date5Min > currentTime) {
-                        nnObj1 = nn40ObjCache;
-                    }
-                }
-            }
-
-            if (nnObj1 == null) {
-                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
-                if (nnObj1 == null) {
-                    return 0;
-                }
-                nn30ObjCache = nnObj1;
-                lastUpdateTime30 = System.currentTimeMillis();
-            }
+//        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN40)) {
+//            if (nn40ObjCache != null) {
+//                if (nn40ObjCache.getName().equals(name)) {
+//
+//                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime40, 10);
+//                    long currentTime = System.currentTimeMillis();
+//                    if (date5Min > currentTime) {
+//                        nnObj1 = nn40ObjCache;
+//                    }
+//                }
+//            }
+//
+//            if (nnObj1 == null) {
+//                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+//                if (nnObj1 == null) {
+//                    return 0;
+//                }
+//                nn30ObjCache = nnObj1;
+//                lastUpdateTime30 = System.currentTimeMillis();
+//            }
         } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN30)) {
             if (nn30ObjCache != null) {
                 if (nn30ObjCache.getName().equals(name)) {
