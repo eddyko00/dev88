@@ -107,6 +107,9 @@ var app = {
             console.log(tranObj);
             var nameId = tranObj.id;
 
+            if (i === 0) {
+                prevTranObj = tranObj;
+            }
 
             var tranhtml = '';
 //https://demos.jquerymobile.com/1.1.2/docs/content/content-grids.html
