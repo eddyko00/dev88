@@ -146,12 +146,12 @@ var app = {
                     }
                     total += diff;
 //                    var totalSt = total.toFixed(2);
-                    var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                    var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    var totalSt = Number(total.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    var diffSt = Number(diff.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
 
                     var perTran1 = 1.0 * diff / (tranObj.share * prevTranObj.avgprice);
                     perTran1 = perTran1 * 100;
-
+                    diffSt = diffSt.replace(".00", "");
                     var tran = ' Tran on loss:' + diffSt + ' (' + perTran1.toFixed(1) + '%)';
                     if (diff > 0) {
                         tran = ' Tran on gain:' + diffSt + ' (' + perTran1.toFixed(1) + '%)';
@@ -178,10 +178,11 @@ var app = {
                     }
                     total += diff;
 //                    var totalSt = total.toFixed(2);
-                    var totalSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                    var diffSt = Number(diff).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    var totalSt = Number(total.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    var diffSt = Number(diff.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                     var perTran = 1.0 * diff / (tranObj.share * prevTranObj.avgprice);
                     perTran = perTran * 100;
+                    diffSt = diffSt.replace(".00", "");
                     if (perTran > 0) {
                         perTranSt = "<font style= color:green>" + diffSt + ' (' + perTran.toFixed(1) + '%)' + "</font>";
                     } else {
