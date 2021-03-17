@@ -317,7 +317,7 @@ public class BillingProcess {
 
                 try {
                     int plan = custPortfilio.getnPlan();
-                    account.setSubstatus(plan);
+                    
                     int substatus = account.getSubstatus();
                     float investment = account.getInvestment();
                     float balance = account.getBalance();
@@ -338,7 +338,7 @@ public class BillingProcess {
             float payment = customer.getPayment();
             float prevOwning = payment;
 
-            int subType = customer.getType();
+            int subType = customer.getSubstatus();  // price plan
             float fInvoice = 0;
             switch (subType) {
                 case ConstantKey.INT_PP_BASIC:

@@ -36,9 +36,9 @@ public class customer {
     private int id;
     private String username;
     private String password;
-    private int type;
+    private int type;   
     private int status;
-    private int substatus;
+    private int substatus;  // Price plan for customer
     private java.sql.Date startdate;
     private String firstname="";
     private String lastname="";

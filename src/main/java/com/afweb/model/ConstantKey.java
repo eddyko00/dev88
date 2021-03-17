@@ -37,7 +37,10 @@ public class ConstantKey {
     public static final int INT_PP_DELUXE = 20;
     public static final int INT_PP_DELUXE_NUM = 20;
     public static final float INT_PP_DELUXE_PRICE = 100;
-
+    public static final String PP_DELUXEX2 = "DELUXEX2";
+    public static final int INT_PP_DELUXEX2 = 40;
+    public static final int INT_PP_DELUXEX2_NUM = 40;
+    public static final float INT_PP_DELUXEX2_PRICE = 200;
     public static final String MSG_OPEN = "ENABLE";
     public static final int OPEN = 0;
 

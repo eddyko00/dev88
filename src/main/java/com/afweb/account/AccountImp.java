@@ -690,17 +690,29 @@ public class AccountImp {
     public int addAccountStockId(AccountObj accountObj, int StockID, ArrayList TRList) {
 
         if (accountObj != null) {
+            CustomerObj cust = getCustomerByAccount(accountObj);
+            int cSubTypePlan =  cust.getSubstatus();
+            
             if (accountObj.getType() != AccountObj.INT_ADMIN_ACCOUNT) {
                 ArrayList stockNameList = accountdb.getAccountStockNameList(accountObj.getId());
                 if (stockNameList != null) {
-                    if (accountObj.getSubstatus() == ConstantKey.INT_PP_BASIC) {
+
+                    if (cSubTypePlan == ConstantKey.INT_PP_BASIC) {
                         if (stockNameList.size() >= ConstantKey.INT_PP_BASIC_NUM) {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
                         }
-                    } else if (accountObj.getSubstatus() == ConstantKey.INT_PP_PREMIUM) {
+                    } else if (cSubTypePlan == ConstantKey.INT_PP_PREMIUM) {
                         if (stockNameList.size() >= ConstantKey.INT_PP_REMIUM_NUM) {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
                         }
+                    } else if (cSubTypePlan == ConstantKey.INT_PP_DELUXE) {
+                        if (stockNameList.size() >= ConstantKey.INT_PP_DELUXE_NUM) {
+                            return AccountObj.MAX_ALLOW_STOCK_ERROR;
+                        }                        
+                    } else if (cSubTypePlan == ConstantKey.INT_PP_DELUXEX2) {
+                        if (stockNameList.size() >= ConstantKey.INT_PP_DELUXEX2_NUM) {
+                            return AccountObj.MAX_ALLOW_STOCK_ERROR;
+                        }                           
                     }
                 }
             }
