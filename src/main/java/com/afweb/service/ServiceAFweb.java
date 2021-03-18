@@ -725,7 +725,7 @@ public class ServiceAFweb {
                 nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
                 return;
             } else if (cntNN == 3) {
-                nn2trend.ProcessTrainNeuralNetNN2ByTrend(this);
+//                nn2trend.ProcessTrainNeuralNetNN2ByTrend(this);
                 return;
             } else if (cntNN == 4) {
                 nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);

@@ -491,7 +491,10 @@ public class NN2ProcessByTrend {
     }
 
     public void ProcessTrainNeuralNetNN2ByTrend(ServiceAFweb serviceAFWeb) {
-
+        boolean flag = true;
+        if (flag == true) {
+            return;
+        }
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         UpdateStockNN40processNameArray(serviceAFWeb, accountAdminObj);
         if (stockNNprocessNameArray == null) {
