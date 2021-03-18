@@ -188,8 +188,9 @@ var app = {
                     } else {
                         perTranSt = "<font style= color:red>" + diffSt + ' (' + perTran.toFixed(1) + '%)' + "</font>";
                     }
-
-                    tranhtml += 'Share=' + tranObj.share + ' Tran amt change: ' + perTranSt; // + ' Total: ' + totalSt;
+                    if (stockObj.substatus === 0) {
+                        tranhtml += 'Share=' + tranObj.share + ' Tran amt change: ' + perTranSt; // + ' Total: ' + totalSt;
+                    }
                 }
             }
             if (tranObj.trsignal === S_BUY) {
