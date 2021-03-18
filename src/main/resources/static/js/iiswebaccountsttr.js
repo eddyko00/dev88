@@ -132,7 +132,7 @@ var app = {
                 } else if (trObj.trname === "TR_NN2") {
                     ;
                 } else if (trObj.trname === "TR_NN3") {
-                    ;                    
+                    ;
                 } else {
                     continue;
                 }
@@ -167,24 +167,39 @@ var app = {
                 htmlName += '<div class="ui-block-a" style="color:SteelBlue" ><strong>' + dispName + '</strong></div>';
             }
 
+            var deltaTotal = 0;
 
             var sharebalance = 0;
             var signal = "B";
             if (trObj.trsignal == S_BUY) {
                 sharebalance = trObj.longamount;
+                if (trObj.longshare > 0) {
+                    if (close > 0) {
+                        deltaTotal = (close - (trObj.longamount / trObj.longshare)) * trObj.longshare;
+                    }
+                }
                 signal = "B";
                 htmlName += '<div class="ui-block-b" style="color:green;width:20%">:' + signal + '</div>';
             } else if (trObj.trsignal == S_SELL) {
                 signal = "S";
                 sharebalance = trObj.shortamount;
+                if (trObj.shortshare > 0) {
+                    if (close > 0) {
+                        deltaTotal = ((trObj.shortamount / trObj.shortshare) - close) * trObj.shortshare;
+                    }
+                }
                 htmlName += '<div class="ui-block-b" style="color:red;width:20%">:' + signal + '</div>';
             } else {
                 signal = "E";
                 htmlName += '<div class="ui-block-b" style="width:20%">:' + signal + '</div>';
             }
 
+
             var total = trObj.balance + sharebalance;
             total = total - trObj.investment;
+
+            total = total + deltaTotal;
+
             var totalSt = Number(total.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
             totalSt = totalSt.replace(".00", "");
             htmlName += '<div class="ui-block-c">Profit: ' + totalSt + '</div>';
