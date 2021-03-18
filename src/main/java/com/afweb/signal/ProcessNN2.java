@@ -441,7 +441,14 @@ public class ProcessNN2 {
                         AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
                         ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
                                 accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
+
                         if (thList != null) {
+                            // somthing wrong. no transaction for 1 year
+                            if (thList.size() == 0) {
+                                // try to get the MACD transaction. for sure this will have some signal
+                                thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
+                                        accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
+                            }
                             if (thList.size() > 0) {
                                 TransationOrderObj lastTH = thList.get(0);
                                 float thClose = lastTH.getAvgprice();
