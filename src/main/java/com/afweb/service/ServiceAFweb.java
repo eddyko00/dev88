@@ -980,10 +980,18 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            symbol = "HOD.TO";
+            trNN = ConstantKey.INT_TR_NN2;
+            TR_NN = trNN;
+            nnName = ConstantKey.TR_NN2;
+            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+
 //            symbol = "AAPL";
 //             AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
 //            this.getAccountProcessImp().updateTradingAccountBalance(this, account, symbol); 
-            
 //            AccountObj accountObj = getAdminObjFromCache();
 //            ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
 //            for (int i = 0; i < stockNameArray.size(); i++) {
@@ -995,7 +1003,6 @@ public class ServiceAFweb {
 //                getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
 //                getStockImp().deleteNeuralNet0Rel(BPnameSym);
 //            }
-
 //            for (int i = 0; i < 30; i++) {
 //                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
 //            }
@@ -2555,7 +2562,7 @@ public class ServiceAFweb {
         return getStockImp().getNeuralNetDataObj(BPname, stockId, updatedatel);
     }
 
-     //  entrydatel desc recent transaction first
+    //  entrydatel desc recent transaction first
     public ArrayList<TransationOrderObj> SystemAccountStockTransList(int accountID, int stockID, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

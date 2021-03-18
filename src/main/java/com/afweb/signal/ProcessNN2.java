@@ -440,7 +440,7 @@ public class ProcessNN2 {
                         // get the last transaction price
                         AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
                         ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
-                                accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
+                                accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
                         if (thList != null) {
                             if (thList.size() > 0) {
                                 TransationOrderObj lastTH = thList.get(0);
