@@ -1,8 +1,11 @@
 package com.afweb.util;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class TimeConvertion {
 
@@ -39,11 +42,10 @@ public class TimeConvertion {
         cDate.setTimeInMillis(TS.getTime());
         return cDate;
     }
-    
+
     public static Timestamp getCurrentTimeStamp() {
         return new Timestamp(currentTimeMillis());
     }
-
 
     ///
     /// Main system time
@@ -220,8 +222,8 @@ public class TimeConvertion {
     }
 
     /**
-     * Returns a new Date with the hours, milliseconds, seconds and minutes
-     * set to 0.
+     * Returns a new Date with the hours, milliseconds, seconds and minutes set
+     * to 0.
      *
      * @param date Date used in calculating start of day
      * @return Start of <code>date</code>
@@ -271,27 +273,29 @@ public class TimeConvertion {
             calendar.set(Calendar.HOUR_OF_DAY, 21);  //23 try this for end of day
             calendar.set(Calendar.MILLISECOND, 999);
             calendar.set(Calendar.SECOND, 59);
-            calendar.set(Calendar.MINUTE, 59); 
+            calendar.set(Calendar.MINUTE, 59);
             return calendar.getTimeInMillis();
         }
     }
+
     public static long workaround_nextday_endOfDayInMillis(long date) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
-            calendar.add(Calendar.DAY_OF_MONTH, 2);            
+            calendar.add(Calendar.DAY_OF_MONTH, 2);
             return calendar.getTimeInMillis();
         }
     }
+
     public static Calendar workaround_nextday_endOfDate(long date) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
             calendar.setTimeInMillis(date);
-            calendar.add(Calendar.DAY_OF_MONTH, 2);      
+            calendar.add(Calendar.DAY_OF_MONTH, 2);
             return calendar;
         }
     }
-    
+
     /**
      * Returns the day after <code>date</code>.
      *
@@ -303,15 +307,14 @@ public class TimeConvertion {
     }
 
     /**
-     * Adds <code>amount</code> days to <code>time</code> and returns
-     * the resulting time.
+     * Adds <code>amount</code> days to <code>time</code> and returns the
+     * resulting time.
      *
      * @param time Base time
      * @param amount Amount of increment.
-     * 
+     *
      * @return the <var>time</var> + <var>amount</var> days
      */
-    
     public static long addMonths(long time, int amount) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
@@ -319,7 +322,8 @@ public class TimeConvertion {
             calendar.add(Calendar.MONTH, amount);
             return calendar.getTimeInMillis();
         }
-    }    
+    }
+
     public static long addDays(long time, int amount) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
@@ -337,7 +341,7 @@ public class TimeConvertion {
             return calendar.getTimeInMillis();
         }
     }
-    
+
     public static long addMinutes(long time, int amount) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
@@ -346,6 +350,7 @@ public class TimeConvertion {
             return calendar.getTimeInMillis();
         }
     }
+
     public static long addMiniSeconds(long time, int amount) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
@@ -353,7 +358,8 @@ public class TimeConvertion {
             calendar.add(Calendar.MILLISECOND, amount);
             return calendar.getTimeInMillis();
         }
-    }    
+    }
+
     /**
      * Returns the day after <code>date</code>.
      *
@@ -420,9 +426,9 @@ public class TimeConvertion {
      * Check, whether the date passed in is the first day of the year.
      *
      * @param date date to check in millis
-     * @return <code>true</code> if <var>date</var> corresponds to the first
-     *         day of a year
-     * @see Date#getTime() 
+     * @return <code>true</code> if <var>date</var> corresponds to the first day
+     * of a year
+     * @see Date#getTime()
      */
     public static boolean isFirstOfYear(long date) {
         boolean ret = false;
@@ -442,9 +448,9 @@ public class TimeConvertion {
      * Check, whether the date passed in is the first day of the month.
      *
      * @param date date to check in millis
-     * @return <code>true</code> if <var>date</var> corresponds to the first
-     *         day of a month
-     * @see Date#getTime() 
+     * @return <code>true</code> if <var>date</var> corresponds to the first day
+     * of a month
+     * @see Date#getTime()
      */
     public static boolean isFirstOfMonth(long date) {
         boolean ret = false;
@@ -481,32 +487,32 @@ public class TimeConvertion {
     }
 
     /**
-     * Returns the first day before <code>date</code> that has the
-     * day of week matching <code>startOfWeek</code>.  For example, if you
-     * want to find the previous monday relative to <code>date</code> you
-     * would call <code>getPreviousDay(date, Calendar.MONDAY)</code>.
+     * Returns the first day before <code>date</code> that has the day of week
+     * matching <code>startOfWeek</code>. For example, if you want to find the
+     * previous monday relative to <code>date</code> you would call
+     * <code>getPreviousDay(date, Calendar.MONDAY)</code>.
      *
      * @param date Base date
      * @param startOfWeek Calendar constant correspoding to start of week.
-     * @return start of week, return value will have 0 hours, 0 minutes,
-     *         0 seconds and 0 ms.
-     * 
+     * @return start of week, return value will have 0 hours, 0 minutes, 0
+     * seconds and 0 ms.
+     *
      */
     public static long getPreviousDay(long date, int startOfWeek) {
         return getDay(date, startOfWeek, -1);
     }
 
     /**
-     * Returns the first day after <code>date</code> that has the
-     * day of week matching <code>startOfWeek</code>.  For example, if you
-     * want to find the next monday relative to <code>date</code> you
-     * would call <code>getPreviousDay(date, Calendar.MONDAY)</code>.
+     * Returns the first day after <code>date</code> that has the day of week
+     * matching <code>startOfWeek</code>. For example, if you want to find the
+     * next monday relative to <code>date</code> you would call
+     * <code>getPreviousDay(date, Calendar.MONDAY)</code>.
      *
      * @param date Base date
      * @param startOfWeek Calendar constant correspoding to start of week.
-     * @return start of week, return value will have 0 hours, 0 minutes,
-     *         0 seconds and 0 ms.
-     * 
+     * @return start of week, return value will have 0 hours, 0 minutes, 0
+     * seconds and 0 ms.
+     *
      */
     public static long getNextDay(long date, int startOfWeek) {
         return getDay(date, startOfWeek, 1);
@@ -528,7 +534,7 @@ public class TimeConvertion {
 
     /**
      * Returns the previous month.
-     * 
+     *
      * @param date Base date
      * @return previous month
      */
@@ -541,7 +547,7 @@ public class TimeConvertion {
     }
 
     public static long getLastMonth(long date, int iMonth) {
-        return incrementMonth(date, -1*iMonth);
+        return incrementMonth(date, -1 * iMonth);
     }
 
     public static long getLastHalfYear(long date) {
@@ -554,7 +560,7 @@ public class TimeConvertion {
 
     /**
      * Returns the next month.
-     * 
+     *
      * @param date Base date
      * @return next month
      */
@@ -627,6 +633,35 @@ public class TimeConvertion {
         }
     }
 
+//    public static long getFridayDayOfWeek(long date) {
+//        Calendar calendar = getCalendar();
+//        synchronized (calendar) {
+//            while (true) {
+//                calendar.setTimeInMillis(date);
+//                int dayOfW = calendar.get(Calendar.DAY_OF_WEEK);
+//                ///////////
+//                /////Not sure why not correct
+//                dayOfW = dayOfW -1;
+//                ///////////
+////                String tzid = "America/New_York"; //EDT
+////                TimeZone tz = TimeZone.getTimeZone(tzid);
+////                java.sql.Date d = new java.sql.Date(date);
+////                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+////                format.setTimeZone(tz);
+////                String ESTtime = format.format(d);
+////                System.out.println(ESTtime);
+//
+//                //////////
+//                if (dayOfW > 5) {
+//                    date = addDays(calendar.getTimeInMillis(), -1);
+//                    continue;
+//                }
+//                break;
+//            }
+//            return date;
+//        }
+//    }
+
     public static int getDayOfMonth(long date) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
@@ -634,6 +669,5 @@ public class TimeConvertion {
             return (calendar.get(Calendar.DAY_OF_MONTH));
         }
     }
-
 
 }

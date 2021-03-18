@@ -310,13 +310,20 @@ public class TrandingSignalProcess {
 
                 TransationOrderObj tranObj = tranOrderList.get(tranObjIndex);
                 long tranObjEOD = TimeConvertion.endOfDayInMillis(tranObj.getEntrydatel());
-                long stockInfoEOD = TimeConvertion.endOfDayInMillis(stockinfo.getEntrydatel());
 
-                // both are end of day so it must equal
+                long stockInfoEOD = TimeConvertion.endOfDayInMillis(stockinfo.getEntrydatel());
+//                // both are end of day so it must equal                
                 if (tranObjEOD == stockInfoEOD) {
                     if (tranObjIndex >= 0) {
                         tranObjIndex--;
                     }
+                } else if (tranObjEOD < stockInfoEOD) {
+                    stockinfo = (AFstockInfo) StockArray.get(stockInfoIndex + 1);
+
+                    if (tranObjIndex >= 0) {
+                        tranObjIndex--;
+                    }
+
                 } else {
                     stockInfoIndex--;
                     continue;
@@ -327,9 +334,9 @@ public class TrandingSignalProcess {
                         continue;
                     }
                 }
-                perfObj.setUpdatedatel(tranObj.getEntrydatel());
+                perfObj.setUpdatedatel(stockinfo.getEntrydatel());
                 perfObj.setUpdateDateD(tranObj.getUpdateDateD());
-                perfObj.setUpdatedatedisplay(tranObj.getEntrydatedisplay());
+                perfObj.setUpdatedatedisplay(stockinfo.getEntrydatedisplay());
 
                 perfObj.setName(tranObj.getTrname());
                 perfObj.setIndexDate(stockInfoIndex);

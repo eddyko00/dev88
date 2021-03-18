@@ -980,6 +980,10 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            symbol = "AAPL";
+             AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
+            this.getAccountProcessImp().updateTradingAccountBalance(this, account, symbol); 
+            
 //            AccountObj accountObj = getAdminObjFromCache();
 //            ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
 //            for (int i = 0; i < stockNameArray.size(); i++) {
@@ -2551,6 +2555,7 @@ public class ServiceAFweb {
         return getStockImp().getNeuralNetDataObj(BPname, stockId, updatedatel);
     }
 
+     //  entrydatel desc recent transaction first
     public ArrayList<TransationOrderObj> SystemAccountStockTransList(int accountID, int stockID, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

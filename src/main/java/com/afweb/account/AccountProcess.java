@@ -1032,6 +1032,7 @@ public class AccountProcess {
 //                newTran = serviceAFWeb.SystemAddTransactionOrder(accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null);
             }
             // Get transaction again process performance
+            //  entrydatel desc recent transaction first
             tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
 
@@ -1063,72 +1064,119 @@ public class AccountProcess {
         }
     }
 
-//    public void testCalculateSignal(String symbol) {
-//        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//        long endofDate = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
-//        dateNow = TimeConvertion.getCurrentCalendar(endofDate);
-//
-//        int size1year = 5 * 52 * 2;
-//        ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
-//        if (StockArray == null) {
-//            return;
-//        }
-//        if (StockArray.size() < 10) {
-//            return;
-//        }
-//        double high = 0;
-//        double low = 999999;
-//        for (int k = 0; k < StockArray.size(); k++) {
-//            AFstockInfo stockinfo = (AFstockInfo) StockArray.get(k);
-//            if (stockinfo.getFclose() > high) {
-//                high = stockinfo.getFclose();
-//            }
-//            if (stockinfo.getFclose() < low) {
-//                low = stockinfo.getFclose();
-//            }
-//        }
-//
-//        ArrayList<String> writeArray = new ArrayList();
-//        String dupLastSt = "";
-//
-//        for (int i = 0; i < 20 * 17; i++) { // 7 months
-//            long endofDayL = TimeConvertion.addDays(dateNow.getTimeInMillis(), -i);
-//            Date stockInfofirstEndday = TimeConvertion.endOfDay(new Date(endofDayL));
-//            endofDayL = stockInfofirstEndday.getTime();
-//            int offset = getOffetDate(StockArray, endofDayL);
-//
-//            AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
-//
-//            float STerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-//            float LTerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-//            ADXObj adx = TechnicalCal.AvgDir(StockArray, offset, StockImp.SHORT_TERM_TREND);
-//
-//            EMAObj ema2050 = TechnicalCal.EMASignal(StockArray, offset, 10, 50);
-//            RSIObj rsi = TechnicalCal.RSI(StockArray, offset, 14);
-//            MACDObj macd = TechnicalCal.MACD(StockArray, offset, 12, 26, 9);
-//
-//            String dupSt = "" + stockinfo.getEntrydatedisplay() + stockinfo.getFclose();
-//            if (dupLastSt.equals(dupSt)) {
-//                continue;
-//            }
-//            dupLastSt = dupSt;
-//            Calendar setDate = TimeConvertion.getCurrentCalendar(endofDayL);
-//            String stdate = new Timestamp(setDate.getTime().getTime()).toString();
-//            stdate = stdate.substring(0, 10);
-//            if (writeArray.size() == 0) {
-//                String stTitle = "\"date" + "\",\"date" + "\",\"close" + "\",\"normalclose" + "\",\"long" + "\",\"short" + "\",\"avgdir" + "\",\"avgdir.TR" + "\"";
-//                stTitle += ",\"ema2050.ema" + "\",\"ema2050.trsignal" + "\",\"rsi" + "\",\"rsi.TR" + "\",\"macd" + "\",\"macd.TR" + "\"";
-//                writeArray.add(stTitle);
-//            }
-//            double normalClose = TechnicalCal.getNormalize100(stockinfo.getFclose(), high, low);
-//            String st = "\"" + stdate + "\",\"" + stockinfo.getEntrydatedisplay() + "\",\"" + stockinfo.getFclose() + "\",\"" + normalClose + "\",\"" + LTerm + "\",\"" + STerm + "\",\"" + adx.adx + "\",\"" + adx.trsignal + "\"";
-//            st += ",\"" + ema2050.ema + "\",\"" + ema2050.trsignal + "\",\"" + rsi.rsi + "\",\"" + rsi.trsignal + "\",\"" + macd.macd + "\",\"" + macd.trsignal + "\"";
-//
-//            writeArray.add(st);
-//        }
-//        FileUtil.FileWriteTextArray(LocalPCSignalPath + symbol + ".csv", writeArray);
-//    }
+    /////////testing only
+    public void updateTradingAccountBalance(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+//        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        try {
+            AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+            if (stock != null) {
+                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+                    return;
+                }
+            }
+            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+
+            if (trObj == null) {
+                return;
+            }
+            int subStatus = trObj.getSubstatus();
+            if (subStatus == ConstantKey.INITIAL) {
+                serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, trObj.getStockid(), trObj.getTrname());
+            }
+
+            // process performance
+            String trName = trObj.getTrname();
+            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+
+            int currentTS = ConstantKey.S_NEUTRAL;
+            currentTS = trObj.getTrsignal();
+            if ((currentTS == ConstantKey.S_EXIT_LONG) || (currentTS == ConstantKey.S_EXIT_SHORT)) {
+                currentTS = ConstantKey.S_NEUTRAL;
+            }
+
+            int orderTS = ConstantKey.S_NEUTRAL;
+            if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
+                TransationOrderObj tranOrder = tranOrderList.get(0);
+
+                orderTS = tranOrder.getTrsignal();
+                if ((orderTS == ConstantKey.S_EXIT_LONG) || (orderTS == ConstantKey.S_EXIT_SHORT)) {
+                    orderTS = ConstantKey.S_NEUTRAL;
+                }
+            }
+
+            if (currentTS != orderTS) {
+                int ret = TRprocessImp.AddTransactionOrder(serviceAFWeb, accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null, true);
+//                newTran = serviceAFWeb.SystemAddTransactionOrder(accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null);
+            }
+            // Get transaction again process performance
+            //  entrydatel desc recent transaction first
+            tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+            if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
+
+                // simulate exit tranOrderList
+                long timeMillis = TimeConvertion.currentTimeMillis();
+                TransationOrderObj tranObj = tranOrderList.get(0);
+                int tr = tranObj.getTrsignal();
+                if (tr == ConstantKey.S_LONG_BUY) {
+                    TransationOrderObj trOrder = new TransationOrderObj();
+                    trOrder.setAccountid(trObj.getAccountid());
+                    trOrder.setAvgprice(stock.getAfstockInfo().getFclose());
+                    trOrder.setEntrydatedisplay(new java.sql.Date(timeMillis));
+                    trOrder.setEntrydatel(timeMillis);
+                    trOrder.setShare(trObj.getShortshare());
+                    trOrder.setStatus(ConstantKey.OPEN);
+                    trOrder.setStockid(stock.getId());
+                    trOrder.setSymbol(stock.getSymbol());
+                    trOrder.setTradingruleid(trObj.getId());
+                    trOrder.setTrname(trObj.getTrname());
+                    trOrder.setTrsignal(ConstantKey.S_EXIT_LONG);
+                    trOrder.setType(ConstantKey.INITIAL);
+                    trOrder.setComment("");
+                    tranOrderList.add(0, trOrder);
+                } else if (tr == ConstantKey.S_SHORT_SELL) {
+                    boolean buyOnly = true;
+                    if (buyOnly == false) {
+                        TransationOrderObj trOrder = new TransationOrderObj();
+                        trOrder.setAccountid(trObj.getAccountid());
+                        trOrder.setAvgprice(stock.getAfstockInfo().getFclose());
+                        trOrder.setEntrydatedisplay(new java.sql.Date(timeMillis));
+                        trOrder.setEntrydatel(timeMillis);
+                        trOrder.setShare(trObj.getShortshare());
+                        trOrder.setStatus(ConstantKey.OPEN);
+                        trOrder.setStockid(stock.getId());
+                        trOrder.setSymbol(stock.getSymbol());
+                        trOrder.setTradingruleid(trObj.getId());
+                        trOrder.setTrname(trObj.getTrname());
+                        trOrder.setTrsignal(ConstantKey.S_EXIT_SHORT);
+                        trOrder.setType(ConstantKey.INITIAL);
+                        trOrder.setComment("");
+                        tranOrderList.add(0, trOrder);
+                    }
+                }
+
+                ArrayList<PerformanceObj> performanceList = TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, true); // buyOnly true for TR_ACC
+                if (performanceList != null) {
+                    if (performanceList.size() == 1) {
+                        PerformanceObj pObj = performanceList.get(0);
+                        pObj.setAccountid(accountObj.getId());
+                        pObj.setStockid(stock.getId());
+                        pObj.setTradingruleid(trObj.getId());
+                        String SQLPerf = "";
+                        SQLPerf = AccountDB.SQLUpdateAccountStockPerformance(pObj);
+
+                        ArrayList sqlList = new ArrayList();
+                        sqlList.add(SQLPerf);
+                        serviceAFWeb.SystemUpdateSQLList(sqlList);
+                    }
+                }
+            }
+
+        } catch (Exception ex) {
+            logger.info("> updateTradingAccountBalance Exception" + ex.getMessage());
+        }
+    }
+
     public static int getOffetDate(ArrayList StockArray, long offsetDate) {
         int offset = 0;
         if (StockArray == null) {
