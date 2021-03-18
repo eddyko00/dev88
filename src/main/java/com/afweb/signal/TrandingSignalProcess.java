@@ -266,7 +266,9 @@ public class TrandingSignalProcess {
             ArrayList<TransationOrderObj> newTranOrderList = new ArrayList();
             for (int i = 0; i < tranOrderList.size(); i++) {
                 TransationOrderObj trObj = tranOrderList.get(i);
-                if (lastStockInfoEOD >= trObj.getEntrydatel()) {
+                long tranObjEOD = TimeConvertion.endOfDayInMillis(trObj.getEntrydatel());
+
+                if (lastStockInfoEOD >= tranObjEOD) {
                     newTranOrderList.add(trObj);
                 }
             }
