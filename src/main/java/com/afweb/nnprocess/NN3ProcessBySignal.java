@@ -1329,7 +1329,7 @@ public class NN3ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NN1ProcessBySignal.NeuralNetGetNN1InputfromStaticCode(symbol, null);
+                    inputL = NeuralNetGetNN3InputfromStaticCode(symbol, null);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {

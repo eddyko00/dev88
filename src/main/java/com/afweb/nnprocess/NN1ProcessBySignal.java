@@ -1541,7 +1541,7 @@ public class NN1ProcessBySignal {
 
     public static ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(String symbol, String subSymbol) {
         StringBuffer inputBuf = new StringBuffer();
-        ArrayList<NNInputDataObj> inputlist = new ArrayList();
+        ArrayList<NNInputDataObj> inputlist = new ArrayList();        
         try {
             inputBuf.append(nn1Data.NN_INPUTLIST1);
             inputBuf.append(nn1Data.NN_INPUTLIST2);
@@ -1927,7 +1927,7 @@ public class NN1ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NN1ProcessBySignal.NeuralNetGetNN1InputfromStaticCode(symbol, null);
+                    inputL = NeuralNetGetNN1InputfromStaticCode(symbol, null);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {
