@@ -984,6 +984,7 @@ public class ServiceAFweb {
 //            CKey.NN_DATA_DB = true;
 //            nn1ProcBySig.NeuralNetCreatJava(this, ConstantKey.TR_NN1);
 
+             nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 //            symbol = "HOD.TO";
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
