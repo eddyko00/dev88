@@ -900,7 +900,7 @@ public class NN1ProcessBySignal {
                 ;
             } else {
                 end = len;
-            }            
+            }
             while (true) {
                 String st = weightSt.substring(beg, end);
                 msgWrite.append("+ \"" + st + "\"\n");
@@ -1005,7 +1005,7 @@ public class NN1ProcessBySignal {
                 ;
             } else {
                 end = len;
-            }               
+            }
             int index = 1;
             int line = 0;
             while (true) {
@@ -1357,7 +1357,7 @@ public class NN1ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NeuralNetGetNN1InputfromStaticCode(symbol, null);
+                    inputL = NeuralNetGetNN1InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
@@ -1539,9 +1539,15 @@ public class NN1ProcessBySignal {
         return -1;
     }
 
-    public static ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(String symbol, String subSymbol) {
+    public ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
         StringBuffer inputBuf = new StringBuffer();
-        ArrayList<NNInputDataObj> inputlist = new ArrayList();        
+        ArrayList<NNInputDataObj> inputlist = new ArrayList();
+
+        if (CKey.NN_DATA_DB == true) {
+            TradingNNData nndata = new TradingNNData();
+            nndata.getNNdataDB(serviceAFWeb, nnName, inputlist);
+        }
+
         try {
             inputBuf.append(nn1Data.NN_INPUTLIST1);
             inputBuf.append(nn1Data.NN_INPUTLIST2);
@@ -1558,9 +1564,7 @@ public class NN1ProcessBySignal {
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
-            
-            
-            
+
             if (symbol != "") {
                 inputlist = stockInputMap.get(symbol);
                 if (inputlist == null) {
@@ -1778,7 +1782,7 @@ public class NN1ProcessBySignal {
 
             boolean trainInFile = true;
             if (trainInFile == true) {
-                inputDatalist = NeuralNetGetNN1InputfromStaticCode("", subSymbol);
+                inputDatalist = NeuralNetGetNN1InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
@@ -1927,7 +1931,7 @@ public class NN1ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NeuralNetGetNN1InputfromStaticCode(symbol, null);
+                    inputL = NeuralNetGetNN1InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {

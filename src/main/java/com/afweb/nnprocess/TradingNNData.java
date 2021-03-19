@@ -55,24 +55,28 @@ public class TradingNNData {
         return 0;
     }
 
-    public int getNNdataDB(ServiceAFweb serviceAFWeb, String BPnameSym, ArrayList<NNInputOutObj> inputlist) {
+    public int getNNdataDB(ServiceAFweb serviceAFWeb, String nnName, ArrayList<NNInputDataObj> inputlist) {
         ArrayList<AFneuralNetData> objDataList = new ArrayList();
-
-        objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
-        if (objDataList != null) {
-            logger.info("> getNNdataDB " + BPnameSym + " " + objDataList.size());
-            for (int i = 0; i < objDataList.size(); i++) {
-                String dataSt = objDataList.get(i).getData();
-                NNInputOutObj input;
-                try {
+        String BPnameSym = CKey.NN_version + "_" + nnName;
+        try {
+            objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
+            if (objDataList != null) {
+                logger.info("> getNNdataDB " + BPnameSym + " " + objDataList.size());
+                for (int i = 0; i < objDataList.size(); i++) {
+                    String dataSt = objDataList.get(i).getData();
+                    NNInputOutObj input;
                     input = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
-                    inputlist.add(input);
-                } catch (IOException ex) {
-                    return 0;
+                    NNInputDataObj inputObj = new NNInputDataObj();
+                    inputObj.setObj(input);
+                    inputObj.setUpdatedatel(objDataList.get(i).getUpdatedatel());
+                    inputlist.add(inputObj);
                 }
+                return 1;
             }
+        } catch (Exception ex) {
+            logger.info("> saveNNdataDB - exception " + ex);
         }
-        return 1;
+        return 0;
     }
 
 ////////
