@@ -368,7 +368,7 @@ public class NN1ProcessByTrend {
                 ;
             } else {
                 end = len;
-            }            
+            }
             int index = 1;
             int line = 0;
             while (true) {
@@ -421,10 +421,15 @@ public class NN1ProcessByTrend {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
         try {
             TRprocessImp.getStaticJavaAllStockInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+            String inputListSt = "Data in DB";
+            if (CKey.NN_DATA_DB == true) {
+                TradingNNData nndata = new TradingNNData();
+                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
 
-            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = ServiceAFweb.compress(inputListRawSt);
-
+            } else {
+                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+                inputListSt = ServiceAFweb.compress(inputListRawSt);
+            }
             StringBuffer msgWrite = new StringBuffer();
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"

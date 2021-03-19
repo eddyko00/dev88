@@ -562,7 +562,7 @@ public class NN2ProcessBySignal {
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST3);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST4);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST5);
-            inputBuf.append(nn2Data.TR_NN2_INPUTLIST6); 
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST6);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST7);
 //            inputBuf.append(nn2Data.TR_NN2_INPUTLIST8);
 //            inputBuf.append(nn2Data.TR_NN2_INPUTLIST9); 
@@ -620,7 +620,7 @@ public class NN2ProcessBySignal {
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST1);
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST2);
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
-            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); 
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4);
 //            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST5);
 //            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST6); 
 //            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST7); //need to check nnData file
@@ -670,10 +670,15 @@ public class NN2ProcessBySignal {
 
         try {
             TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+            String inputListSt = "Data in DB";
+            if (CKey.NN_DATA_DB == true) {
+                TradingNNData nndata = new TradingNNData();
+                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
 
-            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = ServiceAFweb.compress(inputListRawSt);
-
+            } else {
+                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+                inputListSt = ServiceAFweb.compress(inputListRawSt);
+            }
             String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
             if (FileUtil.FileTest(fileN) == false) {
                 return false;
@@ -688,7 +693,7 @@ public class NN2ProcessBySignal {
                     + "\n"
                     + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
-            int len = weightSt.length();            
+            int len = weightSt.length();
             int beg = 0;
             int end = sizeline;
             while (true) {
@@ -714,7 +719,7 @@ public class NN2ProcessBySignal {
                 ;
             } else {
                 end = len;
-            }            
+            }
             int index = 1;
             int line = 0;
             while (true) {
@@ -935,7 +940,7 @@ public class NN2ProcessBySignal {
                         continue;
                     }
                     this.TrainNN2NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
-                    
+
 //                    String LockStock = "NN2_TR_" + symbol; // + "_" + trNN;
 //                    LockStock = LockStock.toUpperCase();
 //

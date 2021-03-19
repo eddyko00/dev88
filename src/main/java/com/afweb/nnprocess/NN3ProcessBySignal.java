@@ -75,7 +75,6 @@ public class NN3ProcessBySignal {
     public void processAllNN3StockInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
 
-
         logger.info("> processAllNN3StockInputNeuralNet TR EMA1... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
         logger.info("> processAllNN3StockInputNeuralNet TR EMA2... ");
@@ -293,7 +292,6 @@ public class NN3ProcessBySignal {
                     String weightSt = (CKey.NN2_WEIGHT_0);
                     afNeuralNet.setWeight(weightSt);
 
-
                     serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN3_WEIGHT_0");
                 } else {
@@ -309,7 +307,6 @@ public class NN3ProcessBySignal {
                             afNeuralNet.setUpdatedatedisplay(new java.sql.Date(dateDefault.getTimeInMillis()));
                             afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
                             afNeuralNet.setWeight(weightSt);
-
 
                             serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
                         }
@@ -553,7 +550,7 @@ public class NN3ProcessBySignal {
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST3);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST4);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST5);
-            inputBuf.append(nn2Data.TR_NN2_INPUTLIST6); 
+            inputBuf.append(nn2Data.TR_NN2_INPUTLIST6);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST7);
 //            inputBuf.append(nn2Data.TR_NN2_INPUTLIST8);
 //            inputBuf.append(nn2Data.TR_NN2_INPUTLIST9); 
@@ -611,7 +608,7 @@ public class NN3ProcessBySignal {
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST1);
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST2);
             inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
-            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4); 
+            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4);
 //            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST5);
 //            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST6); 
 //            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST7); //need to check nnData file
@@ -705,7 +702,7 @@ public class NN3ProcessBySignal {
                 ;
             } else {
                 end = len;
-            }            
+            }
             int index = 1;
             int line = 0;
             while (true) {
@@ -758,10 +755,15 @@ public class NN3ProcessBySignal {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
         try {
             TRprocessImp.getStaticJavaAllStockInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+            String inputListSt = "Data in DB";
+            if (CKey.NN_DATA_DB == true) {
+                TradingNNData nndata = new TradingNNData();
+                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
 
-            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = ServiceAFweb.compress(inputListRawSt);
-
+            } else {
+                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+                inputListSt = ServiceAFweb.compress(inputListRawSt);
+            }
             StringBuffer msgWrite = new StringBuffer();
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
@@ -926,7 +928,7 @@ public class NN3ProcessBySignal {
                         continue;
                     }
                     this.TrainNN3NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
-                    
+
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
@@ -1262,7 +1264,7 @@ public class NN3ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN3 nn3 = new ProcessNN3();
-         
+
             inputList = nn3.trainingNN3dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_EMA1) {
             ProcessNN3 nn3 = new ProcessNN3();
