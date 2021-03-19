@@ -859,23 +859,24 @@ public class NN1ProcessBySignal {
 
     }
 
-    private boolean NeuralNetCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+    public boolean NeuralNetCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
             TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-            
-            if (CKey.NN_DATA_DB == true) {
-                TradingNNData nndata = new TradingNNData ();
-                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
-                return true;
-            }
-                
-            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = ServiceAFweb.compress(inputListRawSt);
 
+            String inputListSt = "Data in DB";
+            if (CKey.NN_DATA_DB == true) {
+                TradingNNData nndata = new TradingNNData();
+                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
+
+            } else {
+
+                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+                inputListSt = ServiceAFweb.compress(inputListRawSt);
+            }
             //TR_NN1_nnWeight0.txt
             String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
 
@@ -914,6 +915,11 @@ public class NN1ProcessBySignal {
             len = inputListSt.length();
             beg = 0;
             end = sizeline;
+            if (end <= len) {
+                ;
+            } else {
+                end = len;
+            }
             int index = 1;
             int line = 0;
             while (true) {

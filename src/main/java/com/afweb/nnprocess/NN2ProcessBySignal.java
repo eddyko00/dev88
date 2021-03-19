@@ -688,7 +688,7 @@ public class NN2ProcessBySignal {
                     + "\n"
                     + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
-            int len = weightSt.length();
+            int len = weightSt.length();            
             int beg = 0;
             int end = sizeline;
             while (true) {
@@ -710,6 +710,11 @@ public class NN2ProcessBySignal {
             len = inputListSt.length();
             beg = 0;
             end = sizeline;
+            if (end <= len) {
+                ;
+            } else {
+                end = len;
+            }            
             int index = 1;
             int line = 0;
             while (true) {

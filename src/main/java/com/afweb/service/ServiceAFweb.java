@@ -980,15 +980,17 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            nn1ProcBySig.processInputNeuralNet(this);            
+//            CKey.NN_DATA_DB = true;
+//            nn1ProcBySig.NeuralNetCreatJava(this, ConstantKey.TR_NN1);
+
 //            symbol = "HOD.TO";
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
 //            nnName = ConstantKey.TR_NN2;
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-          
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-
 //            symbol = "AAPL";
 //             AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
 //            this.getAccountProcessImp().updateTradingAccountBalance(this, account, symbol); 

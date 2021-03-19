@@ -364,6 +364,11 @@ public class NN1ProcessByTrend {
             len = inputListSt.length();
             beg = 0;
             end = sizeline;
+            if (end <= len) {
+                ;
+            } else {
+                end = len;
+            }            
             int index = 1;
             int line = 0;
             while (true) {
