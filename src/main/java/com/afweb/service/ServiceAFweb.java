@@ -980,14 +980,14 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "HOD.TO";
-            trNN = ConstantKey.INT_TR_NN2;
-            TR_NN = trNN;
-            nnName = ConstantKey.TR_NN2;
-            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            symbol = "HOD.TO";
+//            trNN = ConstantKey.INT_TR_NN2;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN2;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+          
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 
 //            symbol = "AAPL";
 //             AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
@@ -1023,7 +1023,11 @@ public class ServiceAFweb {
 //            BillingProcess billProc = new BillingProcess();
 //            for (int i = 0; i < 10; i++) {
 //                billProc.processUserBillingAll(this);
-//            }            
+//            }       
+//
+///////////////////////////////////////////////////// Update stock
+//            AFstockObj stock = getRealTimeStockImp(symbol);
+//            TRprocessImp.updateRealTimeStock(this, stock);
 /////////////////////////////////////////////////////            
             if (nn3testflag == true) {
                 // javamain localmysqlflag nn3testflag mydebugtestflag
