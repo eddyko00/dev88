@@ -11,6 +11,7 @@ import com.afweb.nn.*;
 import com.afweb.service.*;
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,9 +24,9 @@ import java.util.logging.Logger;
  */
 public class TradingNNData {
 
-    public static Logger logger = Logger.getLogger("NNProcess");
+    public static Logger logger = Logger.getLogger("TradingNNData");
 
-    public int updateNNdataDB(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
+    public int saveNNdataDB(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
         try {
             int added = 0;
             int total = 0;
@@ -46,11 +47,33 @@ public class TradingNNData {
                     }
                 }
             }
-            logger.info("> updateNNdataDB - added " + added + " of " + total);
+            logger.info("> saveNNdataDB - added " + added + " of " + total);
             return 1;
         } catch (Exception ex) {
-            logger.info("> updateNNdataDB - exception " + ex);
+            logger.info("> saveNNdataDB - exception " + ex);
         }
         return 0;
     }
+
+    public int getNNdataDB(ServiceAFweb serviceAFWeb, String BPnameSym, ArrayList<NNInputOutObj> inputlist) {
+        ArrayList<AFneuralNetData> objDataList = new ArrayList();
+
+        objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
+        if (objDataList != null) {
+            logger.info("> getNNdataDB " + BPnameSym + " " + objDataList.size());
+            for (int i = 0; i < objDataList.size(); i++) {
+                String dataSt = objDataList.get(i).getData();
+                NNInputOutObj input;
+                try {
+                    input = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
+                    inputlist.add(input);
+                } catch (IOException ex) {
+                    return 0;
+                }
+            }
+        }
+        return 1;
+    }
+
+////////
 }

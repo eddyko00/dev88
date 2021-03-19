@@ -673,7 +673,7 @@ public class NN2ProcessBySignal {
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
                 TradingNNData nndata = new TradingNNData();
-                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                nndata.saveNNdataDB(serviceAFWeb, nnName, stockInputMap);
 
             } else {
                 String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
@@ -780,7 +780,7 @@ public class NN2ProcessBySignal {
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
                 TradingNNData nndata = new TradingNNData();
-                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                nndata.saveNNdataDB(serviceAFWeb, nnName, stockInputMap);
 
             } else {
 

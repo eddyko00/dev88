@@ -870,7 +870,7 @@ public class NN1ProcessBySignal {
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
                 TradingNNData nndata = new TradingNNData();
-                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                nndata.saveNNdataDB(serviceAFWeb, nnName, stockInputMap);
 
             } else {
 
@@ -971,7 +971,7 @@ public class NN1ProcessBySignal {
         return false;
     }
 
-    private boolean NeuralNetAllStockCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+    public boolean NeuralNetAllStockCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -982,7 +982,7 @@ public class NN1ProcessBySignal {
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
                 TradingNNData nndata = new TradingNNData();
-                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                nndata.saveNNdataDB(serviceAFWeb, nnName, stockInputMap);
 
             } else {
 
@@ -1558,6 +1558,9 @@ public class NN1ProcessBySignal {
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
+            
+            
+            
             if (symbol != "") {
                 inputlist = stockInputMap.get(symbol);
                 if (inputlist == null) {
