@@ -13,7 +13,6 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.nnBP.*;
 import com.afweb.service.*;
-import static com.afweb.service.ServiceAFweb.mydebugtestflag;
 
 import com.afweb.signal.*;
 import com.afweb.stock.*;
@@ -122,19 +121,6 @@ public class NN1ProcessBySignal {
     public ArrayList<NNInputDataObj> getTrainingNNdataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
         logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
 
-//        boolean trainStock = false;
-//        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
-//            String stockN = ServiceAFweb.neuralNetTrainStock[i];
-//            if (stockN.equals(symbol)) {
-//                trainStock = true;
-//                break;
-//            }
-//        }
-//        if (trainStock == false) {
-//            if (ServiceAFweb.initTrainNeuralNetNumber > 1) {
-//                return null;
-//            }
-//        }
         String symbol = NormalizeSym.replace(".", "_");
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
@@ -880,7 +866,13 @@ public class NN1ProcessBySignal {
 
         try {
             TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-
+            
+            if (CKey.NN_DATA_DB == true) {
+                TradingNNData nndata = new TradingNNData ();
+                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                return true;
+            }
+                
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
 
