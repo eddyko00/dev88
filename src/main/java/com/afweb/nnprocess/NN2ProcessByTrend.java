@@ -306,9 +306,16 @@ public class NN2ProcessByTrend {
 
         try {
             TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+            String inputListSt = "Data in DB";
+            if (CKey.NN_DATA_DB == true) {
+                TradingNNData nndata = new TradingNNData();
+                nndata.updateNNdataDB(serviceAFWeb, nnName, stockInputMap);
 
-            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+            } else {
+
+                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+                inputListSt = ServiceAFweb.compress(inputListRawSt);
+            }
 
             String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
             if (FileUtil.FileTest(fileN) == false) {
@@ -327,6 +334,11 @@ public class NN2ProcessByTrend {
             int len = weightSt.length();
             int beg = 0;
             int end = sizeline;
+            if (end <= len) {
+                ;
+            } else {
+                end = len;
+            }                
             while (true) {
                 String st = weightSt.substring(beg, end);
                 msgWrite.append("+ \"" + st + "\"\n");
@@ -422,9 +434,13 @@ public class NN2ProcessByTrend {
             int len = inputListSt.length();
             int beg = 0;
             int end = sizeline;
+            if (end <= len) {
+                ;
+            } else {
+                end = len;
+            }            
             int index = 1;
             int line = 0;
-
             while (true) {
                 if (line == 0) {
                     msgWrite.append(""
