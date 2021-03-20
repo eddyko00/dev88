@@ -2271,7 +2271,7 @@ public class TrandingSignalProcess {
             symbol = symbolL[i];
             inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, nnName, symbol);
             if (inputlist.size() == 0) {
-                return null;
+                continue;
             }
             inputlistRet.addAll(inputlist);
             if (stockInputMap != null) {
@@ -2286,7 +2286,7 @@ public class TrandingSignalProcess {
             symbolAll = symbolLAll[i];
             inputlist = getTrainingInputDataFromFileProcess(serviceAFWeb, nnName, symbolAll);
             if (inputlist.size() == 0) {
-                return null;
+                continue;
             }
             inputlistRet.addAll(inputlist);
             if (stockInputMap != null) {

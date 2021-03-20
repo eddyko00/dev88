@@ -928,8 +928,9 @@ public class ServiceAFweb {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn1ProcBySig.processInputNeuralNet(this);
-                    nn1ProcBySig.processAllStockInputNeuralNet(this);
-
+                    if (CKey.NN_DATA_DB == false) {
+                        nn1ProcBySig.processAllStockInputNeuralNet(this);
+                    }
                     nn1trend.processNN30InputNeuralNetTrend(this);
                     nn1trend.processAllNN30StockInputNeuralNetTrend(this);
 
@@ -940,8 +941,9 @@ public class ServiceAFweb {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn2ProcBySig.processNN2InputNeuralNet(this);
-                    nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
-
+                    if (CKey.NN_DATA_DB == false) {
+                        nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
+                    }
 //                    nn2trend.processNN40InputNeuralNetTrend(this);
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
@@ -988,7 +990,7 @@ public class ServiceAFweb {
 
             // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
             logger.info("Start mydebugtestflag.....");
-            NN1ProcessByTrend nnStProcByTrend = new NN1ProcessByTrend();
+            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -999,6 +1001,14 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+//            TrandingSignalProcess.forceToGenerateNewNN = false;
+//            nn1trend.NeuralNetProcessTesting(this);
+//            trNN = ConstantKey.INT_TR_NN30;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN30;
+//            nn1trend.NeuralNetNN30CreateDB(this, nnName);
+
 
 //            nn1ProcBySig.processInputNeuralNet(this);            
 //            CKey.NN_DATA_DB = true;

@@ -28,11 +28,11 @@ public class TradingNNData {
 
     public int saveNNBaseDataDB(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
         String BPnameSym = CKey.NN_version + "_" + nnName;
-        try {            
+        try {
             ArrayList<NNInputDataObj> inputlist = new ArrayList();
-            
+
             ArrayList<AFneuralNetData> objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
-            if (objDataList.size() > 1000) {
+            if (objDataList.size() > 300) {
                 // already saved
                 return 1;
             }
@@ -44,8 +44,9 @@ public class TradingNNData {
                 if (inputlistSym == null) {
                     continue;
                 }
-                total += inputlistSym.size();
 
+                total += inputlistSym.size();
+//                logger.info("> saveNNdataDB - " + sym + " " + inputlistSym.size());
                 for (int i = 0; i < inputlistSym.size(); i++) {
                     NNInputDataObj objData = inputlistSym.get(i);
                     serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
