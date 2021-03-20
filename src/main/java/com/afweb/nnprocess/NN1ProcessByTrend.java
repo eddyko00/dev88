@@ -172,7 +172,14 @@ public class NN1ProcessByTrend {
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
             for (int i = 0; i < symbolL.length; i++) {
+                ///// too much data Skop "AMZN" "RY.TO"      
+                ///// too much data Skop "AMZN" "RY.TO"      
                 symbol = symbolL[i];
+                if (symbol.equals("AMZN")) {
+                    continue;
+                } else if (symbol.equals("RY.TO")) {
+                    continue;
+                }
                 ArrayList<NNInputDataObj> InputList = getTrainingNNtrendProcess(serviceAFWeb, symbol, TR_Name, size);
             }
         }
@@ -318,8 +325,7 @@ public class NN1ProcessByTrend {
         return inputList;
     }
 
-    
-  public boolean NeuralNetNN30CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
+    public boolean NeuralNetNN30CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         logger.info("> NeuralNetNN30CreatJavaDB ");
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -336,7 +342,7 @@ public class NN1ProcessByTrend {
         }
         return false;
     }
-        
+
     public boolean NeuralNetNN30CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
@@ -446,7 +452,6 @@ public class NN1ProcessByTrend {
         }
         return false;
     }
-
 
     public boolean NeuralNetAllStockNN30CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
@@ -1323,11 +1328,11 @@ public class NN1ProcessByTrend {
     public static ArrayList<NNInputDataObj> NeuralNetAllStockGetNN3InputfromStaticCode(String symbol, String subSymbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
-        
+
         if (CKey.NN_DATA_DB == true) {
             return inputlist;
-        }     
-                
+        }
+
         try {
             inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST1);
 //            inputBuf.append(nn30AllData.TR_NN30_ALLINPUTLIST2);
