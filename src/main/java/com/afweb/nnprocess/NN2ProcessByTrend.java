@@ -51,6 +51,7 @@ public class NN2ProcessByTrend {
             TrandingSignalProcess.forceToErrorNewNN = true;
             // start training
             // TrainingNNBP inputpattern 1748
+            NeuralNetNN40CreatJavaDB(serviceAFWeb, ConstantKey.TR_NN40);
             NeuralNetProcessTesting(serviceAFWeb);
             NeuralNetNN40CreatJava(serviceAFWeb, ConstantKey.TR_NN40);
 
@@ -299,6 +300,26 @@ public class NN2ProcessByTrend {
         return inputList;
     }
 
+    
+    public boolean NeuralNetNN40CreatJavaDB(ServiceAFweb serviceAFWeb, String nnName) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        logger.info("> NeuralNetNN40CreatJavaDB ");
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            if (CKey.NN_DATA_DB == true) {
+                TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+
+                TradingNNData nndata = new TradingNNData();
+                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
+            }
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
+    
     public boolean NeuralNetNN40CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
@@ -826,7 +847,7 @@ public class NN2ProcessByTrend {
                 }
                 boolean trainAllInFile = true;
                 if (trainAllInFile == true) {
-                    inputL = NeuralNetAllStockGetNN3InputfromStaticCode(symbol, null);
+                    inputL = NeuralNetAllStockGetNN40InputfromStaticCode(symbol, null);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
 //                            logger.info("> inputStockNeuralNetAllData " + BPnameSym + " " + symbol + " " + inputL.size());
@@ -1021,8 +1042,8 @@ public class NN2ProcessByTrend {
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
         //just for testing
-//        ServiceAFweb.forceNNReadFileflag = false;
-        //just for testing 
+        ServiceAFweb.forceNNReadFileflag = false;
+//        just for testing 
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
 //            inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);
@@ -1069,16 +1090,16 @@ public class NN2ProcessByTrend {
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
             String subSymbol = null;
-            if (symbol.length() != 0) {
-                subSymbol = "RY.TO";
-                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                    String stockN = ServiceAFweb.primaryStock[i];
-                    if (stockN.equals(symbol)) {
-                        subSymbol = null;
-                        break;
-                    }
-                }
-            }
+//            if (symbol.length() != 0) {
+//                subSymbol = "RY.TO";
+//                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+//                    String stockN = ServiceAFweb.primaryStock[i];
+//                    if (stockN.equals(symbol)) {
+//                        subSymbol = null;
+//                        break;
+//                    }
+//                }
+//            }
 
             boolean trainInFile = true;
             if (trainInFile == true) {
@@ -1123,7 +1144,7 @@ public class NN2ProcessByTrend {
             }
             boolean trainAllInFile = true;
             if (trainAllInFile == true) {
-                inputDatalist = NeuralNetAllStockGetNN3InputfromStaticCode(symbol, null);
+                inputDatalist = NeuralNetAllStockGetNN40InputfromStaticCode(symbol, null);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNetAllStock " + BPnameSym + " " + inputDatalist.size());
@@ -1264,15 +1285,15 @@ public class NN2ProcessByTrend {
         return null;
     }
 
-    public static ArrayList<NNInputDataObj> NeuralNetAllStockGetNN3InputfromStaticCode(String symbol, String subSymbol) {
+    public static ArrayList<NNInputDataObj> NeuralNetAllStockGetNN40InputfromStaticCode(String symbol, String subSymbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
             inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST1);
-            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST2);
-            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST3);
-            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST4);
-            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST5);
+//            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST2);
+//            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST3);
+//            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST4);
+//            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST5);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST6);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST7);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST8);

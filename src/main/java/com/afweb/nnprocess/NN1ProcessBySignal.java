@@ -38,36 +38,63 @@ public class NN1ProcessBySignal {
     public static Logger logger = Logger.getLogger("NNProcess");
 
     public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
-        ////////////////////////////////////////////
-        boolean flagIntitNN1Input = true;
-        if (flagIntitNN1Input == true) {
+        TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
+        TrandingSignalProcess.forceToGenerateNewNN = false;
+        logger.info("> processInputNeuralNet TR MACD1... ");
+        NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1); // normal 
+        logger.info("> processInputNeuralNet TR MACD2... ");
+        NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2); // slow 
+        // need to debug to generate the java first time
+        TrandingSignalProcess.forceToGenerateNewNN = true;
 
-            TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
-            TrandingSignalProcess.forceToGenerateNewNN = false;
-            logger.info("> processInputNeuralNet TR MACD1... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1); // normal 
-            logger.info("> processInputNeuralNet TR MACD2... ");
-            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2); // slow 
-            // need to debug to generate the java first time
-            TrandingSignalProcess.forceToGenerateNewNN = true;
+        TrandingSignalProcess.forceToErrorNewNN = true;
+        // start training
+        // TrainingNNBP inputpattern 1748
+        NeuralNetCreatJavaDB(serviceAFWeb, ConstantKey.TR_NN1);
+        NeuralNetProcessNN1Testing(serviceAFWeb);
+        NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
 
-            TrandingSignalProcess.forceToErrorNewNN = true;
-            // start training
-            // TrainingNNBP inputpattern 1748
-            NeuralNetProcessNN1Testing(serviceAFWeb);
-            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
-
-            TrandingSignalProcess.forceToGenerateNewNN = false;
-            // start training
-            // TrainingNNBP inputpattern 1748
-            NeuralNetProcessNN1Testing(serviceAFWeb);
-            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
-            NeuralNetProcessNN1Testing(serviceAFWeb);
-            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
-            logger.info("> processInputNeuralNet TR NN1 end....... ");
-
-        }
+        TrandingSignalProcess.forceToGenerateNewNN = false;
+        // start training
+        // TrainingNNBP inputpattern 1748
+        NeuralNetProcessNN1Testing(serviceAFWeb);
+        NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+        NeuralNetProcessNN1Testing(serviceAFWeb);
+        NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+        logger.info("> processInputNeuralNet TR NN1 end....... ");
     }
+
+//    public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
+//        ////////////////////////////////////////////
+//        boolean flagIntitNN1Input = true;
+//        if (flagIntitNN1Input == true) {
+//
+//            TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
+//            TrandingSignalProcess.forceToGenerateNewNN = false;
+//            logger.info("> processInputNeuralNet TR MACD1... ");
+//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1); // normal 
+//            logger.info("> processInputNeuralNet TR MACD2... ");
+//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2); // slow 
+//            // need to debug to generate the java first time
+//            TrandingSignalProcess.forceToGenerateNewNN = true;
+//
+//            TrandingSignalProcess.forceToErrorNewNN = true;
+//            // start training
+//            // TrainingNNBP inputpattern 1748
+//            NeuralNetProcessNN1Testing(serviceAFWeb);
+//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+//
+//            TrandingSignalProcess.forceToGenerateNewNN = false;
+//            // start training
+//            // TrainingNNBP inputpattern 1748
+//            NeuralNetProcessNN1Testing(serviceAFWeb);
+//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+//            NeuralNetProcessNN1Testing(serviceAFWeb);
+//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+//            logger.info("> processInputNeuralNet TR NN1 end....... ");
+//
+//        }
+//    }
 
     public void processAllStockInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
@@ -259,7 +286,7 @@ public class NN1ProcessBySignal {
         return inputList;
     }
 
-    private void NeuralNetProcessNN1Testing(ServiceAFweb serviceAFWeb) {
+    public void NeuralNetProcessNN1Testing(ServiceAFweb serviceAFWeb) {
         ///////////////////////////////////////////////////////////////////////////////////
         // read new NN data
         serviceAFWeb.forceNNReadFileflag = true; // should be true to get it from file instead from db
@@ -859,6 +886,24 @@ public class NN1ProcessBySignal {
 
     }
 
+    public boolean NeuralNetCreatJavaDB(ServiceAFweb serviceAFWeb, String nnName) {
+        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        logger.info("> NeuralNetCreatJavaDB ");
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            if (CKey.NN_DATA_DB == true) {
+                TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+
+                TradingNNData nndata = new TradingNNData();
+                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
+            }
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
     public boolean NeuralNetCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
 
@@ -869,11 +914,8 @@ public class NN1ProcessBySignal {
 
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
-                TradingNNData nndata = new TradingNNData();
-                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
-
+                ;
             } else {
-
                 String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
                 inputListSt = ServiceAFweb.compress(inputListRawSt);
             }
@@ -1551,15 +1593,15 @@ public class NN1ProcessBySignal {
 
         try {
             inputBuf.append(nn1Data.NN_INPUTLIST1);
-            inputBuf.append(nn1Data.NN_INPUTLIST2);
-            inputBuf.append(nn1Data.NN_INPUTLIST3);
-            inputBuf.append(nn1Data.NN_INPUTLIST4);
-            inputBuf.append(nn1Data.NN_INPUTLIST5);
-            inputBuf.append(nn1Data.NN_INPUTLIST6);
-            inputBuf.append(nn1Data.NN_INPUTLIST7);
-            inputBuf.append(nn1Data.NN_INPUTLIST8);
-            inputBuf.append(nn1Data.NN_INPUTLIST9); //need to check nn1Data file
-            inputBuf.append(nn1Data.NN_INPUTLIST10);
+//            inputBuf.append(nn1Data.NN_INPUTLIST2);
+//            inputBuf.append(nn1Data.NN_INPUTLIST3);
+//            inputBuf.append(nn1Data.NN_INPUTLIST4);
+//            inputBuf.append(nn1Data.NN_INPUTLIST5);
+//            inputBuf.append(nn1Data.NN_INPUTLIST6);
+//            inputBuf.append(nn1Data.NN_INPUTLIST7);
+//            inputBuf.append(nn1Data.NN_INPUTLIST8);
+//            inputBuf.append(nn1Data.NN_INPUTLIST9); //need to check nn1Data file
+//            inputBuf.append(nn1Data.NN_INPUTLIST10);
 //            inputBuf.append(nn1Data.NN_INPUTLIST11); //need to check nn1Data file
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
@@ -1608,17 +1650,17 @@ public class NN1ProcessBySignal {
     public static ArrayList<NNInputDataObj> NeuralNetAllStockGetNN1InputfromStaticCode(String symbol, String subSymbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
-        
+
         if (CKey.NN_DATA_DB == true) {
             return inputlist;
-        }     
-        
+        }
+
         try {
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST1);
-            inputBuf.append(nn1AllData.NN_ALLINPUTLIST2);
-            inputBuf.append(nn1AllData.NN_ALLINPUTLIST3);
-            inputBuf.append(nn1AllData.NN_ALLINPUTLIST4);
-            inputBuf.append(nn1AllData.NN_ALLINPUTLIST5);
+//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST2);
+//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST3);
+//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST4);
+//            inputBuf.append(nn1AllData.NN_ALLINPUTLIST5);
 //            inputBuf.append(nn1AllData.NN_ALLINPUTLIST6);
 //            inputBuf.append(nn1AllData.NN_ALLINPUTLIST7);
 //            inputBuf.append(nn1AllData.NN_ALLINPUTLIST8); //need to check nnData file
@@ -1727,7 +1769,7 @@ public class NN1ProcessBySignal {
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
         //just for testing
-//        ServiceAFweb.forceNNReadFileflag = false;
+        ServiceAFweb.forceNNReadFileflag = false;
         //just for testing 
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
@@ -1775,16 +1817,16 @@ public class NN1ProcessBySignal {
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
             String subSymbol = null;
-            if (symbol.length() != 0) {
-                subSymbol = "RY.TO";
-                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                    String stockN = ServiceAFweb.primaryStock[i];
-                    if (stockN.equals(symbol)) {
-                        subSymbol = null;
-                        break;
-                    }
-                }
-            }
+//            if (symbol.length() != 0) {
+//                subSymbol = "RY.TO";
+//                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+//                    String stockN = ServiceAFweb.primaryStock[i];
+//                    if (stockN.equals(symbol)) {
+//                        subSymbol = null;
+//                        break;
+//                    }
+//                }
+//            }
 
             boolean trainInFile = true;
             if (trainInFile == true) {

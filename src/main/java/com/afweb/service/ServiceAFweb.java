@@ -980,13 +980,15 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            nn1ProcBySig.processInputNeuralNet(this);            
-            CKey.NN_DATA_DB = true;
-            nn1ProcBySig.NeuralNetCreatJava(this, ConstantKey.TR_NN1);
-            nnStProcByTrend.NeuralNetNN30CreatJava(this, ConstantKey.TR_NN30);
-            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
             
-            nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
+            
+//            nn1ProcBySig.processInputNeuralNet(this);            
+//            CKey.NN_DATA_DB = true;
+//            nn1ProcBySig.NeuralNetCreatJava(this, ConstantKey.TR_NN1);
+//            nnStProcByTrend.NeuralNetNN30CreatJava(this, ConstantKey.TR_NN30);
+//            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
+//            
+//            nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 
 //            symbol = "HOD.TO";
 //            trNN = ConstantKey.INT_TR_NN2;
