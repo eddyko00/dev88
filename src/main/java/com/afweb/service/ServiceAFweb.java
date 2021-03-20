@@ -906,6 +906,17 @@ public class ServiceAFweb {
 
 ////////////////////////////////////////////////////////////////////////////            
             if (processRestinputflag == true) {
+                if ((nn1testflag == true) && (nn2testflag == true)) {
+                    // clear NN1 and NN2
+                    String nnName = ConstantKey.TR_NN1;
+                    String BPname = CKey.NN_version + "_" + nnName;
+                    getStockImp().deleteNeuralNetDataByBPname(BPname);
+
+                    nnName = ConstantKey.TR_NN2;
+                    BPname = CKey.NN_version + "_" + nnName;
+                    getStockImp().deleteNeuralNetDataByBPname(BPname);
+                }
+
                 if (nn1testflag == true) {
                     exitflag = true;
                     /// reset weight0 and use latest stock
@@ -915,8 +926,9 @@ public class ServiceAFweb {
 
                     nn1trend.processNN30InputNeuralNetTrend(this);
                     nn1trend.processAllNN30StockInputNeuralNetTrend(this);
-                    return;
-                } else if (nn2testflag == true) {
+
+                }
+                if (nn2testflag == true) {
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
@@ -926,8 +938,8 @@ public class ServiceAFweb {
 //                    nn2trend.processNN40InputNeuralNetTrend(this);
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
-                    return;
                 }
+                return;
             }
 ////////////////////////////////////////////////////////////////////////////
             if (processRestAllStockflag == true) {
@@ -980,8 +992,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            
-            
 //            nn1ProcBySig.processInputNeuralNet(this);            
 //            CKey.NN_DATA_DB = true;
 //            nn1ProcBySig.NeuralNetCreatJava(this, ConstantKey.TR_NN1);
@@ -989,7 +999,6 @@ public class ServiceAFweb {
 //            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
 //            
 //            nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
-
 //            symbol = "HOD.TO";
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
