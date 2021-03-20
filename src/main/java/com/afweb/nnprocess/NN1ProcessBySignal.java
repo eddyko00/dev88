@@ -1400,57 +1400,57 @@ public class NN1ProcessBySignal {
                 boolean trainInFile = true;
                 if (trainInFile == true) {
                     inputL = NeuralNetGetNN1InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
-                    if (inputL != null) {
-                        if (inputL.size() > 0) {
-                            logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
-                            for (int k = 0; k < inputL.size(); k++) {
-                                NNInputDataObj inputLObj = inputL.get(k);
-                                for (int m = 0; m < inputlistSym.size(); m++) {
-                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
-                                    float output1 = (float) inputSymObj.getObj().getOutput1();
-                                    if ((output1 == 0) || (output1 == -1)) {
-                                        inputlistSym.remove(m);
-                                        break;
-                                    }
-                                    String inputLObD = inputLObj.getObj().getDateSt();
-                                    String inputSymObD = inputSymObj.getObj().getDateSt();
-                                    if (inputLObD.equals(inputSymObD)) {
-                                        inputlistSym.remove(m);
-//                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+//                    if (inputL != null) {
+//                        if (inputL.size() > 0) {
+//                            logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
+//                            for (int k = 0; k < inputL.size(); k++) {
+//                                NNInputDataObj inputLObj = inputL.get(k);
+//                                for (int m = 0; m < inputlistSym.size(); m++) {
+//                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
+//                                    float output1 = (float) inputSymObj.getObj().getOutput1();
+//                                    if ((output1 == 0) || (output1 == -1)) {
+//                                        inputlistSym.remove(m);
+//                                        break;
+//                                    }
+//                                    String inputLObD = inputLObj.getObj().getDateSt();
+//                                    String inputSymObD = inputSymObj.getObj().getDateSt();
+//                                    if (inputLObD.equals(inputSymObD)) {
+//                                        inputlistSym.remove(m);
+////                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
                 }
-                boolean trainAllInFile = true;
-                if (trainAllInFile == true) {
-                    inputL = NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
-                    if (inputL != null) {
-                        if (inputL.size() > 0) {
-                            logger.info("> inputStockNeuralNetAllStockData " + BPnameSym + " " + symbol + " " + inputL.size());
-                            for (int k = 0; k < inputL.size(); k++) {
-                                NNInputDataObj inputLObj = inputL.get(k);
-                                for (int m = 0; m < inputlistSym.size(); m++) {
-                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
-                                    float output1 = (float) inputSymObj.getObj().getOutput1();
-                                    if ((output1 == 0) || (output1 == -1)) {
-                                        inputlistSym.remove(m);
-                                        break;
-                                    }
-                                    String inputLObD = inputLObj.getObj().getDateSt();
-                                    String inputSymObD = inputSymObj.getObj().getDateSt();
-                                    if (inputLObD.equals(inputSymObD)) {
-                                        inputlistSym.remove(m);
-//                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+//                boolean trainAllInFile = true;
+//                if (trainAllInFile == true) {
+//                    inputL = NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
+//                    if (inputL != null) {
+//                        if (inputL.size() > 0) {
+//                            logger.info("> inputStockNeuralNetAllStockData " + BPnameSym + " " + symbol + " " + inputL.size());
+//                            for (int k = 0; k < inputL.size(); k++) {
+//                                NNInputDataObj inputLObj = inputL.get(k);
+//                                for (int m = 0; m < inputlistSym.size(); m++) {
+//                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
+//                                    float output1 = (float) inputSymObj.getObj().getOutput1();
+//                                    if ((output1 == 0) || (output1 == -1)) {
+//                                        inputlistSym.remove(m);
+//                                        break;
+//                                    }
+//                                    String inputLObD = inputLObj.getObj().getDateSt();
+//                                    String inputSymObD = inputSymObj.getObj().getDateSt();
+//                                    if (inputLObD.equals(inputSymObD)) {
+//                                        inputlistSym.remove(m);
+////                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
                 if (inputlistSym != null) {
                     //merge inputlistSym
 
