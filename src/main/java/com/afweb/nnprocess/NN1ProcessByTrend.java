@@ -78,8 +78,9 @@ public class NN1ProcessByTrend {
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD0);
         logger.info("> processAllStockInputNeuralNetTrend TR MACD1... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-
-        NeuralNetAllStockNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+        if (CKey.NN_DATA_DB == false) {
+            NeuralNetAllStockNN30CreatJava(serviceAFWeb, ConstantKey.TR_NN30);
+        }
         logger.info("> processAllStockInputNeuralNetTrend TR NN1 end....... ");
 
     }
