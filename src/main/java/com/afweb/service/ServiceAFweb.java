@@ -983,10 +983,9 @@ public class ServiceAFweb {
 //            nn1ProcBySig.processInputNeuralNet(this);            
             CKey.NN_DATA_DB = true;
             nn1ProcBySig.NeuralNetCreatJava(this, ConstantKey.TR_NN1);
-            nn1ProcBySig.NeuralNetAllStockCreatJava(this, ConstantKey.TR_NN1);
             nnStProcByTrend.NeuralNetNN30CreatJava(this, ConstantKey.TR_NN30);
-            nnStProcByTrend.NeuralNetAllStockNN30CreatJava(this, ConstantKey.TR_NN30);
-
+            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
+            
             nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 
 //            symbol = "HOD.TO";

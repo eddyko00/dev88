@@ -422,7 +422,7 @@ public class NN3ProcessBySignal {
             boolean trainInFile = true;
             if (trainInFile == true) {
 
-                inputDatalist = NeuralNetGetNN3InputfromStaticCode("", subSymbol);
+                inputDatalist = NeuralNetGetNN3InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
@@ -540,10 +540,17 @@ public class NN3ProcessBySignal {
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
-    public static ArrayList<NNInputDataObj> NeuralNetGetNN3InputfromStaticCode(String symbol, String subSymbol) {
+    public ArrayList<NNInputDataObj> NeuralNetGetNN3InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
 
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
+
+        if (CKey.NN_DATA_DB == true) {
+            TradingNNData nndata = new TradingNNData();
+            nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
+            return inputlist;
+        }
+        
         try {
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST1);
             inputBuf.append(nn2Data.TR_NN2_INPUTLIST2);
@@ -661,7 +668,7 @@ public class NN3ProcessBySignal {
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
                 TradingNNData nndata = new TradingNNData();
-                nndata.saveNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
 
             } else {
 
@@ -769,7 +776,7 @@ public class NN3ProcessBySignal {
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
                 TradingNNData nndata = new TradingNNData();
-                nndata.saveNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
 
             } else {
                 String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
@@ -1081,7 +1088,7 @@ public class NN3ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NeuralNetGetNN3InputfromStaticCode(symbol, null);
+                    inputL = NeuralNetGetNN3InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
@@ -1329,7 +1336,7 @@ public class NN3ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NeuralNetGetNN3InputfromStaticCode(symbol, null);
+                    inputL = NeuralNetGetNN3InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {

@@ -870,7 +870,7 @@ public class NN1ProcessBySignal {
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
                 TradingNNData nndata = new TradingNNData();
-                nndata.saveNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
 
             } else {
 
@@ -982,7 +982,7 @@ public class NN1ProcessBySignal {
             String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
                 TradingNNData nndata = new TradingNNData();
-                nndata.saveNNdataDB(serviceAFWeb, nnName, stockInputMap);
+                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
 
             } else {
 
@@ -1545,7 +1545,8 @@ public class NN1ProcessBySignal {
 
         if (CKey.NN_DATA_DB == true) {
             TradingNNData nndata = new TradingNNData();
-            nndata.getNNdataDB(serviceAFWeb, nnName, inputlist);
+            nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
+            return inputlist;
         }
 
         try {
@@ -1607,6 +1608,11 @@ public class NN1ProcessBySignal {
     public static ArrayList<NNInputDataObj> NeuralNetAllStockGetNN1InputfromStaticCode(String symbol, String subSymbol) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
+        
+        if (CKey.NN_DATA_DB == true) {
+            return inputlist;
+        }     
+        
         try {
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST1);
             inputBuf.append(nn1AllData.NN_ALLINPUTLIST2);

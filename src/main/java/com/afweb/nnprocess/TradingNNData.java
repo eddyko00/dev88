@@ -26,8 +26,16 @@ public class TradingNNData {
 
     public static Logger logger = Logger.getLogger("TradingNNData");
 
-    public int saveNNdataDB(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
-        try {
+    public int saveNNBaseDataDB(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
+        String BPnameSym = CKey.NN_version + "_" + nnName;
+        try {            
+            ArrayList<NNInputDataObj> inputlist = new ArrayList();
+            
+            ArrayList<AFneuralNetData> objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
+            if (objDataList.size() > 1000) {
+                // already saved
+                return 1;
+            }
             int added = 0;
             int total = 0;
             ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
@@ -37,25 +45,27 @@ public class TradingNNData {
                     continue;
                 }
                 total += inputlistSym.size();
-                String BPnameSym = CKey.NN_version + "_" + nnName;
+
                 for (int i = 0; i < inputlistSym.size(); i++) {
                     NNInputDataObj objData = inputlistSym.get(i);
-                    ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
-                    if ((objList == null) || (objList.size() == 0)) {
-                        serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
-                        added++;
-                    }
+                    serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
+                    added++;
+//                    ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
+//                    if ((objList == null) || (objList.size() == 0)) {
+//                        serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
+//                        added++;
+//                    }
                 }
             }
-            logger.info("> saveNNdataDB - added " + added + " of " + total);
+            logger.info("> saveNNdataDB - " + BPnameSym + " added " + added + " of " + total);
             return 1;
         } catch (Exception ex) {
-            logger.info("> saveNNdataDB - exception " + ex);
+            logger.info("> saveNNdataDB - exception - " + BPnameSym + " " + ex);
         }
         return 0;
     }
 
-    public int getNNdataDB(ServiceAFweb serviceAFWeb, String nnName, ArrayList<NNInputDataObj> inputlist) {
+    public int getNNBaseDataDB(ServiceAFweb serviceAFWeb, String nnName, ArrayList<NNInputDataObj> inputlist) {
         ArrayList<AFneuralNetData> objDataList = new ArrayList();
         String BPnameSym = CKey.NN_version + "_" + nnName;
         try {
@@ -74,7 +84,7 @@ public class TradingNNData {
                 return 1;
             }
         } catch (Exception ex) {
-            logger.info("> saveNNdataDB - exception " + ex);
+            logger.info("> saveNNdataDB - exception - " + BPnameSym + " " + ex);
         }
         return 0;
     }
