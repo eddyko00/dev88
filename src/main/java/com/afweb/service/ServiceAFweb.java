@@ -908,8 +908,13 @@ public class ServiceAFweb {
             if (processRestinputflag == true) {
                 if ((nn1testflag == true) && (nn2testflag == true)) {
                     // clear NN1 and NN2
+                    logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN1;
                     String BPname = CKey.NN_version + "_" + nnName;
+                    getStockImp().deleteNeuralNetDataByBPname(BPname);
+
+                    nnName = ConstantKey.TR_NN30;
+                    BPname = CKey.NN_version + "_" + nnName;
                     getStockImp().deleteNeuralNetDataByBPname(BPname);
 
                     nnName = ConstantKey.TR_NN2;
@@ -918,6 +923,7 @@ public class ServiceAFweb {
                 }
 
                 if (nn1testflag == true) {
+                    logger.info("> processNN1InputNeuralNet Rest input..");
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
@@ -929,6 +935,7 @@ public class ServiceAFweb {
 
                 }
                 if (nn2testflag == true) {
+                    logger.info("> processNN2InputNeuralNet Rest input..");
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
@@ -939,6 +946,7 @@ public class ServiceAFweb {
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
                 }
+                logger.info("> processNN1InputNeuralNet Edn..");
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
