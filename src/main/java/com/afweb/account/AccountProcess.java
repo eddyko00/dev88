@@ -1171,7 +1171,6 @@ public class AccountProcess {
 //            logger.info("> updateTradingAccountBalance Exception" + ex.getMessage());
 //        }
 //    }
-
     public static int getOffetDate(ArrayList StockArray, long offsetDate) {
         int offset = 0;
         if (StockArray == null) {
@@ -1297,7 +1296,9 @@ public class AccountProcess {
 ////////////////////////////////////////    
     public boolean restoreNNonlyDBData(ServiceAFweb serviceAFWeb) {
         int ret = restoreDBneuralnetProcess(serviceAFWeb, "neuralnet");
-        ret = restoreDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
+        if (CKey.NN_DATA_DB == false) {
+            ret = restoreDBneuralnetDataProcess(serviceAFWeb, "neuralnetdata");
+        }
         return true;
     }
 
