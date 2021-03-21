@@ -30,7 +30,7 @@ public class ProcessNN2 {
 
     public static NNObj NNpredictNN2(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         NNObj nn = new NNObj();
 
         String symbol = stock.getSymbol();
@@ -150,7 +150,7 @@ public class ProcessNN2 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN2dataEMA1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN2 ");
 
         String username = CKey.ADMIN_USERNAME;
@@ -199,7 +199,7 @@ public class ProcessNN2 {
     }
 
     public ArrayList<NNInputDataObj> trainingNN2dataEMA2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN2 ");
 
         String username = CKey.ADMIN_USERNAME;
@@ -253,7 +253,7 @@ public class ProcessNN2 {
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN2dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
 
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;
         String username = CKey.ADMIN_USERNAME;

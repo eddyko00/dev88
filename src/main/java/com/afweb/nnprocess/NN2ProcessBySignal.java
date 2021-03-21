@@ -41,8 +41,8 @@ public class NN2ProcessBySignal {
         boolean flagIntitNN1Input = true;
         if (flagIntitNN1Input == true) {
 
-            TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
-            TrandingSignalProcess.forceToGenerateNewNN = false;
+            TradingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
+            TradingSignalProcess.forceToGenerateNewNN = false;
 //            logger.info("> processInputNeuralNet TR ADX1... ");
 //            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX1);
 //            logger.info("> processInputNeuralNet TR ADX2... ");
@@ -53,15 +53,15 @@ public class NN2ProcessBySignal {
             logger.info("> processInputNeuralNet TR EMA2... ");
             NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
             // need to debug to generate the java first time
-            TrandingSignalProcess.forceToGenerateNewNN = true;
+            TradingSignalProcess.forceToGenerateNewNN = true;
 
-            TrandingSignalProcess.forceToErrorNewNN = true;
+            TradingSignalProcess.forceToErrorNewNN = true;
 //            // start training
             NeuralNetNN2CreateDB(serviceAFWeb, ConstantKey.TR_NN2);
             NeuralNetProcessNN2Testing(serviceAFWeb);
             NeuralNetNN2CreateJava(serviceAFWeb, ConstantKey.TR_NN2);
 
-            TrandingSignalProcess.forceToGenerateNewNN = false;
+            TradingSignalProcess.forceToGenerateNewNN = false;
 //            // start training
 //            // TrainingNNBP inputpattern 1748
             NeuralNetProcessNN2Testing(serviceAFWeb);
@@ -230,12 +230,12 @@ public class NN2ProcessBySignal {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn12 = "_nn21_";
+            String nn21 = "_nn21_";
 //            if (tr == ConstantKey.INT_TR_ADX2) {
             if (tr == ConstantKey.INT_TR_EMA2) {
-                nn12 = "_nn22_";
+                nn21 = "_nn22_";
             }
-            String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+            String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn21 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
             FileUtil.FileWriteTextArray(filename, writeArray);
 //            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
@@ -379,7 +379,7 @@ public class NN2ProcessBySignal {
         if (ServiceAFweb.forceNNReadFileflag == true) {
 //            inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);
 
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
             TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
             for (String sym : stockInputMap.keySet()) {
@@ -549,7 +549,7 @@ public class NN2ProcessBySignal {
 
         /// start training or continue training           
         /// start training or continue training
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
@@ -677,7 +677,7 @@ public class NN2ProcessBySignal {
 
 
     public boolean NeuralNetNN2CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         logger.info("> NeuralNetNN2CreatJavaDB ");
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
@@ -696,7 +696,7 @@ public class NN2ProcessBySignal {
     
     
     public boolean NeuralNetNN2CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
@@ -804,7 +804,7 @@ public class NN2ProcessBySignal {
     }
 
     public boolean NeuralNetAllStockNN2CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
         try {
@@ -1305,7 +1305,7 @@ public class NN2ProcessBySignal {
     }
 
     public int stockTrainNeuralNet(ServiceAFweb serviceAFWeb, int TR_NN, String symbol) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> processStockNeuralNet " + TR_Name + " " + symbol);
 
         boolean nnsymTrain = true;
@@ -1396,7 +1396,7 @@ public class NN2ProcessBySignal {
             int totalDup = 0;
             String nnName = ConstantKey.TR_NN2;
 
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             if (TRprocessImp.checkNN2Ready(serviceAFWeb, symbol, false) == false) {
                 return 0;
             }

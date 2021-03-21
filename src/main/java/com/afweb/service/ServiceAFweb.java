@@ -582,7 +582,7 @@ public class ServiceAFweb {
                 }
             }
         }
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         String LockName = null;
         //////           
         if (cmd.length() > 0) {
@@ -640,7 +640,7 @@ public class ServiceAFweb {
     }
 
     void AFwebExec() {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         ////////////
         if (((getServerObj().getProcessTimerCnt() % 29) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
             long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
@@ -747,7 +747,7 @@ public class ServiceAFweb {
     }
 
     public boolean processNewNeuralNet() {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
@@ -803,14 +803,14 @@ public class ServiceAFweb {
     }
 
     public void processNeuralNetTrain() {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
         NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
 
-        TrandingSignalProcess.forceToGenerateNewNN = false;
+        TradingSignalProcess.forceToGenerateNewNN = false;
 
         if (processNeuralNetFlag == true) {
             int num = 0;
@@ -994,7 +994,7 @@ public class ServiceAFweb {
             NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
             String symbol = "XIU.TO";
@@ -1267,7 +1267,7 @@ public class ServiceAFweb {
             logger.info("End mydebugtestflag.....");
         }
 
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
         ///// only acc reset
         boolean flagTran_TR_ACC = false;
@@ -1573,7 +1573,7 @@ public class ServiceAFweb {
         ArrayList sqlList = new ArrayList();
         sqlList.add(sockUpdateSQL);
         SystemUpdateSQLList(sqlList);
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TRprocessImp.updateRealTimeStock(this, stock);
     }
 
@@ -2704,7 +2704,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         return TRprocessImp.AddTransactionOrder(this, accountObj, stock, trName, tranSignal, tranDate, true);
     }
 
@@ -3008,7 +3008,7 @@ public class ServiceAFweb {
                 return 0;
             }
 
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             int ret = TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stock, trName, signal, null, false);
 
             return ret;
@@ -3176,7 +3176,7 @@ public class ServiceAFweb {
             ArrayList<TransationOrderObj> tranOrderList = null;
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 tranOrderList = getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-                TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 return TRprocessImp.ProcessTranPerfHistory(this, tranOrderList, stock, length, true);  // buyOnly = true
             }
 
@@ -3186,7 +3186,7 @@ public class ServiceAFweb {
             }
             tranOrderList = getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
 
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             return TRprocessImp.ProcessTranPerfHistory(this, tranOrderList, stock, length, false);  // buyOnly = false
         }
         return null;
@@ -3214,7 +3214,7 @@ public class ServiceAFweb {
             ArrayList<TransationOrderObj> tranOrderList = null;
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 tranOrderList = getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-                TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 return TRprocessImp.ProcessTranPerfHistoryReinvest(this, tranOrderList, stock, length, true);  // buyOnly = true
 
             }
@@ -3224,7 +3224,7 @@ public class ServiceAFweb {
             }
             tranOrderList = getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
 
-            TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             return TRprocessImp.ProcessTranPerfHistoryReinvest(this, tranOrderList, stock, length, false); //buyOnly = false
         }
         return null;
@@ -4024,7 +4024,7 @@ public class ServiceAFweb {
 //        return null;
 //    }
     public ArrayList<StockTRHistoryObj> getAccountStockTRListHistory(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -4159,7 +4159,7 @@ public class ServiceAFweb {
                 updateTran = false;
             }
             if (updateTran == true) {
-                TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
 
                 ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
@@ -4176,7 +4176,7 @@ public class ServiceAFweb {
     }
 
     public int addStock(String symbol) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -5552,7 +5552,7 @@ public class ServiceAFweb {
 
     public void InitSystemData() {
         logger.info(">InitDB InitSystemData for Stock and account ");
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TRprocessImp.InitSystemData();
         getAccountProcessImp().InitSystemData();
 

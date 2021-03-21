@@ -504,7 +504,7 @@ public class AccountProcess {
                                 updateTran = false;
                             }
                             if (updateTran == true) {
-                                TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+                                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
                                 tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
                                 ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
@@ -714,7 +714,7 @@ public class AccountProcess {
     // for all account 
     public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> ProcessAllAccountTradingSignal ");
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
@@ -995,7 +995,7 @@ public class AccountProcess {
             return;
         }
 //        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         try {
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
             if (stock != null) {

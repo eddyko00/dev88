@@ -31,7 +31,7 @@ public class ProcessNN00 {
 
     public static NNObj NNpredictNN30(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         NNObj nn = new NNObj();
 
         String symbol = stock.getSymbol();
@@ -272,7 +272,7 @@ public class ProcessNN00 {
 
     private ArrayList<NNInputDataObj> ProcessTrainingNN00_dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize, int type) {
         NN1ProcessByTrend NNProcessTrend = new NN1ProcessByTrend();
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 
         String username = CKey.ADMIN_USERNAME;
@@ -334,7 +334,7 @@ public class ProcessNN00 {
 
     private ArrayList<NNInputDataObj> ProcessTrainingNN00_dataEMA(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize, int type) {
         NN2ProcessByTrend NN2ProcessTrend = new NN2ProcessByTrend();
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 
 //        logger.info("> trainingNN2 ");

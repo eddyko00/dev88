@@ -30,7 +30,7 @@ public class ProcessNN3 {
 
     public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         NNObj nn = new NNObj();
 
         String symbol = stock.getSymbol();
@@ -150,7 +150,7 @@ public class ProcessNN3 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN3dataEMA1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN3 ");
 
         String username = CKey.ADMIN_USERNAME;
@@ -161,16 +161,16 @@ public class ProcessNN3 {
         NNTrainObj nnTrSym = new NNTrainObj();
         TradingRuleObj trObjNN3 = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, TRname);
 
-        TradingRuleObj trObj3 = new TradingRuleObj();
-        trObj3.setTrname(ConstantKey.TR_MV);
-        trObj3.setType(ConstantKey.INT_TR_EMA1);
+        TradingRuleObj trObj2 = new TradingRuleObj();
+        trObj2.setTrname(ConstantKey.TR_MV);
+        trObj2.setType(ConstantKey.INT_TR_EMA1);
 //        trObj2.setType(ConstantKey.INT_TR_EMA00);
         // normal
 
-        trObj3.setAccount(trObjNN3.getAccount());
-        trObj3.setStockid(trObjNN3.getStockid());
+        trObj2.setAccount(trObjNN3.getAccount());
+        trObj2.setStockid(trObjNN3.getStockid());
 
-        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj3, StockArray, offset, monthSize);
+        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
 
         if (getEnv.checkLocalPC() == true) {
             if (CKey.NN_DEBUG == true) {
@@ -199,7 +199,7 @@ public class ProcessNN3 {
     }
 
     public ArrayList<NNInputDataObj> trainingNN3dataEMA2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN3 ");
 
         String username = CKey.ADMIN_USERNAME;
@@ -211,16 +211,16 @@ public class ProcessNN3 {
         NNTrainObj nnTrSym = new NNTrainObj();
         TradingRuleObj trObjNN3 = serviceAFWeb.getAccountStockByTRname(username, null, accountid, symbol, TRname);
 
-        TradingRuleObj trObj3 = new TradingRuleObj();
-        trObj3.setTrname(ConstantKey.TR_MV);
-        trObj3.setType(ConstantKey.INT_TR_EMA2);
+        TradingRuleObj trObj2 = new TradingRuleObj();
+        trObj2.setTrname(ConstantKey.TR_MV);
+        trObj2.setType(ConstantKey.INT_TR_EMA2);
 //        trObj2.setType(ConstantKey.INT_TR_EMA0);
         // slow
 
-        trObj3.setAccount(trObjNN3.getAccount());
-        trObj3.setStockid(trObjNN3.getStockid());
+        trObj2.setAccount(trObjNN3.getAccount());
+        trObj2.setStockid(trObjNN3.getStockid());
 
-        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj3, StockArray, offset, monthSize);
+        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
 
         if (getEnv.checkLocalPC() == true) {
             if (CKey.NN_DEBUG == true) {
@@ -253,7 +253,7 @@ public class ProcessNN3 {
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN3dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
 
-        TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;
         String username = CKey.ADMIN_USERNAME;
@@ -441,9 +441,10 @@ public class ProcessNN3 {
                         AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
                         ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
                                 accObj.getId() + "", symbol, ConstantKey.TR_NN3, 0);
+
                         if (thList != null) {
                             // somthing wrong. no transaction for 1 year
-                            if (thList.size() == 0) {
+                            if (thList.size() == 1) {
                                 // try to get the MACD transaction. for sure this will have some signal
                                 thList = serviceAFWeb.getAccountStockTranListByAccountID(CKey.ADMIN_USERNAME, null,
                                         accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
@@ -577,6 +578,7 @@ public class ProcessNN3 {
 
                 for (int i = 0; i < 5; i++) {
                     //StockArray recent to old date
+//                    NNObj nn1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN40, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
                     NNObj nn1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
                     if (nn1 != null) {
                         output1 = nn1.getOutput1();
