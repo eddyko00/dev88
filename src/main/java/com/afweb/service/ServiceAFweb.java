@@ -1003,6 +1003,13 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+
+            trNN = ConstantKey.INT_TR_NN2;
+            TR_NN = trNN;
+            nnName = ConstantKey.TR_NN2;
+            BPnameSym = CKey.NN_version + "_" + nnName;
+            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);            
+            
 //            TrandingSignalProcess.forceToGenerateNewNN = false;
 //            nn1trend.NeuralNetProcessTesting(this);
 //            trNN = ConstantKey.INT_TR_NN30;

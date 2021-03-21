@@ -289,7 +289,9 @@ public class ProcessNN1 {
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
         float prediction = -1;
-        MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+        MACDObj macdNN = this.getTechnicalCal(StockArray, offset);
+//        MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+
         macdSignal = macdNN.trsignal;
 
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -386,6 +388,11 @@ public class ProcessNN1 {
 
     }
 
+    private MACDObj getTechnicalCal(ArrayList StockArray, int offset) {
+        MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+        return macdNN;
+    }
+
     public NNObj updateAdminTradingsignalnn1(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
             TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
@@ -393,9 +400,8 @@ public class ProcessNN1 {
         boolean stopLoss = false;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
-//                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD2_24, ConstantKey.INT_MACD2_48, ConstantKey.INT_MACD2_18);
-                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
-//                            MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+                MACDObj macdNN = this.getTechnicalCal(StockArray, offset);
+//                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 int macdSignal = macdNN.trsignal;
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
                 Date stockDate = new Date(stockinfoT.getEntrydatel());

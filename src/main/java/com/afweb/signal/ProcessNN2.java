@@ -291,10 +291,10 @@ public class ProcessNN2 {
         int nnSignal = prevSignal;
         int emaSignal = nnSignal;
         float prediction = -1;
-///////////////////////////////        
+///////////////////////////////   
+        EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
+//        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
 
-        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
-//        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
         emaSignal = ema510.trsignal;
 ///////////////////////////////////////////////////
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -398,6 +398,11 @@ public class ProcessNN2 {
 
     }
 
+    private EMAObj getTechnicalCal(ArrayList StockArray, int offset) {
+        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
+        return ema510;
+    }
+
     public NNObj updateAdminTradingsignalnn2(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
             TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
@@ -405,9 +410,9 @@ public class ProcessNN2 {
         int confident = 0;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
-/////////////////////////////////////////////                
-                EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
-//                EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
+/////////////////////////////////////////////              
+                EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
+                // EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
 
                 int emaSignal = ema510.trsignal;
 /////////////////////////////////////////////                
@@ -890,7 +895,7 @@ public class ProcessNN2 {
         float percent = (price - pricePrev) / pricePrev;
         percent = percent * 100 * 15;
         float percentAbs = Math.abs(percent);
-        if (percentAbs < 35) { //30) { //20){
+        if (percentAbs < 25) { //30) { //20){
             return -1;
         }
 

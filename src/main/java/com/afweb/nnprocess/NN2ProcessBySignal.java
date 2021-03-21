@@ -235,7 +235,7 @@ public class NN2ProcessBySignal {
             String nn21 = TradingSignalProcess.NN2_FILE_1; //"_nn21_";
 //            if (tr == ConstantKey.INT_TR_ADX2) {
             if (tr == ConstantKey.INT_TR_EMA2) {
-                nn21 = TradingSignalProcess.NN2_FILE_1; //"_nn22_";
+                nn21 = TradingSignalProcess.NN2_FILE_2; //"_nn22_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn21 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
