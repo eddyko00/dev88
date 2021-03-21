@@ -164,7 +164,7 @@ public class NN2ProcessByTrend {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
 
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
@@ -181,7 +181,7 @@ public class NN2ProcessByTrend {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            logger.info("> NeuralNetAllStockInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
 
             String symbol = "";
             String symbolL[] = ServiceAFweb.allStock;
@@ -193,7 +193,7 @@ public class NN2ProcessByTrend {
     }
 
     public ArrayList<NNInputDataObj> getTrainingNNtrendProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
-        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
+//        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
 
         ///// just for testing
 //        symbol = "DIA";
@@ -300,7 +300,6 @@ public class NN2ProcessByTrend {
         return inputList;
     }
 
-    
     public boolean NeuralNetNN40CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         logger.info("> NeuralNetNN40CreatJavaDB ");
@@ -319,7 +318,6 @@ public class NN2ProcessByTrend {
         return false;
     }
 
-    
     public boolean NeuralNetNN40CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
@@ -359,7 +357,7 @@ public class NN2ProcessByTrend {
                 ;
             } else {
                 end = len;
-            }                
+            }
             while (true) {
                 String st = weightSt.substring(beg, end);
                 msgWrite.append("+ \"" + st + "\"\n");
@@ -459,7 +457,7 @@ public class NN2ProcessByTrend {
                 ;
             } else {
                 end = len;
-            }            
+            }
             int index = 1;
             int line = 0;
             while (true) {
@@ -1221,7 +1219,7 @@ public class NN2ProcessByTrend {
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
-    public  ArrayList<NNInputDataObj> NeuralNetGetNN40InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
+    public ArrayList<NNInputDataObj> NeuralNetGetNN40InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
 
@@ -1230,7 +1228,7 @@ public class NN2ProcessByTrend {
             nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
             return inputlist;
         }
-        
+
         try {
             inputBuf.append(nn40Data.TR_NN40_INPUTLIST1);
             inputBuf.append(nn40Data.TR_NN40_INPUTLIST2);

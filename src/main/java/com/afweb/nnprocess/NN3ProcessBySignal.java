@@ -100,7 +100,8 @@ public class NN3ProcessBySignal {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
+
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
             for (int i = 0; i < symbolL.length; i++) {
@@ -116,7 +117,8 @@ public class NN3ProcessBySignal {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            logger.info("> NeuralNetAllStockInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
+
             String symbol = "";
             String symbolL[] = ServiceAFweb.allStock;
             for (int i = 0; i < symbolL.length; i++) {
@@ -127,7 +129,7 @@ public class NN3ProcessBySignal {
     }
 
     public ArrayList<NNInputDataObj> getTrainingNN3dataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
-        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
+//        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
 
         String symbol = NormalizeSym.replace(".", "_");
 
@@ -561,7 +563,6 @@ public class NN3ProcessBySignal {
         return null;
     }
 
-
     public boolean NeuralNetNN3CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         logger.info("> NeuralNetNN3CreatJavaDB ");
@@ -579,8 +580,7 @@ public class NN3ProcessBySignal {
         }
         return false;
     }
-    
-    
+
     public boolean NeuralNetNN3CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 

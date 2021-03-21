@@ -168,7 +168,7 @@ public class NN1ProcessByTrend {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
 
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
@@ -192,7 +192,7 @@ public class NN1ProcessByTrend {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            logger.info("> NeuralNetAllStockInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
 
             String symbol = "";
             String symbolL[] = ServiceAFweb.allStock;
@@ -204,7 +204,7 @@ public class NN1ProcessByTrend {
     }
 
     public ArrayList<NNInputDataObj> getTrainingNNtrendProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
-        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
+//        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
 
 //        boolean trainStock = false;
 //        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {

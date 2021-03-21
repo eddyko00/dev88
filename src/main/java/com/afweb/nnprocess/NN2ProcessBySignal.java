@@ -100,7 +100,8 @@ public class NN2ProcessBySignal {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            logger.info("> initTrainNeuralNetNumber tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
+
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
             for (int i = 0; i < symbolL.length; i++) {
@@ -116,7 +117,8 @@ public class NN2ProcessBySignal {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> initTrainNeuralNetNumber " + serviceAFWeb.initTrainNeuralNetNumber);
+            logger.info("> NeuralNetAllStockInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
+
             String symbol = "";
             String symbolL[] = ServiceAFweb.allStock;
             for (int i = 0; i < symbolL.length; i++) {
@@ -127,7 +129,7 @@ public class NN2ProcessBySignal {
     }
 
     public ArrayList<NNInputDataObj> getTrainingNN2dataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
-        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
+//        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
 
         String symbol = NormalizeSym.replace(".", "_");
 
@@ -674,8 +676,6 @@ public class NN2ProcessBySignal {
 //        }
 //        return null;
 //    }
-
-
     public boolean NeuralNetNN2CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         logger.info("> NeuralNetNN2CreatJavaDB ");
@@ -693,8 +693,7 @@ public class NN2ProcessBySignal {
         }
         return false;
     }
-    
-    
+
     public boolean NeuralNetNN2CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
