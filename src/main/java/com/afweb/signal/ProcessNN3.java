@@ -292,9 +292,9 @@ public class ProcessNN3 {
         int emaSignal = nnSignal;
         float prediction = -1;
 ///////////////////////////////        
+        EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
+//        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
 
-        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
-//        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
         emaSignal = ema510.trsignal;
 ///////////////////////////////////////////////////
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
@@ -398,6 +398,11 @@ public class ProcessNN3 {
 
     }
 
+    private EMAObj getTechnicalCal(ArrayList StockArray, int offset) {
+        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
+        return ema510;
+    }
+
     public NNObj updateAdminTradingsignalnn3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
             TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
@@ -405,12 +410,12 @@ public class ProcessNN3 {
         int confident = 0;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
-/////////////////////////////////////////////                
-                EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
-//                EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_2, ConstantKey.INT_EMA_4);
+/////////////////////////////////////////////              
+                EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
+                // EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
 
                 int emaSignal = ema510.trsignal;
-/////////////////////////////////////////////                
+/////////////////////////////////////////////            
 
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
                 Date stockDate = new Date(stockinfoT.getEntrydatel());
