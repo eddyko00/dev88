@@ -244,9 +244,9 @@ public class NN1ProcessBySignal {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn12 = "_nn1_";
+            String nn12 = TradingSignalProcess.NN1_FILE_1; //"_nn1_";
             if (tr == ConstantKey.INT_TR_MACD2) {
-                nn12 = "_nn2_";
+                nn12 = TradingSignalProcess.NN1_FILE_2; // "_nn2_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 

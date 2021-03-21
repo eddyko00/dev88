@@ -230,10 +230,10 @@ public class NN3ProcessBySignal {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn31 = "_nn31_";
+            String nn31 = TradingSignalProcess.NN3_FILE_1; //"_nn31_";
 //            if (tr == ConstantKey.INT_TR_ADX2) {
             if (tr == ConstantKey.INT_TR_EMA2) {
-                nn31 = "_nn32_";
+                nn31 = TradingSignalProcess.NN3_FILE_2; //"_nn32_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn31 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 

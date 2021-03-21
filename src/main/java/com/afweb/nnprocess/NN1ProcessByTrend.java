@@ -309,9 +309,9 @@ public class NN1ProcessByTrend {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn12 = "_nn301_";
+            String nn12 = TradingSignalProcess.NN30_FILE_2; //"_nn301_";
             if (tr == ConstantKey.INT_TR_MACD0) {
-                nn12 = "_nn300_";
+                nn12 = TradingSignalProcess.NN30_FILE_1; //"_nn300_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
