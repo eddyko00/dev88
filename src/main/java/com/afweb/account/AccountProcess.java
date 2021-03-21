@@ -799,6 +799,9 @@ public class AccountProcess {
     }
 
     public void updateTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj, AccountObj accountObj, String symbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return;
+        }
 //        logger.info("> updateTradingsignal " + symbol + " " + accountObj.getAccountname());
         // update Trading signal
         ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.SystemAccountStockListByAccountID(accountAdminObj.getId(), symbol);
@@ -988,6 +991,9 @@ public class AccountProcess {
     }
 
     public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return;
+        }
 //        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TrandingSignalProcess TRprocessImp = new TrandingSignalProcess();
         try {

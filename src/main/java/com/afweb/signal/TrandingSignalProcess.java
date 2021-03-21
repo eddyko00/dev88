@@ -174,7 +174,9 @@ public class TrandingSignalProcess {
         //testing
 //        symbol = "DIA";
         //testing
-
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return;
+        }
         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
         ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
 
@@ -891,6 +893,9 @@ public class TrandingSignalProcess {
 
     public void upateAdminTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         try {
+            if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+                return;
+            }
             AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
             if (stock != null) {
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
@@ -1284,6 +1289,9 @@ public class TrandingSignalProcess {
     }
 
     public void updateAdminTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return;
+        }
         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
 
         if (stock != null) {

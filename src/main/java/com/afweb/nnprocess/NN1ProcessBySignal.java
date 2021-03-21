@@ -95,7 +95,6 @@ public class NN1ProcessBySignal {
 //
 //        }
 //    }
-
     public void processAllStockInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
 
@@ -501,7 +500,7 @@ public class NN1ProcessBySignal {
 
     public static HashMap<String, ArrayList> stockInputMap = null;
 
-    public static boolean AllStockHistoryGetfromStaticCodeInit() {
+    public static boolean AllStockHistoryStaticCodeInit() {
 
         if (stockInputMap != null) {
             return true;
@@ -718,7 +717,16 @@ public class NN1ProcessBySignal {
     public static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode(String symbol) {
 
         ArrayList<AFstockInfo> inputlist = new ArrayList();
-        AllStockHistoryGetfromStaticCodeInit();
+
+        String symbolL[] = ServiceAFweb.ignoreStock;
+        for (int i = 0; i < symbolL.length; i++) {
+            String ignoreSym = symbolL[i];
+            if (ignoreSym.equals(symbol)) {
+                return inputlist;
+            }
+        }
+
+        AllStockHistoryStaticCodeInit();
         if (stockInputMap == null) {
             return inputlist;
         }
@@ -744,7 +752,7 @@ public class NN1ProcessBySignal {
 
     public static HashMap<String, ArrayList> stock_1_InputMap = null;
 
-    public static boolean All_1_StockHistoryGetfromStaticCodeInit() {
+    public static boolean All_1_StockHistoryStaticCodeInit() {
 
         if (stock_1_InputMap != null) {
             return true;
@@ -862,7 +870,16 @@ public class NN1ProcessBySignal {
     public static ArrayList<AFstockInfo> All_1_StockHistoryGetfromStaticCode(String symbol) {
 
         ArrayList<AFstockInfo> inputlist = new ArrayList();
-        All_1_StockHistoryGetfromStaticCodeInit();
+
+        String symbolL[] = ServiceAFweb.ignoreStock;
+        for (int i = 0; i < symbolL.length; i++) {
+            String ignoreSym = symbolL[i];
+            if (ignoreSym.equals(symbol)) {
+                return inputlist;
+            }
+        }
+        
+        All_1_StockHistoryStaticCodeInit();
         if (stock_1_InputMap == null) {
             return inputlist;
         }
@@ -1700,7 +1717,6 @@ public class NN1ProcessBySignal {
 //        }
 //        return null;
 //    }
-
     public ArrayList<NNInputDataObj> getTrainingNNdataStockMACD(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;
