@@ -1432,6 +1432,10 @@ public class AccountProcess {
                     }
                     writeSQLArray.clear();
                     ServiceAFweb.AFSleep();
+                    //////only require for VMware local
+                    if (CKey.DELAY_RESTORE == true) {
+                        ServiceAFweb.AFSleep1Sec(6);
+                    }
                 }
 
             }
