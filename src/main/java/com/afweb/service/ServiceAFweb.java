@@ -92,7 +92,7 @@ public class ServiceAFweb {
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
-    public static String ignoreStock[] = {"T.T"};   
+    public static String ignoreStock[] = {"T.T"};
     public static String allStock[] = {"NEM", "SE", "FB", "GLD", "MSFT", "T.TO"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 
@@ -1003,26 +1003,28 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-
+            
+            /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
 //            nnName = ConstantKey.TR_NN2;
 //            BPnameSym = CKey.NN_version + "_" + nnName;
-//            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);            
-            
-//            TrandingSignalProcess.forceToGenerateNewNN = false;
-//            nn1trend.NeuralNetProcessTesting(this);
-//            trNN = ConstantKey.INT_TR_NN30;
-//            TR_NN = trNN;
-//            nnName = ConstantKey.TR_NN30;
-//            nn1trend.NeuralNetNN30CreateDB(this, nnName);
+//            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
+//            AccountObj accountObj = getAdminObjFromCache();
+//            ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
+//            if (stockNameArray != null) {
+//                for (int i = 0; i < stockNameArray.size(); i++) {
+//                    symbol = (String) stockNameArray.get(i);
+//
+//                    trNN = ConstantKey.INT_TR_NN2;
+//                    TR_NN = trNN;
+//                    nnName = ConstantKey.TR_NN2;
+//                    BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//                    getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
+//                }
+//            }
 
 
-//            nn1ProcBySig.processInputNeuralNet(this);            
-//            CKey.NN_DATA_DB = true;
-//            nn1ProcBySig.NeuralNetCreatJava(this, ConstantKey.TR_NN1);
-//            nnStProcByTrend.NeuralNetNN30CreatJava(this, ConstantKey.TR_NN30);
-//            nn2ProcBySig.NeuralNetNN2CreatJava(this, ConstantKey.TR_NN2);
 //            
 //            nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 //            symbol = "HOD.TO";
