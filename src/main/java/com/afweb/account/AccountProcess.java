@@ -2472,7 +2472,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 15) < len) {
                     String last = idList.get(id - 1 + 15);
-                    int ret = saveDBneuralnetPro(serviceAFWeb, tableName, first, last, writeArray);
+                    int ret = saveDBneuralnet_2(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2480,7 +2480,7 @@ public class AccountProcess {
                 }
                 if ((id + 15) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBneuralnetPro(serviceAFWeb, tableName, first, last, writeArray);
+                    int ret = saveDBneuralnet_2(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2501,7 +2501,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBneuralnetPro(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBneuralnet_2(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBneuralnetDataPro - " + first + " " + last);
 
@@ -2619,7 +2619,7 @@ public class AccountProcess {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = saveDBneuralnetDataPro(serviceAFWeb, tableName, first, last, writeArray);
+                    int ret = saveDBneuralnetData_2(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2627,7 +2627,7 @@ public class AccountProcess {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = saveDBneuralnetDataPro(serviceAFWeb, tableName, first, last, writeArray);
+                    int ret = saveDBneuralnetData_2(serviceAFWeb, tableName, first, last, writeArray);
                     if (ret == 0) {
                         return 0;
                     }
@@ -2648,7 +2648,7 @@ public class AccountProcess {
         return 0;
     }
 
-    private int saveDBneuralnetDataPro(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
+    private int saveDBneuralnetData_2(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBneuralnetDataPro - " + first + " " + last);
 
