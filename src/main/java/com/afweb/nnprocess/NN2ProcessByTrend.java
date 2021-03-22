@@ -1230,15 +1230,15 @@ public class NN2ProcessByTrend {
         }
 
         try {
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST1);
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST2);
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST3);
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST4);
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST5);
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST6);
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST7);
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST8);
-            inputBuf.append(nn40Data.TR_NN40_INPUTLIST9);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST1);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST2);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST3);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST4);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST5);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST6);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST7);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST8);
+//            inputBuf.append(nn40Data.TR_NN40_INPUTLIST9);
 //            inputBuf.append(nn40Data.TR_NN40_INPUTLIST10);
 
             String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
@@ -1287,7 +1287,7 @@ public class NN2ProcessByTrend {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         try {
-            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST1);
+//            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST1);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST2);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST3);
 //            inputBuf.append(nn40AllData.TR_NN40_ALLINPUTLIST4);
