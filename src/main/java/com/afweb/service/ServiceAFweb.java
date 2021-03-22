@@ -1003,7 +1003,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            
             /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
@@ -1012,6 +1011,11 @@ public class ServiceAFweb {
 //            getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
 //            AccountObj accountObj = getAdminObjFromCache();
 //            ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
+//            ArrayList stockNameArray = new ArrayList();
+//            stockNameArray.add("BB.TO");
+//            stockNameArray.add("SU");
+//            stockNameArray.add("ENB.TO");            
+//            stockNameArray.add("TSLA");              
 //            if (stockNameArray != null) {
 //                for (int i = 0; i < stockNameArray.size(); i++) {
 //                    symbol = (String) stockNameArray.get(i);
@@ -1023,7 +1027,6 @@ public class ServiceAFweb {
 //                    getStockImp().deleteNeuralNetDataObj(BPnameSym, 0);
 //                }
 //            }
-
 
 //            
 //            nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
