@@ -1405,7 +1405,6 @@ public class AccountProcess {
 //        }
 //        return 0;
 //    }
-
     private int restoreDBneuralnetPro(ServiceAFweb serviceAFWeb, String tableName) {
         int fileCont = 0;
         int ret = 0;
@@ -1443,7 +1442,7 @@ public class AccountProcess {
                 AFneuralNet item = new ObjectMapper().readValue(output, AFneuralNet.class);
                 String sql = StockDB.insertNeuralNet(tableName, item);
                 writeSQLArray.add(sql);
-                
+
                 index++;
                 if (index > 5) {  //5) {
                     index = 0;
@@ -1466,8 +1465,6 @@ public class AccountProcess {
         return 0;
     }
 
-    
-    
 //    private int restoreDBneuralnetDataProcess(ServiceAFweb serviceAFWeb, String tableName) {
 //
 //        try {
@@ -1508,7 +1505,6 @@ public class AccountProcess {
 //        }
 //        return 0;
 //    }
-
     private int restoreDBneuralnetDataPro(ServiceAFweb serviceAFWeb, String tableName) {
         int fileCont = 0;
         int ret = 0;
@@ -1546,7 +1542,7 @@ public class AccountProcess {
                 AFneuralNet item = new ObjectMapper().readValue(output, AFneuralNet.class);
                 String sql = StockDB.insertNeuralNet(tableName, item);
                 writeSQLArray.add(sql);
-                
+
                 index++;
                 if (index > 500) {  //500) {
                     index = 0;
@@ -1567,9 +1563,8 @@ public class AccountProcess {
             logger.info("> restoreDBneuralnetDataPro - exception " + ex);
         }
         return 0;
-    }    
-    
-    
+    }
+
     private int restoreDBstockinfo(ServiceAFweb serviceAFWeb) {
         int fileCont = 0;
         String tableName = "stockinfo";
@@ -2458,7 +2453,6 @@ public class AccountProcess {
 //        }
 //        return 0;
 //    }
-
     private int saveDBneuralnetPro(ServiceAFweb serviceAFWeb, String tableName) {
 
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
@@ -2487,7 +2481,7 @@ public class AccountProcess {
                     break;
                 }
                 loopCnt++;
-                if (loopCnt > 2) {
+                if (loopCnt > 4) {
                     FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + "_" + fileCont + ".txt", writeArray);
                     fileCont++;
                     loopCnt = 0;
@@ -2506,7 +2500,7 @@ public class AccountProcess {
             logger.info("> saveDBneuralnetDataPro - " + first + " " + last);
 
             RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllStockInfo + "");
+            sqlObj.setCmd(ServiceAFweb.AllNeuralNet + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
@@ -2518,13 +2512,13 @@ public class AccountProcess {
             if (output == null) {
                 return 0;
             }
-            ArrayList<AFneuralNetData> array = null;
-            AFneuralNetData[] arrayItem = new ObjectMapper().readValue(output, AFneuralNetData[].class);
-            List<AFneuralNetData> listItem = Arrays.<AFneuralNetData>asList(arrayItem);
-            array = new ArrayList<AFneuralNetData>(listItem);
+            ArrayList<AFneuralNet> array = null;
+            AFneuralNet[] arrayItem = new ObjectMapper().readValue(output, AFneuralNet[].class);
+            List<AFneuralNet> listItem = Arrays.<AFneuralNet>asList(arrayItem);
+            array = new ArrayList<AFneuralNet>(listItem);
 
             for (int i = 0; i < array.size(); i++) {
-                AFneuralNetData obj = array.get(i);
+                AFneuralNet obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
                 writeArray.add(st);
             }
@@ -2535,9 +2529,7 @@ public class AccountProcess {
         }
         return 0;
     }
-    
-        
-    
+
 //    private int saveDBneuralnetDataProcess(ServiceAFweb serviceAFWeb, String tableName) {
 //
 //        ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
@@ -2605,7 +2597,6 @@ public class AccountProcess {
 //        }
 //        return 0;
 //    }
-
     private int saveDBneuralnetDataPro(ServiceAFweb serviceAFWeb, String tableName) {
 
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
@@ -2634,7 +2625,7 @@ public class AccountProcess {
                     break;
                 }
                 loopCnt++;
-                if (loopCnt > 2) {
+                if (loopCnt > 15) {
                     FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + "_" + fileCont + ".txt", writeArray);
                     fileCont++;
                     loopCnt = 0;
@@ -2653,7 +2644,7 @@ public class AccountProcess {
             logger.info("> saveDBneuralnetDataPro - " + first + " " + last);
 
             RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllStockInfo + "");
+            sqlObj.setCmd(ServiceAFweb.AllNeuralNetData + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
@@ -2682,11 +2673,7 @@ public class AccountProcess {
         }
         return 0;
     }
-    
-    
-    
-    
-    
+
     private int saveDBstockinfo(ServiceAFweb serviceAFWeb) {
 
         String tableName = "stockinfo";
