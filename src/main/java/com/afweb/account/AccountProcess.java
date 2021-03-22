@@ -2624,7 +2624,7 @@ public class AccountProcess {
                     break;
                 }
                 loopCnt++;
-                if (loopCnt > 15) {
+                if (loopCnt > 10) {
                     FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalPath + tableName + "_" + fileCont + ".txt", writeArray);
                     fileCont++;
                     loopCnt = 0;
