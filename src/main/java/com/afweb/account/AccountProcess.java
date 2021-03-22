@@ -1452,8 +1452,10 @@ public class AccountProcess {
                     }
                     writeSQLArray.clear();
                     logger.info("> restoreDBneuralnetPro " + fileName + " total=" + writeArray.size() + " index=" + i);
-
                     ServiceAFweb.AFSleep();
+                    if ((i % 20) == 0) {
+                        ServiceAFweb.AFSleep1Sec(10);
+                    }
                 }
 
             }
