@@ -103,7 +103,7 @@ public class CKey {
     public static double PREDICT_THRESHOLD = 0.6;
 //    
     public static double NN1_ERROR_THRESHOLD = 0.155; // 0.159; //0.172;  
-    public static double NN2_ERROR_THRESHOLD = 0.139; //0.155;// prev=0.07;  
+    public static double NN2_ERROR_THRESHOLD = 0.137; //0.155;// prev=0.07;  
     public static double NN3_ERROR_THRESHOLD = 0.07; //0.155;// prev=0.07;      
     public static double NN30_ERROR_THRESHOLD = 0.226; //0.228; //0.211;  
     public static double NN40_ERROR_THRESHOLD = 0.096; // 0.232; // 0.276;     
