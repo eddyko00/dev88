@@ -1539,10 +1539,9 @@ public class AccountProcess {
             int index = 0;
             for (int i = 0; i < writeArray.size(); i++) {
                 String output = writeArray.get(i);
-                AFneuralNet item = new ObjectMapper().readValue(output, AFneuralNet.class);
-                String sql = StockDB.insertNeuralNet(tableName, item);
+                AFneuralNetData item = new ObjectMapper().readValue(output, AFneuralNetData.class);
+                String sql = StockDB.insertNeuralNetData(tableName, item);
                 writeSQLArray.add(sql);
-
                 index++;
                 if (index > 500) {  //500) {
                     index = 0;
