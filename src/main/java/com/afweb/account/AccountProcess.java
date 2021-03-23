@@ -1416,6 +1416,7 @@ public class AccountProcess {
             //////only require for VMware local
             if (CKey.DELAY_RESTORE == true) {
                 if (fileCont > 0) {
+                    logger.info("> 60 sec delay");                    
                     ServiceAFweb.AFSleep1Sec(60);
                 }
             }
@@ -1455,8 +1456,10 @@ public class AccountProcess {
                     ServiceAFweb.AFSleep();
 
                 }
-                if ((i % 20) == 0) {
-                    ServiceAFweb.AFSleep1Sec(3);
+                if (i > 10) {
+                    if ((i % 20) == 0) {
+                        ServiceAFweb.AFSleep1Sec(3);
+                    }
                 }
             }
             return sendRequestObj(serviceAFWeb, writeSQLArray);
@@ -1518,6 +1521,7 @@ public class AccountProcess {
             //////only require for VMware local
             if (CKey.DELAY_RESTORE == true) {
                 if (fileCont > 0) {
+                    logger.info("> 60 sec delay");
                     ServiceAFweb.AFSleep1Sec(60);
                 }
             }
@@ -1555,6 +1559,9 @@ public class AccountProcess {
                     logger.info("> restoreDBneuralnetDataPro " + fileName + " total=" + writeArray.size() + " index=" + i);
 
                     ServiceAFweb.AFSleep();
+//                    if (CKey.DELAY_RESTORE == true) {
+//                        ServiceAFweb.AFSleep1Sec(6);
+//                    }
                 }
 
             }
@@ -1578,6 +1585,7 @@ public class AccountProcess {
             //////only require for VMware local
             if (CKey.DELAY_RESTORE == true) {
                 if (fileCont > 0) {
+                    logger.info("> 60 sec delay");                    
                     ServiceAFweb.AFSleep1Sec(60);
                 }
             }
