@@ -18,7 +18,7 @@ public class AccountObj extends account {
     public static final String TRADING_ACCOUNT = "Trading"; // buy , sell
     public static final int INT_TRADING_ACCOUNT = 110;
 
-    public static final String MUTUAL_FUND_ACCOUNT = "MutualFund";
+    public static final String MUTUAL_FUND_ACCOUNT = "Fund";
     public static final int INT_MUTUAL_FUND_ACCOUNT = 120;
 
     public static final String ADMIN_ACCOUNT = "Admin"; 
