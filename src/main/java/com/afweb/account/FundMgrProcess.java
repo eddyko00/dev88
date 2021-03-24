@@ -281,7 +281,7 @@ public class FundMgrProcess {
                 Collections.reverse(perfList);
                 ArrayList accPortList = new ArrayList();
                 for (PerformanceObj perObj : perfList) {
-                    logger.info(perObj.getName() + " " + perObj.getGrossprofit());
+//                    logger.info(perObj.getName() + " " + perObj.getGrossprofit());
                     if (perObj.getGrossprofit() > 0) {
                         if (accPortList.size() < MAX_FUND_LIST) {
                             logger.info("> updateMutualFundBestStock " + perObj.getName() + " " + perObj.getGrossprofit());
