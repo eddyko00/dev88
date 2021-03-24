@@ -317,7 +317,7 @@ public class BillingProcess {
 
                 try {
                     int plan = custPortfilio.getnPlan();
-                    
+
                     int substatus = account.getSubstatus();
                     float investment = account.getInvestment();
                     float balance = account.getBalance();
@@ -428,6 +428,12 @@ public class BillingProcess {
 
             logger.info("Billing***create user " + custName + ", billing cycle " + billcycleESTtime + ", payment=" + payment);
 
+            if (customer.getType() == CustomerObj.INT_GUEST_USER) {
+                if (firstBill == false) {
+                    // update multal fund every month
+                    serviceAFWeb.SystemSelectBestFundMgr();
+                }
+            }
             return result;
         }
         return 0;
