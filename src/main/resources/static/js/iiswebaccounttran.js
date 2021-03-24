@@ -80,7 +80,7 @@ var app = {
                 'Pre Cl:' + preClose + '  Close:' + close + '  Per:' + percentSt;
         $("#0").html('<h1>' + stStr + '</h1>');
 
-        $("#accheader").html(stockObj.symbol + ' ' + trName + ' ' + '<a href="#page-intro">Help</a>');
+        $("#accheader").html(stockObj.symbol + ' ' + trName + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
         var htmlhead = '<div class="ui-grid-c">';
         htmlhead += '<div class="ui-block-a" "><strong>Date</strong></div>';

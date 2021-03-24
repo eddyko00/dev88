@@ -76,7 +76,7 @@ var app = {
             $("#adminid").append(htmlAdmin);
         }
 
-        $("#accheader").html("Customer Account" + ' ' + '<a href="#page-intro">Help</a>');
+        $("#accheader").html("Customer Account" + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
         $("#myid").html(" "); //clear the field
         for (i = 0; i < accObjList.length; i++) {

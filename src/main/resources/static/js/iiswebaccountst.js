@@ -54,7 +54,7 @@ var app = {
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
 
-        $("#accheader").html('Account ' + accObj.accountname + ' ' + '<a href="#page-intro">Help</a>');
+        $("#accheader").html('Account ' + accObj.accountname + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
         var htmlhead = '<div class="ui-grid-d">';
         htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym</strong></div>';

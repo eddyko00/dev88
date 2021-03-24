@@ -33,7 +33,7 @@ var app = {
         var billObjList = JSON.parse(billObjListStr);
 
 
-        $("#accheader").html("Account Billing" + ' ' + '<a href="#page-intro">Help</a>');
+        $("#accheader").html("Account Billing" + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
         $("#myid").html(" "); //clear the field
         for (i = 0; i < billObjList.length; i++) {
