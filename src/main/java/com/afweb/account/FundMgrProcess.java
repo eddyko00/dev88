@@ -72,7 +72,7 @@ public class FundMgrProcess {
     ArrayList stockArrayTDGlobalEntertainment = new ArrayList();
     ArrayList stockArrayTDScienceTechnology = new ArrayList();
 
-    public void ProcessIISWebGlobalFundMgr(ServiceAFweb serviceAFWeb) {
+    public void ProcessGetGlobalFundMgr(ServiceAFweb serviceAFWeb) {
 
         logger.info("> ProcessIISWebGlobalFundMgr ");
 
@@ -99,9 +99,9 @@ public class FundMgrProcess {
     private static ArrayList accountIdNameArray = new ArrayList();
     private static ArrayList accountFundIdNameArray = new ArrayList();
 
-    public void ProcessFundMgrAccount(ServiceAFweb serviceAFWeb) {
+    public void ProcessSelectBestFundMgrAccount(ServiceAFweb serviceAFWeb) {
 
-//        logger.info("> ProcessFundMgrAccount ");
+//        logger.info("> ProcessSelectBestFundMgrAccount ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
@@ -149,13 +149,14 @@ public class FundMgrProcess {
                         numProc++;
                     }
                 } catch (Exception e) {
-                    logger.info("> ProcessFundAccount Exception " + e.getMessage());
+                    logger.info("> SelectBestFundMgrAccount Exception " + e.getMessage());
                 }
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
         }
     }
 
+    // will execuate once per month
     public int updateMutualFundBestStock(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
@@ -189,11 +190,11 @@ public class FundMgrProcess {
                 if (customer == null) {
                     return 0;
                 }
-                
+
                 // only perform auto select stock from IISWeb Manager Fund
                 if (customer.getUsername().equals(CKey.FUND_MANAGER_USERNAME)) {
                     ;
-                }if (customer.getUsername().equals(CKey.INDEXFUND_MANAGER_USERNAME)) {
+                } else if (customer.getUsername().equals(CKey.INDEXFUND_MANAGER_USERNAME)) {
                     ;
                 } else {
                     return 0;
@@ -204,23 +205,57 @@ public class FundMgrProcess {
                 for (int i = 0; i < AccountStockNameList.size(); i++) {
                     String stockN = (String) AccountStockNameList.get(i);
 
-                    String EmailUserName = customer.getUsername();
-                    String Password = null;
-                    String AccountIDSt = "" + accObj.getId();
                     String stockidsymbol = stockN;
-                    // assume default NN1
-                    // assume default NN1                    
-                    String trName = ConstantKey.TR_NN1; 
-                    int length = 1;
-                    ArrayList<PerformanceObj> stockPerList = serviceAFWeb.getAccountStockPerfHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
-                    if (stockPerList != null) {
-                        if (stockPerList.size() > 0) {
-                            PerformanceObj perfObj = stockPerList.get(0);
-                            perfObj.setName(stockidsymbol);
 
-                            perfList.add(perfObj);
+                    String trName = ConstantKey.TR_ACC;
+                    AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(stockN, null);
+                    TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
+
+                    float close = stock.getAfstockInfo().getFclose();
+                    float deltaTotal = 0;
+                    float sharebalance = 0;
+                    if (trObj.getTrsignal() == ConstantKey.S_BUY) {
+                        sharebalance = trObj.getLongamount();
+                        if (trObj.getLongshare() > 0) {
+                            if (close > 0) {
+                                deltaTotal = (close - (trObj.getLongamount() / trObj.getLongshare())) * trObj.getLongshare();
+                            }
+                        }
+                    } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
+                        sharebalance = trObj.getShortamount();
+                        if (trObj.getShortshare() > 0) {
+                            if (close > 0) {
+                                deltaTotal = (close - (trObj.getShortamount() / trObj.getShortshare())) * trObj.getShortshare();
+                            }
                         }
                     }
+                    float total = trObj.getBalance() + sharebalance;
+                    total = total - trObj.getInvestment();
+
+                    if (stock.getSubstatus() == 0) {
+                        total = total + deltaTotal;
+                    }
+                    PerformanceObj perfObj = new PerformanceObj();
+                    perfObj.setName(stockidsymbol);
+                    perfObj.setGrossprofit(total);
+                    perfList.add(perfObj);
+
+                    // assume default NN1
+                    // assume default NN1     
+//                    String EmailUserName = customer.getUsername();
+//                    String Password = null;
+//                    String AccountIDSt = "" + accObj.getId();                    
+//                    String trName = ConstantKey.TR_NN1;
+//                    int length = 1;
+//                    ArrayList<PerformanceObj> stockPerList = serviceAFWeb.getAccountStockPerfHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
+//                    if (stockPerList != null) {
+//                        if (stockPerList.size() > 0) {
+//                            PerformanceObj perfObj = stockPerList.get(0);
+//                            perfObj.setName(stockidsymbol);
+//
+//                            perfList.add(perfObj);
+//                        }
+//                    }
                 }
 
                 ////////sort the best perfList low number to high
@@ -242,13 +277,14 @@ public class FundMgrProcess {
                     }
                 }
                 // change high to low
-
+                int MAX_FUND_LIST = 4;
                 Collections.reverse(perfList);
                 ArrayList accPortList = new ArrayList();
                 for (PerformanceObj perObj : perfList) {
                     logger.info(perObj.getName() + " " + perObj.getGrossprofit());
                     if (perObj.getGrossprofit() > 0) {
-                        if (accPortList.size() < 3) {
+                        if (accPortList.size() < MAX_FUND_LIST) {
+                            logger.info("> updateMutualFundBestStock " + perObj.getName() + " " + perObj.getGrossprofit());
                             accPortList.add(perObj.getName());
                         }
                     }

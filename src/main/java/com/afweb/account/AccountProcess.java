@@ -292,9 +292,9 @@ public class AccountProcess {
         }
     }
 
-    public void ProcessFundAccount(ServiceAFweb serviceAFWeb) {
+    public void ProcessAddRemoveFundAccount(ServiceAFweb serviceAFWeb) {
         // add or remove stock in mutual fund account based on all stocks in the system
-        //        logger.info("> ProcessFundAccount ......... ");
+        //        logger.info("> ProcessAddRemoveFundAccount ......... ");
 
 //        this.serviceAFWeb = serviceAFWeb;
 //        logger.info("> UpdateAccountSignal ");
@@ -343,7 +343,7 @@ public class AccountProcess {
 
                     }
                 } catch (Exception e) {
-                    logger.info("> ProcessFundAccount Exception " + e.getMessage());
+                    logger.info("> AddRemoveFundAccount Exception " + e.getMessage());
                 }
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);

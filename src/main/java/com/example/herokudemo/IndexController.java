@@ -1545,7 +1545,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemPerformanceFundMgr());
+                msg.setResponse("" + afWebService.SystemSelectBestFundMgr());
                 msg.setResult(true);
                 return msg;
             }
@@ -1571,7 +1571,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemPocessUpdateFundMgr());
+                msg.setResponse("" + afWebService.SystemPocessAddRemoveFundMgr());
                 msg.setResult(true);
                 return msg;
             }

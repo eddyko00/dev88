@@ -570,7 +570,7 @@ public class ServiceAFweb {
 //                        newCustomer.setPassword("passw0rd");
 //                        newCustomer.setType(CustomerObj.INT_FUND_USER);
 //                        getAccountImp().addCustomer(newCustomer);
-                        SystemPocessUpdateFundMgr();
+                        SystemPocessAddRemoveFundMgr();
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -655,7 +655,7 @@ public class ServiceAFweb {
         if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
             // add or remove stock in Mutual fund account based on all stocks in the system
             System.gc();
-            getAccountProcessImp().ProcessFundAccount(this);
+            getAccountProcessImp().ProcessAddRemoveFundAccount(this);
             getAccountProcessImp().ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
@@ -1003,6 +1003,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            SystemSelectBestFundMgr();
+            
             /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
@@ -5305,22 +5307,22 @@ public class ServiceAFweb {
 
     public boolean SystemResetGlobalFundMgr() {
         FundMgrProcess fundmgr = new FundMgrProcess();
-        logger.info(">SystemFundMgr start ");
-        fundmgr.ProcessIISWebGlobalFundMgr(this);
+        logger.info(">ProcessGetGlobalFundMgr start ");
+        fundmgr.ProcessGetGlobalFundMgr(this);
 //        fundmgr.ProcessFundMgrAccount(this);
         return true;
     }
 
-    public boolean SystemPerformanceFundMgr() {
+    public boolean SystemSelectBestFundMgr() {
         FundMgrProcess fundmgr = new FundMgrProcess();
-        logger.info(">SystemPerformanceFundMgr start ");
-        fundmgr.ProcessFundMgrAccount(this);
+        logger.info(">ProcessSelectBestFundMgrAccount start ");
+        fundmgr.ProcessSelectBestFundMgrAccount(this);
         return true;
     }
 
-    public boolean SystemPocessUpdateFundMgr() {
-        logger.info(">SystemPocessFundMgr start ");
-        getAccountProcessImp().ProcessFundAccount(this);
+    public boolean SystemPocessAddRemoveFundMgr() {
+        logger.info(">ProcessAddRemoveFundAccount start ");
+        getAccountProcessImp().ProcessAddRemoveFundAccount(this);
         return true;
     }
 
