@@ -102,7 +102,7 @@ public class IndexController {
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history/display");
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
 
-        arrayString.add("/cust/{username}/uisys/{custid}/custNlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
