@@ -5456,6 +5456,7 @@ public class ServiceAFweb {
             newCustomer.setUsername(CKey.ADMIN_USERNAME);
             newCustomer.setPassword("passw0rd");
             newCustomer.setType(CustomerObj.INT_ADMIN_USER);
+            //// result 1 = success, 2 = existed,  0 = fail
             getAccountImp().addCustomer(newCustomer);
             if (retSatus == 0) {
 

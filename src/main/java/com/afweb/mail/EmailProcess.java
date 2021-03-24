@@ -105,7 +105,9 @@ public class EmailProcess {
         }
 
         if (cust.getUsername().equals(CKey.G_USERNAME)) {
-            emailAddr = ServiceAFweb.UU_Str;
+            if (emailAddr.length() == 0) {
+                emailAddr = ServiceAFweb.UU_Str;
+            }
         }
 
         if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
