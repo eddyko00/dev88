@@ -77,6 +77,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
 
+        arrayString.add("/cust/{username}/acc/{accountid}/fundbalance/clear");
+
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
@@ -521,7 +523,7 @@ public class IndexController {
             return null;
         }
         ArrayList<String> messageList = new ArrayList();
-        messageList.add(""+CKey.iis_ver);
+        messageList.add("" + CKey.iis_ver);
 
         if (verSt != null) {
             float version = Float.parseFloat(verSt);
@@ -533,6 +535,25 @@ public class IndexController {
 
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return messageList;
+    }
+
+    //"/cust/{username}/acc/{accountid}/fundbalance/clear");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundbalance/clear", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int getAccountfundbalance(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+
+        int ret = afWebService.clearAccountfundbalance(username, null, accountid);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return ret;
     }
 
     // "/cust/{username}/acc/{accountid}/billing?length="
