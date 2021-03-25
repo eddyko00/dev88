@@ -156,10 +156,13 @@ var app = {
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountst.html";
                 return;
-//                alert("Not supproted feature for GUEST accont");
-//                window.location.href = "accountst.html";
-//                return;
             }
+            if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) {
+                msgObjStr = "This feature does not allow for the account";
+                window.localStorage.setItem(iisMsgSession, msgObjStr);
+                window.location.href = "accountst.html";
+                return;
+            }            
 //          ("/cust/{username}/acc/{accountid}/st/add/{symbol}")
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st/addsymbol?symbol=" + addsymbol,
@@ -203,10 +206,13 @@ var app = {
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountst.html";
                 return;
-//                alert("Not supproted feature for GUEST accont");
-//                window.location.href = "accountst.html";
-//                return;
             }
+            if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) {
+                msgObjStr = "This feature does not allow for the account";
+                window.localStorage.setItem(iisMsgSession, msgObjStr);
+                window.location.href = "accountst.html";
+                return;
+            }                 
 //          ("/cust/{username}/acc/{accountid}/st/remove/{symbol}")
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st/removesymbol?symbol=" + rsymbol,
