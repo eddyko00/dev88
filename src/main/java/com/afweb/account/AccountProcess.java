@@ -866,10 +866,11 @@ public class AccountProcess {
 
 /////////////////
             if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                 // get trading account. Follow the signal from the trading account
                 int ret = this.followFundSignalFromAcc(serviceAFWeb, accountObj, trTradingACCObj, UpdateTRList, symbol);
 
             } else {
-
+                 // get trading link id. Follow the signal from the admin account
                 int trLinkId = trTradingACCObj.getLinktradingruleid();
                 if (trLinkId != 0) {
                     boolean readySignal = false;
