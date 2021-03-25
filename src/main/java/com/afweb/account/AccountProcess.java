@@ -339,7 +339,7 @@ public class AccountProcess {
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         ProcessTradingAccountUpdate(serviceAFWeb, accountObj);
-                        ProcessFundAccountUpdate(serviceAFWeb, accountObj);
+                        ProcessFundAccountUpdate(serviceAFWeb, accountObj, true);
 
                     }
                 } catch (Exception e) {
@@ -350,7 +350,7 @@ public class AccountProcess {
         }
     }
 
-    public int ProcessFundAccountUpdate(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
+    public int ProcessFundAccountUpdate(ServiceAFweb serviceAFWeb, AccountObj accountObj, boolean buyOnly) {
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
         try {
@@ -521,8 +521,10 @@ public class AccountProcess {
                                     sharebalance = delta;
 
                                 } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                                    float delta = (curPrice * trObj.getShortshare()) - trObj.getShortamount();
-                                    sharebalance = -delta;
+                                    if (buyOnly == false) {
+                                        float delta = (curPrice * trObj.getShortshare()) - trObj.getShortamount();
+                                        sharebalance = -delta;
+                                    }
                                 }
                                 float total = sharebalance;
 //                                logger.info("> ProcessFundAccount " + accObj.getAccountname() + " " + symbol + " stockProfit " + total);
@@ -1416,7 +1418,7 @@ public class AccountProcess {
             //////only require for VMware local
             if (CKey.DELAY_RESTORE == true) {
                 if (fileCont > 0) {
-                    logger.info("> 60 sec delay");                    
+                    logger.info("> 60 sec delay");
                     ServiceAFweb.AFSleep1Sec(60);
                 }
             }
@@ -1585,7 +1587,7 @@ public class AccountProcess {
             //////only require for VMware local
             if (CKey.DELAY_RESTORE == true) {
                 if (fileCont > 0) {
-                    logger.info("> 60 sec delay");                    
+                    logger.info("> 60 sec delay");
                     ServiceAFweb.AFSleep1Sec(60);
                 }
             }
