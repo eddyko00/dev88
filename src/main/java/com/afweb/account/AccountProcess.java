@@ -866,57 +866,9 @@ public class AccountProcess {
 
 /////////////////
             if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                boolean flag = true;
-                if (flag == true) {
-                    // get trading account. Follow the signal from the trading account
-                    AccountObj accTrading = null;
-                    ArrayList<AccountObj> accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
-                    if (accountList != null) {
-                        for (int i = 0; i < accountList.size(); i++) {
-                            AccountObj acc = accountList.get(i);
-                            if (acc.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                                accTrading = acc;
-                                break;
-                            }
-                        }
-                    }
-                    if (accTrading != null) {
-                        int stockId = trTradingACCObj.getStockid();
-                        TradingRuleObj trTradingA = serviceAFWeb.SystemAccountStockIDByTRname(accTrading.getId(), stockId, ConstantKey.TR_ACC);
-                        
-                        if (trTradingACCObj.getTrsignal() != trTradingA.getTrsignal()) {
-                            trTradingACCObj.setTrsignal(trTradingA.getTrsignal());
+                int ret = this.followFundSignalFromAcc(serviceAFWeb, accountObj, trTradingACCObj, UpdateTRList, symbol);
 
-                            UpdateTRList.add(trTradingACCObj);
-                            String tzid = "America/New_York"; //EDT
-                            TimeZone tz = TimeZone.getTimeZone(tzid);
-                            java.sql.Date d = new java.sql.Date(trTradingA.getUpdatedatel());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                            DateFormat format = new SimpleDateFormat(" hh:mm a");
-                            format.setTimeZone(tz);
-                            String ESTtime = format.format(d);
-
-                            String sig = "exit";
-                            if (trTradingA.getTrsignal() == ConstantKey.S_BUY) {
-                                sig = ConstantKey.S_BUY_ST;
-                            } else if (trTradingA.getTrsignal() == ConstantKey.S_SELL) {
-                                sig = ConstantKey.S_SELL_ST;
-                            }
-                            String msg = ESTtime + " " + symbol + " Sig:" + sig;
-                            this.AddCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
-
-                            // send email
-                            DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
-                            formatD.setTimeZone(tz);
-                            String ESTdateD = formatD.format(d);
-                            String msgD = ESTdateD + " " + symbol + " Sig:" + sig;
-                            this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
-//                  logger.info("> updateTradingsignal update " + msg);
-                        }
-                    }
-                }
-            } else if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-/////////////
+            } else {
 
                 int trLinkId = trTradingACCObj.getLinktradingruleid();
                 if (trLinkId != 0) {
@@ -932,13 +884,6 @@ public class AccountProcess {
                                 break;
                             }
                         }
-                        //Make sure all admin links are ready before copy the link signal
-//                    if ((trAdminObj.getType() >= ConstantKey.INT_TR_MV) && (trAdminObj.getType() <= ConstantKey.INT_TR_NN1)) {
-//                        if (trAdminObj.getSubstatus() != ConstantKey.OPEN) {
-//                            readySignal = false;
-//                            break;
-//                        }
-//                    }
                     }
                     if (readySignal == true) {
 
@@ -988,6 +933,65 @@ public class AccountProcess {
         TRObj stockTRObj = new TRObj();
         stockTRObj.setTrlist(UpdateTRList);
         serviceAFWeb.updateAccountStockSignal(stockTRObj);
+    }
+
+    public int followFundSignalFromAcc(ServiceAFweb serviceAFWeb, AccountObj accountObj,
+            TradingRuleObj trTradingACCObj, ArrayList<TradingRuleObj> UpdateTRList, String symbol) {
+        
+        boolean flag = true;
+        if (flag == true) {
+            // get trading account. Follow the signal from the trading account
+            AccountObj accTrading = null;
+            ArrayList<AccountObj> accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
+            if (accountList != null) {
+                for (int i = 0; i < accountList.size(); i++) {
+                    AccountObj acc = accountList.get(i);
+                    if (acc.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+                        accTrading = acc;
+                        break;
+                    }
+                }
+            }
+            if (accTrading != null) {
+                int stockId = trTradingACCObj.getStockid();
+                TradingRuleObj trTradingA = serviceAFWeb.SystemAccountStockIDByTRname(accTrading.getId(), stockId, ConstantKey.TR_ACC);
+                int tsSig = trTradingACCObj.getTrsignal();
+                if (tsSig != trTradingA.getTrsignal()) {
+                    trTradingACCObj.setTrsignal(trTradingA.getTrsignal());
+
+                    UpdateTRList.add(trTradingACCObj);
+
+                    UpdateTRList.add(trTradingACCObj);
+                    String tzid = "America/New_York"; //EDT
+                    TimeZone tz = TimeZone.getTimeZone(tzid);
+                    java.sql.Date d = new java.sql.Date(trTradingA.getUpdatedatel());
+//                  DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                    DateFormat format = new SimpleDateFormat(" hh:mm a");
+                    format.setTimeZone(tz);
+                    String ESTtime = format.format(d);
+
+                    String sig = "exit";
+                    if (trTradingA.getTrsignal() == ConstantKey.S_BUY) {
+                        sig = ConstantKey.S_BUY_ST;
+                    } else if (trTradingA.getTrsignal() == ConstantKey.S_SELL) {
+                        sig = ConstantKey.S_SELL_ST;
+                    }
+                    String msg = ESTtime + " " + symbol + " Sig:" + sig;
+                    this.AddCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
+
+                    // send email
+                    DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+                    formatD.setTimeZone(tz);
+                    String ESTdateD = formatD.format(d);
+                    String msgD = ESTdateD + " " + symbol + " Sig:" + sig;
+                    this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
+//                  logger.info("> updateTradingsignal update " + msg);
+
+                    return 1;
+                }
+            }
+        }
+        return 0;
     }
 
     public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type, CommData commDataObj) {
