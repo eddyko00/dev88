@@ -272,12 +272,12 @@ public class AccountImp {
         return result;
     }
 
-    public ArrayList getAccountListByCustomerObj(CustomerObj customer) {
+    public ArrayList<AccountObj> getAccountListByCustomerObj(CustomerObj customer) {
         ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
         return accountList;
     }
 
-    public ArrayList getAccountListByCustomerId(int custId) {
+    public ArrayList<AccountObj> getAccountListByCustomerId(int custId) {
         ArrayList accountList = accountdb.getAccountByCustomerID(custId);
         return accountList;
     }
