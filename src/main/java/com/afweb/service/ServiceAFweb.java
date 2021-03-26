@@ -554,7 +554,7 @@ public class ServiceAFweb {
 
                     boolean fundMgrFlag = false;
                     if (fundMgrFlag == true) {
-                        SystemResetGlobalFundMgr();
+                        SystemFundResetGlobal();
                     }
 // use /cust/{username}/sys/processfundmgr                    }
 // Fund Manger only do once a month   
@@ -570,7 +570,7 @@ public class ServiceAFweb {
 //                        newCustomer.setPassword("passw0rd");
 //                        newCustomer.setType(CustomerObj.INT_FUND_USER);
 //                        getAccountImp().addCustomer(newCustomer);
-                        SystemPocessAddRemoveFundMgr();
+                        SystemFundPocessAddRemove();
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -5306,7 +5306,7 @@ public class ServiceAFweb {
         return "sysMaintenance " + retSatus;
     }
 
-    public boolean SystemResetGlobalFundMgr() {
+    public boolean SystemFundResetGlobal() {
         FundMgrProcess fundmgr = new FundMgrProcess();
         logger.info(">ProcessGetGlobalFundMgr start ");
         fundmgr.ProcessGetGlobalFundMgr(this);
@@ -5314,14 +5314,14 @@ public class ServiceAFweb {
         return true;
     }
 
-    public boolean SystemSelectBestFundMgr() {
+    public boolean SystemFundSelectBest() {
         FundMgrProcess fundmgr = new FundMgrProcess();
         logger.info(">ProcessSelectBestFundMgrAccount start ");
         fundmgr.ProcessSelectBestFundMgrAccount(this);
         return true;
     }
 
-    public boolean SystemPocessAddRemoveFundMgr() {
+    public boolean SystemFundPocessAddRemove() {
         logger.info(">ProcessAddRemoveFundAccount start ");
         getAccountProcessImp().ProcessAddRemoveFundAccount(this);
         return true;

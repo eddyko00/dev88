@@ -431,7 +431,7 @@ public class BillingProcess {
             if (customer.getType() == CustomerObj.INT_GUEST_USER) {
                 if (firstBill == false) {
                     // update multal fund every month
-                    serviceAFWeb.SystemSelectBestFundMgr();
+                    serviceAFWeb.SystemFundSelectBest();
                 }
             }
             return result;
