@@ -248,7 +248,7 @@ var app = {
 
         $("#configbtn").click(function () {
             var txt;
-            var r = confirm("Confrim to clear fund balanc!");
+            var r = confirm("Confrim to clear fund balance!");
             if (r == true) {
                 
             } else {
