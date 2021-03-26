@@ -295,6 +295,7 @@ public class FundMgrProcess {
                 String portfStr;
                 try {
                     portfStr = new ObjectMapper().writeValueAsString(fundMgr);
+                    logger.info("> updateMutualFundBestStock " + accountObj.getAccountname() + " " + portfStr);
                     getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
                 } catch (JsonProcessingException e) {
                     logger.info("> updateMutualFundBestStock Exception " + e.getMessage());
