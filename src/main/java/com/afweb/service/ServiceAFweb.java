@@ -3120,49 +3120,54 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
 
-        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, "" + accFundId);
-        if (accountObj != null) {
-            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
+        accFundId = Integer.parseInt(AccFundIDSt);
+        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+        if (accFundObj == null) {
+            return null;
+        }
+        if (accFundObj.getType() != AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+            return null;
+        }
 
-            if (stockNameList != null) {
-                if (lenght == 0) {
-                    lenght = stockNameList.size();
-                } else if (lenght > stockNameList.size()) {
-                    lenght = stockNameList.size();
-                }
-                ArrayList returnStockList = new ArrayList();
-                for (int i = 0; i < lenght; i++) {
-                    String NormalizeSymbol = (String) stockNameList.get(i);
-                    AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-                    if (stock != null) {
+        ArrayList stockNameList = getAccountImp().getAccountStockNameList(accFundObj.getId());
+        if (stockNameList != null) {
+            if (lenght == 0) {
+                lenght = stockNameList.size();
+            } else if (lenght > stockNameList.size()) {
+                lenght = stockNameList.size();
+            }
+            ArrayList returnStockList = new ArrayList();
+            for (int i = 0; i < lenght; i++) {
+                String NormalizeSymbol = (String) stockNameList.get(i);
+                AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+                if (stock != null) {
 
-                        ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockListByAccountID(accountObj.getId(), stock.getId());
-                        if (trObjList != null) {
-                            for (int j = 0; j < trObjList.size(); j++) {
-                                TradingRuleObj trObj = trObjList.get(j);
-                                if (trObj.getTrname().equals(ConstantKey.TR_ACC)) {
-                                    stock.setTRsignal(trObj.getTrsignal());
-                                } else if (trObj.getTrname().equals(ConstantKey.TR_NN1)) {
-                                    float perfProfit = 0;
-                                    AccountObj accountAdminObj = getAdminObjFromCache();
-                                    ArrayList<PerformanceObj> perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trObj.getTrname(), 1);
-                                    if (perfList != null) {
-                                        if (perfList.size() > 0) {
-                                            PerformanceObj perf = perfList.get(0);
-                                            perfProfit = perf.getGrossprofit();
-                                        }
+                    ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockListByAccountID(accFundObj.getId(), stock.getId());
+                    if (trObjList != null) {
+                        for (int j = 0; j < trObjList.size(); j++) {
+                            TradingRuleObj trObj = trObjList.get(j);
+                            if (trObj.getTrname().equals(ConstantKey.TR_ACC)) {
+                                stock.setTRsignal(trObj.getTrsignal());
+                            } else if (trObj.getTrname().equals(ConstantKey.TR_NN1)) {
+                                float perfProfit = 0;
+                                AccountObj accountAdminObj = getAdminObjFromCache();
+                                ArrayList<PerformanceObj> perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trObj.getTrname(), 1);
+                                if (perfList != null) {
+                                    if (perfList.size() > 0) {
+                                        PerformanceObj perf = perfList.get(0);
+                                        perfProfit = perf.getGrossprofit();
                                     }
-                                    float per = 100 * (perfProfit) / CKey.TRADING_AMOUNT;
-                                    stock.setPerform(per);
                                 }
+                                float per = 100 * (perfProfit) / CKey.TRADING_AMOUNT;
+                                stock.setPerform(per);
                             }
                         }
-
-                        returnStockList.add(stock);
                     }
+
+                    returnStockList.add(stock);
                 }
-                return returnStockList;
             }
+            return returnStockList;
         }
         return null;
     }
