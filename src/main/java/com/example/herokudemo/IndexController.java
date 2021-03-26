@@ -79,9 +79,8 @@ public class IndexController {
 
         arrayString.add("/cust/{username}/acc/{accountid}/fundbalance/clear");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accountid}");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accountid}/st?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accountid}/st/{stockid or symbol}/tr");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr");
 
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
@@ -494,10 +493,11 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return accountList;
     }
+
     //"/cust/{username}/acc/{accountid}/fundlink");
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    ArrayList <AccountObj> getAccountFundList(
+    ArrayList<AccountObj> getAccountFundList(
             @PathVariable("username") String username,
             @PathVariable("accountid") String accountid,
             HttpServletRequest request, HttpServletResponse response
@@ -507,12 +507,11 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        ArrayList <AccountObj> accList = afWebService.getAccountFundByCustomerAccountID(username, null, accountid);
+        ArrayList<AccountObj> accList = afWebService.getAccountFundByCustomerAccountID(username, null, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return accList;
     }
 
-    
     @RequestMapping(value = "/cust/{username}/acc/{accountid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     AccountObj getAccount(
@@ -786,6 +785,32 @@ public class IndexController {
     }
 
     ///////////////////////////////////////
+    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st?length={0 for all} - default 20")
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getAccountStockFundStockList(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @PathVariable("accfundid") String accfundid,
+            @RequestParam(value = "length", required = false) String lengthSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        int length = 20;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+
+        ArrayList returnList = afWebService.getStock_AccountStockListFundStockByAccountID(username, null, accountid, accfundid, length);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+
+        return returnList;
+    }
+
     // "/cust/{username}/acc/{accountid}/st?length="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

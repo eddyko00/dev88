@@ -2966,6 +2966,103 @@ public class ServiceAFweb {
         return 0;
     }
 
+    public ArrayList getStock_AccountStockListFundStockByAccountID(String EmailUserName, String Password, String AccountIDSt, String AccFundIDSt, int lenght) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        int accFundId = -1;
+        try {
+            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+            if (custObj == null) {
+                return null;
+            }
+            if (custObj.getStatus() != ConstantKey.OPEN) {
+                return null;
+            }
+
+            String portfolio = custObj.getPortfolio();
+            CustPort custPortfilio = null;
+            try {
+                if ((portfolio != null) && (portfolio.length() > 0)) {
+                    portfolio = portfolio.replaceAll("#", "\"");
+                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+                }
+            } catch (Exception ex) {
+            }
+            if (custPortfilio == null) {
+                return null;
+            }
+            ArrayList<String> featL = custPortfilio.getFeatL();
+            if (featL == null) {
+                return null;
+            }
+  
+            for (int i = 0; i < featL.size(); i++) {
+                String feat = featL.get(i);
+                feat = feat.replace("fund", "");
+                int fundId = Integer.parseInt(feat);
+                if (AccFundIDSt.equals("" + fundId)) {
+                    accFundId = fundId;
+                    break;
+                }
+            }
+            if (accFundId == -1) {
+                return null;
+            }
+
+        } catch (Exception e) {
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, ""+accFundId);
+        if (accountObj != null) {
+                ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
+
+            if (stockNameList != null) {
+                if (lenght == 0) {
+                    lenght = stockNameList.size();
+                } else if (lenght > stockNameList.size()) {
+                    lenght = stockNameList.size();
+                }
+                ArrayList returnStockList = new ArrayList();
+                for (int i = 0; i < lenght; i++) {
+                    String NormalizeSymbol = (String) stockNameList.get(i);
+                    AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+                    if (stock != null) {
+
+                        ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockListByAccountID(accountObj.getId(), stock.getId());
+                        if (trObjList != null) {
+                            for (int j = 0; j < trObjList.size(); j++) {
+                                TradingRuleObj trObj = trObjList.get(j);
+                                if (trObj.getTrname().equals(ConstantKey.TR_ACC)) {
+                                    stock.setTRsignal(trObj.getTrsignal());
+                                } else if (trObj.getTrname().equals(ConstantKey.TR_NN1)) {
+                                    float perfProfit = 0;
+                                    AccountObj accountAdminObj = getAdminObjFromCache();
+                                    ArrayList<PerformanceObj> perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trObj.getTrname(), 1);
+                                    if (perfList != null) {
+                                        if (perfList.size() > 0) {
+                                            PerformanceObj perf = perfList.get(0);
+                                            perfProfit = perf.getGrossprofit();
+                                        }
+                                    }
+                                    float per = 100 * (perfProfit) / CKey.TRADING_AMOUNT;
+                                    stock.setPerform(per);
+                                }
+                            }
+                        }
+
+                        returnStockList.add(stock);
+                    }
+                }
+                return returnStockList;
+            }
+        }
+        return null;
+    }
+
     public ArrayList getStock_AccountStockList_StockByAccountID(String EmailUserName, String Password, String AccountIDSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
