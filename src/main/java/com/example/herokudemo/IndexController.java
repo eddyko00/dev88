@@ -79,6 +79,8 @@ public class IndexController {
 
         arrayString.add("/cust/{username}/acc/{accountid}/fundbalance/clear");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/add");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr");
 
@@ -785,6 +787,48 @@ public class IndexController {
     }
 
     ///////////////////////////////////////
+    // /cust/{username}/acc/{accountid}/fundlink/{accfundid}/add
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int getAccountStockFundAdd(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @PathVariable("accfundid") String accfundid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+
+        int ret = afWebService.getStock_AccountStockListFundStockAdd(username, null, accountid, accfundid);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+
+        return ret;
+    }
+
+    // /cust/{username}/acc/{accountid}/fundlink/{accfundid}/remove
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int getAccountStockFundRemove(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @PathVariable("accfundid") String accfundid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+
+        int ret = afWebService.getStock_AccountStockListFundStockRemove(username, null, accountid, accfundid);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+
+        return ret;
+    }
+
     //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st?length={0 for all} - default 20")
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
