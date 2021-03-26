@@ -1003,8 +1003,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-
-            
             /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
@@ -2771,6 +2769,56 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
         return 0;
+    }
+
+    public ArrayList<AccountObj> getAccountFundByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        ArrayList<AccountObj> accountObjList = new ArrayList();
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+            if (custObj == null) {
+                return null;
+            }
+            if (custObj.getStatus() != ConstantKey.OPEN) {
+                return null;
+            }
+
+            String portfolio = custObj.getPortfolio();
+            String portfStr;
+            CustPort custPortfilio = null;
+            try {
+                if ((portfolio != null) && (portfolio.length() > 0)) {
+                    portfolio = portfolio.replaceAll("#", "\"");
+                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+                }
+            } catch (Exception ex) {
+            }
+            if (custPortfilio == null) {
+                return null;
+            }
+            ArrayList<String> featL = custPortfilio.getFeatL();
+            if (featL == null) {
+                return null;
+            }
+            for (int i = 0; i < featL.size(); i++) {
+                String feat = featL.get(i);
+                feat = feat.replace("fund", "");
+                int accFundId = Integer.parseInt(feat);
+                AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+                accountObjList.add(accFundObj);
+
+            }
+            return accountObjList;
+        } catch (Exception e) {
+        }
+        return null;
+
     }
 
     public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {

@@ -78,6 +78,10 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
 
         arrayString.add("/cust/{username}/acc/{accountid}/fundbalance/clear");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accountid}");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accountid}/st?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accountid}/st/{stockid or symbol}/tr");
 
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
@@ -490,7 +494,25 @@ public class IndexController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return accountList;
     }
+    //"/cust/{username}/acc/{accountid}/fundlink");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList <AccountObj> getAccountFundList(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        ArrayList <AccountObj> accList = afWebService.getAccountFundByCustomerAccountID(username, null, accountid);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return accList;
+    }
 
+    
     @RequestMapping(value = "/cust/{username}/acc/{accountid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     AccountObj getAccount(
