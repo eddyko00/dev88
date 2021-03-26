@@ -297,7 +297,7 @@ var app = {
 
             htmlName += '<div class="ui-block-c"></div>';
             htmlName += '</div>';
-            htmlName = '<button id="configbtn"  >Configuration</button>';
+            htmlName = '<button id="configbtn"  >Configure auto trading</button>';
 
             $("#myid").append('<li id="0">' + htmlName + '</li>');
         }
