@@ -2750,7 +2750,7 @@ public class ServiceAFweb {
         return getAccountImp().updateTransactionOrder(transSQL);
     }
 
-    public int clearAccountfundbalance(String EmailUserName, String Password, String AccountIDSt) {
+    public int SystemFundClearfundbalance(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }

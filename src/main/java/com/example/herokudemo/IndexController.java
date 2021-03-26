@@ -551,7 +551,7 @@ public class IndexController {
             return 0;
         }
 
-        int ret = afWebService.clearAccountfundbalance(username, null, accountid);
+        int ret = afWebService.SystemFundClearfundbalance(username, null, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }
