@@ -913,14 +913,16 @@ public class AccountProcess {
                                     } else if (trAdminObj.getTrsignal() == ConstantKey.S_SELL) {
                                         sig = ConstantKey.S_SELL_ST;
                                     }
-                                    String msg = ESTtime + " " + symbol + " Sig:" + sig;
+
+                                    String accTxt = "acc" + accountObj.getId();
+                                    String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
                                     this.AddCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
 
                                     // send email
                                     DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
                                     formatD.setTimeZone(tz);
                                     String ESTdateD = formatD.format(d);
-                                    String msgD = ESTdateD + " " + symbol + " Sig:" + sig;
+                                    String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
                                     this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
 //                                logger.info("> updateTradingsignal update " + msg);
                                 }
@@ -936,14 +938,14 @@ public class AccountProcess {
         serviceAFWeb.updateAccountStockSignal(stockTRObj);
     }
 
-    public int followFundSignalFromAcc(ServiceAFweb serviceAFWeb, AccountObj accountObj,
-            TradingRuleObj trTradingACCObj, ArrayList<TradingRuleObj> UpdateTRList, String symbol) {
+    public int followFundSignalFromAcc(ServiceAFweb serviceAFWeb, AccountObj accFundObj,
+            TradingRuleObj trFundACCObj, ArrayList<TradingRuleObj> UpdateTRList, String symbol) {
 
         boolean flag = true;
         if (flag == true) {
             // get trading account. Follow the signal from the trading account
             AccountObj accTrading = null;
-            ArrayList<AccountObj> accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
+            ArrayList<AccountObj> accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accFundObj.getCustomerid());
             if (accountList != null) {
                 for (int i = 0; i < accountList.size(); i++) {
                     AccountObj acc = accountList.get(i);
@@ -954,22 +956,20 @@ public class AccountProcess {
                 }
             }
             if (accTrading != null) {
-                int stockId = trTradingACCObj.getStockid();
+                int stockId = trFundACCObj.getStockid();
                 TradingRuleObj trTradingA = serviceAFWeb.SystemAccountStockIDByTRname(accTrading.getId(), stockId, ConstantKey.TR_ACC);
                 int newTsSig = trTradingA.getTrsignal();
                 long newUpdatedatel = trTradingA.getUpdatedatel();
-                int tsSig = trTradingACCObj.getTrsignal();
+                int tsSig = trFundACCObj.getTrsignal();
 
-                if (trTradingACCObj.getStatus() == ConstantKey.PENDING) {
+                if (trFundACCObj.getStatus() == ConstantKey.PENDING) {
                     newUpdatedatel = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                     newTsSig = ConstantKey.S_EXIT;
                 }
                 if (tsSig != newTsSig) {
-                    trTradingACCObj.setTrsignal(newTsSig);
+                    trFundACCObj.setTrsignal(newTsSig);
+                    UpdateTRList.add(trFundACCObj);
 
-                    UpdateTRList.add(trTradingACCObj);
-
-                    UpdateTRList.add(trTradingACCObj);
                     String tzid = "America/New_York"; //EDT
                     TimeZone tz = TimeZone.getTimeZone(tzid);
                     java.sql.Date d = new java.sql.Date(newUpdatedatel);
@@ -984,15 +984,17 @@ public class AccountProcess {
                     } else if (newTsSig == ConstantKey.S_SELL) {
                         sig = ConstantKey.S_SELL_ST;
                     }
-                    String msg = ESTtime + " " + symbol + " Sig:" + sig;
-                    this.AddCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
+                    String accTxt = "acc" + accFundObj.getId();
+                    String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
+                    // comm message is in the trading account instead of multfund account
+                    this.AddCommMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
 
                     // send email
                     DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
                     formatD.setTimeZone(tz);
                     String ESTdateD = formatD.format(d);
-                    String msgD = ESTdateD + " " + symbol + " Sig:" + sig;
-                    this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
+                    String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
+                    this.AddEmailCommMessage(serviceAFWeb, accTrading, trFundACCObj, msgD);
 //                  logger.info("> updateTradingsignal update " + msg);
 
                     return 1;
