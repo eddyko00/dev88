@@ -1003,8 +1003,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-          getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-//            SystemSelectBestFundMgr();
+
             
             /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
