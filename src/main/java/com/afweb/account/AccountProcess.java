@@ -866,11 +866,11 @@ public class AccountProcess {
 
 /////////////////
             if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                 // get trading account. Follow the signal from the trading account
+                // get trading account. Follow the signal from the trading account
                 int ret = this.followFundSignalFromAcc(serviceAFWeb, accountObj, trTradingACCObj, UpdateTRList, symbol);
 
             } else {
-                 // get trading link id. Follow the signal from the admin account
+                // get trading link id. Follow the signal from the admin account
                 int trLinkId = trTradingACCObj.getLinktradingruleid();
                 if (trLinkId != 0) {
                     boolean readySignal = false;
@@ -938,7 +938,7 @@ public class AccountProcess {
 
     public int followFundSignalFromAcc(ServiceAFweb serviceAFWeb, AccountObj accountObj,
             TradingRuleObj trTradingACCObj, ArrayList<TradingRuleObj> UpdateTRList, String symbol) {
-        
+
         boolean flag = true;
         if (flag == true) {
             // get trading account. Follow the signal from the trading account
@@ -956,9 +956,14 @@ public class AccountProcess {
             if (accTrading != null) {
                 int stockId = trTradingACCObj.getStockid();
                 TradingRuleObj trTradingA = serviceAFWeb.SystemAccountStockIDByTRname(accTrading.getId(), stockId, ConstantKey.TR_ACC);
+                int newTsSig = trTradingA.getTrsignal();
                 int tsSig = trTradingACCObj.getTrsignal();
-                if (tsSig != trTradingA.getTrsignal()) {
-                    trTradingACCObj.setTrsignal(trTradingA.getTrsignal());
+                
+                if (trTradingACCObj.getStatus() == ConstantKey.PENDING) {
+                    newTsSig = ConstantKey.S_EXIT;
+                }
+                if (tsSig != newTsSig) {
+                    trTradingACCObj.setTrsignal(newTsSig);
 
                     UpdateTRList.add(trTradingACCObj);
 
@@ -972,11 +977,11 @@ public class AccountProcess {
                     String ESTtime = format.format(d);
 
                     String sig = "exit";
-                    if (trTradingA.getTrsignal() == ConstantKey.S_BUY) {
+                    if (newTsSig == ConstantKey.S_BUY) {
                         sig = ConstantKey.S_BUY_ST;
-                    } else if (trTradingA.getTrsignal() == ConstantKey.S_SELL) {
+                    } else if (newTsSig == ConstantKey.S_SELL) {
                         sig = ConstantKey.S_SELL_ST;
-                    }
+                    } 
                     String msg = ESTtime + " " + symbol + " Sig:" + sig;
                     this.AddCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
 
