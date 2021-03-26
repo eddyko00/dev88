@@ -110,7 +110,12 @@ var app = {
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');
         }
 
-
+        if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) {
+            var total = accObj.investment + accObj.balance;
+            var totSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+            var htmlAdmin = '<button id="configbtn"  >Clear Fund Balance - ' + ' Total: ' + totSt + '</button>';
+            $("#adminid").html(htmlAdmin);
+        }
 
         $("ul[id*=myid] li").click(function () {
 //            alert($(this).html()); // gets innerHTML of clicked li
@@ -162,7 +167,7 @@ var app = {
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountst.html";
                 return;
-            }            
+            }
 //          ("/cust/{username}/acc/{accountid}/st/add/{symbol}")
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st/addsymbol?symbol=" + addsymbol,
@@ -212,7 +217,7 @@ var app = {
                 window.localStorage.setItem(iisMsgSession, msgObjStr);
                 window.location.href = "accountst.html";
                 return;
-            }                 
+            }
 //          ("/cust/{username}/acc/{accountid}/st/remove/{symbol}")
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st/removesymbol?symbol=" + rsymbol,
@@ -240,6 +245,37 @@ var app = {
             }
 
         });
+
+        $("#configbtn").click(function () {
+            var txt;
+            var r = confirm("Confrim to clear fund balanc!");
+            if (r == true) {
+                
+            } else {
+                window.location.href = "accountst.html";
+                return;
+            }
+
+//          "/cust/{username}/acc/{accountid}/fundbalance/clear"
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundbalance/clear",
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+
+            function handleResult(result) {
+                console.log(result);
+                if (result == 1) {
+                    window.location.href = "account_1.html";
+                    return;
+                }
+                window.location.href = "accountst.html";
+            }
+        });
+
 
         function functionAlertConfirm(msg, myYes, myNo, myOk) {
             var confirmBox = $("#alertconfirm");
