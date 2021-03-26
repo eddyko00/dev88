@@ -957,9 +957,11 @@ public class AccountProcess {
                 int stockId = trTradingACCObj.getStockid();
                 TradingRuleObj trTradingA = serviceAFWeb.SystemAccountStockIDByTRname(accTrading.getId(), stockId, ConstantKey.TR_ACC);
                 int newTsSig = trTradingA.getTrsignal();
+                long newUpdatedatel = trTradingA.getUpdatedatel();
                 int tsSig = trTradingACCObj.getTrsignal();
-                
+
                 if (trTradingACCObj.getStatus() == ConstantKey.PENDING) {
+                    newUpdatedatel = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                     newTsSig = ConstantKey.S_EXIT;
                 }
                 if (tsSig != newTsSig) {
@@ -970,7 +972,7 @@ public class AccountProcess {
                     UpdateTRList.add(trTradingACCObj);
                     String tzid = "America/New_York"; //EDT
                     TimeZone tz = TimeZone.getTimeZone(tzid);
-                    java.sql.Date d = new java.sql.Date(trTradingA.getUpdatedatel());
+                    java.sql.Date d = new java.sql.Date(newUpdatedatel);
 //                  DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
                     DateFormat format = new SimpleDateFormat(" hh:mm a");
                     format.setTimeZone(tz);
@@ -981,7 +983,7 @@ public class AccountProcess {
                         sig = ConstantKey.S_BUY_ST;
                     } else if (newTsSig == ConstantKey.S_SELL) {
                         sig = ConstantKey.S_SELL_ST;
-                    } 
+                    }
                     String msg = ESTtime + " " + symbol + " Sig:" + sig;
                     this.AddCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
 
@@ -1056,11 +1058,13 @@ public class AccountProcess {
         }
         return 0;
     }
+////////////////////////////////////////////////
 
     public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
+
 //        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         try {
@@ -1128,6 +1132,13 @@ public class AccountProcess {
                         ArrayList sqlList = new ArrayList();
                         sqlList.add(SQLPerf);
                         serviceAFWeb.SystemUpdateSQLList(sqlList);
+                    }
+                }
+
+                if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                    if (trObj.getStatus() == ConstantKey.PENDING) {
+                        // delete stock
+                        serviceAFWeb.getAccountImp().removeAccountStock(accountObj, trObj.getStockid());
                     }
                 }
             }
