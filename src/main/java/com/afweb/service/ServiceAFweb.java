@@ -3630,6 +3630,84 @@ public class ServiceAFweb {
         return null;
     }
 
+    public TradingRuleObj getAccountFundStockByTRname(String EmailUserName, String Password, String AccountIDSt, String AccFundIDSt, String stockidsymbol, String trname) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        int accFundId = -1;
+        try {
+            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+            if (custObj == null) {
+                return null;
+            }
+            if (custObj.getStatus() != ConstantKey.OPEN) {
+                return null;
+            }
+
+            String portfolio = custObj.getPortfolio();
+            CustPort custPortfilio = null;
+            try {
+                if ((portfolio != null) && (portfolio.length() > 0)) {
+                    portfolio = portfolio.replaceAll("#", "\"");
+                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+                }
+            } catch (Exception ex) {
+            }
+            if (custPortfilio == null) {
+                return null;
+            }
+            ArrayList<String> featL = custPortfilio.getFeatL();
+            if (featL == null) {
+                return null;
+            }
+
+            for (int i = 0; i < featL.size(); i++) {
+                String feat = featL.get(i);
+                feat = feat.replace("fund", "");
+                int fundId = Integer.parseInt(feat);
+                if (AccFundIDSt.equals("" + fundId)) {
+                    accFundId = fundId;
+                    break;
+                }
+            }
+            if (accFundId == -1) {
+                return null;
+            }
+
+        } catch (Exception e) {
+        }
+
+        accFundId = Integer.parseInt(AccFundIDSt);
+        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+        if (accFundObj == null) {
+            return null;
+        }
+        if (accFundObj.getType() != AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+            return null;
+        }
+
+        AFstockObj stock = null;
+        int stockID = 0;
+
+        try {
+            stockID = Integer.parseInt(stockidsymbol);
+            stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+        } catch (NumberFormatException e) {
+            SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+            String NormalizeSymbol = symObj.getYahooSymbol();
+            stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+        }
+        if (stock == null) {
+            return null;
+        }
+        stockID = stock.getId();
+        return getAccountImp().getAccountStockIDByTRname(accFundObj.getId(), stockID, trname);
+
+    }
+
     public TradingRuleObj getAccountStockByTRname(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

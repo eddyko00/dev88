@@ -1015,6 +1015,30 @@ public class IndexController {
 
     }
 
+    // "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}")
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    TradingRuleObj getAccountFundStockByTRname(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @PathVariable("accfundid") String accfundid,           
+            @PathVariable("stockidsymbol") String stockidsymbol,
+            @PathVariable("trname") String trname,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        TradingRuleObj returnObj = afWebService.getAccountFundStockByTRname(username, null, accountid, accfundid, stockidsymbol, trname);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+
+        return returnObj;
+    }
+    
+    
+    
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     TradingRuleObj getAccountStockByTRname(
