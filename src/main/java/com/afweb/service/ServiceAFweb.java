@@ -2161,6 +2161,18 @@ public class ServiceAFweb {
         return result;
     }
 
+    public ArrayList getFundAccounBestFundList(String EmailUserName, String Password) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+
+        return getAccountImp().getAccounBestFundList(UserName, Password);
+
+    }
+
     public ArrayList getAccountList(String EmailUserName, String Password) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2476,7 +2488,7 @@ public class ServiceAFweb {
         }
         AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
         int stockID = stock.getId();
-        return getAccountImp().getAccountStockListByAccountID(accountId, stockID);
+        return getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
     }
 
     public ArrayList<TradingRuleObj> SystemAccountStockListByAccountIDStockID(int accountId, int stockId) {
@@ -2514,7 +2526,7 @@ public class ServiceAFweb {
             return null;
         }
 
-        return getAccountImp().getAccountStockListByAccountID(accountId, stockId);
+        return getAccountImp().getAccountStockTRListByAccountID(accountId, stockId);
     }
 
     public int SystemUpdateSQLList(ArrayList<String> SQLlist) {
@@ -2771,7 +2783,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int getStock_AccountStockListFundStockAdd(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
+    public int getFundAccountAddAccundFund(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -2826,7 +2838,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int getStock_AccountStockListFundStockRemove(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
+    public int getFundAccountRemoveAcocuntFund(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -2874,7 +2886,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList<AccountObj> getAccountFundByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+    public ArrayList<AccountObj> getFundAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3070,7 +3082,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList getStock_AccountStockListFundStockByAccountID(String EmailUserName, String Password, String AccountIDSt, String AccFundIDSt, int lenght) {
+    public ArrayList getFundAccountStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String AccFundIDSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3142,7 +3154,7 @@ public class ServiceAFweb {
                 AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
                 if (stock != null) {
 
-                    ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockListByAccountID(accFundObj.getId(), stock.getId());
+                    ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accFundObj.getId(), stock.getId());
                     if (trObjList != null) {
                         for (int j = 0; j < trObjList.size(); j++) {
                             TradingRuleObj trObj = trObjList.get(j);
@@ -3172,7 +3184,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList getStock_AccountStockList_StockByAccountID(String EmailUserName, String Password, String AccountIDSt, int lenght) {
+    public ArrayList<AFstockObj> getAccountStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3188,13 +3200,13 @@ public class ServiceAFweb {
                 } else if (lenght > stockNameList.size()) {
                     lenght = stockNameList.size();
                 }
-                ArrayList returnStockList = new ArrayList();
+                ArrayList<AFstockObj> returnStockList = new ArrayList();
                 for (int i = 0; i < lenght; i++) {
                     String NormalizeSymbol = (String) stockNameList.get(i);
                     AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
                     if (stock != null) {
 
-                        ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockListByAccountID(accountObj.getId(), stock.getId());
+                        ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stock.getId());
                         if (trObjList != null) {
                             for (int j = 0; j < trObjList.size(); j++) {
                                 TradingRuleObj trObj = trObjList.get(j);
@@ -3225,7 +3237,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public AFstockObj getStock_AccountStockList_ByStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+    public AFstockObj getAccountStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3247,7 +3259,7 @@ public class ServiceAFweb {
                 return null;
             }
             stockID = stock.getId();
-            ArrayList tradingRuleList = getAccountImp().getAccountStockListByAccountID(accountObj.getId(), stockID);
+            ArrayList tradingRuleList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stockID);
             if (tradingRuleList != null) {
                 return stock;
             }
@@ -3284,7 +3296,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int getAccountStockClrTranByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName) {
+    public int getAccountStockTRClrTranByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -3308,7 +3320,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList<TransationOrderObj> getAccountStockTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3341,7 +3353,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList<PerformanceObj> getAccountStockPerfList(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+    public ArrayList<PerformanceObj> getAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3422,7 +3434,7 @@ public class ServiceAFweb {
 
     }
 
-    public ArrayList<PerformanceObj> getAccountStockPerfHistory(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+    public ArrayList<PerformanceObj> getAccountStockTRPerfHistory(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3460,7 +3472,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList<PerformanceObj> getAccountStockPerfHistoryReinvest(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+    public ArrayList<PerformanceObj> getAccountStockTRPerfHistoryReinvest(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3498,17 +3510,17 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList<String> getAccountStockPerfHistoryDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+    public ArrayList<String> getAccountStockTRPerfHistoryDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
 
         ArrayList<StockTRHistoryObj> trObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
         ArrayList<String> writeTranArray = new ArrayList();
         ArrayList<String> displayArray = new ArrayList();
         int ret = getAccountStockTRListHistoryDisplayProcess(trObjList, writeTranArray, displayArray);
 
-        ArrayList<PerformanceObj> perfObjList = getAccountStockPerfHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
+        ArrayList<PerformanceObj> perfObjList = getAccountStockTRPerfHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
         ArrayList<String> writePerfArray = new ArrayList();
         ArrayList<String> perfList = new ArrayList();
-        ret = getAccountStockPerfHistoryDisplayProcess(perfObjList, writePerfArray, perfList);
+        ret = getAccountStockTRPerfHistoryDisplayProcess(perfObjList, writePerfArray, perfList);
 
         ArrayList<String> writeAllArray = new ArrayList();
         if (ret == 1) {
@@ -3566,7 +3578,7 @@ public class ServiceAFweb {
 
     }
 
-    public int getAccountStockPerfHistoryDisplayProcess(ArrayList<PerformanceObj> perfObjList, ArrayList<String> writePerfArray, ArrayList<String> perfList) {
+    public int getAccountStockTRPerfHistoryDisplayProcess(ArrayList<PerformanceObj> perfObjList, ArrayList<String> writePerfArray, ArrayList<String> perfList) {
 
         if (perfObjList == null) {
             return 0;
@@ -3604,7 +3616,7 @@ public class ServiceAFweb {
         return 1;
     }
 
-    public ArrayList getAccountStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+    public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3625,12 +3637,12 @@ public class ServiceAFweb {
                 return null;
             }
             stockID = stock.getId();
-            return getAccountImp().getAccountStockListByAccountID(accountObj.getId(), stockID);
+            return getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stockID);
         }
         return null;
     }
 
-    public TradingRuleObj getAccountFundStockByTRname(String EmailUserName, String Password, String AccountIDSt, String AccFundIDSt, String stockidsymbol, String trname) {
+    public TradingRuleObj getFundAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String AccFundIDSt, String stockidsymbol, String trname) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3708,7 +3720,7 @@ public class ServiceAFweb {
 
     }
 
-    public TradingRuleObj getAccountStockByTRname(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+    public TradingRuleObj getAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3809,7 +3821,7 @@ public class ServiceAFweb {
 
     public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
 
-        ArrayList<TransationOrderObj> thList = this.getAccountStockTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
+        ArrayList<TransationOrderObj> thList = this.getAccountStockTRTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
 
 //        System.out.println("> getAccountStockTRLIstCurrentChartDisplay size " + thList.size());
 //        System.out.println(EmailUserName + " " + Password + " " + AccountIDSt + " " + stockidsymbol + " " + trname);
@@ -3974,7 +3986,7 @@ public class ServiceAFweb {
     public String getAccountStockTRLIstCurrentChartFile(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         try {
-            ArrayList<TransationOrderObj> thList = this.getAccountStockTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
+            ArrayList<TransationOrderObj> thList = this.getAccountStockTRTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
             if (thList == null) {
                 return null;
             }
@@ -4375,7 +4387,7 @@ public class ServiceAFweb {
             return null;
         }
 
-        ArrayList<TradingRuleObj> trObjList = getAccountStockListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol);
+        ArrayList<TradingRuleObj> trObjList = ServiceAFweb.this.getAccountStockTRListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol);
         trname = trname.toUpperCase();
         if (trObjList != null) {
             for (int i = 0; i < trObjList.size(); i++) {
@@ -5366,7 +5378,7 @@ public class ServiceAFweb {
                         String symbol = sqlObj.getReq1();
                         AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
                         int stockID = stock.getId();
-                        ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockListByAccountID(accountId, stockID);
+                        ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
                         nameST = new ObjectMapper().writeValueAsString(trList);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {
@@ -5499,7 +5511,7 @@ public class ServiceAFweb {
                         String stockIdSt = sqlObj.getReq1();
                         int stockId = Integer.parseInt(stockIdSt);
 
-                        ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockListByAccountID(accountId, stockId);
+                        ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockTRListByAccountID(accountId, stockId);
                         nameST = new ObjectMapper().writeValueAsString(trList);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {

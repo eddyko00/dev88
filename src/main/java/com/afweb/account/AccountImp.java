@@ -332,6 +332,16 @@ public class AccountImp {
         return accountdb.addAccount(customer, accountName, accType, accPPlan);
     }
 
+    public ArrayList getAccounBestFundList(String UserName, String Password) {
+
+        ArrayList accountList = null;
+        CustomerObj customer = getCustomerPassword(UserName, Password);
+        if (customer != null) {
+            accountList = accountdb.getAccounBestFundList();
+        }
+        return accountList;
+    }
+
     public ArrayList getAccountList(String UserName, String Password) {
 
         ArrayList accountList = null;
@@ -656,8 +666,8 @@ public class AccountImp {
         return accountdb.getAccountStockTransList(accountID + "", stockID + "", tr.getId() + "", length);
     }
 
-    public ArrayList<TradingRuleObj> getAccountStockListByAccountID(int accountId, int stockId) {
-        return accountdb.getAccountStockListByStockID(accountId + "", stockId + "", null, 0);
+    public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(int accountId, int stockId) {
+        return accountdb.getAccountStockTRListByStockID(accountId + "", stockId + "", null, 0);
     }
 
     public TradingRuleObj getAccountStockIDByTRname(int accountID, int stockID, String trName) {
@@ -691,8 +701,8 @@ public class AccountImp {
 
         if (accountObj != null) {
             CustomerObj cust = getCustomerByAccount(accountObj);
-            int cSubTypePlan =  cust.getSubstatus();
-            
+            int cSubTypePlan = cust.getSubstatus();
+
             if (accountObj.getType() != AccountObj.INT_ADMIN_ACCOUNT) {
                 ArrayList stockNameList = accountdb.getAccountStockNameList(accountObj.getId());
                 if (stockNameList != null) {
@@ -708,11 +718,11 @@ public class AccountImp {
                     } else if (cSubTypePlan == ConstantKey.INT_PP_DELUXE) {
                         if (stockNameList.size() >= ConstantKey.INT_PP_DELUXE_NUM) {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
-                        }                        
+                        }
                     } else if (cSubTypePlan == ConstantKey.INT_PP_DELUXEX2) {
                         if (stockNameList.size() >= ConstantKey.INT_PP_DELUXEX2_NUM) {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
-                        }                           
+                        }
                     }
                 }
             }
@@ -735,7 +745,7 @@ public class AccountImp {
 
     public int removeAccountStock(AccountObj accountObj, int StockID) {
         if (accountObj != null) {
-            ArrayList<TradingRuleObj> tradingRuleList = getAccountStockListByAccountID(accountObj.getId(), StockID);
+            ArrayList<TradingRuleObj> tradingRuleList = getAccountStockTRListByAccountID(accountObj.getId(), StockID);
             if (tradingRuleList != null) {
                 for (int i = 0; i < tradingRuleList.size(); i++) {
                     TradingRuleObj tradingRuleObj = tradingRuleList.get(i);

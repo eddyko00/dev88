@@ -551,7 +551,7 @@ public class AccountProcess {
                         int substatus = accObj.getSubstatus();
                         float investment = accObj.getInvestment();
                         float balance = accObj.getBalance();
-                        float servicefee = accObj.getServicefee();
+                        float servicefee = investment+balance;
                         serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
                     } catch (Exception e) {
                     }

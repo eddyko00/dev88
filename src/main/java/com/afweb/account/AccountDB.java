@@ -397,6 +397,12 @@ public class AccountDB {
     }
 
 /////////////////////////////////////////////////////// 
+    public ArrayList getAccounBestFundList() {
+        String sql = "select * from account where type=" + AccountObj.INT_MUTUAL_FUND_ACCOUNT + " and ";
+        sql += " order by servicefee desc";
+        return getAccountBySQL(sql);
+    }
+
     public ArrayList getAccountByCustomerID(int customerID) {
         String sql = "select * from account where customerid=" + customerID;
         sql += " order by type desc";
@@ -717,7 +723,7 @@ public class AccountDB {
     }
 
     public TradingRuleObj getAccountStockByStockID(String AccountID, String StockID, String trName) {
-        ArrayList TradingRuleList = getAccountStockListByStockID(AccountID, StockID, trName, 1);
+        ArrayList TradingRuleList = getAccountStockTRListByStockID(AccountID, StockID, trName, 1);
         if (TradingRuleList != null) {
             if (TradingRuleList.size() == 1) {
                 TradingRuleObj tradingRule = (TradingRuleObj) TradingRuleList.get(0);
@@ -1026,7 +1032,7 @@ public class AccountDB {
         return null;
     }
 
-    public ArrayList<TradingRuleObj> getAccountStockListByStockID(String AccountID, String StockID, String trName, int length) {
+    public ArrayList<TradingRuleObj> getAccountStockTRListByStockID(String AccountID, String StockID, String trName, int length) {
 
         String sql = ""
                 + "select tradingrule.*, stock.symbol as symbol from tradingrule inner join stock on "
