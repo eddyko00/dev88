@@ -337,7 +337,8 @@ public class AccountImp {
         ArrayList accountList = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
-            accountList = accountdb.getAccounBestFundList();
+            int len = 10;
+            accountList = accountdb.getAccounBestFundList(len);
         }
         return accountList;
     }
