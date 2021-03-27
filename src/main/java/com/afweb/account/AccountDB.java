@@ -398,7 +398,7 @@ public class AccountDB {
 
 /////////////////////////////////////////////////////// 
     public ArrayList getAccounBestFundList() {
-        String sql = "select * from account where type=" + AccountObj.INT_MUTUAL_FUND_ACCOUNT + " and ";
+        String sql = "select * from account where type=" + AccountObj.INT_MUTUAL_FUND_ACCOUNT;
         sql += " order by servicefee desc";
         return getAccountBySQL(sql);
     }
