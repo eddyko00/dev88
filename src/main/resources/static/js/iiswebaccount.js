@@ -68,7 +68,7 @@ var app = {
 
         var htmlAdmin = '<button id="configbtn"  >Configuration</button>';
         htmlAdmin += '<button id="invoicebtn"  >Billing Invoice</button>';
-
+        htmlAdmin += '<button id="fundbtn"  >View other Fund Mgr</button>';
         $("#adminid").html(htmlAdmin);
         if (custObj.type == 99) {
             var htmlAdmin = '<br><br><button id="sysbtn" >System Status</button>';
@@ -271,6 +271,28 @@ var app = {
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "bill_1.html";
+        });
+
+        $("#fundbtn").click(function () {
+//            if (custObj.username.toUpperCase() === "GUEST") {
+//                msgObjStr = "This feature does not allow for GUEST account";
+//                window.localStorage.setItem(iisMsgSession, msgObjStr);
+//                window.location.href = "account.html";
+//            }
+            var accObjList = JSON.parse(accObjListStr);
+
+            var accObj = null;
+            for (i = 0; i < accObjList.length; i++) {
+                var accObjTmp = accObjList[i];
+                if (accObjTmp.type == 110) { //INT_TRADING_ACCOUNT
+                    accObj = accObjTmp;
+                    break;
+                }
+            }
+            var accId = accObj.id;
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "fund_1.html";
         });
 
         function functionConfirm(msg, myYes, myNo, myOk) {
