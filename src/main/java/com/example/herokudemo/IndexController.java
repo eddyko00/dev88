@@ -77,8 +77,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/fundbalance/clear");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlist");
+        arrayString.add("/cust/{username}/acc/{accountid}/clearfundbalance");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundbestlist");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/add");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/remove");
@@ -497,8 +497,8 @@ public class IndexController {
         return accountList;
     }
 
-    //("/cust/{username}/acc/{accountid}/fundlist");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //("/cust/{username}/acc/{accountid}/fundbestlist");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundbestlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList<AccountObj> getAccountBestFundList(
             @PathVariable("username") String username,
@@ -579,8 +579,8 @@ public class IndexController {
         return messageList;
     }
 
-    //"/cust/{username}/acc/{accountid}/fundbalance/clear");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundbalance/clear", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //"/cust/{username}/acc/{accountid}/clearfundbalance");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/clearfundbalance", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int getAccountfundbalance(
             @PathVariable("username") String username,
@@ -1034,8 +1034,8 @@ public class IndexController {
 
     }
 
-    // "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}")
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    // "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr}")
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     TradingRuleObj getAccountFundStockByTRname(
             @PathVariable("username") String username,
@@ -1050,7 +1050,7 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        TradingRuleObj returnObj = afWebService.getFundAccountStockTRByTRname(username, null, accountid, accfundid, stockidsymbol, trname);
+        TradingRuleObj returnObj = afWebService.getFundAccountStockTRByTRname(username, null, accountid, accfundid, stockidsymbol, "TR_ACC");
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnObj;

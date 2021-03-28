@@ -2808,7 +2808,7 @@ public class ServiceAFweb {
                 } else {
                     custPortfilio = new CustPort();
                     String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                    getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);                                   
+                    getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
                 }
             } catch (Exception ex) {
             }
@@ -2819,11 +2819,10 @@ public class ServiceAFweb {
             if (featL == null) {
                 return 0;
             }
+            String fundFeat = "fund" + FundIDSt;
             for (int i = 0; i < featL.size(); i++) {
                 String feat = featL.get(i);
-                feat = feat.replace("fund", "");
-                int accFundId = Integer.parseInt(feat);
-                if (FundIDSt.equals("" + accFundId)) {
+                if (fundFeat.equals(feat)) {
                     return 0;
                 }
             }
@@ -2831,7 +2830,7 @@ public class ServiceAFweb {
             int accFundId = Integer.parseInt(FundIDSt);
             AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
             if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                featL.add("fund" + FundIDSt);
+                featL.add(fundFeat);
                 String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
                 getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
                 return 1;
@@ -2849,45 +2848,51 @@ public class ServiceAFweb {
 
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-            if (custObj == null) {
-                return 0;
-            }
-            if (custObj.getStatus() != ConstantKey.OPEN) {
-                return 0;
-            }
 
-            String portfolio = custObj.getPortfolio();
-            CustPort custPortfilio = null;
-            try {
-                if ((portfolio != null) && (portfolio.length() > 0)) {
-                    portfolio = portfolio.replaceAll("#", "\"");
-                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-                }
-            } catch (Exception ex) {
+        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+        if (custObj == null) {
+            return 0;
+        }
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return 0;
+        }
+
+        String portfolio = custObj.getPortfolio();
+        CustPort custPortfilio = null;
+        try {
+            if ((portfolio != null) && (portfolio.length() > 0)) {
+                portfolio = portfolio.replaceAll("#", "\"");
+                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
             }
-            if (custPortfilio == null) {
+        } catch (Exception ex) {
+        }
+        if (custPortfilio == null) {
+            return 0;
+        }
+        ArrayList<String> featL = custPortfilio.getFeatL();
+        if (featL == null) {
+            return 0;
+        }
+
+        String delFundFeat = "delfund" + FundIDSt;
+        boolean alreadyDel = false;
+
+        for (int i = 0; i < featL.size(); i++) {
+            String feat = featL.get(i);
+            if (delFundFeat.equals(feat)) {
+                alreadyDel = true;
                 return 0;
             }
-            ArrayList<String> featL = custPortfilio.getFeatL();
-            if (featL == null) {
-                return 0;
-            }
-            for (int i = 0; i < featL.size(); i++) {
-                String feat = featL.get(i);
-                feat = feat.replace("fund", "");
-                int accFundId = Integer.parseInt(feat);
-                if (FundIDSt.equals("" + accFundId)) {
-                    featL.remove(i);
-                    String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                    getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
-                    return 1;
-                }
-            }
-        } catch (Exception e) {
+        }
+        try {
+            featL.add(delFundFeat);
+            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+            getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
+            return 1;
+        } catch (Exception ex) {
         }
         return 0;
+
     }
 
     public ArrayList<AccountObj> getFundAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
@@ -2924,15 +2929,33 @@ public class ServiceAFweb {
             if (featL == null) {
                 return null;
             }
+            ArrayList<Integer> delFeatL = new ArrayList();
             for (int i = 0; i < featL.size(); i++) {
                 String feat = featL.get(i);
-                feat = feat.replace("fund", "");
-                int accFundId = Integer.parseInt(feat);
-                AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
-                if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                    accountObjList.add(accFundObj);
+                try {
+                    feat = feat.replace("delfund", "");
+                    int accFundId = Integer.parseInt(feat);
+                    delFeatL.add(accFundId);
+                } catch (Exception e) {
                 }
-
+            }
+            for (int i = 0; i < featL.size(); i++) {
+                String feat = featL.get(i);
+                try {
+                    feat = feat.replace("fund", "");
+                    int accFundId = Integer.parseInt(feat);
+                    AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+                    if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                        accFundObj.setSubstatus(ConstantKey.OPEN);
+                        for (int j = 0; j < delFeatL.size(); j++) {
+                            if (accFundId == delFeatL.get(i)) {
+                                accFundObj.setSubstatus(ConstantKey.PENDING);
+                            }
+                        }
+                        accountObjList.add(accFundObj);
+                    }
+                } catch (Exception e) {
+                }
             }
             return accountObjList;
         } catch (Exception e) {
