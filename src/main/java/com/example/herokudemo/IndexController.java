@@ -1042,7 +1042,6 @@ public class IndexController {
             @PathVariable("accountid") String accountid,
             @PathVariable("accfundid") String accfundid,
             @PathVariable("stockidsymbol") String stockidsymbol,
-            @PathVariable("trname") String trname,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
