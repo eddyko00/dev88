@@ -400,7 +400,7 @@ public class AccountProcess {
                 if (result == true) {
                     for (int i = 0; i < addedList.size(); i++) {
                         String symbol = (String) addedList.get(i);
-                        int resultAdd = serviceAFWeb.addAccountStockSymbol(accObj, symbol);
+                        int resultAdd = serviceAFWeb.addAccountStockByAccount(accObj, symbol);
                         if (resultAdd > 0) {
                             logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol);
                         }
@@ -601,7 +601,7 @@ public class AccountProcess {
                 if (result == true) {
                     for (int i = 0; i < addedList.size(); i++) {
                         String symbol = (String) addedList.get(i);
-                        int resultAdd = serviceAFWeb.addAccountStockSymbol(accObj, symbol);
+                        int resultAdd = serviceAFWeb.addAccountStockByAccount(accObj, symbol);
                         if (resultAdd > 0) {
                             logger.info("> ProcessTradingAccountUpdate add TR stock " + accObj.getAccountname() + " " + symbol
                             );
@@ -668,7 +668,7 @@ public class AccountProcess {
         if (result == true) {
             for (int i = 0; i < addedList.size(); i++) {
                 String symbol = (String) addedList.get(i);
-                int resultAdd = serviceAFWeb.addAccountStock(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
+                int resultAdd = serviceAFWeb.addAccountStockByCustAcc(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
                 logger.info("> ProcessAdminAccount add TR stock " + symbol);
                 numCnt++;
                 if (numCnt > 10) {
@@ -680,7 +680,7 @@ public class AccountProcess {
             /////////
             for (int i = 0; i < removeList.size(); i++) {
                 String symbol = (String) removeList.get(i);
-                int resultRemove = serviceAFWeb.removeAccountStock(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
+                int resultRemove = serviceAFWeb.removeAccountStockByUserNameAccId(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
                 logger.info("> ProcessAdminAccount remove TR stock " + symbol);
                 numCnt++;
                 if (numCnt > 10) {

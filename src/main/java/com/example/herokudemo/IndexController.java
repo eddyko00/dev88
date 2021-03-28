@@ -656,7 +656,7 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return -1;
         }
-        int ret = afWebService.addCommByCustomerAccountID(username, null, accountid, dataSt);
+        int ret = afWebService.addCommByCustAccountID(username, null, accountid, dataSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }
@@ -913,7 +913,7 @@ public class IndexController {
             return 0;
         }
         //MAX_ALLOW_STOCK_ERROR = 100 ; NEW = 1; EXISTED = 2
-        int result = afWebService.addAccountStock(username, null, accountid, symbol);
+        int result = afWebService.addAccountStockByCustAcc(username, null, accountid, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }
@@ -931,7 +931,7 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = afWebService.addAccountStock(username, null, accountid, symbol);
+        int result = afWebService.addAccountStockByCustAcc(username, null, accountid, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }
@@ -949,7 +949,7 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = afWebService.removeAccountStock(username, null, accountid, symbol);
+        int result = afWebService.removeAccountStockByUserNameAccId(username, null, accountid, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }
@@ -967,7 +967,7 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = afWebService.removeAccountStock(username, null, accountid, symbol);
+        int result = afWebService.removeAccountStockByUserNameAccId(username, null, accountid, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }

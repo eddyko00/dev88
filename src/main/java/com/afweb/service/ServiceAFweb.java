@@ -2805,6 +2805,10 @@ public class ServiceAFweb {
                 if ((portfolio != null) && (portfolio.length() > 0)) {
                     portfolio = portfolio.replaceAll("#", "\"");
                     custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+                } else {
+                    custPortfilio = new CustPort();
+                    String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+                    getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);                                   
                 }
             } catch (Exception ex) {
             }
@@ -3019,7 +3023,7 @@ public class ServiceAFweb {
 
     }
 
-    public int addCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, String data) {
+    public int addCommByCustAccountID(String EmailUserName, String Password, String AccountIDSt, String data) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -4410,7 +4414,7 @@ public class ServiceAFweb {
 
     }
 
-    public int addAccountStock(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+    public int addAccountStockByCustAcc(String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -4443,7 +4447,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int addAccountStockSymbol(AccountObj accountObj, String symbol) {
+    public int addAccountStockByAccount(AccountObj accountObj, String symbol) {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
@@ -4475,7 +4479,7 @@ public class ServiceAFweb {
         return 1;
     }
 
-    public int removeAccountStock(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+    public int removeAccountStockByUserNameAccId(String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
