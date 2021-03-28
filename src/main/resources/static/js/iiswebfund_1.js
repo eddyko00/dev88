@@ -60,8 +60,7 @@ var app = {
                         var fundObjListStr = JSON.stringify(resultFundObjList, null, '\t');
                     }
                 }
-                var commObjListStr = "";
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 'fundObjListStr': fundObjListStr, 'commObjListStr': commObjListStr};
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 'fundObjListStr': fundObjListStr};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
                 window.location.href = "fund.html";
 

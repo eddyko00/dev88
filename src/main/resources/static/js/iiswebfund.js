@@ -29,9 +29,8 @@ var app = {
         var accObjListStr = iisWebObj.accObjListStr;
         var accObjList = JSON.parse(accObjListStr);
         var accId = iisWebObj.accId;
-        var fundObjListStr = iisWebObj.fundObjListStr;  
+        var fundObjListStr = iisWebObj.fundObjListStr;
         var fundObjList = JSON.parse(fundObjListStr);
-        var commObjListStr = iisWebObj.commObjListStr;
 
         var iisMsgSession = "iisMsgSession";
         var msgObjStr = window.localStorage.getItem(iisMsgSession);
@@ -118,19 +117,19 @@ var app = {
 
 
         $("ul[id*=myid] li").click(function () {
-            return;
 //            alert($(this).html()); // gets innerHTML of clicked li
 //            alert($(this).text()); // gets text contents of clicked li
-            var accId = $(this).attr('id');
-            console.log(accId);
-            if (accId == 0) {
+            var fundId = $(this).attr('id');
+            console.log(fundId);
+            if (fundId == 0) {
 //                alert(accId);
                 return;
             }
 
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+                'fundObjListStr': fundObjListStr, 'fundId': fundId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-            window.location.href = "accountst_1.html";
+            window.location.href = "fundst_1.html";
         });
 
 
