@@ -195,6 +195,9 @@ public class BillingProcess {
                 sendMsg = true;
                 logger.info("Billing***Completed user " + custName + ", billing id " + billing.getId());
 
+                ////////
+                processFeat(customer);
+
             } else {
 //                Date entryDate = billing.getUpdatedatedisplay();
                 long billcycleDate = billing.getUpdatedatel();
@@ -271,6 +274,51 @@ public class BillingProcess {
         }
         int retCreatebill = createUserBilling(serviceAFWeb, customer, account, billing);
 
+        return 1;
+    }
+
+    public int processFeat(CustomerObj customer) {
+        String portfolio = customer.getPortfolio();
+        CustPort custPortfilio = null;
+        try {
+            if ((portfolio != null) && (portfolio.length() > 0)) {
+                portfolio = portfolio.replaceAll("#", "\"");
+                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+            }
+        } catch (Exception ex) {
+        }
+        if (custPortfilio == null) {
+            return 0;
+        }
+        ArrayList<String> featL = custPortfilio.getFeatL();
+        if (featL == null) {
+            return 0;
+        }
+        ArrayList<String> delfeatL = new ArrayList();
+        for (int i = 0; i < featL.size(); i++) {
+            String feat = featL.get(i);
+            if (feat.indexOf("delfund") != -1) {
+                String defFundIdSt = feat.replace("delfund", "");
+                try {
+                    int defFundId = Integer.parseInt(defFundIdSt);
+                    delfeatL.add("delfund" + defFundId);
+                    delfeatL.add("fund" + defFundId);
+                } catch (Exception e) {
+                }
+            }
+        }
+        if (delfeatL.size() == 0) {
+            return 0;
+        }
+        for (int i = 0; i < delfeatL.size(); i++) {
+            String delfeat = featL.get(i);
+            for (int j = 0; j < featL.size(); j++) {
+                String feat = featL.get(j);
+                if (delfeat.equals(feat)) {
+                    featL.remove(j);
+                }                
+            }
+        }
         return 1;
     }
 
