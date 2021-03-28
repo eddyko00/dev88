@@ -196,7 +196,7 @@ public class BillingProcess {
                 logger.info("Billing***Completed user " + custName + ", billing id " + billing.getId());
 
                 ////////
-                processFeat(customer);
+                processFeat(serviceAFWeb, customer);
 
             } else {
 //                Date entryDate = billing.getUpdatedatedisplay();
@@ -277,7 +277,7 @@ public class BillingProcess {
         return 1;
     }
 
-    public int processFeat(CustomerObj customer) {
+    public int processFeat(ServiceAFweb serviceAFWeb, CustomerObj customer) {
         String portfolio = customer.getPortfolio();
         CustPort custPortfilio = null;
         try {
@@ -316,8 +316,15 @@ public class BillingProcess {
                 String feat = featL.get(j);
                 if (delfeat.equals(feat)) {
                     featL.remove(j);
-                }                
+                }
             }
+        }
+        try {
+
+            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+            serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+            return 1;
+        } catch (Exception ex) {
         }
         return 1;
     }
