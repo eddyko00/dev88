@@ -2875,12 +2875,11 @@ public class ServiceAFweb {
         }
 
         String delFundFeat = "delfund" + FundIDSt;
-        boolean alreadyDel = false;
 
         for (int i = 0; i < featL.size(); i++) {
             String feat = featL.get(i);
             if (delFundFeat.equals(feat)) {
-                alreadyDel = true;
+//                alreadyDel = true;
                 return 0;
             }
         }
