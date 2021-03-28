@@ -89,6 +89,11 @@ var app = {
                 var totSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                 htmlName += '<br>Acc Bal: ' + investSt + ' Cur Bal: ' + balSt + ' Total: ' + totSt;
 
+                var htmlBtn = '<div id="myidbtn" data-theme="a" >';
+                htmlBtn += '<a href="#" id="' + accObj.id + '" type="remove" data-role="button" data-theme="a">Remove</a>';
+
+                htmlBtn += '</div>';
+                htmlName += htmlBtn;
             }
 
             htmlName += '</a></li>';
@@ -155,20 +160,49 @@ var app = {
         }
 
 
+        var removeFund = false;
         $("ul[id*=myid] li").click(function () {
-//            alert($(this).html()); // gets innerHTML of clicked li
-//            alert($(this).text()); // gets text contents of clicked li
             var fundId = $(this).attr('id');
             console.log(fundId);
             if (fundId == 0) {
 //                alert(accId);
                 return;
             }
-
+            if (removeFund === true) {
+                return;
+            }
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
                 'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "fundst_1.html";
+        });
+
+
+
+        $("[id*=myidbtn] a").click(function () {
+            var fundId = $(this).attr('id');
+            console.log(fundId);
+            if (fundId == 0) {
+//                alert(accId);
+                return;
+            }
+            var type = $(this).attr('type');
+            if (type === 'remove') {
+                removeFund = true;
+            }
+
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/remove",
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            function handleResult(result) {
+//          SUCC = 1;  EXISTED = 2; FAIL =0;
+                window.location.href = "fund_1.html";
+
+            }
         });
 
         $("ul[id*=fundid] li").click(function () {
@@ -205,15 +239,13 @@ var app = {
                 return;
             }
             console.log(selectFundObj.id);
-            
+
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + selectFundObj.id + "/add",
                 crossDomain: true,
                 cache: false,
                 success: handleResult
             }); // use promises
-
-            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
 
             function handleResult(result) {
 //          SUCC = 1;  EXISTED = 2; FAIL =0;
