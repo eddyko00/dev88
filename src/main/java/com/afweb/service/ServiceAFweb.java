@@ -2928,16 +2928,7 @@ public class ServiceAFweb {
             if (featL == null) {
                 return null;
             }
-            ArrayList<Integer> delFeatL = new ArrayList();
-            for (int i = 0; i < featL.size(); i++) {
-                String feat = featL.get(i);
-                try {
-                    feat = feat.replace("delfund", "");
-                    int accFundId = Integer.parseInt(feat);
-                    delFeatL.add(accFundId);
-                } catch (Exception e) {
-                }
-            }
+
             for (int i = 0; i < featL.size(); i++) {
                 String feat = featL.get(i);
                 try {
@@ -2946,8 +2937,9 @@ public class ServiceAFweb {
                     AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
                     if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         accFundObj.setSubstatus(ConstantKey.OPEN);
-                        for (int j = 0; j < delFeatL.size(); j++) {
-                            if (accFundId == delFeatL.get(i)) {
+                        for (int j = 0; j < featL.size(); j++) {
+                            String delFundFeat = "delfund" + accFundId;
+                            if (delFundFeat.equals(featL.get(i))) {
                                 accFundObj.setSubstatus(ConstantKey.PENDING);
                             }
                         }
