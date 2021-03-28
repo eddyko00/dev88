@@ -2937,9 +2937,9 @@ public class ServiceAFweb {
                     AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
                     if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         accFundObj.setSubstatus(ConstantKey.OPEN);
-                        for (int j = 0; j < featL.size(); j++) {
-                            String delFundFeat = "delfund" + accFundId;
-                            if (delFundFeat.equals(featL.get(i))) {
+                         String delFundFeat = "delfund" + accFundId;
+                        for (int j = 0; j < featL.size(); j++) {                           
+                            if (delFundFeat.equals(featL.get(j))) {
                                 accFundObj.setSubstatus(ConstantKey.PENDING);
                             }
                         }
@@ -3100,57 +3100,53 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList getFundAccountStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String AccFundIDSt, int lenght) {
+    public ArrayList getFundAccountStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        int accFundId = -1;
-        try {
-            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-            if (custObj == null) {
-                return null;
-            }
-            if (custObj.getStatus() != ConstantKey.OPEN) {
-                return null;
-            }
 
-            String portfolio = custObj.getPortfolio();
-            CustPort custPortfilio = null;
-            try {
-                if ((portfolio != null) && (portfolio.length() > 0)) {
-                    portfolio = portfolio.replaceAll("#", "\"");
-                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-                }
-            } catch (Exception ex) {
-            }
-            if (custPortfilio == null) {
-                return null;
-            }
-            ArrayList<String> featL = custPortfilio.getFeatL();
-            if (featL == null) {
-                return null;
-            }
-
-            for (int i = 0; i < featL.size(); i++) {
-                String feat = featL.get(i);
-                feat = feat.replace("fund", "");
-                int fundId = Integer.parseInt(feat);
-                if (AccFundIDSt.equals("" + fundId)) {
-                    accFundId = fundId;
-                    break;
-                }
-            }
-            if (accFundId == -1) {
-                return null;
-            }
-
-        } catch (Exception e) {
+        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+        if (custObj == null) {
+            return null;
+        }
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return null;
         }
 
-        accFundId = Integer.parseInt(AccFundIDSt);
+        String portfolio = custObj.getPortfolio();
+        CustPort custPortfilio = null;
+        try {
+            if ((portfolio != null) && (portfolio.length() > 0)) {
+                portfolio = portfolio.replaceAll("#", "\"");
+                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+            }
+        } catch (Exception ex) {
+        }
+        if (custPortfilio == null) {
+            return null;
+        }
+
+        ArrayList<String> featL = custPortfilio.getFeatL();
+        if (featL == null) {
+            return null;
+        }
+
+        String fundFeat = "fund" + FundIDSt;
+        boolean featureExist = false;
+        for (int i = 0; i < featL.size(); i++) {
+            String feat = featL.get(i);
+            if (fundFeat.equals(feat)) {
+                featureExist = true;
+                break;
+            }
+        }
+        if (featureExist == false) {
+            return null;
+        }
+        int accFundId = Integer.parseInt(FundIDSt);
         AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
         if (accFundObj == null) {
             return null;
@@ -3660,57 +3656,54 @@ public class ServiceAFweb {
         return null;
     }
 
-    public TradingRuleObj getFundAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String AccFundIDSt, String stockidsymbol, String trname) {
+    public TradingRuleObj getFundAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trname) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        int accFundId = -1;
-        try {
-            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-            if (custObj == null) {
-                return null;
-            }
-            if (custObj.getStatus() != ConstantKey.OPEN) {
-                return null;
-            }
 
-            String portfolio = custObj.getPortfolio();
-            CustPort custPortfilio = null;
-            try {
-                if ((portfolio != null) && (portfolio.length() > 0)) {
-                    portfolio = portfolio.replaceAll("#", "\"");
-                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-                }
-            } catch (Exception ex) {
-            }
-            if (custPortfilio == null) {
-                return null;
-            }
-            ArrayList<String> featL = custPortfilio.getFeatL();
-            if (featL == null) {
-                return null;
-            }
-
-            for (int i = 0; i < featL.size(); i++) {
-                String feat = featL.get(i);
-                feat = feat.replace("fund", "");
-                int fundId = Integer.parseInt(feat);
-                if (AccFundIDSt.equals("" + fundId)) {
-                    accFundId = fundId;
-                    break;
-                }
-            }
-            if (accFundId == -1) {
-                return null;
-            }
-
-        } catch (Exception e) {
+        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+        if (custObj == null) {
+            return null;
+        }
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return null;
         }
 
-        accFundId = Integer.parseInt(AccFundIDSt);
+        String portfolio = custObj.getPortfolio();
+        CustPort custPortfilio = null;
+        try {
+            if ((portfolio != null) && (portfolio.length() > 0)) {
+                portfolio = portfolio.replaceAll("#", "\"");
+                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+            }
+        } catch (Exception ex) {
+        }
+        if (custPortfilio == null) {
+            return null;
+        }
+
+        ArrayList<String> featL = custPortfilio.getFeatL();
+        if (featL == null) {
+            return null;
+        }
+
+        String fundFeat = "fund" + FundIDSt;
+        boolean featureExist = false;
+        for (int i = 0; i < featL.size(); i++) {
+            String feat = featL.get(i);
+            if (fundFeat.equals(feat)) {
+                featureExist = true;
+                break;
+            }
+        }
+        if (featureExist == false) {
+            return null;
+        }
+
+        int accFundId = Integer.parseInt(FundIDSt);
         AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
         if (accFundObj == null) {
             return null;
