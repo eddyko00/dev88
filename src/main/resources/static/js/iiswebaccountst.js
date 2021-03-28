@@ -256,9 +256,9 @@ var app = {
                 return;
             }
 
-//          "/cust/{username}/acc/{accountid}/fundbalance/clear"
+
             $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundbalance/clear",
+                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/clearfundbalance",
                 crossDomain: true,
                 cache: false,
                 success: handleResult

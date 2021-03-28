@@ -11,7 +11,8 @@ var app = {
 
 
 //        var iisurl = "https://iiswebsrv.herokuapp.com/";
-        var iisMsgSession = "iisMsgSession";
+//        var iisMsgSession = "iisMsgSession";
+
         var iisWebSession = "iisWebSession";
         var iisWebObjStr = window.localStorage.getItem(iisWebSession);
         var iisWebObj = JSON.parse(iisWebObjStr);
@@ -26,7 +27,8 @@ var app = {
         var custObj = JSON.parse(custObjStr);
         var accObjListStr = iisWebObj.accObjListStr;
         var accObjList = JSON.parse(accObjListStr);
-        var accId = iisWebObj.accId;
+        var accId = iisWebObj.accId
+              
         var accObj = null;
         for (i = 0; i < accObjList.length; i++) {
             var accObjTmp = accObjList[i];
@@ -39,7 +41,7 @@ var app = {
             window.location.href = "index.html";
         }
         $.ajax({
-            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlist",
+            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundbestlist",
             crossDomain: true,
             cache: false,
             beforeSend: function () {
@@ -49,20 +51,47 @@ var app = {
                 alert('Network failure. Please try again later.');
                 window.location.href = "index.html";
             },
-            success: function (resultFundObjList) {
-                console.log(resultFundObjList);
+            success: function (resultFundBestObjList) {
+                console.log(resultFundBestObjList);
 //                if (resultAccObjList === "") {
 //                    window.location.href = "index.html";
 //                }
-                var fundObjListStr = "";
-                if (resultFundObjList !== "") {
-                    if (resultFundObjList.length > 0) {
-                        var fundObjListStr = JSON.stringify(resultFundObjList, null, '\t');
+                var fundBestObjListStr = "";
+                if (resultFundBestObjList !== "") {
+                    if (resultFundBestObjList.length > 0) {
+                        fundBestObjListStr = JSON.stringify(resultFundBestObjList, null, '\t');
                     }
                 }
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 'fundObjListStr': fundObjListStr};
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "fund.html";
+
+                $.ajax({
+                    url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink",
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {
+                        $("#loader").show();
+                    },
+                    error: function () {
+                        alert('Network failure. Please try again later.');
+                        window.location.href = "index.html";
+                    },
+                    success: function (resultFundObjList) {
+                        console.log(resultFundObjList);
+//                if (resultAccObjList === "") {
+//                    window.location.href = "index.html";
+//                }
+                        var fundObjListStr = "";
+                        if (resultFundObjList !== "") {
+                            if (resultFundObjList.length > 0) {
+                                fundObjListStr = JSON.stringify(resultFundObjList, null, '\t');
+                            }
+                        }
+                        var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+                            'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr};
+                        window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                        window.location.href = "fund.html";
+
+                    }
+                });
 
             }
         });

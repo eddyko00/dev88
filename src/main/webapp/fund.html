@@ -110,19 +110,23 @@
             <h2 id="accheader" class="mc-text-center">Account</h2>
             <p></p>
             <div data-role="content" id="textcontent">
-
+                <p>Current Subscribed User Fund Manager</p> 
                 <!--<ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">-->                    
                 <ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">
-                    <li id="0">Account Listing</li>
+                    <li id="0">User Fund Listing</li>
                 </ul> 
 
                 <p><br></p> 
-                <p><br></p> 
+
+                <p><br>Select to subscribe the Best User Fund Manager</p> 
+
+                <ul id="fundid" data-role="listview" data-theme="d" data-divider-theme="d">
+                </ul>                 
                 <!--                
                 <a href="#page-server" class="ui-btn ui-btn-b ui-corner-all">server</a>
                 <a href="#page-lock" class="ui-btn ui-btn-b ui-corner-all">lock</a>
                 -->
-                <p id="adminid"></p>
+
             </div>
         </div>
 
@@ -134,25 +138,16 @@
                 <h1>IISWEB System</h1>
             </div><!-- /header -->                    
             <div data-role="content" id="textcontent">
-                <ul id="msgid" data-role="listview" data-theme="d" data-divider-theme="d">
-                </ul> 
+                <h3>Subscriber User Fund manager</h3>                
+                <div id="ctn-err" class="bi-invisible"></div>
+                <p class="mc-top-margin-1-5">You can subscriber the fund manager with $30.00 per month. </p>
+                <P>
+                <P id="fundheader" >Fund Manager</P>
+                </P> 
             </div>    
-            <button id="clrbtn"  >Clear Message</button>
+            <button id="subbtn"  >Confirm to subscriber the Fund Mgr</button>
         </div>   
 
-
-        <div data-role="page" id="page-admmsg">
-            <div data-role="header" data-theme="c" data-position="fixed">
-                <a href="#page-index" data-icon="back" data-iconpos="notext" data-transition="slide" data-direction="reverse"></a>
-
-                <h1>IISWEB System</h1>
-            </div><!-- /header -->                    
-            <div data-role="content" id="textcontent">
-                <ul id="admmsgid" data-role="listview" data-theme="d" data-divider-theme="d">
-                </ul> 
-            </div>    
-            <button id="admclrbtn"  >Clear Message</button>
-        </div>   
 
         <div id="confirm">
             <div class="message"></div>
