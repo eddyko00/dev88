@@ -30,8 +30,8 @@ var app = {
         var accId = iisWebObj.accId;
         var fundObjListStr = iisWebObj.fundObjListStr;
         var fundObjList = JSON.parse(fundObjListStr);
-        var fundId = iisWebObj.fundId;        
-        
+        var fundId = iisWebObj.fundId;
+
         var fundObj = null;
         for (i = 0; i < fundObjList.length; i++) {
             var fundObjTmp = fundObjList[i];
@@ -116,7 +116,6 @@ var app = {
 
 
         $("ul[id*=myid] li").click(function () {
-            return;
 //            alert($(this).html()); // gets innerHTML of clicked li
 //            alert($(this).text()); // gets text contents of clicked li
             var nameId = $(this).attr('id');
@@ -141,11 +140,11 @@ var app = {
                 alert("Stock process not finished. Try again later");
                 return;
             }
-
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'accId': accId, 'stockObjListStr': stockObjListStr, 'sockId': sockId};
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+                'fundObjListStr': fundObjListStr, 'fundId': fundId, 'stockObjListStr': stockObjListStr, 'sockId': sockId};
+            ;
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-            window.location.href = "accountsttr_1.html";
+            window.location.href = "fundsttr_1.html";
         });
 
         function functionAlertConfirm(msg, myYes, myNo, myOk) {
