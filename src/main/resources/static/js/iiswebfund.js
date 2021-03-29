@@ -55,7 +55,7 @@ var app = {
 
             var htmlName = '';
             htmlName += '<li id="' + accId + '"><a href="#">';
-            var subStatus = "<font style= color:red>Status:Pending Delete </font>";
+            var subStatus = "<font style= color:red>Status:Pending Remove </font>";
             if (accObj.substatus === 0) {
                 subStatus = "<font style= color:green>Status:Subscribed </font>";
             }
