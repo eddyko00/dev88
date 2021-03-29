@@ -496,6 +496,8 @@ public class BillingProcess {
     public static float FUND_FeaturePrice = 30;
 
     public int updateFundFeat(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj accFund) {
+        logger.info(">updateFundFeat " + accFund.getAccountname());
+        
         // should be transaction problem
         // Need to refesh customer from DB to get the portfolio
         // Need to refesh customer from DB to get the portfolio        
