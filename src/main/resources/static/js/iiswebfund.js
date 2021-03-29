@@ -169,6 +169,7 @@ var app = {
                 return;
             }
             if (removeFund === true) {
+                removeFund = false;
                 return;
             }
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
@@ -218,7 +219,7 @@ var app = {
             var fundObj = null;
             for (i = 0; i < fundBestObjList.length; i++) {
                 var fundObjTmp = fundBestObjList[i];
-                if (fundObjTmp.id == accId) {
+                if (fundObjTmp.id == fundId) {
                     fundObj = fundObjTmp;
                     break;
                 }

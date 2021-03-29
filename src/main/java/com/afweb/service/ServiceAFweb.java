@@ -2937,8 +2937,8 @@ public class ServiceAFweb {
                     AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
                     if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         accFundObj.setSubstatus(ConstantKey.OPEN);
-                         String delFundFeat = "delfund" + accFundId;
-                        for (int j = 0; j < featL.size(); j++) {                           
+                        String delFundFeat = "delfund" + accFundId;
+                        for (int j = 0; j < featL.size(); j++) {
                             if (delFundFeat.equals(featL.get(j))) {
                                 accFundObj.setSubstatus(ConstantKey.PENDING);
                             }
@@ -3363,6 +3363,69 @@ public class ServiceAFweb {
                 }
                 return getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), length);
             }
+        }
+        return null;
+    }
+
+    public ArrayList<PerformanceObj> getFundAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trName, int length) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+
+        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+        if (custObj == null) {
+            return null;
+        }
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return null;
+        }
+
+        String portfolio = custObj.getPortfolio();
+        CustPort custPortfilio = null;
+        try {
+            if ((portfolio != null) && (portfolio.length() > 0)) {
+                portfolio = portfolio.replaceAll("#", "\"");
+                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+            }
+        } catch (Exception ex) {
+        }
+        if (custPortfilio == null) {
+            return null;
+        }
+
+        ArrayList<String> featL = custPortfilio.getFeatL();
+        if (featL == null) {
+            return null;
+        }
+        int accFundId = Integer.parseInt(FundIDSt);
+        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+
+        AFstockObj stock = null;
+        if (accFundObj != null) {
+            try {
+                int stockID = Integer.parseInt(stockidsymbol);
+                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+            } catch (NumberFormatException e) {
+                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+                String NormalizeSymbol = symObj.getYahooSymbol();
+                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+            }
+            if (stock == null) {
+                return null;
+            }
+            ArrayList<PerformanceObj> perfList = null;
+            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+                perfList = getAccountImp().getAccountStockPerfList(accFundObj.getId(), stock.getId(), trName, length);
+            } else {
+                AccountObj accountAdminObj = getAdminObjFromCache();
+                if (accountAdminObj == null) {
+                    return null;
+                }
+                perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trName, length);
+            }
+            return perfList;
         }
         return null;
     }
@@ -3827,6 +3890,140 @@ public class ServiceAFweb {
             logger.info("> getAccountStockTRListHistoryChartProcess exception" + ex.getMessage());
         }
         return "Save failed";
+
+    }
+
+    public byte[] getFundAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trname, String pathSt) {
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+
+        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+        if (custObj == null) {
+            return null;
+        }
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return null;
+        }
+
+        String portfolio = custObj.getPortfolio();
+        CustPort custPortfilio = null;
+        try {
+            if ((portfolio != null) && (portfolio.length() > 0)) {
+                portfolio = portfolio.replaceAll("#", "\"");
+                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+            }
+        } catch (Exception ex) {
+        }
+        if (custPortfilio == null) {
+            return null;
+        }
+
+        ArrayList<String> featL = custPortfilio.getFeatL();
+        if (featL == null) {
+            return null;
+        }
+        int accFundId = Integer.parseInt(FundIDSt);
+        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+        AFstockObj stock = null;
+        try {
+            int stockID = Integer.parseInt(stockidsymbol);
+            stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+        } catch (NumberFormatException e) {
+            SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+            String NormalizeSymbol = symObj.getYahooSymbol();
+            stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+        }
+        if (stock == null) {
+            return null;
+        }
+        ArrayList<TransationOrderObj> thList = getAccountImp().getAccountStockTransList(accFundObj.getId(), stock.getId(), trname.toUpperCase(), 0);
+
+        if (thList == null) {
+            // still allow to display dummy graph
+//            return null;
+            thList = new ArrayList();
+        }
+
+        int sizeLen = 20 * 10;
+        // recent date first
+        ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
+        if (StockArray == null) {
+            return null;
+        }
+        if (StockArray.size() < 10) {
+            return null;
+        }
+        // recent date last
+        Collections.reverse(StockArray);
+        Collections.reverse(thList);
+
+        ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
+
+        float closeFirst = StockArray.get(StockArray.size() - 1).getFclose();
+        float closeLast = StockArray.get(0).getFclose();
+        float perC = 100 * (closeFirst - closeLast) / closeLast;
+        perC = Math.abs(perC);
+        float thold = 45; // 35;
+
+        boolean highdif = false;
+        int index = sizeLen;
+
+        if (perC > thold) { //35) {
+            for (int j = 0; j < StockArray.size(); j++) {
+                closeLast = StockArray.get(j).getFclose();
+                perC = 100 * (closeFirst - closeLast) / closeLast;
+                perC = Math.abs(perC);
+                if (perC < thold) { // 35) {
+                    highdif = true;
+                    break;
+                }
+            }
+        }
+        if (highdif == true) {
+            index = sizeLen - (sizeLen / 4);
+        }
+
+        List<Date> xDate = new ArrayList<Date>();
+        List<Double> yD = new ArrayList<Double>();
+
+        List<Date> buyDate = new ArrayList<Date>();
+        List<Double> buyD = new ArrayList<Double>();
+        List<Date> sellDate = new ArrayList<Date>();
+        List<Double> sellD = new ArrayList<Double>();
+
+        xDate = new ArrayList<Date>();
+        yD = new ArrayList<Double>();
+        buyDate = new ArrayList<Date>();
+        buyD = new ArrayList<Double>();
+        sellDate = new ArrayList<Date>();
+        sellD = new ArrayList<Double>();
+
+        StockArrayTmp = new ArrayList();
+        for (int i = index; i < StockArray.size(); i++) {
+            StockArrayTmp.add(StockArray.get(i));
+        }
+        int numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
+
+        if (numBS < 5) {
+            index = sizeLen / 2;
+            xDate = new ArrayList<Date>();
+            yD = new ArrayList<Double>();
+            buyDate = new ArrayList<Date>();
+            buyD = new ArrayList<Double>();
+            sellDate = new ArrayList<Date>();
+            sellD = new ArrayList<Double>();
+
+            StockArrayTmp = new ArrayList();
+            for (int i = index; i < StockArray.size(); i++) {
+                StockArrayTmp.add(StockArray.get(i));
+            }
+            numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
+        }
+        ChartService chart = new ChartService();
+        byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
+                xDate, yD, buyDate, buyD, sellDate, sellD);
+
+        return ioStream;
 
     }
 

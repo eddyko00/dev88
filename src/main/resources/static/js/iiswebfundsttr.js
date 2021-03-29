@@ -432,7 +432,7 @@ var app = {
                     var symbol = stockObj.symbol;
                     $("#graphheader").html("Display graph - " + stockObj.symbol);
                     symbol = symbol.replace(".", "_");
-                    var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart";
+                    var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId+ "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                     $("#spaceimage").attr("src", resultURL);
 
@@ -445,7 +445,7 @@ var app = {
                     $("#tablehheader").html("Trading Performance - " + stockObj.symbol);
 
                     symbol = symbol.replace(".", "_");
-                    var urlSt = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/perf";
+                    var urlSt = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/perf";
                     console.log(urlSt);
                     $.ajax({
                         url: urlSt,
@@ -537,38 +537,21 @@ var app = {
             }
         });
 
-        $("ul[id*=myid] button").click(function () {
-            return;
-            buttonGraph = true;
-            var trname = $(this).attr('value');
-            if (trname != null) {
-                var symbol = stockObj.symbol;
-                symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart";
-//                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
-                $("#spaceimage").attr("src", resultURL);
-
-                window.location.href = "#page_graph";
-            }
-//            $.ajax({
-//                url: "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart",
-//                datatype: "binary",
-//                beforeSend: function (xhr) {
-//                    xhr.overrideMimeType("text/plain; charset=x-user-defined");
-//                },
-//                success: function (image) {
+//        $("ul[id*=myid] button").click(function () {
+//            return;
+//            buttonGraph = true;
+//            var trname = $(this).attr('value');
+//            if (trname != null) {
+//                var symbol = stockObj.symbol;
+//                symbol = symbol.replace(".", "_");
+//                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart";
+////                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
+//                $("#spaceimage").attr("src", resultURL);
 //
-//                    var imgBase64 = $.base64.encode(image);
-//                    console.log(imgBase64);
-//                    window.location.href = "#page_graph";
-//                },
-//                error: function (xhr, text_status) {
-//                    console.log("An error again " + text_status);
-//                }
-//            });
-
-
-        });
+//                window.location.href = "#page_graph";
+//            }
+//
+//        });
 
 
         $("ul[id*=myid] li").click(function () {
@@ -603,79 +586,6 @@ var app = {
 
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accounttran_1.html";
-        });
-
-        $("#configbtn").click(function () {
-            if (custObj.username.toUpperCase() === "GUEST") {
-                msgObjStr = "This feature does not allow for GUEST account";
-                window.localStorage.setItem(iisMsgSession, msgObjStr);
-                window.location.href = "accountsttr.html";
-                return;
-//                alert("Not supproted feature for GUEST accont");
-//                window.location.href = "accountsttr.html";
-//                return;
-            }
-            var trNum = trObjacc.linktradingruleid;
-            var trName = "TR_NN2";
-            if (trNum == 0) {
-                trName = "TR_ACC";
-            } else if (trNum == 2) {
-                trName = "TR_MACD";
-            } else if (trNum == 4) {
-                trName = "TR_NN1";
-            } else if (trNum == 5) {
-                trName = "TR_NN2";
-            }
-            $('#myidtrmodel').val(trName).attr("selected", "selected");
-
-            window.location.href = "#page_conf";
-        });
-
-//    public static final String TR_ACC = "TR_ACC";  // transaction account
-//    public static final int INT_TR_ACC = 0;
-//    public static final String TR_MV = "TR_MV";  // simulation 
-//    public static final int INT_TR_MV = 1;
-//    public static final String TR_MACD = "TR_MACD";
-//    public static final int INT_TR_MACD = 2;
-//    public static final String TR_RSI = "TR_RSI";
-//    public static final int INT_TR_RSI = 3;
-//    public static final String TR_NN1 = "TR_NN1"; //NN for MACD fast
-//    public static final int INT_TR_NN1 = 4;
-//    public static final String TR_NN2 = "TR_NN2"; //NN for MACD 12 26
-//    public static final int INT_TR_NN2 = 5;
-//    public static final String TR_NN3 = "TR_NN3"; //NN for MV
-//    public static final int INT_TR_NN3 = 6;    
-
-        $("#savesubmit").click(function () {
-
-            var tr = $('#myidtrmodel').val();
-            console.log(tr);
-//            var answer = confirm('Do you want to save changes?');
-//            if (answer) {
-//                ;
-//            } else {
-//                window.location.href = "#page_index";
-//                return;
-//            }
-
-            //"/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}"
-            $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st/" + sockId + "/tr/TR_ACC/linktr/" + tr,
-                crossDomain: true,
-                cache: false,
-                success: handleResult
-            }); // use promises
-
-            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
-
-            function handleResult(result) {
-                //MAX_ALLOW_STOCK_ERROR = 100 ; NEW = 1; EXISTED = 2
-                console.log(result);
-                if (result == 1) {
-                    window.location.href = "accountsttr_1.html";
-                }
-                window.location.href = "accountsttr_1.html";
-            }
         });
 
 

@@ -84,6 +84,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/perf");
 
         arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
@@ -1187,6 +1189,30 @@ public class IndexController {
         return ret;
     }
 
+    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart");   
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE})
+    public @ResponseBody
+    byte[] getAccountFundStockHistoryChartDisplay(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @PathVariable("accfundid") String accfundid,
+            @PathVariable("stockidsymbol") String stockidsymbol,
+            @PathVariable("trname") String trname,
+            @RequestParam(value = "path", required = false) String pathSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+
+        byte[] ret = afWebService.getFundAccountStockTRLIstCurrentChartDisplay(username, null, accountid, accfundid, stockidsymbol, trname, pathSt);
+       ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+
+        return ret;
+    }
+
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE})
     public @ResponseBody
     byte[] getAccountStockHistoryChartDisplay(
@@ -1249,6 +1275,34 @@ public class IndexController {
         return ret;
     }
 
+    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/perf");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/perf", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getFundAccountStockTranPerf(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @PathVariable("accfundid") String accfundid,
+            @PathVariable("stockidsymbol") String stockidsymbol,
+            @PathVariable("trname") String trname,
+            @RequestParam(value = "length", required = false) String lengthSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        int length = 0;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+        ArrayList returnList = afWebService.getFundAccountStockTRPerfList(username, lengthSt, accountid, accfundid, stockidsymbol, trname, length);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+
+        return returnList;
+    }
+
+    
     // "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf?length=0"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

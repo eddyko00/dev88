@@ -46,7 +46,7 @@ var app = {
         var fundObj = null;
         for (i = 0; i < fundObjList.length; i++) {
             var fundObjTmp = fundObjList[i];
-            if (fundObjTmp.id == accId) {
+            if (fundObjTmp.id == fundId) {
                 fundObj = fundObjTmp;
                 break;
             }
