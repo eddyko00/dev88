@@ -115,7 +115,20 @@ public class AccountImp {
         return accountdb.getCustomerNameList(name);
     }
 
-    public ArrayList getCustomerObjList(int length) {
+    public CustomerObj getCustomerbyAccoutObj(AccountObj accObj) {
+        if (accObj == null) {
+            return null;
+        }
+        ArrayList<CustomerObj> custObjList = accountdb.getCustomerByCustId(accObj.getCustomerid());
+        if (custObjList != null) {
+            if (custObjList.size() > 0) {
+                return custObjList.get(0);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<CustomerObj> getCustomerObjList(int length) {
         ArrayList customerList = new ArrayList();
 
         ArrayList customerDBList = accountdb.getCustomerList(0);

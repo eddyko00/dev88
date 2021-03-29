@@ -13,6 +13,8 @@ import java.util.ArrayList;
  */
 public class CustPort {
 
+
+
     /**
      * @return the featL
      */
@@ -27,19 +29,6 @@ public class CustPort {
         this.featL = featL;
     }
 
-    /**
-     * @return the serv
-     */
-    public int getServ() {
-        return serv;
-    }
-
-    /**
-     * @param serv the serv to set
-     */
-    public void setServ(int serv) {
-        this.serv = serv;
-    }
 
     /**
      * @return the nPlan
@@ -54,8 +43,37 @@ public class CustPort {
     public void setnPlan(int nPlan) {
         this.nPlan = nPlan;
     }
-    
+
     private int nPlan = -1;
-    private int serv = 0;
-    private ArrayList featL = new ArrayList();    
+    private float serv = 0;
+    private float cred = 0;
+    private ArrayList featL = new ArrayList();
+
+    /**
+     * @return the serv
+     */
+    public float getServ() {
+        return serv;
+    }
+
+    /**
+     * @param serv the serv to set
+     */
+    public void setServ(float serv) {
+        this.serv = serv;
+    }
+
+    /**
+     * @return the cred
+     */
+    public float getCred() {
+        return cred;
+    }
+
+    /**
+     * @param cred the cred to set
+     */
+    public void setCred(float cred) {
+        this.cred = cred;
+    }
 }

@@ -1208,7 +1208,7 @@ public class IndexController {
         }
 
         byte[] ret = afWebService.getFundAccountStockTRLIstCurrentChartDisplay(username, null, accountid, accfundid, stockidsymbol, trname, pathSt);
-       ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
     }
@@ -1302,7 +1302,6 @@ public class IndexController {
         return returnList;
     }
 
-    
     // "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf?length=0"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -2039,7 +2038,7 @@ public class IndexController {
 
     }
 
-    ///cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
+    ///cust/{username}/uisys/{custid}/custlist?name&length={0 for all} - default 20");
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getUICustList(
@@ -2052,6 +2051,7 @@ public class IndexController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
+        ArrayList custObjList = new ArrayList();
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
@@ -2059,13 +2059,15 @@ public class IndexController {
                     if (nameSt != null) {
                         NameObj nameObj = new NameObj(nameSt);
                         String UserName = nameObj.getNormalizeName();
-                        ArrayList custNameList = afWebService.getCustomerObjByNameList(UserName);
-                        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                        return custNameList;
+                        CustomerObj cutObj = afWebService.getCustomerObjByName(UserName);
+                        custObjList.add(cutObj);
+                    } else {
+
+                        custObjList = afWebService.getCustomerList(length);
                     }
-                    ArrayList custNameList = afWebService.getCustomerList(length);
+
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return custNameList;
+                    return custObjList;
                 }
             }
         }

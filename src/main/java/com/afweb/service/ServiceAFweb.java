@@ -2142,12 +2142,25 @@ public class ServiceAFweb {
         return result;
     }
 
-    public ArrayList<CustomerObj> getCustomerObjByNameList(String name) {
-        ArrayList result = null;
+    public CustomerObj getCustomerObjByName(String name) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = getAccountImp().getCustomerObjByNameList(name);
+        ArrayList<CustomerObj> custList = getAccountImp().getCustomerObjByNameList(name);
+        if (custList != null) {
+            if (custList.size() > 0) {
+                return custList.get(0);
+            }
+        }
+        return null;
+    }
+
+    public CustomerObj getCustomerbyAccoutObj(AccountObj accObj) {
+        CustomerObj result = null;
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = getAccountImp().getCustomerbyAccoutObj(accObj);
         return result;
     }
 
@@ -2833,6 +2846,10 @@ public class ServiceAFweb {
                 featL.add(fundFeat);
                 String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
                 getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
+
+                // update billing
+                BillingProcess BP = new BillingProcess();
+                BP.updateFundFeat(this, custObj, accFundObj);
                 return 1;
             }
 

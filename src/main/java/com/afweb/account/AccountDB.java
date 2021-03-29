@@ -97,7 +97,11 @@ public class AccountDB {
         return getAllUserNameSQL(sql);
 
     }
-
+    public ArrayList<CustomerObj> getCustomerByCustId(int id) {
+        String sql = "select * from customer where id='" + id + "'";
+        return this.getCustomerListSQL(sql, 0);
+    }
+    
     public ArrayList<CustomerObj> getCustomerNameList(String name) {
         String sql = "select * from customer where username='" + name + "'";
         return this.getCustomerListSQL(sql, 0);
