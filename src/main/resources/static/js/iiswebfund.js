@@ -90,7 +90,7 @@ var app = {
                 htmlName += '<br>Acc Bal: ' + investSt + ' Cur Bal: ' + balSt + ' Total: ' + totSt;
 
                 var htmlBtn = '<div id="myidbtn" data-theme="a" >';
-                htmlBtn += '<a href="#" id="' + accObj.id + '" type="remove" data-role="button" data-theme="a">Remove</a>';
+                htmlBtn += '<a href="#" id="' + accObj.id + '" type="remove" data-role="button" data-theme="a">Remove Subscription</a>';
 
                 htmlBtn += '</div>';
                 htmlName += htmlBtn;
@@ -162,16 +162,17 @@ var app = {
 
         var removeFund = false;
         $("ul[id*=myid] li").click(function () {
+            if (removeFund === true) {
+                removeFund = false;
+                return;
+            }            
             var fundId = $(this).attr('id');
             console.log(fundId);
             if (fundId == 0) {
 //                alert(accId);
                 return;
             }
-            if (removeFund === true) {
-                removeFund = false;
-                return;
-            }
+
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
                 'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
@@ -192,18 +193,34 @@ var app = {
                 removeFund = true;
             }
 
-            $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/remove",
-                crossDomain: true,
-                cache: false,
-                success: handleResult
-            }); // use promises
-
-            function handleResult(result) {
-//          SUCC = 1;  EXISTED = 2; FAIL =0;
-                window.location.href = "fund_1.html";
-
+            var fundObj = null;
+            for (i = 0; i < fundObjList.length; i++) {
+                var fundObjTmp = fundObjList[i];
+                if (fundObjTmp.id == fundId) {
+                    fundObj = fundObjTmp;
+                    break;
+                }
             }
+            if (fundObj === null) {
+                return;
+            }
+            selectFundObj = fundObj;
+            $("#fdelheader").html("Fund Mgr: " + selectFundObj.accountname);
+
+            window.location.href = "#page-remove";
+
+//            $.ajax({
+//                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/remove",
+//                crossDomain: true,
+//                cache: false,
+//                success: handleResult
+//            }); // use promises
+//
+//            function handleResult(result) {
+////          SUCC = 1;  EXISTED = 2; FAIL =0;
+//                window.location.href = "fund_1.html";
+//
+//            }
         });
 
         $("ul[id*=fundid] li").click(function () {
@@ -230,12 +247,12 @@ var app = {
             selectFundObj = fundObj;
             $("#fundheader").html("Fund Mgr: " + selectFundObj.accountname);
 
-            window.location.href = "#page-msg";
+            window.location.href = "#page-add";
 
         });
 
 
-        $("#subbtn").click(function () {
+        $("#subaddbtn").click(function () {
             if (selectFundObj === null) {
                 return;
             }
@@ -243,6 +260,27 @@ var app = {
 
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + selectFundObj.id + "/add",
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            function handleResult(result) {
+//          SUCC = 1;  EXISTED = 2; FAIL =0;
+                window.location.href = "fund_1.html";
+
+            }
+        });
+
+
+        $("#subremovebtn").click(function () {
+            if (selectFundObj === null) {
+                return;
+            }
+            console.log(selectFundObj.id);
+
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + selectFundObj.id + "/remove",
                 crossDomain: true,
                 cache: false,
                 success: handleResult
