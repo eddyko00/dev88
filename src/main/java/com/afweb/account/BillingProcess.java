@@ -291,6 +291,25 @@ public class BillingProcess {
         if (featL == null) {
             return 0;
         }
+        ArrayList<String> featNewL = this.testfeatL(featL);
+        custPortfilio.setFeatL(featNewL);
+        try {
+
+            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+            serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+            return 1;
+        } catch (Exception ex) {
+        }
+        return 1;
+    }
+
+    private ArrayList<String> testfeatL(ArrayList<String> featOrgL) {
+        ArrayList<String> featL = new ArrayList();
+
+        if (featL == null) {
+            return featL;
+        }
+        featL.addAll(featOrgL);
         ArrayList<String> delfeatL = new ArrayList();
         for (int i = 0; i < featL.size(); i++) {
             String feat = featL.get(i);
@@ -305,7 +324,7 @@ public class BillingProcess {
             }
         }
         if (delfeatL.size() == 0) {
-            return 0;
+            return featL;
         }
         for (int i = 0; i < delfeatL.size(); i++) {
             String delfeat = featL.get(i);
@@ -316,21 +335,14 @@ public class BillingProcess {
                 }
             }
         }
-        try {
-
-            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-            serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
-            return 1;
-        } catch (Exception ex) {
-        }
-        return 1;
+        return featL;
     }
 
     public int createUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj account, BillingObj billing) {
         if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
             return 1;
         }
-        Date startDate = account.getStartdate();
+        Date startDate = customer.getStartdate();
         long billCycleDate = startDate.getTime();
 
         if (billing != null) {
@@ -367,24 +379,17 @@ public class BillingProcess {
 
             if (custPortfilio.getnPlan() != -1) {
 
-                try {
-                    int plan = custPortfilio.getnPlan();
+                int plan = custPortfilio.getnPlan();
 
-                    int substatus = account.getSubstatus();
-                    float investment = account.getInvestment();
-                    float balance = account.getBalance();
-                    float servicefee = account.getServicefee();
-                    serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(account.getId(), substatus, investment, balance, servicefee);
+//                int substatus = account.getSubstatus();
+//                float investment = account.getInvestment();
+//                float balance = account.getBalance();
+//                float servicefee = account.getServicefee();
+//                serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(account.getId(), substatus, investment, balance, servicefee);
+                // update the plan
+                customer.setSubstatus(plan);
+                serviceAFWeb.getAccountImp().updateCustStatusSubStatus(customer, customer.getStatus(), customer.getSubstatus());
 
-                    customer.setSubstatus(plan);
-                    serviceAFWeb.getAccountImp().updateCustStatusSubStatus(customer, customer.getStatus(), customer.getSubstatus());
-
-                    custPortfilio.setnPlan(-1);
-                    portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                    serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
-
-                } catch (JsonProcessingException ex) {
-                }
             }
 
             float payment = customer.getPayment();
@@ -411,14 +416,40 @@ public class BillingProcess {
             customer.setPayment(payment);
             int result = 0;
 
-            
-            
+            //Add feature
+            float featureInvoice = 0;
+            ArrayList<String> featL = custPortfilio.getFeatL();
+            ArrayList<String> featNewL = this.testfeatL(featL);
+            int featCnt = featNewL.size();
+            if (featCnt > 0) {
+                featureInvoice = (featCnt * 30);
+                billData.setService(featureInvoice);
+            }
+//            if (custPortfilio.getServ() > 0) {
+//                billData.setService(custPortfilio.getServ());
+//                
+//                fInvoice = fInvoice + custPortfilio.getServ();
+//                billData.setCurPaym(fInvoice);
+//            }
+//            if (custPortfilio.getCred() > 0) {
+//                billData.setCredit(custPortfilio.getCred());
+//            }
+            try {
+                custPortfilio.setnPlan(-1);
+                custPortfilio.setServ(0);
+                custPortfilio.setCred(0);
+                portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+                serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+            } catch (JsonProcessingException ex) {
+            }
+
             // first bill alreay add the payment
             // but the next bill need to add prev owning
             boolean firstBill = false;
             if (billing != null) {
                 billData.setPrevOwn(prevOwning);
                 payment = fInvoice + prevOwning;
+                payment = payment + featureInvoice;
                 customer.setPayment(payment);
                 result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
             } else {
@@ -426,6 +457,7 @@ public class BillingProcess {
                 firstBill = true;
                 if (payment == 0) {
                     payment = fInvoice;
+                    payment = payment + featureInvoice;
                     customer.setPayment(payment);
                     result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
                 }
@@ -497,7 +529,7 @@ public class BillingProcess {
 
     public int updateFundFeat(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj accFund) {
         logger.info(">updateFundFeat " + accFund.getAccountname());
-        
+
         // should be transaction problem
         // Need to refesh customer from DB to get the portfolio
         // Need to refesh customer from DB to get the portfolio        
@@ -517,8 +549,25 @@ public class BillingProcess {
 
             /// adding feature
             //proate to bill cycle
-            //proate to bill cycle            
-            custPortfilio.setServ(custPortfilio.getServ() + FUND_FeaturePrice);
+            //proate to bill cycle        
+            Date startDate = customer.getStartdate();
+            long billCycleDate = startDate.getTime();
+            int BillCycledayOfMonth = TimeConvertion.getDayOfMonth(billCycleDate);
+
+            Calendar cal = Calendar.getInstance();
+            int CurrentdayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+
+            float featureP = FUND_FeaturePrice;
+            int prorateDay = 0;
+            if (CurrentdayOfMonth > BillCycledayOfMonth) {
+                prorateDay = 31 - (CurrentdayOfMonth - BillCycledayOfMonth);
+            } else {
+                prorateDay = (BillCycledayOfMonth - CurrentdayOfMonth);
+            }
+            float proreate = prorateDay * featureP / 31;
+            featureP = proreate;
+            // update bill payment for the customer
+            custPortfilio.setServ(custPortfilio.getServ() + featureP);
             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
             serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
 
@@ -532,7 +581,8 @@ public class BillingProcess {
                 portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
                 serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
             }
-            custPortfilio.setCred(custPortfilio.getCred() + (FUND_FeaturePrice / 2));
+            //////update credit to the fund mgr
+            custPortfilio.setCred(custPortfilio.getCred() + (featureP / 2));
             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
             serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
 
