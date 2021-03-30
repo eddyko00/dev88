@@ -182,10 +182,10 @@ public class BillingProcess {
                 }
             } catch (Exception ex) {
             }
-            float userBalanceCredit = userBalance + credit;
-            if (userBalanceCredit >= fPayment) {
+    
+            if (userBalance >= fPayment) {
                 //the remaining goes to the next invoice.
-                userBalance = userBalanceCredit - fPayment;
+                userBalance = userBalance - fPayment;
                 customer.setBalance(userBalance);
                 customer.setPayment(0);
 
@@ -459,14 +459,14 @@ public class BillingProcess {
             boolean firstBill = false;
             if (billing != null) {
                 billData.setPrevOwn(prevOwning);
-                payment = fInvoice + prevOwning;
+                payment = fInvoice + prevOwning - billData.getCredit();
                 customer.setPayment(payment);
                 result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
             } else {
                 // first bill
                 firstBill = true;
                 if (payment == 0) {
-                    payment = fInvoice;
+                    payment = fInvoice - billData.getCredit();
                     customer.setPayment(payment);
                     result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
                 }
