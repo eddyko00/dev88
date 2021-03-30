@@ -661,6 +661,9 @@ public class ServiceAFweb {
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);
             AFprocessNeuralNet();
+//            
+            BillingProcess billProc = new BillingProcess();
+            billProc.processUserBillingAll(this);            
 //            getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
@@ -673,9 +676,7 @@ public class ServiceAFweb {
             TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             getAccountProcessImp().ProcessAdminAccount(this);
-//            
-            BillingProcess billProc = new BillingProcess();
-            billProc.processUserBillingAll(this);
+
 //            
             if (CKey.PROXY == false) {
                 if (ServiceAFweb.processEmailFlag == true) {
