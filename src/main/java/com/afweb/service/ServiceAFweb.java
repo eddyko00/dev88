@@ -1005,8 +1005,7 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 //
-            getAccountProcessImp().ProcessSystemMaintance(this);
-            getAccountProcessImp().ProcessSystemMaintance(this);
+            this.getAccountImp().removeAccountBillingByName("Eddyko88@yahoo.ca");
 //            BillingProcess BP = new BillingProcess();
 //            BP.updateUserBilling(this, getCustomerObjByName("EDDYKO99-YAHOO-COM"));
 //            getAccountProcessImp().ProcessCustomerRemoveMaintance(this);

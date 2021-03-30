@@ -542,6 +542,11 @@ public class AccountImp {
         return null;
     }
 
+    //// do not expose to external interface
+    public int removeAccountBillingByName(String name) {
+        return accountdb.removeAccountBillingByName(name);
+    }
+
     public int removeBillingByCustomerAccountID(String UserName, String Password, int accountID, int billID) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
