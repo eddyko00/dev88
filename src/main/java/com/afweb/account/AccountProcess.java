@@ -93,6 +93,7 @@ public class AccountProcess {
     //////////////////////////////////////////////
 
     public void ProcessStockInfodeleteMaintance(ServiceAFweb serviceAFWeb) {
+        logger.info(">>>>>>>>>>>>>> ProcessStockInfodeleteMaintance ");
         ArrayList stockRemoveList = serviceAFWeb.getRemoveStockNameList(20);
         //delete stock if disable
 
@@ -129,6 +130,7 @@ public class AccountProcess {
     }
 
     public void ProcessCustomerRemoveMaintance(ServiceAFweb serviceAFWeb) {
+        logger.info(">>>>>>>>>>>>>> ProcessCustomerRemoveMaintance ");
         // reomve customer with no activity in 4 days        
         ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
         if (custList == null) {
@@ -175,60 +177,9 @@ public class AccountProcess {
         }
     }
 
-//    public void ProcessCustomerDisableMaintanceTest(ServiceAFweb serviceAFWeb) {
-//
-//        ProcessCustomerDisableMaintance(serviceAFWeb);
-//    }
-//
-//    private void ProcessCustomerDisableMaintance(ServiceAFweb serviceAFWeb) {
-//        // disable cusotmer with no activity in 2 days
-//        ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
-//
-//        if (custList == null) {
-//            return;
-//        }
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//        long dateNowLong = dateNow.getTimeInMillis();
-//        long cust2DayAgo = TimeConvertion.addDays(dateNowLong, -2); // 2 day ago and no update  
-//        for (int i = 0; i < custList.size(); i++) {
-//            CustomerObj custObj = (CustomerObj) custList.get(i);
-//            if (custObj.getStatus() == ConstantKey.DISABLE) {
-//                continue;
-//            }
-//            float bal = custObj.getBalance();
-//            float payment = custObj.getPayment();
-//            float outstand = bal - payment;
-//            if (outstand >= 0) {  //No out standing payment 
-//                continue;
-//            }
-//            if (custObj.getUpdatedatel() < cust2DayAgo) {
-//                // disable customer
-//                custObj.setStatus(ConstantKey.DISABLE);
-//            }
-//
-//            serviceAFWeb.updateCustStatusSubStatus(custObj.getUsername(), custObj.getStatus() + "", custObj.getSubstatus() + "");
-//
-//            String tzid = "America/New_York"; //EDT
-//            TimeZone tz = TimeZone.getTimeZone(tzid);
-//            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-//            java.sql.Date d = new java.sql.Date(dateNowLong);
-////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-//            DateFormat format = new SimpleDateFormat(" hh:mm a");
-//            format.setTimeZone(tz);
-//            String ESTdate = format.format(d);
-//
-//            String msg = ESTdate + " " + custObj.getUsername() + " Customer disabled - 2 day after expired.";
-//            if (custObj.getUsername().equals(CKey.E_USERNAME)) {
-//                ;
-//            } else {
-//                this.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-//            }
-//
-//        }
-//
-//    }
 ////////////////////
     private void ProcessAllLockCleanup(ServiceAFweb serviceAFWeb) {
+        logger.info(">>>>>>>>>>>>>> ProcessAllLockCleanup ");
         // clean up old lock name
         // clean Lock entry pass 30 min
         ArrayList<AFLockObject> lockArray = serviceAFWeb.getAllLock();
@@ -258,7 +209,7 @@ public class AccountProcess {
     private void ProcessStockkMaintance(ServiceAFweb serviceAFWeb) {
         // delete stock based on all customer account exclude the ADMIN_USERNAME account 
         // do Simulation trading
-        logger.info("> ProcessStockkMaintance ");
+        logger.info(">>>>>>>>>>>>>> ProcessStockkMaintance ");
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
@@ -551,7 +502,7 @@ public class AccountProcess {
                         int substatus = accObj.getSubstatus();
                         float investment = accObj.getInvestment();
                         float balance = accObj.getBalance();
-                        float servicefee = investment+balance;
+                        float servicefee = investment + balance;
                         serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
                     } catch (Exception e) {
                     }
