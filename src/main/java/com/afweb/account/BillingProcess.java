@@ -96,8 +96,8 @@ public class BillingProcess {
                 String custName = (String) custProcessNameArray.get(0);
                 CustomerObj customer = serviceAFWeb.getCustomerObjByName(custName);
                 if (customer != null) {
-                    if ((customer.getType() == CustomerObj.INT_ADMIN_USER)
-                            || (customer.getType() == CustomerObj.INT_FUND_USER)) {
+                    if ((customer.getType() == CustomerObj.INT_ADMIN_USER)) {
+                        //                            || (customer.getType() == CustomerObj.INT_FUND_USER)) {
                         ;
                     } else {
                         try {
@@ -166,12 +166,16 @@ public class BillingProcess {
 
         if (status == ConstantKey.INITIAL) {
             // override payment
-            if ((customer.getType() == CustomerObj.INT_ADMIN_USER)
-                    || (customer.getType() == CustomerObj.INT_FUND_USER)
-                    || (customer.getType() == CustomerObj.INT_GUEST_USER)) {
+            if ((customer.getType() == CustomerObj.INT_ADMIN_USER)) {
                 userBalance = fPayment;
             }
-
+            if (customer.getUsername().equals(CKey.FUND_MANAGER_USERNAME)) {
+                userBalance = fPayment;
+            } else if (customer.getUsername().equals(CKey.INDEXFUND_MANAGER_USERNAME)) {
+                userBalance = fPayment;
+            } else if (customer.getUsername().equals(CKey.G_USERNAME)) {
+                userBalance = fPayment;
+            }
             BillData billData = null;
             float credit = 0;
             String billingDataSt = billing.getData();

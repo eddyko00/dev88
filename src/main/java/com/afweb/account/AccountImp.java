@@ -290,6 +290,9 @@ public class AccountImp {
         return accountList;
     }
 
+    ////////////////////////////////
+    // Security - Do not allow outside ServiceAFweb to access this function
+    ////////////////////////////////
     public ArrayList<AccountObj> getAccountListByCustomerId(int custId) {
         ArrayList accountList = accountdb.getAccountByCustomerID(custId);
         return accountList;
@@ -478,6 +481,9 @@ public class AccountImp {
         return accountdb.updateAccounStocktRef(trObj, nameSt);
     }
 
+    ////////////////////////////////
+    // Security - Do not allow outside ServiceAFweb to access this function
+    ////////////////////////////////
     public AccountObj getAccountByAccountID(int accountID) {
 
         AccountObj account = null;
