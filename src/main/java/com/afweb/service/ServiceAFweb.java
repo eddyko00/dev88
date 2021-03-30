@@ -663,7 +663,7 @@ public class ServiceAFweb {
             AFprocessNeuralNet();
 //            
             BillingProcess billProc = new BillingProcess();
-            billProc.processUserBillingAll(this);            
+            billProc.processUserBillingAll(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
@@ -1005,7 +1005,8 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 //
-            
+            getAccountProcessImp().ProcessSystemMaintance(this);
+            getAccountProcessImp().ProcessSystemMaintance(this);
 //            BillingProcess BP = new BillingProcess();
 //            BP.updateUserBilling(this, getCustomerObjByName("EDDYKO99-YAHOO-COM"));
 //            getAccountProcessImp().ProcessCustomerRemoveMaintance(this);

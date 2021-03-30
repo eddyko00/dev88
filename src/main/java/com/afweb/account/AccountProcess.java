@@ -61,19 +61,8 @@ public class AccountProcess {
         String LockName = "ACC_" + CKey.AF_SYSTEM;
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ACC_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessSystemMaintance");
         if (lockReturn > 0) {
-
-            // 2 minute evey 2 minutes
-            if ((acTimerCnt % 1) == 0) {
-                // delete stock based on all customer account exclude the ADMIN_USERNAME account 
-                ProcessStockkMaintance(serviceAFWeb);
-
-                // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
-                ProcessAdminAccount(serviceAFWeb);
-
-                // cleanup Lock entry pass 30 min
-                ProcessAllLockCleanup(serviceAFWeb);
-                // cleanup Lock entry pass 30 min
-            } else if ((acTimerCnt % 2) == 0) {
+            
+            if ((acTimerCnt % 2) == 0) {
                 // disable customer will be handle by billing process
                 // disable cusotmer with no activity in 2 days
 //                ProcessCustomerDisableMaintance(serviceAFWeb);
@@ -84,6 +73,18 @@ public class AccountProcess {
                 ProcessAdminAccount(serviceAFWeb);
                 //delete stock if disable
                 ProcessStockInfodeleteMaintance(serviceAFWeb);
+            } else if ((acTimerCnt % 3) == 0) {
+                ;
+            } else {
+                // delete stock based on all customer account exclude the ADMIN_USERNAME account 
+                ProcessStockkMaintance(serviceAFWeb);
+
+                // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
+                ProcessAdminAccount(serviceAFWeb);
+
+                // cleanup Lock entry pass 30 min
+                ProcessAllLockCleanup(serviceAFWeb);
+                // cleanup Lock entry pass 30 min
             }
         }
         serviceAFWeb.removeNameLock(LockName, ConstantKey.ACC_LOCKTYPE);
@@ -243,9 +244,9 @@ public class AccountProcess {
     }
 
     public void ProcessAddRemoveFundAccount(ServiceAFweb serviceAFWeb) {
+
         // add or remove stock in mutual fund account based on all stocks in the system
         //        logger.info("> ProcessAddRemoveFundAccount ......... ");
-
 //        this.serviceAFWeb = serviceAFWeb;
 //        logger.info("> UpdateAccountSignal ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
