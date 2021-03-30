@@ -128,7 +128,7 @@ public class AccountProcess {
         }
     }
 
-    private void ProcessCustomerRemoveMaintance(ServiceAFweb serviceAFWeb) {
+    public void ProcessCustomerRemoveMaintance(ServiceAFweb serviceAFWeb) {
         // reomve customer with no activity in 4 days        
         ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
         if (custList == null) {

@@ -69,8 +69,8 @@ public class BillingProcess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
-        LockName = "BILL_" + ServiceAFweb.getServerObj().getServerName();
-        LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
+        LockName = "BILL_BP"; // + ServiceAFweb.getServerObj().getServerName();
+//        LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
         if (ServiceAFweb.mydebugtestflag == true) {
@@ -155,6 +155,7 @@ public class BillingProcess {
         float userBalance = customer.getBalance();
         float fPayment = customer.getPayment();
 
+        boolean createBillFlag = false;
         boolean sendMsg = false;
         String msg = "";
 
@@ -182,7 +183,7 @@ public class BillingProcess {
                 }
             } catch (Exception ex) {
             }
-    
+
             if (userBalance >= fPayment) {
                 //the remaining goes to the next invoice.
                 userBalance = userBalance - fPayment;
@@ -206,6 +207,8 @@ public class BillingProcess {
 
                 ////////
                 processFeat(serviceAFWeb, customer);
+                // create another bill
+                createBillFlag = true;
 
             } else {
 //                Date entryDate = billing.getUpdatedatedisplay();
@@ -216,29 +219,34 @@ public class BillingProcess {
                     dateWeek = TimeConvertion.nextWeek(dateWeek);
                 }
                 int subStatus = billing.getSubstatus();
-                if (billcycleDate > dateWeek) {
-                    if (customer.getStatus() != ConstantKey.DISABLE) {
-                        if (subStatus != NO_PAYMENT_2) {
+                if (subStatus == NO_PAYMENT_1) {
+                    if (currDate.getTime() > dateWeek) {
+                        if (customer.getStatus() != ConstantKey.DISABLE) {
+                            if (subStatus != NO_PAYMENT_2) {
 //                            if (fPayment < 2) {
 //                                //ignore if payment less than 4 dollor
 //                                billing.setSubstatus(NO_PAYMENT_2);
 //                                serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 //                                return 1;
 //                            }
-                            billing.setSubstatus(NO_PAYMENT_2);
+                                billing.setSubstatus(NO_PAYMENT_2);
 
-                            customer.setStatus(ConstantKey.DISABLE);
-                            int result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), customer.getStatus() + "", null, null);
-                            result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
+                                customer.setStatus(ConstantKey.DISABLE);
+                                int result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), customer.getStatus() + "", null, null);
+                                result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
-                            // send email disable
-                            msg = "The " + custName + " account had been disabled due to outstanding payment! Thank you for using IIS.";
-                            sendMsg = true;
-                            logger.info("Billing***Disable user " + custName + ", billing id " + billing.getId());
+                                // send email disable
+                                msg = "The " + custName + " account had been disabled due to outstanding payment! Thank you for using IIS.";
+                                sendMsg = true;
+                                logger.info("Billing***Disable user " + custName + ", billing id " + billing.getId());
+                            }
                         }
                     }
-                } else if (currDate.getTime() > billcycleDate) {
-                    if ((subStatus != NO_PAYMENT_1) && (subStatus != NO_PAYMENT_2)) {
+                }
+                if (currDate.getTime() > billcycleDate) {
+                    if ((subStatus == NO_PAYMENT_1) || (subStatus == NO_PAYMENT_2)) {
+                        ;
+                    } else {
                         billing.setSubstatus(NO_PAYMENT_1);
                         int result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
@@ -281,8 +289,10 @@ public class BillingProcess {
             String msgD = ESTdateD + " " + msg;
             serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
         }
-        int retCreatebill = createUserBilling(serviceAFWeb, customer, account, billing);
-
+//        
+        if (createBillFlag == true) {
+            int retCreatebill = createUserBilling(serviceAFWeb, customer, account, billing);
+        }
         return 1;
     }
 

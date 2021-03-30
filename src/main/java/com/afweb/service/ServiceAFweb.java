@@ -1003,8 +1003,10 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            BillingProcess BP = new BillingProcess();
-//            BP.updateUserBilling(this, getCustomerObjByName("EDDY"));
+            BillingProcess BP = new BillingProcess();
+            BP.updateUserBilling(this, getCustomerObjByName("EDDY-KO00-YAHOO-CA"));
+            getAccountProcessImp().ProcessCustomerRemoveMaintance(this);
+
             /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
@@ -1837,9 +1839,12 @@ public class ServiceAFweb {
                         }
                     }
                 }
+                // remove billing
+                getAccountImp().removeAccountBilling(accountObj);
                 getAccountImp().removeAccount(accountObj);
             }
         }
+
         return getAccountImp().removeCustomer(custObj);
     }
 
