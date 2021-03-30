@@ -65,7 +65,7 @@ public class AccountProcess {
         if (lockReturn > 0) {
 
             // 2 minute evey 2 minutes
-            if (timerCnt % 2 == 0) {
+            if (timerCnt % 1 == 0) {
                 // delete stock based on all customer account exclude the ADMIN_USERNAME account 
                 ProcessStockkMaintance(serviceAFWeb);
 
@@ -75,14 +75,15 @@ public class AccountProcess {
                 // cleanup Lock entry pass 30 min
                 ProcessAllLockCleanup(serviceAFWeb);
                 // cleanup Lock entry pass 30 min
-            } else if (timerCnt % 3 == 0) {
+            } else if (timerCnt % 2 == 0) {
                 // disable customer will be handle by billing process
                 // disable cusotmer with no activity in 2 days
 //                ProcessCustomerDisableMaintance(serviceAFWeb);
 
                 // reomve customer with no activity in 4 days  
                 ProcessCustomerRemoveMaintance(serviceAFWeb);
-
+                // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
+                ProcessAdminAccount(serviceAFWeb);
                 //delete stock if disable
                 ProcessStockInfodeleteMaintance(serviceAFWeb);
             }
