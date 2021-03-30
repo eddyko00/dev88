@@ -39,23 +39,23 @@ public class AccountProcess {
     protected static Logger logger = Logger.getLogger("AccountProcess");
 
 //    private ServiceAFweb serviceAFWeb = null;
-    private static int timerCnt = 0;
+    private static int acTimerCnt = 0;
     public static String LocalPCSignalPath = "T:/Netbean/signal/";
     private static ArrayList accountIdNameArray = new ArrayList();
     private static ArrayList accountFundIdNameArray = new ArrayList();
 
     ///
     public void InitSystemData() {
-        timerCnt = 0;
+        acTimerCnt = 0;
         accountIdNameArray = new ArrayList();
     }
 
     public void ProcessSystemMaintance(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
 
-        timerCnt++;
-        if (timerCnt < 0) {
-            timerCnt = 0;
+        acTimerCnt++;
+        if (acTimerCnt < 0) {
+            acTimerCnt = 0;
         }
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -65,7 +65,7 @@ public class AccountProcess {
         if (lockReturn > 0) {
 
             // 2 minute evey 2 minutes
-            if (timerCnt % 1 == 0) {
+            if (acTimerCnt % 1 == 0) {
                 // delete stock based on all customer account exclude the ADMIN_USERNAME account 
                 ProcessStockkMaintance(serviceAFWeb);
 
@@ -75,7 +75,7 @@ public class AccountProcess {
                 // cleanup Lock entry pass 30 min
                 ProcessAllLockCleanup(serviceAFWeb);
                 // cleanup Lock entry pass 30 min
-            } else if (timerCnt % 2 == 0) {
+            } else if (acTimerCnt % 2 == 0) {
                 // disable customer will be handle by billing process
                 // disable cusotmer with no activity in 2 days
 //                ProcessCustomerDisableMaintance(serviceAFWeb);
