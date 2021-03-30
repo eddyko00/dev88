@@ -75,7 +75,7 @@ public class AccountProcess {
                 // cleanup Lock entry pass 30 min
                 ProcessAllLockCleanup(serviceAFWeb);
                 // cleanup Lock entry pass 30 min
-            } else if (timerCnt % 5 == 0) {
+            } else if (timerCnt % 3 == 0) {
                 // disable customer will be handle by billing process
                 // disable cusotmer with no activity in 2 days
 //                ProcessCustomerDisableMaintance(serviceAFWeb);
