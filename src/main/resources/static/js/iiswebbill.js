@@ -70,10 +70,9 @@ var app = {
                             currencySt = Number(detailObj.prevOwn).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                             htmlName += '<br>Previous outstanding:' + currencySt;
                             currencySt = Number(detailObj.service).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                            htmlName += '<br>Other service:' + currencySt;
+                            var currencyCSt = Number(detailObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                            htmlName += '<br>Other service:' + currencySt + '  credit:' + currencyCSt;
 
-//                            currencySt = Number(detailObj.prevOwn + detailObj.curPaym).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-//                            htmlName += '<br>Total amount:' + currencySt;
                         }
                     }
                 }

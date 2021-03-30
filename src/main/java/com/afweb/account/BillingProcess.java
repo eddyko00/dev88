@@ -411,9 +411,8 @@ public class BillingProcess {
                     fInvoice = ConstantKey.INT_PP_DELUXE_PRICE;
                     break;
             }
-
-            billData.setCurPaym(fInvoice);
-            customer.setPayment(payment);
+            billData.setCurPaym(fInvoice);  ///// for the plan invoice
+            customer.setPayment(fInvoice);
             int result = 0;
 
             //Add feature
@@ -422,18 +421,18 @@ public class BillingProcess {
             ArrayList<String> featNewL = this.testfeatL(featL);
             int featCnt = featNewL.size();
             if (featCnt > 0) {
-                featureInvoice = (featCnt * 30);
+                featureInvoice = (featCnt * FUND30_FeaturePrice);
                 billData.setService(featureInvoice);
+                fInvoice += featureInvoice;
             }
-//            if (custPortfilio.getServ() > 0) {
-//                billData.setService(custPortfilio.getServ());
-//                
-//                fInvoice = fInvoice + custPortfilio.getServ();
-//                billData.setCurPaym(fInvoice);
-//            }
-//            if (custPortfilio.getCred() > 0) {
-//                billData.setCredit(custPortfilio.getCred());
-//            }
+            if (custPortfilio.getServ() > 0) {
+                billData.setService(billData.getService() + custPortfilio.getServ());
+                fInvoice += custPortfilio.getServ();
+
+            }
+            if (custPortfilio.getCred() > 0) {
+                billData.setCredit(billData.getCredit() + custPortfilio.getCred());
+            }
             try {
                 custPortfilio.setnPlan(-1);
                 custPortfilio.setServ(0);
@@ -443,13 +442,13 @@ public class BillingProcess {
             } catch (JsonProcessingException ex) {
             }
 
+            
             // first bill alreay add the payment
             // but the next bill need to add prev owning
             boolean firstBill = false;
             if (billing != null) {
                 billData.setPrevOwn(prevOwning);
                 payment = fInvoice + prevOwning;
-                payment = payment + featureInvoice;
                 customer.setPayment(payment);
                 result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
             } else {
@@ -457,7 +456,6 @@ public class BillingProcess {
                 firstBill = true;
                 if (payment == 0) {
                     payment = fInvoice;
-                    payment = payment + featureInvoice;
                     customer.setPayment(payment);
                     result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
                 }
@@ -525,7 +523,7 @@ public class BillingProcess {
         return 0;
     }
 
-    public static float FUND_FeaturePrice = 30;
+    public static float FUND30_FeaturePrice = 30;
 
     public int updateFundFeat(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj accFund) {
         logger.info(">updateFundFeat " + accFund.getAccountname());
@@ -557,15 +555,26 @@ public class BillingProcess {
             Calendar cal = Calendar.getInstance();
             int CurrentdayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
-            float featureP = FUND_FeaturePrice;
+            float featureP = 0;
+            float featureFundP = 0;
             int prorateDay = 0;
             if (CurrentdayOfMonth > BillCycledayOfMonth) {
                 prorateDay = 31 - (CurrentdayOfMonth - BillCycledayOfMonth);
             } else {
                 prorateDay = (BillCycledayOfMonth - CurrentdayOfMonth);
             }
-            float proreate = prorateDay * featureP / 31;
-            featureP = proreate;
+            float prorate = prorateDay * FUND30_FeaturePrice / 31;
+            int iprorate = (int) (prorate * 100);
+            float tempfeatureP = iprorate;
+            tempfeatureP /= 100;
+            if (tempfeatureP > 3) {
+                featureP = tempfeatureP;
+
+                iprorate = iprorate / 2;
+                featureFundP = iprorate;
+                featureFundP /= 100;
+            }
+
             // update bill payment for the customer
             custPortfilio.setServ(custPortfilio.getServ() + featureP);
             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
@@ -582,7 +591,7 @@ public class BillingProcess {
                 serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
             }
             //////update credit to the fund mgr
-            custPortfilio.setCred(custPortfilio.getCred() + (featureP / 2));
+            custPortfilio.setCred(custPortfilio.getCred() + featureFundP);
             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
             serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
 

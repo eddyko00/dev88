@@ -1003,6 +1003,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            BillingProcess BP = new BillingProcess();
+//            BP.updateUserBilling(this, getCustomerObjByName("EDDY"));
             /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
