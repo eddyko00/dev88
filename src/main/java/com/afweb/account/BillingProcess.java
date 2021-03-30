@@ -69,7 +69,7 @@ public class BillingProcess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
-        LockName = "BILL_BP"; // + ServiceAFweb.getServerObj().getServerName();
+        LockName = "BP_" + CKey.AF_SYSTEM;; // + ServiceAFweb.getServerObj().getServerName();
 //        LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
