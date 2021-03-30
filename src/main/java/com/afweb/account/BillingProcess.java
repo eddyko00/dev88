@@ -450,7 +450,6 @@ public class BillingProcess {
             if (custPortfilio.getServ() > 0) {
                 billData.setService(billData.getService() + custPortfilio.getServ());
                 fInvoice += custPortfilio.getServ();
-
             }
             if (custPortfilio.getCred() > 0) {
                 billData.setCredit(billData.getCredit() + custPortfilio.getCred());
@@ -532,6 +531,36 @@ public class BillingProcess {
             serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
 
             logger.info("Billing***create user " + custName + ", billing cycle " + billcycleESTtime + ", payment=" + payment);
+
+            /// Adding credit to other mutural fund user
+            /// Adding credit to other mutural fund user            
+            for (int i = 0; i < featNewL.size(); i++) {
+                String feat = featNewL.get(i);
+                if (feat.indexOf("fund") != -1) {
+                    String FundIdSt = feat.replace("fund", "");
+                    try {
+                        int FundId = Integer.parseInt(FundIdSt);
+                        AccountObj accFund = serviceAFWeb.getAccountImp().getAccountByAccountID(FundId);
+                        CustomerObj custFund = serviceAFWeb.getCustomerbyAccoutObj(accFund);
+                        portfolio = custFund.getPortfolio();
+                        custPortfilio = new CustPort();
+                        if ((portfolio != null) && (portfolio.length() > 0)) {
+                            portfolio = portfolio.replaceAll("#", "\"");
+                            custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+                        } else {
+                            portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+                            serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
+                        }
+                        //////update credit to the fund mgr
+                        float featureFundP = FUND30_FeaturePrice / 2;
+                        custPortfilio.setCred(custPortfilio.getCred() + featureFundP);
+                        portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+                        serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
+
+                    } catch (Exception e) {
+                    }
+                }
+            }
 
             if (customer.getType() == CustomerObj.INT_GUEST_USER) {
                 if (firstBill == false) {
@@ -615,6 +644,7 @@ public class BillingProcess {
                 iprorate = iprorate / 2;
                 featureFundP = iprorate;
                 featureFundP /= 100;
+                featureFundP = featureP - featureFundP;
             }
 
             // update bill payment for the customer

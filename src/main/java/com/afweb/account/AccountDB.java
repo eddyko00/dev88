@@ -97,11 +97,12 @@ public class AccountDB {
         return getAllUserNameSQL(sql);
 
     }
+
     public ArrayList<CustomerObj> getCustomerByCustId(int id) {
         String sql = "select * from customer where id='" + id + "'";
         return this.getCustomerListSQL(sql, 0);
     }
-    
+
     public ArrayList<CustomerObj> getCustomerNameList(String name) {
         String sql = "select * from customer where username='" + name + "'";
         return this.getCustomerListSQL(sql, 0);
@@ -408,7 +409,13 @@ public class AccountDB {
         return getAccountBySQL(sql);
     }
 
-    public ArrayList getAccountByCustomerID(int customerID) {
+    public ArrayList<AccountObj> getAccountByAccountID(int accID) {
+        String sql = "select * from account where id=" + accID;
+        sql += " order by type desc";
+        return getAccountBySQL(sql);
+    }
+
+    public ArrayList<AccountObj> getAccountByCustomerID(int customerID) {
         String sql = "select * from account where customerid=" + customerID;
         sql += " order by type desc";
         return getAccountBySQL(sql);

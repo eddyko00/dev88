@@ -478,6 +478,25 @@ public class AccountImp {
         return accountdb.updateAccounStocktRef(trObj, nameSt);
     }
 
+    public AccountObj getAccountByAccountID(int accountID) {
+
+        AccountObj account = null;
+
+        ArrayList accountList = accountdb.getAccountByAccountID(accountID);
+        if (accountList != null) {
+            if (accountList.size() > 0) {
+                for (int i = 0; i < accountList.size(); i++) {
+                    AccountObj accountObj = (AccountObj) accountList.get(i);
+                    if (accountObj.getId() == accountID) {
+                        return accountObj;
+                    }
+                }
+            }
+        }
+
+        return account;
+    }
+
     public AccountObj getAccountByCustomerAccountID(String UserName, String Password, int accountID) {
 
         AccountObj account = null;
