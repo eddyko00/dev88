@@ -39,7 +39,7 @@ public class AccountProcess {
     protected static Logger logger = Logger.getLogger("AccountProcess");
 
 //    private ServiceAFweb serviceAFWeb = null;
-    private int timerCnt = 0;
+    private static int timerCnt = 0;
     public static String LocalPCSignalPath = "T:/Netbean/signal/";
     private static ArrayList accountIdNameArray = new ArrayList();
     private static ArrayList accountFundIdNameArray = new ArrayList();
