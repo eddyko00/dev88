@@ -171,9 +171,21 @@ public class BillingProcess {
                 userBalance = fPayment;
             }
 
-            if (userBalance >= fPayment) {
+            BillData billData = null;
+            float credit = 0;
+            String billingDataSt = billing.getData();
+            try {
+                if ((billingDataSt != null) && (billingDataSt.length() > 0)) {
+                    billingDataSt = billingDataSt.replaceAll("#", "\"");
+                    billData = new ObjectMapper().readValue(billingDataSt, BillData.class);
+                    credit = billData.getCredit();
+                }
+            } catch (Exception ex) {
+            }
+            float userBalanceCredit = userBalance + credit;
+            if (userBalanceCredit >= fPayment) {
                 //the remaining goes to the next invoice.
-                userBalance = userBalance - fPayment;
+                userBalance = userBalanceCredit - fPayment;
                 customer.setBalance(userBalance);
                 customer.setPayment(0);
 
@@ -442,7 +454,6 @@ public class BillingProcess {
             } catch (JsonProcessingException ex) {
             }
 
-            
             // first bill alreay add the payment
             // but the next bill need to add prev owning
             boolean firstBill = false;
