@@ -1,11 +1,9 @@
 package com.afweb.util;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class TimeConvertion {
 
@@ -661,7 +659,6 @@ public class TimeConvertion {
 //            return date;
 //        }
 //    }
-
     public static int getDayOfMonth(long date) {
         Calendar calendar = getCalendar();
         synchronized (calendar) {
@@ -670,4 +667,11 @@ public class TimeConvertion {
         }
     }
 
+    public static long DAY_TIME_TICK = 86400000;
+
+    public static long getTimeTickDay(long datel) {
+        long nextD = addDays(datel, 1);
+        return (nextD - datel);
+
+    }
 }

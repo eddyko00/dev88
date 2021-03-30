@@ -568,27 +568,48 @@ public class BillingProcess {
 
             /// adding feature
             //proate to bill cycle
-            //proate to bill cycle        
+            //proate to bill cycle    
             Date startDate = customer.getStartdate();
             long billCycleDate = startDate.getTime();
-            int BillCycledayOfMonth = TimeConvertion.getDayOfMonth(billCycleDate);
 
-            Calendar cal = Calendar.getInstance();
-            int CurrentdayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+            AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+            // get last bill
+            ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId(), 2);
+            boolean firstBill = false;
+            if (billingObjList != null) {
+                if (billingObjList.size() > 0) {
+                    BillingObj billing = billingObjList.get(0);
+                    billCycleDate = billing.getUpdatedatel();
+                }
+            }
+
+            billCycleDate = TimeConvertion.endOfDayInMillis(billCycleDate);
+
+            long NextbillCycleDate = TimeConvertion.addMonths(billCycleDate, 1);
+
+            long currDate = TimeConvertion.getCurrentTimeStamp().getTime();
+            currDate = TimeConvertion.endOfDayInMillis(currDate);
+
+            int prorateDay = 0;
+            if (billCycleDate > currDate) {
+                long prorateDayl = (billCycleDate - currDate) / TimeConvertion.DAY_TIME_TICK;
+                prorateDay = (int) prorateDayl;
+            } else {
+                long prorateDayl = (NextbillCycleDate - currDate) / TimeConvertion.DAY_TIME_TICK;
+                prorateDay = (int) prorateDayl;
+            }
 
             float featureP = 0;
             float featureFundP = 0;
-            int prorateDay = 0;
-            if (CurrentdayOfMonth > BillCycledayOfMonth) {
-                prorateDay = 31 - (CurrentdayOfMonth - BillCycledayOfMonth);
-            } else {
-                prorateDay = (BillCycledayOfMonth - CurrentdayOfMonth);
-            }
-            float prorate = prorateDay * FUND30_FeaturePrice / 31;
+
+            long nextmonthl = (NextbillCycleDate - billCycleDate) / TimeConvertion.DAY_TIME_TICK;
+            int nextMonDay = (int) nextmonthl;
+
+            float prorate = prorateDay * FUND30_FeaturePrice / nextMonDay;
             int iprorate = (int) (prorate * 100);
             float tempfeatureP = iprorate;
             tempfeatureP /= 100;
-            if (tempfeatureP > 3) {
+            if (tempfeatureP > 2) {
                 featureP = tempfeatureP;
 
                 iprorate = iprorate / 2;

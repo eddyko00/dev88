@@ -1003,6 +1003,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//
+            
 //            BillingProcess BP = new BillingProcess();
 //            BP.updateUserBilling(this, getCustomerObjByName("EDDYKO99-YAHOO-COM"));
 //            getAccountProcessImp().ProcessCustomerRemoveMaintance(this);
