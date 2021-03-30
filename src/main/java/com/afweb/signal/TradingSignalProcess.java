@@ -902,7 +902,7 @@ public class TradingSignalProcess {
                     return;
                 }
             }
-            logger.info("> upateAdminTransaction " + stock.getSymbol());
+//            logger.info("> upateAdminTransaction " + stock.getSymbol());
             ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
 
