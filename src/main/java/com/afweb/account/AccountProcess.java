@@ -51,13 +51,11 @@ public class AccountProcess {
     }
 
     public void ProcessSystemMaintance(ServiceAFweb serviceAFWeb) {
-//        this.serviceAFWeb = serviceAFWeb;
-
         acTimerCnt++;
         if (acTimerCnt < 0) {
             acTimerCnt = 0;
         }
-
+        logger.info(">>>>>>>>>>>>>> ProcessSystemMaintance " + acTimerCnt);
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ACC_" + CKey.AF_SYSTEM;
@@ -65,7 +63,7 @@ public class AccountProcess {
         if (lockReturn > 0) {
 
             // 2 minute evey 2 minutes
-            if (acTimerCnt % 1 == 0) {
+            if ((acTimerCnt % 1) == 0) {
                 // delete stock based on all customer account exclude the ADMIN_USERNAME account 
                 ProcessStockkMaintance(serviceAFWeb);
 
@@ -75,7 +73,7 @@ public class AccountProcess {
                 // cleanup Lock entry pass 30 min
                 ProcessAllLockCleanup(serviceAFWeb);
                 // cleanup Lock entry pass 30 min
-            } else if (acTimerCnt % 2 == 0) {
+            } else if ((acTimerCnt % 2) == 0) {
                 // disable customer will be handle by billing process
                 // disable cusotmer with no activity in 2 days
 //                ProcessCustomerDisableMaintance(serviceAFWeb);
@@ -131,7 +129,7 @@ public class AccountProcess {
     }
 
     public void ProcessCustomerRemoveMaintance(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>>>>>>>> ProcessCustomerRemoveMaintance ");
+        logger.info(">>>>>>>>>>>>>> ProcessCustomerRemoveMaintance " + acTimerCnt);
         // reomve customer with no activity in 4 days        
         ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
         if (custList == null) {
@@ -210,7 +208,7 @@ public class AccountProcess {
     private void ProcessStockkMaintance(ServiceAFweb serviceAFWeb) {
         // delete stock based on all customer account exclude the ADMIN_USERNAME account 
         // do Simulation trading
-        logger.info(">>>>>>>>>>>>>> ProcessStockkMaintance ");
+        logger.info(">>>>>>>>>>>>>> ProcessStockkMaintance " + acTimerCnt);
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
