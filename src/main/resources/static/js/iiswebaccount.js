@@ -43,7 +43,7 @@ var app = {
             var commObjList = JSON.parse(commObjListStr);
 
             var htmlhead = '<div class="ui-grid-a">';
-            htmlhead += '<div class="ui-block-a" style="width:15%"><strong>Date</strong></div>';
+            htmlhead += '<div class="ui-block-a" style="width:30%"><strong>Date</strong></div>';
             htmlhead += '<div class="ui-block-b">Msg</div>';
             htmlhead += '</div>';
 
@@ -53,10 +53,11 @@ var app = {
                 var commObj = commObjList[i];
                 var commId = commObj.id;
 
-                var htmlName = '<div class="ui-grid-b">';
-                htmlName += '<div class="ui-block-a" style="width:15%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
-                htmlName += '<div class="ui-block-b">' + commObj.data + '</div>';
+                var htmlName = '<div class="ui-grid-a">';
+                htmlName += '<div class="ui-block-a" style="width:30%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
+                htmlName += '<div class="ui-block-b" >' + commObj.name + ' ' + commObj.accountid + '</div>';
                 htmlName += '</div>';
+                htmlName += '<p>' + commObj.data + '</p>';
 
                 $("#msgid").append('<li id="' + commId + '" >' + htmlName + '</li>');
 
@@ -243,7 +244,7 @@ var app = {
             var accId = accObj.id;
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-            
+
             // clear pop up message
             window.localStorage.setItem(iisMsgSession, "");
             window.location.href = "conf_1.html";
