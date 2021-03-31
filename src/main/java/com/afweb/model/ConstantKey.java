@@ -102,6 +102,9 @@ public class ConstantKey {
 
     public static final String BILLING = "BILLING";
     public static final int INT_BILLING = 10;
+    public static final String TRAN = "TRAN";
+    public static final int INT_TRAN = 20;
+    
 //// Android configuration      
     public static final String nullSt = "null";    // fix mapper object translation
 

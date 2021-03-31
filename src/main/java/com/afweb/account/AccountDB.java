@@ -511,8 +511,8 @@ public class AccountDB {
         return getBillingBySQL(sql);
     }
 
-    public ArrayList<BillingObj> getBillingObjByAccountID(int accountID, int length) {
-        String sql = "select * from billing where accountid=" + accountID;
+    public ArrayList<BillingObj> getBillingObjByAccountID(int accountID, int type, int length) {
+        String sql = "select * from billing where accountid=" + accountID + " and type=" + type;
 
         sql += " order by updatedatel desc";
         sql = ServiceAFweb.getSQLLengh(sql, length);
@@ -1350,7 +1350,7 @@ public class AccountDB {
         return 0;
     }
 
-        public int removeAccountBillingByName(String name) {
+    public int removeAccountBillingByName(String name) {
         try {
             String deleteSQL = "delete from billing where name='" + name + "'";
             processExecuteDB(deleteSQL);
@@ -1360,7 +1360,7 @@ public class AccountDB {
         }
         return 0;
     }
-        
+
     public int removeAccountBillingByID(int AccountID, int BillID) {
         try {
             String deleteSQL = "delete from billing where accountid=" + AccountID + " and id=" + BillID;
