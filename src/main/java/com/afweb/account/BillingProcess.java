@@ -155,14 +155,15 @@ public class BillingProcess {
         float userBalance = customer.getBalance();
         float fPayment = customer.getPayment();
 
-        boolean createBillFlag = false;
+        boolean createBillFlag = true;
         boolean sendMsg = false;
         String msg = "";
 
-        String custName = customer.getEmail();
-        if ((custName == null) || (custName.length() == 0)) {
-            custName = customer.getUsername();
+        String custN = customer.getEmail();
+        if ((custN == null) || (custN.length() == 0)) {
+            custN = "customer";
         }
+        custN = customer.getFirstname() + "_" + custN;
 
         if (status == ConstantKey.INITIAL) {
             // override payment
@@ -205,14 +206,14 @@ public class BillingProcess {
                 // send email disable
                 NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                 String currency = formatter.format(fPayment);
-                msg = "The " + custName + " account bill id (" + billing.getId() + ") payment " + currency + " is completed! Thank you.";
+                msg = "The " + custN + " account bill id (" + billing.getId() + ") payment " + currency + " is completed! Thank you.";
                 sendMsg = true;
-                logger.info("Billing***Completed user " + custName + ", billing id " + billing.getId());
+                logger.info("Billing***Completed user " + custN + ", billing id " + billing.getId());
 
                 ////////
                 processFeat(serviceAFWeb, customer);
-                // create another bill
-                createBillFlag = true;
+
+                createBillFlag = false;
 
             } else {
 //                Date entryDate = billing.getUpdatedatedisplay();
@@ -240,9 +241,10 @@ public class BillingProcess {
                                 result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                                 // send email disable
-                                msg = "The " + custName + " account had been disabled due to outstanding payment! Thank you for using IIS.";
+                                msg = "The " + custN + " account had been disabled due to outstanding payment! Thank you for using IIS.";
                                 sendMsg = true;
-                                logger.info("Billing***Disable user " + custName + ", billing id " + billing.getId());
+                                logger.info("Billing***Disable user " + custN + ", billing id " + billing.getId());
+                                createBillFlag = false;
                             }
                         }
                     }
@@ -257,9 +259,10 @@ public class BillingProcess {
                         // send email reminder
                         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                         String currency = formatter.format(fPayment);
-                        msg = "The " + custName + " account  bill (" + billing.getId() + ") has past due " + currency + " amount! Please submit the payment now to iisweb88@gmail.com.";
+                        msg = "The " + custN + " account  bill (" + billing.getId() + ") has past due " + currency + " amount! Please submit the payment now to iisweb88@gmail.com.";
                         sendMsg = true;
-                        logger.info("Billing***PastDue user " + custName + ", billing id " + billing.getId());
+                        logger.info("Billing***PastDue user " + custN + ", billing id " + billing.getId());
+                        createBillFlag = false;
                     }
                 }
 
@@ -382,9 +385,10 @@ public class BillingProcess {
         long date5day = TimeConvertion.addDays(curDate.getTime(), 5);
 
         if (date5day > billCycleDate) {
-            String custName = customer.getEmail();
-            if ((custName == null) || (custName.length() == 0)) {
-                custName = customer.getUsername();
+
+            String custN = customer.getUsername();
+            if ((custN == null) || (custN.length() == 0)) {
+                custN = "customer";
             }
 
             String portfolio = customer.getPortfolio();
@@ -474,14 +478,14 @@ public class BillingProcess {
                 billData.setPrevOwn(prevOwning);
                 payment = fInvoice + prevOwning - billData.getCredit();
                 customer.setPayment(payment);
-                result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
+                result = serviceAFWeb.systemCustStatusPaymentBalance(custN, null, customer.getPayment() + "", null);
             } else {
                 // first bill
                 firstBill = true;
                 if (payment == 0) {
                     payment = fInvoice - billData.getCredit();
                     customer.setPayment(payment);
-                    result = serviceAFWeb.systemCustStatusPaymentBalance(custName, null, customer.getPayment() + "", null);
+                    result = serviceAFWeb.systemCustStatusPaymentBalance(custN, null, customer.getPayment() + "", null);
                 }
             }
 
@@ -496,7 +500,7 @@ public class BillingProcess {
             }
 
             float balance = 0;
-            result = serviceAFWeb.getAccountImp().addAccountBilling(custName, account, payment, balance, data, billCycleDate);
+            result = serviceAFWeb.getAccountImp().addAccountBilling(custN, account, payment, balance, data, billCycleDate);
 
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -507,7 +511,7 @@ public class BillingProcess {
 
             NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
             String currency = formatter.format(payment);
-            String msg = "The " + custName + " account bill on " + billcycleESTtime + " invoice for the amount " + currency + " is ready! Please submit the payment now.";
+            String msg = "The " + custN + " account bill on " + billcycleESTtime + " invoice for the amount " + currency + " is ready! Please submit the payment now.";
 
             tzid = "America/New_York"; //EDT
             tz = TimeZone.getTimeZone(tzid);
@@ -534,7 +538,7 @@ public class BillingProcess {
 //            compassMsgSt = ServiceAFweb.compress(msgD);
             serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
 
-            logger.info("Billing***create user " + custName + ", billing cycle " + billcycleESTtime + ", payment=" + payment);
+            logger.info("Billing***create user " + custN + ", billing cycle " + billcycleESTtime + ", payment=" + payment);
 
             /// Adding credit to other mutural fund user
             /// Adding credit to other mutural fund user            

@@ -1005,10 +1005,8 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 //
-            this.getAccountImp().removeAccountBillingByName("Eddyko88@yahoo.ca");
 //            BillingProcess BP = new BillingProcess();
-//            BP.updateUserBilling(this, getCustomerObjByName("EDDYKO99-YAHOO-COM"));
-//            getAccountProcessImp().ProcessCustomerRemoveMaintance(this);
+//            BP.processUserBillingAll(this);
 
             /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
@@ -6036,6 +6034,7 @@ public class ServiceAFweb {
             CustomerObj newCustomer = new CustomerObj();
             newCustomer.setUsername(CKey.ADMIN_USERNAME);
             newCustomer.setPassword("passw0rd");
+            newCustomer.setFirstname("ADM");
             newCustomer.setType(CustomerObj.INT_ADMIN_USER);
             //// result 1 = success, 2 = existed,  0 = fail
             getAccountImp().addCustomer(newCustomer);
@@ -6043,16 +6042,19 @@ public class ServiceAFweb {
 
                 newCustomer.setUsername(CKey.G_USERNAME);
                 newCustomer.setPassword("guest");
-                newCustomer.setType(CustomerObj.INT_GUEST_USER);
+                newCustomer.setFirstname("G");
+                newCustomer.setType(CustomerObj.INT_GUEST_USER);                
                 getAccountImp().addCustomer(newCustomer);
 
                 newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);
                 newCustomer.setPassword("passw0rd");
+                newCustomer.setFirstname("FundMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
                 getAccountImp().addCustomer(newCustomer);
 //                
                 newCustomer.setUsername(CKey.INDEXFUND_MANAGER_USERNAME);
                 newCustomer.setPassword("passw0rd");
+                newCustomer.setFirstname("IndexMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
                 getAccountImp().addCustomer(newCustomer);
 
@@ -6072,6 +6074,7 @@ public class ServiceAFweb {
 
             newCustomer.setUsername(CKey.E_USERNAME);
             newCustomer.setPassword("pass");
+            newCustomer.setFirstname("E");
             newCustomer.setType(CustomerObj.INT_CLIENT_BASIC_USER);
             getAccountImp().addCustomer(newCustomer);
         }
