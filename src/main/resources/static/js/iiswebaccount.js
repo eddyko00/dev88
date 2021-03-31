@@ -42,10 +42,9 @@ var app = {
         if (commObjListStr !== "") {
             var commObjList = JSON.parse(commObjListStr);
 
-            var htmlhead = '<div class="ui-grid-b">';
-            htmlhead += '<div class="ui-block-a" style="width:30%"><strong>Date</strong></div>';
-            htmlhead += '<div class="ui-block-b" style="width:5%"></div>';
-            htmlhead += '<div class="ui-block-c">Msg</div>';
+            var htmlhead = '<div class="ui-grid-a">';
+            htmlhead += '<div class="ui-block-a" style="width:15%"><strong>Date</strong></div>';
+            htmlhead += '<div class="ui-block-b">Msg</div>';
             htmlhead += '</div>';
 
             $("#msgid").html('<li id="0" >' + htmlhead + '</li>');
@@ -55,9 +54,8 @@ var app = {
                 var commId = commObj.id;
 
                 var htmlName = '<div class="ui-grid-b">';
-                htmlName += '<div class="ui-block-a" style="width:30%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="width:5%"> </div>';
-                htmlName += '<div class="ui-block-c">' + commObj.data + '</div>';
+                htmlName += '<div class="ui-block-a" style="width:15%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
+                htmlName += '<div class="ui-block-b">' + commObj.data + '</div>';
                 htmlName += '</div>';
 
                 $("#msgid").append('<li id="' + commId + '" >' + htmlName + '</li>');
