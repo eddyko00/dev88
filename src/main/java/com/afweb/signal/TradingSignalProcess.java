@@ -1543,7 +1543,7 @@ public class TradingSignalProcess {
         } catch (Exception ex) {
         }
 
-        if ((hr > 18) && (hr < 8)) {  //if (hr > 17) {
+        if ((hr > 18) && (hr < 9)) {  //if (hr > 17) {
             String LockName = "MK_CLOSE_" + ServiceAFweb.getServerObj().getServerName();
 
             int lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);
@@ -1671,7 +1671,9 @@ public class TradingSignalProcess {
                         }
 
                     }
-                    logger.info("> updateAllStock resultUpdate fail " + NormalizeSymbol);
+                    if (ServiceAFweb.mydebugtestflag == true) {
+                        logger.info("> updateAllStock resultUpdate fail " + NormalizeSymbol);
+                    }
                     // update fail do not remove lock
                     int failCnt = stock.getFailedupdate() + 1;
                     // too many failure
@@ -1685,7 +1687,9 @@ public class TradingSignalProcess {
                     sqlList.add(sockUpdateSQL);
                     serviceAFWeb.SystemUpdateSQLList(sqlList);
                 } else {
-                    logger.info("> updateAllStock lockReturn fail " + lockDateValue + " " + NormalizeSymbol);
+                    if (ServiceAFweb.mydebugtestflag == true) {
+                        logger.info("> updateAllStock lockReturn fail " + lockDateValue + " " + NormalizeSymbol);
+                    }
                 }
                 return 0;
             } else {
@@ -2070,12 +2074,12 @@ public class TradingSignalProcess {
     public static String NN30_FILE_2 = "_nn301_";
 
     public static String NN1_FILE_1 = "_nn1_";
-    public static String NN1_FILE_2 = "_nn2_";    
+    public static String NN1_FILE_2 = "_nn2_";
     public static String NN2_FILE_1 = "_nn21_";
     public static String NN2_FILE_2 = "_nn22_";
     public static String NN3_FILE_1 = "_nn31_";
     public static String NN3_FILE_2 = "_nn32_";
-    
+
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");

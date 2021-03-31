@@ -48,10 +48,11 @@ var app = {
         $("#accheader").html("Admin Control");
 
         $("#commid").html(" "); //clear the field
-        var htmlhead = '<div class="ui-grid-b">';
+        var htmlhead = '<div class="ui-grid-c">';
         htmlhead += '<div class="ui-block-a" style="width:15%"><strong>Date</strong></div>';
-        htmlhead += '<div class="ui-block-b" style="width:5%">Id</div>';
-        htmlhead += '<div class="ui-block-c">Msg</div>';
+        htmlhead += '<div class="ui-block-b" style="width:10%">Id</div>';
+        htmlhead += '<div class="ui-block-c" style="width:10%">Name</div>';
+        htmlhead += '<div class="ui-block-d">Msg</div>';
         htmlhead += '</div>';
 
         $("#commid").html('<li id="0" >' + htmlhead + '</li>');
@@ -65,10 +66,15 @@ var app = {
 
                 var htmlName = '<div class="ui-grid-b">';
                 htmlName += '<div class="ui-block-a" style="width:15%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="width:5%">' + commId + '</div>';
-                htmlName += '<div class="ui-block-c">' + commObj.name + ' ' + commObj.accountid + ' ' + commObj.data + '</div>';
-                htmlName += '</div>';
-
+                htmlName += '<div class="ui-block-b" style="width:10%">' + commId + '_' + '</div>';
+                htmlName += '<div class="ui-block-c" style="width:10%">' + commObj.name + ' ' + commObj.accountid + '</div>';
+                if (commObj.name === 'MESSAGE') {
+                    htmlName += '<div class="ui-block-d">' + commObj.data + '</div>';
+                } else {
+                    htmlName += '<div class="ui-block-d">' + " " + '</div>';
+                    htmlName += '</div>';
+                    htmlName += '<p>' + commObj.data + '</p>';
+                }
                 $("#commid").append('<li id="' + commId + '" >' + htmlName + '</li>');
 
             }
