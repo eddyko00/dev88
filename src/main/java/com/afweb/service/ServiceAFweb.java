@@ -1003,7 +1003,7 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
+          
 //
 //            BillingProcess BP = new BillingProcess();
 //            BP.processUserBillingAll(this);

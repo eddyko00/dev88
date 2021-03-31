@@ -587,7 +587,10 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.getComObjByAccountIDtype(accountID, ConstantKey.INT_TYPE_COM_SIGNAL, length);
+                            ArrayList<CommObj> commRet = accountdb.getComObjByAccountIDtype(accountID, ConstantKey.INT_TYPE_COM_SPLIT, 0);                            
+                            ArrayList<CommObj> commMsgRet = accountdb.getComObjByAccountIDtype(accountID, ConstantKey.INT_TYPE_COM_SIGNAL, length);
+                            commRet.addAll(commMsgRet);
+                             return commRet;
                         }
                     }
                 }
@@ -1151,7 +1154,7 @@ public class AccountImp {
     }
 
     public CommData getCommDataObj(CommObj commObj) {
-        if (commObj.getType() == ConstantKey.INT_COM_SPLIT) {
+        if (commObj.getType() == ConstantKey.INT_TYPE_COM_SPLIT) {
             String name = commObj.getData();
             if ((name != null) && (name.length() > 0)) {
                 name = StringTag.replaceAll("#", "\"", name);

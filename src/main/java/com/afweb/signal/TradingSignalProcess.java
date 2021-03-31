@@ -1973,6 +1973,10 @@ public class TradingSignalProcess {
                         deltaPTmp = oldClose / newClose;
                         splitF = -deltaPTmp;
                     }
+
+//                    if (ServiceAFweb.mydebugtestflag == true) {
+//                        deltaPTmp = 10;
+//                    }
                     if (deltaPTmp > CKey.SPLIT_VAL) {
 //                                
                         splitFlag = true;
@@ -2019,7 +2023,7 @@ public class TradingSignalProcess {
             String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
 
             commDataObj.setMsg(commMsg);
-            serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
+            serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_TYPE_COM_SPLIT, commDataObj);
 
             return true;
         }
