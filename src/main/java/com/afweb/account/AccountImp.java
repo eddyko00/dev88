@@ -533,7 +533,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.getBillingObjByAccountID(accountID, ConstantKey.INT_BILLING, length);
+                            return accountdb.getBillingObjByAccountIDType(accountID, ConstantKey.INT_BILLING, length);
                         }
                     }
                 }
@@ -1274,7 +1274,7 @@ public class AccountImp {
     }
 
     public ArrayList<BillingObj> getBillingObjByAccountID(int accountID, int length) {
-        return accountdb.getBillingObjByAccountID(accountID, ConstantKey.INT_BILLING, length);
+        return accountdb.getBillingObjByAccountIDType(accountID, ConstantKey.INT_BILLING, length);
     }
 
     public int addAccountBilling(String name, AccountObj accountObj, float payment, float balance, String data, long billcycle) {

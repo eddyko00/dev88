@@ -511,7 +511,7 @@ public class AccountDB {
         return getBillingBySQL(sql);
     }
 
-    public ArrayList<BillingObj> getBillingObjByAccountID(int accountID, int type, int length) {
+    public ArrayList<BillingObj> getBillingObjByAccountIDType(int accountID, int type, int length) {
         String sql = "select * from billing where accountid=" + accountID + " and type=" + type;
 
         sql += " order by updatedatel desc";
