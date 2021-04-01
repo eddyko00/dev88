@@ -13,10 +13,24 @@ import java.util.ArrayList;
  */
 public class FundM {
 
+    /**
+     * @return the perfL
+     */
+    public ArrayList getPerfL() {
+        return perfL;
+    }
+
+    /**
+     * @param perfL the perfL to set
+     */
+    public void setPerfL(ArrayList perfL) {
+        this.perfL = perfL;
+    }
+
     private ArrayList accL = new ArrayList();
     private ArrayList funL = new ArrayList();
-    private float bal=0;
-    private float inv=0;
+    private ArrayList perfL = new ArrayList();   // pass year performance yy,$ 
+
 
     /**
      * @return the accL
@@ -46,31 +60,5 @@ public class FundM {
         this.funL = funL;
     }
 
-    /**
-     * @return the bal
-     */
-    public float getBal() {
-        return bal;
-    }
 
-    /**
-     * @param bal the bal to set
-     */
-    public void setBal(float bal) {
-        this.bal = bal;
-    }
-
-    /**
-     * @return the inv
-     */
-    public float getInv() {
-        return inv;
-    }
-
-    /**
-     * @param inv the inv to set
-     */
-    public void setInv(float inv) {
-        this.inv = inv;
-    }
 }
