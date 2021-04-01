@@ -1500,6 +1500,8 @@ public class TradingSignalProcess {
         return 1;
     }
 ///////////////
+    public static int stockPass = 0;
+    public static int stockFail = 0;
 
     public void ResetStockUpdateNameArray(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
@@ -1515,7 +1517,8 @@ public class TradingSignalProcess {
         if (stockNameArray != null) {
             stockUpdateNameArray = stockNameArray;
         }
-
+        stockPass = 0;
+        stockFail = 0;
         return stockUpdateNameArray;
     }
 
@@ -1542,10 +1545,10 @@ public class TradingSignalProcess {
 //            hr = Integer.parseInt(arrOfStr[0]);
         } catch (Exception ex) {
         }
-
+        String marketClos = "Market open";
         if ((hr > 18) && (hr < 9)) {  //if (hr > 17) {
             String LockName = "MK_CLOSE_" + ServiceAFweb.getServerObj().getServerName();
-
+            marketClos = "Market close";
             int lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);
 //            if (CKey.NN_DEBUG == true) {
 //                lockReturn = 1;
@@ -1562,7 +1565,8 @@ public class TradingSignalProcess {
             if ((stockUpdateNameArray == null) || (stockUpdateNameArray.size() == 0)) {
                 return 0;
             }
-            logger.info("UpdateAllStock for 1 minutes market time=" + hr + " stocksize=" + stockUpdateNameArray.size());
+            logger.info("UpdateAllStock for 1 minutes " + marketClos + " time=" + hr
+                    + " stocksize=" + stockUpdateNameArray.size() + " P:" + stockPass + " F:" + stockFail);
 
             long currentTime = System.currentTimeMillis();
             long lockDate1Min = TimeConvertion.addMinutes(currentTime, 1);
@@ -1581,7 +1585,11 @@ public class TradingSignalProcess {
                 String NormalizeSymbol = (String) stockUpdateNameArray.get(0);
                 stockUpdateNameArray.remove(0);
                 result = updateAllStockProcess(serviceAFWeb, NormalizeSymbol);
-
+                if (result == 1) {
+                    stockPass++;
+                } else {
+                    stockFail++;
+                }
             }
         } catch (Exception ex) {
         }
@@ -1667,7 +1675,8 @@ public class TradingSignalProcess {
                                 serviceAFWeb.SystemUpdateSQLList(sqlList);
 
                             }
-                            return serviceAFWeb.removeNameLock(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
+                            serviceAFWeb.removeNameLock(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
+                            return 1;
                         }
 
                     }
