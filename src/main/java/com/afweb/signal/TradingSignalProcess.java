@@ -1545,10 +1545,19 @@ public class TradingSignalProcess {
 //            hr = Integer.parseInt(arrOfStr[0]);
         } catch (Exception ex) {
         }
-        String marketClos = "Market open";
-        if ((hr > 18) && (hr < 9)) {  //if (hr > 17) {
+
+        String marketClose = "Market Close";
+        boolean mkopen = false;
+        if (hr < 18) {
+            if (hr > 8) {
+                mkopen = true;
+                marketClose = "Market Open";
+            }
+        }
+
+        if (mkopen == false) {  //if (hr > 17) {
             String LockName = "MK_CLOSE_" + ServiceAFweb.getServerObj().getServerName();
-            marketClos = "Market close";
+
             int lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);
 //            if (CKey.NN_DEBUG == true) {
 //                lockReturn = 1;
@@ -1565,7 +1574,7 @@ public class TradingSignalProcess {
             if ((stockUpdateNameArray == null) || (stockUpdateNameArray.size() == 0)) {
                 return 0;
             }
-            logger.info("UpdateAllStock for 1 minutes " + marketClos + " time=" + hr
+            logger.info("UpdateAllStock for 1 minutes " + marketClose + " time=" + hr
                     + " stocksize=" + stockUpdateNameArray.size() + " P:" + stockPass + " F:" + stockFail);
 
             long currentTime = System.currentTimeMillis();

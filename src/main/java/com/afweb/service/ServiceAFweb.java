@@ -1004,6 +1004,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
           
+            TRprocessImp.UpdateAllStock(this);
+            TRprocessImp.UpdateAllStock(this);
 //
 //            BillingProcess BP = new BillingProcess();
 //            BP.processUserBillingAll(this);
@@ -1078,6 +1080,7 @@ public class ServiceAFweb {
 //            }       
 //
 ///////////////////////////////////////////////////// Update stock
+//            TRprocessImp.UpdateAllStock(this);
 //            AFstockObj stock = getRealTimeStockImp(symbol);
 //            TRprocessImp.updateRealTimeStock(this, stock);
 /////////////////////////////////////////////////////            
