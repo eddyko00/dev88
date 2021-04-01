@@ -681,7 +681,7 @@ public class IndexController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        ArrayList<CommObj> commObjList = afWebService.getEmailCommByCustomerAccountID(username, null, accountid, length);
+        ArrayList<CommObj> commObjList = afWebService.getCommEmaiByCustomerAccountID(username, null, accountid, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return commObjList;
     }

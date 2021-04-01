@@ -3032,7 +3032,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList<CommObj> getEmailCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
+    public ArrayList<CommObj> getCommEmaiByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }

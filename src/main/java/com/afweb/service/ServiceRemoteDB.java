@@ -823,9 +823,10 @@ public class ServiceRemoteDB {
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
+
             HashMap newbodymap = new HashMap();
             newbodymap.put(CMDPOST, sqlCMD);
-
+            
             String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
 
             int beg = output.indexOf("~~ ");
