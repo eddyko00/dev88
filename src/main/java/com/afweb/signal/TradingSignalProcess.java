@@ -1548,7 +1548,7 @@ public class TradingSignalProcess {
 
         String marketClose = "Market Close";
         boolean mkopen = false;
-        if (hr < 18) {
+        if (hr < 21) { //18) {
             if (hr > 8) {
                 mkopen = true;
                 marketClose = "Market Open";
