@@ -383,10 +383,11 @@ public class BillingProcess {
 
         if (date5day > billCycleDate) {
 
-            String custN = customer.getUsername();
+            String custN = customer.getEmail();
             if ((custN == null) || (custN.length() == 0)) {
                 custN = "customer";
             }
+            custN = customer.getFirstname() + "_" + custN;
 
             String portfolio = customer.getPortfolio();
             String portfStr;
@@ -475,14 +476,14 @@ public class BillingProcess {
                 billData.setPrevOwn(prevOwning);
                 payment = fInvoice + prevOwning - billData.getCredit();
                 customer.setPayment(payment);
-                result = serviceAFWeb.systemCustStatusPaymentBalance(custN, null, customer.getPayment() + "", null);
+                result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
             } else {
                 // first bill
                 firstBill = true;
                 if (payment == 0) {
                     payment = fInvoice - billData.getCredit();
                     customer.setPayment(payment);
-                    result = serviceAFWeb.systemCustStatusPaymentBalance(custN, null, customer.getPayment() + "", null);
+                    result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
                 }
             }
 
@@ -497,7 +498,7 @@ public class BillingProcess {
             }
 
             float balance = 0;
-            result = serviceAFWeb.getAccountImp().addAccountBilling(custN, account, payment, balance, data, billCycleDate);
+            result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, data, billCycleDate);
 
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
