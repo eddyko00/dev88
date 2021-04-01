@@ -93,7 +93,7 @@ public class AccountProcess {
     //////////////////////////////////////////////
 
     public void ProcessStockInfodeleteMaintance(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>>>>>>>> ProcessStockInfodeleteMaintance ");
+//        logger.info(">>>>>>>>>>>>>> ProcessStockInfodeleteMaintance ");
         ArrayList stockRemoveList = serviceAFWeb.getRemoveStockNameList(20);
         //delete stock if disable
 
@@ -130,7 +130,7 @@ public class AccountProcess {
     }
 
     public void ProcessCustomerRemoveMaintance(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>>>>>>>> ProcessCustomerRemoveMaintance " + acTimerCnt);
+//        logger.info(">>>>>>>>>>>>>> ProcessCustomerRemoveMaintance " + acTimerCnt);
         // reomve customer with no activity in 4 days        
         ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
         if (custList == null) {
@@ -209,7 +209,7 @@ public class AccountProcess {
     private void ProcessStockkMaintance(ServiceAFweb serviceAFWeb) {
         // delete stock based on all customer account exclude the ADMIN_USERNAME account 
         // do Simulation trading
-        logger.info(">>>>>>>>>>>>>> ProcessStockkMaintance " + acTimerCnt);
+//        logger.info(">>>>>>>>>>>>>> ProcessStockkMaintance " + acTimerCnt);
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
