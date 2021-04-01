@@ -1004,8 +1004,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
           
-            TRprocessImp.UpdateAllStock(this);
-            TRprocessImp.UpdateAllStock(this);
+
 //
 //            BillingProcess BP = new BillingProcess();
 //            BP.processUserBillingAll(this);
