@@ -213,8 +213,6 @@ public class BillingProcess {
                 ////////
                 processFeat(serviceAFWeb, customer);
 
-                createBillFlag = false;
-
             } else {
 //                Date entryDate = billing.getUpdatedatedisplay();
                 long billcycleDate = billing.getUpdatedatel();
@@ -244,7 +242,6 @@ public class BillingProcess {
                                 msg = "The " + custN + " account had been disabled due to outstanding payment! Thank you for using IIS.";
                                 sendMsg = true;
                                 logger.info("Billing***Disable user " + custN + ", billing id " + billing.getId());
-                                createBillFlag = false;
                             }
                         }
                     }
@@ -262,11 +259,11 @@ public class BillingProcess {
                         msg = "The " + custN + " account  bill (" + billing.getId() + ") has past due " + currency + " amount! Please submit the payment now to iisweb88@gmail.com.";
                         sendMsg = true;
                         logger.info("Billing***PastDue user " + custN + ", billing id " + billing.getId());
-                        createBillFlag = false;
                     }
                 }
 
             }
+            createBillFlag = false;
         }
 //        if (status == ConstantKey.COMPLETED) {
 //            // check for next bill
