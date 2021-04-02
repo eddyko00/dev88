@@ -811,6 +811,8 @@ public class ServiceAFweb {
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
         NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
 
+        NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
+
         TradingSignalProcess.forceToGenerateNewNN = false;
 
         if (processNeuralNetFlag == true) {
@@ -950,6 +952,14 @@ public class ServiceAFweb {
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
                 }
+                if (nn3testflag == true) {
+                    logger.info("> processNN1InputNeuralNet Rest input..");
+                    exitflag = true;
+                    /// reset weight0 and use latest stock
+                    /// remember to update nnData and nn3Data and version                
+                    nn3ProcBySig.processInputNeuralNet(this);
+
+                }
                 logger.info("> processNN1InputNeuralNet Edn..");
                 return;
             }
@@ -1003,12 +1013,10 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-          
 
 //
 //            BillingProcess BP = new BillingProcess();
 //            BP.processUserBillingAll(this);
-
             /////////// delete NN2
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
@@ -6045,7 +6053,7 @@ public class ServiceAFweb {
                 newCustomer.setUsername(CKey.G_USERNAME);
                 newCustomer.setPassword("guest");
                 newCustomer.setFirstname("G");
-                newCustomer.setType(CustomerObj.INT_GUEST_USER);                
+                newCustomer.setType(CustomerObj.INT_GUEST_USER);
                 getAccountImp().addCustomer(newCustomer);
 
                 newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);

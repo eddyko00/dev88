@@ -63,37 +63,7 @@ public class NN1ProcessBySignal {
         logger.info("> processInputNeuralNet TR NN1 end....... ");
     }
 
-//    public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
-//        ////////////////////////////////////////////
-//        boolean flagIntitNN1Input = true;
-//        if (flagIntitNN1Input == true) {
-//
-//            TrandingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
-//            TrandingSignalProcess.forceToGenerateNewNN = false;
-//            logger.info("> processInputNeuralNet TR MACD1... ");
-//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1); // normal 
-//            logger.info("> processInputNeuralNet TR MACD2... ");
-//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2); // slow 
-//            // need to debug to generate the java first time
-//            TrandingSignalProcess.forceToGenerateNewNN = true;
-//
-//            TrandingSignalProcess.forceToErrorNewNN = true;
-//            // start training
-//            // TrainingNNBP inputpattern 1748
-//            NeuralNetProcessNN1Testing(serviceAFWeb);
-//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
-//
-//            TrandingSignalProcess.forceToGenerateNewNN = false;
-//            // start training
-//            // TrainingNNBP inputpattern 1748
-//            NeuralNetProcessNN1Testing(serviceAFWeb);
-//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
-//            NeuralNetProcessNN1Testing(serviceAFWeb);
-//            NeuralNetCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
-//            logger.info("> processInputNeuralNet TR NN1 end....... ");
-//
-//        }
-//    }
+
     public void processAllStockInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
 

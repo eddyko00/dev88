@@ -33,7 +33,7 @@ public class TradingNNprocess {
     public static String cfg_stockNNretrainNameArray = "cfg_stockNNretrainNameArray";
     private static ArrayList stockNNretrainNameArray = new ArrayList();
 //    private ServiceAFweb serviceAFWeb = null;
-
+  
     public ArrayList reLearnInputStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
