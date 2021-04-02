@@ -1015,7 +1015,7 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
             // javamain localmysqlflag nn3testflag  mydebugtestflag
-            TRprocessImp.ProcessAdminSignalTrading(this);
+//            TRprocessImp.ProcessAdminSignalTrading(this);
 //
 //            BillingProcess BP = new BillingProcess();
 //            BP.processUserBillingAll(this);

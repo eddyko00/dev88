@@ -858,7 +858,8 @@ public class TradingSignalProcess {
 
     public boolean checkNN3Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
 
-        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
+//        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
+         AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
         if (nnObj0 == null) {
             return false;
         }
