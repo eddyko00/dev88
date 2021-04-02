@@ -100,7 +100,7 @@ var app = {
                 var CustN = CustNList[i];
                 var commId = i + 1;
 
-                var htmlName = '<div class="ui-grid-b">';
+                var htmlName = '<div class="ui-grid-a">';
                 htmlName += '<div class="ui-block-a" ><strong>' + CustN + '</strong></div>';
                 htmlhead += '<div class="ui-block-b" ></div>';
                 htmlName += '</div>';
