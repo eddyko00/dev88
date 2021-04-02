@@ -13,12 +13,11 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.nnBP.*;
 import com.afweb.service.*;
+import com.afweb.stock.*;
 
 import com.afweb.signal.*;
-import com.afweb.stock.*;
 import com.afweb.util.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -465,7 +464,7 @@ public class NN1ProcessBySignal {
                         AFstockInfo obj = StockArray.get(j);
                         String st = new ObjectMapper().writeValueAsString(obj);
                         writeArray.add(st);
-                    } catch (JsonProcessingException ex) {
+                    } catch (Exception ex) {
                         writeArray = null;
                         break;
                     }
