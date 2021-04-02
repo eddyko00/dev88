@@ -81,10 +81,9 @@ var app = {
             var CustNList = JSON.parse(CustNListStr);
             $("#myid").html(" "); //clear the field
 
-            var htmlhead = '<div class="ui-grid-b">';
-            htmlhead += '<div class="ui-block-a" style="width:15%"><strong>Cust Name</strong></div>';
-            htmlhead += '<div class="ui-block-b" style="width:5%">Id</div>';
-            htmlhead += '<div class="ui-block-c">Msg</div>';
+            var htmlhead = '<div class="ui-grid-a">';
+            htmlhead += '<div class="ui-block-a" ><strong>Cust Name</strong></div>';
+            htmlhead += '<div class="ui-block-b" ></div>';
             htmlhead += '</div>';
 
             $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -102,9 +101,8 @@ var app = {
                 var commId = i + 1;
 
                 var htmlName = '<div class="ui-grid-b">';
-                htmlName += '<div class="ui-block-a" style="width:30%"><strong>' + CustN + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="width:5%"> </div>';
-                htmlName += '<div class="ui-block-c">' + "" + '</div>';
+                htmlName += '<div class="ui-block-a" ><strong>' + CustN + '</strong></div>';
+                htmlhead += '<div class="ui-block-b" ></div>';
                 htmlName += '</div>';
 
                 $("#myid").append('<li id="' + commId + '" ><a href="#">' + htmlName + '</a></li>');
