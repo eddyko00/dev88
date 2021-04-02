@@ -29,7 +29,11 @@ import java.util.logging.Logger;
 public class TradingNNprocess {
 
     protected static Logger logger = Logger.getLogger("TradingNNprocess");
-
+    // data history from  old to more recent
+    // get next 5 days close price
+    public static int TREND_Day = 4;
+    
+    
     public static String cfg_stockNNretrainNameArray = "cfg_stockNNretrainNameArray";
     private static ArrayList stockNNretrainNameArray = new ArrayList();
 //    private ServiceAFweb serviceAFWeb = null;

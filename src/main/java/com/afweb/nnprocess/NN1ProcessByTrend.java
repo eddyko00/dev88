@@ -1579,9 +1579,7 @@ public class NN1ProcessByTrend {
         return inputList;
     }
 
-    // data history from  old to more recent
-    // get next 5 days close price
-    public static int TREND_Day = 4;
+
 
     public static double getNNtrend4OutputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
 
@@ -1589,7 +1587,7 @@ public class NN1ProcessByTrend {
             return -1;
         }
         // need to match specialOverrideRule3 futureDay
-        int futureDay = TREND_Day;
+        int futureDay = TradingNNprocess.TREND_Day;
         int cIndex = index + futureDay;
 
         if (cIndex >= thObjListMACD.size()) {

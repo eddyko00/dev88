@@ -587,7 +587,7 @@ public class ProcessNN1 {
                 }
 
                 // need to match getNNnormalizeStOutputClose futureDay
-                int futureDay = NN1ProcessByTrend.TREND_Day;
+                int futureDay = TradingNNprocess.TREND_Day;
                 float step = (float) ((closeOutput - closeOutput0) / futureDay);
                 ArrayList<AFstockInfo> StockPredArray = new ArrayList();
                 for (int i = offset; i < StockArray.size(); i++) {
