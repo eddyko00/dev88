@@ -1008,11 +1008,22 @@ public class ServiceAFweb {
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            String symbol = "XIU.TO";
-            int trNN = ConstantKey.INT_TR_NN1;
+            String symbol = "QQQ";
+            int trNN = ConstantKey.INT_TR_NN3;
             int TR_NN = trNN;
-            String nnName = ConstantKey.TR_NN1;
+            String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            
+//            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            AFstockObj stock = getRealTimeStockImp(symbol);
+
+            nn3testflag = true;
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 
             // javamain localmysqlflag nn3testflag  mydebugtestflag
 //            TRprocessImp.ProcessAdminSignalTrading(this);

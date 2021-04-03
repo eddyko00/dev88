@@ -38,7 +38,7 @@ public class ProcessNN3 {
         String symbol = stock.getSymbol();
         AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
-        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN3 + "_" + symbol;
+        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1 + "_" + symbol;
 
         ArrayList<NNInputDataObj> inputList = null;
 
@@ -62,11 +62,11 @@ public class ProcessNN3 {
         NNInputOutObj inputObj = inputList.get(0).getObj();
         inputTraininglist.add(inputObj);
 
-        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist, ConstantKey.TR_NN3);
+        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist, ConstantKey.TR_NN1);
 
         nnTraining.setNameNN(BPname);
         nnTraining.setSymbol(symbol);
-        nnTraining.setTrname(ConstantKey.TR_NN3);
+        nnTraining.setTrname(ConstantKey.TR_NN1);
         int retNN = TRprocessImp.OutputNNBP(serviceAFWeb, nnTraining);
         if (retNN == 0) {
             return nn;
@@ -294,8 +294,8 @@ public class ProcessNN3 {
 
         macdSignal = macdNN.trsignal;
 
-        int tmpSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, macdSignal);
-        macdSignal = tmpSignal;
+//        int tmpSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, macdSignal);
+//        macdSignal = tmpSignal;
 
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
         Date stockDate = new Date(stockinfoT.getEntrydatel());
@@ -407,8 +407,8 @@ public class ProcessNN3 {
 //                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 int macdSignal = macdNN.trsignal;
 
-                int tmpSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, macdSignal);
-                macdSignal = tmpSignal;
+//                int tmpSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, macdSignal);
+//                macdSignal = tmpSignal;
 
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
                 Date stockDate = new Date(stockinfoT.getEntrydatel());
@@ -618,7 +618,9 @@ public class ProcessNN3 {
                 // MACD1
                 // MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 // Normal                
-                MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+//                MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+                
+                MACDObj macdNN = this.getTechnicalCal(StockPredArray, 0);
                 int macdSignal = macdNN.trsignal;
 
                 return macdSignal;

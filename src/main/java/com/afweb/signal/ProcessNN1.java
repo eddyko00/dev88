@@ -611,7 +611,9 @@ public class ProcessNN1 {
                 // MACD1
                 // MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 // Normal                
-                MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+//                MACDObj macdNN = TechnicalCal.MACD(StockPredArray, 0, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
+                MACDObj macdNN = this.getTechnicalCal(StockPredArray, 0);
+
                 int macdSignal = macdNN.trsignal;
 
                 return macdSignal;
