@@ -294,8 +294,8 @@ public class ProcessNN3 {
 
         macdSignal = macdNN.trsignal;
 
-//        int tmpSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, macdSignal);
-//        macdSignal = tmpSignal;
+        int tmpSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, macdSignal);
+        macdSignal = tmpSignal;
 
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
         Date stockDate = new Date(stockinfoT.getEntrydatel());
@@ -358,17 +358,17 @@ public class ProcessNN3 {
 //                }
             }
         }
-        if (nnSignal != prevSignal) {
-            // signal change double check wiht NN trend
-            int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
-            //override the previous NN1 prediction
-            if (nnSignal == trendSignal) {
-                confident += 30;
-            } else {
-//                logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
-            }
-            nnSignal = trendSignal;
-        }
+//        if (nnSignal != prevSignal) {
+//            // signal change double check wiht NN trend
+//            int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+//            //override the previous NN1 prediction
+//            if (nnSignal == trendSignal) {
+//                confident += 30;
+//            } else {
+////                logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
+//            }
+//            nnSignal = trendSignal;
+//        }
         if (nnSignal != prevSignal) {
             int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
             if (nnSignal == retSignal) {
@@ -407,8 +407,8 @@ public class ProcessNN3 {
 //                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 int macdSignal = macdNN.trsignal;
 
-//                int tmpSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, macdSignal);
-//                macdSignal = tmpSignal;
+                int tmpSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, macdSignal);
+                macdSignal = tmpSignal;
 
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
                 Date stockDate = new Date(stockinfoT.getEntrydatel());
@@ -467,15 +467,15 @@ public class ProcessNN3 {
                         }
                     }
                 }
-                if (nnSignal != prevSignal) {
-                    // signal change double check wiht NN trend
-                    int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
-                    //override the previous NN3 prediction
-                    if (nnSignal == trendSignal) {
-                        confident += 30;
-                    }
-                    nnSignal = trendSignal;
-                }
+//                if (nnSignal != prevSignal) {
+//                    // signal change double check wiht NN trend
+//                    int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+//                    //override the previous NN3 prediction
+//                    if (nnSignal == trendSignal) {
+//                        confident += 30;
+//                    }
+//                    nnSignal = trendSignal;
+//                }
 
                 if (nnSignal != prevSignal) {
                     int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
