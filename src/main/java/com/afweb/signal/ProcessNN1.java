@@ -388,7 +388,7 @@ public class ProcessNN1 {
 
     }
 
-    private MACDObj getTechnicalCal(ArrayList StockArray, int offset) {
+    public MACDObj getTechnicalCal(ArrayList StockArray, int offset) {
         MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
         return macdNN;
     }

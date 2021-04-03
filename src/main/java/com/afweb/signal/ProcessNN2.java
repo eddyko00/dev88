@@ -399,7 +399,7 @@ public class ProcessNN2 {
 
     }
 
-    private EMAObj getTechnicalCal(ArrayList StockArray, int offset) {
+    public EMAObj getTechnicalCal(ArrayList StockArray, int offset) {
         EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
         return ema510;
     }
