@@ -29,8 +29,14 @@ var app = {
         var accObjList = JSON.parse(accObjListStr);
         var accId = iisWebObj.accId;
         console.log(accId);
+
+        var trName = "TR_ACC";
+        if (iisWebObj.trName != null) {
+            trName = iisWebObj.trName;
+        }
+        
         $.ajax({
-            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st",
+            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st?trname="+trName,
             crossDomain: true,
             cache: false,
             beforeSend: function () {
@@ -45,7 +51,8 @@ var app = {
                 window.localStorage.setItem(iisMsgSession, "");
 
                 var stockObjListStr = JSON.stringify(resultStockList, null, '\t');
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 'stockObjListStr': stockObjListStr};
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+                    'stockObjListStr': stockObjListStr, 'trName': trName};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
                 window.location.href = "accountst.html";
             }

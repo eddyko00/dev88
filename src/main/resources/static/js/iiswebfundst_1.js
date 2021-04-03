@@ -43,6 +43,7 @@ var app = {
         }
 
         var fundId = iisWebObj.fundId;
+   
         $.ajax({
             url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st",
             crossDomain: true,

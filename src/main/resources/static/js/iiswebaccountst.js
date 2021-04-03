@@ -40,6 +40,11 @@ var app = {
             window.location.href = "index.html";
         }
 
+        var trName = "TR_ACC";
+        if (iisWebObj.trName != null) {
+            trName = iisWebObj.trName;
+        }
+
         var iisMsgSession = "iisMsgSession";
         var msgObjStr = window.localStorage.getItem(iisMsgSession);
 //        msgObjStr ="This feature does not allow for GUEST account";
@@ -57,11 +62,11 @@ var app = {
         $("#accheader").html('Account ' + accObj.accountname + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
         var htmlhead = '<div class="ui-grid-d">';
-        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym</strong></div>';
+        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym ' + trName + '</strong></div>';
         htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
         htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%">Trend</div>';
         htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
-        htmlhead += '<div class="ui-block-e" style="text-align: center;width:20%">NN1 %</div>';
+        htmlhead += '<div class="ui-block-e" style="text-align: center;width:20%">perf %</div>';
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -250,7 +255,7 @@ var app = {
             var txt;
             var r = confirm("Confrim to clear fund balance!");
             if (r == true) {
-                
+
             } else {
                 window.location.href = "accountst.html";
                 return;
@@ -275,6 +280,40 @@ var app = {
                 window.location.href = "accountst.html";
             }
         });
+
+        $("#traccbtn").click(function () {
+
+
+            trName = "TR_ACC"
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+                'stockObjListStr': stockObjListStr, 'trName': trName};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "accountst_1.html";
+        });
+
+        $("#trnn1btn").click(function () {
+
+
+            trName = "TR_NN1"
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+                'stockObjListStr': stockObjListStr, 'trName': trName};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "accountst_1.html";
+        });
+
+
+        $("#trnn2btn").click(function () {
+
+
+            trName = "TR_NN2"
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+                'stockObjListStr': stockObjListStr, 'trName': trName};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "accountst_1.html";
+        });
+
+
+
 
 
         function functionAlertConfirm(msg, myYes, myNo, myOk) {

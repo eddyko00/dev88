@@ -76,7 +76,7 @@ var app = {
         htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
         htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%">Trend</div>';
         htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
-        htmlhead += '<div class="ui-block-e" style="text-align: center;width:20%">NN1 %</div>';
+        htmlhead += '<div class="ui-block-e" style="text-align: center;width:20%">perf %</div>';
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');

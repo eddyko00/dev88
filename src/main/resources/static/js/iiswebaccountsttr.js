@@ -110,19 +110,8 @@ var app = {
             var trObj = trObjList[i];
             console.log(trObj);
             var nameId = trObj.id;
-            if (custObj.username.toUpperCase() === "GUEST") {
-                if (trObj.trname === "TR_ACC") {
-                    trObjacc = trObj;
-//                } else if (trObj.trname === "TR_MACD") {
-//                    ;
-                } else if (trObj.trname === "TR_NN1") {
-                    ;
-                } else if (trObj.trname === "TR_NN2") {
-                    ;
-                } else {
-                    continue;
-                }
-            } else if (custObj.username.toUpperCase() === "EDDY") {
+
+            if (custObj.type == 99) {
                 if (trObj.trname === "TR_ACC") {
                     trObjacc = trObj;
                 } else if (trObj.trname === "TR_MACD") {
@@ -139,12 +128,12 @@ var app = {
             } else {
                 if (trObj.trname === "TR_ACC") {
                     trObjacc = trObj;
-//                } else if (trObj.trname === "TR_MACD") {
-//                    ;
                 } else if (trObj.trname === "TR_NN1") {
                     ;
                 } else if (trObj.trname === "TR_NN2") {
                     ;
+//                } else if (trObj.trname === "TR_NN3") {
+//                    ;
                 } else {
                     continue;
                 }
