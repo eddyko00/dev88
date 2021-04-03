@@ -3210,10 +3210,10 @@ public class ServiceAFweb {
                 lenght = stockNameList.size();
             }
             ArrayList returnStockList = new ArrayList();
-            
+
             /// only TR ACC allowed
             String trname = ConstantKey.TR_ACC;
-            
+
             for (int i = 0; i < lenght; i++) {
                 String NormalizeSymbol = (String) stockNameList.get(i);
                 AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
@@ -3226,16 +3226,10 @@ public class ServiceAFweb {
 
                             if (trname.equals(ConstantKey.TR_ACC)) {
                                 stock.setTRsignal(trObj.getTrsignal());
-                                float perfProfit = 0;
-                                ArrayList<PerformanceObj> perfList = getAccountImp().getAccountStockPerfList(accFundObj.getId(), stock.getId(), trObj.getTrname(), 1);
-                                if (perfList != null) {
-                                    if (perfList.size() > 0) {
-                                        PerformanceObj perf = perfList.get(0);
-                                        perfProfit = perf.getGrossprofit();
-                                    }
-                                }
-                                float per = 100 * (perfProfit) / CKey.TRADING_AMOUNT;
-                                stock.setPerform(per);
+
+                                float total = ServiceAFweb.performanceRT(trObj, stock);
+                                stock.setPerform(total);
+
                                 break;
                             }
 
@@ -3272,6 +3266,7 @@ public class ServiceAFweb {
                     AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
                     if (stock != null) {
                         stock.setTrname(trname);
+
                         ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stock.getId());
                         if (trObjList != null) {
                             for (int j = 0; j < trObjList.size(); j++) {
@@ -3279,30 +3274,17 @@ public class ServiceAFweb {
 
                                 if (trname.equals(ConstantKey.TR_ACC)) {
                                     stock.setTRsignal(trObj.getTrsignal());
-                                    float perfProfit = 0;
-                                    ArrayList<PerformanceObj> perfList = getAccountImp().getAccountStockPerfList(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
-                                    if (perfList != null) {
-                                        if (perfList.size() > 0) {
-                                            PerformanceObj perf = perfList.get(0);
-                                            perfProfit = perf.getGrossprofit();
-                                        }
-                                    }
-                                    float per = 100 * (perfProfit) / CKey.TRADING_AMOUNT;
-                                    stock.setPerform(per);
+
+                                    float total = ServiceAFweb.performanceRT(trObj, stock);
+                                    stock.setPerform(total);
+
                                     break;
                                 } else if (trname.equals(trObj.getTrname())) {
+
                                     stock.setTRsignal(trObj.getTrsignal());
-                                    float perfProfit = 0;
-                                    AccountObj accountAdminObj = getAdminObjFromCache();
-                                    ArrayList<PerformanceObj> perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trObj.getTrname(), 1);
-                                    if (perfList != null) {
-                                        if (perfList.size() > 0) {
-                                            PerformanceObj perf = perfList.get(0);
-                                            perfProfit = perf.getGrossprofit();
-                                        }
-                                    }
-                                    float per = 100 * (perfProfit) / CKey.TRADING_AMOUNT;
-                                    stock.setPerform(per);
+                                    float total = ServiceAFweb.performanceRT(trObj, stock);
+                                    stock.setPerform(total);
+
                                     break;
                                 }
 
@@ -3331,6 +3313,34 @@ public class ServiceAFweb {
             }
         }
         return null;
+    }
+
+    public static float performanceRT(TradingRuleObj trObj, AFstockObj stock) {
+        float deltaTotal = 0;
+        float sharebalance = 0;
+        float close = stock.getAfstockInfo().getFclose();
+        if (trObj.getTrsignal() == ConstantKey.S_BUY) {
+            sharebalance = trObj.getLongamount();
+            if (trObj.getLongshare() > 0) {
+                if (close > 0) {
+                    deltaTotal = (close - (trObj.getLongamount() / trObj.getLongshare())) * trObj.getLongshare();
+                }
+            }
+        } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
+            sharebalance = trObj.getShortamount();
+            if (trObj.getShortshare() > 0) {
+                if (close > 0) {
+                    deltaTotal = ((trObj.getShortamount() / trObj.getShortshare()) - close) * trObj.getShortshare();
+                }
+            }
+        }
+        float total = trObj.getBalance() + sharebalance;
+        total = total - trObj.getInvestment();
+
+        if (stock.getSubstatus() == 0) {
+            total = total + deltaTotal;
+        }
+        return total;
     }
 
     public AFstockObj getStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
