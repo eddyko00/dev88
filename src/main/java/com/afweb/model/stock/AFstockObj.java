@@ -14,6 +14,20 @@ import com.vpumlmodel.stock.stock;
 public class AFstockObj extends stock {
 
     /**
+     * @return the trname
+     */
+    public String getTrname() {
+        return trname;
+    }
+
+    /**
+     * @param trname the trname to set
+     */
+    public void setTrname(String trname) {
+        this.trname = trname;
+    }
+
+    /**
      * @return the perform
      */
     public float getPerform() {
@@ -27,10 +41,11 @@ public class AFstockObj extends stock {
         this.perform = perform;
     }
 
-    private AFstockInfo afstockInfo=null;
+    private AFstockInfo afstockInfo = null;
     private float prevClose;
-    private int TRsignal=0;
-    private float perform=0;
+    private int TRsignal = 0;
+    private float perform = 0;
+    private String trname = "";
     private String updateDateD = "";
 
     /**

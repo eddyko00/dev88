@@ -3266,7 +3266,7 @@ public class ServiceAFweb {
                     String NormalizeSymbol = (String) stockNameList.get(i);
                     AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
                     if (stock != null) {
-
+                        stock.setTrname(trname);
                         ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stock.getId());
                         if (trObjList != null) {
                             for (int j = 0; j < trObjList.size(); j++) {
