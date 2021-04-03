@@ -870,7 +870,7 @@ public class IndexController {
             length = Integer.parseInt(lengthSt);
         }
 
-        ArrayList returnList = afWebService.getFundAccountStockListByAccountID(username, null, accountid, accfundid, length);
+        ArrayList returnList = afWebService.getFundStockListByAccountID(username, null, accountid, accfundid, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -899,7 +899,7 @@ public class IndexController {
         if (trnameSt != null) {
             trname = trnameSt;
         }
-        ArrayList returnList = afWebService.getAccountStockListByAccountID(username, null, accountid, trname, length);
+        ArrayList returnList = afWebService.getStockListByAccountIDTRname(username, null, accountid, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -991,7 +991,7 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        AFstockObj retObj = afWebService.getAccountStockByAccountIDStockID(username, null, accountid, stockidsymbol);
+        AFstockObj retObj = afWebService.getStockByAccountIDStockID(username, null, accountid, stockidsymbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return retObj;

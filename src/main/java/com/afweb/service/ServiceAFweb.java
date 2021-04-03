@@ -3147,7 +3147,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList getFundAccountStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, int lenght) {
+    public ArrayList<AFstockObj> getFundStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3245,7 +3245,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList<AFstockObj> getAccountStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String trname, int lenght) {
+    public ArrayList<AFstockObj> getStockListByAccountIDTRname(String EmailUserName, String Password, String AccountIDSt, String trname, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3328,7 +3328,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public AFstockObj getAccountStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+    public AFstockObj getStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
