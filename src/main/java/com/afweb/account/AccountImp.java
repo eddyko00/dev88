@@ -713,7 +713,7 @@ public class AccountImp {
     }
 
     public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(int accountId, int stockId) {
-        return accountdb.getAccountStockTRListByStockID(accountId + "", stockId + "", null, 0);
+        return accountdb.getAccountStockTRListByStockIDTRname(accountId + "", stockId + "", null, 0);
     }
 
     public TradingRuleObj getAccountStockIDByTRname(int accountID, int stockID, String trName) {

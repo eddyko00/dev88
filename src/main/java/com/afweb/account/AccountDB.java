@@ -739,7 +739,7 @@ public class AccountDB {
     }
 
     public TradingRuleObj getAccountStockByStockID(String AccountID, String StockID, String trName) {
-        ArrayList TradingRuleList = getAccountStockTRListByStockID(AccountID, StockID, trName, 1);
+        ArrayList TradingRuleList = getAccountStockTRListByStockIDTRname(AccountID, StockID, trName, 1);
         if (TradingRuleList != null) {
             if (TradingRuleList.size() == 1) {
                 TradingRuleObj tradingRule = (TradingRuleObj) TradingRuleList.get(0);
@@ -1048,7 +1048,7 @@ public class AccountDB {
         return null;
     }
 
-    public ArrayList<TradingRuleObj> getAccountStockTRListByStockID(String AccountID, String StockID, String trName, int length) {
+    public ArrayList<TradingRuleObj> getAccountStockTRListByStockIDTRname(String AccountID, String StockID, String trName, int length) {
 
         String sql = ""
                 + "select tradingrule.*, stock.symbol as symbol from tradingrule inner join stock on "

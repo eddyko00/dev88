@@ -876,12 +876,13 @@ public class IndexController {
         return returnList;
     }
 
-    // "/cust/{username}/acc/{accountid}/st?length="
+    // "/cust/{username}/acc/{accountid}/st?trname=&length="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getAccountStock_StockList(
             @PathVariable("username") String username,
             @PathVariable("accountid") String accountid,
+            @RequestParam(value = "trname", required = false) String trnameSt,
             @RequestParam(value = "length", required = false) String lengthSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
@@ -894,8 +895,11 @@ public class IndexController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-
-        ArrayList returnList = afWebService.getAccountStockListByAccountID(username, null, accountid, length);
+        String trname = ConstantKey.TR_ACC;
+        if (trnameSt != null) {
+            trname = trnameSt;
+        }
+        ArrayList returnList = afWebService.getAccountStockListByAccountID(username, null, accountid, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;

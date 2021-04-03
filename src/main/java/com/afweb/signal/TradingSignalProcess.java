@@ -926,6 +926,9 @@ public class TradingSignalProcess {
                     if (checkNN3Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
                     }
+                    if (ServiceAFweb.nn3testflag == false) {
+                        continue;
+                    }
                 }
 
                 /////// no need to handle other indicator. Just make NN1 and NN2 working
