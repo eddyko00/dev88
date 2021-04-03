@@ -3340,7 +3340,7 @@ public class ServiceAFweb {
         if (stock.getSubstatus() == 0) {
             total = total + deltaTotal;
         }
-        total = total/CKey.TRADING_AMOUNT;
+        total = (total/CKey.TRADING_AMOUNT)*100;
         return total;
     }
 

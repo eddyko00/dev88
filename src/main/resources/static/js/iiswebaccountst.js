@@ -62,7 +62,7 @@ var app = {
         $("#accheader").html('Account ' + accObj.accountname + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
         var htmlhead = '<div class="ui-grid-d">';
-        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym ' + trName + '</strong></div>';
+        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym <small>' + trName + '</small></strong></div>';
         htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
         htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%">Trend</div>';
         htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
@@ -121,6 +121,26 @@ var app = {
             var htmlAdmin = '<button id="configbtn"  >Clear Fund Balance - ' + ' Total: ' + totSt + '</button>';
             $("#adminid").html(htmlAdmin);
         }
+
+
+
+
+
+        var htmltrHeader = "";
+        if (trName === "TR_ACC") {
+            htmltrHeader += '<button type="submit" id="traccbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>*TR_ACC</small></button>';
+            htmltrHeader += '<button type="submit" id="trnn1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>TR_NN1</small></button>';
+
+        } else if (trName === "TR_NN1") {
+            htmltrHeader += '<button type="submit" id="traccbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>TR_ACC</small></button>';
+            htmltrHeader += '<button type="submit" id="trnn1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>*TR_NN1</small></button>';
+
+        }
+
+        $("#trheader").html(htmltrHeader);
+
+
+
 
         $("ul[id*=myid] li").click(function () {
 //            alert($(this).html()); // gets innerHTML of clicked li
