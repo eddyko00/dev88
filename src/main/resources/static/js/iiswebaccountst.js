@@ -44,7 +44,10 @@ var app = {
         if (iisWebObj.trName != null) {
             trName = iisWebObj.trName;
         }
-
+        var trFilter = "";
+        if (iisWebObj.trFilter != null) {
+            trFilter = iisWebObj.trFilter;
+        }
         var iisMsgSession = "iisMsgSession";
         var msgObjStr = window.localStorage.getItem(iisMsgSession);
 //        msgObjStr ="This feature does not allow for GUEST account";
@@ -128,19 +131,20 @@ var app = {
 
         var htmltrHeader = "";
         if (trName === "TR_ACC") {
-            htmltrHeader += '<button type="submit" id="traccbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>*TR_ACC</small></button>';
+//            htmltrHeader += '<button type="submit" id="traccbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>*TR_ACC</small></button>';
             htmltrHeader += '<button type="submit" id="trnn1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>TR_NN1</small></button>';
 
         } else if (trName === "TR_NN1") {
             htmltrHeader += '<button type="submit" id="traccbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>TR_ACC</small></button>';
-            htmltrHeader += '<button type="submit" id="trnn1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>*TR_NN1</small></button>';
+//            htmltrHeader += '<button type="submit" id="trnn1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>*TR_NN1</small></button>';
 
         }
 
         $("#trheader").html(htmltrHeader);
 
-
-
+        if (stockObjList.length <= 10) {
+            $("#srcheader").hide();
+        }
 
         $("ul[id*=myid] li").click(function () {
 //            alert($(this).html()); // gets innerHTML of clicked li
@@ -169,7 +173,7 @@ var app = {
             }
 
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'accId': accId, 'stockObjListStr': stockObjListStr, 'sockId': sockId};
+                'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountsttr_1.html";
         });
@@ -271,6 +275,24 @@ var app = {
 
         });
 
+
+        $("#filtersubmit").click(function () {
+            var filter = document.getElementById("filtersymbol").value;
+            if (filter === "") {
+                window.location.href = "accountst.html";
+                return;
+            }
+            trFilter = filter;
+
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+                'stockObjListStr': stockObjListStr, 'trName': trName, 'trFilter': trFilter};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "accountst_1.html";
+        });
+
+
+
+
         $("#configbtn").click(function () {
             var txt;
             var r = confirm("Confrim to clear fund balance!");
@@ -306,7 +328,7 @@ var app = {
 
             trName = "TR_ACC"
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
-                'stockObjListStr': stockObjListStr, 'trName': trName};
+                'stockObjListStr': stockObjListStr, 'trName': trName, 'trFilter': trFilter};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountst_1.html";
         });
@@ -316,18 +338,7 @@ var app = {
 
             trName = "TR_NN1"
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
-                'stockObjListStr': stockObjListStr, 'trName': trName};
-            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-            window.location.href = "accountst_1.html";
-        });
-
-
-        $("#trnn2btn").click(function () {
-
-
-            trName = "TR_NN2"
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
-                'stockObjListStr': stockObjListStr, 'trName': trName};
+                'stockObjListStr': stockObjListStr, 'trName': trName, 'trFilter': trFilter};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountst_1.html";
         });

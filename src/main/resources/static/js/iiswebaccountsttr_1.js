@@ -40,7 +40,11 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
-
+        var trFilter = "";
+        if (iisWebObj.trFilter != null) {
+            trFilter = iisWebObj.trFilter;
+        }
+        
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
         var sockId = iisWebObj.sockId;
@@ -76,7 +80,7 @@ var app = {
 
                 var trObjListStr = JSON.stringify(resultTRList, null, '\t');
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'accId': accId, 'stockObjListStr': stockObjListStr, 'sockId': sockId, 'trObjListStr': trObjListStr};
+                    'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId, 'trObjListStr': trObjListStr};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
                 window.location.href = "accountsttr.html";

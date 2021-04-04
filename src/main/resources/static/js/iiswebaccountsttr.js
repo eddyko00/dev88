@@ -40,7 +40,10 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
-
+        var trFilter = "";
+        if (iisWebObj.trFilter != null) {
+            trFilter = iisWebObj.trFilter;
+        }
         var iisMsgSession = "iisMsgSession";
         var msgObjStr = window.localStorage.getItem(iisMsgSession);
 //        msgObjStr ="This feature does not allow for GUEST account";
@@ -587,7 +590,7 @@ var app = {
             }
             var trName = trObj.trname;
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'accId': accId, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
+                'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
                 'trObjListStr': trObjListStr, 'trName': trName};
 
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));

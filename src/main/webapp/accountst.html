@@ -113,8 +113,24 @@
                                     </div>
                             </form>
                 </div>  
+
                 <span id="trheader">
                 </span>
+
+                <span id="srcheader">
+                    <a href="#popupFilter" data-rel="popup" data-position-to="window" data-transition="pop">Filter</a>
+                    <div data-role="popup" id="popupFilter" data-theme="b" class="ui-corner-all">
+                            <form>
+                                    <div style="padding:0px 0px;">
+                                            <h3>Filter Stock symbol</h3>
+                                            <label for="un" class="ui-hidden-accessible">Symbol filter List</label>
+                                            <input type="text" name="filtersymbol" id="filtersymbol" value="" placeholder="symbol list" data-theme="a">
+                                           
+                                            <button type="submit" id="filtersubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
+                                        </div>
+                                </form>
+                    </div>                      
+                </span>  
             </div>      
 
             <div data-role="content" id="textcontent">  

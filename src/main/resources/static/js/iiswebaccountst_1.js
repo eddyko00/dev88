@@ -19,7 +19,7 @@ var app = {
 //        console.log(iisWebObj);
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-               
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -34,9 +34,13 @@ var app = {
         if (iisWebObj.trName != null) {
             trName = iisWebObj.trName;
         }
-        
+
+        var trFilter = "";
+        if (iisWebObj.trFilter != null) {
+            trFilter = iisWebObj.trFilter;
+        }
         $.ajax({
-            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st?trname="+trName,
+            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st?trname=" + trName + "&filter=" + trFilter,
             crossDomain: true,
             cache: false,
             beforeSend: function () {
@@ -51,8 +55,8 @@ var app = {
                 window.localStorage.setItem(iisMsgSession, "");
 
                 var stockObjListStr = JSON.stringify(resultStockList, null, '\t');
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
-                    'stockObjListStr': stockObjListStr, 'trName': trName};
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'trName': trName};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
                 window.location.href = "accountst.html";
             }
