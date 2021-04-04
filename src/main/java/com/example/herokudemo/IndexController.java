@@ -93,7 +93,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/custacc");
         arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/st?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter=&length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/remove/{symbol}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
@@ -876,13 +876,14 @@ public class IndexController {
         return returnList;
     }
 
-    // "/cust/{username}/acc/{accountid}/st?trname=&length="
+    // "/cust/{username}/acc/{accountid}/st?trname=&filter=&length="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getAccountStock_StockList(
             @PathVariable("username") String username,
             @PathVariable("accountid") String accountid,
             @RequestParam(value = "trname", required = false) String trnameSt,
+            @RequestParam(value = "filter", required = false) String filterSt,            
             @RequestParam(value = "length", required = false) String lengthSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
@@ -899,7 +900,7 @@ public class IndexController {
         if (trnameSt != null) {
             trname = trnameSt;
         }
-        ArrayList returnList = afWebService.getStockListByAccountIDTRname(username, null, accountid, trname, length);
+        ArrayList returnList = afWebService.getStockListByAccountIDTRname(username, null, accountid, trname, filterSt, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
