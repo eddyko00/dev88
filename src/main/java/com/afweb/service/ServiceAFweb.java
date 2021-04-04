@@ -3335,31 +3335,46 @@ public class ServiceAFweb {
     }
 
     public static float performanceRT(TradingRuleObj trObj, AFstockObj stock) {
+        float total = 0;
         float deltaTotal = 0;
         float sharebalance = 0;
-        float close = stock.getAfstockInfo().getFclose();
-        if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-            sharebalance = trObj.getLongamount();
-            if (trObj.getLongshare() > 0) {
-                if (close > 0) {
-                    deltaTotal = (close - (trObj.getLongamount() / trObj.getLongshare())) * trObj.getLongshare();
-                }
+        try {
+            if (trObj == null) {
+                return 0;
             }
-        } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-            sharebalance = trObj.getShortamount();
-            if (trObj.getShortshare() > 0) {
-                if (close > 0) {
-                    deltaTotal = ((trObj.getShortamount() / trObj.getShortshare()) - close) * trObj.getShortshare();
-                }
+            if (stock == null) {
+                return 0;
             }
-        }
-        float total = trObj.getBalance() + sharebalance;
-        total = total - trObj.getInvestment();
+            if (stock.getAfstockInfo() == null) {
+                return 0;
+            }
 
-        if (stock.getSubstatus() == 0) {
-            total = total + deltaTotal;
+            float close = stock.getAfstockInfo().getFclose();
+            if (trObj.getTrsignal() == ConstantKey.S_BUY) {
+                sharebalance = trObj.getLongamount();
+                if (trObj.getLongshare() > 0) {
+                    if (close > 0) {
+                        deltaTotal = (close - (trObj.getLongamount() / trObj.getLongshare())) * trObj.getLongshare();
+                    }
+                }
+            } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
+                sharebalance = trObj.getShortamount();
+                if (trObj.getShortshare() > 0) {
+                    if (close > 0) {
+                        deltaTotal = ((trObj.getShortamount() / trObj.getShortshare()) - close) * trObj.getShortshare();
+                    }
+                }
+            }
+            total = trObj.getBalance() + sharebalance;
+            total = total - trObj.getInvestment();
+
+            if (stock.getSubstatus() == 0) {
+                total = total + deltaTotal;
+            }
+            total = (total / CKey.TRADING_AMOUNT) * 100;
+        } catch (Exception ex) {
+            logger.info("> performanceRT exception " + ex.getMessage());
         }
-        total = (total / CKey.TRADING_AMOUNT) * 100;
         return total;
     }
 
