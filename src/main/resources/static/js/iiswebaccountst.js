@@ -123,6 +123,8 @@ var app = {
             var totSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
             var htmlAdmin = '<button id="configbtn"  >Clear Fund Balance - ' + ' Total: ' + totSt + '</button>';
             $("#adminid").html(htmlAdmin);
+
+            $("#tabheader").hide();
         }
 
 

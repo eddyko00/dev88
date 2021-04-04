@@ -39,6 +39,7 @@ var app = {
             });
         }
 
+        var nomsg = true;
         if (commObjListStr !== "") {
             var commObjList = JSON.parse(commObjListStr);
 
@@ -61,7 +62,14 @@ var app = {
 
                 $("#msgid").append('<li id="' + commId + '" >' + htmlName + '</li>');
 
+                nomsg = false;
             }
+
+        }
+        if (nomsg === true) {
+            $("#msgheader").hide();
+        } else {
+             $("#nomsgheader").hide();
         }
 
 

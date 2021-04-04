@@ -87,7 +87,7 @@
             <p>
 
 
-            <div data-role="footer" data-theme="b" >
+            <div id="tabheader" data-role="footer" data-theme="b" >
                 <!--https://demos.jquerymobile.com/1.2.0/docs/toolbars/docs-footers.html-->
                 <a href="#popupAdd" data-icon="plus" data-rel="popup" data-position-to="window" data-transition="pop">Add Sym</a>
                 <div data-role="popup" id="popupAdd" data-theme="b" class="ui-corner-all" >
@@ -123,6 +123,8 @@
                             <form>
                                     <div style="padding:0px 0px;">
                                             <h3>Filter Stock symbol</h3>
+                                            Enter symbol list separated by a comma.
+
                                             <label for="un" class="ui-hidden-accessible">Symbol filter List</label>
                                             <input type="text" name="filtersymbol" id="filtersymbol" value="" placeholder="symbol list" data-theme="a">
                                            
@@ -156,8 +158,11 @@
             <div role="main" class="ui-content">
                 <h2 class="mc-text-center">Help Info</h2>
                 <p class="mc-top-margin-1-5">You can add or delete stock symbol. For Canadian stock, you have to add '.TO' at the end of the stock symbol. e.g. RY.TO.
-                    <br><br>You can also search the stock symbol by <a href="https://ca.finance.yahoo.com/portfolios">Symbol Search</a>
-
+                    <br>You can also search the stock symbol by <a href="https://ca.finance.yahoo.com/portfolios">Symbol Search</a>
+                    <br><br>The TR_NN1 tab is to display the system AI performance and signal. If you add a new stock to your account, it will 
+                    take a few hours for the system to train the AI neural networking data.
+                    <br><br>If you have more than 10 stocks, the Filter link will be displayed. You can only show your stock list by entering the filter symbol list 
+                    that is separated by a comma.
                 </p>
                 <br>
                 <p class="mc-top-margin-1-5">Field names:</p>
@@ -165,7 +170,7 @@
                     <li>Sig - Stock trading signal for Buy or Sell</li>
                     <li>Trend - Stock Trend direction from (-100 to 100) </li>                      
                     <li>Daily - Stock Daily percentage change</li>                    
-                    <li>Perf - Account performance in 1 year</li>     
+                    <li>Perf - Account performance in 1 year from today</li>     
                 </ul> 
                 <p>
 
