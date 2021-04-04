@@ -342,6 +342,8 @@ public class FundMgrProcess {
                     portfolioArray.add("QQQ");
                     portfolioArray.add("XIU.TO");
                     portfolioArray.add("GLD");
+                    portfolioArray.add("FAS");
+                    portfolioArray.add("HOU.TO");                    
                     portfolioArray.add("IWM");
                     fundMgr.setFunL(portfolioArray);
                     String portfStr;
