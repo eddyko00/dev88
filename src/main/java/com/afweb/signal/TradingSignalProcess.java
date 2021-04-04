@@ -934,8 +934,8 @@ public class TradingSignalProcess {
                 /////// no need to handle other indicator. Just make NN1 and NN2 working
                 if (trObj.getType() == ConstantKey.INT_TR_RSI) {
                     continue;
-//                } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
-//                    continue;
+                } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
+                    continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_MV) {
                     continue;
                 }
@@ -1125,10 +1125,10 @@ public class TradingSignalProcess {
             switch (trObj.getType()) {
                 case ConstantKey.INT_TR_MV:
                     // check if signal to buy or sell
-//                    EMAObj ema2050 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_MV_20, ConstantKey.INT_MV_50);
+                    EMAObj ema2050 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_MV_20, ConstantKey.INT_MV_50);
                     
-                    ProcessNN2 pnn2 = new ProcessNN2();
-                    EMAObj ema2050 = pnn2.getTechnicalCal(StockArray, offset);                    
+//                    ProcessNN2 pnn2 = new ProcessNN2();
+//                    EMAObj ema2050 = pnn2.getTechnicalCal(StockArray, offset);                    
                     
                     trObj.setTrsignal(ema2050.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
@@ -1200,9 +1200,9 @@ public class TradingSignalProcess {
                 }
                 case ConstantKey.INT_TR_MACD: {
 
-//                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
-                    ProcessNN1 pnn1 = new ProcessNN1();
-                    MACDObj macd = pnn1.getTechnicalCal(StockArray, offset);
+                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+//                    ProcessNN1 pnn1 = new ProcessNN1();
+//                    MACDObj macd = pnn1.getTechnicalCal(StockArray, offset);
 
                     trObj.setTrsignal(macd.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
@@ -1336,19 +1336,19 @@ public class TradingSignalProcess {
             switch (trObj.getType()) {
                 case ConstantKey.INT_TR_MV:
                     // check if signal to buy or sell
-//                    EMAObj ema2050 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_MV_20, ConstantKey.INT_MV_50);
+                    EMAObj ema2050 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_MV_20, ConstantKey.INT_MV_50);
                     
-                    ProcessNN2 pnn2 = new ProcessNN2();
-                    EMAObj ema2050 = pnn2.getTechnicalCal(StockArray, offset);    
+//                    ProcessNN2 pnn2 = new ProcessNN2();
+//                    EMAObj ema2050 = pnn2.getTechnicalCal(StockArray, offset);    
                     
                     trObj.setTrsignal(ema2050.trsignal);
                     UpdateTRList.add(trObj);
                     break;
                 case ConstantKey.INT_TR_MACD:
                     
-//                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
-                    ProcessNN1 pnn1 = new ProcessNN1();
-                    MACDObj macd = pnn1.getTechnicalCal(StockArray, offset);
+                    MACDObj macd = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9);
+//                    ProcessNN1 pnn1 = new ProcessNN1();
+//                    MACDObj macd = pnn1.getTechnicalCal(StockArray, offset);
                     
                     trObj.setTrsignal(macd.trsignal);
                     UpdateTRList.add(trObj);
