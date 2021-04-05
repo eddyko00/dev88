@@ -570,13 +570,18 @@ public class BillingProcess {
 
             if (customer.getType() == CustomerObj.INT_GUEST_USER) {
                 if (firstBill == false) {
-                    // update multal fund every month
-                    serviceAFWeb.SystemFundSelectBest();
+                    this.processMonthEvent(serviceAFWeb);
+
                 }
             }
             return result;
         }
         return 0;
+    }
+
+    public void processMonthEvent(ServiceAFweb serviceAFWeb) {
+        // update multal fund every month
+        serviceAFWeb.SystemFundSelectBest();
     }
 
     public static float FUND30_FeaturePrice = 30;
