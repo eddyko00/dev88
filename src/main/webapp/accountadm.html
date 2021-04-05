@@ -51,20 +51,15 @@
                 <h1>IISWEB System</h1>
             </div><!-- /header -->
 
-            <h2 id="accheader" class="mc-text-center">AccountAdm</h2>
+            <h2 id="accheader" class="mc-text-center">Adm Configuration</h2>
             <p></p>
-            <div data-role="content" id="textcontent">
+            <div id="tabheader" data-role="footer" data-theme="b" >
 
-                <!--<ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">-->                    
-                <ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">
-                    <li id="0"><strong>Cust Name</strong></li>
-                </ul> 
+                <span id="trheader">
+                </span>
 
-                <p><br></p> 
-                <p>
-                </p>
-                <div data-role="footer" data-theme="b" >
-                    <a href="#popupAdd" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Get Customer Name</a>
+                <span id="custheader">
+                    <a href="#popupAdd" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop"><small>GetCustN</small></a>
                     <div data-role="popup" id="popupAdd" data-theme="a" class="ui-corner-all">
                             <form>
                                     <div style="padding:0px 0px;">
@@ -77,13 +72,15 @@
                                 </form>
                     </div>  
 
-                    <button id="nextCust"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Next Customer</button>
-                    <button id="prevCust"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Prev Customer</button>
-                    <br>
+                    <button id="nextCust"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>NextCust</small></button>
+                    <button id="prevCust"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>PrevCust</small></button>
 
-                    <button id="getAllComm"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Get All Comm Msg</button>                   
-                    <button id="getEmailComm"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Get Email Msg</button>
-                    <a href="#popupRemovemsgsig" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Delete All Comm Msg</a>
+                </span>  
+
+                <span id="commheader">
+                    <button id="getAllComm"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>GetMsg</small></button>                   
+                    <button id="getEmailComm"  class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>GetEmail</small></button>
+                    <a href="#popupRemovemsgsig" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop"><small>DelAllMsg</small></a>
                     <div data-role="popup" id="popupRemovemsgsig" data-theme="a" class="ui-corner-all">
                             <form>
                                     <div style="padding:0px 0px;">
@@ -92,7 +89,7 @@
                                         </div>
                                 </form>
                     </div>                        
-                    <a href="#popupRemove" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop">Delete Msg Id</a>
+                    <a href="#popupRemove" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop"><small>DelMsgId</small></a>
                     <div data-role="popup" id="popupRemove" data-theme="a" class="ui-corner-all">
                             <form>
                                     <div style="padding:0px 0px;">
@@ -104,9 +101,17 @@
                                         </div>
                                 </form>
                     </div>  
-                </div>
+                </span>
+            </div>  
 
-                <p><br></p>                 
+
+            <div data-role="content" id="textcontent">
+
+                <!--<ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">-->                    
+                <ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">
+                    <li id="0"><strong>Cust Name</strong></li>
+                </ul> 
+
                 <ul id="commid" data-role="listview" data-theme="d" data-divider-theme="d">
                 </ul> 
 

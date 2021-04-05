@@ -39,6 +39,10 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
+        var tabName = "COMM";
+        if (iisWebObj.tabName != null) {
+            tabName = iisWebObj.tabName;
+        }
 
         var CustNListStr = iisWebObj.CustNListStr;
         var CustNListCnt = iisWebObj.CustNListCnt;
@@ -63,7 +67,7 @@ var app = {
                 }
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
-                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
+                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
                 window.location.href = "accountadm.html";
             }

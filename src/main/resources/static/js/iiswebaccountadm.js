@@ -41,11 +41,30 @@ var app = {
             window.location.href = "index.html";
         }
 
-
         var commObjListStr = iisWebObj.commObjListStr;
 
-
         $("#accheader").html("Admin Control");
+
+        var tabName = "COMM";
+        if (iisWebObj.tabName != null) {
+            tabName = iisWebObj.tabName;
+        }
+
+        var htmltrHeader = "";
+        if (tabName === "CUST") {
+            htmltrHeader += '<button type="submit" id="custtab" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>CustTab</small></button>';
+            htmltrHeader += '<button type="submit" id="commtab" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>CommTab</small></button>';
+            $("#commheader").hide();
+             $("#commid").hide();
+        } else {
+            htmltrHeader += '<button type="submit" id="custtab" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>CustTab</small></button>';
+            htmltrHeader += '<button type="submit" id="commtab" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>CommTab</small></button>';
+            $("#custheader").hide();
+            $("#myid").hide();
+        }
+        $("#trheader").html(htmltrHeader);
+        
+        var numCust = 5;
 
         $("#commid").html(" "); //clear the field
         var htmlhead = '<div class="ui-grid-b">';
@@ -91,7 +110,7 @@ var app = {
             if (beg > CustNList.length) {
                 beg = CustNList.length;
             }
-            var end = beg + 4;
+            var end = beg + numCust;
             if (end > CustNList.length) {
                 end = CustNList.length;
             }
@@ -125,18 +144,100 @@ var app = {
             var cuObjStr = JSON.stringify(cuObj);
 
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt,
-                'cuObjStr': cuObjStr};
+                'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'cuObjStr': cuObjStr, 'tabName': tabName};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
             window.location.href = "accountadmcu_1.html";
 
             return;
-//            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr};
-//            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-//            window.location.href = "#";
+
         });
 
+
+
+        $("#custnamesubmit").click(function () {
+            var username = document.getElementById("custname").value;
+            if (username === "") {
+                window.location.href = "accountadm.html";
+                return;
+            }
+            var cuObj = {'cmd': 'name', 'username': username,
+                'firstid': '0', 'lastid': '0'};
+            var cuObjStr = JSON.stringify(cuObj);
+
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'cuObjStr': cuObjStr, 'tabName': tabName};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+            window.location.href = "accountadmcu_1.html";
+
+        });
+
+        $("#nextCust").click(function () {
+            if (CustNListStr !== "") {
+                var beg = (CustNListCnt + 1) * numCust;
+                if (beg <= CustNList.length) {
+                    CustNListCnt++;
+                }
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountadm.html";
+                return;
+            }
+            // cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/custnlist?length=0",
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(resultCustNList) {
+                console.log(resultCustNList);
+                var CustNListStr = JSON.stringify(resultCustNList, null, '\t');
+                CustNListCnt = 0;
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountadm.html";
+            }
+
+        });
+
+        $("#prevCust").click(function () {
+            if (CustNListStr !== "") {
+                if (CustNListCnt == 0) {
+                    return;
+                }
+                CustNListCnt--;
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountadm.html";
+                return;
+            }
+            // cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/custnlist?length=0",
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(resultCustNList) {
+                console.log(resultCustNList);
+                var CustNListStr = JSON.stringify(resultCustNList, null, '\t');
+                CustNListCnt = 0;
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountadm.html";
+            }
+
+        });
 
 
 
@@ -163,7 +264,14 @@ var app = {
         });
 
         $("#removemsgsigsubmit").click(function () {
-
+//            var txt;
+//            var r = confirm("Confrim to clear all comm msg!");
+//            if (r == true) {
+//                
+//            } else {
+//                window.location.href = "accountadm_1.html";
+//                return;
+//            }
             ///cust/{username}/acc/{accountid}/comm/remove/{id}
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/acc/" + accObj.id + "/comm/remove?idlist=-1",
@@ -184,92 +292,6 @@ var app = {
             window.location.href = "accountadm_1.html";
         });
 
-        $("#custnamesubmit").click(function () {
-            var username = document.getElementById("custname").value;
-            if (username === "") {
-                window.location.href = "accountadm.html";
-                return;
-            }
-            var cuObj = {'cmd': 'name', 'username': username,
-                'firstid': '0', 'lastid': '0'};
-            var cuObjStr = JSON.stringify(cuObj);
-
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt,
-                'cuObjStr': cuObjStr};
-            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-
-            window.location.href = "accountadmcu_1.html";
-
-        });
-
-        $("#nextCust").click(function () {
-            if (CustNListStr !== "") {
-                var beg = (CustNListCnt + 1) * 4;
-                if (beg <= CustNList.length) {
-                    CustNListCnt++;
-                }
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
-                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "accountadm.html";
-                return;
-            }
-            // cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
-            $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/custnlist?length=0",
-                crossDomain: true,
-                cache: false,
-                success: handleResult
-            }); // use promises
-
-            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
-            function handleResult(resultCustNList) {
-                console.log(resultCustNList);
-                var CustNListStr = JSON.stringify(resultCustNList, null, '\t');
-                CustNListCnt = 0;
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
-                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "accountadm.html";
-            }
-
-        });
-
-        $("#prevCust").click(function () {
-            if (CustNListStr !== "") {
-                if (CustNListCnt == 0) {
-                    return;
-                }
-                CustNListCnt--;
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
-                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "accountadm.html";
-                return;
-            }
-            // cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
-            $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/custnlist?length=0",
-                crossDomain: true,
-                cache: false,
-                success: handleResult
-            }); // use promises
-
-            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
-            function handleResult(resultCustNList) {
-                console.log(resultCustNList);
-                var CustNListStr = JSON.stringify(resultCustNList, null, '\t');
-                CustNListCnt = 0;
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
-                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "accountadm.html";
-            }
-
-        });
-
-
         $("#getEmailComm").click(function () {
             //"/cust/{username}/acc/{accountid}/emailcomm?length=            
             $.ajax({
@@ -289,11 +311,29 @@ var app = {
                 }
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
-                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt};
+                    'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
                 window.location.href = "accountadm.html";
             }
 
+        });
+
+        $("#custtab").click(function () {
+            tabName = "CUST"
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName};
+
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "accountadm_1.html";
+        });
+
+        $("#commtab").click(function () {
+            tabName = "COMM"
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
+                'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName};
+
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "accountadm_1.html";
         });
 
 // example        
