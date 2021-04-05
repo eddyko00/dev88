@@ -55,13 +55,13 @@ public class AccountProcess {
         if (acTimerCnt < 0) {
             acTimerCnt = 0;
         }
-        logger.info(">>>>>>>>>>>>>> ProcessSystemMaintance " + acTimerCnt);
+//        logger.info(">>>>>>>>>>>>>> ProcessSystemMaintance " + acTimerCnt);
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ACC_" + CKey.AF_SYSTEM;
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ACC_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessSystemMaintance");
         if (lockReturn > 0) {
-            
+
             if ((acTimerCnt % 2) == 0) {
                 // disable customer will be handle by billing process
                 // disable cusotmer with no activity in 2 days
@@ -179,7 +179,7 @@ public class AccountProcess {
 
 ////////////////////
     private void ProcessAllLockCleanup(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>>>>>>>> ProcessAllLockCleanup ");
+        logger.info(">>>>> ProcessAllLockCleanup " + acTimerCnt);
         // clean up old lock name
         // clean Lock entry pass 30 min
         ArrayList<AFLockObject> lockArray = serviceAFWeb.getAllLock();
