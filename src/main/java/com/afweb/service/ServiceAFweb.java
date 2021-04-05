@@ -1014,6 +1014,17 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            symbol = "GLD";
+            trNN = ConstantKey.INT_TR_MACD;
+            TR_NN = trNN;
+            nnName = ConstantKey.TR_MACD;
+            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+
 ////            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            AFstockObj stock = getRealTimeStockImp(symbol);
@@ -4154,15 +4165,20 @@ public class ServiceAFweb {
 
     }
 
-    public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
+    public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol,
+            String trname, String yearSt) {
 
+        int year = 0;
+        if (yearSt != null) {
+            try {
+                year = Integer.parseInt(yearSt);
+            } catch (Exception ex) {
+
+            }
+        }
         ArrayList<TransationOrderObj> thList = this.getAccountStockTRTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
 
-//        System.out.println("> getAccountStockTRLIstCurrentChartDisplay size " + thList.size());
-//        System.out.println(EmailUserName + " " + Password + " " + AccountIDSt + " " + stockidsymbol + " " + trname);
         if (thList == null) {
-            // still allow to display dummy graph
-//            return null;
             thList = new ArrayList();
         }
         String symbol = stockidsymbol;
@@ -4171,6 +4187,11 @@ public class ServiceAFweb {
             return null;
         }
         int sizeLen = 20 * 10;
+
+        if (year > 0) {
+            sizeLen = 20 * 12 * year;
+        }
+
         // recent date first
         ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
         if (StockArray == null) {
@@ -4585,66 +4606,65 @@ public class ServiceAFweb {
         return "Save failed";
     }
 
-    public byte[] getAccountStockTRListHistoryChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
-        ArrayList<StockTRHistoryObj> thObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
-
-        if (thObjList == null) {
-            return null;
-        }
-
-        List<Date> xDate = new ArrayList<Date>();
-        List<Double> yD = new ArrayList<Double>();
-
-        ArrayList closeList = new ArrayList<Float>();
-        for (int i = 0; i < thObjList.size(); i++) {
-            StockTRHistoryObj thObj = thObjList.get(i);
-            float close = thObj.getClose();
-            closeList.add(close);
-        }
-        NNormalObj normal = new NNormalObj();
-        normal.initHighLow(closeList);
-
-        List<Date> buyDate = new ArrayList<Date>();
-        List<Double> buyD = new ArrayList<Double>();
-        List<Date> sellDate = new ArrayList<Date>();
-        List<Double> sellD = new ArrayList<Double>();
-
-        StockTRHistoryObj prevThObj = null;
-        Collections.reverse(thObjList);
-
-        for (int i = 0; i < thObjList.size(); i++) {
-            StockTRHistoryObj thObj = thObjList.get(i);
-            if (i == 0) {
-                prevThObj = thObj;
-            }
-            Date da = new Date(thObj.getUpdateDatel());
-            xDate.add(da);
-            float close = thObj.getClose();
-            double norClose = normal.getNormalizeValue(close);
-            yD.add(norClose);
-
-            int signal = thObj.getTrsignal();
-            if (signal != prevThObj.getTrsignal()) {
-
-                if (signal == ConstantKey.S_BUY) {
-                    buyD.add(norClose);
-                    buyDate.add(da);
-                }
-                if (signal == ConstantKey.S_SELL) {
-                    sellD.add(norClose);
-                    sellDate.add(da);
-                }
-            }
-            prevThObj = thObj;
-        }
-        ChartService chart = new ChartService();
-        byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
-                xDate, yD, buyDate, buyD, sellDate, sellD);
-
-        return ioStream;
-
-    }
-
+//    public byte[] getAccountStockTRListHistoryChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
+//        ArrayList<StockTRHistoryObj> thObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
+//
+//        if (thObjList == null) {
+//            return null;
+//        }
+//
+//        List<Date> xDate = new ArrayList<Date>();
+//        List<Double> yD = new ArrayList<Double>();
+//
+//        ArrayList closeList = new ArrayList<Float>();
+//        for (int i = 0; i < thObjList.size(); i++) {
+//            StockTRHistoryObj thObj = thObjList.get(i);
+//            float close = thObj.getClose();
+//            closeList.add(close);
+//        }
+//        NNormalObj normal = new NNormalObj();
+//        normal.initHighLow(closeList);
+//
+//        List<Date> buyDate = new ArrayList<Date>();
+//        List<Double> buyD = new ArrayList<Double>();
+//        List<Date> sellDate = new ArrayList<Date>();
+//        List<Double> sellD = new ArrayList<Double>();
+//
+//        StockTRHistoryObj prevThObj = null;
+//        Collections.reverse(thObjList);
+//
+//        for (int i = 0; i < thObjList.size(); i++) {
+//            StockTRHistoryObj thObj = thObjList.get(i);
+//            if (i == 0) {
+//                prevThObj = thObj;
+//            }
+//            Date da = new Date(thObj.getUpdateDatel());
+//            xDate.add(da);
+//            float close = thObj.getClose();
+//            double norClose = normal.getNormalizeValue(close);
+//            yD.add(norClose);
+//
+//            int signal = thObj.getTrsignal();
+//            if (signal != prevThObj.getTrsignal()) {
+//
+//                if (signal == ConstantKey.S_BUY) {
+//                    buyD.add(norClose);
+//                    buyDate.add(da);
+//                }
+//                if (signal == ConstantKey.S_SELL) {
+//                    sellD.add(norClose);
+//                    sellDate.add(da);
+//                }
+//            }
+//            prevThObj = thObj;
+//        }
+//        ChartService chart = new ChartService();
+//        byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
+//                xDate, yD, buyDate, buyD, sellDate, sellD);
+//
+//        return ioStream;
+//
+//    }
     public ArrayList<String> getAccountStockTRListHistoryDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         ArrayList<StockTRHistoryObj> thObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
 

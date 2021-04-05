@@ -103,7 +103,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year=");
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chartfile");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/clear");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/{signal}/order");
@@ -1218,6 +1218,7 @@ public class IndexController {
         return ret;
     }
 
+    //"/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE})
     public @ResponseBody
     byte[] getAccountStockHistoryChartDisplay(
@@ -1225,7 +1226,7 @@ public class IndexController {
             @PathVariable("accountid") String accountid,
             @PathVariable("stockidsymbol") String stockidsymbol,
             @PathVariable("trname") String trname,
-            @RequestParam(value = "path", required = false) String pathSt,
+            @RequestParam(value = "year", required = false) String yearSt,            
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -1234,32 +1235,14 @@ public class IndexController {
             return null;
         }
 
-        byte[] ret = afWebService.getAccountStockTRLIstCurrentChartDisplay(username, null, accountid, stockidsymbol, trname, pathSt);
+        byte[] ret = afWebService.getAccountStockTRLIstCurrentChartDisplay(username, null, accountid, stockidsymbol, trname, yearSt);
 //        byte[] ret = afWebService.getAccountStockTRListHistoryChartDisplay(username, null, accountid, stockidsymbol, trname, pathSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
     }
 
-//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/nn", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    ArrayList getAccountStockHistoryNN(
-//            @PathVariable("username") String username,
-//            @PathVariable("accountid") String accountid,
-//            @PathVariable("stockidsymbol") String stockidsymbol,
-//            @PathVariable("trname") String trname,
-//            HttpServletRequest request, HttpServletResponse response
-//    ) {
-//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-//            return null;
-//        }
-//        ArrayList ret = afWebService.getAccountStockTRListHistoryNN(username, null, accountid, stockidsymbol, null);
-//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-//
-//        return ret;
-//    }
+
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/clear", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int getAccountStockClrTran(
@@ -1526,46 +1509,7 @@ public class IndexController {
     }
 
     //////////////
-//    @RequestMapping(value = "/cust/{username}/sys/cust", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    CustomerObj getSysCustObj(@PathVariable("username") String username) {
-//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-//        return cust;
-//    }
-//    @RequestMapping(value = "/cust/{username}/sys/enableuionly", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    WebStatus SystemEnableUIonly(@PathVariable("username") String username) {
-//        WebStatus msg = new WebStatus();
-//
-//        if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-//            CKey.UI_ONLY = true;
-//            msg.setResponse("Enable UI only");
-//            msg.setResult(true);
-//            return msg;
-//        }
-//
-//        return null;
-//    }
-//
-//    @RequestMapping(value = "/cust/{username}/sys/disableuionly", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    WebStatus SystemDisableUIonly(@PathVariable("username") String username) {
-//        WebStatus msg = new WebStatus();
-//
-//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-//        if (cust != null) {
-//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-//                CKey.UI_ONLY = false;
-//                msg.setResponse(afWebService.SystemStart());
-//                msg.setResult(true);
-//                return msg;
-//            }
-//        }
-//        return null;
-//
-//    }
+
     @RequestMapping(value = "/cust/{username}/sys/stop", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus SystemStop(@PathVariable("username") String username) {
