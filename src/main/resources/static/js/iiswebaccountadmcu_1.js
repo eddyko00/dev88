@@ -43,7 +43,10 @@ var app = {
         if (cuObj == null) {
             window.location.href = "index.html";
         }
-
+        var tabName = "COMM";
+        if (iisWebObj.tabName != null) {
+            tabName = iisWebObj.tabName;
+        }
         var CustNListStr = iisWebObj.CustNListStr;
         var CustNListCnt = iisWebObj.CustNListCnt;
 
@@ -67,7 +70,7 @@ var app = {
                     if (resultCuObjList != null) {
                         var cuObjListStr = JSON.stringify(resultCuObjList, null, '\t');
                         var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                            'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt,
+                            'CustNListStr': CustNListStr, 'CustNListCnt': CustNListCnt, 'tabName': tabName,
                             'cuObjStr': cuObjStr, 'cuObjListStr': cuObjListStr};
                         window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
