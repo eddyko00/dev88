@@ -4172,6 +4172,9 @@ public class ServiceAFweb {
         if (yearSt != null) {
             try {
                 year = Integer.parseInt(yearSt);
+                if (year > 5) {
+                    year = 5;
+                }
             } catch (Exception ex) {
 
             }
