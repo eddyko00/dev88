@@ -59,6 +59,8 @@ public class StockInternet {
     // always the earliest day first
     // always the earliest day first    
     public ArrayList<AFstockInfo> GetStockHistoricalInternet(String NormalizeSymbol, int length) { // number of days in lenght
+        ServiceAFweb.lastfun = "GetStockHistoricalInternet";
+
         GetYahooQuotes internetQuote = new GetYahooQuotes();
         ServiceAFweb.getServerObj().setCntInterRequest(ServiceAFweb.getServerObj().getCntInterRequest() + 1);
         ArrayList<AFstockInfo> StockArray = new ArrayList();
@@ -144,6 +146,8 @@ public class StockInternet {
     }
 
     public AFstockObj GetRealTimeStockInternet(String NormalizeSymbol) {
+        ServiceAFweb.lastfun = "GetRealTimeStockInternet";
+
         ServiceAFweb.getServerObj().setCntInterRequest(ServiceAFweb.getServerObj().getCntInterRequest() + 1);
         try {
             String url = QUOTES_QUERY1V7_BASE_URL + "?symbols=" + NormalizeSymbol;
@@ -269,6 +273,7 @@ public class StockInternet {
     }
 
     public StringBuffer getInternetYahooScreenPage(String url) {
+        ServiceAFweb.lastfun = "getInternetYahooScreenPage";
 
         ServiceAFweb.getServerObj().setCntInterRequest(ServiceAFweb.getServerObj().getCntInterRequest() + 1);
 
@@ -314,6 +319,8 @@ public class StockInternet {
     //https://ca.finance.yahoo.com/quote/TD.TO/history?p=TD.TO
 
     public ArrayList<AFstockInfo> getInternetHistoricalScreen(String symbol, long startDate, long endDate) throws IOException {
+        ServiceAFweb.lastfun = "getInternetHistoricalScreen";
+
         String url = String.format("https://ca.finance.yahoo.com/quote/%s/history?p=%s", symbol, symbol);
 //        url = "https://ca.finance.yahoo.com/quote/HOU.TO/history?period1=0&period2=1583625600&interval=1d&filter=history&frequency=1d";
 //        String url = String.format("https://ca.finance.yahoo.com/quote/%s/history?period1=885254400&period2=1583625600&interval=1d&filter=history&frequency=1d", symbol);

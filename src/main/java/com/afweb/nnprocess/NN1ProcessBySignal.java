@@ -63,7 +63,6 @@ public class NN1ProcessBySignal {
         logger.info("> processInputNeuralNet TR NN1 end....... ");
     }
 
-
     public void processAllStockInputNeuralNet(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////
 
@@ -87,7 +86,7 @@ public class NN1ProcessBySignal {
             int size = 20 * CKey.MONTH_SIZE * j;
 //                writeArrayNeuralNet.clear();
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);            
+            logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
 
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
@@ -1751,6 +1750,8 @@ public class NN1ProcessBySignal {
     }
 
     public int TrainingNN1NeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
+        ServiceAFweb.lastfun = "TrainingNN1NeuralNetProcess";
+
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
@@ -1935,6 +1936,7 @@ public class NN1ProcessBySignal {
     }
 
     public int ReLearnNN1StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
+        ServiceAFweb.lastfun = "ReLearnNN1StockNeuralNetData";
         boolean nnsym = true;
         if (nnsym == true) {
             int totalAdd = 0;

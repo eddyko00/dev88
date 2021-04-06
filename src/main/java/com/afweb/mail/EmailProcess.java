@@ -28,7 +28,7 @@ public class EmailProcess {
     private static ArrayList accountFundIdNameArray = new ArrayList();
 
     public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {
-
+       ServiceAFweb.lastfun = "ProcessEmailAccount";   
         logger.info("> ProcessEmailAccount ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
@@ -94,6 +94,8 @@ public class EmailProcess {
     }
 
     public int EmailTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
+       ServiceAFweb.lastfun = "EmailTradingAccount";   
+        
         CustomerObj cust = serviceAFWeb.getAccountImp().getCustomerByAccount(accObj);
         String emailAddr = cust.getEmail();
         if ((emailAddr != null) && (emailAddr.length() > 0)) {

@@ -1106,7 +1106,7 @@ public class TradingSignalProcess {
         }
 
         int sizeTR = 20 * monthSize; //20 * 14;
-        
+
 //        if (ServiceAFweb.mydebugtestflag == true) {
 //            if (stock.getSymbol().equals("GLD")) {
 //                sizeTR = sizeTR * 2;
@@ -1564,7 +1564,7 @@ public class TradingSignalProcess {
     }
 
     public int UpdateAllStock(ServiceAFweb serviceAFWeb) {
-//        this.serviceAFWeb = serviceAFWeb;
+        ServiceAFweb.lastfun = "UpdateAllStock";
 
         //SimpleDateFormat etDf = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -1666,6 +1666,7 @@ public class TradingSignalProcess {
     }
 
     public int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+        ServiceAFweb.lastfun = "updateAllStockProcess";
 
 //        logger.warning("> updateAllStock " + NormalizeSymbol);
         AFstockObj stock = null;
@@ -1765,8 +1766,9 @@ public class TradingSignalProcess {
 //        return updateRealTimeStock(serviceAFWeb, stock);
 //    }
     public int updateRealTimeStock(ServiceAFweb serviceAFWeb, AFstockObj stock) {
-//        logger.warning("> updateRealTimeStock ");
+        ServiceAFweb.lastfun = "updateRealTimeStock";
 
+//        logger.warning("> updateRealTimeStock ");
         if (stock == null) {
             return 0;
         }
@@ -2576,6 +2578,8 @@ public class TradingSignalProcess {
     public static boolean forceToErrorNewNN = false;
 
     public int TrainingNNBP(ServiceAFweb serviceAFWeb, String nnNameSym, String nnNAme, NNTrainObj nnTraining, double nnError) {
+        ServiceAFweb.lastfun = "TrainingNNBP";
+
         int inputListSize = CKey.NN_INPUT_SIZE; //12;
         int outputSize = CKey.NN_OUTPUT_SIZE; //2;
         int middleSize = CKey.NN1_MIDDLE_SIZE;
@@ -2948,6 +2952,7 @@ public class TradingSignalProcess {
     }
 
     public ArrayList AddTransactionOrderProcess(ArrayList<TransationOrderObj> currTranOrderList, TradingRuleObj trObj, AccountObj accountObj, AFstockObj stock, String trName, int currentSignal, Calendar tranDate, boolean fromSystem) {
+        ServiceAFweb.lastfun = "AddTransactionOrderProcess";
 
         ArrayList transSQL = new ArrayList();
         Calendar daOffset0 = tranDate;

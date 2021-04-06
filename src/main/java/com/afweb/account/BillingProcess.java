@@ -50,6 +50,7 @@ public class BillingProcess {
     }
 
     public void processUserBillingAll(ServiceAFweb serviceAFWeb) {
+        ServiceAFweb.lastfun = "processUserBillingAll";
         logger.info("> updateUserBillingAll ");
 
         UpdateStockNNprocessNameArray(serviceAFWeb);
@@ -119,6 +120,7 @@ public class BillingProcess {
 ////////////////////////////////////////////////////
 
     public int updateUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer) {
+        ServiceAFweb.lastfun = "updateUserBilling";
 
         Timestamp currentDate = TimeConvertion.getCurrentTimeStamp();
         Date currDate = new java.sql.Date(currentDate.getTime());
@@ -301,6 +303,8 @@ public class BillingProcess {
     }
 
     public int processFeat(ServiceAFweb serviceAFWeb, CustomerObj customer) {
+       ServiceAFweb.lastfun = "processFeat";
+        
         String portfolio = customer.getPortfolio();
         CustPort custPortfilio = null;
         try {
@@ -365,6 +369,7 @@ public class BillingProcess {
     }
 
     public int createUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj account, BillingObj billing) {
+       ServiceAFweb.lastfun = "createUserBilling";        
         if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
             return 1;
         }
@@ -587,6 +592,7 @@ public class BillingProcess {
     public static float FUND30_FeaturePrice = 30;
 
     public int updateFundFeat(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj accFund) {
+        ServiceAFweb.lastfun = "updateFundFeat";           
         logger.info(">updateFundFeat " + accFund.getAccountname());
 
         // should be transaction problem

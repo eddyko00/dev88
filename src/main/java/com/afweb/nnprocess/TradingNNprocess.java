@@ -32,12 +32,11 @@ public class TradingNNprocess {
     // data history from  old to more recent
     // get next 5 days close price
     public static int TREND_Day = 4;
-    
-    
+
     public static String cfg_stockNNretrainNameArray = "cfg_stockNNretrainNameArray";
     private static ArrayList stockNNretrainNameArray = new ArrayList();
 //    private ServiceAFweb serviceAFWeb = null;
-  
+
     public ArrayList reLearnInputStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
@@ -70,6 +69,8 @@ public class TradingNNprocess {
     }
 
     public void ProcessReLearnInputNeuralNet(ServiceAFweb serviceAFWeb) {
+        ServiceAFweb.lastfun = "ProcessReLearnInputNeuralNet";
+
         reLearnInputStockNNprocessNameArray(serviceAFWeb);
         if (stockNNretrainNameArray == null) {
             return;
@@ -140,6 +141,8 @@ public class TradingNNprocess {
     }
 
     public void ReLearnInputNeuralNet(ServiceAFweb serviceAFWeb, String symbol, int trNN) {
+       ServiceAFweb.lastfun = "ReLearnInputNeuralNet";
+        
         String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
         LockStock = LockStock.toUpperCase();
 
@@ -286,6 +289,8 @@ public class TradingNNprocess {
     }
 
     public static NNTrainObj trainingNNsetupTraining(ArrayList<NNInputOutObj> inputlist, String nnName) {
+       ServiceAFweb.lastfun = "trainingNNsetupTraining";
+        
 //        logger.info("> trainingNNsetupTraining ");
 
         int inputListSize = inputlist.size();
@@ -335,7 +340,6 @@ public class TradingNNprocess {
 //        
         return nnTraining;
     }
-
 
     public static ArrayList<Double> getNNnormalizeStInputClose(int index, ArrayList<StockTRHistoryObj> thObjListMACD) {
         if (thObjListMACD == null) {

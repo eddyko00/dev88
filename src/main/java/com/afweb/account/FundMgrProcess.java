@@ -73,7 +73,7 @@ public class FundMgrProcess {
     ArrayList stockArrayTDScienceTechnology = new ArrayList();
 
     public void ProcessGetGlobalFundMgr(ServiceAFweb serviceAFWeb) {
-
+        ServiceAFweb.lastfun="ProcessGetGlobalFundMgr";
         logger.info("> ProcessIISWebGlobalFundMgr ");
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -100,7 +100,7 @@ public class FundMgrProcess {
     private static ArrayList accountFundIdNameArray = new ArrayList();
 
     public void ProcessSelectBestFundMgrAccount(ServiceAFweb serviceAFWeb) {
-
+        ServiceAFweb.lastfun="ProcessSelectBestFundMgrAccount";
 //        logger.info("> ProcessSelectBestFundMgrAccount ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
@@ -158,6 +158,7 @@ public class FundMgrProcess {
 
     // will execuate once per month
     public int updateMutualFundBestStock(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
+        ServiceAFweb.lastfun="updateMutualFundBestStock";        
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
         try {
@@ -309,7 +310,7 @@ public class FundMgrProcess {
 
     ////////// update FUND_MANAGER_USERNAME account
     public boolean updateIndexMutualFundAll() {
-
+        ServiceAFweb.lastfun = "updateIndexMutualFundAll";    
         logger.info("updateIndexMutualFundAll");
 
         CustomerObj custObj = getAccountImp().getCustomerStatus(CKey.INDEXFUND_MANAGER_USERNAME, null);

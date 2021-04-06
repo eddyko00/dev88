@@ -371,6 +371,8 @@ public class NN2ProcessBySignal {
     }
 
     public int TrainingNNNeuralNetProcess(ServiceAFweb serviceAFWeb, String BPnameTR, String nnName, String nnNameSym, String symbol, double nnError) {
+        ServiceAFweb.lastfun = "TrainingNNNeuralNetProcess";
+
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
@@ -1389,6 +1391,8 @@ public class NN2ProcessBySignal {
     }
 
     public int ReLearnNN2StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
+        ServiceAFweb.lastfun = "ReLearnNN2StockNeuralNetData";        
+        
         boolean nnsym = true;
         if (nnsym == true) {
             int totalAdd = 0;

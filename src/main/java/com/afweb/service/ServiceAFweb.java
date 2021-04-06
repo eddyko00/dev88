@@ -449,6 +449,7 @@ public class ServiceAFweb {
             }
 
         } catch (Exception ex) {
+            logger.info("> Exception lastfun - " + lastfun);            
             logger.info("> timerHandler Exception" + ex.getMessage());
         }
         serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
@@ -538,8 +539,8 @@ public class ServiceAFweb {
 
     public static int initTrainNeuralNetNumber = 0;
 
-//    public static ArrayList writeArrayNeuralNet = new ArrayList();
-//    public boolean systemNNFlag = false;
+    public static String lastfun = "";
+
     private void processTimer(String cmd) {
 
         if (getEnv.checkLocalPC() == true) {
@@ -636,7 +637,8 @@ public class ServiceAFweb {
             AFwebExec();
             ///////
         } catch (Exception ex) {
-            logger.info("> processTimer Exception" + ex.getMessage());
+            logger.info("> Exception lastfun - " + lastfun);
+            logger.info("> processTimer Exception " + ex.getMessage());
         }
         removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
     }
@@ -711,6 +713,8 @@ public class ServiceAFweb {
     public static int cntNN = 0;
 
     public void AFprocessNeuralNet() {
+        ServiceAFweb.lastfun = "AFprocessNeuralNet";
+
         if (processNeuralNetFlag == true) {
             cntNN++;
             TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -750,6 +754,8 @@ public class ServiceAFweb {
     }
 
     public boolean processNewNeuralNet() {
+        ServiceAFweb.lastfun = "processNewNeuralNet";
+        
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
@@ -806,6 +812,8 @@ public class ServiceAFweb {
     }
 
     public void processNeuralNetTrain() {
+        ServiceAFweb.lastfun = "processNeuralNetTrain";
+         
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
@@ -1019,7 +1027,6 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
 
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
@@ -4959,6 +4966,8 @@ public class ServiceAFweb {
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(String symbol, int length) {
+        ServiceAFweb.lastfun = "getStockHistorical";
+
         if (length == 0) {
             return null;
         }
@@ -5248,6 +5257,7 @@ public class ServiceAFweb {
     // require oldest date to earliest
 
     public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
+        ServiceAFweb.lastfun = "updateStockInfoTransaction";
 
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -6193,7 +6203,7 @@ public class ServiceAFweb {
                         result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                     }
                     AFstockObj stock = getStockImp().getRealTimeStock("T.TO", null);
-                    result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);                    
+                    result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                 }
             }
 
