@@ -736,7 +736,7 @@ public class IndexController {
                 String idSt = idlistArray[i];
                 int comid = Integer.parseInt(idSt);
                 if (comid == -1) {
-                    ret = afWebService.removeAllCommEmailByCustomerAccountID(username, null, accountid);
+                    ret = afWebService.removeAllEmailByCustomerAccountID(username, null, accountid);
                 } else {
                     ret = afWebService.removeCommByID(username, null, accountid, comid + "");
                 }

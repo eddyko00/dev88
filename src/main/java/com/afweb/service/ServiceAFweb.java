@@ -3126,7 +3126,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int removeAllCommEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+    public int removeAllEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
