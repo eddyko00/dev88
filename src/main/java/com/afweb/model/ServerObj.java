@@ -14,6 +14,20 @@ import com.afweb.util.CKey;
 public class ServerObj {
 
     /**
+     * @return the servip
+     */
+    public String getServip() {
+        return servip;
+    }
+
+    /**
+     * @param servip the servip to set
+     */
+    public void setServip(String servip) {
+        this.servip = servip;
+    }
+
+    /**
      * @return the autoNNCnt
      */
     public int getAutoNNCnt() {
@@ -27,6 +41,7 @@ public class ServerObj {
         this.autoNNCnt = autoNNCnt;
     }
 
+    private String servip="";
     private String serverName;
     private String srvProjName;
     private String verString;

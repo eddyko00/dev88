@@ -328,6 +328,7 @@ public class ServiceAFweb {
                 serverObj.setSrvProjName(SrvName + stlockDateValue);
 
                 serverLockName = ServiceAFweb.getServerObj().getServerName();
+
                 String displayStr = "";
                 getServerObj().setLocalDBservice(true);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -425,7 +426,10 @@ public class ServiceAFweb {
                     }
 
                     serverObj.setTimerInit(true);
-                    setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName());
+                    String servIP = StockInternet.getServerIP();
+                    serverObj.setServip(servIP);
+
+                    setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
 
                     //try 2 times
                     getAccountProcessImp().ProcessAdminAccount(this);
@@ -449,7 +453,7 @@ public class ServiceAFweb {
             }
 
         } catch (Exception ex) {
-            logger.info("> Exception lastfun - " + lastfun);            
+            logger.info("> Exception lastfun - " + lastfun);
             logger.info("> timerHandler Exception" + ex.getMessage());
         }
         serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
@@ -651,7 +655,7 @@ public class ServiceAFweb {
             if (result == 0) {
                 Calendar dateNow1 = TimeConvertion.getCurrentCalendar();
                 long lockDateValue1 = dateNow1.getTimeInMillis();
-                setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue1, serverObj.getSrvProjName());
+                setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue1, serverObj.getSrvProjName() + " " + serverObj.getServip());
             }
         }
 
@@ -755,7 +759,7 @@ public class ServiceAFweb {
 
     public boolean processNewNeuralNet() {
         ServiceAFweb.lastfun = "processNewNeuralNet";
-        
+
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
@@ -813,7 +817,7 @@ public class ServiceAFweb {
 
     public void processNeuralNetTrain() {
         ServiceAFweb.lastfun = "processNeuralNetTrain";
-         
+
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();

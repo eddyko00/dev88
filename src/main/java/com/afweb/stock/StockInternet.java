@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -519,4 +520,13 @@ public class StockInternet {
         return true;
     }
 
+    public static String getServerIP() {
+        InetAddress ip;
+        try {
+            ip = InetAddress.getLocalHost();
+            return ip.getHostAddress();
+        } catch (Exception e) {
+        }
+        return "";
+    }
 }
