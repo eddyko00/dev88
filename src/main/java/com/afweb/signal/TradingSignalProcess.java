@@ -923,11 +923,19 @@ public class TradingSignalProcess {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                    if (checkNN3Ready(serviceAFWeb, symbol, true) == false) {
-                        continue;
-                    }
-                    if (ServiceAFweb.nn3testflag == false) {
-                        continue;
+                    if (ServiceAFweb.mydebugtestflag == true) {
+                        if (stock.getSymbol().equals("GLD")) {
+                            ;
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        if (checkNN3Ready(serviceAFWeb, symbol, true) == false) {
+                            continue;
+                        }
+                        if (ServiceAFweb.nn3testflag == false) {
+                            continue;
+                        }
                     }
                 }
 
@@ -936,7 +944,11 @@ public class TradingSignalProcess {
                     continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
                     if (ServiceAFweb.mydebugtestflag == true) {
-                        ;
+                        if (stock.getSymbol().equals("GLD")) {
+                            ;
+                        } else {
+                            continue;
+                        }
                     } else {
                         continue;
                     }
@@ -1092,8 +1104,15 @@ public class TradingSignalProcess {
         if (monthSize <= 0) {
             monthSize = 1;
         }
-        int sizeTR = 20 * monthSize; //20 * 14;
 
+        int sizeTR = 20 * monthSize; //20 * 14;
+        
+//        if (ServiceAFweb.mydebugtestflag == true) {
+//            if (stock.getSymbol().equals("GLD")) {
+//                sizeTR = sizeTR * 2;
+//            } else {
+//            }
+//        }
 //        long stockOffsetL = StockArray.get(offsetS).getEntrydatel();
 //        stockOffsetL = TimeConvertion.endOfDayInMillis(stockOffsetL);
         int i = 0;
@@ -1250,9 +1269,9 @@ public class TradingSignalProcess {
                         int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn2Signal;
                         if (ServiceAFweb.mydebugtestflag == true) {
-                            if (offset < 99) {
-                                prevSignal = nn2Signal;
-                            }
+//                            if (offset < 99) {
+//                                prevSignal = nn2Signal;
+//                            }
                             float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
                             float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
                             logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal + " C:" + trHistory.getParm5()
@@ -1269,7 +1288,6 @@ public class TradingSignalProcess {
                             int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                             prevSignal = nn3Signal;
                             if (ServiceAFweb.mydebugtestflag == true) {
-
 //                                if (offset < 99) {
 //                                    prevSignal = nn3Signal;
 //                                }

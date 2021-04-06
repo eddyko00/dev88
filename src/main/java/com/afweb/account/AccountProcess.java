@@ -2316,7 +2316,6 @@ public class AccountProcess {
                 if (ServiceAFweb.mydebugtestflag == true) {
                     AccData accData = serviceAFWeb.getAccData(obj);
                     String nameSt = "";
-
                     try {
                         nameSt = new ObjectMapper().writeValueAsString(accData);
                         nameSt = nameSt.replaceAll("\"", "#");

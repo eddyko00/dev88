@@ -93,7 +93,7 @@ public class ServiceAFweb {
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
     public static String ignoreStock[] = {"T.T"};
-    public static String allStock[] = {"NEM", "SE", "FB", "GLD", "MSFT", "T.TO"};
+    public static String allStock[] = {"NEM", "SE", "FB", "MSFT", "T.TO", "GLD"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 
     /**
@@ -1005,6 +1005,8 @@ public class ServiceAFweb {
             NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
+            NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
+
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
@@ -1014,16 +1016,26 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "GLD";
-            trNN = ConstantKey.INT_TR_MACD;
-            TR_NN = trNN;
-            nnName = ConstantKey.TR_MACD;
-            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            for (int j = 0; j < 5; j++) {
+//                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
+//                nn3ProcBySig.ReLearnNN3StockNeuralNetData(this, ConstantKey.INT_TR_NN1, symbol);
+//            }
 
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//            symbol = "GLD";
+//            trNN = ConstantKey.INT_TR_MACD;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_MACD;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+            symbol = "GLD";
+            trNN = ConstantKey.INT_TR_NN3;
+            TR_NN = trNN;
+            nnName = ConstantKey.TR_NN3;
+            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 ////            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
 //            AccountObj accountAdminObj = getAdminObjFromCache();
@@ -4725,7 +4737,6 @@ public class ServiceAFweb {
         return 1;
     }
 
-
     public ArrayList<StockTRHistoryObj> getAccountStockTRListHistory(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         if (getServerObj().isSysMaintenance() == true) {
@@ -4814,7 +4825,7 @@ public class ServiceAFweb {
     }
 
     public int systemRemoveAllEmail() {
-        getAccountImp().removeCommByType(CKey.ADMIN_USERNAME, null,ConstantKey.INT_TYPE_COM_EMAIL);
+        getAccountImp().removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
 
