@@ -295,11 +295,13 @@ var app = {
         }
 //
         var buttonGraph = false;
+        var type = "";
+        var trname = "";
 //        
         $("[id*=myidbtn] a").click(function () {
             buttonGraph = true;
-            var type = $(this).attr('type');
-            var trname = $(this).attr('value');
+            type = $(this).attr('type');
+            trname = $(this).attr('value');
 
             ////////////////////////////////
             if (type === "buy") {
@@ -421,13 +423,22 @@ var app = {
                 }
             }
             if (type === "graph") {
+
                 if (trname != null) {
+                    setTimeout(function () {
+                        $("#grtxt1").hide;
+                    }, 3000);
                     var symbol = stockObj.symbol;
                     $("#graphheader").html("Display graph - " + stockObj.symbol);
                     symbol = symbol.replace(".", "_");
                     var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                     $("#spaceimage").attr("src", resultURL);
+
+
+//                    var grHeader = '<button type="submit" id="y1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ">1 year</button>';
+//                    grHeader += '<button type="submit" id="y2btn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ">2 year</button>';
+//                    $("#grheader").html(grHeader);
 
                     window.location.href = "#page_graph";
                 }
@@ -595,6 +606,42 @@ var app = {
 
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accounttran_1.html";
+        });
+
+
+        $("#y1btn").click(function () {
+
+              if (trname != null) {
+                setTimeout(function () {
+                    $("#grtxt1").hide;
+                }, 3000);
+
+                var symbol = stockObj.symbol;
+                $("#graphheader").html("Display graph - " + stockObj.symbol);
+                symbol = symbol.replace(".", "_");
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart";
+//                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
+                $("#spaceimage").attr("src", resultURL);
+
+                window.location.href = "#page_graph";
+            }
+        });
+        $("#y2btn").click(function () {
+               if (trname != null) {
+                setTimeout(function () {
+                    $("#grtxt2").hide;
+                }, 3000);
+
+                var symbol = stockObj.symbol;
+                $("#graphheader2").html("Display graph - " + stockObj.symbol);
+                symbol = symbol.replace(".", "_");
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?year=2";
+//                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
+                $("#spaceimage2").attr("src", resultURL);
+
+                $("#grtxt2").show(0).delay(1000).hide(0);
+                window.location.href = "#page_graph2";
+            }
         });
 
         $("#configbtn").click(function () {
