@@ -4725,20 +4725,7 @@ public class ServiceAFweb {
         return 1;
     }
 
-//    private ArrayList<StockTRHistoryObj> getAccountStockTRListHistorySize(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
-//        ArrayList<TradingRuleObj> trObjList = getAccountStockListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol);
-//        trname = trname.toUpperCase();
-//        if (trObjList != null) {
-//            for (int i = 0; i < trObjList.size(); i++) {
-//                TradingRuleObj trObj = trObjList.get(i);
-//                if (trname.equals(trObj.getTrname())) {
-//                    ArrayList<StockTRHistoryObj> thObjList = getTRprocessImp().ProcessTRHistory(this, trObj, 2);
-//                    return thObjList;
-//                }
-//            }
-//        }
-//        return null;
-//    }
+
     public ArrayList<StockTRHistoryObj> getAccountStockTRListHistory(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         if (getServerObj().isSysMaintenance() == true) {
