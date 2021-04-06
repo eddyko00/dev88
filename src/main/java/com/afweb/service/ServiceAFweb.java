@@ -93,7 +93,7 @@ public class ServiceAFweb {
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
     public static String ignoreStock[] = {"T.T"};
-    public static String allStock[] = {"NEM", "SE", "FB", "MSFT", "T.TO", "GLD"};
+    public static String allStock[] = {"NEM", "SE", "MSFT", "T.TO", "GLD"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 
     /**
@@ -933,10 +933,12 @@ public class ServiceAFweb {
                     /// remember to update nnData and nn3Data and version                
                     nn1ProcBySig.processInputNeuralNet(this);
                     if (CKey.NN_DATA_DB == false) {
-                        nn1ProcBySig.processAllStockInputNeuralNet(this);
+//                        nn1ProcBySig.processAllStockInputNeuralNet(this);
                     }
                     nn1trend.processNN30InputNeuralNetTrend(this);
-                    nn1trend.processAllNN30StockInputNeuralNetTrend(this);
+                    if (CKey.NN_DATA_DB == false) {
+//                        nn1trend.processAllNN30StockInputNeuralNetTrend(this);
+                    }
 
                 }
                 if (nn2testflag == true) {
@@ -946,7 +948,7 @@ public class ServiceAFweb {
                     /// remember to update nnData and nn3Data and version                
                     nn2ProcBySig.processNN2InputNeuralNet(this);
                     if (CKey.NN_DATA_DB == false) {
-                        nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
+//                        nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
                     }
 //                    nn2trend.processNN40InputNeuralNetTrend(this);
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
@@ -1016,11 +1018,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            nn1trend.processAllNN30StockInputNeuralNetTrend(this);
+
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
 //                nn3ProcBySig.ReLearnNN3StockNeuralNetData(this, ConstantKey.INT_TR_NN1, symbol);
 //            }
-
 //            symbol = "GLD";
 //            trNN = ConstantKey.INT_TR_MACD;
 //            TR_NN = trNN;
