@@ -1504,7 +1504,18 @@ public class AccountDB {
         }
         return 0;
     }
-
+    
+    public int removeCommByType(int type) {
+        try {
+            String deleteSQL = "delete from comm where type=" + type;
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> removeCommByType exception " + e.getMessage());
+        }
+        return 0;
+    }
+    
     public int removeCommByName(String name) {
         try {
             String deleteSQL = "delete from comm where name='" + name + "' ";

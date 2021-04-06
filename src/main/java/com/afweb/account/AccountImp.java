@@ -641,7 +641,8 @@ public class AccountImp {
         return 0;
     }
 
-    public int removeCommSignalByCustomerAccountID(String UserName, String Password, int accountID, int type) {
+
+    public int removeCommByCustomerAccountIDType(String UserName, String Password, int accountID, int type) {
 
         AccountObj account = null;
         CustomerObj customer = getCustomerPassword(UserName, Password);
@@ -656,6 +657,17 @@ public class AccountImp {
                         }
                     }
                 }
+            }
+        }
+        return 0;
+    }
+
+    public int removeCommByType(String UserName, String Password, int type) {
+
+        CustomerObj customer = getCustomerPassword(UserName, Password);
+        if (customer != null) {
+            if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
+                return accountdb.removeCommByType(type);
             }
         }
         return 0;

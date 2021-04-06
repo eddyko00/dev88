@@ -3152,7 +3152,7 @@ public class ServiceAFweb {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().removeCommSignalByCustomerAccountID(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_SIGNAL);
+            return getAccountImp().removeCommByCustomerAccountIDType(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_SIGNAL);
         } catch (Exception e) {
         }
         return 0;
@@ -4814,9 +4814,7 @@ public class ServiceAFweb {
     }
 
     public int systemRemoveAllEmail() {
-        getAccountImp().removeCommByName(CKey.ADMIN_USERNAME, null, ConstantKey.COM_SIGNAL);
-        getAccountImp().removeCommByName(CKey.ADMIN_USERNAME, null, ConstantKey.COM_ACCBILLMSG);
-
+        getAccountImp().removeCommByType(CKey.ADMIN_USERNAME, null,ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
 
