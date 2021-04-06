@@ -96,6 +96,8 @@ public class ServiceAFweb {
     public static String allStock[] = {"NEM", "SE", "MSFT", "T.TO", "GLD"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 
+    public static String etfStock[] = {"SPY", "DIA", "QQQ", "XIU.TO", "GLD", "FAS", "HOU.TO", "IWM", "IYR"};
+
     /**
      * @return the cacheAccountAdminObj
      */
@@ -6192,7 +6194,7 @@ public class ServiceAFweb {
                         result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                     }
                     AFstockObj stock = getStockImp().getRealTimeStock("T.TO", null);
-                    result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+                    result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);                    
                 }
             }
 

@@ -336,15 +336,13 @@ public class FundMgrProcess {
                         }
                     }
                     ArrayList portfolioArray = new ArrayList();
+                    
+                    //etfStock[] = {"SPY", "DIA", "QQQ", "XIU.TO", "GLD", "FAS", "HOU.TO", "IWM", "IYR"};
+                    for (int j=0; j<ServiceAFweb.etfStock.length; j++) {
+                        String etf = ServiceAFweb.etfStock[j];
+                        portfolioArray.add(etf);                        
+                    }
 
-                    portfolioArray.add("SPY");
-                    portfolioArray.add("DIA");
-                    portfolioArray.add("QQQ");
-                    portfolioArray.add("XIU.TO");
-                    portfolioArray.add("GLD");
-                    portfolioArray.add("FAS");
-                    portfolioArray.add("HOU.TO");                    
-                    portfolioArray.add("IWM");
                     fundMgr.setFunL(portfolioArray);
                     String portfStr;
                     try {
