@@ -1569,34 +1569,21 @@ public class TradingSignalProcess {
         //SimpleDateFormat etDf = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
-        int hr = 0;
-        try {
-            String tzid = "America/New_York"; //EDT
-            TimeZone tz = TimeZone.getTimeZone(tzid);
-            java.util.Date d = new java.util.Date(lockDateValue);
-            DateFormat format = new SimpleDateFormat("M/dd/yyyy HH z");
-            format.setTimeZone(tz);
-            String ESTdate = format.format(d);  //4/03/2020 04:47 PM EDT
-            String[] arrOfStr = ESTdate.split(" ");
-            hr = Integer.parseInt(arrOfStr[1]);
-
-//            SimpleDateFormat etDf = new SimpleDateFormat("HH 'ET'");
-//            String str = etDf.format(lockDateValue);
-//            String[] arrOfStr = str.split(" ");
-//            hr = Integer.parseInt(arrOfStr[0]);
-        } catch (Exception ex) {
-        }
-
+        int hr = DateUtil.getHourNow();
         String marketClose = "Market Close";
-        boolean mkopen = false;
-        if (hr < 21) { //18) {
-            if (hr > 8) {
-                mkopen = true;
-                marketClose = "Market Open";
-            }
+        boolean mkopen = DateUtil.isMarketOpen();
+//        if (hr < 21) { // < 9:00 pm) {
+//            if (hr > 8) {  // > 8:00 pm
+//                if (dayOfW <= 5) {
+//                    mkopen = true;
+//                }
+//            }
+//        }
+        if (mkopen == true) {
+            marketClose = "Market Open";
         }
 
-        if (mkopen == false) {  //if (hr > 17) {
+        if (mkopen == false) {  //
             String LockName = "MK_CLOSE_" + ServiceAFweb.getServerObj().getServerName();
 
             int lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);

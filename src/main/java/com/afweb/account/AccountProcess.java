@@ -181,7 +181,7 @@ public class AccountProcess {
 ////////////////////
     private void ProcessAllLockCleanup(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "ProcessAllLockCleanup";
-        
+
         logger.info(">>>>> ProcessAllLockCleanup " + acTimerCnt);
         // clean up old lock name
         // clean Lock entry pass 30 min
@@ -211,11 +211,10 @@ public class AccountProcess {
 
     private void ProcessStockkMaintance(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "ProcessStockkMaintance";
-        
+
         // delete stock based on all customer account exclude the ADMIN_USERNAME account 
         // do Simulation trading
 //        logger.info(">>>>>>>>>>>>>> ProcessStockkMaintance " + acTimerCnt);
-
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
@@ -309,7 +308,7 @@ public class AccountProcess {
 
     public int ProcessFundAccountUpdate(ServiceAFweb serviceAFWeb, AccountObj accountObj, boolean buyOnly) {
         ServiceAFweb.lastfun = "ProcessFundAccountUpdate";
-        
+
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
         try {
@@ -523,7 +522,7 @@ public class AccountProcess {
 
     public int ProcessTradingAccountUpdate(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
         ServiceAFweb.lastfun = "ProcessTradingAccountUpdate";
-        
+
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
         try {
@@ -600,11 +599,10 @@ public class AccountProcess {
     }
 
     public void ProcessAdminAccount(ServiceAFweb serviceAFWeb) {
-       ServiceAFweb.lastfun = "ProcessAdminAccount";
-        
+        ServiceAFweb.lastfun = "ProcessAdminAccount";
+
         // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
 //        logger.info("> ProcessAdminAccount ......... ");
-
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
@@ -678,8 +676,8 @@ public class AccountProcess {
 
     // for all account 
     public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
-       ServiceAFweb.lastfun = "ProcessAllAccountTradingSignal";
-        
+        ServiceAFweb.lastfun = "ProcessAllAccountTradingSignal";
+
 //        this.serviceAFWeb = serviceAFWeb;
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> ProcessAllAccountTradingSignal ");
@@ -766,8 +764,8 @@ public class AccountProcess {
     }
 
     public void updateTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj, AccountObj accountObj, String symbol) {
-       ServiceAFweb.lastfun = "updateTradingsignal";
-        
+        ServiceAFweb.lastfun = "updateTradingsignal";
+
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
@@ -853,8 +851,14 @@ public class AccountProcess {
                             }
                         }
                     }
-                    if (readySignal == true) {
 
+                    /////////check market open
+                    boolean mkopen = DateUtil.isMarketOpen();
+                    if (mkopen == false) {
+                        readySignal = false;
+                    }
+                    /////////check market open
+                    if (readySignal == true) {
                         for (int j = 0; j < tradingRuleAdminList.size(); j++) {
                             TradingRuleObj trAdminObj = (TradingRuleObj) tradingRuleAdminList.get(j);
 
@@ -907,9 +911,15 @@ public class AccountProcess {
 
     public int followFundSignalFromAcc(ServiceAFweb serviceAFWeb, AccountObj accFundObj,
             TradingRuleObj trFundACCObj, ArrayList<TradingRuleObj> UpdateTRList, String symbol) {
-       ServiceAFweb.lastfun = "followFundSignalFromAcc";
- 
+        ServiceAFweb.lastfun = "followFundSignalFromAcc";
+
         boolean flag = true;
+        /////////check market open
+        boolean mkopen = DateUtil.isMarketOpen();
+        if (mkopen == false) {
+            flag = false;
+        }
+        /////////check market open
         if (flag == true) {
             // get trading account. Follow the signal from the trading account
             AccountObj accTrading = null;
@@ -1031,7 +1041,7 @@ public class AccountProcess {
 ////////////////////////////////////////////////
 
     public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
-        ServiceAFweb.lastfun = "updateTradingTransaction";     
+        ServiceAFweb.lastfun = "updateTradingTransaction";
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }

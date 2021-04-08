@@ -95,7 +95,7 @@ public class ServiceAFweb {
     public static String ignoreStock[] = {"T.T"};
 //    public static String allStock[] = {"NEM", "SE", "MSFT", "T.TO"};
 //    public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO", "GLD"};
-    
+
     public static String allStock[] = {"NEM", "SE", "MSFT", "T.TO", "GLD"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
 
@@ -1034,6 +1034,8 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+//            boolean mk = DateUtil.isMarketOpen();
 
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
