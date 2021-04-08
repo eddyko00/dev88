@@ -63,18 +63,18 @@ public class NN1ProcessBySignal {
         logger.info("> processInputNeuralNet TR NN1 end....... ");
     }
 
-    public void processAllStockInputNeuralNet(ServiceAFweb serviceAFWeb) {
-        ////////////////////////////////////////////
-
-        logger.info("> processAllStockInputNeuralNet TR MACD1... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-        logger.info("> processAllStockInputNeuralNet TR MACD2... ");
-//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2);
-//        NeuralNetAllStockCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
-        logger.info("> processAllStockInputNeuralNet TR NN1 end....... ");
-
-        ////////////////////////////////////////////
-    }
+//    public void processAllStockInputNeuralNet(ServiceAFweb serviceAFWeb) {
+//        ////////////////////////////////////////////
+//
+//        logger.info("> processAllStockInputNeuralNet TR MACD1... ");
+//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
+//        logger.info("> processAllStockInputNeuralNet TR MACD2... ");
+////        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2);
+////        NeuralNetAllStockCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+//        logger.info("> processAllStockInputNeuralNet TR NN1 end....... ");
+//
+//        ////////////////////////////////////////////
+//    }
 
     /////////////////////////////////////////////////////////
     // training neural net input data
