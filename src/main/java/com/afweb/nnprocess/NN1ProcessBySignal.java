@@ -49,17 +49,17 @@ public class NN1ProcessBySignal {
         TradingSignalProcess.forceToErrorNewNN = true;
         // start training
         // TrainingNNBP inputpattern 1748
-        NeuralNetNN1CreateDB(serviceAFWeb, ConstantKey.TR_NN1);
-        NeuralNetProcessNN1Testing(serviceAFWeb);
-        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
-
-        TradingSignalProcess.forceToGenerateNewNN = false;
-        // start training
-        // TrainingNNBP inputpattern 1748
-        NeuralNetProcessNN1Testing(serviceAFWeb);
-        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
-        NeuralNetProcessNN1Testing(serviceAFWeb);
-        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
+//        NeuralNetNN1CreateDB(serviceAFWeb, ConstantKey.TR_NN1);
+//        NeuralNetProcessNN1Testing(serviceAFWeb);
+//        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
+//
+//        TradingSignalProcess.forceToGenerateNewNN = false;
+//        // start training
+//        // TrainingNNBP inputpattern 1748
+//        NeuralNetProcessNN1Testing(serviceAFWeb);
+//        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
+//        NeuralNetProcessNN1Testing(serviceAFWeb);
+//        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
         logger.info("> processInputNeuralNet TR NN1 end....... ");
     }
 
@@ -69,8 +69,8 @@ public class NN1ProcessBySignal {
         logger.info("> processAllStockInputNeuralNet TR MACD1... ");
         NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
         logger.info("> processAllStockInputNeuralNet TR MACD2... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2);
-        NeuralNetAllStockCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
+//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD2);
+//        NeuralNetAllStockCreatJava(serviceAFWeb, ConstantKey.TR_NN1);
         logger.info("> processAllStockInputNeuralNet TR NN1 end....... ");
 
         ////////////////////////////////////////////
@@ -718,366 +718,366 @@ public class NN1ProcessBySignal {
 //
 //    }
 
-    public static HashMap<String, ArrayList> stock_1_InputMap = null;
+//    public static HashMap<String, ArrayList> stock_1_InputMap = null;
 
-    public static boolean All_1_StockHistoryStaticCodeInit() {
-
-        if (stock_1_InputMap != null) {
-            return true;
-        }
-
-        StringBuffer inputBuf = new StringBuffer();
-        try {
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK1);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK2);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK3);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK4);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK5);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK6);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK7);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK8);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK9);
-
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK10);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK11);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK12);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK13);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK14);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK15);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK16);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK17);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK18);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK19);
-
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK20);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK21);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK22);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK23);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK24);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK25);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK26);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK27);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK28);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK29);
-
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK30);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK31);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK32);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK33);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK34);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK35);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK36);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK37);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK38);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK39);
-
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK40);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK41);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK42);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK43);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK44);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK45);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK46);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK47);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK48);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK49);
-
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK50);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK51);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK52);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK53);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK54);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK55);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK56);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK57);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK58);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK59);
-
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK60);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK61);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK62);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK63);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK64);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK65);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK66);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK67);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK68);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK69);
-
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK70);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK71);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK72);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK73);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK74);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK75);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK76);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK77);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK78);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK79);
-
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK80);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK81);
-            inputBuf.append(nnAllStock1.NN_1ALLSTOCK82);
-//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK83);  // check nnAllStock data
-//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK84);
-//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK85);
-//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK86);
-//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK87);
-//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK88);  // check nnAllStock data 
-//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK89);
-
-            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
-            stock_1_InputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
-            return true;
-        } catch (Exception ex) {
-            logger.info("> All_1_StockHistoryGetfromStaticCodeInit - exception " + ex);
-        }
-        return false;
-    }
-
-    public static ArrayList<AFstockInfo> All_1_StockHistoryGetfromStaticCode(String symbol) {
-
-        ArrayList<AFstockInfo> inputlist = new ArrayList();
-
-        String symbolL[] = ServiceAFweb.ignoreStock;
-        for (int i = 0; i < symbolL.length; i++) {
-            String ignoreSym = symbolL[i];
-            if (ignoreSym.equals(symbol)) {
-                return inputlist;
-            }
-        }
-
-        All_1_StockHistoryStaticCodeInit();
-        if (stock_1_InputMap == null) {
-            return inputlist;
-        }
-
-        if (symbol != "") {
-            try {
-                inputlist = stock_1_InputMap.get(symbol);
-                if (inputlist == null) {
-                    return null;
-                }
-                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
-                AFstockInfo[] arrayItem = new ObjectMapper().readValue(inputListRawSt, AFstockInfo[].class);
-                List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
-                inputlist = new ArrayList<AFstockInfo>(listItem);
-                return inputlist;
-            } catch (Exception ex) {
-            }
-        }
-
-        return inputlist;
-
-    }
-
-    public boolean NeuralNetNN1CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        logger.info("> NeuralNetCreatJavaDB ");
-        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-
-        try {
-            if (CKey.NN_DATA_DB == true) {
-                TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-
-                TradingNNData nndata = new TradingNNData();
-                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
-            }
-            return true;
-        } catch (Exception ex) {
-        }
-        return false;
-    }
-
-    public boolean NeuralNetNN1CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-
-        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-
-        try {
-            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-
-            String inputListSt = "Data in DB";
-            if (CKey.NN_DATA_DB == true) {
-                ;
-            } else {
-                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-                inputListSt = ServiceAFweb.compress(inputListRawSt);
-            }
-            //TR_NN1_nnWeight0.txt
-            String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
-
-            if (FileUtil.FileTest(fileN) == false) {
-                return false;
-            }
-            StringBuffer msg1 = FileUtil.FileReadText(fileN);
-            String weightSt = msg1.toString();
-            StringBuffer msgWrite = new StringBuffer();
-            msgWrite.append("" ///
-                    + "package com.afweb.nn;\n"
-                    + "\n"
-                    + "public class nn1Data {\n"
-                    + "\n"
-                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
-            int sizeline = 1000;
-            int len = weightSt.length();
-            int beg = 0;
-            int end = sizeline;
-            if (end <= len) {
-                ;
-            } else {
-                end = len;
-            }
-            while (true) {
-                String st = weightSt.substring(beg, end);
-                msgWrite.append("+ \"" + st + "\"\n");
-                if (end >= len) {
-                    break;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-            msgWrite.append(""
-                    + "            + \"\";\n");
-
-            len = inputListSt.length();
-            beg = 0;
-            end = sizeline;
-            if (end <= len) {
-                ;
-            } else {
-                end = len;
-            }
-            int index = 1;
-            int line = 0;
-            while (true) {
-                if (line == 0) {
-                    msgWrite.append(""
-                            + "    public static String NN_INPUTLIST" + index + " = \"\"\n"
-                            + "            + \"\"\n");
-                }
-                line++;
-                String st = inputListSt.substring(beg, end);
-
-                msgWrite.append("+ \"" + st + "\"\n");
-
-                if (end >= len) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-
-                    break;
-                }
-                if (line == 20) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-                    line = 0;
-                    index++;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-
-            msgWrite.append(""
-                    + "}\n"
-                    ///
-                    + ""
-            );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nn1Data.java";
-            FileUtil.FileWriteText(fileN, msgWrite);
-            return true;
-        } catch (Exception ex) {
-        }
-        return false;
-    }
-
-    public boolean NeuralNetAllStockCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-
-        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-
-        try {
-            TRprocessImp.getStaticJavaAllStockInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-
-            String inputListSt = "Data in DB";
-            if (CKey.NN_DATA_DB == true) {
-                TradingNNData nndata = new TradingNNData();
-                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
-
-            } else {
-
-                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-                inputListSt = ServiceAFweb.compress(inputListRawSt);
-            }
-
-            StringBuffer msgWrite = new StringBuffer();
-            msgWrite.append("" ///
-                    + "package com.afweb.nn;\n"
-                    + "\n"
-                    + "public class nn1AllData {\n"
-                    + "\n");
-
-            int sizeline = 1000;
-            int len = inputListSt.length();
-            int beg = 0;
-            int end = sizeline;
-            if (end <= len) {
-                ;
-            } else {
-                end = len;
-            }
-            int index = 1;
-            int line = 0;
-            while (true) {
-                if (line == 0) {
-                    msgWrite.append(""
-                            + "    public static String NN_ALLINPUTLIST" + index + " = \"\"\n"
-                            + "            + \"\"\n");
-                }
-                line++;
-                String st = inputListSt.substring(beg, end);
-
-                msgWrite.append("+ \"" + st + "\"\n");
-
-                if (end >= len) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-
-                    break;
-                }
-                if (line == 20) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-                    line = 0;
-                    index++;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-
-            msgWrite.append(""
-                    + "}\n"
-                    ///
-                    + ""
-            );
-            String fileN = ServiceAFweb.FileLocalDebugPath + "nn1AllData.java";
-            FileUtil.FileWriteText(fileN, msgWrite);
-            return true;
-        } catch (Exception ex) {
-        }
-        return false;
-    }
+//    public static boolean All_1_StockHistoryStaticCodeInit() {
+//
+//        if (stock_1_InputMap != null) {
+//            return true;
+//        }
+//
+//        StringBuffer inputBuf = new StringBuffer();
+//        try {
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK1);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK2);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK3);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK4);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK5);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK6);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK7);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK8);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK9);
+//
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK10);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK11);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK12);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK13);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK14);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK15);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK16);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK17);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK18);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK19);
+//
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK20);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK21);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK22);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK23);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK24);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK25);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK26);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK27);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK28);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK29);
+//
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK30);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK31);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK32);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK33);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK34);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK35);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK36);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK37);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK38);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK39);
+//
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK40);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK41);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK42);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK43);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK44);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK45);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK46);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK47);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK48);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK49);
+//
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK50);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK51);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK52);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK53);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK54);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK55);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK56);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK57);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK58);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK59);
+//
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK60);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK61);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK62);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK63);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK64);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK65);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK66);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK67);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK68);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK69);
+//
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK70);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK71);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK72);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK73);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK74);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK75);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK76);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK77);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK78);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK79);
+//
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK80);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK81);
+//            inputBuf.append(nnAllStock1.NN_1ALLSTOCK82);
+////            inputBuf.append(nnAllStock1.NN_1ALLSTOCK83);  // check nnAllStock data
+////            inputBuf.append(nnAllStock1.NN_1ALLSTOCK84);
+////            inputBuf.append(nnAllStock1.NN_1ALLSTOCK85);
+////            inputBuf.append(nnAllStock1.NN_1ALLSTOCK86);
+////            inputBuf.append(nnAllStock1.NN_1ALLSTOCK87);
+////            inputBuf.append(nnAllStock1.NN_1ALLSTOCK88);  // check nnAllStock data 
+////            inputBuf.append(nnAllStock1.NN_1ALLSTOCK89);
+//
+//            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
+//            stock_1_InputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
+//            return true;
+//        } catch (Exception ex) {
+//            logger.info("> All_1_StockHistoryGetfromStaticCodeInit - exception " + ex);
+//        }
+//        return false;
+//    }
+//
+//    public static ArrayList<AFstockInfo> All_1_StockHistoryGetfromStaticCode(String symbol) {
+//
+//        ArrayList<AFstockInfo> inputlist = new ArrayList();
+//
+//        String symbolL[] = ServiceAFweb.ignoreStock;
+//        for (int i = 0; i < symbolL.length; i++) {
+//            String ignoreSym = symbolL[i];
+//            if (ignoreSym.equals(symbol)) {
+//                return inputlist;
+//            }
+//        }
+//
+//        All_1_StockHistoryStaticCodeInit();
+//        if (stock_1_InputMap == null) {
+//            return inputlist;
+//        }
+//
+//        if (symbol != "") {
+//            try {
+//                inputlist = stock_1_InputMap.get(symbol);
+//                if (inputlist == null) {
+//                    return null;
+//                }
+//                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+//                AFstockInfo[] arrayItem = new ObjectMapper().readValue(inputListRawSt, AFstockInfo[].class);
+//                List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
+//                inputlist = new ArrayList<AFstockInfo>(listItem);
+//                return inputlist;
+//            } catch (Exception ex) {
+//            }
+//        }
+//
+//        return inputlist;
+//
+//    }
+//
+//    public boolean NeuralNetNN1CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//        logger.info("> NeuralNetCreatJavaDB ");
+//        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+//
+//        try {
+//            if (CKey.NN_DATA_DB == true) {
+//                TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+//
+//                TradingNNData nndata = new TradingNNData();
+//                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
+//            }
+//            return true;
+//        } catch (Exception ex) {
+//        }
+//        return false;
+//    }
+//
+//    public boolean NeuralNetNN1CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//
+//        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+//
+//        try {
+//            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+//
+//            String inputListSt = "Data in DB";
+//            if (CKey.NN_DATA_DB == true) {
+//                ;
+//            } else {
+//                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+//                inputListSt = ServiceAFweb.compress(inputListRawSt);
+//            }
+//            //TR_NN1_nnWeight0.txt
+//            String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
+//
+//            if (FileUtil.FileTest(fileN) == false) {
+//                return false;
+//            }
+//            StringBuffer msg1 = FileUtil.FileReadText(fileN);
+//            String weightSt = msg1.toString();
+//            StringBuffer msgWrite = new StringBuffer();
+//            msgWrite.append("" ///
+//                    + "package com.afweb.nn;\n"
+//                    + "\n"
+//                    + "public class nn1Data {\n"
+//                    + "\n"
+//                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
+//            int sizeline = 1000;
+//            int len = weightSt.length();
+//            int beg = 0;
+//            int end = sizeline;
+//            if (end <= len) {
+//                ;
+//            } else {
+//                end = len;
+//            }
+//            while (true) {
+//                String st = weightSt.substring(beg, end);
+//                msgWrite.append("+ \"" + st + "\"\n");
+//                if (end >= len) {
+//                    break;
+//                }
+//                beg = end;
+//                if (end + sizeline <= len) {
+//                    end += sizeline;
+//                } else {
+//                    end = len;
+//                }
+//            }
+//            msgWrite.append(""
+//                    + "            + \"\";\n");
+//
+//            len = inputListSt.length();
+//            beg = 0;
+//            end = sizeline;
+//            if (end <= len) {
+//                ;
+//            } else {
+//                end = len;
+//            }
+//            int index = 1;
+//            int line = 0;
+//            while (true) {
+//                if (line == 0) {
+//                    msgWrite.append(""
+//                            + "    public static String NN_INPUTLIST" + index + " = \"\"\n"
+//                            + "            + \"\"\n");
+//                }
+//                line++;
+//                String st = inputListSt.substring(beg, end);
+//
+//                msgWrite.append("+ \"" + st + "\"\n");
+//
+//                if (end >= len) {
+//                    msgWrite.append(""
+//                            + "            + \"\";\n");
+//
+//                    break;
+//                }
+//                if (line == 20) {
+//                    msgWrite.append(""
+//                            + "            + \"\";\n");
+//                    line = 0;
+//                    index++;
+//                }
+//                beg = end;
+//                if (end + sizeline <= len) {
+//                    end += sizeline;
+//                } else {
+//                    end = len;
+//                }
+//            }
+//
+//            msgWrite.append(""
+//                    + "}\n"
+//                    ///
+//                    + ""
+//            );
+//            fileN = ServiceAFweb.FileLocalDebugPath + "nn1Data.java";
+//            FileUtil.FileWriteText(fileN, msgWrite);
+//            return true;
+//        } catch (Exception ex) {
+//        }
+//        return false;
+//    }
+//
+//    public boolean NeuralNetAllStockCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//
+//        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+//
+//        try {
+//            TRprocessImp.getStaticJavaAllStockInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+//
+//            String inputListSt = "Data in DB";
+//            if (CKey.NN_DATA_DB == true) {
+//                TradingNNData nndata = new TradingNNData();
+//                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
+//
+//            } else {
+//
+//                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+//                inputListSt = ServiceAFweb.compress(inputListRawSt);
+//            }
+//
+//            StringBuffer msgWrite = new StringBuffer();
+//            msgWrite.append("" ///
+//                    + "package com.afweb.nn;\n"
+//                    + "\n"
+//                    + "public class nn1AllData {\n"
+//                    + "\n");
+//
+//            int sizeline = 1000;
+//            int len = inputListSt.length();
+//            int beg = 0;
+//            int end = sizeline;
+//            if (end <= len) {
+//                ;
+//            } else {
+//                end = len;
+//            }
+//            int index = 1;
+//            int line = 0;
+//            while (true) {
+//                if (line == 0) {
+//                    msgWrite.append(""
+//                            + "    public static String NN_ALLINPUTLIST" + index + " = \"\"\n"
+//                            + "            + \"\"\n");
+//                }
+//                line++;
+//                String st = inputListSt.substring(beg, end);
+//
+//                msgWrite.append("+ \"" + st + "\"\n");
+//
+//                if (end >= len) {
+//                    msgWrite.append(""
+//                            + "            + \"\";\n");
+//
+//                    break;
+//                }
+//                if (line == 20) {
+//                    msgWrite.append(""
+//                            + "            + \"\";\n");
+//                    line = 0;
+//                    index++;
+//                }
+//                beg = end;
+//                if (end + sizeline <= len) {
+//                    end += sizeline;
+//                } else {
+//                    end = len;
+//                }
+//            }
+//
+//            msgWrite.append(""
+//                    + "}\n"
+//                    ///
+//                    + ""
+//            );
+//            String fileN = ServiceAFweb.FileLocalDebugPath + "nn1AllData.java";
+//            FileUtil.FileWriteText(fileN, msgWrite);
+//            return true;
+//        } catch (Exception ex) {
+//        }
+//        return false;
+//    }
 
 //////////
 //////////////////////////////////////////////////

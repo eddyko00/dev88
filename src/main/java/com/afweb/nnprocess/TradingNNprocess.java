@@ -875,6 +875,7 @@ public class TradingNNprocess {
 
     ////////////////////////////////////////////
     public static HashMap<String, ArrayList> stockInputMap = null;
+    public static HashMap<String, ArrayList> stockInputMap_1 = null;
 
     public static boolean AllStockHistoryCreatJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
@@ -1053,6 +1054,17 @@ public class TradingNNprocess {
     }
 
     public static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode(String symbol) {
+        return AllStockHistoryGetfromStaticCode(symbol, stockInputMap, 0);
+
+    }
+
+    public static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode_1(String symbol) {
+        return AllStockHistoryGetfromStaticCode(symbol, stockInputMap_1, 1);
+
+    }
+
+    private static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode(String symbol,
+            HashMap<String, ArrayList> stockInMap, int stockMap) {
 
         ArrayList<AFstockInfo> inputlist = new ArrayList();
 
@@ -1063,15 +1075,22 @@ public class TradingNNprocess {
                 return inputlist;
             }
         }
-        stockInputMap = nnAllStock.AllStockHistoryStaticCodeInit(stockInputMap);
-//        AllStockHistoryStaticCodeInit();
-        if (stockInputMap == null) {
-            return inputlist;
+
+        if (stockInMap == null) {
+            if (stockMap == 0) {
+                stockInMap = nnAllStock.AllStockHistoryStaticCodeInit(stockInMap);
+            } else {
+                stockInMap = nnAllStock_1.AllStockHistoryStaticCodeInit(stockInMap);
+            }
+
+            if (stockInMap == null) {
+                return inputlist;
+            }
         }
 
         if (symbol != "") {
             try {
-                inputlist = stockInputMap.get(symbol);
+                inputlist = stockInMap.get(symbol);
                 if (inputlist == null) {
                     return null;
                 }

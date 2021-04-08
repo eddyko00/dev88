@@ -549,7 +549,7 @@ public class StockDB {
 
                     ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.AllStockHistoryGetfromStaticCode(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
-                        stockInfoArrayStatic = NN1ProcessBySignal.All_1_StockHistoryGetfromStaticCode(stock.getSymbol());
+                        stockInfoArrayStatic = TradingNNprocess.AllStockHistoryGetfromStaticCode_1(stock.getSymbol());
                         if (stockInfoArrayStatic == null) {
                             stockInfoArrayStatic = new ArrayList();
                         }
