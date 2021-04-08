@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  */
 public class NN1ProcessBySignal {
 
-    public static Logger logger = Logger.getLogger("NNProcess");
+    public static Logger logger = Logger.getLogger("NN1Process");
 
     public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
         TradingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
