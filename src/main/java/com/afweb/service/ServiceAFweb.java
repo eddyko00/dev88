@@ -1034,7 +1034,9 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
+            
+            AFstockObj stock = getRealTimeStockImp(symbol);
+            TRprocessImp.updateRealTimeStock(this, stock);
 
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
