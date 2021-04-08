@@ -423,10 +423,10 @@ var app = {
                 }
             }
             if (type === "graph") {
-
-                if (trname != null) {
+                $("#grtxt1").show(0);
+                if (trname !== null) {
                     setTimeout(function () {
-                        $("#grtxt1").hide;
+                        $("#grtxt1").hide(0);
                     }, 3000);
                     var symbol = stockObj.symbol;
                     $("#graphheader").html("Display graph - " + stockObj.symbol);
@@ -444,7 +444,7 @@ var app = {
                 }
             }
             if (type === "table") {
-                if (trname != null) {
+                if (trname !== null) {
                     var symbol = stockObj.symbol;
                     $("#tablehheader").html("Trading Performance - " + stockObj.symbol);
 
@@ -610,10 +610,10 @@ var app = {
 
 
         $("#y1btn").click(function () {
-
-              if (trname != null) {
+            $("#grtxt1").show(0);
+            if (trname !== null) {
                 setTimeout(function () {
-                    $("#grtxt1").hide;
+                    $("#grtxt1").hide(0);
                 }, 3000);
 
                 var symbol = stockObj.symbol;
@@ -627,9 +627,10 @@ var app = {
             }
         });
         $("#y2btn").click(function () {
-               if (trname != null) {
+            $("#grtxt2").show(0);
+            if (trname !== null) {
                 setTimeout(function () {
-                    $("#grtxt2").hide;
+                    $("#grtxt2").hide(0);
                 }, 3000);
 
                 var symbol = stockObj.symbol;
