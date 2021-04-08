@@ -1071,17 +1071,23 @@ public class TradingNNprocess {
     }
 
     public static ArrayList<AFstockInfo> getAllStockHistory(String symbol) {
-        return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap, 0);
+        if (stockInputMap == null) {
+            stockInputMap = nnAllStock_src.AllStockHistoryStaticCodeInit(stockInputMap);
+        }
+        return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap);
 
     }
 
     public static ArrayList<AFstockInfo> getAllStockHistory_1(String symbol) {
-        return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap_1, 1);
+        if (stockInputMap_1 == null) {
+            stockInputMap_1 = nnAllStock_src.AllStockHistoryStaticCodeInit(stockInputMap_1);
+        }        
+        return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap_1);
 
     }
 
     private static ArrayList<AFstockInfo> ProcessAllStockHistoryfromStaticCode(String symbol,
-            HashMap<String, ArrayList> stockInMap, int stockMap) {
+            HashMap<String, ArrayList> stockInMap) {
 
         ArrayList<AFstockInfo> inputlist = new ArrayList();
 
@@ -1094,15 +1100,7 @@ public class TradingNNprocess {
         }
 
         if (stockInMap == null) {
-            if (stockMap == 0) {
-                stockInMap = nnAllStock_src.AllStockHistoryStaticCodeInit(stockInMap);
-            } else {
-                stockInMap = nnAllStock_1_src.AllStockHistoryStaticCodeInit(stockInMap);
-            }
-
-            if (stockInMap == null) {
-                return inputlist;
-            }
+            return inputlist;
         }
 
         if (symbol != "") {
