@@ -1034,7 +1034,6 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-       
 
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
@@ -4061,8 +4060,10 @@ public class ServiceAFweb {
         return "Save failed";
 
     }
+//////////
 
-    public byte[] getFundAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trname, String pathSt) {
+    public byte[] getFundAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol,
+            String trname, String yearSt) {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
 
@@ -4105,6 +4106,17 @@ public class ServiceAFweb {
         if (stock == null) {
             return null;
         }
+        int year = 0;
+        if (yearSt != null) {
+            try {
+                year = Integer.parseInt(yearSt);
+                if (year > 5) {
+                    year = 5;
+                }
+            } catch (Exception ex) {
+
+            }
+        }
         ArrayList<TransationOrderObj> thList = getAccountImp().getAccountStockTransList(accFundObj.getId(), stock.getId(), trname.toUpperCase(), 0);
 
         if (thList == null) {
@@ -4114,6 +4126,11 @@ public class ServiceAFweb {
         }
 
         int sizeLen = 20 * 10;
+
+        if (year > 0) {
+            sizeLen = 20 * 12 * year;
+        }
+
         // recent date first
         ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
         if (StockArray == null) {

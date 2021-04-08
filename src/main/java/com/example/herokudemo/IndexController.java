@@ -883,7 +883,7 @@ public class IndexController {
             @PathVariable("username") String username,
             @PathVariable("accountid") String accountid,
             @RequestParam(value = "trname", required = false) String trnameSt,
-            @RequestParam(value = "filter", required = false) String filterSt,            
+            @RequestParam(value = "filter", required = false) String filterSt,
             @RequestParam(value = "length", required = false) String lengthSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
@@ -1194,7 +1194,7 @@ public class IndexController {
         return ret;
     }
 
-    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart");   
+    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year=");   
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE})
     public @ResponseBody
     byte[] getAccountFundStockHistoryChartDisplay(
@@ -1203,7 +1203,7 @@ public class IndexController {
             @PathVariable("accfundid") String accfundid,
             @PathVariable("stockidsymbol") String stockidsymbol,
             @PathVariable("trname") String trname,
-            @RequestParam(value = "path", required = false) String pathSt,
+            @RequestParam(value = "year", required = false) String yearSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -1212,7 +1212,7 @@ public class IndexController {
             return null;
         }
 
-        byte[] ret = afWebService.getFundAccountStockTRLIstCurrentChartDisplay(username, null, accountid, accfundid, stockidsymbol, trname, pathSt);
+        byte[] ret = afWebService.getFundAccountStockTRLIstCurrentChartDisplay(username, null, accountid, accfundid, stockidsymbol, trname, yearSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
@@ -1226,7 +1226,7 @@ public class IndexController {
             @PathVariable("accountid") String accountid,
             @PathVariable("stockidsymbol") String stockidsymbol,
             @PathVariable("trname") String trname,
-            @RequestParam(value = "year", required = false) String yearSt,            
+            @RequestParam(value = "year", required = false) String yearSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -1241,7 +1241,6 @@ public class IndexController {
 
         return ret;
     }
-
 
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/clear", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -1509,7 +1508,6 @@ public class IndexController {
     }
 
     //////////////
-
     @RequestMapping(value = "/cust/{username}/sys/stop", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus SystemStop(@PathVariable("username") String username) {
