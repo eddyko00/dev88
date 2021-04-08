@@ -1029,12 +1029,12 @@ public class ServiceAFweb {
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            String symbol = "QQQ";
+            String symbol = "GLD";
             int trNN = ConstantKey.INT_TR_NN3;
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-            
+       
 
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
@@ -5007,10 +5007,7 @@ public class ServiceAFweb {
             long endStaticDay = 0;
             ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(NormalizeSymbol);
             if (stockInfoArrayStatic == null) {
-                stockInfoArrayStatic = TradingNNprocess.getAllStockHistory_1(NormalizeSymbol);
-                if (stockInfoArrayStatic == null) {
-                    stockInfoArrayStatic = new ArrayList();
-                }
+                stockInfoArrayStatic = new ArrayList();
             }
             if (stockInfoArrayStatic.size() > 0) {
 //                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());

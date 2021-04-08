@@ -1074,13 +1074,16 @@ public class TradingNNprocess {
         if (stockInputMap == null) {
             stockInputMap = nnAllStock_src.AllStockHistoryStaticCodeInit(stockInputMap);
         }
-        return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap);
-
+        ArrayList<AFstockInfo> stockInfoList =  ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap);
+        if (stockInfoList != null) {
+            return stockInfoList;
+        }
+        return getAllStockHistory_1(symbol);
     }
 
-    public static ArrayList<AFstockInfo> getAllStockHistory_1(String symbol) {
+    private static ArrayList<AFstockInfo> getAllStockHistory_1(String symbol) {
         if (stockInputMap_1 == null) {
-            stockInputMap_1 = nnAllStock_src.AllStockHistoryStaticCodeInit(stockInputMap_1);
+            stockInputMap_1 = nnAllStock_1_src.AllStockHistoryStaticCodeInit(stockInputMap_1);
         }        
         return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap_1);
 

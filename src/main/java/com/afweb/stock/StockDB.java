@@ -549,10 +549,7 @@ public class StockDB {
 
                     ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
-                        stockInfoArrayStatic = TradingNNprocess.getAllStockHistory_1(stock.getSymbol());
-                        if (stockInfoArrayStatic == null) {
-                            stockInfoArrayStatic = new ArrayList();
-                        }
+                        stockInfoArrayStatic = new ArrayList();
                     }
                     if (stockInfoArrayStatic.size() > 0) {
 //                        logger.info("> getStockHistorical" + stock.getSymbol() + " " + stockInfoArrayStatic.size());
