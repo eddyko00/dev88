@@ -1035,11 +1035,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            String symbolL[] = ServiceAFweb.primaryStock;
-            TradingNNprocess.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_ST");
-
-            String symbolLallSt[] = ServiceAFweb.allStock;
-            TradingNNprocess.AllStockHistoryCreatJava(this, symbolLallSt, "nnAllStock_1", "NN_ST1");
 
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
