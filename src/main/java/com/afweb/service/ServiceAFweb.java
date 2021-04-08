@@ -5005,9 +5005,9 @@ public class ServiceAFweb {
             end = TimeConvertion.addDays(start, -length);
 
             long endStaticDay = 0;
-            ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
+            ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(NormalizeSymbol);
             if (stockInfoArrayStatic == null) {
-                stockInfoArrayStatic = TradingNNprocess.AllStockHistoryGetfromStaticCode_1(NormalizeSymbol);
+                stockInfoArrayStatic = TradingNNprocess.getAllStockHistory_1(NormalizeSymbol);
                 if (stockInfoArrayStatic == null) {
                     stockInfoArrayStatic = new ArrayList();
                 }

@@ -937,9 +937,6 @@ public class TradingNNprocess {
             String javaSt = "";
             javaSt = ""
                     + "public static HashMap<String, ArrayList> AllStockHistoryStaticCodeInit(HashMap<String, ArrayList> stockInputMap) {\n"
-                    + "if (stockInputMap != null) {\n"
-                    + "return stockInputMap;\n"
-                    + "}\n"
                     + "StringBuffer inputBuf = new StringBuffer();\n"
                     + "try {\n"
                     + "";
@@ -1053,12 +1050,12 @@ public class TradingNNprocess {
         }
     }
 
-    public static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode(String symbol) {
+    public static ArrayList<AFstockInfo> getAllStockHistory(String symbol) {
         return AllStockHistoryGetfromStaticCode(symbol, stockInputMap, 0);
 
     }
 
-    public static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode_1(String symbol) {
+    public static ArrayList<AFstockInfo> getAllStockHistory_1(String symbol) {
         return AllStockHistoryGetfromStaticCode(symbol, stockInputMap_1, 1);
 
     }
@@ -1102,9 +1099,7 @@ public class TradingNNprocess {
             } catch (Exception ex) {
             }
         }
-
         return inputlist;
-
     }
 
 }

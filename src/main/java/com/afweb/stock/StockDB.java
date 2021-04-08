@@ -547,9 +547,9 @@ public class StockDB {
             if (CKey.CACHE_STOCKH == true) {
                 if ((stockinfoDBArray == null) || (stockinfoDBArray.size() == 0)) {
 
-                    ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.AllStockHistoryGetfromStaticCode(stock.getSymbol());
+                    ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
-                        stockInfoArrayStatic = TradingNNprocess.AllStockHistoryGetfromStaticCode_1(stock.getSymbol());
+                        stockInfoArrayStatic = TradingNNprocess.getAllStockHistory_1(stock.getSymbol());
                         if (stockInfoArrayStatic == null) {
                             stockInfoArrayStatic = new ArrayList();
                         }
