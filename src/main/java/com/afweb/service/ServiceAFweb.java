@@ -987,10 +987,10 @@ public class ServiceAFweb {
                 exitflag = true;
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
-                nn1ProcBySig.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_ALLSTOCK");
+                TradingNNprocess.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_ALLSTOCK");
 
                 String symbolLallSt[] = ServiceAFweb.allStock;
-                nn1ProcBySig.AllStockHistoryCreatJava(this, symbolLallSt, "nnAllStock1", "NN_1ALLSTOCK");
+                TradingNNprocess.AllStockHistoryCreatJava(this, symbolLallSt, "nnAllStock1", "NN_1ALLSTOCK");
 
                 return;
             }
@@ -1035,7 +1035,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            boolean mk = DateUtil.isMarketOpen();
+            String symbolL[] = ServiceAFweb.allStock;
+            TradingNNprocess.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_TOCK");
+
 
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
@@ -5006,7 +5008,7 @@ public class ServiceAFweb {
             end = TimeConvertion.addDays(start, -length);
 
             long endStaticDay = 0;
-            ArrayList<AFstockInfo> stockInfoArrayStatic = NN1ProcessBySignal.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
+            ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.AllStockHistoryGetfromStaticCode(NormalizeSymbol);
             if (stockInfoArrayStatic == null) {
                 stockInfoArrayStatic = NN1ProcessBySignal.All_1_StockHistoryGetfromStaticCode(NormalizeSymbol);
                 if (stockInfoArrayStatic == null) {

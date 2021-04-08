@@ -8,6 +8,7 @@ package com.afweb.stock;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
 import com.afweb.nnprocess.NN1ProcessBySignal;
+import com.afweb.nnprocess.TradingNNprocess;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -546,7 +547,7 @@ public class StockDB {
             if (CKey.CACHE_STOCKH == true) {
                 if ((stockinfoDBArray == null) || (stockinfoDBArray.size() == 0)) {
 
-                    ArrayList<AFstockInfo> stockInfoArrayStatic = NN1ProcessBySignal.AllStockHistoryGetfromStaticCode(stock.getSymbol());
+                    ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.AllStockHistoryGetfromStaticCode(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
                         stockInfoArrayStatic = NN1ProcessBySignal.All_1_StockHistoryGetfromStaticCode(stock.getSymbol());
                         if (stockInfoArrayStatic == null) {

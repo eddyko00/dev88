@@ -11,14 +11,19 @@ import com.afweb.model.stock.*;
 
 import com.afweb.nn.*;
 import com.afweb.service.ServiceAFweb;
+import com.afweb.stock.StockInternet;
 
 import com.afweb.util.*;
 
 import com.afweb.util.TimeConvertion;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import java.util.logging.Logger;
 
@@ -141,8 +146,8 @@ public class TradingNNprocess {
     }
 
     public void ReLearnInputNeuralNet(ServiceAFweb serviceAFWeb, String symbol, int trNN) {
-       ServiceAFweb.lastfun = "ReLearnInputNeuralNet";
-        
+        ServiceAFweb.lastfun = "ReLearnInputNeuralNet";
+
         String LockStock = "NNRE_TR_" + symbol + "_" + trNN;
         LockStock = LockStock.toUpperCase();
 
@@ -289,10 +294,9 @@ public class TradingNNprocess {
     }
 
     public static NNTrainObj trainingNNsetupTraining(ArrayList<NNInputOutObj> inputlist, String nnName) {
-       ServiceAFweb.lastfun = "trainingNNsetupTraining";
-        
-//        logger.info("> trainingNNsetupTraining ");
+        ServiceAFweb.lastfun = "trainingNNsetupTraining";
 
+//        logger.info("> trainingNNsetupTraining ");
         int inputListSize = inputlist.size();
 
         // Make sure to update this when adding new input
@@ -867,6 +871,221 @@ public class TradingNNprocess {
         // Generates 15's complement of a hexadecimal value
         checksum = Integer.parseInt("FFFF", 16) - checksum;
         return checksum;
+    }
+
+    ////////////////////////////////////////////
+    public static HashMap<String, ArrayList> stockInputMap = null;
+
+    public static boolean AllStockHistoryCreatJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+
+            AllStockHistoryCreatJavaProcess(serviceAFWeb, symbolL, stockInputMap);
+
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "import com.afweb.service.ServiceAFweb;\n"
+                    + "import com.fasterxml.jackson.databind.ObjectMapper;\n"
+                    + "import java.util.ArrayList;\n"
+                    + "import java.util.HashMap;\n"
+                    + "\n"
+                    + "public class " + fileName + " {\n"
+                    + "\n");
+
+            int sizeline = 1000;
+            int len = inputListSt.length();
+            int beg = 0;
+            int end = sizeline;
+            int index = 1;
+            int line = 0;
+            while (true) {
+                if (line == 0) {
+                    msgWrite.append(""
+                            + "    public static String " + tagName + index + " = \"\"\n"
+                            + "            + \"\"\n");
+                }
+                line++;
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.append("+ \"" + st + "\"\n");
+
+                if (end >= len) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+
+                    break;
+                }
+                if (line == 20) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+                    line = 0;
+                    index++;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+            String javaSt = "";
+            javaSt = ""
+                    + "public static HashMap<String, ArrayList> AllStockHistoryStaticCodeInit(HashMap<String, ArrayList> stockInputMap) {\n"
+                    + "if (stockInputMap != null) {\n"
+                    + "return stockInputMap;\n"
+                    + "}\n"
+                    + "StringBuffer inputBuf = new StringBuffer();\n"
+                    + "try {\n"
+                    + "";
+
+            msgWrite.append(javaSt + "\n");
+            for (int i = 1; i < index + 1; i++) {
+                javaSt = ""
+                        + "inputBuf.append(" + tagName + i + ");\n"
+                        + "";
+                msgWrite.append(javaSt);
+            }
+            javaSt = ""
+                    + "String inputListSt = ServiceAFweb.decompress(inputBuf.toString());\n"
+                    + "stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);\n"
+                    + "return stockInputMap;\n"
+                    + "} catch (Exception ex) {\n"
+                    + "}\n"
+                    + "return stockInputMap;\n"
+                    + "}\n"
+                    + "";
+            msgWrite.append(javaSt + "\n");
+
+            ////// end
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
+            String fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
+    public static void AllStockHistoryCreatJavaProcess(ServiceAFweb serviceAFWeb, String symbolL[], HashMap<String, ArrayList> stockInputMap) {
+        boolean saveStockDBFlag = true;
+        if (saveStockDBFlag == true) {
+
+            StockInternet internet = new StockInternet();
+            ArrayList stockNameArray = new ArrayList();
+
+            if (symbolL == null) {
+                return;
+            }
+
+            for (int i = 0; i < symbolL.length; i++) {
+                stockNameArray.add(symbolL[i]);
+            }
+            logger.info("AllStockHistoryCreatJavaProcess " + stockNameArray.size());
+
+            int sizeyear = 5 * 52 * 5;
+            for (int k = 0; k < stockNameArray.size(); k++) {
+                String symbol = (String) stockNameArray.get(k);
+
+                String StFileName = ServiceAFweb.FileLocalDebugPath + symbol + ".txt";
+
+                ArrayList<String> writeArray = new ArrayList();
+                ArrayList<AFstockInfo> StockArray = null;
+
+                try {
+                    // always the earliest day first  
+                    StockArray = internet.GetStockHistoricalInternet(symbol, sizeyear);
+                } catch (Exception ex) {
+
+                }
+                if (StockArray == null) {
+                    continue;
+                }
+                if (StockArray.size() < 3) {
+                    continue;
+                }
+                // skiping first 3 days (last days is not final
+                for (int j = 5; j < StockArray.size(); j++) {
+                    try {
+                        AFstockInfo obj = StockArray.get(j);
+                        String st = new ObjectMapper().writeValueAsString(obj);
+                        writeArray.add(st);
+                    } catch (Exception ex) {
+                        writeArray = null;
+                        break;
+                    }
+                }
+                if (writeArray == null) {
+                    continue;
+                }
+                FileUtil.FileWriteTextArray(StFileName, writeArray);
+                ///////////////////////
+                FileUtil.FileReadTextArray(StFileName, writeArray);
+                if (writeArray.size() == 0) {
+                    continue;
+                }
+                StockArray = new ArrayList();
+                for (int j = 0; j < writeArray.size(); j++) {
+                    String st = writeArray.get(j);
+                    try {
+                        AFstockInfo stockInfo = new ObjectMapper().readValue(st, AFstockInfo.class);
+                        StockArray.add(stockInfo);
+                    } catch (Exception ex) {
+                    }
+                }
+                //////////
+                if (StockArray == null) {
+                    continue;
+                }
+                logger.info(">>> AllStockHistoryCreatJavaProcess " + symbol + " " + StockArray.size());
+                stockInputMap.put(symbol, StockArray);
+
+            } // loop for stockNameArray
+        }
+    }
+
+    public static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode(String symbol) {
+
+        ArrayList<AFstockInfo> inputlist = new ArrayList();
+
+        String symbolL[] = ServiceAFweb.ignoreStock;
+        for (int i = 0; i < symbolL.length; i++) {
+            String ignoreSym = symbolL[i];
+            if (ignoreSym.equals(symbol)) {
+                return inputlist;
+            }
+        }
+        stockInputMap = nnAllStock.AllStockHistoryStaticCodeInit(stockInputMap);
+//        AllStockHistoryStaticCodeInit();
+        if (stockInputMap == null) {
+            return inputlist;
+        }
+
+        if (symbol != "") {
+            try {
+                inputlist = stockInputMap.get(symbol);
+                if (inputlist == null) {
+                    return null;
+                }
+                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+                AFstockInfo[] arrayItem = new ObjectMapper().readValue(inputListRawSt, AFstockInfo[].class);
+                List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
+                inputlist = new ArrayList<AFstockInfo>(listItem);
+                return inputlist;
+            } catch (Exception ex) {
+            }
+        }
+
+        return inputlist;
+
     }
 
 }
