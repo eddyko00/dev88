@@ -877,12 +877,12 @@ public class TradingNNprocess {
     public static HashMap<String, ArrayList> stockInputMap = null;
     public static HashMap<String, ArrayList> stockInputMap_1 = null;
 
-    public static boolean AllStockHistoryCreatJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
+    public static boolean CreateAllStockHistoryJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
 
-            AllStockHistoryCreatJavaProcess(serviceAFWeb, symbolL, stockInputMap);
+            ProcessAllStockHistoryCreatJava(serviceAFWeb, symbolL, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
@@ -973,7 +973,7 @@ public class TradingNNprocess {
         return false;
     }
 
-    public static void AllStockHistoryCreatJavaProcess(ServiceAFweb serviceAFWeb, String symbolL[], HashMap<String, ArrayList> stockInputMap) {
+    public static void ProcessAllStockHistoryCreatJava(ServiceAFweb serviceAFWeb, String symbolL[], HashMap<String, ArrayList> stockInputMap) {
         boolean saveStockDBFlag = true;
         if (saveStockDBFlag == true) {
 
@@ -1051,16 +1051,16 @@ public class TradingNNprocess {
     }
 
     public static ArrayList<AFstockInfo> getAllStockHistory(String symbol) {
-        return AllStockHistoryGetfromStaticCode(symbol, stockInputMap, 0);
+        return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap, 0);
 
     }
 
     public static ArrayList<AFstockInfo> getAllStockHistory_1(String symbol) {
-        return AllStockHistoryGetfromStaticCode(symbol, stockInputMap_1, 1);
+        return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap_1, 1);
 
     }
 
-    private static ArrayList<AFstockInfo> AllStockHistoryGetfromStaticCode(String symbol,
+    private static ArrayList<AFstockInfo> ProcessAllStockHistoryfromStaticCode(String symbol,
             HashMap<String, ArrayList> stockInMap, int stockMap) {
 
         ArrayList<AFstockInfo> inputlist = new ArrayList();

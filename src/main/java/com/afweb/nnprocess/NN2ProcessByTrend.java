@@ -69,17 +69,17 @@ public class NN2ProcessByTrend {
         ////////////////////////////////////////////
     }
 
-    public void processAllNN40StockInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
-
-        logger.info("> processAllStockInputNeuralNetTrend TR EMA0... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA0);
-        logger.info("> processAllStockInputNeuralNetTrend TR EMA1... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
-
-        NeuralNetAllStockNN40CreatJava(serviceAFWeb, ConstantKey.TR_NN40);
-        logger.info("> processAllStockInputNeuralNetTrend TR NN2 end....... ");
-
-    }
+//    public void processAllNN40StockInputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
+//
+//        logger.info("> processAllStockInputNeuralNetTrend TR EMA0... ");
+//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA0);
+//        logger.info("> processAllStockInputNeuralNetTrend TR EMA1... ");
+//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
+//
+//        NeuralNetAllStockNN40CreatJava(serviceAFWeb, ConstantKey.TR_NN40);
+//        logger.info("> processAllStockInputNeuralNetTrend TR NN2 end....... ");
+//
+//    }
 
     public void NeuralNetProcessTesting(ServiceAFweb serviceAFWeb) {
         ///////////////////////////////////////////////////////////////////////////////////
@@ -324,108 +324,17 @@ public class NN2ProcessByTrend {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
-            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-            String inputListSt = "Data in DB";
             if (CKey.NN_DATA_DB == true) {
+                TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+
                 TradingNNData nndata = new TradingNNData();
                 nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
-
-            } else {
-
-                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-                inputListSt = ServiceAFweb.compress(inputListRawSt);
             }
-
-            String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
-            if (FileUtil.FileTest(fileN) == false) {
-                return false;
-            }
-            StringBuffer msg1 = FileUtil.FileReadText(fileN);
-            String weightSt = msg1.toString();
-            StringBuffer msgWrite = new StringBuffer();
-            msgWrite.append("" ///
-                    + "package com.afweb.nn;\n"
-                    + "\n"
-                    + "public class nn40Data {\n"
-                    + "\n"
-                    + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
-            int sizeline = 1000;
-            int len = weightSt.length();
-            int beg = 0;
-            int end = sizeline;
-            if (end <= len) {
-                ;
-            } else {
-                end = len;
-            }
-            while (true) {
-                String st = weightSt.substring(beg, end);
-                msgWrite.append("+ \"" + st + "\"\n");
-                if (end >= len) {
-                    break;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-            msgWrite.append(""
-                    + "            + \"\";\n");
-
-            len = inputListSt.length();
-            beg = 0;
-            end = sizeline;
-            if (end <= len) {
-                ;
-            } else {
-                end = len;
-            }
-            int index = 1;
-            int line = 0;
-            while (true) {
-                if (line == 0) {
-                    msgWrite.append(""
-                            + "    public static String " + nnName + "_INPUTLIST" + index + " = \"\"\n"
-                            + "            + \"\"\n");
-                }
-                line++;
-                String st = inputListSt.substring(beg, end);
-
-                msgWrite.append("+ \"" + st + "\"\n");
-
-                if (end >= len) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-
-                    break;
-                }
-                if (line == 20) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-                    line = 0;
-                    index++;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-
-            msgWrite.append(""
-                    + "}\n"
-                    ///
-                    + ""
-            );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nn40Data.java";
-            FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
         }
         return false;
+       
     }
 
     public boolean NeuralNetAllStockNN40CreatJava(ServiceAFweb serviceAFWeb, String nnName) {

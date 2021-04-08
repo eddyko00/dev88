@@ -987,10 +987,10 @@ public class ServiceAFweb {
                 exitflag = true;
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
-                TradingNNprocess.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_ST");
+                TradingNNprocess.CreateAllStockHistoryJava(this, symbolL, "nnAllStock", "NN_ST");
 
                 String symbolLallSt[] = ServiceAFweb.allStock;
-                TradingNNprocess.AllStockHistoryCreatJava(this, symbolLallSt, "nnAllStock_1", "NN_ST1");
+                TradingNNprocess.CreateAllStockHistoryJava(this, symbolLallSt, "nnAllStock_1", "NN_ST1");
 
                 return;
             }
