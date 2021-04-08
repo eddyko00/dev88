@@ -34,7 +34,7 @@ public class DateUtil {
     }
 
     public static boolean isMarketOpen() {
-        int hr = getDateOfWeekNow();
+        int hr = getHourNow();
         int dayOfW = getDateOfWeekNow();
         boolean mkopen = false;
         if (hr < 21) { // < 9:00 pm) {

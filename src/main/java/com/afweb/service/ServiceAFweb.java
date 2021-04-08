@@ -987,7 +987,7 @@ public class ServiceAFweb {
                 exitflag = true;
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
-                TradingNNprocess.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_ALLSTOCK");
+                TradingNNprocess.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_TOCK");
 
                 String symbolLallSt[] = ServiceAFweb.allStock;
                 TradingNNprocess.AllStockHistoryCreatJava(this, symbolLallSt, "nnAllStock1", "NN_1ALLSTOCK");
@@ -1035,8 +1035,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            String symbolL[] = ServiceAFweb.allStock;
-            TradingNNprocess.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_TOCK");
+            boolean mkopen = DateUtil.isMarketOpen();
+//            String symbolL[] = ServiceAFweb.allStock;
+//            TradingNNprocess.AllStockHistoryCreatJava(this, symbolL, "nnAllStock", "NN_TOCK");
 
 
 //            for (int j = 0; j < 5; j++) {
