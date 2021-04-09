@@ -1350,20 +1350,29 @@ public class NN1ProcessBySignal {
 
                 String middlelayer = "";
                 String version = "";
+                String nnWeight = CKey.NN1_WEIGHT_0;
+                String nnCreateSt = "Static Src Code";
                 if (TR_Name == ConstantKey.INT_TR_NN1) {
-                    if (CKey.NN1_WEIGHT_0.length() == 0) {
+                    /////try to use DB first
+                    String BPnameBase = CKey.NN_version + "_" + nnName;
+                    AFneuralNet afNeuralNetBase = serviceAFWeb.getNeuralNetObjWeight0(BPnameBase, 0);
+                    if (afNeuralNetBase != null) {
+                        String weigthDBbase = afNeuralNetBase.getWeight();
+                        if (weigthDBbase.length() != 0) {
+                            nnWeight = weigthDBbase;
+                            nnCreateSt = "Static DB";
+                        }
+                    }
+                    if (nnWeight.length() == 0) {
                         return 0;
                     }
-                    nnTemp.createNet(CKey.NN1_WEIGHT_0);
-                    String weightSt = nnTemp.getNetObjSt();
-                    String[] strNetArray = CKey.NN1_WEIGHT_0.split(";");
+                    nnTemp.createNet(nnWeight);
+                    String[] strNetArray = nnWeight.split(";");
                     version = strNetArray[0];
                     middlelayer = strNetArray[4];
                 }
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
-                TradingNNprocess trainNN = new TradingNNprocess();
-//                ArrayList<NNInputDataObj> inputlistSym = trainNN.getTrainingNNdataStock(serviceAFWeb, symbol, TR_Name, 0);
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
                 ArrayList<NNInputDataObj> inputlistSym1 = new ArrayList();
                 ArrayList<NNInputDataObj> inputlistSym2 = new ArrayList();
@@ -1377,61 +1386,8 @@ public class NN1ProcessBySignal {
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
 
-                ArrayList<NNInputDataObj> inputL = new ArrayList();
-                boolean trainInFile = true;
-                if (trainInFile == true) {
-                    inputL = NeuralNetGetNN1InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
-//                    if (inputL != null) {
-//                        if (inputL.size() > 0) {
-//                            logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
-//                            for (int k = 0; k < inputL.size(); k++) {
-//                                NNInputDataObj inputLObj = inputL.get(k);
-//                                for (int m = 0; m < inputlistSym.size(); m++) {
-//                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
-//                                    float output1 = (float) inputSymObj.getObj().getOutput1();
-//                                    if ((output1 == 0) || (output1 == -1)) {
-//                                        inputlistSym.remove(m);
-//                                        break;
-//                                    }
-//                                    String inputLObD = inputLObj.getObj().getDateSt();
-//                                    String inputSymObD = inputSymObj.getObj().getDateSt();
-//                                    if (inputLObD.equals(inputSymObD)) {
-//                                        inputlistSym.remove(m);
-////                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-                }
-//                boolean trainAllInFile = true;
-//                if (trainAllInFile == true) {
-//                    inputL = NeuralNetAllStockGetNN1InputfromStaticCode(symbol, null);
-//                    if (inputL != null) {
-//                        if (inputL.size() > 0) {
-//                            logger.info("> inputStockNeuralNetAllStockData " + BPnameSym + " " + symbol + " " + inputL.size());
-//                            for (int k = 0; k < inputL.size(); k++) {
-//                                NNInputDataObj inputLObj = inputL.get(k);
-//                                for (int m = 0; m < inputlistSym.size(); m++) {
-//                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
-//                                    float output1 = (float) inputSymObj.getObj().getOutput1();
-//                                    if ((output1 == 0) || (output1 == -1)) {
-//                                        inputlistSym.remove(m);
-//                                        break;
-//                                    }
-//                                    String inputLObD = inputLObj.getObj().getDateSt();
-//                                    String inputSymObD = inputSymObj.getObj().getDateSt();
-//                                    if (inputLObD.equals(inputSymObD)) {
-//                                        inputlistSym.remove(m);
-////                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+//                ArrayList<NNInputDataObj> inputL = new ArrayList();
+//                inputL = GetNN1InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
                 if (inputlistSym != null) {
                     //merge inputlistSym
 
@@ -1474,18 +1430,20 @@ public class NN1ProcessBySignal {
 //                        versionSym = "";
                         // just for testing
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
-                            logger.info("> inputStockNeuralNetData create existing Symbol ");
+//                            logger.info("> inputStockNeuralNetData create existing Symbol ");
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
                             refData = serviceAFWeb.getReferNameData(nnObj0);
+                            nnCreateSt = "Existing symbol DB";
 //                            refName = nnObj0.getRefname();
                         } else {
-                            logger.info("> inputStockNeuralNetData create Static Base ");
+
                         }
                     }
                 } else {
-                    logger.info("> inputStockNeuralNetData create Static Base ");
+
                 }
+                logger.info("> inputStockNeuralNetData create - " + nnCreateSt);
                 logger.info("> inputStockNeuralNetData v" + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  toAdd=" + totalAdd + " toDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();
@@ -1562,7 +1520,7 @@ public class NN1ProcessBySignal {
         return -1;
     }
 
-    public ArrayList<NNInputDataObj> NeuralNetGetNN1InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
+    public ArrayList<NNInputDataObj> GetNN1InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
 
@@ -1571,60 +1529,50 @@ public class NN1ProcessBySignal {
             nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
             return inputlist;
         }
-
-        try {
-            inputBuf.append(nn1Data.NN_INPUTLIST1);
-//            inputBuf.append(nn1Data.NN_INPUTLIST2);
-//            inputBuf.append(nn1Data.NN_INPUTLIST3);
-//            inputBuf.append(nn1Data.NN_INPUTLIST4);
-//            inputBuf.append(nn1Data.NN_INPUTLIST5);
-//            inputBuf.append(nn1Data.NN_INPUTLIST6);
-//            inputBuf.append(nn1Data.NN_INPUTLIST7);
-//            inputBuf.append(nn1Data.NN_INPUTLIST8);
-//            inputBuf.append(nn1Data.NN_INPUTLIST9); //need to check nn1Data file
-//            inputBuf.append(nn1Data.NN_INPUTLIST10);
-//            inputBuf.append(nn1Data.NN_INPUTLIST11); //need to check nn1Data file
-
-            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
-            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-            stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
-
-            if (symbol != "") {
-                inputlist = stockInputMap.get(symbol);
-                if (inputlist == null) {
-                    return null;
-                }
-                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
-                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
-                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
-                inputlist = new ArrayList<NNInputDataObj>(listItem);
-                return inputlist;
-            }
-
-            for (String sym : stockInputMap.keySet()) {
-                if (subSymbol != null) {
-                    if (sym.equals("AAPL")) {
-                        continue;
-                    }
-                    if (sym.equals("RY.TO")) {
-                        continue;
-                    }
-                    if (subSymbol.equals(sym)) {
-                        continue;
-                    }
-                }
-                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
-                String inputListRawSt = new ObjectMapper().writeValueAsString(inputL);
-                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
-                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
-                inputL = new ArrayList<NNInputDataObj>(listItem);
-                inputlist.addAll(inputL);
-            }
-
-            return inputlist;
-        } catch (Exception ex) {
-            logger.info("> NeuralNetGetNN1InputfromStaticCode - exception " + ex);
-        }
+//
+//        try {
+//            inputBuf.append(nn1Data.NN_INPUTLIST1);
+//
+//            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
+//            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+//            stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
+//
+//            if (symbol != "") {
+//                inputlist = stockInputMap.get(symbol);
+//                if (inputlist == null) {
+//                    return null;
+//                }
+//                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
+//                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
+//                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
+//                inputlist = new ArrayList<NNInputDataObj>(listItem);
+//                return inputlist;
+//            }
+//
+//            for (String sym : stockInputMap.keySet()) {
+//                if (subSymbol != null) {
+//                    if (sym.equals("AAPL")) {
+//                        continue;
+//                    }
+//                    if (sym.equals("RY.TO")) {
+//                        continue;
+//                    }
+//                    if (subSymbol.equals(sym)) {
+//                        continue;
+//                    }
+//                }
+//                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
+//                String inputListRawSt = new ObjectMapper().writeValueAsString(inputL);
+//                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
+//                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
+//                inputL = new ArrayList<NNInputDataObj>(listItem);
+//                inputlist.addAll(inputL);
+//            }
+//
+//            return inputlist;
+//        } catch (Exception ex) {
+//            logger.info("> NeuralNetGetNN1InputfromStaticCode - exception " + ex);
+//        }
         return null;
     }
 
@@ -1812,7 +1760,7 @@ public class NN1ProcessBySignal {
 
             boolean trainInFile = true;
             if (trainInFile == true) {
-                inputDatalist = NeuralNetGetNN1InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
+                inputDatalist = GetNN1InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
@@ -1962,7 +1910,7 @@ public class NN1ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NeuralNetGetNN1InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
+                    inputL = GetNN1InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {

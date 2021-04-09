@@ -439,7 +439,7 @@ public class NN2ProcessBySignal {
             boolean trainInFile = true;
             if (trainInFile == true) {
 
-                inputDatalist = NeuralNetGetNN2InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
+                inputDatalist = GetNN2InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
@@ -557,7 +557,7 @@ public class NN2ProcessBySignal {
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
-    public ArrayList<NNInputDataObj> NeuralNetGetNN2InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
+    public ArrayList<NNInputDataObj> GetNN2InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
 
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
@@ -1138,13 +1138,22 @@ public class NN2ProcessBySignal {
 
                 String middlelayer = "";
                 String version = "";
+                String nnWeight = CKey.NN2_WEIGHT_0;
                 if (TR_Name == ConstantKey.INT_TR_NN2) {
-                    if (CKey.NN2_WEIGHT_0.length() == 0) {
+                    /////try to use DB first
+                    String BPnameBase = CKey.NN_version + "_" + nnName;
+                    AFneuralNet afNeuralNetBase = serviceAFWeb.getNeuralNetObjWeight0(BPnameBase, 0);
+                    if (afNeuralNetBase != null) {
+                        String weigthDBbase = afNeuralNetBase.getWeight();
+                        if (weigthDBbase.length() != 0) {
+                            nnWeight = weigthDBbase;
+                        }
+                    }
+                    if (nnWeight.length() == 0) {
                         return 0;
                     }
-                    nnTemp.createNet(CKey.NN2_WEIGHT_0);
-                    String weightSt = nnTemp.getNetObjSt();
-                    String[] strNetArray = CKey.NN2_WEIGHT_0.split(";");
+                    nnTemp.createNet(nnWeight);
+                    String[] strNetArray = nnWeight.split(";");
                     version = strNetArray[0];
                     middlelayer = strNetArray[4];
                 }
@@ -1159,70 +1168,15 @@ public class NN2ProcessBySignal {
                 /// just for testing
                 boolean flag = true;
                 if (flag == true) {
-//                    inputlistSym1 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_ADX1, 0);
-//                    inputlistSym2 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_ADX2, 0);
-
                     inputlistSym1 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_EMA1, 0);
                     inputlistSym2 = getTrainingNN2dataStock(serviceAFWeb, symbol, ConstantKey.INT_TR_EMA2, 0);
                 }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
 
-                ArrayList<NNInputDataObj> inputL = new ArrayList();
-                boolean trainInFile = true;
-                if (trainInFile == true) {
-                    inputL = NeuralNetGetNN2InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
-//                    if (inputL != null) {
-//                        if (inputL.size() > 0) {
-//                            logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputL.size());
-//                            for (int k = 0; k < inputL.size(); k++) {
-//                                NNInputDataObj inputLObj = inputL.get(k);
-//                                for (int m = 0; m < inputlistSym.size(); m++) {
-//                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
-//                                    float output1 = (float) inputSymObj.getObj().getOutput1();
-//                                    if ((output1 == 0) || (output1 == -1)) {
-//                                        inputlistSym.remove(m);
-//                                        break;
-//                                    }
-//                                    String inputLObD = inputLObj.getObj().getDateSt();
-//                                    String inputSymObD = inputSymObj.getObj().getDateSt();
-//                                    if (inputLObD.equals(inputSymObD)) {
-//                                        inputlistSym.remove(m);
-////                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-                }
-//                boolean trainAllInFile = true;
-//                if (trainAllInFile == true) {
-//                    inputL = NeuralNetAllStockGetNN2InputfromStaticCode(symbol, null);
-//                    if (inputL != null) {
-//                        if (inputL.size() > 0) {
-//                            logger.info("> inputStockNeuralNetAllStockData " + BPnameSym + " " + symbol + " " + inputL.size());
-//                            for (int k = 0; k < inputL.size(); k++) {
-//                                NNInputDataObj inputLObj = inputL.get(k);
-//                                for (int m = 0; m < inputlistSym.size(); m++) {
-//                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
-//                                    float output1 = (float) inputSymObj.getObj().getOutput1();
-//                                    if ((output1 == 0) || (output1 == -1)) {
-//                                        inputlistSym.remove(m);
-//                                        break;
-//                                    }
-//                                    String inputLObD = inputLObj.getObj().getDateSt();
-//                                    String inputSymObD = inputSymObj.getObj().getDateSt();
-//                                    if (inputLObD.equals(inputSymObD)) {
-//                                        inputlistSym.remove(m);
-////                                        logger.info("> inputStockNeuralNetData " + BPnameSym + " " + symbol + " " + inputLObj.getUpdatedatel());
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+//                ArrayList<NNInputDataObj> inputL = new ArrayList();
+//                inputL = GetNN2InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
+
                 if (inputlistSym != null) {
                     //merge inputlistSym
 
@@ -1391,8 +1345,8 @@ public class NN2ProcessBySignal {
     }
 
     public int ReLearnNN2StockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
-        ServiceAFweb.lastfun = "ReLearnNN2StockNeuralNetData";        
-        
+        ServiceAFweb.lastfun = "ReLearnNN2StockNeuralNetData";
+
         boolean nnsym = true;
         if (nnsym == true) {
             int totalAdd = 0;
@@ -1423,7 +1377,7 @@ public class NN2ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = NeuralNetGetNN2InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
+                    inputL = GetNN2InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {
