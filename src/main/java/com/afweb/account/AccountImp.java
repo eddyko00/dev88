@@ -567,7 +567,8 @@ public class AccountImp {
         return 0;
     }
 
-    public ArrayList<CommObj> getCommPubByCustomerAccountID(String UserName, String Password, int length) {
+    
+    public ArrayList<CommObj> getCommPubByCustomer(String UserName, String Password, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
@@ -1154,7 +1155,7 @@ public class AccountImp {
     }
 
     ///////
-    public ArrayList<CommObj> getComObjByType(int accountID, int type, int length) {
+    public ArrayList<CommObj> getComObjByAccoutType(int accountID, int type, int length) {
         return accountdb.getComObjByAccountType(accountID, type, length);
     }
 
