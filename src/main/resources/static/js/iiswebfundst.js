@@ -114,7 +114,15 @@ var app = {
                 var percent = 100 * (close - preClose) / preClose;
                 percentSt = percent.toFixed(1); // + '%';
                 var perform = stockObj.perform;
-                perSt = perform.toFixed(0); // + '%';
+                perSt = perform.toFixed(0); // performance '%';                
+                if (perform != 0) {
+                    if (perform < 10) {
+                        if (perform > -10) {
+                             perSt = perform.toFixed(2);
+                             perSt = perSt.replace("0.00","0");
+                        }
+                    }
+                }                
 
             }
             htmlName += '<div class="ui-block-d" style="text-align: center;width:20%">P:' + percentSt + ' </div>';
