@@ -834,7 +834,7 @@ public class NN1ProcessByTrend {
 
                 String middlelayer = "";
                 String version = "";
-                String nnWeight = CKey.NN3_WEIGHT_0;
+                String nnWeight = CKey.NN30_WEIGHT_0;
                 String nnCreateSt = "Static Src Code";
                 if (TR_Name == ConstantKey.INT_TR_NN30) {
                     /////try to use DB first
