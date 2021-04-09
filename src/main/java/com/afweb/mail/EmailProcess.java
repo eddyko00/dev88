@@ -141,9 +141,10 @@ public class EmailProcess {
                         } catch (Exception ex) {
                             logger.info("> EmailTradingAccount Exception ...." + ex.getMessage());
                         }
-                        //update error count
+                        //update retry error count
                         int subSt = comObj.getSubstatus();
                         if (subSt > 4) {
+                            // delete email after 4 retry
                             serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
                             return 2; // error                            
                         }

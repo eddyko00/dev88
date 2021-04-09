@@ -1235,7 +1235,7 @@ public class AccountImp {
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
         message.setName(name); //ConstantKey.COM_SIGNAL
-        message.setType(ConstantKey.INT_TYPE_COM_EMAIL); //ConstantKey.INT_COM_SIGNAL
+        message.setType(ConstantKey.INT_TYPE_COM_EMAIL); 
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
@@ -1266,32 +1266,32 @@ public class AccountImp {
         return accountdb.insertAccountCommData(message);
     }
 
-    public int addCommByCustName(int custID, String name, String data) {
-        CommObj message = new CommObj();
-        message.setCustomerid(custID);
-        message.setAccountid(custID);
-        message.setName(name);
-        message.setType(ConstantKey.INT_COM_CFG);
-
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long dateNowLong = dateNow.getTimeInMillis();
-        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
-        message.setUpdatedatel(dateNowLong);
-        message.setData(data);
-        return accountdb.insertAccountCommData(message);
-    }
+//    public int addCommByCustName(int custID, String name, String data) {
+//        CommObj message = new CommObj();
+//        message.setCustomerid(custID);
+//        message.setAccountid(custID);
+//        message.setName(name);
+//        message.setType(ConstantKey.INT_COM_CFG);
+//
+//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//        long dateNowLong = dateNow.getTimeInMillis();
+//        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+//        message.setUpdatedatel(dateNowLong);
+//        message.setData(data);
+//        return accountdb.insertAccountCommData(message);
+//    }
 
     public int updateAccountCommSubStatusById(CommObj newA) {
         return accountdb.updateAccountCommSubStatusById(newA);
     }
 
-    public int updateCommByCustNameById(CommObj message) {
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long dateNowLong = dateNow.getTimeInMillis();
-        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
-        message.setUpdatedatel(dateNowLong);
-        return accountdb.updateAccountCommDataById(message);
-    }
+//    public int updateCommByCustNameById(CommObj message) {
+//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//        long dateNowLong = dateNow.getTimeInMillis();
+//        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+//        message.setUpdatedatel(dateNowLong);
+//        return accountdb.updateAccountCommDataById(message);
+//    }
 
     public ArrayList<BillingObj> getBillingObjByName(int accountID, String name, int length) {
         return accountdb.getBillingObjByName(accountID, name, length);
