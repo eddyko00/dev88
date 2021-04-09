@@ -35,7 +35,7 @@ public class TradingNNData {
             ArrayList<AFneuralNetData> objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
             if (objDataList.size() > 300) {
                 // already saved
-                logger.info("> saveNNBaseDataDB " + BPnameSym + " No Save. Already exist.");
+                logger.info(">>>>>>>>>>>> saveNNBaseDataDB " + BPnameSym + " No Save. Already exist.");
                 return 1;
             }
 
@@ -61,7 +61,8 @@ public class TradingNNData {
 //                    }
                 }
             }
-            logger.info("> saveNNdataDB - " + BPnameSym + " added " + added + " of " + total);
+            logger.info(">>>>>>>>>>>> saveNNdataDB - " + BPnameSym + " added " + added + " of " + total);
+            logger.info(">>>>>>>>>>>> saveNNdataDB - " + BPnameSym + " added " + added + " of " + total);
             return 1;
         } catch (Exception ex) {
             logger.info("> saveNNdataDB - exception - " + BPnameSym + " " + ex);
