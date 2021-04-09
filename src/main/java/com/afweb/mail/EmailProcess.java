@@ -25,7 +25,7 @@ public class EmailProcess {
 
     protected static Logger logger = Logger.getLogger("EmailProcess");
 
-    private static ArrayList accountFundIdNameArray = new ArrayList();
+    private static ArrayList accountdNameArray = new ArrayList();
 
     public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {
        ServiceAFweb.lastfun = "ProcessEmailAccount";   
@@ -34,15 +34,15 @@ public class EmailProcess {
         if (accountAdminObj == null) {
             return;
         }
-        if (accountFundIdNameArray == null) {
-            accountFundIdNameArray = new ArrayList();
+        if (accountdNameArray == null) {
+            accountdNameArray = new ArrayList();
         }
-        if (accountFundIdNameArray.size() == 0) {
+        if (accountdNameArray.size() == 0) {
             ArrayList accountIdList = serviceAFWeb.SystemAllOpenAccountIDList();
             if (accountIdList == null) {
                 return;
             }
-            accountFundIdNameArray = accountIdList;
+            accountdNameArray = accountIdList;
         }
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
@@ -61,11 +61,11 @@ public class EmailProcess {
                 if (lockDate2Min < currentTime) {
                     break;
                 }
-                if (accountFundIdNameArray.size() == 0) {
+                if (accountdNameArray.size() == 0) {
                     break;
                 }
                 try {
-                    String accountIdSt = (String) accountFundIdNameArray.get(0);
+                    String accountIdSt = (String) accountdNameArray.get(0);
 
                     int accountId = Integer.parseInt(accountIdSt);
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
@@ -79,10 +79,10 @@ public class EmailProcess {
                                 break; // only allow send 1 at a time
                             }
                             if (ret == 0) {
-                                accountFundIdNameArray.remove(0);
+                                accountdNameArray.remove(0);
                             }
                         } else {
-                            accountFundIdNameArray.remove(0);
+                            accountdNameArray.remove(0);
                         }
                     }
                 } catch (Exception e) {

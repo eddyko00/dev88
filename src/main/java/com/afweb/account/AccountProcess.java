@@ -966,6 +966,11 @@ public class AccountProcess {
                     String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
                     // comm message is in the trading account instead of multfund account
                     this.AddCommMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
+                    
+                    ///// broadcase PUBSUB message
+                    AddCommPUBSUBMessage(serviceAFWeb, accTrading, trFundACCObj, msg);;
+                    
+                    this.AddCommMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
 
                     // send email
                     DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
@@ -974,6 +979,9 @@ public class AccountProcess {
                     String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
                     this.AddEmailCommMessage(serviceAFWeb, accTrading, trFundACCObj, msgD);
 //                  logger.info("> updateTradingsignal update " + msg);
+
+
+
 
                     return 1;
                 }
@@ -1038,6 +1046,17 @@ public class AccountProcess {
         }
         return 0;
     }
+    public int AddCommPUBSUBMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
+        try {
+            if (tr.getType() == ConstantKey.INT_TR_ACC) {
+                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_PUB, messageData);
+            }
+        } catch (Exception e) {
+            logger.info("> AddCommMessage exception " + e.getMessage());
+        }
+        return 0;
+    }    
+    
 ////////////////////////////////////////////////
 
     public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
