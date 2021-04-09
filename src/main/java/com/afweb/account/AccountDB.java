@@ -1475,7 +1475,7 @@ public class AccountDB {
         return 0;
     }
 
-    public int removeCustComm(int custID, int type) {
+    public int removeCommBuCustType(int custID, int type) {
         try {
             String deleteSQL = "delete from comm where customerid=" + custID + " and type=" + type;
             if (type == -1) {
@@ -1490,7 +1490,7 @@ public class AccountDB {
         return 0;
     }
 
-    public int removeAccountCommSignal(int AccountID, int type) {
+    public int removeCommSignalByAccountType(int AccountID, int type) {
         try {
             String deleteSQL = "delete from comm where accountid=" + AccountID + " and type=" + type;
             if (type == -1) {

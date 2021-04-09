@@ -225,18 +225,18 @@ public class AccountImp {
         return accountdb.removeCommByCustID(custId);
     }
 
-    public int removeCustComm(CustomerObj custObj, int type) {
+    public int removeCommByCustObj(CustomerObj custObj, int type) {
         if (custObj == null) {
             return 0;
         }
-        return accountdb.removeAccountCommSignal(custObj.getId(), type);
+        return accountdb.removeCommBuCustType(custObj.getId(), type);
     }
 
-    public int removeAccountComm(AccountObj accountObj, int type) {
+    public int removeCommByAccountType(AccountObj accountObj, int type) {
         if (accountObj == null) {
             return 0;
         }
-        return accountdb.removeAccountCommSignal(accountObj.getId(), type);
+        return accountdb.removeCommSignalByAccountType(accountObj.getId(), type);
     }
 
     public int removeAccountBilling(AccountObj accountObj) {
@@ -251,7 +251,7 @@ public class AccountImp {
             return 0;
         }
         accountdb.removeCustBilling(custObj.getId());
-        accountdb.removeCustComm(custObj.getId(), -1);
+        accountdb.removeCommBuCustType(custObj.getId(), -1);
         return accountdb.DeleteCustomer(custObj);
     }
 
@@ -663,7 +663,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return accountdb.removeAccountCommSignal(accountID, type);
+                            return accountdb.removeCommSignalByAccountType(accountID, type);
                         }
                     }
                 }
