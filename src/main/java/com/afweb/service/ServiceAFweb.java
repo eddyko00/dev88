@@ -3173,7 +3173,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int removeCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+    public int removeAllCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
