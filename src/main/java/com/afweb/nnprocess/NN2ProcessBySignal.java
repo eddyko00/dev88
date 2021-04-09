@@ -1139,6 +1139,7 @@ public class NN2ProcessBySignal {
                 String middlelayer = "";
                 String version = "";
                 String nnWeight = CKey.NN2_WEIGHT_0;
+                String nnCreateSt = "Static Src Code";
                 if (TR_Name == ConstantKey.INT_TR_NN2) {
                     /////try to use DB first
                     String BPnameBase = CKey.NN_version + "_" + nnName;
@@ -1147,6 +1148,7 @@ public class NN2ProcessBySignal {
                         String weigthDBbase = afNeuralNetBase.getWeight();
                         if (weigthDBbase.length() != 0) {
                             nnWeight = weigthDBbase;
+                            nnCreateSt = "Static DB";
                         }
                     }
                     if (nnWeight.length() == 0) {
@@ -1219,18 +1221,20 @@ public class NN2ProcessBySignal {
 //                        versionSym = "";
                         // just for testing
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
-                            logger.info("> inputStockNeuralNetData create existing Symbol ");
+//                            logger.info("> inputStockNeuralNetData create existing Symbol ");
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
                             refData = serviceAFWeb.getReferNameData(nnObj0);
+                            nnCreateSt = "Existing symbol DB";
 //                            refName = nnObj0.getRefname();
                         } else {
-                            logger.info("> inputStockNeuralNetData create Static Base ");
+
                         }
                     }
                 } else {
-                    logger.info("> inputStockNeuralNetData create Static Base ");
+
                 }
+                logger.info(">>>>>>>> inputStockNeuralNetData create - " + nnCreateSt);
                 logger.info("> inputStockNeuralNetData v" + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  toAdd=" + totalAdd + " toDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();

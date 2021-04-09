@@ -835,6 +835,7 @@ public class NN1ProcessByTrend {
                 String middlelayer = "";
                 String version = "";
                 String nnWeight = CKey.NN3_WEIGHT_0;
+                String nnCreateSt = "Static Src Code";
                 if (TR_Name == ConstantKey.INT_TR_NN30) {
                     /////try to use DB first
                     String BPnameBase = CKey.NN_version + "_" + nnName;
@@ -843,6 +844,7 @@ public class NN1ProcessByTrend {
                         String weigthDBbase = afNeuralNetBase.getWeight();
                         if (weigthDBbase.length() != 0) {
                             nnWeight = weigthDBbase;
+                            nnCreateSt = "Static DB";
                         }
                     }
                     if (nnWeight.length() == 0) {
@@ -860,7 +862,6 @@ public class NN1ProcessByTrend {
 
 //                ArrayList<NNInputDataObj> inputL = new ArrayList();
 //                inputL = GetNN3InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
-
                 if (inputlistSym != null) {
                     //merge inputlistSym
 
@@ -906,18 +907,20 @@ public class NN1ProcessByTrend {
                         //just for testing
 //                        versionSym="";
                         if (middlelayer.equals(middlelayerSym) && version.equals(versionSym)) {
-                            logger.info("> inputStockNeuralNetData create existing Symbol ");
+//                            logger.info("> inputStockNeuralNetData create existing Symbol ");
                             ///just for testing
                             nnTemp.createNet(stWeight0);
                             refData = serviceAFWeb.getReferNameData(nnObj0);
+                            nnCreateSt = "Existing symbol DB";
 //                            refName = nnObj0.getRefname();
                         } else {
-                            logger.info("> inputStockNeuralNetData create Static Base ");
+
                         }
                     }
                 } else {
-                    logger.info("> inputStockNeuralNetData create Static Base ");
+
                 }
+                logger.info(">>>>>>>> inputStockNeuralNetData create - " + nnCreateSt);
                 logger.info("> inputStockNeuralNetData v" + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  toAdd=" + totalAdd + " toDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();

@@ -1443,7 +1443,7 @@ public class NN1ProcessBySignal {
                 } else {
 
                 }
-                logger.info("> inputStockNeuralNetData create - " + nnCreateSt);
+                logger.info(">>>>>>>> inputStockNeuralNetData create - " + nnCreateSt);
                 logger.info("> inputStockNeuralNetData v" + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  toAdd=" + totalAdd + " toDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();
