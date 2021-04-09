@@ -1235,7 +1235,28 @@ public class AccountImp {
         message.setCustomerid(accountObj.getCustomerid());
         message.setAccountid(accountObj.getId());
         message.setName(name); //ConstantKey.COM_SIGNAL
-        message.setType(ConstantKey.INT_TYPE_COM_EMAIL); 
+        message.setType(ConstantKey.INT_TYPE_COM_EMAIL);
+
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+        message.setUpdatedatel(dateNowLong);
+        msg = StringTag.replaceAll("\"", "#", msg);
+        msg = StringTag.replaceAll("'", "|", msg);
+        message.setData(msg);
+        return accountdb.insertAccountCommData(message);
+    }
+
+    public int addAccountPUBSUBMessage(AccountObj accountObj, String name, String msg) {
+        if (accountObj == null) {
+            return -1;
+        }
+
+        CommObj message = new CommObj();
+        message.setCustomerid(accountObj.getCustomerid());
+        message.setAccountid(accountObj.getId());
+        message.setName(name);
+        message.setType(ConstantKey.INT_TYPE_COM_PUB);
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
@@ -1280,7 +1301,6 @@ public class AccountImp {
 //        message.setData(data);
 //        return accountdb.insertAccountCommData(message);
 //    }
-
     public int updateAccountCommSubStatusById(CommObj newA) {
         return accountdb.updateAccountCommSubStatusById(newA);
     }
@@ -1292,7 +1312,6 @@ public class AccountImp {
 //        message.setUpdatedatel(dateNowLong);
 //        return accountdb.updateAccountCommDataById(message);
 //    }
-
     public ArrayList<BillingObj> getBillingObjByName(int accountID, String name, int length) {
         return accountdb.getBillingObjByName(accountID, name, length);
     }

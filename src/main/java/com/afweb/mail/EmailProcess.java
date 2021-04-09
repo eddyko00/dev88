@@ -71,7 +71,7 @@ public class EmailProcess {
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj != null) {
                         if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                            int ret = EmailTradingAccount(serviceAFWeb, accountObj);
+                            int ret = SendEmailTradingAccount(serviceAFWeb, accountObj);
                             if (ret == 2) {
                                 break; // try again next time 
                             }
@@ -93,8 +93,8 @@ public class EmailProcess {
         }
     }
 
-    public int EmailTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
-       ServiceAFweb.lastfun = "EmailTradingAccount";   
+    public int SendEmailTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
+       ServiceAFweb.lastfun = "SendEmailTradingAccount";   
         
         CustomerObj cust = serviceAFWeb.getAccountImp().getCustomerByAccount(accObj);
         String emailAddr = cust.getEmail();

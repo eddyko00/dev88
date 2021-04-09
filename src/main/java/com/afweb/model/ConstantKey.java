@@ -100,7 +100,9 @@ public class ConstantKey {
     public static final String COM_EMAIL = "MSG_EMAIL";
     public static final int INT_TYPE_COM_EMAIL = 4;
 
+    
     public static final String COM_PUB = "MSG_PUB";
+    public static final String COM_FUNDMSG = "FUNDMSG";    
     public static final int INT_TYPE_COM_PUB = 6;
     
     public static final String BILLING = "BILLING";
