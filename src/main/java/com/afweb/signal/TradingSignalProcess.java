@@ -1385,7 +1385,7 @@ public class TradingSignalProcess {
                     boolean nn1Flag = true;
                     if (nn1Flag == true) {
                         ProcessNN1 nn1 = new ProcessNN1();
-                        NNObj nn = nn1.updateAdminTradingsignalnn1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                        NNObj nn = nn1.updateAdminTradingsignalNN1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
                             if (nn.getConfident() != null) {
@@ -1413,7 +1413,7 @@ public class TradingSignalProcess {
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
                         ProcessNN2 nn2 = new ProcessNN2();
-                        NNObj nn = nn2.updateAdminTradingsignalnn2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                        NNObj nn = nn2.updateAdminTradingsignalNN2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
                             if (nn.getConfident() != null) {
@@ -1441,7 +1441,7 @@ public class TradingSignalProcess {
                     if (nn3Flag == true) {
                         if (ServiceAFweb.nn3testflag == true) {
                             ProcessNN3 nn3 = new ProcessNN3();
-                            NNObj nn = nn3.updateAdminTradingsignalnn3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                            NNObj nn = nn3.updateAdminTradingsignalNN3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                             if (nn != null) {
                                 trObj.setTrsignal(nn.getTrsignal());
                                 if (nn.getConfident() != null) {
