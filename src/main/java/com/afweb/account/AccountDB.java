@@ -582,7 +582,7 @@ public class AccountDB {
         return getCommBySQL(sql);
     }
 
-    public ArrayList<CommObj> getEmailComObjByType(int type, int length) {
+    public ArrayList<CommObj> getComObjByType(int type, int length) {
         String sql = "select * from comm where type=" + type;
         sql += " order by updatedatel";
         sql = ServiceAFweb.getSQLLengh(sql, length);
@@ -597,7 +597,7 @@ public class AccountDB {
 //
 //        return getCommBySQL(sql);
 //    }
-    public ArrayList<CommObj> getComObjByType(int accountID, int type, int length) {
+    public ArrayList<CommObj> getComObjByAccountType(int accountID, int type, int length) {
         String sql = "select * from comm where accountid=" + accountID + " and type=" + type;
         sql += " order by updatedatel";
         sql = ServiceAFweb.getSQLLengh(sql, length);

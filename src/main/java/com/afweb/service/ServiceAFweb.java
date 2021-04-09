@@ -3102,7 +3102,7 @@ public class ServiceAFweb {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().getEmailCommByCustomerAccountID(UserName, Password, accountid, length);
+            return getAccountImp().getCommEmailByCustomerAccountID(UserName, Password, accountid, length);
         } catch (Exception e) {
         }
         return null;
@@ -3118,7 +3118,7 @@ public class ServiceAFweb {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().getCommByCustomerAccountID(UserName, Password, accountid, length);
+            return getAccountImp().getCommSignalSplitByCustomerAccountID(UserName, Password, accountid, length);
         } catch (Exception e) {
         }
         return null;

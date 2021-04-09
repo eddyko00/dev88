@@ -567,18 +567,29 @@ public class AccountImp {
         return 0;
     }
 
-    public ArrayList<CommObj> getEmailCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
+    public ArrayList<CommObj> getCommPubByCustomerAccountID(String UserName, String Password, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-                return accountdb.getEmailComObjByType(ConstantKey.INT_TYPE_COM_EMAIL, length);
+                return accountdb.getComObjByType(ConstantKey.INT_TYPE_COM_PUB, length);
             }
         }
         return null;
     }
 
-    public ArrayList<CommObj> getCommByCustomerAccountID(String UserName, String Password, int accountID, int length) {
+    public ArrayList<CommObj> getCommEmailByCustomerAccountID(String UserName, String Password, int accountID, int length) {
+
+        CustomerObj customer = getCustomerPassword(UserName, Password);
+        if (customer != null) {
+            if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
+                return accountdb.getComObjByType(ConstantKey.INT_TYPE_COM_EMAIL, length);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<CommObj> getCommSignalSplitByCustomerAccountID(String UserName, String Password, int accountID, int length) {
         CustomerObj customer = getCustomerPassword(UserName, Password);
         if (customer != null) {
             ArrayList accountList = accountdb.getAccountByCustomerID(customer.getId());
@@ -640,7 +651,6 @@ public class AccountImp {
         }
         return 0;
     }
-
 
     public int removeCommByCustomerAccountIDType(String UserName, String Password, int accountID, int type) {
 
@@ -1145,7 +1155,7 @@ public class AccountImp {
 
     ///////
     public ArrayList<CommObj> getComObjByType(int accountID, int type, int length) {
-        return accountdb.getComObjByType(accountID, type, length);
+        return accountdb.getComObjByAccountType(accountID, type, length);
     }
 
     public ArrayList<CommObj> getComObjByAccountName(int accountID, String name) {
