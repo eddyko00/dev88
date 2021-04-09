@@ -108,7 +108,13 @@ public class AccountDB {
         return this.getCustomerListSQL(sql, 0);
     }
 
-    public ArrayList getCustomerList(int length) {
+    //SELECT * FROM sampledb.customer where portfolio like '%fund4%';
+    public ArrayList<CustomerObj> getCustomerFundPortfolio(String fundname, int length) {
+        String sql = "select * from customer customer where portfolio like '%" + fundname + "%'";
+        return this.getCustomerListSQL(sql, length);
+    }
+
+    public ArrayList<CustomerObj> getCustomerList(int length) {
         String sql = "select * from customer";
         return this.getCustomerListSQL(sql, length);
     }
@@ -121,7 +127,7 @@ public class AccountDB {
         return ret;
     }
 
-    private ArrayList getCustomerListSQL(String sql, int length) {
+    private ArrayList<CustomerObj> getCustomerListSQL(String sql, int length) {
 
         try {
             sql = ServiceAFweb.getSQLLengh(sql, length);
@@ -1504,7 +1510,7 @@ public class AccountDB {
         }
         return 0;
     }
-    
+
     public int removeCommByType(int type) {
         try {
             String deleteSQL = "delete from comm where type=" + type;
@@ -1515,7 +1521,7 @@ public class AccountDB {
         }
         return 0;
     }
-    
+
     public int removeCommByName(String name) {
         try {
             String deleteSQL = "delete from comm where name='" + name + "' ";

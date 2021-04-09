@@ -128,6 +128,12 @@ public class AccountImp {
         return null;
     }
 
+    public ArrayList<CustomerObj> getCustomerObjList(String fundName, int length) {
+
+        ArrayList customerDBList = accountdb.getCustomerFundPortfolio(fundName, 20);
+        return customerDBList;
+    }
+
     public ArrayList<CustomerObj> getCustomerObjList(int length) {
         ArrayList customerList = new ArrayList();
 
@@ -567,7 +573,6 @@ public class AccountImp {
         return 0;
     }
 
-    
     public ArrayList<CommObj> getCommPubByCustomer(String UserName, String Password, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
