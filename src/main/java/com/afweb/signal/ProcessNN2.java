@@ -818,8 +818,8 @@ public class ProcessNN2 {
                             int signal = inputDaObj0.getObj().getTrsignal();
 
                             for (int k = index; k < index1; k++) {
-                                StockTRHistoryObj thObjADX = thObjListEMA.get(index);
-                                int signalIndex = thObjADX.getTrsignal();
+                                StockTRHistoryObj thObjEMA = thObjListEMA.get(index);
+                                int signalIndex = thObjEMA.getTrsignal();
                                 if (signalIndex == signal) {
                                     index = k;
                                     break;
@@ -833,8 +833,8 @@ public class ProcessNN2 {
                             inputList.setOutput1(output1);
                             inputList.setOutput2(output2);
 
-                            StockTRHistoryObj thObjADXIndex = thObjListEMA.get(index);
-                            inputDaObj.setUpdatedatel(thObjADXIndex.getUpdateDatel());
+                            StockTRHistoryObj thObjEMAIndex = thObjListEMA.get(index);
+                            inputDaObj.setUpdatedatel(thObjEMAIndex.getUpdateDatel());
                             inputDaObj.setObj(inputList);
                             inputRetDatalist.add(inputDaObj);
 //                                logger.info("> getAccountStockTR MACD NN1 add " + inputDaObj.getObj().getDateSt());
