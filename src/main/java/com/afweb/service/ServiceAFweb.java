@@ -976,7 +976,7 @@ public class ServiceAFweb {
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
-                    nn3ProcBySig.processInputNeuralNet(this);
+                    nn3ProcBySig.processNN3InputNeuralNet(this);
 
                 }
                 logger.info("> processNN1InputNeuralNet Edn..");
