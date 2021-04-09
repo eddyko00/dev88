@@ -948,7 +948,7 @@ public class ServiceAFweb {
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
-                    nn1ProcBySig.processInputNeuralNet(this);
+                    nn1ProcBySig.processNN1InputNeuralNet(this);
                     if (CKey.NN_DATA_DB == false) {
 //                        nn1ProcBySig.processAllStockInputNeuralNet(this);
                     }

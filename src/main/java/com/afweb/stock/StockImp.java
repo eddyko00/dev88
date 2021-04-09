@@ -283,6 +283,7 @@ public class StockImp {
     }
 
     public int deleteNeuralNetDataByBPname(String name) {
+        logger.info(">>>>> deleteNeuralNetDataByBPname " + name);
         return stockdb.deleteNeuralNetData(name);
     }
 

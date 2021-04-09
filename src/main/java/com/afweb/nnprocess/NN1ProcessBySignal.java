@@ -36,7 +36,7 @@ public class NN1ProcessBySignal {
 
     public static Logger logger = Logger.getLogger("NN1Process");
 
-    public void processInputNeuralNet(ServiceAFweb serviceAFWeb) {
+    public void processNN1InputNeuralNet(ServiceAFweb serviceAFWeb) {
         TradingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
         TradingSignalProcess.forceToGenerateNewNN = false;
         logger.info("> processInputNeuralNet TR MACD1... ");
@@ -49,18 +49,18 @@ public class NN1ProcessBySignal {
         TradingSignalProcess.forceToErrorNewNN = true;
         // start training
         // TrainingNNBP inputpattern 1748
-//        NeuralNetNN1CreateDB(serviceAFWeb, ConstantKey.TR_NN1);
-//        NeuralNetProcessNN1Testing(serviceAFWeb);
-//        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
+        NeuralNetNN1CreateDB(serviceAFWeb, ConstantKey.TR_NN1);
+        NeuralNetProcessNN1Testing(serviceAFWeb);
+        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
 //
-//        TradingSignalProcess.forceToGenerateNewNN = false;
+        TradingSignalProcess.forceToGenerateNewNN = false;
 //        // start training
 //        // TrainingNNBP inputpattern 1748
-//        NeuralNetProcessNN1Testing(serviceAFWeb);
-//        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
-//        NeuralNetProcessNN1Testing(serviceAFWeb);
-//        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
-        logger.info("> processInputNeuralNet TR NN1 end....... ");
+        NeuralNetProcessNN1Testing(serviceAFWeb);
+        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
+        NeuralNetProcessNN1Testing(serviceAFWeb);
+        NeuralNetNN1CreateJava(serviceAFWeb, ConstantKey.TR_NN1);
+//        logger.info("> processInputNeuralNet TR NN1 end....... ");
     }
 
 //    public void processAllStockInputNeuralNet(ServiceAFweb serviceAFWeb) {
@@ -75,7 +75,6 @@ public class NN1ProcessBySignal {
 //
 //        ////////////////////////////////////////////
 //    }
-
     /////////////////////////////////////////////////////////
     // training neural net input data
     // create neural net input data
@@ -468,7 +467,6 @@ public class NN1ProcessBySignal {
 //    }
 //
 //    public static HashMap<String, ArrayList> stockInputMap = null;
-
 //    public static boolean AllStockHistoryStaticCodeInit() {
 //
 //        if (stockInputMap != null) {
@@ -717,9 +715,7 @@ public class NN1ProcessBySignal {
 //        return inputlist;
 //
 //    }
-
 //    public static HashMap<String, ArrayList> stock_1_InputMap = null;
-
 //    public static boolean All_1_StockHistoryStaticCodeInit() {
 //
 //        if (stock_1_InputMap != null) {
@@ -871,132 +867,132 @@ public class NN1ProcessBySignal {
 //
 //    }
 //
-//    public boolean NeuralNetNN1CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
-//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-//        logger.info("> NeuralNetCreatJavaDB ");
-//        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-//
-//        try {
-//            if (CKey.NN_DATA_DB == true) {
-//                TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-//
-//                TradingNNData nndata = new TradingNNData();
-//                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
-//            }
-//            return true;
-//        } catch (Exception ex) {
-//        }
-//        return false;
-//    }
-//
-//    public boolean NeuralNetNN1CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
-//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-//
-//        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-//
-//        try {
-//            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-//
-//            String inputListSt = "Data in DB";
-//            if (CKey.NN_DATA_DB == true) {
-//                ;
-//            } else {
-//                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-//                inputListSt = ServiceAFweb.compress(inputListRawSt);
-//            }
-//            //TR_NN1_nnWeight0.txt
-//            String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
-//
-//            if (FileUtil.FileTest(fileN) == false) {
-//                return false;
-//            }
-//            StringBuffer msg1 = FileUtil.FileReadText(fileN);
-//            String weightSt = msg1.toString();
-//            StringBuffer msgWrite = new StringBuffer();
-//            msgWrite.append("" ///
-//                    + "package com.afweb.nn;\n"
-//                    + "\n"
-//                    + "public class nn1Data {\n"
-//                    + "\n"
-//                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
-//            int sizeline = 1000;
-//            int len = weightSt.length();
-//            int beg = 0;
-//            int end = sizeline;
-//            if (end <= len) {
-//                ;
-//            } else {
-//                end = len;
-//            }
-//            while (true) {
-//                String st = weightSt.substring(beg, end);
-//                msgWrite.append("+ \"" + st + "\"\n");
-//                if (end >= len) {
-//                    break;
-//                }
-//                beg = end;
-//                if (end + sizeline <= len) {
-//                    end += sizeline;
-//                } else {
-//                    end = len;
-//                }
-//            }
-//            msgWrite.append(""
-//                    + "            + \"\";\n");
-//
-//            len = inputListSt.length();
-//            beg = 0;
-//            end = sizeline;
-//            if (end <= len) {
-//                ;
-//            } else {
-//                end = len;
-//            }
-//            int index = 1;
-//            int line = 0;
-//            while (true) {
-//                if (line == 0) {
-//                    msgWrite.append(""
-//                            + "    public static String NN_INPUTLIST" + index + " = \"\"\n"
-//                            + "            + \"\"\n");
-//                }
-//                line++;
-//                String st = inputListSt.substring(beg, end);
-//
-//                msgWrite.append("+ \"" + st + "\"\n");
-//
-//                if (end >= len) {
-//                    msgWrite.append(""
-//                            + "            + \"\";\n");
-//
-//                    break;
-//                }
-//                if (line == 20) {
-//                    msgWrite.append(""
-//                            + "            + \"\";\n");
-//                    line = 0;
-//                    index++;
-//                }
-//                beg = end;
-//                if (end + sizeline <= len) {
-//                    end += sizeline;
-//                } else {
-//                    end = len;
-//                }
-//            }
-//
-//            msgWrite.append(""
-//                    + "}\n"
-//                    ///
-//                    + ""
-//            );
-//            fileN = ServiceAFweb.FileLocalDebugPath + "nn1Data.java";
-//            FileUtil.FileWriteText(fileN, msgWrite);
-//            return true;
-//        } catch (Exception ex) {
-//        }
-//        return false;
-//    }
+    public boolean NeuralNetNN1CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+        logger.info("> NeuralNetCreatJavaDB ");
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            if (CKey.NN_DATA_DB == true) {
+                TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+
+                TradingNNData nndata = new TradingNNData();
+                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
+            }
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
+    public boolean NeuralNetNN1CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+
+            String inputListSt = "Data in DB";
+            if (CKey.NN_DATA_DB == true) {
+                ;
+            } else {
+                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+                inputListSt = ServiceAFweb.compress(inputListRawSt);
+            }
+            //TR_NN1_nnWeight0.txt
+            String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
+
+            if (FileUtil.FileTest(fileN) == false) {
+                return false;
+            }
+            StringBuffer msg1 = FileUtil.FileReadText(fileN);
+            String weightSt = msg1.toString();
+            StringBuffer msgWrite = new StringBuffer();
+            msgWrite.append("" ///
+                    + "package com.afweb.nn;\n"
+                    + "\n"
+                    + "public class nn1Data {\n"
+                    + "\n"
+                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
+            int sizeline = 1000;
+            int len = weightSt.length();
+            int beg = 0;
+            int end = sizeline;
+            if (end <= len) {
+                ;
+            } else {
+                end = len;
+            }
+            while (true) {
+                String st = weightSt.substring(beg, end);
+                msgWrite.append("+ \"" + st + "\"\n");
+                if (end >= len) {
+                    break;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+            msgWrite.append(""
+                    + "            + \"\";\n");
+
+            len = inputListSt.length();
+            beg = 0;
+            end = sizeline;
+            if (end <= len) {
+                ;
+            } else {
+                end = len;
+            }
+            int index = 1;
+            int line = 0;
+            while (true) {
+                if (line == 0) {
+                    msgWrite.append(""
+                            + "    public static String NN_INPUTLIST" + index + " = \"\"\n"
+                            + "            + \"\"\n");
+                }
+                line++;
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.append("+ \"" + st + "\"\n");
+
+                if (end >= len) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+
+                    break;
+                }
+                if (line == 20) {
+                    msgWrite.append(""
+                            + "            + \"\";\n");
+                    line = 0;
+                    index++;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+
+            msgWrite.append(""
+                    + "}\n"
+                    ///
+                    + ""
+            );
+            fileN = ServiceAFweb.FileLocalDebugPath + "nn1Data.java";
+            FileUtil.FileWriteText(fileN, msgWrite);
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
 //
 //    public boolean NeuralNetAllStockCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
 //        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
