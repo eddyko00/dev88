@@ -65,11 +65,20 @@ var app = {
         $("#accheader").html('Account ' + accObj.accountname + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
         var htmlhead = '<div class="ui-grid-d">';
-        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym <small>' + trName + '</small></strong></div>';
-        htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
-        htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%">Trend</div>';
-        htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
-        htmlhead += '<div class="ui-block-e" style="text-align: center;width:20%">perf %</div>';
+        if (trName === "TR_ACC") {
+
+            htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym: <small>' + trName + '</small></strong></div>';
+            htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
+            htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%">Trend</div>';
+            htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
+            htmlhead += '<div class="ui-block-e" style="text-align: center;width:20%">perf %</div>';
+        } else {
+            htmlhead += '<div class="ui-block-a" style="width:20%;color:SteelBlue"><strong>Sym: <small>' + trName + '</small></strong></div>';
+            htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%;color:SteelBlue">Sig</div>';
+            htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%;color:SteelBlue">Trend</div>';
+            htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%;color:SteelBlue">Daily %</div>';
+            htmlhead += '<div class="ui-block-e" style="text-align: center;width:20%;color:SteelBlue">perf %</div>';            
+        }
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -106,14 +115,14 @@ var app = {
                 preClose = stockObj.prevClose;
                 var percent = 100 * (close - preClose) / preClose;
                 percentSt = percent.toFixed(1); // close price '%';
-                
+
                 var perform = stockObj.perform;
                 perSt = perform.toFixed(0); // performance '%';                
                 if (perform != 0) {
                     if (perform < 10) {
                         if (perform > -10) {
-                             perSt = perform.toFixed(2);
-                             perSt = perSt.replace("0.00","0");
+                            perSt = perform.toFixed(2);
+                            perSt = perSt.replace("0.00", "0");
                         }
                     }
                 }
@@ -144,10 +153,10 @@ var app = {
         var htmltrHeader = "";
         if (trName === "TR_ACC") {
 //            htmltrHeader += '<button type="submit" id="traccbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>*TR_ACC</small></button>';
-            htmltrHeader += '<button type="submit" id="trnn1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>TR_NN1</small></button>';
+            htmltrHeader += '<button type="submit" id="trnn1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>AI NN1</small></button>';
 
         } else if (trName === "TR_NN1") {
-            htmltrHeader += '<button type="submit" id="traccbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>TR_ACC</small></button>';
+            htmltrHeader += '<button type="submit" id="traccbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>TR ACC</small></button>';
 //            htmltrHeader += '<button type="submit" id="trnn1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>*TR_NN1</small></button>';
 
         }
