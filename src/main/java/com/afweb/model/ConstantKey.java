@@ -92,7 +92,7 @@ public class ConstantKey {
     public static final String COM_SIGNAL = "MESSAGE";
     public static final String COM_ACCBILLMSG = "ACCOUNT";
     public static final String COM_ADD_ACC_MSG = "ADDACC";
-    public static final int INT_TYPE_COM_SIGNAL = 0;
+    public static final int INT_TYPE_COM_SIGNAL = 0;  // type
 //
     public static final String COM_SPLIT = "MSG_SPLIT";
     public static final int INT_TYPE_COM_SPLIT = 2;

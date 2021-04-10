@@ -1039,6 +1039,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            this.removeAllCommBy1Month();
+
 //            TRprocessImp.ProcessAdminSignalTrading(this);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
@@ -3147,6 +3149,18 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
         return 0;
+    }
+
+    public int removeAllCommBy1Month() {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long last1monthbefore = TimeConvertion.addMonths(dateNow.getTimeInMillis(), -1); // last 1 month before
+
+        getAccountImp().removeCommByTimebefore(last1monthbefore, ConstantKey.INT_TYPE_COM_SIGNAL);
+        return 1;
+
     }
 
     public int removeCommByID(String EmailUserName, String Password, String AccountIDSt, String IDSt) {

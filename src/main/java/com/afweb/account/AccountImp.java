@@ -637,6 +637,10 @@ public class AccountImp {
         return accountdb.removeAllCommByType(type);
     }
 
+    public int removeCommByTimebefore(long timeBefore, int type) {
+        return accountdb.removeCommByTimebefore(timeBefore, type);
+    }
+
     public int removeAccountCommByID(String UserName, String Password, int accountID, int id) {
 
         AccountObj account = null;

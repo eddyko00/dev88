@@ -1459,6 +1459,17 @@ public class AccountDB {
         return 0;
     }
 
+    public int removeCommByTimebefore(long timeBefore, int type) {
+        try {
+            String deleteSQL = "delete from comm where type=" + type + " and updatedatel<" + timeBefore;
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> removeCommByTimebefore exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int removeAllCommByType(int type) {
         try {
             String deleteSQL = "delete from comm where type=" + type;

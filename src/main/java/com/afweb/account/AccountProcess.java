@@ -85,6 +85,8 @@ public class AccountProcess {
                 // cleanup Lock entry pass 30 min
                 ProcessAllLockCleanup(serviceAFWeb);
                 // cleanup Lock entry pass 30 min
+
+                ProcessAllCommCleanup(serviceAFWeb);
             }
         }
         serviceAFWeb.removeNameLock(LockName, ConstantKey.ACC_LOCKTYPE);
@@ -207,6 +209,14 @@ public class AccountProcess {
                 }
             }
         }
+    }
+
+    private void ProcessAllCommCleanup(ServiceAFweb serviceAFWeb) {
+        ServiceAFweb.lastfun = "ProcessAllCommCleanup";
+
+//        logger.info(">>>>> ProcessAllCommCleanup " + acTimerCnt);
+        serviceAFWeb.removeAllCommBy1Month();
+
     }
 
     private void ProcessStockkMaintance(ServiceAFweb serviceAFWeb) {
