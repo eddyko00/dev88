@@ -82,7 +82,6 @@ public class PUBSUBprocess {
                 }
 
                 accountCommArray.remove(0);
-
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
         }
@@ -105,6 +104,7 @@ public class PUBSUBprocess {
                 AccountObj accountObj = accObjList.get(j);
                 if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
                     serviceAFWeb.getAccountProcessImp().AddCommMessage(serviceAFWeb, accountObj, ConstantKey.COM_FUNDMSG, comObj.getData());
+                    break;
                 }
             }
         }

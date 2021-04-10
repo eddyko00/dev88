@@ -675,6 +675,9 @@ public class ServiceAFweb {
 //            
             BillingProcess billProc = new BillingProcess();
             billProc.processUserBillingAll(this);
+            
+            PUBSUBprocess pubsub = new PUBSUBprocess();
+            pubsub.ProcessPUBSUBAccount(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
