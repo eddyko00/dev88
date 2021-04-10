@@ -66,7 +66,9 @@ public class PUBSUBprocess {
                 }
                 try {
                     CommObj comObj = accountCommArray.get(0);
-
+                    if (comObj == null) {
+                        continue;
+                    }
                     int accountId = comObj.getAccountid();
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj != null) {
@@ -74,10 +76,13 @@ public class PUBSUBprocess {
                             int ret = SendPUBSUBTradingAccount(serviceAFWeb, accountObj, comObj);
                         }
                     }
+                    serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
                 } catch (Exception e) {
                     logger.info("> ProcessPUBSUBAccount Exception " + e.getMessage());
                 }
+
                 accountCommArray.remove(0);
+
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
         }

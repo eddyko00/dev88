@@ -967,8 +967,8 @@ public class AccountProcess {
                     // comm message is in the trading account instead of multfund account
                     this.AddCommMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
                     
-                    ///// broadcase PUBSUB message
-                    AddCommPUBSUBMessage(serviceAFWeb, accTrading, trFundACCObj, msg);;
+                    ///// broadcase PUBSUB message using account Fund object
+                    AddCommPUBSUBMessage(serviceAFWeb, accFundObj, trFundACCObj, msg);;
                     
                     this.AddCommMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
 
@@ -1046,10 +1046,11 @@ public class AccountProcess {
         }
         return 0;
     }
-    public int AddCommPUBSUBMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
+    
+    public int AddCommPUBSUBMessage(ServiceAFweb serviceAFWeb, AccountObj accFundObj, TradingRuleObj tr, String messageData) {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
-                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_PUB, messageData);
+                return serviceAFWeb.getAccountImp().addAccountPUBSUBMessage(accFundObj, ConstantKey.COM_PUB, messageData);
             }
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
