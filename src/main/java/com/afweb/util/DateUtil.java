@@ -6,9 +6,12 @@
 package com.afweb.util;
 
 import com.afweb.service.ServiceAFweb;
+import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 
 /**
  *
@@ -45,10 +48,26 @@ public class DateUtil {
                 }
             }
         }
-         if (ServiceAFweb.mydebugtestflag == true) {
-             mkopen = true;
-         }
+        if (ServiceAFweb.mydebugtestflag == true) {
+            mkopen = true;
+        }
         return mkopen;
+    }
+///////////////
+
+    private static Date convertToDateUsingInstant(LocalDate date) {
+        return (Date) java.util.Date.from(date.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
+
+    public static long getFirstDayCurrentYear() {
+
+        LocalDate Dateloc = LocalDate.now();
+        LocalDate firstDayOfYear = Dateloc.with(TemporalAdjusters.firstDayOfYear());
+        Date retDate = convertToDateUsingInstant(firstDayOfYear);
+
+        return retDate.getTime();
     }
 
 }

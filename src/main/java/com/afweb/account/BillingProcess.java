@@ -738,8 +738,9 @@ public class BillingProcess {
 
     }
 
-    public ArrayList<AccReportObj> getAccountReport(ServiceAFweb serviceAFWeb) {
+    public ArrayList<AccReportObj> getAccountReport(ServiceAFweb serviceAFWeb, int year) {
         ArrayList<AccReportObj> reportObjList = new ArrayList();
+        
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, 0, 0);
         
         
