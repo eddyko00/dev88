@@ -69,19 +69,6 @@ public class AccReportObj {
         this.endl = endl;
     }
 
-    /**
-     * @return the accEntryName
-     */
-    public ArrayList getAccEntryName() {
-        return accEntryName;
-    }
-
-    /**
-     * @param accEntryName the accEntryName to set
-     */
-    public void setAccEntryName(ArrayList accEntryName) {
-        this.accEntryName = accEntryName;
-    }
 
     /**
      * @return the accEntryBal
@@ -101,6 +88,6 @@ public class AccReportObj {
     private long beginl;
     private java.sql.Date enddisplay;
     private long endl;
-    private ArrayList accEntryName = new ArrayList();
+
     private ArrayList accEntryBal = new ArrayList();
 }
