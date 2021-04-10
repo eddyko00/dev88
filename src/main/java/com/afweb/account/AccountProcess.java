@@ -966,10 +966,10 @@ public class AccountProcess {
                     String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
                     // comm message is in the trading account instead of multfund account
                     this.AddCommMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
-                    
+
                     ///// broadcase PUBSUB message using account Fund object
                     AddCommPUBSUBMessage(serviceAFWeb, accFundObj, trFundACCObj, msg);;
-                    
+
                     this.AddCommMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
 
                     // send email
@@ -979,9 +979,6 @@ public class AccountProcess {
                     String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
                     this.AddEmailCommMessage(serviceAFWeb, accTrading, trFundACCObj, msgD);
 //                  logger.info("> updateTradingsignal update " + msg);
-
-
-
 
                     return 1;
                 }
@@ -993,7 +990,6 @@ public class AccountProcess {
     public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type, CommData commDataObj) {
         try {
             return serviceAFWeb.getAccountImp().addAccountCommMessage(accountObj, name, type, commDataObj);
-
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
         }
@@ -1002,9 +998,21 @@ public class AccountProcess {
 
     public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, String messageData) {
         try {
-            logger.info("> AddCommMessage  " + messageData);
+            logger.info("> AddCommMessage  " + accountObj.getAccountname() + " " + messageData);
             return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, name, messageData);
 
+        } catch (Exception e) {
+            logger.info("> AddCommMessage exception " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
+        try {
+            if (tr.getType() == ConstantKey.INT_TR_ACC) {
+                logger.info("> AddCommMessage  " + accountObj.getAccountname() + " " + messageData);
+                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
+            }
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
         }
@@ -1014,7 +1022,6 @@ public class AccountProcess {
     public int AddEmailBillingCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
-//                logger.info("> AddCommMessage  " + messageData);
                 return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_ACCBILLMSG, messageData);
             }
         } catch (Exception e) {
@@ -1026,7 +1033,6 @@ public class AccountProcess {
     public int AddEmailCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
-//                logger.info("> AddCommMessage  " + messageData);
                 return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAIL, messageData);
             }
         } catch (Exception e) {
@@ -1035,18 +1041,6 @@ public class AccountProcess {
         return 0;
     }
 
-    public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
-        try {
-            if (tr.getType() == ConstantKey.INT_TR_ACC) {
-                logger.info("> AddCommMessage  " + messageData);
-                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
-            }
-        } catch (Exception e) {
-            logger.info("> AddCommMessage exception " + e.getMessage());
-        }
-        return 0;
-    }
-    
     public int AddCommPUBSUBMessage(ServiceAFweb serviceAFWeb, AccountObj accFundObj, TradingRuleObj tr, String messageData) {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
@@ -1056,10 +1050,9 @@ public class AccountProcess {
             logger.info("> AddCommMessage exception " + e.getMessage());
         }
         return 0;
-    }    
-    
-////////////////////////////////////////////////
+    }
 
+////////////////////////////////////////////////
     public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         ServiceAFweb.lastfun = "updateTradingTransaction";
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
