@@ -705,6 +705,10 @@ public class BillingProcess {
         return 0;
     }
 /////////////////////////////////////////////
+    public static String SYS_EXPENSE = "SYS_EXPENSE";
+    public static String SYS_REVENUE = "SYS_REVENUE";
+    public static String USER_WITHDRAWAL = "USER_WITHDRAWAL";
+    public static String USER_PAYMENT = "USER_PAYMENT";    
 
     public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
         if (customer != null) {
@@ -715,7 +719,7 @@ public class BillingProcess {
         }
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (name.length() == 0) {
-            name = "SYS_EXPENSE";
+            name = SYS_EXPENSE;
         }
         int result = serviceAFWeb.getAccountImp().addAccounting(name, accountAdminObj, expense, 0, data);
         return result;
@@ -731,21 +735,43 @@ public class BillingProcess {
         }
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (name.length() == 0) {
-            name = "SYS_REVENUE";
+            name = SYS_REVENUE;
         }
         int result = serviceAFWeb.getAccountImp().addAccounting(name, accountAdminObj, 0, revenue, data);
         return result;
 
     }
 
-    public ArrayList<AccReportObj> getAccountReport(ServiceAFweb serviceAFWeb, int year) {
-        ArrayList<AccReportObj> reportObjList = new ArrayList();
-        
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, 0, 0);
-        
-        
-        return reportObjList;
+    public AccReportObj getAccountReportYear(ServiceAFweb serviceAFWeb, int year) {
+        int lastYear = 12;
+        if (year != 0) {
+            lastYear = year * 12;
+        }
+        AccReportObj reportObj = new AccReportObj();
 
+        long fistDateYear = DateUtil.getFirstDayCurrentYear();
+
+        long fistDateLastYear = TimeConvertion.addMonths(fistDateYear, -lastYear);
+        fistDateYear = TimeConvertion.addMonths(fistDateLastYear, 12);
+
+        reportObj.setBeginl(fistDateYear);
+        reportObj.setBegindisplay(new java.sql.Date(reportObj.getBeginl()));
+        reportObj.setEndl(fistDateLastYear);
+        reportObj.setBegindisplay(new java.sql.Date(reportObj.getEndl()));
+
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, fistDateYear, fistDateLastYear);
+        if (billingObjList == null) {
+            return reportObj;
+        }
+
+        for (int i = 0; i < billingObjList.size(); i++) {
+            BillingObj accTran = billingObjList.get(i);
+            {
+
+            }
+        }
+
+        return reportObj;
     }
     //////////////////////////////
 }

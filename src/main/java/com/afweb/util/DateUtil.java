@@ -55,18 +55,11 @@ public class DateUtil {
     }
 ///////////////
 
-    private static Date convertToDateUsingInstant(LocalDate date) {
-        return (Date) java.util.Date.from(date.atStartOfDay()
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
-    }
-
     public static long getFirstDayCurrentYear() {
 
         LocalDate Dateloc = LocalDate.now();
         LocalDate firstDayOfYear = Dateloc.with(TemporalAdjusters.firstDayOfYear());
-        Date retDate = convertToDateUsingInstant(firstDayOfYear);
-
+        Date retDate = Date.valueOf(firstDayOfYear);
         return retDate.getTime();
     }
 

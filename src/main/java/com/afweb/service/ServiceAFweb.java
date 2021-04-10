@@ -1040,7 +1040,11 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
             long fistyear = DateUtil.getFirstDayCurrentYear();
-
+            Date dat = new Date(fistyear);
+            logger.info(dat.toString());
+            long lastyear = TimeConvertion.addMonths(fistyear, -12);
+            dat = new Date(lastyear);
+            logger.info(dat.toString());
 //            TRprocessImp.ProcessAdminSignalTrading(this);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
@@ -5362,7 +5366,7 @@ public class ServiceAFweb {
                     emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
 
                     BillingProcess BP = new BillingProcess();
-                    BP.insertAccountRevenue(this, customer, "USER_PAYMENT", payment, emailSt);
+                    BP.insertAccountRevenue(this, customer, BillingProcess.USER_PAYMENT, payment, emailSt);
                 }
             }
             float balance = -9999;
@@ -5375,7 +5379,7 @@ public class ServiceAFweb {
                     emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
 
                     BillingProcess BP = new BillingProcess();
-                    BP.insertAccountExpense(this, customer, "USER_WITHDRAWAL", -balance, emailSt);
+                    BP.insertAccountExpense(this, customer, BillingProcess.USER_WITHDRAWAL, -balance, emailSt);
                 }
             }
             int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);

@@ -14,6 +14,20 @@ import java.util.ArrayList;
 public class AccReportObj {
 
     /**
+     * @return the accTotalEntryBal
+     */
+    public ArrayList getAccTotalEntryBal() {
+        return accTotalEntryBal;
+    }
+
+    /**
+     * @param accTotalEntryBal the accTotalEntryBal to set
+     */
+    public void setAccTotalEntryBal(ArrayList accTotalEntryBal) {
+        this.accTotalEntryBal = accTotalEntryBal;
+    }
+
+    /**
      * @return the begindisplay
      */
     public java.sql.Date getBegindisplay() {
@@ -89,5 +103,7 @@ public class AccReportObj {
     private java.sql.Date enddisplay;
     private long endl;
 
+    
+    private ArrayList accTotalEntryBal = new ArrayList();
     private ArrayList accEntryBal = new ArrayList();
 }
