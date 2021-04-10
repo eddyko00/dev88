@@ -1325,6 +1325,27 @@ public class AccountImp {
         return accountdb.getBillingObjByAccountIDType(accountID, ConstantKey.INT_BILLING, length);
     }
 
+    public int addAccounting(String name, AccountObj accountObj, float debit, float credit, String data) {
+        if (accountObj == null) {
+            return -1;
+        }
+
+        BillingObj billObj = new BillingObj();
+        billObj.setCustomerid(accountObj.getCustomerid());
+        billObj.setAccountid(accountObj.getId());
+        billObj.setName(name);
+        billObj.setType(ConstantKey.INT_ACC_TRAN);
+        billObj.setStatus(ConstantKey.INITIAL);
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        billObj.setUpdatedatel(dateNow.getTimeInMillis());
+        billObj.setUpdatedatedisplay(new java.sql.Date(dateNow.getTimeInMillis()));
+
+        billObj.setPayment(debit);
+        billObj.setBalance(credit);
+        billObj.setData(data);
+        return accountdb.insertAccountBillingData(billObj);
+    }
+
     public int addAccountBilling(String name, AccountObj accountObj, float payment, float balance, String data, long billcycle) {
         if (accountObj == null) {
             return -1;

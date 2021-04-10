@@ -168,15 +168,21 @@ public class BillingProcess {
         custN = customer.getFirstname() + "_" + custN;
 
         if (status == ConstantKey.INITIAL) {
+            boolean byPassPayment = false;
+
             // override payment
             if ((customer.getType() == CustomerObj.INT_ADMIN_USER)) {
-                userBalance = fPayment;
+                byPassPayment = true;
             }
             if (customer.getUsername().equals(CKey.FUND_MANAGER_USERNAME)) {
-                userBalance = fPayment;
+                byPassPayment = true;
             } else if (customer.getUsername().equals(CKey.INDEXFUND_MANAGER_USERNAME)) {
-                userBalance = fPayment;
+                byPassPayment = true;
             } else if (customer.getUsername().equals(CKey.G_USERNAME)) {
+                byPassPayment = true;
+            }
+
+            if (byPassPayment == true) {
                 userBalance = fPayment;
             }
             BillData billData = null;
@@ -212,8 +218,13 @@ public class BillingProcess {
                 sendMsg = true;
                 logger.info("Billing***Completed user " + custN + ", billing id " + billing.getId());
 
-                ////////
+                //////// reset feature list to clear delfund
                 processFeat(serviceAFWeb, customer);
+
+                ////////update accounting entry
+                if (byPassPayment == false) {
+                    this.insertAccountRevenue(serviceAFWeb, fPayment, msg);
+                }
 
             } else {
 //                Date entryDate = billing.getUpdatedatedisplay();
@@ -303,8 +314,8 @@ public class BillingProcess {
     }
 
     public int processFeat(ServiceAFweb serviceAFWeb, CustomerObj customer) {
-       ServiceAFweb.lastfun = "processFeat";
-        
+        ServiceAFweb.lastfun = "processFeat";
+
         String portfolio = customer.getPortfolio();
         CustPort custPortfilio = null;
         try {
@@ -369,7 +380,7 @@ public class BillingProcess {
     }
 
     public int createUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj account, BillingObj billing) {
-       ServiceAFweb.lastfun = "createUserBilling";        
+        ServiceAFweb.lastfun = "createUserBilling";
         if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
             return 1;
         }
@@ -592,7 +603,7 @@ public class BillingProcess {
     public static float FUND30_FeaturePrice = 30;
 
     public int updateFundFeat(ServiceAFweb serviceAFWeb, CustomerObj customer, AccountObj accFund) {
-        ServiceAFweb.lastfun = "updateFundFeat";           
+        ServiceAFweb.lastfun = "updateFundFeat";
         logger.info(">updateFundFeat " + accFund.getAccountname());
 
         // should be transaction problem
@@ -690,5 +701,19 @@ public class BillingProcess {
 
         return 0;
     }
+/////////////////////////////////////////////
 
+    public int insertAccountExpense(ServiceAFweb serviceAFWeb, float expense, String data) {
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        int result = serviceAFWeb.getAccountImp().addAccounting("EXPENSE", accountAdminObj, expense, 0, data);
+        return result;
+
+    }
+
+    public int insertAccountRevenue(ServiceAFweb serviceAFWeb, float revenue, String data) {
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        int result = serviceAFWeb.getAccountImp().addAccounting("REVENUE", accountAdminObj, 0, revenue, data);
+        return result;
+
+    }
 }
