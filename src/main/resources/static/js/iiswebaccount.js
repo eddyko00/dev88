@@ -75,7 +75,7 @@ var app = {
 
         var htmlAdmin = '<button id="configbtn"  >Configuration</button>';
         htmlAdmin += '<button id="invoicebtn"  >Billing Invoice</button>';
-        htmlAdmin += '<button id="fundbtn"  >View User Fund Mgr</button>';
+        htmlAdmin += '<button id="fundbtn"  >View Fund Mgr Subscription</button>';
         $("#adminid").html(htmlAdmin);
         if (custObj.type == 99) {
             var htmlAdmin = '<br><br><button id="sysbtn" >System Status</button>';
