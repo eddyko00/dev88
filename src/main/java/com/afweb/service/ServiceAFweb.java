@@ -1015,6 +1015,7 @@ public class ServiceAFweb {
 ///////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
+
     private void AFprocessDebug() {
         //Feb 10, 2021 db size = 5,543 InnoDB utf8_general_ci 4.7 MiB	
         if (mydebugtestflag == true) {
@@ -1038,14 +1039,11 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-
-
 //            TRprocessImp.ProcessAdminSignalTrading(this);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
 //            PUBSUBprocess pubsub = new PUBSUBprocess();
 //            pubsub.ProcessPUBSUBAccount(this);
-            
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
 //                nn3ProcBySig.ReLearnNN3StockNeuralNetData(this, ConstantKey.INT_TR_NN1, symbol);
@@ -5348,6 +5346,9 @@ public class ServiceAFweb {
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
                     emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
+
+                    BillingProcess BP = new BillingProcess();
+                    BP.insertAccountRevenue(this, customer, "USER_PAYMENT", payment, emailSt);
                 }
             }
             float balance = -9999;
@@ -5358,6 +5359,9 @@ public class ServiceAFweb {
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(balance);
                     emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
+
+                    BillingProcess BP = new BillingProcess();
+                    BP.insertAccountExpense(this, customer, "USER_WITHDRAWAL", -balance, emailSt);
                 }
             }
             int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);

@@ -119,6 +119,21 @@ public class BillingProcess {
     }
 ////////////////////////////////////////////////////
 
+    public static boolean isSystemAccount(CustomerObj customer) {
+        boolean byPassPayment = false;
+        if ((customer.getType() == CustomerObj.INT_ADMIN_USER)) {
+            byPassPayment = true;
+        }
+        if (customer.getUsername().equals(CKey.FUND_MANAGER_USERNAME)) {
+            byPassPayment = true;
+        } else if (customer.getUsername().equals(CKey.INDEXFUND_MANAGER_USERNAME)) {
+            byPassPayment = true;
+        } else if (customer.getUsername().equals(CKey.G_USERNAME)) {
+            byPassPayment = true;
+        }
+        return byPassPayment;
+    }
+
     public int updateUserBilling(ServiceAFweb serviceAFWeb, CustomerObj customer) {
         ServiceAFweb.lastfun = "updateUserBilling";
 
@@ -168,19 +183,7 @@ public class BillingProcess {
         custN = customer.getFirstname() + "_" + custN;
 
         if (status == ConstantKey.INITIAL) {
-            boolean byPassPayment = false;
-
-            // override payment
-            if ((customer.getType() == CustomerObj.INT_ADMIN_USER)) {
-                byPassPayment = true;
-            }
-            if (customer.getUsername().equals(CKey.FUND_MANAGER_USERNAME)) {
-                byPassPayment = true;
-            } else if (customer.getUsername().equals(CKey.INDEXFUND_MANAGER_USERNAME)) {
-                byPassPayment = true;
-            } else if (customer.getUsername().equals(CKey.G_USERNAME)) {
-                byPassPayment = true;
-            }
+            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
 
             if (byPassPayment == true) {
                 userBalance = fPayment;
@@ -223,7 +226,7 @@ public class BillingProcess {
 
                 ////////update accounting entry
                 if (byPassPayment == false) {
-                    this.insertAccountRevenue(serviceAFWeb, fPayment, msg);
+                    this.insertAccountRevenue(serviceAFWeb, customer, "", fPayment, msg);
                 }
 
             } else {
@@ -703,16 +706,34 @@ public class BillingProcess {
     }
 /////////////////////////////////////////////
 
-    public int insertAccountExpense(ServiceAFweb serviceAFWeb, float expense, String data) {
+    public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
+        if (customer != null) {
+            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
+            if (byPassPayment == true) {
+                return 0;
+            }
+        }
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        int result = serviceAFWeb.getAccountImp().addAccounting("EXPENSE", accountAdminObj, expense, 0, data);
+        if (name.length() == 0) {
+            name = "SYS_EXPENSE";
+        }
+        int result = serviceAFWeb.getAccountImp().addAccounting(name, accountAdminObj, expense, 0, data);
         return result;
 
     }
 
-    public int insertAccountRevenue(ServiceAFweb serviceAFWeb, float revenue, String data) {
+    public int insertAccountRevenue(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float revenue, String data) {
+        if (customer != null) {
+            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
+            if (byPassPayment == true) {
+                return 0;
+            }
+        }
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        int result = serviceAFWeb.getAccountImp().addAccounting("REVENUE", accountAdminObj, 0, revenue, data);
+        if (name.length() == 0) {
+            name = "SYS_REVENUE";
+        }
+        int result = serviceAFWeb.getAccountImp().addAccounting(name, accountAdminObj, 0, revenue, data);
         return result;
 
     }
