@@ -25,7 +25,7 @@ public class PUBSUBprocess {
 
     protected static Logger logger = Logger.getLogger("PUBSUBprocess");
 
-    private static ArrayList accountdNameArray = new ArrayList();
+    private static ArrayList<CommObj> accountCommArray = new ArrayList();
 
     public void ProcessPUBSUBAccount(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "ProcessPUBSUBAccount";
@@ -34,15 +34,15 @@ public class PUBSUBprocess {
         if (accountAdminObj == null) {
             return;
         }
-        if (accountdNameArray == null) {
-            accountdNameArray = new ArrayList();
+        if (accountCommArray == null) {
+            accountCommArray = new ArrayList();
         }
-        if (accountdNameArray.size() == 0) {
-            ArrayList accountIdList = serviceAFWeb.SystemAllOpenAccountIDList();
-            if (accountIdList == null) {
+        if (accountCommArray.size() == 0) {
+            ArrayList<CommObj> comObjList = serviceAFWeb.getAccountImp().getCommPubByCustomer(CKey.ADMIN_USERNAME, null, 50);
+            if (comObjList == null) {
                 return;
             }
-            accountdNameArray = accountIdList;
+            accountCommArray = comObjList;
         }
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
@@ -61,33 +61,49 @@ public class PUBSUBprocess {
                 if (lockDate2Min < currentTime) {
                     break;
                 }
-                if (accountdNameArray.size() == 0) {
+                if (accountCommArray.size() == 0) {
                     break;
                 }
                 try {
-                    String accountIdSt = (String) accountdNameArray.get(0);
+                    CommObj comObj = accountCommArray.get(0);
 
-                    int accountId = Integer.parseInt(accountIdSt);
+                    int accountId = comObj.getAccountid();
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
                     if (accountObj != null) {
                         if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                            if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                                int ret = SendPUBSUBTradingAccount(serviceAFWeb, accountObj);
-                            }
+                            int ret = SendPUBSUBTradingAccount(serviceAFWeb, accountObj, comObj);
                         }
                     }
                 } catch (Exception e) {
                     logger.info("> ProcessPUBSUBAccount Exception " + e.getMessage());
                 }
-                accountdNameArray.remove(0);
+                accountCommArray.remove(0);
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
         }
     }
 
-    public int SendPUBSUBTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
+    public int SendPUBSUBTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accFundObj, CommObj comObj) {
         ServiceAFweb.lastfun = "SendPUBSUBTradingAccount";
-        return 0;
+        String fundName = "#fund" + accFundObj.getId() + "#";
+        ArrayList<CustomerObj> custObjList = serviceAFWeb.getAccountImp().getCustomerFundPortfolio(fundName, 0);
+        if (custObjList == null) {
+            return 0;
+        }
+        for (int i = 0; i < custObjList.size(); i++) {
+            CustomerObj custObj = custObjList.get(i);
+            ArrayList<AccountObj> accObjList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(custObj.getId());
+            if (accObjList == null) {
+                continue;
+            }
+            for (int j = 0; j < accObjList.size(); j++) {
+                AccountObj accountObj = accObjList.get(j);
+                if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+                    serviceAFWeb.getAccountProcessImp().AddCommMessage(serviceAFWeb, accountObj, ConstantKey.COM_FUNDMSG, comObj.getData());
+                }
+            }
+        }
+        return 1;
     }
 
 }

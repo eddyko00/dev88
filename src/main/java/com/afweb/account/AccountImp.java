@@ -128,9 +128,8 @@ public class AccountImp {
         return null;
     }
 
-    public ArrayList<CustomerObj> getCustomerObjList(String fundName, int length) {
-
-        ArrayList customerDBList = accountdb.getCustomerFundPortfolio(fundName, 20);
+    public ArrayList<CustomerObj> getCustomerFundPortfolio(String fundName, int length) {
+        ArrayList customerDBList = accountdb.getCustomerFundPortfolio(fundName, length);
         return customerDBList;
     }
 
