@@ -1039,7 +1039,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            this.removeAllCommBy1Month();
+            long fistyear = DateUtil.getFirstDayCurrentYear();
 
 //            TRprocessImp.ProcessAdminSignalTrading(this);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
