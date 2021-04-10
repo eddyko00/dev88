@@ -525,6 +525,21 @@ public class AccountDB {
         return getBillingBySQL(sql);
     }
 
+    public ArrayList<BillingObj> getAccountingByTypeTime(int type, long begin, long end, int length) {
+
+        String sql = "select * from billing where type=" + type;
+        if (begin != 0) {
+            sql += " and updatedatel<" + begin;
+        }
+        if (end != 0) {
+            sql += " and updatedatel>" + end;
+        }
+
+        sql += " order by updatedatel desc";
+        sql = ServiceAFweb.getSQLLengh(sql, length);
+        return getBillingBySQL(sql);
+    }
+
     public ArrayList<BillingObj> getBillingObjByBillingID(int billingID) {
         String sql = "select * from billing where id=" + billingID;
         sql += " order by updatedatel";
@@ -1360,9 +1375,23 @@ public class AccountDB {
         return 0;
     }
 
+    public int removeAccountBillingByType(int type) {
+        try {
+            String deleteSQL = "delete from billing where type=" + type;
+            deleteSQL += " order by updatedatel desc";
+
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> removeAccountBillingByName exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int removeAccountBillingByName(String name) {
         try {
             String deleteSQL = "delete from billing where name='" + name + "'";
+            deleteSQL += " order by updatedatel desc";
             processExecuteDB(deleteSQL);
             return 1;
         } catch (Exception e) {

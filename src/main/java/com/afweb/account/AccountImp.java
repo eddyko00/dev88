@@ -528,6 +528,11 @@ public class AccountImp {
         return account;
     }
 
+    ////////////////////
+    public ArrayList<BillingObj> getAccountingByType(int type) {
+        return accountdb.getAccountingByTypeTime(type, 0, 0, 0);
+    }
+
     public ArrayList<BillingObj> getBillingByCustomerAccountID(String UserName, String Password, int accountID, int length) {
 
         CustomerObj customer = getCustomerPassword(UserName, Password);
@@ -548,7 +553,7 @@ public class AccountImp {
     }
 
     //// do not expose to external interface
-    public int removeAccountBillingByName(String name) {
+    public int removeSysAccountBillingByName(String name) {
         return accountdb.removeAccountBillingByName(name);
     }
 
