@@ -5,6 +5,7 @@
  */
 package com.afweb.util;
 
+import com.afweb.service.ServiceAFweb;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -44,6 +45,9 @@ public class DateUtil {
                 }
             }
         }
+         if (ServiceAFweb.mydebugtestflag == true) {
+             mkopen = true;
+         }
         return mkopen;
     }
 

@@ -675,7 +675,7 @@ public class ServiceAFweb {
 //            
             BillingProcess billProc = new BillingProcess();
             billProc.processUserBillingAll(this);
-            
+
             PUBSUBprocess pubsub = new PUBSUBprocess();
             pubsub.ProcessPUBSUBAccount(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
@@ -1014,7 +1014,7 @@ public class ServiceAFweb {
 
 ///////////////////////////////
     public static boolean mydebugtestflag = false;
-
+    public static boolean mydebugtestNN3flag = false;
     private void AFprocessDebug() {
         //Feb 10, 2021 db size = 5,543 InnoDB utf8_general_ci 4.7 MiB	
         if (mydebugtestflag == true) {
@@ -1037,8 +1037,15 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-            
 
+
+
+//            TRprocessImp.ProcessAdminSignalTrading(this);
+//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+//            getAccountProcessImp().ProcessAdminAccount(this);
+//            PUBSUBprocess pubsub = new PUBSUBprocess();
+//            pubsub.ProcessPUBSUBAccount(this);
+            
 //            for (int j = 0; j < 5; j++) {
 //                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
 //                nn3ProcBySig.ReLearnNN3StockNeuralNetData(this, ConstantKey.INT_TR_NN1, symbol);

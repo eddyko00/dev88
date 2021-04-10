@@ -923,7 +923,7 @@ public class TradingSignalProcess {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                    if (ServiceAFweb.mydebugtestflag == true) {
+                    if (ServiceAFweb.mydebugtestNN3flag == true) {
                         if (stock.getSymbol().equals("GLD")) {
                             ;
                         } else {
@@ -943,7 +943,7 @@ public class TradingSignalProcess {
                 if (trObj.getType() == ConstantKey.INT_TR_RSI) {
                     continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
-                    if (ServiceAFweb.mydebugtestflag == true) {
+                    if (ServiceAFweb.mydebugtestNN3flag == true) {
                         if (stock.getSymbol().equals("GLD")) {
                             ;
                         } else {
@@ -1107,12 +1107,7 @@ public class TradingSignalProcess {
 
         int sizeTR = 20 * monthSize; //20 * 14;
 
-//        if (ServiceAFweb.mydebugtestflag == true) {
-//            if (stock.getSymbol().equals("GLD")) {
-//                sizeTR = sizeTR * 2;
-//            } else {
-//            }
-//        }
+
 //        long stockOffsetL = StockArray.get(offsetS).getEntrydatel();
 //        stockOffsetL = TimeConvertion.endOfDayInMillis(stockOffsetL);
         int i = 0;
