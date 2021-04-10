@@ -1107,7 +1107,6 @@ public class TradingSignalProcess {
 
         int sizeTR = 20 * monthSize; //20 * 14;
 
-
 //        long stockOffsetL = StockArray.get(offsetS).getEntrydatel();
 //        stockOffsetL = TimeConvertion.endOfDayInMillis(stockOffsetL);
         int i = 0;
@@ -2899,7 +2898,8 @@ public class TradingSignalProcess {
             } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
                 sig = ConstantKey.S_SELL_ST;
             }
-            String msg = ESTdate + " " + stock.getSymbol() + " Sig:" + sig;
+            String accTxt = "acc-" + accountObj.getId();
+            String msg = ESTdate + " " + accTxt + " " + stock.getSymbol() + " Sig:" + sig;
             serviceAFWeb.getAccountProcessImp().AddCommMessage(serviceAFWeb, accountObj, trObj, msg);
         }
         return ret;
