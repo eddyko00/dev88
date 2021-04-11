@@ -724,7 +724,7 @@ public class BillingProcess {
         }
 //        billObj.setPayment(debit);
 //        billObj.setBalance(credit);
-        int result = serviceAFWeb.getAccountImp().addAccounting(name, accountAdminObj, expense, 0, data);
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data);
         return result;
 
     }
@@ -742,7 +742,7 @@ public class BillingProcess {
         }
 //        billObj.setPayment(debit);
 //        billObj.setBalance(credit);        
-        int result = serviceAFWeb.getAccountImp().addAccounting(name, accountAdminObj, 0, revenue, data);
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, 0, revenue, data);
         return result;
 
     }

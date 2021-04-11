@@ -1400,7 +1400,7 @@ public class AccountImp {
     }
 
 ///////
-    public int addAccounting(String name, AccountObj accountObj, float debit, float credit, String data) {
+    public int addAccountingEntry(String name, AccountObj accountObj, float debit, float credit, String data) {
         if (accountObj == null) {
             return -1;
         }
@@ -1418,7 +1418,7 @@ public class AccountImp {
         billObj.setBalance(credit);
         data = StringTag.replaceAll("\"", "#", data);
         data = StringTag.replaceAll("'", "|", data);
-
+        data = StringTag.replaceAll("\\n\\r", "", data);
         billObj.setData(data);
         return accountdb.insertAccountBillingData(billObj);
     }
