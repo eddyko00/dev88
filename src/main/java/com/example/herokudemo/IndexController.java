@@ -2489,7 +2489,6 @@ public class IndexController {
     public @ResponseBody
     int updateAccoundingEntry(
             @PathVariable("username") String username,
-            @PathVariable("customername") String customername,
             @PathVariable("custid") String custidSt,
             @RequestParam(value = "payment", required = false) String paymentSt,
             @RequestParam(value = "balance", required = false) String balanceSt,
@@ -2497,9 +2496,6 @@ public class IndexController {
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (customername == null) {
-            return 0;
-        }
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
