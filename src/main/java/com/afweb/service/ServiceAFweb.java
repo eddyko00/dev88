@@ -5341,7 +5341,7 @@ public class ServiceAFweb {
     }
 
     public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt, String reasonSt, String commentSt) {
-         ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
+        ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -5367,7 +5367,7 @@ public class ServiceAFweb {
                     payment = Float.parseFloat(paymentSt);
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
-                    commSt += "\n\r " + customername + " Accout expense change " + currency;
+                    commSt += "System expense change " + currency;
 
                     String entryName = BillingProcess.SYS_EXPENSE;
                     if (reasonSt != null) {
@@ -5392,7 +5392,7 @@ public class ServiceAFweb {
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(balance);
 
-                    commSt += "\n\r " + customername + " Accout revenue change " + currency;
+                    commSt += "System revenue change " + currency;
 
                     ////////update accounting entry
                     String entryName = BillingProcess.SYS_REVENUE;
@@ -5427,7 +5427,7 @@ public class ServiceAFweb {
             return ret;
 
         } catch (Exception e) {
-            
+
         }
         return 0;
     }

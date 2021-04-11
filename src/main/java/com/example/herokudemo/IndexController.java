@@ -2501,7 +2501,7 @@ public class IndexController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingEntryPaymentBalance(customername, paymentSt, balanceSt, reasonSt, commentSt);
+                    int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
