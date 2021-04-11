@@ -3108,7 +3108,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public AccReportObj getAccountingReportByCustomerAccountID(String EmailUserName, String Password, int year) {
+    public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3120,6 +3120,11 @@ public class ServiceAFweb {
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
                     BillingProcess BP = new BillingProcess();
+                    if (name != null) {
+                        if (name.length() > 0) {
+                            AccReportObj accReport = BP.getAccountReportYearByName(this, name, year);
+                        }
+                    }
                     AccReportObj accReport = BP.getAccountReportYear(this, year);
                     return accReport;
                 }

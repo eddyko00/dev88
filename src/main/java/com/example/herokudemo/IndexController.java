@@ -116,7 +116,10 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?year=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{enid}");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{enid}/update?amount=&comment=");        
+
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
         arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
@@ -1986,13 +1989,39 @@ public class IndexController {
         return null;
 
     }
+    //"/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment="
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateAccoundingEntry(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "payment", required = false) String paymentSt,
+            @RequestParam(value = "balance", required = false) String balanceSt,
+            @RequestParam(value = "reason", required = false) String reasonSt,
+            @RequestParam(value = "comment", required = false) String commentSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, commentSt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return 0;
+    }
 
-    //("/cust/{username}/uisys/{custid}/accounting/report?year=");
+    //("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/report", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     AccReportObj getUIAccountReport(
             @PathVariable("username") String username,
             @PathVariable("custid") String custidSt,
+            @RequestParam(value = "name", required = false) String nameSt,
             @RequestParam(value = "year", required = false) String yeatSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
@@ -2010,14 +2039,70 @@ public class IndexController {
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    AccReportObj accReportObj = afWebService.getAccountingReportByCustomerAccountID(username, null, year);
+                    AccReportObj accReportObj = afWebService.getAccountingReportByCustomerByName(username, null, nameSt, year);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return accReportObj;
                 }
             }
         }
         return null;
+    }
 
+
+    //("/cust/{username}/uisys/{custid}/accounting/entry/{enid}");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{enid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    AccEntryObj getUIAccountReportId(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "id", required = false) String idSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (custidSt.equals(cust.getId() + "")) {
+                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
+    //("/cust/{username}/uisys/{custid}/accounting/entry/{enid}/update?amount=&comment=");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{enid}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateUIAccountReportId(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "id", required = false) String idSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (custidSt.equals(cust.getId() + "")) {
+                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return 1;
+                }
+            }
+        }
+        return 0;
     }
 
     ///cust/{username}/uisys/{custid}/custlist?name&length={0 for all} - default 20");
@@ -2481,34 +2566,7 @@ public class IndexController {
         return 0;
     }
 
-//      public int updateAccountingPaymentBalance(String customername, String paymenttSt, String balanceSt, String reasonSt, String commentSt) {
-//          
-//      }
-    //"/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment="
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntry(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "balance", required = false) String balanceSt,
-            @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "comment", required = false) String commentSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, commentSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
+
 
     //"/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason="
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
