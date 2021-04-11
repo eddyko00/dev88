@@ -5412,7 +5412,7 @@ public class ServiceAFweb {
                     emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
 
                     BillingProcess BP = new BillingProcess();
-                    BP.insertAccountExpense(this, customer, BillingProcess.USER_WITHDRAWAL, -balance, emailSt);
+                    BP.insertAccountExpense(this, customer, BillingProcess.E_USER_WITHDRAWAL, -balance, emailSt);
                 }
             }
             int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
