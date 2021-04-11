@@ -107,7 +107,7 @@ public class ConstantKey {
     
     public static final String BILLING = "BILLING";
     public static final int INT_BILLING = 10;
-    public static final String ACCT_RAN = "ACCTRAN";
+    public static final String ACCT_TRAN = "ACCTRAN";
     public static final int INT_ACC_TRAN = 20;
     
 //// Android configuration      

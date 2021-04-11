@@ -2480,6 +2480,39 @@ public class IndexController {
         return 0;
     }
 
+//      public int updateAccountingPaymentBalance(String customername, String paymenttSt, String balanceSt, String reasonSt, String commentSt) {
+//          
+//      }
+    //"/cust/{username}/uisys/{custid}/cust/{customername}/accounting/update?status=&payment=&balance=&reason=&comment="
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateAccoundingEntry(
+            @PathVariable("username") String username,
+            @PathVariable("customername") String customername,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "payment", required = false) String paymentSt,
+            @RequestParam(value = "balance", required = false) String balanceSt,
+            @RequestParam(value = "reason", required = false) String reasonSt,
+            @RequestParam(value = "comment", required = false) String commentSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (customername == null) {
+            return 0;
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.updateAccountingEntryPaymentBalance(customername, paymentSt, balanceSt, reasonSt, commentSt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return 0;
+    }
+
     //"/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason="
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -2490,7 +2523,7 @@ public class IndexController {
             @RequestParam(value = "status", required = false) String statusSt,
             @RequestParam(value = "payment", required = false) String paymentSt,
             @RequestParam(value = "balance", required = false) String balanceSt,
-            @RequestParam(value = "reason", required = false) String reasonSt            
+            @RequestParam(value = "reason", required = false) String reasonSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         if (customername == null) {

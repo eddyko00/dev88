@@ -703,6 +703,7 @@ public class BillingProcess {
     public static String SYS_EXPENSE = "EXPENSE";
     public static String SYS_REVENUE = "REVENUE";
     public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
+    public static String E_COST_SERVICE = "E_COST_SERVICE";
     public static String R_USER_PAYMENT = "R_USER_PAYMENT";
 
     public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
@@ -768,6 +769,7 @@ public class BillingProcess {
         float expense = 0;
         float revenue = 0;
         float userWithDrawal = 0;
+        float costService = 0;
         float user_payment = 0;
 
         for (int i = 0; i < billingObjList.size(); i++) {
@@ -776,6 +778,9 @@ public class BillingProcess {
                 expense += accTran.getPayment();
             } else if (accTran.getName().equals(E_USER_WITHDRAWAL)) {
                 userWithDrawal += accTran.getPayment();
+            } else if (accTran.getName().equals(E_COST_SERVICE)) {
+                costService += accTran.getPayment();
+////////////
             } else if (accTran.getName().equals(R_USER_PAYMENT)) {
                 user_payment += accTran.getBalance();
             } else if (accTran.getName().equals(SYS_REVENUE)) {
@@ -783,38 +788,37 @@ public class BillingProcess {
             }
         }
 
-        
-        Date curDate = new java.sql.Date(TimeConvertion.currentTimeMillis());       
+        Date curDate = new java.sql.Date(TimeConvertion.currentTimeMillis());
         String curDateSt = curDate.toString();
 
-        
+        revenue = revenue + user_payment;
+        expense = expense + userWithDrawal + costService;
         
         ArrayList accTotalEntryBal = new ArrayList();
-        
+
         AccEntryObj accEntry = new AccEntryObj();
         accEntry.setDateSt(curDateSt);
-        accEntry.setName(SYS_REVENUE );
+        accEntry.setName(SYS_REVENUE);
         accEntry.setAmount(revenue);
         accTotalEntryBal.add(accEntry);
-        
+
         accEntry = new AccEntryObj();
         accEntry.setDateSt(curDateSt);
-        accEntry.setName(SYS_EXPENSE );
+        accEntry.setName(SYS_EXPENSE);
         accEntry.setAmount(expense);
-        accTotalEntryBal.add(accEntry);        
-
+        accTotalEntryBal.add(accEntry);
 
         accEntry = new AccEntryObj();
         accEntry.setDateSt(curDateSt);
-        accEntry.setName(R_USER_PAYMENT );
+        accEntry.setName(R_USER_PAYMENT);
         accEntry.setAmount(user_payment);
-        accTotalEntryBal.add(accEntry);           
+        accTotalEntryBal.add(accEntry);
 
         accEntry = new AccEntryObj();
         accEntry.setDateSt(curDateSt);
-        accEntry.setName(E_USER_WITHDRAWAL );
+        accEntry.setName(E_USER_WITHDRAWAL);
         accEntry.setAmount(userWithDrawal);
-        accTotalEntryBal.add(accEntry);    
+        accTotalEntryBal.add(accEntry);
 
         reportObj.setAccTotalEntryBal(accTotalEntryBal);
 
