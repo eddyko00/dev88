@@ -115,6 +115,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?year=");
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
@@ -2483,7 +2484,7 @@ public class IndexController {
 //      public int updateAccountingPaymentBalance(String customername, String paymenttSt, String balanceSt, String reasonSt, String commentSt) {
 //          
 //      }
-    //"/cust/{username}/uisys/{custid}/cust/{customername}/accounting/update?status=&payment=&balance=&reason=&comment="
+    //"/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment="
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateAccoundingEntry(
