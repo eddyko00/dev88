@@ -5391,15 +5391,6 @@ public class ServiceAFweb {
                     String currency = formatter.format(payment);
                     emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
 
-                    ////////update accounting entry
-                    String entryName = BillingProcess.SYS_REVENUE;
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
-                    BillingProcess BP = new BillingProcess();
-                    BP.insertAccountRevenue(this, customer, entryName, payment, emailSt);
                 }
             }
             float balance = -9999;
@@ -5411,8 +5402,20 @@ public class ServiceAFweb {
                     String currency = formatter.format(balance);
                     emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
 
+                    ////////update accounting entry
+                    String entryName = BillingProcess.SYS_REVENUE;
+                    if (reasonSt != null) {
+                        if (reasonSt.length() > 0) {
+                            entryName = reasonSt;
+                        }
+                    }
+
                     BillingProcess BP = new BillingProcess();
-                    BP.insertAccountExpense(this, customer, BillingProcess.E_USER_WITHDRAWAL, -balance, emailSt);
+                    if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
+                        BP.insertAccountExpense(this, customer, entryName, -balance, emailSt);
+                    } else {
+                        BP.insertAccountRevenue(this, customer, entryName, balance, emailSt);
+                    }
                 }
             }
             int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
