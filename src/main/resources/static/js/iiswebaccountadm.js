@@ -32,7 +32,7 @@ var app = {
         var accObj = null;
         for (i = 0; i < accObjList.length; i++) {
             var accObjTmp = accObjList[i];
-            if (accObjTmp.type == 140) { //INT_ADMIN_ACCOUNT = 140;
+            if (accObjTmp.type == 140) { //administration
                 accObj = accObjTmp;
                 break;
             }
@@ -43,7 +43,7 @@ var app = {
 
         var commObjListStr = iisWebObj.commObjListStr;
 
-        $("#accheader").html("Admin Control");
+        $("#accheader").html("System Control");
 
         var tabName = "COMM";
         if (iisWebObj.tabName != null) {
@@ -54,16 +54,20 @@ var app = {
         if (tabName === "CUST") {
             htmltrHeader += '<button type="submit" id="custtab" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>CustTab</small></button>';
             htmltrHeader += '<button type="submit" id="commtab" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>CommTab</small></button>';
-            $("#commheader").hide();
-             $("#commid").hide();
-        } else {
+            htmltrHeader += '<br>';
+            $("#commheader").hide(0);
+            $("#commid").hide(0);
+        } else if (tabName === "COMM") {
             htmltrHeader += '<button type="submit" id="custtab" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>CustTab</small></button>';
             htmltrHeader += '<button type="submit" id="commtab" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-btn-icon-left"><small>CommTab</small></button>';
-            $("#custheader").hide();
+            htmltrHeader += '<br>';
+            $("#custheader").hide(0);
             $("#myid").hide();
+        } else { 
+
         }
         $("#trheader").html(htmltrHeader);
-        
+
         var numCust = 5;
 
         $("#commid").html(" "); //clear the field
@@ -318,6 +322,7 @@ var app = {
 
         });
 
+
         $("#custtab").click(function () {
             tabName = "CUST"
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'commObjListStr': commObjListStr,
@@ -335,6 +340,7 @@ var app = {
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountadm_1.html";
         });
+
 
 // example        
 //alert("AJAX request successfully completed");

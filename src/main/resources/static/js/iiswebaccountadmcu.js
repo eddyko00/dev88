@@ -19,7 +19,7 @@ var app = {
 //        console.log(iisWebObj);
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-        
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -45,7 +45,7 @@ var app = {
         }
         var CustNListStr = iisWebObj.CustNListStr;
         var CustNListCnt = iisWebObj.CustNListCnt;
-        
+
         var cuObjStr = iisWebObj.cuObjStr;
 
         var cuObjListStr = iisWebObj.cuObjListStr;
@@ -87,9 +87,9 @@ var app = {
                         + '<br>Type:' + cuObj.type
                         + ' Status:' + cuObj.status
                         + ' SubStatus:' + cuObj.substatus
-                
+
                         + '<br>Bill date:' + cuObj.updatedatedisplay
-                
+
                         + '<br>Balance:' + cuObj.balance
                         + '  AmountDue:' + cuObj.payment
 
@@ -97,6 +97,14 @@ var app = {
                 htmlName += '</div>';
 
                 $("#myid").append('<li id="' + cuId + '" >' + htmlName + '</li>');
+
+                if (cuObj.status !== 0) {
+                    $("#logheader").hide();
+                }
+                if (cuObj.type === 99) {
+                    $("#logheader").hide();
+                    $("#statusheader").hide();
+                }
             }
         }
 
@@ -194,7 +202,7 @@ var app = {
                 window.location.href = "accountadmcu_1.html";
             }
         });
-        
+
         $("#accpaymentsubmit").click(function () {
             var accbalance = document.getElementById("accpayment").value;
             if (accbalance === "") {
