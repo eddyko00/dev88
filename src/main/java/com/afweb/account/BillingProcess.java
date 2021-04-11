@@ -747,23 +747,26 @@ public class BillingProcess {
     }
 
     public AccReportObj getAccountReportYear(ServiceAFweb serviceAFWeb, int year) {
-        int lastYear = 12;
+        int lastYear = 0;
         if (year != 0) {
             lastYear = year * 12;
         }
         AccReportObj reportObj = new AccReportObj();
 
-        long fistDateYear = DateUtil.getFirstDayCurrentYear();
+        long EndingYear = DateUtil.getFirstDayCurrentYear();
+        long BeginingYear = TimeConvertion.addMonths(EndingYear, 12);
 
-        long fistDateLastYear = TimeConvertion.addMonths(fistDateYear, -lastYear);
-        fistDateYear = TimeConvertion.addMonths(fistDateLastYear, 12);
+        if (lastYear > 0) {
+            BeginingYear = TimeConvertion.addMonths(BeginingYear, -lastYear);
+            EndingYear = TimeConvertion.addMonths(EndingYear, -lastYear);
+        }
 
-        reportObj.setBeginl(fistDateYear);
-        reportObj.setBegindisplay(new java.sql.Date(reportObj.getBeginl()));
-        reportObj.setEndl(fistDateLastYear);
-        reportObj.setBegindisplay(new java.sql.Date(reportObj.getEndl()));
+        reportObj.setBeginl(BeginingYear);
+        reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
+        reportObj.setEndl(EndingYear);
+        reportObj.setEnddisplay(new java.sql.Date(EndingYear));
 
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, fistDateYear, fistDateLastYear);
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
         if (billingObjList == null) {
             return reportObj;
         }
@@ -790,11 +793,11 @@ public class BillingProcess {
         entrySt = USER_PAYMENT + "," + user_payment;
         accTotalEntryBal.add(entrySt);
         entrySt = SYS_EXPENSE + "," + expense;
-        accTotalEntryBal.add(entrySt);        
+        accTotalEntryBal.add(entrySt);
         entrySt = USER_WITHDRAWAL + "," + userWithDrawal;
-        accTotalEntryBal.add(entrySt);              
+        accTotalEntryBal.add(entrySt);
         reportObj.setAccTotalEntryBal(accTotalEntryBal);
-        
+
         return reportObj;
     }
     //////////////////////////////

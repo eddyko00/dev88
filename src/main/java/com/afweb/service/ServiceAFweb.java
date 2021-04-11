@@ -1039,12 +1039,15 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            long fistyear = DateUtil.getFirstDayCurrentYear();
-            Date dat = new Date(fistyear);
-            logger.info(dat.toString());
-            long lastyear = TimeConvertion.addMonths(fistyear, -12);
-            dat = new Date(lastyear);
-            logger.info(dat.toString());
+            BillingProcess BP = new BillingProcess();
+            BP.getAccountReportYear(this, 1);
+            
+//            long fistyear = DateUtil.getFirstDayCurrentYear();
+//            Date dat = new Date(fistyear);
+//            logger.info(dat.toString());
+//            long lastyear = TimeConvertion.addMonths(fistyear, -12);
+//            dat = new Date(lastyear);
+//            logger.info(dat.toString());
 //            TRprocessImp.ProcessAdminSignalTrading(this);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
