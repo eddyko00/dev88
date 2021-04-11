@@ -1032,7 +1032,7 @@ public class AccountProcess {
     public int AddEmailBillingCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
-                return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_ACCBILLMSG, messageData);
+                return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_BILLMSG, messageData);
             }
         } catch (Exception e) {
             logger.info("> AddEmailBillingCommMessage exception " + e.getMessage());

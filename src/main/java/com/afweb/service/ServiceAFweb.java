@@ -3108,6 +3108,29 @@ public class ServiceAFweb {
         return 0;
     }
 
+    public AccReportObj getAccountingReportByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int year) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = getCustomerPassword(UserName, Password);
+            if (customer != null) {
+                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
+                    BillingProcess BP = new BillingProcess();
+                    AccReportObj accReport = BP.getAccountReportYear(this, year);
+                    return accReport;
+                }
+
+            }
+        } catch (Exception e) {
+        }
+        return null;
+
+    }
+
     public ArrayList<CommObj> getCommEmaiByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -5394,16 +5417,16 @@ public class ServiceAFweb {
 
                 String msg = ESTtime + " " + emailSt;
 
-                getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_ACCBILLMSG, msg);
+                getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_BILLMSG, msg);
                 AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_ACCBILLMSG, msg);
+                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msg);
 
                 // send email
                 DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
                 formatD.setTimeZone(tz);
                 String ESTdateD = formatD.format(d);
                 String msgD = ESTdateD + " " + emailSt;
-                getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_ACCBILLMSG, msgD);
+                getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_BILLMSG, msgD);
 
             }
             return ret;

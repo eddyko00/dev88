@@ -69,7 +69,7 @@ public class IndexController {
 
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
-
+        arrayString.add("/cust/{username}/acc/{accountid}/accounting/report?year=");
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
@@ -661,6 +661,29 @@ public class IndexController {
         int ret = afWebService.addCommByCustAccountID(username, null, accountid, dataSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
+    }
+
+    //("/cust/{username}/acc/{accountid}/accounting/report?year=");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/accounting/report", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    AccReportObj getAccountReport(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @RequestParam(value = "year", required = false) String yeatSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        int year = 0;
+        if (yeatSt != null) {
+            year = Integer.parseInt(yeatSt);
+        }
+        AccReportObj accReportObj = afWebService.getAccountingReportByCustomerAccountID(username, null, accountid, year);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return accReportObj;
     }
 
     //"/cust/{username}/acc/{accountid}/emailcomm?length=" 

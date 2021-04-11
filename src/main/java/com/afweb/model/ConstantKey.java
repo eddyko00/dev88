@@ -90,8 +90,8 @@ public class ConstantKey {
     public static final int INT_COM_CFG = -1;
 
     public static final String COM_SIGNAL = "MESSAGE";
-    public static final String COM_ACCBILLMSG = "ACCOUNT";
-    public static final String COM_ADD_ACC_MSG = "ADDACC";
+    public static final String COM_BILLMSG = "BILLING";  // name
+    public static final String COM_ADD_CUST_MSG = "ADD_CUST"; // name
     public static final int INT_TYPE_COM_SIGNAL = 0;  // type
 //
     public static final String COM_SPLIT = "MSG_SPLIT";

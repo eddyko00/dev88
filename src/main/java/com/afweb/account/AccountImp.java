@@ -629,7 +629,7 @@ public class AccountImp {
                     for (int i = 0; i < accountList.size(); i++) {
                         AccountObj accountObj = (AccountObj) accountList.get(i);
                         if (accountObj.getId() == accountID) {
-                            return addAccountMessage(accountObj, ConstantKey.COM_ADD_ACC_MSG, data);
+                            return addAccountMessage(accountObj, ConstantKey.COM_ADD_CUST_MSG, data);
                         }
                     }
                 }

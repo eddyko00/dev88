@@ -298,16 +298,16 @@ public class BillingProcess {
 
             String msgSt = ESTtime + " " + msg;
 
-            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_ACCBILLMSG, msg);
+            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_BILLMSG, msg);
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_ACCBILLMSG, msg);
+            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msg);
 
             // send email
             DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
             formatD.setTimeZone(tz);
             String ESTdateD = formatD.format(d);
             String msgD = ESTdateD + " " + msg;
-            serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
+            serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_BILLMSG, msgD);
         }
 //        
         if (createBillFlag == true) {
@@ -540,9 +540,9 @@ public class BillingProcess {
 
             String msgSt = ESTtime + " " + msg;
 //            String compassMsgSt = ServiceAFweb.compress(msgSt);
-            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_ACCBILLMSG, msgSt);
+            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_BILLMSG, msgSt);
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_ACCBILLMSG, msgSt);
+            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msgSt);
 
             // send email
             DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
@@ -553,7 +553,7 @@ public class BillingProcess {
                     + "<br>The e.transfer question is the 'iisweb-' plus user login email (e.g. iisweb-email@domain.com) and the answer is the user login email.";
 
 //            compassMsgSt = ServiceAFweb.compress(msgD);
-            serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_ACCBILLMSG, msgD);
+            serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_BILLMSG, msgD);
 
             logger.info("Billing***create user " + custN + ", billing cycle " + billcycleESTtime + ", payment=" + payment);
 
@@ -708,7 +708,7 @@ public class BillingProcess {
     public static String SYS_EXPENSE = "SYS_EXPENSE";
     public static String SYS_REVENUE = "SYS_REVENUE";
     public static String USER_WITHDRAWAL = "USER_WITHDRAWAL";
-    public static String USER_PAYMENT = "USER_PAYMENT";    
+    public static String USER_PAYMENT = "USER_PAYMENT";
 
     public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
         if (customer != null) {
@@ -721,6 +721,8 @@ public class BillingProcess {
         if (name.length() == 0) {
             name = SYS_EXPENSE;
         }
+//        billObj.setPayment(debit);
+//        billObj.setBalance(credit);
         int result = serviceAFWeb.getAccountImp().addAccounting(name, accountAdminObj, expense, 0, data);
         return result;
 
@@ -737,6 +739,8 @@ public class BillingProcess {
         if (name.length() == 0) {
             name = SYS_REVENUE;
         }
+//        billObj.setPayment(debit);
+//        billObj.setBalance(credit);        
         int result = serviceAFWeb.getAccountImp().addAccounting(name, accountAdminObj, 0, revenue, data);
         return result;
 
@@ -763,14 +767,34 @@ public class BillingProcess {
         if (billingObjList == null) {
             return reportObj;
         }
+        float expense = 0;
+        float revenue = 0;
+        float userWithDrawal = 0;
+        float user_payment = 0;
 
         for (int i = 0; i < billingObjList.size(); i++) {
             BillingObj accTran = billingObjList.get(i);
-            {
-
+            if (accTran.getName().equals(SYS_EXPENSE)) {
+                expense += accTran.getPayment();
+            } else if (accTran.getName().equals(USER_WITHDRAWAL)) {
+                userWithDrawal += accTran.getPayment();
+            } else if (accTran.getName().equals(USER_PAYMENT)) {
+                user_payment += accTran.getBalance();
+            } else if (accTran.getName().equals(SYS_REVENUE)) {
+                revenue += accTran.getBalance();
             }
         }
-
+        ArrayList accTotalEntryBal = new ArrayList();
+        String entrySt = SYS_REVENUE + "," + revenue;
+        accTotalEntryBal.add(entrySt);
+        entrySt = USER_PAYMENT + "," + user_payment;
+        accTotalEntryBal.add(entrySt);
+        entrySt = SYS_EXPENSE + "," + expense;
+        accTotalEntryBal.add(entrySt);        
+        entrySt = USER_WITHDRAWAL + "," + userWithDrawal;
+        accTotalEntryBal.add(entrySt);              
+        reportObj.setAccTotalEntryBal(accTotalEntryBal);
+        
         return reportObj;
     }
     //////////////////////////////
