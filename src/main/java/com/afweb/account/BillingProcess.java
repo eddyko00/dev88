@@ -701,10 +701,15 @@ public class BillingProcess {
     }
 /////////////////////////////////////////////
     public static String SYS_EXPENSE = "EXPENSE";
+    public static int INT_SYS_EXPENSE = 20;
     public static String SYS_REVENUE = "REVENUE";
+    public static int INT_SYS_REVENUE = 40;
     public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
+    public static int INT_E_USER_WITHDRAWAL = 21;
     public static String E_COST_SERVICE = "E_COST_SERVICE";
+    public static int INT_E_COST_SERVICE = 22;
     public static String R_USER_PAYMENT = "R_USER_PAYMENT";
+    public static int INT_R_USER_PAYMENT = 22;
 
     public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
 //        if (customer != null) {
@@ -766,11 +771,12 @@ public class BillingProcess {
         if (billingObjList == null) {
             return reportObj;
         }
-   
+
         ArrayList accTotalEntryBal = new ArrayList();
         for (int i = 0; i < billingObjList.size(); i++) {
             BillingObj accTran = billingObjList.get(i);
             AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(accTran.getId());
             accEntry.setDateSt(accTran.getData());
             accEntry.setName(accTran.getName());
             accEntry.setAmount(accTran.getBalance() + accTran.getPayment());
@@ -835,30 +841,35 @@ public class BillingProcess {
         ArrayList accTotalEntryBal = new ArrayList();
 
         AccEntryObj accEntry = new AccEntryObj();
+        accEntry.setId(INT_SYS_REVENUE);
         accEntry.setDateSt(curDateSt);
         accEntry.setName(SYS_REVENUE);
         accEntry.setAmount(revenue);
         accTotalEntryBal.add(accEntry);
 
         accEntry = new AccEntryObj();
+        accEntry.setId(INT_SYS_EXPENSE);
         accEntry.setDateSt(curDateSt);
         accEntry.setName(SYS_EXPENSE);
         accEntry.setAmount(expense);
         accTotalEntryBal.add(accEntry);
 
         accEntry = new AccEntryObj();
+        accEntry.setId(INT_R_USER_PAYMENT);
         accEntry.setDateSt(curDateSt);
         accEntry.setName(R_USER_PAYMENT);
         accEntry.setAmount(user_payment);
         accTotalEntryBal.add(accEntry);
 
         accEntry = new AccEntryObj();
+        accEntry.setId(INT_E_COST_SERVICE);        
         accEntry.setDateSt(curDateSt);
         accEntry.setName(E_COST_SERVICE);
         accEntry.setAmount(costService);
         accTotalEntryBal.add(accEntry);
 
         accEntry = new AccEntryObj();
+        accEntry.setId(INT_E_USER_WITHDRAWAL);            
         accEntry.setDateSt(curDateSt);
         accEntry.setName(E_USER_WITHDRAWAL);
         accEntry.setAmount(userWithDrawal);

@@ -12,6 +12,20 @@ package com.afweb.model;
 public class AccEntryObj {
 
     /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
      * @return the type
      */
     public int getType() {
@@ -80,6 +94,7 @@ public class AccEntryObj {
     public void setDateSt(String dateSt) {
         this.dateSt = dateSt;
     }
+    private int id;
     private String dateSt;
     private int type;
     private String name;
