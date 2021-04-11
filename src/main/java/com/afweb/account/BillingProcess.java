@@ -777,9 +777,11 @@ public class BillingProcess {
             BillingObj accTran = billingObjList.get(i);
             AccEntryObj accEntry = new AccEntryObj();
             accEntry.setId(accTran.getId());
-            accEntry.setDateSt(accTran.getData());
+            String dateSt = accTran.getUpdatedatedisplay().toString();
+            accEntry.setDateSt(dateSt);
             accEntry.setName(accTran.getName());
             accEntry.setAmount(accTran.getBalance() + accTran.getPayment());
+            accEntry.setComment(accTran.getData());
             accTotalEntryBal.add(accEntry);
         }
         reportObj.setAccTotalEntryBal(accTotalEntryBal);
