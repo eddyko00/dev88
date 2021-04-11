@@ -91,6 +91,120 @@ var app = {
 
 
 
+        $("#costsubmit").click(function () {
+            var costamount = document.getElementById("costamount").value;
+            if (costamount === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
+            var comment = document.getElementById("costcomm").value;
+            var payment = costamount;
+            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+                        + "/accounting/update?payment=" + payment + "&reason=E_COST_SERVICE&comment=" + comment,
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Accounting Update result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'reportObjStr': reportObjStr};
+
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmrp.html";
+            }
+        });
+
+        $("#exsubmit").click(function () {
+            var examount = document.getElementById("examount").value;
+            if (examount === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
+            var comment = document.getElementById("excomm").value;
+            var payment = examount;
+            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+                        + "/accounting/update?payment=" + payment + "&comment=" + comment,
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Accounting Update result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'reportObjStr': reportObjStr};
+
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmrp_1.html";
+            }
+        });
+        
+        $("#revsubmit").click(function () {
+            var revamount = document.getElementById("revamount").value;
+            if (revamount === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
+            var comment = document.getElementById("revcomm").value;
+            var balance = revamount;
+            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+                        + "/accounting/update?balance=" + balance + "&comment=" + comment,
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Accounting Update result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'reportObjStr': reportObjStr};
+
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmrp_1.html";
+            }
+        });
+
 
 // example        
 //alert("AJAX request successfully completed");

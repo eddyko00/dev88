@@ -51,21 +51,74 @@
                 <h1>IISWEB System</h1>
             </div><!-- /header -->
 
-            <h2 id="accheader" class="mc-text-center">AccountAdm</h2>
+            <h2 id="accheader" class="mc-text-center">Accounting Report</h2>
             <p></p>
+            <div id="tabheader" data-role="footer" data-theme="b" >
+
+                <span id="rptheader">
+                    <a href="#popupCost" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop"><small>CostOfGS</small></a>
+                    <div data-role="popup" id="popupCost" data-theme="a" class="ui-corner-all">
+                            <form>
+                                    <div style="padding:0px 0px;">
+                                            <h3>Cost of Service Sold Expense</h3>
+                                            <label for="un" class="ui-hidden-accessible">comment</label>
+                                            <input type="text" name="costcomm" id="costcomm" value="" placeholder="comment" data-theme="a">
+                                                                           
+                                            <label for="un" class="ui-hidden-accessible">amount</label>
+                                            <input type="text" name="costamount" id="costamount" value="" placeholder="amount" data-theme="a">
+                                           
+                                            <button type="submit" id="costsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
+                                        </div>
+                                </form>
+                    </div>                        
+                    <a href="#popupRev" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop"><small>Revenue</small></a>
+                    <div data-role="popup" id="popupRev" data-theme="a" class="ui-corner-all">
+                            <form>
+                                    <div style="padding:0px 0px;">
+                                            <h3>General Account Revenue</h3>
+                                            <label for="un" class="ui-hidden-accessible">comment</label>
+                                            <input type="text" name="revcomm" id="revcomm" value="" placeholder="comment" data-theme="a">
+                                                                           
+                                            <label for="un" class="ui-hidden-accessible">amount</label>
+                                            <input type="text" name="revamount" id="revamount" value="" placeholder="amount" data-theme="a">
+                                           
+                                            <button type="submit" id="revsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
+                                        </div>
+                                </form>
+                    </div>  
+                    <a href="#popupEx" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop"><small>Expense</small></a>
+                    <div data-role="popup" id="popupEx" data-theme="a" class="ui-corner-all">
+                            <form>
+                                    <div style="padding:0px 0px;">
+                                            <h3>General Account Expense</h3>
+                                            <label for="un" class="ui-hidden-accessible">comment</label>
+                                            <input type="text" name="excomm" id="excomm" value="" placeholder="comment" data-theme="a">
+                                                                           
+                                            <label for="un" class="ui-hidden-accessible">amount</label>
+                                            <input type="text" name="examount" id="examount" value="" placeholder="amount" data-theme="a">
+                                           
+                                            <button type="submit" id="exsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
+                                        </div>
+                                </form>
+                    </div>  
+                  
+                </span>  
+
+            </div>  
+
             <div data-role="content" id="textcontent">
 
                 <!--<ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">-->                    
                 <ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">
                     <li id="0">Accounting Listing</li>
                 </ul> 
-                
+
                 <p><br></p>                 
 
             </div>
         </div>
 
-   
+
         <script src="lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
         <script src="lib/jqm/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script type="text/javascript" src="js/iisweb.js"></script>            
