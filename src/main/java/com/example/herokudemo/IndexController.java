@@ -118,7 +118,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?year=");
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
-        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=");
+        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
 
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
         arrayString.add("/cust/{username}/sys/cust/{customername}/removeCustomer");
@@ -2480,7 +2480,7 @@ public class IndexController {
         return 0;
     }
 
-    //"/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance="
+    //"/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason="
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateCustAllStatus(
@@ -2489,7 +2489,8 @@ public class IndexController {
             @PathVariable("custid") String custidSt,
             @RequestParam(value = "status", required = false) String statusSt,
             @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "balance", required = false) String balanceSt
+            @RequestParam(value = "balance", required = false) String balanceSt,
+            @RequestParam(value = "reason", required = false) String reasonSt            
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         if (customername == null) {
@@ -2500,7 +2501,7 @@ public class IndexController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAddCustStatusPaymentBalance(customername, statusSt, paymentSt, balanceSt);
+                    int result = afWebService.updateAddCustStatusPaymentBalance(customername, statusSt, paymentSt, balanceSt, reasonSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }

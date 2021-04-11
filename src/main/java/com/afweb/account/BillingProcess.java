@@ -224,11 +224,6 @@ public class BillingProcess {
                 //////// reset feature list to clear delfund
                 processFeat(serviceAFWeb, customer);
 
-                ////////update accounting entry
-                if (byPassPayment == false) {
-                    this.insertAccountRevenue(serviceAFWeb, customer, "", fPayment, msg);
-                }
-
             } else {
 //                Date entryDate = billing.getUpdatedatedisplay();
                 long billcycleDate = billing.getUpdatedatel();
@@ -787,14 +782,17 @@ public class BillingProcess {
                 revenue += accTran.getBalance();
             }
         }
+
+        Date curDate = new java.sql.Date(TimeConvertion.currentTimeMillis());
+        String curDateSt = curDate.toString();
         ArrayList accTotalEntryBal = new ArrayList();
-        String entrySt = SYS_REVENUE + "," + revenue;
+        String entrySt = curDateSt + "," + SYS_REVENUE + "," + revenue;
         accTotalEntryBal.add(entrySt);
-        entrySt = USER_PAYMENT + "," + user_payment;
+        entrySt = curDateSt + "," +USER_PAYMENT + "," + user_payment;
         accTotalEntryBal.add(entrySt);
-        entrySt = SYS_EXPENSE + "," + expense;
+        entrySt = curDateSt + "," +SYS_EXPENSE + "," + expense;
         accTotalEntryBal.add(entrySt);
-        entrySt = USER_WITHDRAWAL + "," + userWithDrawal;
+        entrySt = curDateSt + "," +USER_WITHDRAWAL + "," + userWithDrawal;
         accTotalEntryBal.add(entrySt);
         reportObj.setAccTotalEntryBal(accTotalEntryBal);
 

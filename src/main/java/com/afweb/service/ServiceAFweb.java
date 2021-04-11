@@ -1041,7 +1041,7 @@ public class ServiceAFweb {
 
             BillingProcess BP = new BillingProcess();
             BP.getAccountReportYear(this, 1);
-            
+
 //            long fistyear = DateUtil.getFirstDayCurrentYear();
 //            Date dat = new Date(fistyear);
 //            logger.info(dat.toString());
@@ -3111,7 +3111,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public AccReportObj getAccountingReportByCustomerAccountID(String EmailUserName, String Password,  int year) {
+    public AccReportObj getAccountingReportByCustomerAccountID(String EmailUserName, String Password, int year) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -5340,9 +5340,9 @@ public class ServiceAFweb {
         return getStockImp().updateStockInfoTransaction(stockInfoTran);
     }
 
-    //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15
+    //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15&?reason=
     public int updateAddCustStatusPaymentBalance(String customername,
-            String statusSt, String paymenttSt, String balanceSt) {
+            String statusSt, String paymenttSt, String balanceSt, String reasonSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -5391,8 +5391,15 @@ public class ServiceAFweb {
                     String currency = formatter.format(payment);
                     emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
 
+                    ////////update accounting entry
+                    String entryName = BillingProcess.SYS_REVENUE;
+                    if (reasonSt != null) {
+                        if (reasonSt.length() > 0) {
+                            entryName = reasonSt;
+                        }
+                    }
                     BillingProcess BP = new BillingProcess();
-                    BP.insertAccountRevenue(this, customer, BillingProcess.USER_PAYMENT, payment, emailSt);
+                    BP.insertAccountRevenue(this, customer, entryName, payment, emailSt);
                 }
             }
             float balance = -9999;
