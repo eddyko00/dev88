@@ -3123,6 +3123,7 @@ public class ServiceAFweb {
                     if (name != null) {
                         if (name.length() > 0) {
                             AccReportObj accReport = BP.getAccountReportYearByName(this, name, year);
+                            return accReport;
                         }
                     }
                     AccReportObj accReport = BP.getAccountReportYear(this, year);
