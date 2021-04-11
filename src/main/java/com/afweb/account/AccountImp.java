@@ -529,6 +529,10 @@ public class AccountImp {
     }
 
     ////////////////////
+    public ArrayList<BillingObj> getAccountingByNameType(String name, int type, long begin, long end) {
+        return accountdb.getAccountingByNameType(name, type, begin, end, 0);
+    }
+    
     public ArrayList<BillingObj> getAccountingByType(int type, long begin, long end) {
         return accountdb.getAccountingByTypeTime(type, begin, end, 0);
     }

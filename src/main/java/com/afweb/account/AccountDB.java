@@ -525,6 +525,21 @@ public class AccountDB {
         return getBillingBySQL(sql);
     }
 
+    public ArrayList<BillingObj> getAccountingByNameType(String name, int type, long begin, long end, int length) {
+
+        String sql = "select * from billing where name='" + name + "' and type=" + type;
+        if (begin != 0) {
+            sql += " and updatedatel<" + begin;
+        }
+        if (end != 0) {
+            sql += " and updatedatel>" + end;
+        }
+
+        sql += " order by updatedatel desc";
+        sql = ServiceAFweb.getSQLLengh(sql, length);
+        return getBillingBySQL(sql);
+    }
+
     public ArrayList<BillingObj> getAccountingByTypeTime(int type, long begin, long end, int length) {
 
         String sql = "select * from billing where type=" + type;

@@ -742,6 +742,44 @@ public class BillingProcess {
 
     }
 
+    public AccReportObj getAccountReportYearByName(ServiceAFweb serviceAFWeb, String name, int year) {
+        int lastYear = 0;
+        if (year != 0) {
+            lastYear = year * 12;
+        }
+        AccReportObj reportObj = new AccReportObj();
+
+        long EndingYear = DateUtil.getFirstDayCurrentYear();
+        long BeginingYear = TimeConvertion.addMonths(EndingYear, 12);
+
+        if (lastYear > 0) {
+            BeginingYear = TimeConvertion.addMonths(BeginingYear, -lastYear);
+            EndingYear = TimeConvertion.addMonths(EndingYear, -lastYear);
+        }
+
+        reportObj.setBeginl(BeginingYear);
+        reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
+        reportObj.setEndl(EndingYear);
+        reportObj.setEnddisplay(new java.sql.Date(EndingYear));
+
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByNameType(name, ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
+        if (billingObjList == null) {
+            return reportObj;
+        }
+   
+        ArrayList accTotalEntryBal = new ArrayList();
+        for (int i = 0; i < billingObjList.size(); i++) {
+            BillingObj accTran = billingObjList.get(i);
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setDateSt(accTran.getData());
+            accEntry.setName(accTran.getName());
+            accEntry.setAmount(accTran.getBalance() + accTran.getPayment());
+            accTotalEntryBal.add(accEntry);
+        }
+        reportObj.setAccTotalEntryBal(accTotalEntryBal);
+        return reportObj;
+    }
+
     public AccReportObj getAccountReportYear(ServiceAFweb serviceAFWeb, int year) {
         int lastYear = 0;
         if (year != 0) {
@@ -793,7 +831,7 @@ public class BillingProcess {
 
         revenue = revenue + user_payment;
         expense = expense + userWithDrawal + costService;
-        
+
         ArrayList accTotalEntryBal = new ArrayList();
 
         AccEntryObj accEntry = new AccEntryObj();
@@ -819,7 +857,7 @@ public class BillingProcess {
         accEntry.setName(E_COST_SERVICE);
         accEntry.setAmount(costService);
         accTotalEntryBal.add(accEntry);
-        
+
         accEntry = new AccEntryObj();
         accEntry.setDateSt(curDateSt);
         accEntry.setName(E_USER_WITHDRAWAL);
