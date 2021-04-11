@@ -3108,7 +3108,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public AccReportObj getAccountingReportByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int year) {
+    public AccReportObj getAccountingReportByCustomerAccountID(String EmailUserName, String Password,  int year) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
