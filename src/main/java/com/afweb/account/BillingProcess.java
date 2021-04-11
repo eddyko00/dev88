@@ -707,12 +707,12 @@ public class BillingProcess {
     public static String R_USER_PAYMENT = "R_USER_PAYMENT";
 
     public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
-        if (customer != null) {
-            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
-            if (byPassPayment == true) {
-                return 0;
-            }
-        }
+//        if (customer != null) {
+//            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
+//            if (byPassPayment == true) {
+//                return 0;
+//            }
+//        }
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (name.length() == 0) {
             name = SYS_EXPENSE;
@@ -725,12 +725,12 @@ public class BillingProcess {
     }
 
     public int insertAccountRevenue(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float revenue, String data) {
-        if (customer != null) {
-            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
-            if (byPassPayment == true) {
-                return 0;
-            }
-        }
+//        if (customer != null) {
+//            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
+//            if (byPassPayment == true) {
+//                return 0;
+//            }
+//        }
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (name.length() == 0) {
             name = SYS_REVENUE;
@@ -814,6 +814,12 @@ public class BillingProcess {
         accEntry.setAmount(user_payment);
         accTotalEntryBal.add(accEntry);
 
+        accEntry = new AccEntryObj();
+        accEntry.setDateSt(curDateSt);
+        accEntry.setName(E_COST_SERVICE);
+        accEntry.setAmount(costService);
+        accTotalEntryBal.add(accEntry);
+        
         accEntry = new AccEntryObj();
         accEntry.setDateSt(curDateSt);
         accEntry.setName(E_USER_WITHDRAWAL);

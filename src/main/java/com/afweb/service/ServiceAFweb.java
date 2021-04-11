@@ -1039,9 +1039,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN3;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            BillingProcess BP = new BillingProcess();
-            BP.getAccountReportYear(this, 1);
-
 //            long fistyear = DateUtil.getFirstDayCurrentYear();
 //            Date dat = new Date(fistyear);
 //            logger.info(dat.toString());
@@ -5501,13 +5498,18 @@ public class ServiceAFweb {
                             entryName = reasonSt;
                         }
                     }
-
-                    BillingProcess BP = new BillingProcess();
-                    if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                        BP.insertAccountExpense(this, customer, entryName, -balance, emailSt);
-                    } else {
-                        BP.insertAccountRevenue(this, customer, entryName, balance, emailSt);
+                    if (customer != null) {
+                        boolean byPassPayment = BillingProcess.isSystemAccount(customer);
+                        if (byPassPayment == false) {
+                            BillingProcess BP = new BillingProcess();
+                            if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
+                                BP.insertAccountExpense(this, customer, entryName, -balance, emailSt);
+                            } else {
+                                BP.insertAccountRevenue(this, customer, entryName, balance, emailSt);
+                            }
+                        }
                     }
+
                 }
             }
             int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
