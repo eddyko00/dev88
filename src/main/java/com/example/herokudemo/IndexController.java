@@ -118,7 +118,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{enid}");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{enid}/update?amount=&comment=");        
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{enid}/remove");        
 
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
@@ -2077,10 +2077,10 @@ public class IndexController {
         return null;
     }
 
-    //("/cust/{username}/uisys/{custid}/accounting/entry/{enid}/update?amount=&comment=");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{enid}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //("/cust/{username}/uisys/{custid}/accounting/entry/{enid}/remove");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{enid}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    int updateUIAccountReportId(
+    int removeUIAccountReportId(
             @PathVariable("username") String username,
             @PathVariable("custid") String custidSt,
             @RequestParam(value = "id", required = false) String idSt,
@@ -2096,7 +2096,7 @@ public class IndexController {
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-
+                    ////////
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return 1;
                 }
