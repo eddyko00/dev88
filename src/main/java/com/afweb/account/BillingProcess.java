@@ -784,7 +784,7 @@ public class BillingProcess {
             accEntry.setComment(accTran.getData());
             accTotalEntryBal.add(accEntry);
         }
-        reportObj.setAccTotalEntryBal(accTotalEntryBal);
+        reportObj.setAccEntryBal(accTotalEntryBal);
         return reportObj;
     }
 
