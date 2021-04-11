@@ -761,7 +761,7 @@ public class BillingProcess {
             BeginingYear = TimeConvertion.addMonths(BeginingYear, -lastYear);
             EndingYear = TimeConvertion.addMonths(EndingYear, -lastYear);
         }
-
+        BeginingYear = TimeConvertion.addDays(EndingYear, -1);
         reportObj.setBeginl(BeginingYear);
         reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
         reportObj.setEndl(EndingYear);
@@ -803,6 +803,7 @@ public class BillingProcess {
             EndingYear = TimeConvertion.addMonths(EndingYear, -lastYear);
         }
 
+        BeginingYear = TimeConvertion.addDays(EndingYear, -1);
         reportObj.setBeginl(BeginingYear);
         reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
         reportObj.setEndl(EndingYear);
