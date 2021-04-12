@@ -767,6 +767,11 @@ public class BillingProcess {
         }
         if (rate != 100) {
             int yearCnt = (int) (expense / rate);
+            
+            /// Max 10 year
+            if (yearCnt > 6) {
+                yearCnt=6;
+            }
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long entrytime = dateNow.getTimeInMillis();
             for (int i = 0; i < yearCnt; i++) {
