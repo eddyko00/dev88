@@ -779,6 +779,11 @@ public class BillingProcess {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long entrytime = dateNow.getTimeInMillis();
             float remainExpense = expense;
+
+            Date dateSt = new Date(entrytime);
+            String DepSt = "Deprecation " + expense + " for " + yearCnt + "Yr from " + dateSt.toString() + ". ";
+            data = DepSt + data;
+
             for (int i = 0; i < yearCnt; i++) {
                 float exDeplication = expense * rate / 100;
                 if (i > 0) {
