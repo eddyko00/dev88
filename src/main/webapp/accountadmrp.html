@@ -101,13 +101,31 @@
                                         </div>
                                 </form>
                     </div>  
-
+                    <a href="#popupDep" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline " data-transition="pop"><small>Deprecate</small></a>
+                    <div data-role="popup" id="popupDep" data-theme="a" class="ui-corner-all">
+                            <form>
+                                    <div style="padding:0px 0px;">
+                                            <h3>Asset Deprecation Expense</h3>
+                                
+                                            <label for="un" class="ui-hidden-accessible">comment</label>
+                                            <input type="text" name="depcomm" id="depcomm" value="" placeholder="comment" data-theme="a">
+                                            Rate in % e.g. 10%, 30%, 50%, 100%
+                                            <label for="un" class="ui-hidden-accessible">rate in %</label>
+                                            <input type="text" name="deprate" id="deprate" value="" placeholder="rate" data-theme="a">
+                                                                                                                      
+                                            <label for="un" class="ui-hidden-accessible">amount</label>
+                                            <input type="text" name="depamount" id="depamount" value="" placeholder="amount" data-theme="a">
+                                           
+                                            <button type="submit" id="depsubmit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">Submit</button>
+                                        </div>
+                                </form>
+                    </div>    
                 </span>  
 
             </div>  
 
             <div data-role="content" id="textcontent">
-              
+
                 <ul id="myid" data-role="listview" data-theme="d" data-divider-theme="d">
                     <li id="0">Accounting Listing</li>
                 </ul> 

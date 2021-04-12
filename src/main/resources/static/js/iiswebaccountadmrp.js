@@ -56,11 +56,12 @@ var app = {
             var rangeSt = 'Begin Date:' + beginDate + ' - ' + 'End Date:' + endDate;
             $("#myid").html('<li ">' + rangeSt + '</li>');
 
-            var htmlhead = '<div class="ui-grid-c">';
+            var htmlhead = '<div class="ui-grid-d">';
             htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
             htmlhead += '<div class="ui-block-b" style="text-align: center;width:10%">Id</div>';
-            htmlhead += '<div class="ui-block-c" style="text-align: left;width:40%">Name</div>';
-            htmlhead += '<div class="ui-block-d" style="text-align: right;width:30%">Amount</div>';
+            htmlhead += '<div class="ui-block-c" style="text-align: left;width:30%">Name</div>';
+            htmlhead += '<div class="ui-block-d" style="text-align: right">Debit</div>';
+            htmlhead += '<div class="ui-block-e" style="text-align: right">Credit</div>';
             htmlhead += '</div>';
 
             $("#myid").append('<li id="0" >' + htmlhead + '</li>');
@@ -68,13 +69,15 @@ var app = {
                 var entryObj = entryList[i];
                 var entryId = i + 1;
 
-                var htmlName = '<div class="ui-grid-c">';
+                var htmlName = '<div class="ui-grid-d">';
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
-                htmlName += '<div class="ui-block-c" style="text-align: left;width:40%"><small>' + entryObj.name + '</small></div>';
+                htmlName += '<div class="ui-block-c" style="text-align: left;width:30%"><small>' + entryObj.name + '</small></div>';
 
-                var totSt = Number(entryObj.amount).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<div class="ui-block-d" style="text-align: right;width:30%">' + totSt + '</div>';
+                var totSt = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                htmlName += '<div class="ui-block-d" style="text-align: right">' + totSt + '</div>';
+                totSt = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                htmlName += '<div class="ui-block-e" style="text-align: right">' + totSt + '</div>';
                 htmlName += '</div>';
                 $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
             }
@@ -91,13 +94,15 @@ var app = {
                 var entryObj = entryList[i];
                 var entryId = i + 1;
 
-                var htmlName = '<div class="ui-grid-c">';
+                var htmlName = '<div class="ui-grid-d">';
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
-                htmlName += '<div class="ui-block-c" style="text-align: left;width:40%"><small>' + entryObj.name + '</small></div>';
+                htmlName += '<div class="ui-block-c" style="text-align: left;width:30%"><small>' + entryObj.name + '</small></div>';
 
-                var totSt = Number(entryObj.amount).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<div class="ui-block-d" style="text-align: right;width:30%">' + totSt + '</div>';
+                var totSt = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                htmlName += '<div class="ui-block-d" style="text-align: right">' + totSt + '</div>';
+                totSt = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                htmlName += '<div class="ui-block-e" style="text-align: right">' + totSt + '</div>';
                 htmlName += '</div>';
                 htmlName += '<p>' + entryObj.comment;
                 $("#entryid").append('<li id="' + entryId + ' ">' + htmlName + '</li>');
@@ -260,6 +265,49 @@ var app = {
             }
         });
 
+
+        $("#depsubmit").click(function () {
+            var depamount = document.getElementById("depamount").value;
+            if (depamount === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
+            var deprate = document.getElementById("deprate").value;
+            if (deprate === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
+            var comment = document.getElementById("depcomm").value;
+            var payment = depamount;
+            ///cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment="
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+                        + "/accounting/deprecation?payment=" + payment + +"&rate=" + deprate + "&comment=" + comment,
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Accounting Update result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'reportObjStr': reportObjStr};
+
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmrp_1.html";
+            }
+        });
 
 // example        
 //alert("AJAX request successfully completed");
