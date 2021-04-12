@@ -754,19 +754,23 @@ public class BillingProcess {
         }
         AccReportObj reportObj = new AccReportObj();
 
-        long EndingYear = DateUtil.getFirstDayCurrentYear();
-        long BeginingYear = TimeConvertion.addMonths(EndingYear, 12);
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        long BeginingYear = DateUtil.getFirstDayCurrentYear();
+        long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
 
         if (lastYear > 0) {
             BeginingYear = TimeConvertion.addMonths(BeginingYear, -lastYear);
             EndingYear = TimeConvertion.addMonths(EndingYear, -lastYear);
         }
-        BeginingYear = TimeConvertion.addDays(EndingYear, -1);
+
+        EndingYear = TimeConvertion.addDays(EndingYear, -1);
+
         reportObj.setBeginl(BeginingYear);
         reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
         reportObj.setEndl(EndingYear);
         reportObj.setEnddisplay(new java.sql.Date(EndingYear));
 
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByNameType(name, ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
         if (billingObjList == null) {
             return reportObj;
@@ -793,22 +797,26 @@ public class BillingProcess {
         if (year != 0) {
             lastYear = year * 12;
         }
+
         AccReportObj reportObj = new AccReportObj();
 
-        long EndingYear = DateUtil.getFirstDayCurrentYear();
-        long BeginingYear = TimeConvertion.addMonths(EndingYear, 12);
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        long BeginingYear = DateUtil.getFirstDayCurrentYear();
+        long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
 
         if (lastYear > 0) {
             BeginingYear = TimeConvertion.addMonths(BeginingYear, -lastYear);
             EndingYear = TimeConvertion.addMonths(EndingYear, -lastYear);
         }
 
-        BeginingYear = TimeConvertion.addDays(EndingYear, -1);
+        EndingYear = TimeConvertion.addDays(EndingYear, -1);
+
         reportObj.setBeginl(BeginingYear);
         reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
         reportObj.setEndl(EndingYear);
         reportObj.setEnddisplay(new java.sql.Date(EndingYear));
 
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
         if (billingObjList == null) {
             return reportObj;
@@ -865,14 +873,14 @@ public class BillingProcess {
         accTotalEntryBal.add(accEntry);
 
         accEntry = new AccEntryObj();
-        accEntry.setId(INT_E_COST_SERVICE);        
+        accEntry.setId(INT_E_COST_SERVICE);
         accEntry.setDateSt(curDateSt);
         accEntry.setName(E_COST_SERVICE);
         accEntry.setAmount(costService);
         accTotalEntryBal.add(accEntry);
 
         accEntry = new AccEntryObj();
-        accEntry.setId(INT_E_USER_WITHDRAWAL);            
+        accEntry.setId(INT_E_USER_WITHDRAWAL);
         accEntry.setDateSt(curDateSt);
         accEntry.setName(E_USER_WITHDRAWAL);
         accEntry.setAmount(userWithDrawal);

@@ -524,30 +524,32 @@ public class AccountDB {
         sql = ServiceAFweb.getSQLLengh(sql, length);
         return getBillingBySQL(sql);
     }
+// begin 2021 01 01  (updatedatel)  end 2021 12 31
 
     public ArrayList<BillingObj> getAccountingByNameType(String name, int type, long begin, long end, int length) {
 
         String sql = "select * from billing where name='" + name + "' and type=" + type;
         if (begin != 0) {
-            sql += " and updatedatel<" + begin;
+            sql += " and updatedatel>" + begin;
         }
         if (end != 0) {
-            sql += " and updatedatel>" + end;
+            sql += " and updatedatel<" + end;
         }
 
         sql += " order by updatedatel desc";
         sql = ServiceAFweb.getSQLLengh(sql, length);
         return getBillingBySQL(sql);
     }
+// begin 2021 01 01  (updatedatel)  end 2021 12 31
 
     public ArrayList<BillingObj> getAccountingByTypeTime(int type, long begin, long end, int length) {
 
         String sql = "select * from billing where type=" + type;
         if (begin != 0) {
-            sql += " and updatedatel<" + begin;
+            sql += " and updatedatel>" + begin;
         }
         if (end != 0) {
-            sql += " and updatedatel>" + end;
+            sql += " and updatedatel<" + end;
         }
 
         sql += " order by updatedatel desc";

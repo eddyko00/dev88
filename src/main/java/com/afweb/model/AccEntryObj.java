@@ -99,5 +99,5 @@ public class AccEntryObj {
     private int type;
     private String name;
     private float amount;
-    private String comment;
+    private String comment="";
 }
