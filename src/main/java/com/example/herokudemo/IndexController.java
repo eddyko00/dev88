@@ -2082,7 +2082,7 @@ public class IndexController {
     AccEntryObj getUIAccountReportId(
             @PathVariable("username") String username,
             @PathVariable("custid") String custidSt,
-            @RequestParam(value = "id", required = false) String idSt,
+            @PathVariable("id") String idSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -2110,7 +2110,7 @@ public class IndexController {
     int removeUIAccountReportId(
             @PathVariable("username") String username,
             @PathVariable("custid") String custidSt,
-            @RequestParam(value = "id", required = false) String idSt,
+            @PathVariable("id") String idSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
