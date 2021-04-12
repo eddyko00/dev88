@@ -69,7 +69,7 @@ var app = {
         if (nomsg === true) {
             $("#msgheader").hide();
         } else {
-             $("#nomsgheader").hide();
+            $("#nomsgheader").hide();
         }
 
 
@@ -80,7 +80,7 @@ var app = {
         if (custObj.type == 99) {
             var htmlAdmin = '<br><br><button id="sysbtn" >System Status</button>';
             htmlAdmin += '<button id="admsgbtn" >Administration</button>';
-            htmlAdmin += '<button id="rptbtn" >Accounting Report</button>';            
+            htmlAdmin += '<button id="rptbtn" >Accounting Report</button>';
             $("#adminid").append(htmlAdmin);
         }
 
@@ -190,7 +190,7 @@ var app = {
             var accObj = null;
             for (i = 0; i < accObjList.length; i++) {
                 var accObjTmp = accObjList[i];
-                if (accObjTmp.type == 140) { 
+                if (accObjTmp.type == 140) {
                     accObj = accObjTmp;
                     break;
                 }
@@ -205,7 +205,7 @@ var app = {
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountadm_1.html";
         });
-        
+
 /////////////////
         $("#admclrbtn").click(function () {
 
@@ -214,7 +214,7 @@ var app = {
             var accObj = null;
             for (i = 0; i < accObjList.length; i++) {
                 var accObjTmp = accObjList[i];
-                if (accObjTmp.type == 140) { 
+                if (accObjTmp.type == 140) {
                     accObj = accObjTmp;
                     break;
                 }
@@ -319,11 +319,11 @@ var app = {
                 window.location.href = "#page-index";
             }
 
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr };
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'yearRpt': 0};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountadmrp_1.html";
         });
-        
+
 ///////////////////////
         function functionConfirm(msg, myYes, myNo, myOk) {
             var confirmBox = $("#confirm");

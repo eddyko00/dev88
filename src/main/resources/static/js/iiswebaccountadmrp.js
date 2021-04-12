@@ -42,11 +42,21 @@ var app = {
 
         var reportObjStr = iisWebObj.reportObjStr;
         var entryObjStr = iisWebObj.entryObjStr;
+
+        var yearRpt = 0;
+        if (iisWebObj.yearRpt != null) {
+            yearRpt = iisWebObj.yearRpt;
+        }
 ///////////////////////////
         $("#accheader").html("Accounting Report");
 
 
+        var htmltrHeader = "";
 
+        htmltrHeader += '<button type="submit" id="nextbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>next year</small></button>';
+        htmltrHeader += '<button type="submit" id="prevbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>prev year</small></button>';
+
+        $("#trheader").html(htmltrHeader);
 
         if (reportObjStr !== "") {
             var reportObj = JSON.parse(reportObjStr);
@@ -124,7 +134,7 @@ var app = {
 
             ///cust/{username}/uisys/{custid}/accounting/report?year=");
             $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?name=" + name,
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?name=" + name+"&year="+yearRpt,
                 crossDomain: true,
                 cache: false,
                 beforeSend: function () {
@@ -139,7 +149,7 @@ var app = {
 
                     var entryObjStr = JSON.stringify(resultRptObj, null, '\t');
                     var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                        'reportObjStr': reportObjStr, 'entryObjStr': entryObjStr};
+                        'reportObjStr': reportObjStr, 'entryObjStr': entryObjStr, 'yearRpt': yearRpt};
 
                     window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -181,7 +191,7 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -219,7 +229,7 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -257,7 +267,7 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -282,7 +292,7 @@ var app = {
             ///cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment="
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/deprecation?payment=" + payment + +"&rate=" + deprate + "&comment=" + comment,
+                        + "/accounting/deprecation?payment=" + payment + "&rate=" + deprate + "&comment=" + comment,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
@@ -301,12 +311,32 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
                 window.location.href = "accountadmrp_1.html";
             }
+        });
+
+        $("#nextbtn").click(function () {
+            yearRpt = 1;
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+            window.location.href = "accountadmrp_1.html";
+        });
+
+        $("#prevbtn").click(function () {
+            yearRpt = -1;
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+            window.location.href = "accountadmrp_1.html";
         });
 
 // example        
