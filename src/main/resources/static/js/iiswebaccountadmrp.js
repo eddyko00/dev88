@@ -45,19 +45,25 @@ var app = {
 ///////////////////////////
         $("#accheader").html("Accounting Report");
 
-        var htmlhead = '<div class="ui-grid-c">';
-        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
-        htmlhead += '<div class="ui-block-b" style="width:10%">Id</div>';
-        htmlhead += '<div class="ui-block-c" style="width:40%">Name</div>';
-        htmlhead += '<div class="ui-block-d" style="width:30%">Amount</div>';
-        htmlhead += '</div>';
 
-        $("#myid").html('<li id="0" >' + htmlhead + '</li>');
+
 
         if (reportObjStr !== "") {
             var reportObj = JSON.parse(reportObjStr);
             var entryList = reportObj.accTotalEntryBal;
+            var beginDate = reportObj.begindisplay;
+            var endDate = reportObj.enddisplay;
+            var rangeSt = 'Begin Date:' + beginDate + ' - ' + 'End Date:' + endDate;
+            $("#myid").html('<li ">' + rangeSt + '</li>');
 
+            var htmlhead = '<div class="ui-grid-c">';
+            htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
+            htmlhead += '<div class="ui-block-b" style="width:10%">Id</div>';
+            htmlhead += '<div class="ui-block-c" style="width:40%">Name</div>';
+            htmlhead += '<div class="ui-block-d" style="width:30%">Amount</div>';
+            htmlhead += '</div>';
+
+            $("#myid").append('<li id="0" >' + htmlhead + '</li>');
             for (i = 0; i < entryList.length; i++) {
                 var entryObj = entryList[i];
                 var entryId = i + 1;
