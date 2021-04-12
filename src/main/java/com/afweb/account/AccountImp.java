@@ -532,7 +532,7 @@ public class AccountImp {
     public ArrayList<BillingObj> getAccountingByNameType(String name, int type, long begin, long end) {
         return accountdb.getAccountingByNameType(name, type, begin, end, 0);
     }
-    
+
     public ArrayList<BillingObj> getAccountingByType(int type, long begin, long end) {
         return accountdb.getAccountingByTypeTime(type, begin, end, 0);
     }
@@ -1416,6 +1416,9 @@ public class AccountImp {
 
         billObj.setPayment(debit);
         billObj.setBalance(credit);
+        
+        float total = debit + credit;
+        data = "Total:" + total + " : " + data;
         data = StringTag.replaceAll("\"", "#", data);
         data = StringTag.replaceAll("'", "|", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
