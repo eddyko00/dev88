@@ -3108,6 +3108,49 @@ public class ServiceAFweb {
         return 0;
     }
 
+    public AccEntryObj getAccountingEntryByCustomerById(String EmailUserName, String Password, String idSt) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = getCustomerPassword(UserName, Password);
+            if (customer != null) {
+                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
+                    int id = Integer.parseInt(idSt);
+                    BillingProcess BP = new BillingProcess();
+                    AccEntryObj accEntry = BP.getAccountingEntryById(this, id);
+                    return accEntry;
+                }
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public int removeAccountingEntryById(String EmailUserName, String Password, String idSt) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = getCustomerPassword(UserName, Password);
+            if (customer != null) {
+                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
+                    int id = Integer.parseInt(idSt);
+                    BillingProcess BP = new BillingProcess();
+                    return BP.removeAccountingEntryById(this, id);
+                }
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

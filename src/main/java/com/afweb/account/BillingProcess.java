@@ -699,7 +699,9 @@ public class BillingProcess {
 
         return 0;
     }
-/////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
     public static String SYS_CASH = "CASH_ACC";  // checking cash account
     public static int INT_SYS_CASH = 10;
     public static String SYS_REVENUE = "R_REVENUE";
@@ -767,10 +769,10 @@ public class BillingProcess {
         }
         if (rate != 100) {
             int yearCnt = (int) (expense / rate);
-            
+
             /// Max 10 year
             if (yearCnt > 6) {
-                yearCnt=6;
+                yearCnt = 6;
             }
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long entrytime = dateNow.getTimeInMillis();
@@ -780,7 +782,7 @@ public class BillingProcess {
                     entrytime = TimeConvertion.addMonths(entrytime, 12);
                 }
                 if (i == yearCnt - 1) {
-                    exDeplication = expense - (expense * rate / 100) * (yearCnt-1);
+                    exDeplication = expense - (expense * rate / 100) * (yearCnt - 1);
                 }
                 result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, exDeplication, 0, data, entrytime);
 
@@ -810,6 +812,34 @@ public class BillingProcess {
 
         return result;
 
+    }
+
+    public int removeAccountingEntryById(ServiceAFweb serviceAFWeb, int id) {
+        return serviceAFWeb.getAccountImp().removeAccountingByTypeId(ConstantKey.INT_ACC_TRAN, id);
+    }
+
+    public AccEntryObj getAccountingEntryById(ServiceAFweb serviceAFWeb, int id) {
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByTypeId(ConstantKey.INT_ACC_TRAN, id);
+
+        if (billingObjList == null) {
+            return null;
+        }
+        if (billingObjList.size() > 0) {
+            BillingObj accTran = billingObjList.get(0);
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(accTran.getId());
+            String dateSt = accTran.getUpdatedatedisplay().toString();
+            accEntry.setDateSt(dateSt);
+            accEntry.setName(accTran.getName());
+            //        billObj.setPayment(debit);
+            //        billObj.setBalance(credit);
+            accEntry.setDebit(accTran.getPayment());
+            accEntry.setCredit(accTran.getBalance());
+            accEntry.setComment(accTran.getData());
+
+            return accEntry;
+        }
+        return null;
     }
 
     public AccReportObj getAccountReportYearByName(ServiceAFweb serviceAFWeb, String name, int year) {

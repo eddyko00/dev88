@@ -5,6 +5,7 @@
  */
 package com.afweb.account;
 
+import com.afweb.model.AccEntryObj;
 import com.afweb.model.ConstantKey;
 
 import com.afweb.model.account.*;
@@ -535,6 +536,14 @@ public class AccountImp {
 
     public ArrayList<BillingObj> getAccountingByType(int type, long begin, long end) {
         return accountdb.getAccountingByTypeTime(type, begin, end, 0);
+    }
+
+    public int removeAccountingByTypeId(int type, int id) {
+        return accountdb.removeAccountingByTypeId(type, id);
+    }
+
+    public ArrayList<BillingObj> getAccountingByTypeId(int type, int id) {
+        return accountdb.getAccountingByTypeId(type, id);
     }
 
     public ArrayList<BillingObj> getBillingByCustomerAccountID(String UserName, String Password, int accountID, int length) {
@@ -1410,7 +1419,7 @@ public class AccountImp {
         billObj.setName(name);
         billObj.setType(ConstantKey.INT_ACC_TRAN);
         billObj.setStatus(ConstantKey.INITIAL);
-        
+
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long entrytime = dateNow.getTimeInMillis();
         if (entryDatel > 0) {

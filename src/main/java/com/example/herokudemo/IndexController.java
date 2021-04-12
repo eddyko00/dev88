@@ -2095,9 +2095,9 @@ public class IndexController {
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-
+                    AccEntryObj accEntry = afWebService.getAccountingEntryByCustomerById(username, null, idSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return null;
+                    return accEntry;
                 }
             }
         }
@@ -2124,8 +2124,10 @@ public class IndexController {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                     ////////
+
+                    int ret = afWebService.removeAccountingEntryById(username, null, idSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return 1;
+                    return ret;
                 }
             }
         }
