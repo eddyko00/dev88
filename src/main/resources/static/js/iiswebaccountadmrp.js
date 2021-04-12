@@ -78,7 +78,22 @@ var app = {
                 var entryObj = entryList[i];
                 var entryId = i + 1;
 
+
                 var htmlName = '<div class="ui-grid-d">';
+                if (i == 0) {
+      
+                    htmlName += '<div class="ui-block-a" style="color:SteelBlue;width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
+                    htmlName += '<div class="ui-block-b" style="color:SteelBlue;text-align: center;width:10%">' + entryObj.id + '</div>';
+                    htmlName += '<div class="ui-block-c" style="color:SteelBlue;text-align: left;width:30%"><small>' + entryObj.name + '</small></div>';
+
+                    var totSt = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    htmlName += '<div class="ui-block-d" style="color:SteelBlue;text-align: right">' + totSt + '</div>';
+                    totSt = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    htmlName += '<div class="ui-block-e" style="color:SteelBlue;text-align: right">' + totSt + '</div>';
+                    htmlName += '</div>';
+                    $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
+                    continue;
+                }
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
                 htmlName += '<div class="ui-block-c" style="text-align: left;width:30%"><small>' + entryObj.name + '</small></div>';

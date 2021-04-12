@@ -65,11 +65,20 @@ var app = {
         $("#accheader").html('Account ' + accObj.accountname + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
         var htmlhead = '<div class="ui-grid-d">';
-        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym <small>' + trName + '</small></strong></div>';
-        htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
-        htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%">Trend</div>';
-        htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
-        htmlhead += '<div class="ui-block-e" style="text-align: right;width:20%">perf %</div>';
+        if (trName === "TR_ACC") {
+            htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym <small>' + trName + '</small></strong></div>';
+            htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
+            htmlhead += '<div class="ui-block-c" style="text-align: center;width:20%">Trend</div>';
+            htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
+            htmlhead += '<div class="ui-block-e" style="text-align: right;width:20%">perf %</div>';
+        } else {
+
+            htmlhead += '<div class="ui-block-a" style="color:SteelBlue;width:20%"><strong>Sym <small>' + trName + '</small></strong></div>';
+            htmlhead += '<div class="ui-block-b" style="color:SteelBlue;text-align: center;width:20%">Sig</div>';
+            htmlhead += '<div class="ui-block-c" style="color:SteelBlue;text-align: center;width:20%">Trend</div>';
+            htmlhead += '<div class="ui-block-d" style="color:SteelBlue;text-align: center;width:20%">Daily %</div>';
+            htmlhead += '<div class="ui-block-e" style="color:SteelBlue;text-align: right;width:20%">perf %</div>';
+        }
         htmlhead += '</div>';
         htmlhead += '</div>';
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -106,14 +115,14 @@ var app = {
                 preClose = stockObj.prevClose;
                 var percent = 100 * (close - preClose) / preClose;
                 percentSt = percent.toFixed(1); // close price '%';
-                
+
                 var perform = stockObj.perform;
                 perSt = perform.toFixed(0); // performance '%';                
                 if (perform != 0) {
                     if (perform < 10) {
                         if (perform > -10) {
-                             perSt = perform.toFixed(2);
-                             perSt = perSt.replace("0.00","0");
+                            perSt = perform.toFixed(2);
+                            perSt = perSt.replace("0.00", "0");
                         }
                     }
                 }
