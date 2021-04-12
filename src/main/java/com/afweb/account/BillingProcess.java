@@ -704,6 +704,8 @@ public class BillingProcess {
 
     public static String SYS_CASH = "CASH_ACC";  // checking cash account
     public static int INT_SYS_CASH = 10;
+    public static String SYS_TOTAL = "TOTAL";
+    public static int INT_SYS_TOTAL = 11;
     public static String SYS_REVENUE = "R_REVENUE";
     public static int INT_SYS_REVENUE = 20;
     public static String R_USER_PAYMENT = "R_USER_PAYMENT";
@@ -937,6 +939,10 @@ public class BillingProcess {
             accEntry.setName(allEntry[i]);
             accTotalEntryBal.add(accEntry);
         }
+        AccEntryObj accTotalEntry = new AccEntryObj();
+        accTotalEntry.setId(INT_SYS_TOTAL);
+        accTotalEntry.setDateSt(curDateSt);
+        accTotalEntry.setName(SYS_TOTAL);
 
         for (int i = 0; i < billingObjList.size(); i++) {
             BillingObj accTran = billingObjList.get(i);
@@ -948,10 +954,17 @@ public class BillingProcess {
                     //        billObj.setBalance(credit);
                     accEntryT.setDebit(accEntryT.getDebit() + accTran.getPayment());
                     accEntryT.setCredit(accEntryT.getCredit() + accTran.getBalance());
+
+                    if (accEntryT.getName().equals(SYS_CASH)) {
+                        continue;
+                    }
+                    accTotalEntry.setDebit(accTotalEntry.getDebit() + accTran.getPayment());
+                    accTotalEntry.setCredit(accTotalEntry.getCredit() + accTran.getBalance());
+
                 }
             }
         }
-
+        accTotalEntryBal.add(accTotalEntry);
         reportObj.setAccTotalEntryBal(accTotalEntryBal);
 
         return reportObj;
