@@ -940,8 +940,8 @@ public class BillingProcess {
                 if (accEntryT.getName().equals(accTran.getName())) {
                     //        billObj.setPayment(debit);
                     //        billObj.setBalance(credit);
-                    accEntryT.setDebit(accTran.getPayment());
-                    accEntryT.setCredit(accTran.getBalance());
+                    accEntryT.setDebit(accEntryT.getDebit() + accTran.getPayment());
+                    accEntryT.setCredit(accEntryT.getCredit() + accTran.getBalance());
                 }
             }
         }

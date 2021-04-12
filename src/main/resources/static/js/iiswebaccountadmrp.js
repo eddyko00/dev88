@@ -52,18 +52,17 @@ var app = {
 
 
         var htmltrHeader = "";
-
-        htmltrHeader += '<button type="submit" id="nextbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>next year</small></button>';
         htmltrHeader += '<button type="submit" id="prevbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>prev year</small></button>';
-
+        htmltrHeader += '<button type="submit" id="nextbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>next year</small></button>';
         $("#trheader").html(htmltrHeader);
+
 
         if (reportObjStr !== "") {
             var reportObj = JSON.parse(reportObjStr);
             var entryList = reportObj.accTotalEntryBal;
             var beginDate = reportObj.begindisplay;
             var endDate = reportObj.enddisplay;
-            var rangeSt = 'Begin Date:' + beginDate + ' - ' + 'End Date:' + endDate;
+            var rangeSt = 'Yr:' + yearRpt + ' Date:' + beginDate + ' - ' + ':' + endDate;
             $("#myid").html('<li ">' + rangeSt + '</li>');
 
             var htmlhead = '<div class="ui-grid-d">';
@@ -134,7 +133,7 @@ var app = {
 
             ///cust/{username}/uisys/{custid}/accounting/report?year=");
             $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?name=" + name+"&year="+yearRpt,
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?name=" + name + "&year=" + yearRpt,
                 crossDomain: true,
                 cache: false,
                 beforeSend: function () {
@@ -320,7 +319,7 @@ var app = {
         });
 
         $("#nextbtn").click(function () {
-            yearRpt = 1;
+            yearRpt = yearRpt + 1;
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
                 'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
 
@@ -330,7 +329,7 @@ var app = {
         });
 
         $("#prevbtn").click(function () {
-            yearRpt = -1;
+            yearRpt = yearRpt - 1;
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
                 'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
 
