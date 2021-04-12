@@ -58,9 +58,9 @@ var app = {
 
             var htmlhead = '<div class="ui-grid-c">';
             htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
-            htmlhead += '<div class="ui-block-b" style="width:10%">Id</div>';
-            htmlhead += '<div class="ui-block-c" style="width:40%">Name</div>';
-            htmlhead += '<div class="ui-block-d" style="width:30%">Amount</div>';
+            htmlhead += '<div class="ui-block-b" style="text-align: center;width:10%">Id</div>';
+            htmlhead += '<div class="ui-block-c" style="text-align: left;width:40%">Name</div>';
+            htmlhead += '<div class="ui-block-d" style="text-align: right;width:30%">Amount</div>';
             htmlhead += '</div>';
 
             $("#myid").append('<li id="0" >' + htmlhead + '</li>');
@@ -70,11 +70,11 @@ var app = {
 
                 var htmlName = '<div class="ui-grid-c">';
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="width:10%">' + entryObj.id + '</div>';
-                htmlName += '<div class="ui-block-c" style="width:40%">' + entryObj.name + '</div>';
+                htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
+                htmlName += '<div class="ui-block-c" style="text-align: left;width:40%"><small>' + entryObj.name + '</small></div>';
 
                 var totSt = Number(entryObj.amount).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<div class="ui-block-d" style="width:30%">' + totSt + '</div>';
+                htmlName += '<div class="ui-block-d" style="text-align: right;width:30%">' + totSt + '</div>';
                 htmlName += '</div>';
                 $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
             }
@@ -93,12 +93,13 @@ var app = {
 
                 var htmlName = '<div class="ui-grid-c">';
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
-                htmlName += '<div class="ui-block-b" style="width:10%">' + entryObj.id + '</div>';
-                htmlName += '<div class="ui-block-c" style="width:40%">' + entryObj.name + '</div>';
+                htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
+                htmlName += '<div class="ui-block-c" style="text-align: left;width:40%"><small>' + entryObj.name + '</small></div>';
 
                 var totSt = Number(entryObj.amount).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<div class="ui-block-d" style="width:30%">' + totSt + '</div>';
+                htmlName += '<div class="ui-block-d" style="text-align: right;width:30%">' + totSt + '</div>';
                 htmlName += '</div>';
+                htmlName += '<p>' + entryObj.comment;
                 $("#entryid").append('<li id="' + entryId + ' ">' + htmlName + '</li>');
             }
         }
