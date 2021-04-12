@@ -768,7 +768,7 @@ public class BillingProcess {
             rate = 100;
         }
         if (rate != 100) {
-            int yearCnt = (int) (expense / rate);
+            int yearCnt = (int) (100 / rate);
 
             /// Max 10 year
             if (yearCnt > 5) {
