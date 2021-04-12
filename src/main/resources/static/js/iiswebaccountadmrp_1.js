@@ -58,7 +58,7 @@ var app = {
 
                 var reportObjStr = JSON.stringify(resultRptObj, null, '\t');
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr};
+                    'reportObjStr': reportObjStr, 'entryObjStr': ""};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 

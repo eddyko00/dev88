@@ -40,17 +40,16 @@ var app = {
             window.location.href = "index.html";
         }
 
-
         var reportObjStr = iisWebObj.reportObjStr;
-
+        var entryObjStr = iisWebObj.entryObjStr;
+///////////////////////////
         $("#accheader").html("Accounting Report");
 
-
-        $("#commid").html(" "); //clear the field
-        var htmlhead = '<div class="ui-grid-b">';
-        htmlhead += '<div class="ui-block-a" style="width:30%"><strong>Date</strong></div>';
-        htmlhead += '<div class="ui-block-b" >Name</div>';
-        htmlhead += '<div class="ui-block-c" >Amount</div>';
+        var htmlhead = '<div class="ui-grid-c">';
+        htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
+        htmlhead += '<div class="ui-block-b" style="width:10%">Id</div>';
+        htmlhead += '<div class="ui-block-c" style="width:40%">Name</div>';
+        htmlhead += '<div class="ui-block-d" style="width:30%">Amount</div>';
         htmlhead += '</div>';
 
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
@@ -63,17 +62,40 @@ var app = {
                 var entryObj = entryList[i];
                 var entryId = i + 1;
 
-                var htmlName = '<div class="ui-grid-b">';
-                htmlName += '<div class="ui-block-a" style="width:30%"><strong>' + entryObj.dateSt + '</strong></div>';
-                htmlName += '<div class="ui-block-b" >' + entryObj.name + '</div>';
-                htmlName += '<div class="ui-block-c" >' + entryObj.amount + '</div>';
-                htmlName += '</div>';
-                $("#myid").append('<li id="' + entryId + '" >' + htmlName + '</li>');
+                var htmlName = '<div class="ui-grid-c">';
+                htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
+                htmlName += '<div class="ui-block-b" style="width:10%">' + entryObj.id + '</div>';
+                htmlName += '<div class="ui-block-c" style="width:40%">' + entryObj.name + '</div>';
 
+                var totSt = Number(entryObj.amount).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                htmlName += '<div class="ui-block-d" style="width:30%">' + totSt + '</div>';
+                htmlName += '</div>';
+                $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
             }
         }
 
+        htmlhead = 'Accounting Entry Listing';
+        $("#entryid").html('<li id="0" >' + htmlhead + '</li>');
 
+        if (entryObjStr !== "") {
+            var entryObjList = JSON.parse(entryObjStr);
+            var entryList = entryObjList.accEntryBal;
+
+            for (i = 0; i < entryList.length; i++) {
+                var entryObj = entryList[i];
+                var entryId = i + 1;
+
+                var htmlName = '<div class="ui-grid-c">';
+                htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
+                htmlName += '<div class="ui-block-b" style="width:10%">' + entryObj.id + '</div>';
+                htmlName += '<div class="ui-block-c" style="width:40%">' + entryObj.name + '</div>';
+
+                var totSt = Number(entryObj.amount).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                htmlName += '<div class="ui-block-d" style="width:30%">' + totSt + '</div>';
+                htmlName += '</div>';
+                $("#entryid").append('<li id="' + entryId + ' ">' + htmlName + '</li>');
+            }
+        }
 
         $("ul[id*=myid] li").click(function () {
 //            alert($(this).html()); // gets innerHTML of clicked li
@@ -84,8 +106,34 @@ var app = {
 //                alert(accId);
                 return;
             }
+            var entryList = reportObj.accTotalEntryBal;
+            var entryObj = entryList[Id - 1];
+            var name = entryObj.name;
 
-            return;
+            ///cust/{username}/uisys/{custid}/accounting/report?year=");
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?name=" + name,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {
+                    $("#loader").show();
+                },
+                error: function () {
+                    alert('Network failure. Please try again later.');
+                    window.location.href = "index.html";
+                },
+                success: function (resultRptObj) {
+                    console.log(resultRptObj);
+
+                    var entryObjStr = JSON.stringify(resultRptObj, null, '\t');
+                    var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                        'reportObjStr': reportObjStr, 'entryObjStr': entryObjStr};
+
+                    window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                    window.location.href = "accountadmrp.html";
+                }
+            });
 
         });
 
@@ -166,7 +214,7 @@ var app = {
                 window.location.href = "accountadmrp_1.html";
             }
         });
-        
+
         $("#revsubmit").click(function () {
             var revamount = document.getElementById("revamount").value;
             if (revamount === "") {

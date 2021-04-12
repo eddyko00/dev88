@@ -819,7 +819,7 @@ public class BillingProcess {
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
         if (billingObjList == null) {
-            return reportObj;
+            billingObjList = new ArrayList();
         }
         float expense = 0;
         float revenue = 0;
