@@ -5343,6 +5343,82 @@ public class ServiceAFweb {
         return getStockImp().updateStockInfoTransaction(stockInfoTran);
     }
 
+    public int updateAccountingExDeprecation(String customername, String paymentSt, String rateSt, String reasonSt, String commentSt) {
+        ServiceAFweb.lastfun = "updateAccountingExDeprecation";
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        customername = customername.toUpperCase();
+        NameObj nameObj = new NameObj(customername);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+            if (customer == null) {
+                return 0;
+            }
+            String comment = "";
+            if (commentSt != null) {
+                comment = commentSt;
+            }
+            BillingProcess BP = new BillingProcess();
+            float payment = 0;
+            String commSt = "";
+            int ret = 0;
+            if (paymentSt != null) {
+                if (!paymentSt.equals("")) {
+                    payment = Float.parseFloat(paymentSt);
+                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+                    String currency = formatter.format(payment);
+                    commSt += "System expense change " + currency;
+
+                    String entryName = BillingProcess.E_DEPRECATE;
+                    if (reasonSt != null) {
+                        if (reasonSt.length() > 0) {
+                            entryName = reasonSt;
+                        }
+                    }
+                    if (comment.length() > 0) {
+                        commSt = comment;
+                    }
+                    float rate = 50;
+                    if (rateSt != null) {
+                        if (rateSt.length() > 0) {
+                            try {
+                                rate = Float.parseFloat(rateSt);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+
+                    BP.insertAccountExDeprecation(this, customer, entryName, payment, rate, commSt);
+                    ret = 1;
+                }
+            }
+
+            if (ret == 1) {
+                String tzid = "America/New_York"; //EDT
+                TimeZone tz = TimeZone.getTimeZone(tzid);
+                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                DateFormat format = new SimpleDateFormat(" hh:mm a");
+                format.setTimeZone(tz);
+                String ESTtime = format.format(d);
+
+                String msg = ESTtime + " " + commSt;
+
+                AccountObj accountAdminObj = getAdminObjFromCache();
+                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+
+            }
+            return ret;
+
+        } catch (Exception e) {
+
+        }
+        return 0;
+    }
+
     public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt, String reasonSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
         if (getServerObj().isSysMaintenance() == true) {

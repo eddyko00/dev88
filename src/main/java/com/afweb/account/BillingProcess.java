@@ -700,16 +700,28 @@ public class BillingProcess {
         return 0;
     }
 /////////////////////////////////////////////
-    public static String SYS_EXPENSE = "EXPENSE";
-    public static int INT_SYS_EXPENSE = 20;
-    public static String SYS_REVENUE = "REVENUE";
-    public static int INT_SYS_REVENUE = 40;
-    public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
-    public static int INT_E_USER_WITHDRAWAL = 21;
-    public static String E_COST_SERVICE = "E_COST_SERVICE";
-    public static int INT_E_COST_SERVICE = 22;
+    public static String SYS_CASH = "CASH_ACC";  // checking cash account
+    public static int INT_SYS_CASH = 10;
+    public static String SYS_REVENUE = "R_REVENUE";
+    public static int INT_SYS_REVENUE = 20;
     public static String R_USER_PAYMENT = "R_USER_PAYMENT";
     public static int INT_R_USER_PAYMENT = 22;
+    public static String SYS_EXPENSE = "E_EXPENSE";
+    public static int INT_SYS_EXPENSE = 40;
+    public static String E_COST_SERVICE = "E_COST_SERVICE";
+    public static int INT_E_COST_SERVICE = 42;
+    public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
+    public static int INT_E_USER_WITHDRAWAL = 44;
+
+    public static String E_DEPRECATE = "E_DEPRECATE";
+    public static int INT_E_DEPRECATE = 46;
+    public static String E_TAX = "E_TAX";
+    public static int INT_E_TAX = 48;
+
+    public static String allEntry[] = {SYS_CASH, SYS_REVENUE, SYS_EXPENSE, R_USER_PAYMENT,
+        E_COST_SERVICE, E_USER_WITHDRAWAL, E_DEPRECATE, E_TAX};
+    public static int allEntryId[] = {INT_SYS_CASH, INT_SYS_REVENUE, INT_SYS_EXPENSE, INT_R_USER_PAYMENT,
+        INT_E_COST_SERVICE, INT_E_USER_WITHDRAWAL, INT_E_DEPRECATE, INT_E_TAX};
 
     public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
 //        if (customer != null) {
@@ -725,6 +737,32 @@ public class BillingProcess {
 //        billObj.setPayment(debit);
 //        billObj.setBalance(credit);
         int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data);
+
+        return result;
+
+    }
+
+    public int insertAccountExDeprecation(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, float rate, String data) {
+//        if (customer != null) {
+//            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
+//            if (byPassPayment == true) {
+//                return 0;
+//            }
+//        }
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        if (name.length() == 0) {
+            name = SYS_EXPENSE;
+        }
+//        billObj.setPayment(debit);
+//        billObj.setBalance(credit);
+        /////////////////////////
+        // need to create multiple entry for deplication
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data);
+        ////////////////////////
+        // Cach is one time only
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data);
+
         return result;
 
     }
@@ -743,6 +781,8 @@ public class BillingProcess {
 //        billObj.setPayment(debit);
 //        billObj.setBalance(credit);        
         int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, 0, revenue, data);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, 0, revenue, data);
+
         return result;
 
     }
@@ -784,7 +824,10 @@ public class BillingProcess {
             String dateSt = accTran.getUpdatedatedisplay().toString();
             accEntry.setDateSt(dateSt);
             accEntry.setName(accTran.getName());
-            accEntry.setAmount(accTran.getBalance() + accTran.getPayment());
+            //        billObj.setPayment(debit);
+            //        billObj.setBalance(credit);
+            accEntry.setDebit(accTran.getPayment());
+            accEntry.setCredit(accTran.getBalance());
             accEntry.setComment(accTran.getData());
             accTotalEntryBal.add(accEntry);
         }
@@ -821,70 +864,32 @@ public class BillingProcess {
         if (billingObjList == null) {
             billingObjList = new ArrayList();
         }
-        float expense = 0;
-        float revenue = 0;
-        float userWithDrawal = 0;
-        float costService = 0;
-        float user_payment = 0;
-
-        for (int i = 0; i < billingObjList.size(); i++) {
-            BillingObj accTran = billingObjList.get(i);
-            if (accTran.getName().equals(SYS_EXPENSE)) {
-                expense += accTran.getPayment();
-            } else if (accTran.getName().equals(E_USER_WITHDRAWAL)) {
-                userWithDrawal += accTran.getPayment();
-            } else if (accTran.getName().equals(E_COST_SERVICE)) {
-                costService += accTran.getPayment();
-////////////
-            } else if (accTran.getName().equals(R_USER_PAYMENT)) {
-                user_payment += accTran.getBalance();
-            } else if (accTran.getName().equals(SYS_REVENUE)) {
-                revenue += accTran.getBalance();
-            }
-        }
+        ArrayList<AccEntryObj> accTotalEntryBal = new ArrayList();
 
         Date curDate = new java.sql.Date(TimeConvertion.currentTimeMillis());
         String curDateSt = curDate.toString();
 
-        revenue = revenue + user_payment;
-        expense = expense + userWithDrawal + costService;
+        for (int i = 0; i < allEntry.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(allEntryId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(allEntry[i]);
+            accTotalEntryBal.add(accEntry);
+        }
 
-        ArrayList accTotalEntryBal = new ArrayList();
+        for (int i = 0; i < billingObjList.size(); i++) {
+            BillingObj accTran = billingObjList.get(i);
 
-        AccEntryObj accEntry = new AccEntryObj();
-        accEntry.setId(INT_SYS_REVENUE);
-        accEntry.setDateSt(curDateSt);
-        accEntry.setName(SYS_REVENUE);
-        accEntry.setAmount(revenue);
-        accTotalEntryBal.add(accEntry);
-
-        accEntry = new AccEntryObj();
-        accEntry.setId(INT_SYS_EXPENSE);
-        accEntry.setDateSt(curDateSt);
-        accEntry.setName(SYS_EXPENSE);
-        accEntry.setAmount(expense);
-        accTotalEntryBal.add(accEntry);
-
-        accEntry = new AccEntryObj();
-        accEntry.setId(INT_R_USER_PAYMENT);
-        accEntry.setDateSt(curDateSt);
-        accEntry.setName(R_USER_PAYMENT);
-        accEntry.setAmount(user_payment);
-        accTotalEntryBal.add(accEntry);
-
-        accEntry = new AccEntryObj();
-        accEntry.setId(INT_E_COST_SERVICE);
-        accEntry.setDateSt(curDateSt);
-        accEntry.setName(E_COST_SERVICE);
-        accEntry.setAmount(costService);
-        accTotalEntryBal.add(accEntry);
-
-        accEntry = new AccEntryObj();
-        accEntry.setId(INT_E_USER_WITHDRAWAL);
-        accEntry.setDateSt(curDateSt);
-        accEntry.setName(E_USER_WITHDRAWAL);
-        accEntry.setAmount(userWithDrawal);
-        accTotalEntryBal.add(accEntry);
+            for (int j = 0; j < accTotalEntryBal.size(); j++) {
+                AccEntryObj accEntryT = accTotalEntryBal.get(j);
+                if (accEntryT.getName().equals(accTran.getName())) {
+                    //        billObj.setPayment(debit);
+                    //        billObj.setBalance(credit);
+                    accEntryT.setDebit(accTran.getPayment());
+                    accEntryT.setCredit(accTran.getBalance());
+                }
+            }
+        }
 
         reportObj.setAccTotalEntryBal(accTotalEntryBal);
 

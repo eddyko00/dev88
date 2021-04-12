@@ -12,6 +12,34 @@ package com.afweb.model;
 public class AccEntryObj {
 
     /**
+     * @return the debit
+     */
+    public float getDebit() {
+        return debit;
+    }
+
+    /**
+     * @param debit the debit to set
+     */
+    public void setDebit(float debit) {
+        this.debit = debit;
+    }
+
+    /**
+     * @return the credit
+     */
+    public float getCredit() {
+        return credit;
+    }
+
+    /**
+     * @param credit the credit to set
+     */
+    public void setCredit(float credit) {
+        this.credit = credit;
+    }
+
+    /**
      * @return the id
      */
     public int getId() {
@@ -54,20 +82,6 @@ public class AccEntryObj {
     }
 
     /**
-     * @return the amount
-     */
-    public float getAmount() {
-        return amount;
-    }
-
-    /**
-     * @param amount the amount to set
-     */
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
-
-    /**
      * @return the comment
      */
     public String getComment() {
@@ -98,6 +112,10 @@ public class AccEntryObj {
     private String dateSt;
     private int type;
     private String name;
-    private float amount;
-    private String comment="";
+    //        billObj.setPayment(debit);
+    //        billObj.setBalance(credit);
+    
+    private float debit=0;
+    private float credit=0;    
+    private String comment = "";
 }
