@@ -1431,7 +1431,7 @@ public class AccountImp {
         billObj.setPayment(debit);
         billObj.setBalance(credit);
 
-        data = "Amt debit:" + debit + " credit:" + credit + " ";
+        data = "Amt debit:" + debit + " credit:" + credit + " " + data;
         data = StringTag.replaceAll("\"", "#", data);
         data = StringTag.replaceAll("'", "|", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
