@@ -771,21 +771,27 @@ public class BillingProcess {
             int yearCnt = (int) (expense / rate);
 
             /// Max 10 year
-            if (yearCnt > 6) {
-                yearCnt = 6;
+            if (yearCnt > 5) {
+                yearCnt = 5;
             }
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long entrytime = dateNow.getTimeInMillis();
+            float remainExpense = expense;
             for (int i = 0; i < yearCnt; i++) {
                 float exDeplication = expense * rate / 100;
                 if (i > 0) {
                     entrytime = TimeConvertion.addMonths(entrytime, 12);
                 }
-                if (i == yearCnt - 1) {
-                    exDeplication = expense - (expense * rate / 100) * (yearCnt - 1);
-                }
-                result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, exDeplication, 0, data, entrytime);
 
+                if (i == (yearCnt - 1)) {
+                    exDeplication = remainExpense;
+                }
+
+                result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, exDeplication, 0, data, entrytime);
+                remainExpense = remainExpense - exDeplication;
+                if (remainExpense < 0) {
+                    break;
+                }
             }
         } else {
             result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
