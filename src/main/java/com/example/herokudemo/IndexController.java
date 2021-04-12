@@ -118,8 +118,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{enid}");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{enid}/remove");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
 
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
@@ -2076,8 +2076,8 @@ public class IndexController {
         return null;
     }
 
-    //("/cust/{username}/uisys/{custid}/accounting/entry/{enid}");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{enid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     AccEntryObj getUIAccountReportId(
             @PathVariable("username") String username,
@@ -2104,8 +2104,8 @@ public class IndexController {
         return null;
     }
 
-    //("/cust/{username}/uisys/{custid}/accounting/entry/{enid}/remove");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{enid}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int removeUIAccountReportId(
             @PathVariable("username") String username,
