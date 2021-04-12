@@ -1400,7 +1400,7 @@ public class AccountImp {
     }
 
 ///////
-    public int addAccountingEntry(String name, AccountObj accountObj, float debit, float credit, String data) {
+    public int addAccountingEntry(String name, AccountObj accountObj, float debit, float credit, String data, long entryDatel) {
         if (accountObj == null) {
             return -1;
         }
@@ -1410,9 +1410,14 @@ public class AccountImp {
         billObj.setName(name);
         billObj.setType(ConstantKey.INT_ACC_TRAN);
         billObj.setStatus(ConstantKey.INITIAL);
+        
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        billObj.setUpdatedatel(dateNow.getTimeInMillis());
-        billObj.setUpdatedatedisplay(new java.sql.Date(dateNow.getTimeInMillis()));
+        long entrytime = dateNow.getTimeInMillis();
+        if (entryDatel > 0) {
+            entrytime = entryDatel;
+        }
+        billObj.setUpdatedatel(entrytime);
+        billObj.setUpdatedatedisplay(new java.sql.Date(entrytime));
 
         billObj.setPayment(debit);
         billObj.setBalance(credit);

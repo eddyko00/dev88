@@ -736,8 +736,8 @@ public class BillingProcess {
         }
 //        billObj.setPayment(debit);
 //        billObj.setBalance(credit);
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data);
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data, 0);
 
         return result;
 
@@ -756,13 +756,33 @@ public class BillingProcess {
         }
 //        billObj.setPayment(debit);
 //        billObj.setBalance(credit);
+
+        // Cach is one time only
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data, 0);
         /////////////////////////
         // need to create multiple entry for deplication
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data);
-        ////////////////////////
-        // Cach is one time only
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data);
+        ////////////////////////        
+        if (rate == 0) {
+            rate = 100;
+        }
+        if (rate != 100) {
+            int yearCnt = (int) (expense / rate);
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            long entrytime = dateNow.getTimeInMillis();
+            for (int i = 0; i < yearCnt; i++) {
+                float exDeplication = expense * rate / 100;
+                if (i > 0) {
+                    entrytime = TimeConvertion.addMonths(entrytime, 12);
+                }
+                if (i == yearCnt - 1) {
+                    exDeplication = expense - (expense * rate / 100) * (yearCnt-1);
+                }
+                result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, exDeplication, 0, data, entrytime);
 
+            }
+        } else {
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
+        }
         return result;
 
     }
@@ -780,8 +800,8 @@ public class BillingProcess {
         }
 //        billObj.setPayment(debit);
 //        billObj.setBalance(credit);        
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, 0, revenue, data);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, 0, revenue, data);
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, 0, revenue, data, 0);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, 0, revenue, data, 0);
 
         return result;
 
@@ -798,9 +818,9 @@ public class BillingProcess {
         long BeginingYear = DateUtil.getFirstDayCurrentYear();
         long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
 
-        if (lastYear > 0) {
-            BeginingYear = TimeConvertion.addMonths(BeginingYear, -lastYear);
-            EndingYear = TimeConvertion.addMonths(EndingYear, -lastYear);
+        if (lastYear != 0) {
+            BeginingYear = TimeConvertion.addMonths(BeginingYear, lastYear);
+            EndingYear = TimeConvertion.addMonths(EndingYear, lastYear);
         }
 
         EndingYear = TimeConvertion.addDays(EndingYear, -1);
@@ -847,9 +867,9 @@ public class BillingProcess {
         long BeginingYear = DateUtil.getFirstDayCurrentYear();
         long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
 
-        if (lastYear > 0) {
-            BeginingYear = TimeConvertion.addMonths(BeginingYear, -lastYear);
-            EndingYear = TimeConvertion.addMonths(EndingYear, -lastYear);
+        if (lastYear != 0) {
+            BeginingYear = TimeConvertion.addMonths(BeginingYear, lastYear);
+            EndingYear = TimeConvertion.addMonths(EndingYear, lastYear);
         }
 
         EndingYear = TimeConvertion.addDays(EndingYear, -1);
