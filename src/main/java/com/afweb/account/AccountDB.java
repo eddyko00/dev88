@@ -557,8 +557,7 @@ public class AccountDB {
         return getBillingBySQL(sql);
     }
 
-    
-  public int removeAccountingByTypeId(int type, int id) {
+    public int removeAccountingByTypeId(int type, int id) {
         try {
             String deleteSQL = "delete from billing where type=" + type + " and id=" + id;
             processExecuteDB(deleteSQL);
@@ -568,7 +567,7 @@ public class AccountDB {
         }
         return 0;
     }
-    
+
     ArrayList<BillingObj> getAccountingByTypeId(int type, int id) {
         String sql = "select * from billing where type=" + type + " and id=" + id;
         sql += " order by updatedatel";
