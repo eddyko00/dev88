@@ -376,7 +376,10 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
+                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");                
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
+                displayStr += "\r\n" + (">>>>> System mydebugnewtest:" + ServiceAFweb.mydebugnewtest);
+               
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + dbStr;
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
