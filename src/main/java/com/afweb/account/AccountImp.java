@@ -19,11 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;

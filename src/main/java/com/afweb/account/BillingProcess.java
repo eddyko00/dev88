@@ -747,13 +747,48 @@ public class BillingProcess {
 
     }
 
+    public int insertAccountingExCostofGS(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, int curYear, String data) {
+
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        if (name.length() == 0) {
+            name = SYS_EXPENSE;
+        }
+//        billObj.setPayment(debit);
+//        billObj.setBalance(credit);
+
+        // Cach is one time only
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data, 0);
+
+        /////////////////////////
+        // need to create multiple entry for cur year and next year
+        ////////////////////////        
+        if (curYear == 0) {
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
+            return result;
+        }
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long entrytime = dateNow.getTimeInMillis();
+        float remainExpense = expense;
+        Date dateSt = new Date(entrytime);
+        String DepSt = "CostofGS " + expense + " for 1 year from " + dateSt.toString() + ". ";
+        data = DepSt + data;
+
+        int monNum = TimeConvertion.getMonthNum(entrytime);
+        if (monNum >= 11) {
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
+            return result;
+        }
+        int remMonNum = 11 - monNum;
+        float curExpense = (expense / 12) * remMonNum;
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, curExpense, 0, data, entrytime);
+        remainExpense = expense - curExpense;
+        entrytime = TimeConvertion.addMonths(entrytime, 12);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, remainExpense, 0, data, entrytime);
+        return result;
+    }
+
     public int insertAccountExDeprecation(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, float rate, String data) {
-//        if (customer != null) {
-//            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
-//            if (byPassPayment == true) {
-//                return 0;
-//            }
-//        }
+
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (name.length() == 0) {
             name = SYS_EXPENSE;

@@ -585,6 +585,14 @@ public class TimeConvertion {
         return getMonth(date, -1);
     }
 
+    public static int getMonthNum(long date) {
+        Calendar calendar = getCalendar();
+        synchronized (calendar) {
+            calendar.setTimeInMillis(date);
+            return calendar.get(Calendar.MONTH);
+        }
+    }
+
     /**
      * Returns the date corresponding to the end of the month.
      *

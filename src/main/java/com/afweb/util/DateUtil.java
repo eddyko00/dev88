@@ -36,7 +36,7 @@ public class DateUtil {
 //        System.out.println(now.getHour());
         return now.getHour();
     }
-
+ 
     public static boolean isMarketOpen() {
         int hr = getHourNow();
         int dayOfW = getDateOfWeekNow();
