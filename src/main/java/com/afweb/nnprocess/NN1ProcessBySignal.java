@@ -940,7 +940,7 @@ public class NN1ProcessBySignal {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         if (ServiceAFweb.mydebugnewtest == true) {
             TradingNNData nndata = new TradingNNData();
-            nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
+            nndata.getNNOtherDataDB(serviceAFWeb, nnName, inputlist);
             return inputlist;
         }
 

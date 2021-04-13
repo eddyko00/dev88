@@ -456,8 +456,8 @@ public class NN2ProcessBySignal {
                     inputlist.add(inputObj);
                 }
             }
+            
             if (ServiceAFweb.mydebugnewtest == true) {
-
                 inputDatalist = GetNN2InputOtherfromDB(serviceAFWeb, "", subSymbol, nnName);
 
                 if (inputDatalist != null) {
@@ -537,7 +537,6 @@ public class NN2ProcessBySignal {
 
     public ArrayList<NNInputDataObj> GetNN2InputBasefromDB(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
 
-        StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
 
         TradingNNData nndata = new TradingNNData();
@@ -550,7 +549,7 @@ public class NN2ProcessBySignal {
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
         if (ServiceAFweb.mydebugnewtest == true) {
             TradingNNData nndata = new TradingNNData();
-            nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
+            nndata.getNNOtherDataDB(serviceAFWeb, nnName, inputlist);
             return inputlist;
         }
 
