@@ -2679,7 +2679,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        return getStockImp().getNeuralNetDataObj(BPnameTR);
+        return getStockImp().getNeuralNetDataObj(BPnameTR, 0);
     }
 
     public ArrayList<AFneuralNetData> SystemNeuralNetDataObjStockid(String BPname, int stockId, long updatedatel) {
@@ -5455,7 +5455,6 @@ public class ServiceAFweb {
         return 0;
     }
 
-    
     public int updateAccountingExDeprecation(String customername, String paymentSt, String rateSt, String reasonSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingExDeprecation";
         if (getServerObj().isSysMaintenance() == true) {
@@ -6278,7 +6277,7 @@ public class ServiceAFweb {
 
                     try {
                         String BPname = sqlObj.getReq();
-                        ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname);
+                        ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname,0);
                         nameST = new ObjectMapper().writeValueAsString(retArray);
                         sqlObj.setResp("" + nameST);
 
