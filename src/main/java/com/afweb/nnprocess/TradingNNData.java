@@ -95,17 +95,30 @@ public class TradingNNData {
         return 0;
     }
 
-    
     public int getNNOtherDataDB(ServiceAFweb serviceAFWeb, String nnName, ArrayList<NNInputDataObj> inputlist) {
-        return 0;
+        String symbol = "";
+        String symbolL[] = ServiceAFweb.primaryStock;
+        for (int i = 0; i < symbolL.length; i++) {
+            symbol = symbolL[i];
+
+            ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
+            int ret = this.getNNOtherDataDBProcess(serviceAFWeb, nnName, symbol, inputlistSym, 4);
+
+            if (ret == 1) {
+                inputlist.addAll(inputlistSym);
+            }
+        }
+        return 1;
+
     }
-    
-    private int getNNOtherDataDBProcess(ServiceAFweb serviceAFWeb, String nnName, ArrayList<NNInputDataObj> inputlist) {
+
+    private int getNNOtherDataDBProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol, ArrayList<NNInputDataObj> inputlist, int length) {
         ServiceAFweb.lastfun = "getNNOtherDataDB";
         ArrayList<AFneuralNetData> objDataList = new ArrayList();
-        String BPnameSym = CKey.NN_version + "_" + nnName;
+        String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
         try {
-            objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0);
+            //order by desc 
+            objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, length);
             if (objDataList != null) {
                 logger.info("> getNNOtherDataDB " + BPnameSym + " " + objDataList.size());
                 for (int i = 0; i < objDataList.size(); i++) {
