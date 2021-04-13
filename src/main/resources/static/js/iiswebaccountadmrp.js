@@ -81,7 +81,7 @@ var app = {
 
                 var htmlName = '<div class="ui-grid-d">';
                 if (i == 0) {
-      
+
                     htmlName += '<div class="ui-block-a" style="color:SteelBlue;width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
                     htmlName += '<div class="ui-block-b" style="color:SteelBlue;text-align: center;width:10%">' + entryObj.id + '</div>';
                     htmlName += '<div class="ui-block-c" style="color:SteelBlue;text-align: left;width:30%"><small>' + entryObj.name + '</small></div>';
@@ -92,6 +92,8 @@ var app = {
                     htmlName += '<div class="ui-block-e" style="color:SteelBlue;text-align: right">' + totSt + '</div>';
                     htmlName += '</div>';
                     $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
+                    $("#myid").append('<li> </li>');
+                    
                     continue;
                 }
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
@@ -181,12 +183,17 @@ var app = {
                 window.location.href = "accountadmrp.html";
                 return;
             }
+            var costyr = document.getElementById("costyr").value;
+            if (costyr === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
             var comment = document.getElementById("costcomm").value;
             var payment = costamount;
-            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
+            ///cust/{username}/uisys/{custid}/accounting/costofgoodsold?payment=&curyear=&reason=&comment=
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/update?payment=" + payment + "&reason=E_COST_SERVICE&comment=" + comment,
+                        + "/accounting/costofgoodsold?payment=" + payment + "&curyear=" + costyr + "&comment=" + comment,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
@@ -209,7 +216,7 @@ var app = {
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
-                window.location.href = "accountadmrp.html";
+                window.location.href = "accountadmrp_1.html";
             }
         });
 

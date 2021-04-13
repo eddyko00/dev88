@@ -780,6 +780,7 @@ public class BillingProcess {
         }
         int remMonNum = 11 - monNum;
         float curExpense = (expense / 12) * remMonNum;
+        curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
         result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, curExpense, 0, data, entrytime);
         remainExpense = expense - curExpense;
         entrytime = TimeConvertion.addMonths(entrytime, 12);
@@ -821,6 +822,7 @@ public class BillingProcess {
 
             for (int i = 0; i < yearCnt; i++) {
                 float exDeplication = expense * rate / 100;
+                exDeplication = (float) (Math.round(exDeplication * 100.0) / 100.0);
                 if (i > 0) {
                     entrytime = TimeConvertion.addMonths(entrytime, 12);
                 }
