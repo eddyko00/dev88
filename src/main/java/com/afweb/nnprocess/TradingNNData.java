@@ -32,7 +32,7 @@ public class TradingNNData {
         try {
             ArrayList<NNInputDataObj> inputlist = new ArrayList();
 
-            ArrayList<AFneuralNetData> objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
+            ArrayList<AFneuralNetData> objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0);
             if (objDataList.size() > 300) {
                 // already saved
                 logger.info(">>>>>>>>>>>> saveNNBaseDataDB " + BPnameSym + " No Save. Already exist.");
@@ -75,9 +75,39 @@ public class TradingNNData {
         ArrayList<AFneuralNetData> objDataList = new ArrayList();
         String BPnameSym = CKey.NN_version + "_" + nnName;
         try {
-            objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
+            objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0);
             if (objDataList != null) {
                 logger.info("> getNNdataDB " + BPnameSym + " " + objDataList.size());
+                for (int i = 0; i < objDataList.size(); i++) {
+                    String dataSt = objDataList.get(i).getData();
+                    NNInputOutObj input;
+                    input = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
+                    NNInputDataObj inputObj = new NNInputDataObj();
+                    inputObj.setObj(input);
+                    inputObj.setUpdatedatel(objDataList.get(i).getUpdatedatel());
+                    inputlist.add(inputObj);
+                }
+                return 1;
+            }
+        } catch (Exception ex) {
+            logger.info("> saveNNdataDB - exception - " + BPnameSym + " " + ex);
+        }
+        return 0;
+    }
+
+    
+    public int getNNOtherDataDB(ServiceAFweb serviceAFWeb, String nnName, ArrayList<NNInputDataObj> inputlist) {
+        return 0;
+    }
+    
+    private int getNNOtherDataDBProcess(ServiceAFweb serviceAFWeb, String nnName, ArrayList<NNInputDataObj> inputlist) {
+        ServiceAFweb.lastfun = "getNNOtherDataDB";
+        ArrayList<AFneuralNetData> objDataList = new ArrayList();
+        String BPnameSym = CKey.NN_version + "_" + nnName;
+        try {
+            objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0);
+            if (objDataList != null) {
+                logger.info("> getNNOtherDataDB " + BPnameSym + " " + objDataList.size());
                 for (int i = 0; i < objDataList.size(); i++) {
                     String dataSt = objDataList.get(i).getData();
                     NNInputOutObj input;

@@ -372,8 +372,8 @@ public class StockImp {
         return stockdb.updateNeuralNetRef1(name, nameSt);
     }
 
-    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name) {
-        return stockdb.getNeuralNetDataObj(name);
+    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
+        return stockdb.getNeuralNetDataObj(name, length);
     }
 
     public int deleteNeuralNetDataObj(String name, int stockId) {

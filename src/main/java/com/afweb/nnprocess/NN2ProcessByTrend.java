@@ -975,7 +975,7 @@ public class NN2ProcessByTrend {
             if (BPnameTR.equals(BPnameSym)) {
                 ;
             } else {
-                objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym);
+                objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0);
                 if (objDataList != null) {
                     logger.info("> TRtrainingNNNeuralNetProcess " + BPnameSym + " " + inputlist.size() + " " + objDataList.size());
                     for (int i = 0; i < objDataList.size(); i++) {

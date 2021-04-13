@@ -1470,8 +1470,10 @@ public class StockDB {
         return entries;
     }
 
-    public ArrayList getNeuralNetDataObj(String name) {
+    public ArrayList getNeuralNetDataObj(String name, int length) {
         String sql = "select * from neuralnetdata where name='" + name + "'" + " order by updatedatel asc";
+        
+        sql = ServiceAFweb.getSQLLengh(sql, length);
         ArrayList entries = getAllNeuralNetDataSQL(sql);
         return entries;
     }
