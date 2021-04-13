@@ -421,7 +421,7 @@ public class NN2ProcessBySignal {
             boolean trainInFile = true;
             if (trainInFile == true) {
 
-                inputDatalist = GetNN2InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
+                inputDatalist = GetNN2InputBasefromDB(serviceAFWeb, "", subSymbol, nnName);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
@@ -539,7 +539,7 @@ public class NN2ProcessBySignal {
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
-    public ArrayList<NNInputDataObj> GetNN2InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
+    public ArrayList<NNInputDataObj> GetNN2InputBasefromDB(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
 
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
@@ -1121,7 +1121,7 @@ public class NN2ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = GetNN2InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
+                    inputL = GetNN2InputBasefromDB(serviceAFWeb, symbol, null, nnName);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {

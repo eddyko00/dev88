@@ -926,7 +926,7 @@ public class NN3ProcessBySignal {
         return -1;
     }
 
-    public ArrayList<NNInputDataObj> GetNN3InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
+    public ArrayList<NNInputDataObj> GetNN3InputBasefromDB(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
 
@@ -1066,7 +1066,7 @@ public class NN3ProcessBySignal {
 
             boolean trainInFile = true;
             if (trainInFile == true) {
-                inputDatalist = GetNN3InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
+                inputDatalist = GetNN3InputBasefromDB(serviceAFWeb, "", subSymbol, nnName);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN3 " + BPnameSym + " " + inputDatalist.size());
@@ -1216,7 +1216,7 @@ public class NN3ProcessBySignal {
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
                 boolean trainInFile = true;
                 if (trainInFile == true) {
-                    inputL = GetNN3InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
+                    inputL = GetNN3InputBasefromDB(serviceAFWeb, symbol, null, nnName);
                     if (inputL != null) {
                         if (inputL.size() > 0) {
                             for (int k = 0; k < inputL.size(); k++) {

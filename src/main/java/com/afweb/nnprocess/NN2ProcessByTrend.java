@@ -889,7 +889,7 @@ public class NN2ProcessByTrend {
 
             boolean trainInFile = true;
             if (trainInFile == true) {
-                inputDatalist = GetNN40InputfromStaticCode(serviceAFWeb, "", subSymbol, nnName);
+                inputDatalist = GetNN40InputBasefromDB(serviceAFWeb, "", subSymbol, nnName);
 
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
@@ -1007,7 +1007,7 @@ public class NN2ProcessByTrend {
         return TRprocessImp.TrainingNNBP(serviceAFWeb, nnNameSym, nnName, nnTraining, nnError);
     }
 
-    public ArrayList<NNInputDataObj> GetNN40InputfromStaticCode(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
+    public ArrayList<NNInputDataObj> GetNN40InputBasefromDB(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
 
