@@ -249,7 +249,7 @@ public class ProcessNN3 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> trainingNN3dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+    public ArrayList<NNInputDataObj> RetrainingNN3dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;
@@ -507,7 +507,9 @@ public class ProcessNN3 {
 
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
-
+        if (CKey.NN_NEW_TEST == true) {
+            nn3StopLoss = 5; // test with 5 % stop loss
+        }
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer < -nn3StopLoss) {
                 delPer = Math.abs(delPer);

@@ -252,7 +252,7 @@ public class ProcessNN2 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> trainingNN2dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+    public ArrayList<NNInputDataObj> RetrainingNN2dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
 
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
@@ -532,7 +532,9 @@ public class ProcessNN2 {
 //            return 0;
 //        }
         float delPer = 100 * (StClose - thClose) / thClose;
-
+        if (CKey.NN_NEW_TEST == true) {
+            nn2StopLoss = 5; // test with 5 % stop loss
+        }
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer < -nn2StopLoss) {
                 delPer = Math.abs(delPer);

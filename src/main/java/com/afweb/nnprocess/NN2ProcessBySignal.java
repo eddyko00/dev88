@@ -1115,7 +1115,7 @@ public class NN2ProcessBySignal {
 
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
                 //StockArray assume recent date to old data   
-                ArrayList<NNInputDataObj> inputlistSym2 = getTrainingNN2dataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN2, 0);
+                ArrayList<NNInputDataObj> inputlistSym2 = getReTrainingNN2dataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN2, 0);
                 inputlistSym.addAll(inputlistSym2);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
@@ -1203,7 +1203,7 @@ public class NN2ProcessBySignal {
         return -1;
     }
 
-    public ArrayList<NNInputDataObj> getTrainingNN2dataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
+    public ArrayList<NNInputDataObj> getReTrainingNN2dataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
@@ -1218,7 +1218,7 @@ public class NN2ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date    
             ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.trainingNN2dataReTrain(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.RetrainingNN2dataReTrain(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         // ignor first and last
