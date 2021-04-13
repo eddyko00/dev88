@@ -952,13 +952,8 @@ public class ServiceAFweb {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn1ProcBySig.processNN1InputNeuralNet(this);
-                    if (CKey.NN_DATA_DB == false) {
-//                        nn1ProcBySig.processAllStockInputNeuralNet(this);
-                    }
+
                     nn1trend.processNN30InputNeuralNetTrend(this);
-                    if (CKey.NN_DATA_DB == false) {
-//                        nn1trend.processAllNN30StockInputNeuralNetTrend(this);
-                    }
 
                 }
                 if (nn2testflag == true) {
@@ -967,9 +962,7 @@ public class ServiceAFweb {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn2ProcBySig.processNN2InputNeuralNet(this);
-                    if (CKey.NN_DATA_DB == false) {
-//                        nn2ProcBySig.processAllNN2StockInputNeuralNet(this);
-                    }
+
 //                    nn2trend.processNN40InputNeuralNetTrend(this);
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////

@@ -13,8 +13,8 @@ public class CKey {
     public static final String AF_SYSTEM = "AFSYSTEM";
     public static final String G_USERNAME = "GUEST";
     public static final String E_USERNAME = "EDDY";
-    public static final String MASK_PASS = "*****";    
-    
+    public static final String MASK_PASS = "*****";
+
     public static final String MASTER_SRV = "MasterDBSRV";
     public static final String WEB_SRV = "WebSRV";
     //local pc
@@ -38,11 +38,11 @@ public class CKey {
     public static boolean NN_DEBUG = false; //false; //true; 
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
 
-    public static boolean CACHE_STOCKH = true;      // must be true
-    public static boolean NN_DATA_DB = true; //false;      // true store in all database
+    public static boolean NN_NEW_TEST = false; //false;  
     /////////////////////
     /////////////////////
     /////////////////////
+    public static boolean CACHE_STOCKH = true;      // must be true    
     public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
     public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
 
@@ -115,7 +115,7 @@ public class CKey {
     public static final boolean WEIGHT_COMPASS = false;
 
     public static float iis_ver = (float) 1.1;
-    
+
     // must match to the nnData and nn3Data version  make sure both 
     // must match to the nnData and nn3Data version  make sure both 
     public static String version = "0.1224";
@@ -123,7 +123,7 @@ public class CKey {
     public static String NN1_WEIGHT_0 = nn1Data.NN1_WEIGHT_0;
     public static String NN2_WEIGHT_0 = nn2Data.TR_NN2_WEIGHT_0;
     public static String NN3_WEIGHT_0 = nn1Data.NN1_WEIGHT_0;
-    
+
     public static String NN30_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
     public static String NN40_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
     //////////////////////

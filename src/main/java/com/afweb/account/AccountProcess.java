@@ -1384,9 +1384,9 @@ public class AccountProcess {
 ////////////////////////////////////////    
     public boolean restoreNNonlyDBData(ServiceAFweb serviceAFWeb) {
         int ret = restoreDBneuralnetPro(serviceAFWeb, "neuralnet");
-        if (CKey.NN_DATA_DB == false) {
-            ret = restoreDBneuralnetDataPro(serviceAFWeb, "neuralnetdata");
-        }
+//        if (CKey.NN_DATA_DB == false) {
+//            ret = restoreDBneuralnetDataPro(serviceAFWeb, "neuralnetdata");
+//        }
         return true;
     }
 

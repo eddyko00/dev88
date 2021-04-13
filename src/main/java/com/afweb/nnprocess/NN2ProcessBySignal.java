@@ -73,24 +73,6 @@ public class NN2ProcessBySignal {
         }
     }
 
-    public void processAllNN2StockInputNeuralNet(ServiceAFweb serviceAFWeb) {
-        ////////////////////////////////////////////
-
-//        logger.info("> processAllNN2StockInputNeuralNet TR ADX1... ");
-//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX1);
-//        logger.info("> processAllNN2StockInputNeuralNet TR ADX2... ");
-//        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_ADX2);
-        logger.info("> processAllNN2StockInputNeuralNet TR EMA1... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA1);
-        logger.info("> processAllNN2StockInputNeuralNet TR EMA2... ");
-        NeuralNetAllStockInputTesting(serviceAFWeb, ConstantKey.INT_TR_EMA2);
-//        
-        NeuralNetAllStockNN2CreatJava(serviceAFWeb, ConstantKey.TR_NN2);
-        logger.info("> processAllNN2StockInputNeuralNet TR NN2 end....... ");
-
-        ////////////////////////////////////////////
-    }
-
     // training neural net input data
     // create neural net input data
     //     
@@ -561,139 +543,23 @@ public class NN2ProcessBySignal {
 
         StringBuffer inputBuf = new StringBuffer();
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
-        if (CKey.NN_DATA_DB == true) {
-            TradingNNData nndata = new TradingNNData();
-            nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
-            return inputlist;
-        }
 
-        try {
-            inputBuf.append(nn2Data.TR_NN2_INPUTLIST1);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST2);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST3);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST4);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST5);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST6);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST7);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST8);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST9); 
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST10);
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST11); //need to check nn2Data file
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST12); //need to check nn2Data file
-//            inputBuf.append(nn2Data.TR_NN2_INPUTLIST13); //need to check nn2Data file
-
-            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
-            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-            stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
-            if (symbol != "") {
-                inputlist = stockInputMap.get(symbol);
-                if (inputlist == null) {
-                    return null;
-                }
-                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
-                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
-                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
-                inputlist = new ArrayList<NNInputDataObj>(listItem);
-                return inputlist;
-            }
-
-            for (String sym : stockInputMap.keySet()) {
-                if (subSymbol != null) {
-                    if (sym.equals("AAPL")) {
-                        continue;
-                    }
-                    if (sym.equals("RY.TO")) {
-                        continue;
-                    }
-                    if (subSymbol.equals(sym)) {
-                        continue;
-                    }
-                }
-                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
-                String inputListRawSt = new ObjectMapper().writeValueAsString(inputL);
-                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
-                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
-                inputL = new ArrayList<NNInputDataObj>(listItem);
-                inputlist.addAll(inputL);
-            }
-
-            return inputlist;
-        } catch (Exception ex) {
-            logger.info("> NeuralNetGetNN1InputfromStaticCode - exception " + ex);
-        }
-        return null;
+        TradingNNData nndata = new TradingNNData();
+        nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
+        return inputlist;
     }
 
-//    public static ArrayList<NNInputDataObj> NeuralNetAllStockGetNN2InputfromStaticCode(String symbol, String subSymbol) {
-//        StringBuffer inputBuf = new StringBuffer();
-//        ArrayList<NNInputDataObj> inputlist = new ArrayList();
-//        
-//        if (CKey.NN_DATA_DB == true) {
-//            return inputlist;
-//        }     
-//                
-//        try {
-//            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST1);
-////            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST2);
-////            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST3);
-////            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST4);
-////            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST5);
-////            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST6); 
-////            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST7); //need to check nnData file
-////            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST8); //need to check nnData file
-////            inputBuf.append(nn2AllData.TR_NN2_ALLINPUTLIST9); //need to check nnData file
-//
-//            String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
-//            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-//            stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
-//            if (symbol != "") {
-//                inputlist = stockInputMap.get(symbol);
-//                if (inputlist == null) {
-//                    return null;
-//                }
-//                String inputListRawSt = new ObjectMapper().writeValueAsString(inputlist);
-//                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
-//                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
-//                inputlist = new ArrayList<NNInputDataObj>(listItem);
-//                return inputlist;
-//            }
-//
-//            for (String sym : stockInputMap.keySet()) {
-//                if (subSymbol != null) {
-//                    if (subSymbol.equals(sym)) {
-//                        continue;
-//                    }
-//                }
-//                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
-//                String inputListRawSt = new ObjectMapper().writeValueAsString(inputL);
-//                NNInputDataObj[] arrayItem = new ObjectMapper().readValue(inputListRawSt, NNInputDataObj[].class);
-//                List<NNInputDataObj> listItem = Arrays.<NNInputDataObj>asList(arrayItem);
-//                inputL = new ArrayList<NNInputDataObj>(listItem);
-//                inputlist.addAll(inputL);
-//            }
-//
-//            return inputlist;
-//        } catch (Exception ex) {
-//            logger.info("> NeuralNetAllStockGetNN2InputfromStaticCode - exception " + ex);
-//        }
-//        return null;
-//    }
     public boolean NeuralNetNN2CreateDB(ServiceAFweb serviceAFWeb, String nnName) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         logger.info("> NeuralNetNN2CreatJavaDB ");
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
-        try {
-            if (CKey.NN_DATA_DB == true) {
-                TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+        TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
 
-                TradingNNData nndata = new TradingNNData();
-                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
-            }
-            return true;
-        } catch (Exception ex) {
-        }
-        return false;
+        TradingNNData nndata = new TradingNNData();
+        nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
+        return true;
+
     }
 
     public boolean NeuralNetNN2CreateJava(ServiceAFweb serviceAFWeb, String nnName) {
@@ -703,15 +569,9 @@ public class NN2ProcessBySignal {
 
         try {
             TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-            String inputListSt = "Data in DB";
-            if (CKey.NN_DATA_DB == true) {
-                TradingNNData nndata = new TradingNNData();
-                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
+            TradingNNData nndata = new TradingNNData();
+            nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
 
-            } else {
-                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-                inputListSt = ServiceAFweb.compress(inputListRawSt);
-            }
             String fileN = ServiceAFweb.FileLocalDebugPath + nnName + "_nnWeight0.txt";
             if (FileUtil.FileTest(fileN) == false) {
                 return false;
@@ -750,131 +610,12 @@ public class NN2ProcessBySignal {
             msgWrite.append(""
                     + "            + \"\";\n");
 
-            len = inputListSt.length();
-            beg = 0;
-            end = sizeline;
-            if (end <= len) {
-                ;
-            } else {
-                end = len;
-            }
-            int index = 1;
-            int line = 0;
-            while (true) {
-                if (line == 0) {
-                    msgWrite.append(""
-                            + "    public static String " + nnName + "_INPUTLIST" + index + " = \"\"\n"
-                            + "            + \"\"\n");
-                }
-                line++;
-                String st = inputListSt.substring(beg, end);
-
-                msgWrite.append("+ \"" + st + "\"\n");
-
-                if (end >= len) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-
-                    break;
-                }
-                if (line == 20) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-                    line = 0;
-                    index++;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-
             msgWrite.append(""
                     + "}\n"
                     ///
                     + ""
             );
             fileN = ServiceAFweb.FileLocalDebugPath + "nn2Data.java";
-            FileUtil.FileWriteText(fileN, msgWrite);
-            return true;
-        } catch (Exception ex) {
-        }
-        return false;
-    }
-
-    public boolean NeuralNetAllStockNN2CreatJava(ServiceAFweb serviceAFWeb, String nnName) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-
-        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-        try {
-            TRprocessImp.getStaticJavaAllStockInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-            String inputListSt = "Data in DB";
-            if (CKey.NN_DATA_DB == true) {
-                TradingNNData nndata = new TradingNNData();
-                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
-
-            } else {
-
-                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-                inputListSt = ServiceAFweb.compress(inputListRawSt);
-            }
-
-            StringBuffer msgWrite = new StringBuffer();
-            msgWrite.append("" ///
-                    + "package com.afweb.nn;\n"
-                    + "\n"
-                    + "public class nn2AllData {\n"
-                    + "\n");
-            int sizeline = 1000;
-            int len = inputListSt.length();
-            int beg = 0;
-            int end = sizeline;
-            if (end <= len) {
-                ;
-            } else {
-                end = len;
-            }
-            int index = 1;
-            int line = 0;
-            while (true) {
-                if (line == 0) {
-                    msgWrite.append(""
-                            + "    public static String " + nnName + "_ALLINPUTLIST" + index + " = \"\"\n"
-                            + "            + \"\"\n");
-                }
-                line++;
-                String st = inputListSt.substring(beg, end);
-
-                msgWrite.append("+ \"" + st + "\"\n");
-
-                if (end >= len) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-
-                    break;
-                }
-                if (line == 20) {
-                    msgWrite.append(""
-                            + "            + \"\";\n");
-                    line = 0;
-                    index++;
-                }
-                beg = end;
-                if (end + sizeline <= len) {
-                    end += sizeline;
-                } else {
-                    end = len;
-                }
-            }
-
-            msgWrite.append(""
-                    + "}\n"
-                    ///
-                    + ""
-            );
-            String fileN = ServiceAFweb.FileLocalDebugPath + "nn2AllData.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -1178,7 +919,6 @@ public class NN2ProcessBySignal {
 
 //                ArrayList<NNInputDataObj> inputL = new ArrayList();
 //                inputL = GetNN2InputfromStaticCode(serviceAFWeb, symbol, null, nnName);
-
                 if (inputlistSym != null) {
                     //merge inputlistSym
 
