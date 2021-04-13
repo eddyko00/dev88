@@ -62,6 +62,7 @@ public class ServiceAFweb {
     public static Logger logger = Logger.getLogger("AFwebService");
 
     private static ServerObj serverObj = new ServerObj();
+
     private JdbcTemplate jdbcTemplate;
     private DataSource dataSource;
 
@@ -1008,6 +1009,8 @@ public class ServiceAFweb {
 ///////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
+
+    public static boolean mydebugnewtest = false; //false;
 
     private void AFprocessDebug() {
         //Feb 10, 2021 db size = 5,543 InnoDB utf8_general_ci 4.7 MiB	
@@ -6277,7 +6280,7 @@ public class ServiceAFweb {
 
                     try {
                         String BPname = sqlObj.getReq();
-                        ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname,0);
+                        ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname, 0);
                         nameST = new ObjectMapper().writeValueAsString(retArray);
                         sqlObj.setResp("" + nameST);
 

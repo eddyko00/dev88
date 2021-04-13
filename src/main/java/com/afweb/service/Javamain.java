@@ -67,6 +67,9 @@ public class Javamain {
         } else if (cmd.indexOf("nn3testflag") != -1) {
             ServiceAFweb.nn3testflag = true;
 
+        } else if (cmd.indexOf("mydebugnewtest") != -1) {
+            ServiceAFweb.mydebugnewtest = true;
+
         } else if (cmd.indexOf("mydebugtestflag") != -1) {
             CKey.NN_DEBUG = true;
             CKey.UI_ONLY = true;

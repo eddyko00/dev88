@@ -37,8 +37,6 @@ public class CKey {
     public static String PROXYURL_TMP = "webproxystatic-on.tslabc.tabceluabcs.com";
     public static boolean NN_DEBUG = false; //false; //true; 
     public static boolean UI_ONLY = false; //false Openshift; //true heroku;  
-
-    public static boolean NN_NEW_TEST = false; //false;  
     /////////////////////
     /////////////////////
     /////////////////////

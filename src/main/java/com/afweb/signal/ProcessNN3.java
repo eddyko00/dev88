@@ -507,7 +507,7 @@ public class ProcessNN3 {
 
     public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
-        if (CKey.NN_NEW_TEST == true) {
+        if (ServiceAFweb.mydebugnewtest == true) {
             nn3StopLoss = 5; // test with 5 % stop loss
         }
         if (currSignal == ConstantKey.S_BUY) {

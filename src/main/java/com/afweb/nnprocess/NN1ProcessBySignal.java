@@ -938,11 +938,12 @@ public class NN1ProcessBySignal {
     public ArrayList<NNInputDataObj> GetNN1InputOtherfromDB(ServiceAFweb serviceAFWeb, String symbol, String subSymbol, String nnName) {
 
         ArrayList<NNInputDataObj> inputlist = new ArrayList();
-        if (CKey.NN_NEW_TEST == false) {
+        if (ServiceAFweb.mydebugnewtest == true) {
+            TradingNNData nndata = new TradingNNData();
+            nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
             return inputlist;
         }
-        TradingNNData nndata = new TradingNNData();
-        nndata.getNNBaseDataDB(serviceAFWeb, nnName, inputlist);
+
         return inputlist;
 
     }
@@ -1114,7 +1115,7 @@ public class NN1ProcessBySignal {
                 }
             }
 
-            if (CKey.NN_NEW_TEST == true) {
+            if (ServiceAFweb.mydebugnewtest == true) {
                 inputDatalist = GetNN1InputOtherfromDB(serviceAFWeb, "", subSymbol, nnName);
                 if (inputDatalist != null) {
 //                    logger.info("> NeuralNet NN1 " + BPnameSym + " " + inputDatalist.size());
