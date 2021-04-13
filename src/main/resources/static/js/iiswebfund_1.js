@@ -27,8 +27,10 @@ var app = {
         var custObj = JSON.parse(custObjStr);
         var accObjListStr = iisWebObj.accObjListStr;
         var accObjList = JSON.parse(accObjListStr);
-        var accId = iisWebObj.accId
-              
+         var accId = iisWebObj.accId
+         
+//var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
+      
         var accObj = null;
         for (i = 0; i < accObjList.length; i++) {
             var accObjTmp = accObjList[i];
@@ -40,6 +42,9 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
+//var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+//      'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr};
+//        
         $.ajax({
             url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundbestlist",
             crossDomain: true,

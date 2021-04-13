@@ -28,13 +28,13 @@ var app = {
         var accObjListStr = iisWebObj.accObjListStr;
         var accObjList = JSON.parse(accObjListStr);
         var accId = iisWebObj.accId;
-        
+
         var fundObjListStr = iisWebObj.fundObjListStr;
         var fundObjList = "";
         if (fundObjListStr != "") {
             fundObjList = JSON.parse(fundObjListStr);
         }
-        
+
         var fundBestObjListStr = iisWebObj.fundBestObjListStr;
         var fundBestObjList = "";
         if (fundBestObjListStr != "") {
@@ -54,17 +54,12 @@ var app = {
         if (fundObj == null) {
             window.location.href = "index.html";
         }
+//var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 
+//      'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId, 'stockObjListStr': stockObjListStr};
 
-        var iisMsgSession = "iisMsgSession";
-        var msgObjStr = window.localStorage.getItem(iisMsgSession);
-//        msgObjStr ="This feature does not allow for GUEST account";
-        if (msgObjStr !== "") {
-            functionAlertConfirm(msgObjStr, function ok() {
-            });
-        }
 
-        var physicalScreenWidth = window.screen.width * window.devicePixelRatio;
-        var physicalScreenHeight = window.screen.height * window.devicePixelRatio;
+//        var physicalScreenWidth = window.screen.width * window.devicePixelRatio;
+//        var physicalScreenHeight = window.screen.height * window.devicePixelRatio;
 
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
@@ -118,11 +113,11 @@ var app = {
                 if (perform != 0) {
                     if (perform < 10) {
                         if (perform > -10) {
-                             perSt = perform.toFixed(2);
-                             perSt = perSt.replace("0.00","0");
+                            perSt = perform.toFixed(2);
+                            perSt = perSt.replace("0.00", "0");
                         }
                     }
-                }                
+                }
 
             }
             htmlName += '<div class="ui-block-d" style="text-align: center;width:20%">P:' + percentSt + ' </div>';
@@ -133,6 +128,20 @@ var app = {
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');
         }
 
+        if (stockObjList.length > 0) {
+            var accObj = fundObj;
+
+            var total = accObj.investment + accObj.balance;
+            var investSt = Number(accObj.investment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+            var balSt = Number(accObj.balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+
+            var percent = 100 * (total) / (6000 * stockObjList.length);
+            percentSt = percent.toFixed(2); // + '%';
+            var totSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+            htmlName = 'Acc Bal: ' + investSt + ' Cur Bal: ' + balSt;
+            htmlName += '<br>Total: ' + totSt + ' (per:' + percentSt + '%)';
+            $("#myid").append('<li><strong>' + htmlName + '</strong></li>');
+        }
 
         $("ul[id*=myid] li").click(function () {
 //            alert($(this).html()); // gets innerHTML of clicked li
@@ -159,9 +168,10 @@ var app = {
                 alert("Stock process not finished. Try again later");
                 return;
             }
+
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
                 'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId, 'stockObjListStr': stockObjListStr, 'sockId': sockId};
-            ;
+
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "fundsttr_1.html";
         });

@@ -30,6 +30,9 @@ var app = {
         var accObjList = JSON.parse(accObjListStr);
         var accId = iisWebObj.accId;
 
+//var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+//      'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr};
+
         var fundObjListStr = iisWebObj.fundObjListStr;
         var fundObjList = "";
         if (fundObjListStr != "") {
@@ -42,7 +45,11 @@ var app = {
             fundBestObjList = JSON.parse(fundBestObjListStr);
         }
 
+
         var selectFundObj = null;
+
+//var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+//     'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId};
 
         $("#accheader").html("Fund Mgr Account" + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
@@ -60,27 +67,7 @@ var app = {
                 subStatus = "<font style= color:green>Status:Subscribed </font>";
             }
             htmlName += '<br>Account: ' + accName + ' ' + subStatus;
-            if (accObj.type == 110) { //INT_TRADING_ACCOUNT           
-                var pp = "Basic Plan - Max 2 stocks";
-                if (custObj.substatus == 0) {
-                    pp = "Basic Plan - Max 2 stocks";
-                } else if (custObj.substatus == 10) {
-                    pp = "Premium Plan - Max 10 stocks";
-                } else if (custObj.substatus == 20) {
-                    pp = "Deluxe Plan - Max 20 stocks";
-                }
 
-                htmlName += '<br>Plan: ' + pp;
-                var balanceSt = Number(custObj.balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<br>Acc Open Date: ' + accObj.startdate;
-                htmlName += '<br>Acc Bal: ' + balanceSt;
-                if (custObj.payment != 0) {
-                    var curPaySt = Number(custObj.payment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-
-                    htmlName += ' Paymment due: <font style= color:red>' + curPaySt + '</font>';
-                }
-
-            }
             if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) { //INT_MUTUAL_FUND_ACCOUNT = 120;
                 var total = accObj.investment + accObj.balance;
                 var investSt = Number(accObj.investment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
@@ -100,8 +87,13 @@ var app = {
             $("#myid").append(htmlName);
         }
 
+        if (fundObjList.length === 0) {
+            $("#myid").html("No Fund Manager subscription "); //clear the field
+        }
 
-        $("#fundid").html(" "); //clear the field
+
+        $("#fundid").html("  "); //clear the field
+        var fundAvailable = false;
         for (i = 0; i < fundBestObjList.length; i++) {
             var accObj = fundBestObjList[i];
             console.log(accObj);
@@ -124,27 +116,7 @@ var app = {
             htmlName += '<li id="' + accId + '"><a href="#">';
 
             htmlName += '<br>Account: ' + accName;
-            if (accObj.type == 110) { //INT_TRADING_ACCOUNT           
-                var pp = "Basic Plan - Max 2 stocks";
-                if (custObj.substatus == 0) {
-                    pp = "Basic Plan - Max 2 stocks";
-                } else if (custObj.substatus == 10) {
-                    pp = "Premium Plan - Max 10 stocks";
-                } else if (custObj.substatus == 20) {
-                    pp = "Deluxe Plan - Max 20 stocks";
-                }
 
-                htmlName += '<br>Plan: ' + pp;
-                var balanceSt = Number(custObj.balance).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<br>Acc Open Date: ' + accObj.startdate;
-                htmlName += '<br>Acc Bal: ' + balanceSt;
-                if (custObj.payment != 0) {
-                    var curPaySt = Number(custObj.payment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-
-                    htmlName += ' Paymment due: <font style= color:red>' + curPaySt + '</font>';
-                }
-
-            }
             if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) { //INT_MUTUAL_FUND_ACCOUNT = 120;
                 var total = accObj.investment + accObj.balance;
                 var investSt = Number(accObj.investment).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
@@ -152,20 +124,23 @@ var app = {
 
                 var totSt = Number(total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
                 htmlName += '<br>Acc Bal: ' + investSt + ' Cur Bal: ' + balSt + ' Total: ' + totSt;
-
+                fundAvailable = true;
             }
 
             htmlName += '</a></li>';
             $("#fundid").append(htmlName);
         }
 
+        if (fundAvailable == false) {
+            $("#fundid").html("No Fund Manager Avaliable "); //clear the field
+        }
 
         var removeFund = false;
         $("ul[id*=myid] li").click(function () {
             if (removeFund === true) {
                 removeFund = false;
                 return;
-            }            
+            }
             var fundId = $(this).attr('id');
             console.log(fundId);
             if (fundId == 0) {
@@ -209,18 +184,6 @@ var app = {
 
             window.location.href = "#page-remove";
 
-//            $.ajax({
-//                url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/remove",
-//                crossDomain: true,
-//                cache: false,
-//                success: handleResult
-//            }); // use promises
-//
-//            function handleResult(result) {
-////          SUCC = 1;  EXISTED = 2; FAIL =0;
-//                window.location.href = "fund_1.html";
-//
-//            }
         });
 
         $("ul[id*=fundid] li").click(function () {

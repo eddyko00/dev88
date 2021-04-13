@@ -29,7 +29,7 @@ var app = {
         var accObjList = JSON.parse(accObjListStr);
         var accId = iisWebObj.accId;
         console.log(accId);
-        
+               
         var fundObjListStr = iisWebObj.fundObjListStr;
         var fundObjList = "";
         if (fundObjListStr != "") {
@@ -43,7 +43,12 @@ var app = {
         }
 
         var fundId = iisWebObj.fundId;
-   
+//var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+//     'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId};
+
+//var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 
+//      'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId, 'stockObjListStr': stockObjListStr};
+        
         $.ajax({
             url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st",
             crossDomain: true,
