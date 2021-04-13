@@ -774,17 +774,16 @@ public class BillingProcess {
         data = DepSt + data;
 
         int monNum = TimeConvertion.getMonthNum(entrytime);
-        if (monNum >= 11) {
-            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
-            return result;
-        }
-        int remMonNum = 11 - monNum;
+        monNum += 1; // start 1 - 12
+        int remMonNum = (12 - monNum) + 1;
         float curExpense = (expense / 12) * remMonNum;
         curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
         result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, curExpense, 0, data, entrytime);
         remainExpense = expense - curExpense;
-        entrytime = TimeConvertion.addMonths(entrytime, 12);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, remainExpense, 0, data, entrytime);
+        if (remainExpense > 0) {
+            entrytime = TimeConvertion.addMonths(entrytime, 12);
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, remainExpense, 0, data, entrytime);
+        }
         return result;
     }
 
