@@ -2584,6 +2584,9 @@ public class TradingSignalProcess {
         ///NeuralNetObj0 release
 
         AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
+        if (ServiceAFweb.mydebugnewtest == true) {
+            nnError = nnError + 0.001;
+        }
         if (forceToErrorNewNN == true) {
             nnError = nnError - 0.002;
         }
