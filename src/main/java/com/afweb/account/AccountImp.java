@@ -830,7 +830,8 @@ public class AccountImp {
                 retAdd = accountdb.addAccountStock(accountObj.getId(), StockID, tr);
             }
 
-            if (accountObj.getType() != AccountObj.INT_ADMIN_ACCOUNT) {
+            if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
+                // need to add the mirror TR for Rule 5 logic
                 TradingRuleObj tr = new TradingRuleObj();
                 tr.setTrname(ConstantKey.TR_NN91);
                 tr.setType(ConstantKey.INT_TR_NN91);
