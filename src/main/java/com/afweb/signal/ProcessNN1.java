@@ -558,7 +558,7 @@ public class ProcessNN1 {
         }
         if (checkResetTR == true) {
             TradingSignalProcess TS = new TradingSignalProcess();
-            String trName = ConstantKey.TR_NN3;
+            String trName = ConstantKey.TR_NN91;
             ///asc thObjList old first - recent last
             ArrayList<StockTRHistoryObj> THhistory = TS.resetVitualTransaction(serviceAFWeb, stock, trName);
             if (THhistory != null) {

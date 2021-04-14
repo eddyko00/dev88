@@ -829,6 +829,15 @@ public class AccountImp {
                 }
                 retAdd = accountdb.addAccountStock(accountObj.getId(), StockID, tr);
             }
+
+            if (accountObj.getType() != AccountObj.INT_ADMIN_ACCOUNT) {
+                TradingRuleObj tr = new TradingRuleObj();
+                tr.setTrname(ConstantKey.TR_NN91);
+                tr.setType(ConstantKey.INT_TR_NN91);
+                tr.setComment("");
+                retAdd = accountdb.addAccountStock(accountObj.getId(), StockID, tr);
+            }
+
             return retAdd; // successful
 
         }
