@@ -901,6 +901,14 @@ public class TradingSignalProcess {
         // get 2 year
         /// thObjList old first - recent last
         ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.SHORT_MONTH_SIZE);
+
+//        int size1year = 20 * 12 * 1 + (50 * 3);
+//        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
+//        int offset = 0;
+//        ///asc thObjList old first - recent last
+//        ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, CKey.SHORT_MONTH_SIZE);
+
+        serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
         return trHistoryList;
     }
 
@@ -930,6 +938,8 @@ public class TradingSignalProcess {
                     if (checkNN1Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
                     }
+                } else if (trObj.getType() == ConstantKey.INT_TR_NN91) { // shadow of INT_TR_NN1
+                    continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN2) {
                     if (checkNN2Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
@@ -1267,6 +1277,11 @@ public class TradingSignalProcess {
                         }
                     }
                     break;
+                case ConstantKey.INT_TR_NN91: // shadow of INT_TR_NN1
+                    ProcessNN91 nn91 = new ProcessNN91();
+                    int nn1Signal = nn91.ProcessTRHistoryOffsetNN91(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                    prevSignal = nn1Signal;
+                    break;
                 case ConstantKey.INT_TR_NN2:
 
                     boolean nn2Flag = true;
@@ -1413,7 +1428,8 @@ public class TradingSignalProcess {
                         }
                     }
                     break;
-
+                case ConstantKey.INT_TR_NN91:  // shadow of INT_TR_NN1
+                    break;
                 case ConstantKey.INT_TR_NN2:
 
                     boolean nn2Flag = true;

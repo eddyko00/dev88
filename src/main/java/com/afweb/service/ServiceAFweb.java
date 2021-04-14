@@ -1038,11 +1038,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            mydebugnewtest = true;
-            nn3testflag=true;
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            mydebugnewtest = true;
+//            nn3testflag=true;
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+
 //            mydebugnewtest = true;
 //            TradingNNData tn = new TradingNNData();
 //            ArrayList<NNInputDataObj> inputlist = new ArrayList();

@@ -445,7 +445,7 @@ public class ProcessNN1 {
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
-                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, offset, stock, prevSignal, thClose, StClose);
+                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
                                     if (rule5_Signal != prevSignal) {
                                         logger.info("> updateAdminTR nn1 " + symbol + " Override 5 signal " + stockDate.toString());
                                         nnSignal = rule5_Signal;
@@ -531,15 +531,15 @@ public class ProcessNN1 {
         return 0;
     }
 
-    public int Rule5_ResetTR(ServiceAFweb serviceAFWeb, AccountObj accountObj, int offset, AFstockObj stock,
+    public int Rule5_ResetTR(ServiceAFweb serviceAFWeb, AccountObj accountObj, ArrayList StockArray, int offset, AFstockObj stock,
             int currSignal, float thClose, float StClose) {
 
-        if (ServiceAFweb.mydebugnewtest == false) {
-            return currSignal;
-        }
+//        if (ServiceAFweb.mydebugnewtest == false) {
+//            return currSignal;
+//        }
 
         boolean checkResetTR = false;
-        checkResetTR = true; ////// just for testing
+//        checkResetTR = true; ////// just for testing
 
         float delPer = 100 * (StClose - thClose) / thClose;
 
