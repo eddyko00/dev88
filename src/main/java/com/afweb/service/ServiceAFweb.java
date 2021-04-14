@@ -6651,7 +6651,12 @@ public class ServiceAFweb {
         tr.setType(ConstantKey.INT_TR_NN3);
         tr.setComment("");
         getTRList().add(tr);
-
+        
+        tr = new TradingRuleObj();
+        tr.setTrname(ConstantKey.TR_NN91);
+        tr.setType(ConstantKey.INT_TR_NN91);
+        tr.setComment("");
+        getTRList().add(tr);
     }
 
     public void InitSystemFund(String portfolio) {

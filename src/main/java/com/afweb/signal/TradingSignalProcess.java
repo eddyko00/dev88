@@ -892,6 +892,15 @@ public class TradingSignalProcess {
         return true;
     }
 
+    public ArrayList<StockTRHistoryObj> resetVitualTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName) {
+        serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), trName);
+        TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
+        // get 2 year
+        /// thObjList old first - recent last
+        ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2);
+        return trHistoryList;
+    }
+
     public void upateAdminTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         try {
             if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
