@@ -767,8 +767,8 @@ public class ServiceAFweb {
         }
     }
 
-    public boolean processNewNeuralNet() {
-        ServiceAFweb.lastfun = "processNewNeuralNet";
+    public boolean processReLearnNewNeuralNet() {
+        ServiceAFweb.lastfun = "processReLearnNewNeuralNet";
 
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -781,7 +781,7 @@ public class ServiceAFweb {
         ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
 
         if (stockNameArray != null) {
-            logger.info("Start processNewNeuralNet.....Stock Size " + stockNameArray.size());
+            logger.info("Start processReLearnNewNeuralNet.....Stock Size " + stockNameArray.size());
             for (int i = 0; i < stockNameArray.size(); i++) {
 
                 String symbol = (String) stockNameArray.get(i);
@@ -801,7 +801,7 @@ public class ServiceAFweb {
                         NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
                     }
 //                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
-                    logger.info("End processNewNeuralNet.....NN1 " + symbol);
+                    logger.info("End processReLearnNewNeuralNet.....NN1 " + symbol);
                     return true;
                 }
 
@@ -843,7 +843,7 @@ public class ServiceAFweb {
             int num = 0;
             while (true) {
                 if (num == 0) {
-                    boolean ret = processNewNeuralNet();
+                    boolean ret = processReLearnNewNeuralNet();
                     if (ret == false) {
                         num++;
                     }
