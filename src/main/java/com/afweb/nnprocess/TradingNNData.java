@@ -103,7 +103,7 @@ public class TradingNNData {
 
             ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
             int ret = this.getNNOtherDataDBProcess(serviceAFWeb, nnName, symbol, inputlistSym, 4);
-
+            logger.info("> getNNOtherDataDB " + nnName + " " + inputlistSym.size());
             if (ret == 1) {
                 inputlist.addAll(inputlistSym);
             }
@@ -120,7 +120,7 @@ public class TradingNNData {
             //order by desc 
             objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, length);
             if (objDataList != null) {
-                logger.info("> getNNOtherDataDB " + BPnameSym + " " + objDataList.size());
+//                logger.info("> getNNOtherDataDB " + BPnameSym + " " + objDataList.size());
                 for (int i = 0; i < objDataList.size(); i++) {
                     String dataSt = objDataList.get(i).getData();
                     NNInputOutObj input;
