@@ -526,27 +526,6 @@ public class ProcessNN91 {
         return 0;
     }
 
-    public float Rule5_ResetTR(int currSignal, float thClose, float StClose) {
-        float delPer = 100 * (StClose - thClose) / thClose;
-
-        float delErr = 2; // greater 2%
-        boolean checkResetTR = false;
-        if (currSignal == ConstantKey.S_BUY) {
-            if (delPer < -delErr) {
-                delPer = Math.abs(delPer);
-                checkResetTR = true;
-            }
-        } else if (currSignal == ConstantKey.S_SELL) {
-            if (delPer > delErr) {
-                delPer = Math.abs(delPer);
-                checkResetTR = true;
-            }
-        }
-        if (checkResetTR == true) {
-        }
-        return 0;
-    }
-
     public float Rule2_LongTran(NNObj nn, long lastTHLong, long curSGLong) {
         // ignore rule 2
         if (true) {

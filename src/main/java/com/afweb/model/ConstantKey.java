@@ -201,7 +201,8 @@ public class ConstantKey {
     
     public static final String TR_NN3 = "TR_NN3"; //NN for 
     public static final int INT_TR_NN3 = 6;
-
+    public static final String TR_NN93 = "TR_NN93"; //mirror to NN_3 
+    public static final int INT_TR_NN93 = 93;
     /// make sure to updat this size whend adding more TR
     /// remember to add InitStaticData in ServiceAFweb.java
     public static final int SIZE_TR = 7;
