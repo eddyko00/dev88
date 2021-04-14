@@ -568,7 +568,7 @@ public class ProcessNN2 {
 
         float delPer = 100 * (StClose - thClose) / thClose;
 
-        float delErr = (float) 1.5; // greater 1.5%
+        float delErr = (float) 2; // greater 1.5%
 
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer < -delErr) {

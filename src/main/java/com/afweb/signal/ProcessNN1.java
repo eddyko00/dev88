@@ -465,6 +465,24 @@ public class ProcessNN1 {
                         }
                     }
                 }
+                if (nnSignal == prevSignal) {
+                    // get the last transaction price
+                    AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+                    ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
+                            accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
+                    if (thList != null) {
+                        TransationOrderObj lastTH = thList.get(0);
+                        float thClose = lastTH.getAvgprice();
+                        AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+                        float StClose = stockinfo.getFclose();
+                        int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
+                        if (rule5_Signal != prevSignal) {
+                            logger.info("> updateAdminTR nn1 " + symbol + " Override 5 signal " + stockDate.toString());
+                            nnSignal = rule5_Signal;
+                            confident += 15;
+                        }
+                    }
+                }
                 if (nnSignal != prevSignal) {
                     // signal change double check wiht NN trend
                     int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
@@ -537,13 +555,12 @@ public class ProcessNN1 {
 //        if (ServiceAFweb.mydebugnewtest == false) {
 //            return currSignal;
 //        }
-
         boolean checkResetTR = false;
 //        checkResetTR = true; ////// just for testing
 
         float delPer = 100 * (StClose - thClose) / thClose;
 
-        float delErr = (float) 1.5; // greater 1.5%
+        float delErr = (float) 2; // greater 1.5%
 
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer < -delErr) {

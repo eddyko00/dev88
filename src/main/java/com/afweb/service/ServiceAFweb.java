@@ -1038,23 +1038,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            ///////Adding  new TR in Admin Sotcks
-//            AccountObj accountObj = getAdminObjFromCache();
-//            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
-//            if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
-//                for (int i = 0; i < stockNameList.size(); i++) {
-//                    symbol = (String) stockNameList.get(i);
-//                    AFstockObj stock = getRealTimeStockImp(symbol);
-//                    TradingRuleObj tr = new TradingRuleObj();
-//                    tr.setTrname(ConstantKey.TR_NN91);
-//                    tr.setType(ConstantKey.INT_TR_NN91);
-//                    tr.setComment("");
-//                    int retAdd = this.getAccountImp().accountdb.addAccountStock(accountObj.getId(), stock.getId(), tr);
-//                }
-//            }
-//            ///////Adding  new TR in Admin Sotcks
-//            mydebugnewtest = true;
-//            nn3testflag=true;
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
