@@ -2668,6 +2668,7 @@ public class TradingSignalProcess {
 //        }
         logger.info("> TrainingNNBP inputpattern " + inputpattern.length);
         errorReturn = nn.learn(nNetName, inputpattern, targetpattern, response, repeatSize, nnError);
+        double nnErrorOrg = nnError;
         double minError = nn.minError;
 
         String weightSt1 = nn.getNetObjSt();
@@ -2718,9 +2719,11 @@ public class TradingSignalProcess {
                     double refError = refData.getmError();
                     double refminError = minError + 0.002; //+ 0.001;
                     if (refminError < refError) {
-                        refData.setmError(minError);
-                        serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
-                        logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
+                        if (nnErrorOrg < minError) {
+                            refData.setmError(minError);
+                            serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
+                            logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
+                        }
                     }
                 }
 
