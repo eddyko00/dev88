@@ -943,6 +943,9 @@ public class TradingSignalProcess {
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN92) { // shadow of INT_TR_NN1
                     String name = ConstantKey.TR_NN92; // just for the search name
                     continue;
+                } else if (trObj.getType() == ConstantKey.INT_TR_NN93) { // shadow of INT_TR_NN3
+                    String name = ConstantKey.TR_NN93; // just for the search name
+                    continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN2) {
                     if (checkNN2Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
@@ -1327,14 +1330,11 @@ public class TradingSignalProcess {
                         }
                     }
                     break;
-//                case ConstantKey.INT_TR_NN4:
-//                    boolean nn4Flag = false;
-//                    if (nn4Flag == true) {
-//                        ProcessNN4 nn4 = new ProcessNN4();
-//                        int nn4Signal = nn4.ProcessTRHistoryOffsetNN4(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
-//                        prevSignal = nn4Signal;
-//                    }
-//                    break;
+                case ConstantKey.INT_TR_NN93: // shadow of INT_TR_NN3
+                    ProcessNN93 nn93 = new ProcessNN93();
+                    int nn93Signal = nn93.ProcessTRHistoryOffsetNN93(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                    prevSignal = nn93Signal;
+                    break;
                 default:
                     break;
             }
@@ -1494,7 +1494,8 @@ public class TradingSignalProcess {
                         }
                     }
                     break;
-
+                case ConstantKey.INT_TR_NN93:  // shadow of INT_TR_NN3
+                    break;
                 case ConstantKey.INT_TR_ACC:
                     trTradingACCObj = trObj;
                     break;
