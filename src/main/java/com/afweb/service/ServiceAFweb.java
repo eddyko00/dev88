@@ -1178,32 +1178,32 @@ public class ServiceAFweb {
 //            }       
 //
 ///////////////////////////////////////////////////// Update new TR NN91 in Admin
-            ///////Adding  new TR in Admin Sotcks
-            AccountObj accountObj = getAdminObjFromCache();
-            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
-            if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
-                for (int i = 0; i < stockNameList.size(); i++) {
-                    symbol = (String) stockNameList.get(i);
-                    AFstockObj stock = getRealTimeStockImp(symbol);
-                    TradingRuleObj tr = new TradingRuleObj();
-                    tr.setTrname(ConstantKey.TR_NN91);
-                    tr.setType(ConstantKey.INT_TR_NN91);
-                    tr.setComment("");
-                    int retAdd = this.getAccountImp().accountdb.addAccountStock(accountObj.getId(), stock.getId(), tr);
-                    tr = new TradingRuleObj();
-                    tr.setTrname(ConstantKey.TR_NN92);
-                    tr.setType(ConstantKey.INT_TR_NN92);
-                    tr.setComment("");
-                    retAdd = this.getAccountImp().accountdb.addAccountStock(accountObj.getId(), stock.getId(), tr);
-                    tr = new TradingRuleObj();
-                    tr.setTrname(ConstantKey.TR_NN93);
-                    tr.setType(ConstantKey.INT_TR_NN93);
-                    tr.setComment("");
-                    retAdd = this.getAccountImp().accountdb.addAccountStock(accountObj.getId(), stock.getId(), tr);
-
-                }
-            }
-            ///////Adding  new TR in Admin Sotcks
+//            ///////Adding  new TR in Admin Sotcks
+//            AccountObj accountObj = getAdminObjFromCache();
+//            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
+//            if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
+//                for (int i = 0; i < stockNameList.size(); i++) {
+//                    symbol = (String) stockNameList.get(i);
+//                    AFstockObj stock = getRealTimeStockImp(symbol);
+//                    TradingRuleObj tr = new TradingRuleObj();
+//                    tr.setTrname(ConstantKey.TR_NN91);
+//                    tr.setType(ConstantKey.INT_TR_NN91);
+//                    tr.setComment("");
+//                    int retAdd = this.getAccountImp().accountdb.addAccountStock(accountObj.getId(), stock.getId(), tr);
+//                    tr = new TradingRuleObj();
+//                    tr.setTrname(ConstantKey.TR_NN92);
+//                    tr.setType(ConstantKey.INT_TR_NN92);
+//                    tr.setComment("");
+//                    retAdd = this.getAccountImp().accountdb.addAccountStock(accountObj.getId(), stock.getId(), tr);
+//                    tr = new TradingRuleObj();
+//                    tr.setTrname(ConstantKey.TR_NN93);
+//                    tr.setType(ConstantKey.INT_TR_NN93);
+//                    tr.setComment("");
+//                    retAdd = this.getAccountImp().accountdb.addAccountStock(accountObj.getId(), stock.getId(), tr);
+//
+//                }
+//            }
+//            ///////Adding  new TR in Admin Sotcks
 ///////////////////////////////////////////////////// Update stock
 //            TRprocessImp.UpdateAllStock(this);
 //            AFstockObj stock = getRealTimeStockImp(symbol);
