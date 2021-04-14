@@ -1282,8 +1282,8 @@ public class TradingSignalProcess {
                     break;
                 case ConstantKey.INT_TR_NN91: // shadow of INT_TR_NN1
                     ProcessNN91 nn91 = new ProcessNN91();
-                    int nn1Signal = nn91.ProcessTRHistoryOffsetNN91(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
-                    prevSignal = nn1Signal;
+                    int nn91Signal = nn91.ProcessTRHistoryOffsetNN91(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                    prevSignal = nn91Signal;
                     break;
                 case ConstantKey.INT_TR_NN2:
 
@@ -1303,7 +1303,11 @@ public class TradingSignalProcess {
                         }
                     }
                     break;
-
+                case ConstantKey.INT_TR_NN92: // shadow of INT_TR_NN2
+                    ProcessNN92 nn92 = new ProcessNN92();
+                    int nn92Signal = nn92.ProcessTRHistoryOffsetNN92(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                    prevSignal = nn92Signal;
+                    break;
                 case ConstantKey.INT_TR_NN3:
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
@@ -1459,7 +1463,8 @@ public class TradingSignalProcess {
                             UpdateTRList.add(trObj);
                         }
                     }
-
+                    break;
+                case ConstantKey.INT_TR_NN92:  // shadow of INT_TR_NN2
                     break;
                 case ConstantKey.INT_TR_NN3:
                     boolean nn3Flag = true;

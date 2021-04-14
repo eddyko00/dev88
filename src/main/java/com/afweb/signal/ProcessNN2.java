@@ -466,21 +466,28 @@ public class ProcessNN2 {
 //                                    confident += 15;
 //                                } else {
                                 float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
-                                long lastTHLong = lastTH.getEntrydatel();
-                                long curSGLong = stockinfo.getEntrydatel();
+
                                 if (delta > 0) {
                                     logger.info("> updateAdminTR nn2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
                                     stopLoss = true;
                                     nnSignal = emaSignal;
                                     confident += 15;
                                 } else {
-
-                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
-                                    if (delta > 0) {
-//                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
-                                        nnSignal = emaSignal;
+                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
+                                    if (rule5_Signal != prevSignal) {
+                                        logger.info("> updateAdminTR nn2 " + symbol + " Override 5 signal " + stockDate.toString());
+                                        nnSignal = rule5_Signal;
                                         confident += 15;
                                     }
+//                                    long lastTHLong = lastTH.getEntrydatel();
+//                                    long curSGLong = stockinfo.getEntrydatel();
+//                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
+//                                    if (delta > 0) {
+////                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
+//                                        nnSignal = macdSignal;
+//                                        confident += 15;
+//                                    }
+
                                 }
 //                                }
                             } //thList.size() > 0
