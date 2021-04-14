@@ -191,12 +191,14 @@ public class ConstantKey {
 //    public static final int INT_ADX_14 = 14;    
     public static final String TR_NN1 = "TR_NN1"; //NN for MACD fast
     public static final int INT_TR_NN1 = 4;
-    public static final String TR_NN91 = "TR_NN91"; //NN for Trend 
+    public static final String TR_NN91 = "TR_NN91"; //mirror to NN_1 
     public static final int INT_TR_NN91 = 91;
     
     public static final String TR_NN2 = "TR_NN2"; //NN for RSI
     public static final int INT_TR_NN2 = 5;
-
+    public static final String TR_NN92 = "TR_NN92"; //mirror to NN_2 
+    public static final int INT_TR_NN92 = 92;
+    
     public static final String TR_NN3 = "TR_NN3"; //NN for 
     public static final int INT_TR_NN3 = 6;
 

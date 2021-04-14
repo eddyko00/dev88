@@ -836,6 +836,11 @@ public class AccountImp {
                 tr.setType(ConstantKey.INT_TR_NN91);
                 tr.setComment("");
                 retAdd = accountdb.addAccountStock(accountObj.getId(), StockID, tr);
+                tr = new TradingRuleObj();
+                tr.setTrname(ConstantKey.TR_NN92);
+                tr.setType(ConstantKey.INT_TR_NN92);
+                tr.setComment("");
+                retAdd = accountdb.addAccountStock(accountObj.getId(), StockID, tr);
             }
 
             return retAdd; // successful

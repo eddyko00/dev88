@@ -907,7 +907,6 @@ public class TradingSignalProcess {
 //        int offset = 0;
 //        ///asc thObjList old first - recent last
 //        ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, CKey.SHORT_MONTH_SIZE);
-
         serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
         return trHistoryList;
     }
@@ -939,6 +938,10 @@ public class TradingSignalProcess {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN91) { // shadow of INT_TR_NN1
+                    String name = ConstantKey.TR_NN91; // just for the search name
+                    continue;
+                } else if (trObj.getType() == ConstantKey.INT_TR_NN92) { // shadow of INT_TR_NN1
+                    String name = ConstantKey.TR_NN92; // just for the search name
                     continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN2) {
                     if (checkNN2Ready(serviceAFWeb, symbol, true) == false) {
