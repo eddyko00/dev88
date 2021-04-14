@@ -427,7 +427,7 @@ var app = {
                 if (trname !== null) {
                     setTimeout(function () {
                         $("#grtxt1").hide(0);
-                    }, 3000);
+                    }, 6000);
                     var symbol = stockObj.symbol;
                     $("#graphheader").html("Display graph - " + stockObj.symbol);
                     symbol = symbol.replace(".", "_");
@@ -614,7 +614,7 @@ var app = {
             if (trname !== null) {
                 setTimeout(function () {
                     $("#grtxt1").hide(0);
-                }, 3000);
+                }, 4000);
 
                 var symbol = stockObj.symbol;
                 $("#graphheader").html("Display graph - " + stockObj.symbol);
@@ -631,7 +631,7 @@ var app = {
             if (trname !== null) {
                 setTimeout(function () {
                     $("#grtxt2").hide(0);
-                }, 3000);
+                }, 4000);
 
                 var symbol = stockObj.symbol;
                 $("#graphheader2").html("Display graph - " + stockObj.symbol);
