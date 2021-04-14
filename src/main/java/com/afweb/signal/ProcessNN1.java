@@ -328,20 +328,21 @@ public class ProcessNN1 {
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
                                 float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
-                                long lastTHLong = lastTH.getUpdateDatel();
-                                long curSGLong = stockinfo.getEntrydatel();
+
                                 if (delta > 0) {
 //                                    logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     stopLoss = true;
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
-                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
-                                    if (delta > 0) {
-//                                        logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
-                                        nnSignal = macdSignal;
-                                        confident += 15;
-                                    }
+//                                    long lastTHLong = lastTH.getUpdateDatel();
+//                                    long curSGLong = stockinfo.getEntrydatel();
+//                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
+//                                    if (delta > 0) {
+////                                        logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
+//                                        nnSignal = macdSignal;
+//                                        confident += 15;
+//                                    }
                                 }
                                 break; // for loop
                             }
@@ -445,12 +446,12 @@ public class ProcessNN1 {
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
-                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
-                                    if (rule5_Signal != prevSignal) {
-                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 5 signal " + stockDate.toString());
-                                        nnSignal = rule5_Signal;
-                                        confident += 15;
-                                    }
+//                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
+//                                    if (rule5_Signal != prevSignal) {
+//                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 5 signal " + stockDate.toString());
+//                                        nnSignal = rule5_Signal;
+//                                        confident += 15;
+//                                    }
 //                                    long lastTHLong = lastTH.getEntrydatel();
 //                                    long curSGLong = stockinfo.getEntrydatel();
 //                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);

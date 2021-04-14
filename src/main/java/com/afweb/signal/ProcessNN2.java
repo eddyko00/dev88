@@ -337,20 +337,21 @@ public class ProcessNN2 {
 //                                    break;
 //                                }
                                 float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
-                                long lastTHLong = lastTH.getUpdateDatel();
-                                long curSGLong = stockinfo.getEntrydatel();
+
                                 if (delta > 0) {
 //                              logger.info("> ProcessTRH NN2 " + stock.getSymbol() + " Override 1 signal " + stockDate.toString() + " dela price > 20% Delta=" + delta);
                                     stopLoss = true;
                                     nnSignal = emaSignal;
                                     confident += 15;
                                 } else {
-                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
-                                    if (delta > 0) {
-//                                        logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
-                                        nnSignal = emaSignal;
-                                        confident += 15;
-                                    }
+//                                    long lastTHLong = lastTH.getUpdateDatel();
+//                                    long curSGLong = stockinfo.getEntrydatel();
+//                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
+//                                    if (delta > 0) {
+////                                        logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
+//                                        nnSignal = emaSignal;
+//                                        confident += 15;
+//                                    }
                                 }
                                 break;
                             }
@@ -473,12 +474,12 @@ public class ProcessNN2 {
                                     nnSignal = emaSignal;
                                     confident += 15;
                                 } else {
-                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
-                                    if (rule5_Signal != prevSignal) {
-                                        logger.info("> updateAdminTR nn2 " + symbol + " Override 5 signal " + stockDate.toString());
-                                        nnSignal = rule5_Signal;
-                                        confident += 15;
-                                    }
+//                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
+//                                    if (rule5_Signal != prevSignal) {
+//                                        logger.info("> updateAdminTR nn2 " + symbol + " Override 5 signal " + stockDate.toString());
+//                                        nnSignal = rule5_Signal;
+//                                        confident += 15;
+//                                    }
 //                                    long lastTHLong = lastTH.getEntrydatel();
 //                                    long curSGLong = stockinfo.getEntrydatel();
 //                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
@@ -494,6 +495,25 @@ public class ProcessNN2 {
                         }
                     }
                 }
+
+                if (nnSignal == prevSignal) {
+                    // get the last transaction price
+                    AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+                    ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
+                            accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
+                    if (thList != null) {
+                        TransationOrderObj lastTH = thList.get(0);
+                        float thClose = lastTH.getAvgprice();
+                        AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+                        float StClose = stockinfo.getFclose();
+                        int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
+                        if (rule5_Signal != prevSignal) {
+                            logger.info("> updateAdminTR nn2 " + symbol + " Override 5 signal " + stockDate.toString());
+                            nnSignal = rule5_Signal;
+                            confident += 15;
+                        }
+                    }
+                }
                 if (nnSignal != prevSignal) {
                     // signal change double check wiht NN trend
                     int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
@@ -503,7 +523,6 @@ public class ProcessNN2 {
                     }
                     nnSignal = trendSignal;
                 }
-
                 if (nnSignal != prevSignal) {
                     int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
                     if (nnSignal == retSignal) {
@@ -562,7 +581,6 @@ public class ProcessNN2 {
 //        if (ServiceAFweb.mydebugnewtest == false) {
 //            return currSignal;
 //        }
-
         boolean checkResetTR = false;
 //        checkResetTR = true; ////// just for testing
 
