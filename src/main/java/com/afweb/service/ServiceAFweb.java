@@ -376,10 +376,10 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
-                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");                
+                displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
                 displayStr += "\r\n" + (">>>>> System mydebugnewtest:" + ServiceAFweb.mydebugnewtest);
-               
+
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + dbStr;
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -1033,10 +1033,15 @@ public class ServiceAFweb {
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
             String symbol = "GLD";
-            int trNN = ConstantKey.INT_TR_NN3;
+            int trNN = ConstantKey.INT_TR_NN1;
             int TR_NN = trNN;
-            String nnName = ConstantKey.TR_NN3;
+            String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+//            mydebugnewtest = true;
+//            TradingNNData tn = new TradingNNData();
+//            ArrayList<NNInputDataObj> inputlist = new ArrayList();
+//            tn.getNNOtherDataDB(this, nnName, inputlist);
 
 //            long fistyear = DateUtil.getFirstDayCurrentYear();
 //            Date dat = new Date(fistyear);

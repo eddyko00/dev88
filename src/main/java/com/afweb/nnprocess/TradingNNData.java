@@ -103,7 +103,7 @@ public class TradingNNData {
 
             ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
             int ret = this.getNNOtherDataDBProcess(serviceAFWeb, nnName, symbol, inputlistSym, 4);
-            logger.info("> getNNOtherDataDB " + nnName + " " + inputlistSym.size());
+//            logger.info("> getNNOtherDataDB " + nnName + " " + inputlistSym.size());
             if (ret == 1) {
                 inputlist.addAll(inputlistSym);
             }
