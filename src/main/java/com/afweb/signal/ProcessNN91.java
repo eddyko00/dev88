@@ -46,8 +46,8 @@ public class ProcessNN91 {
         //StockArray assume recent date to old data              
         //trainingNN91dataMACD will return oldest first to new date
         //trainingNN91dataMACD will return oldest first to new date
-        ProcessNN91 nn1 = new ProcessNN91();
-        inputList = nn1.trainingNN91dataMACD1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        ProcessNN91 nn91 = new ProcessNN91();
+        inputList = nn91.trainingNN91dataMACD1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
 
         if (inputList.size() == 0) {
             // it is okay for input relearning
@@ -442,7 +442,7 @@ public class ProcessNN91 {
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-                                    logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
+                                    logger.info("> updateAdminTR nn91 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
                                     stopLoss = true;
                                     nnSignal = macdSignal;
                                     confident += 15;
@@ -450,7 +450,7 @@ public class ProcessNN91 {
 
                                     delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
-//                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
+//                                        logger.info("> updateAdminTR nn91 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = macdSignal;
                                         confident += 15;
                                     }
@@ -474,7 +474,7 @@ public class ProcessNN91 {
                     int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
 //                    if (ServiceAFweb.mydebugtestflag == true) {
 //                        if (stock.getSymbol().equals("HOU.TO")) {
-//                            logger.info("> updateAdminTradingsignalnn1 " + ", offset=" + offset + ", retSignal=" + retSignal + ", nnSignal=" + nnSignal);
+//                            logger.info("> updateAdminTradingsignalnn91 " + ", offset=" + offset + ", retSignal=" + retSignal + ", nnSignal=" + nnSignal);
 //                        }
 //                    }
                     if (nnSignal == retSignal) {
@@ -499,26 +499,26 @@ public class ProcessNN91 {
                 return nnRet;
             }
         } catch (Exception ex) {
-            logger.info("> updateAdminTradingsignalnn1 Exception" + ex.getMessage());
+            logger.info("> updateAdminTradingsignalnn91 Exception" + ex.getMessage());
         }
         return null;
     }
-    public static float nn1StopLoss = 16;  // 20
+    public static float nn91StopLoss = 16;  // 20
     // check stop loss
 
     public float Rule1_StopLoss(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
 
         if (ServiceAFweb.mydebugnewtest == true) {
-            nn1StopLoss = 5; // test with 5 % stop loss
+            nn91StopLoss = 5; // test with 5 % stop loss
         }
         if (currSignal == ConstantKey.S_BUY) {
-            if (delPer < -nn1StopLoss) {
+            if (delPer < -nn91StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
         } else if (currSignal == ConstantKey.S_SELL) {
-            if (delPer > nn1StopLoss) {
+            if (delPer > nn91StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
@@ -577,12 +577,12 @@ public class ProcessNN91 {
 
                 for (int i = 0; i < 5; i++) {
                     //StockArray recent to old date
-                    NNObj nn1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
-                    if (nn1 != null) {
-                        output1 = nn1.getOutput1();
-                        output2 = nn1.getOutput2();
+                    NNObj nn91 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
+                    if (nn91 != null) {
+                        output1 = nn91.getOutput1();
+                        output2 = nn91.getOutput2();
                         if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
-                            nn = nn1;
+                            nn = nn91;
                             break;
 
                         }

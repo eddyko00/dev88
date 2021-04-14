@@ -45,8 +45,8 @@ public class ProcessNN92 {
         //StockArray assume recent date to old data              
         //trainingNN1dataMACD will return oldest first to new date
         //trainingNN1dataMACD will return oldest first to new date
-        ProcessNN92 nn2 = new ProcessNN92();
-        inputList = nn2.trainingNN92dataEMA1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        ProcessNN92 nn92 = new ProcessNN92();
+        inputList = nn92.trainingNN92dataEMA1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
         // alway use normal
 
         if (inputList.size() == 0) {
@@ -469,7 +469,7 @@ public class ProcessNN92 {
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
-                                    logger.info("> updateAdminTR nn2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
+                                    logger.info("> updateAdminTR nn92 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
                                     stopLoss = true;
                                     nnSignal = emaSignal;
                                     confident += 15;
@@ -520,11 +520,11 @@ public class ProcessNN92 {
                 return nnRet;
             }
         } catch (Exception ex) {
-            logger.info("> updateAdminTradingsignalnn2 Exception" + ex.getMessage());
+            logger.info("> updateAdminTradingsignalnn92 Exception" + ex.getMessage());
         }
         return null;
     }
-    public static float nn2StopLoss = 16;  // 20
+    public static float nn92StopLoss = 16;  // 20
     // check stop loss
 
     public float Rule1_StopLoss(int currSignal, float thClose, float StClose) {
@@ -533,15 +533,15 @@ public class ProcessNN92 {
 //        }
         float delPer = 100 * (StClose - thClose) / thClose;
         if (ServiceAFweb.mydebugnewtest == true) {
-            nn2StopLoss = 5; // test with 5 % stop loss
+            nn92StopLoss = 5; // test with 5 % stop loss
         }
         if (currSignal == ConstantKey.S_BUY) {
-            if (delPer < -nn2StopLoss) {
+            if (delPer < -nn92StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
         } else if (currSignal == ConstantKey.S_SELL) {
-            if (delPer > nn2StopLoss) {
+            if (delPer > nn92StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
