@@ -892,12 +892,15 @@ public class TradingSignalProcess {
         return true;
     }
 
-    public ArrayList<StockTRHistoryObj> resetVitualTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName) {
-        serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), trName);
-        TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
+    ///asc thObjList old first - recent last
+    public ArrayList<StockTRHistoryObj> resetVitualTransaction(ServiceAFweb serviceAFWeb, AFstockObj stock, String trName) {
+
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
+        TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), trName);
         // get 2 year
         /// thObjList old first - recent last
-        ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2);
+        ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.SHORT_MONTH_SIZE);
         return trHistoryList;
     }
 
@@ -980,7 +983,7 @@ public class TradingSignalProcess {
 
                     // get 2 year
                     /// thObjList old first - recent last
-                    ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2);
+                    ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.MONTH_SIZE);
 
                     if ((trHistoryList == null) || (trHistoryList.size() == 0)) {
                         continue;
@@ -1066,15 +1069,15 @@ public class TradingSignalProcess {
     }
 
     /// thObjList old first - recent last
-    public ArrayList<StockTRHistoryObj> ProcessTRHistory(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, int lengthYr) {
+    public ArrayList<StockTRHistoryObj> ProcessTRHistory(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, int lengthYr, int month) {
 
         int size1year = 20 * 12 * lengthYr + (50 * 3);
         String symbol = trObj.getSymbol();
         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
         int offset = 0;
-
-        ArrayList<StockTRHistoryObj> thObjList = ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, CKey.MONTH_SIZE);
+        ///asc thObjList old first - recent last
+        ArrayList<StockTRHistoryObj> thObjList = ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, month);
         return thObjList;
     }
 

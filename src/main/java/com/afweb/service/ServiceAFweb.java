@@ -1032,17 +1032,21 @@ public class ServiceAFweb {
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            String symbol = "GLD";
+            String symbol = "DIA";
             int trNN = ConstantKey.INT_TR_NN1;
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            mydebugnewtest = true;
+            nn3testflag=true;
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            mydebugnewtest = true;
 //            TradingNNData tn = new TradingNNData();
 //            ArrayList<NNInputDataObj> inputlist = new ArrayList();
 //            tn.getNNOtherDataDB(this, nnName, inputlist);
-
 //            long fistyear = DateUtil.getFirstDayCurrentYear();
 //            Date dat = new Date(fistyear);
 //            logger.info(dat.toString());
@@ -4888,7 +4892,7 @@ public class ServiceAFweb {
             for (int i = 0; i < trObjList.size(); i++) {
                 TradingRuleObj trObj = trObjList.get(i);
                 if (trname.equals(trObj.getTrname())) {
-                    ArrayList<StockTRHistoryObj> thObjList = TRprocessImp.ProcessTRHistory(this, trObj, 2);
+                    ArrayList<StockTRHistoryObj> thObjList = TRprocessImp.ProcessTRHistory(this, trObj, 2, CKey.MONTH_SIZE);
                     return thObjList;
                 }
             }
@@ -6651,7 +6655,7 @@ public class ServiceAFweb {
         tr.setType(ConstantKey.INT_TR_NN3);
         tr.setComment("");
         getTRList().add(tr);
-        
+
         tr = new TradingRuleObj();
         tr.setTrname(ConstantKey.TR_NN91);
         tr.setType(ConstantKey.INT_TR_NN91);

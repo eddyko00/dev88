@@ -439,21 +439,26 @@ public class ProcessNN1 {
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
                                 float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
-                                long lastTHLong = lastTH.getEntrydatel();
-                                long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
                                     logger.info("> updateAdminTR nn1 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
                                     stopLoss = true;
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
-
-                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
-                                    if (delta > 0) {
-//                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
-                                        nnSignal = macdSignal;
+                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, offset, stock, prevSignal, thClose, StClose);
+                                    if (rule5_Signal != prevSignal) {
+                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 5 signal " + stockDate.toString());
+                                        nnSignal = rule5_Signal;
                                         confident += 15;
                                     }
+//                                    long lastTHLong = lastTH.getEntrydatel();
+//                                    long curSGLong = stockinfo.getEntrydatel();
+//                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
+//                                    if (delta > 0) {
+////                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
+//                                        nnSignal = macdSignal;
+//                                        confident += 15;
+//                                    }
                                 }
 
                             }
@@ -526,13 +531,20 @@ public class ProcessNN1 {
         return 0;
     }
 
-    public float Rule5_ResetTR(ServiceAFweb serviceAFWeb, AccountObj accountObj, int offset, AFstockObj stock,
-            int currSignal, float thClose, float StClose
-    ) {
+    public int Rule5_ResetTR(ServiceAFweb serviceAFWeb, AccountObj accountObj, int offset, AFstockObj stock,
+            int currSignal, float thClose, float StClose) {
+
+        if (ServiceAFweb.mydebugnewtest == false) {
+            return currSignal;
+        }
+
+        boolean checkResetTR = false;
+        checkResetTR = true; ////// just for testing
+
         float delPer = 100 * (StClose - thClose) / thClose;
 
-        float delErr = 2; // greater 2%
-        boolean checkResetTR = false;
+        float delErr = (float) 1.5; // greater 1.5%
+
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer < -delErr) {
                 delPer = Math.abs(delPer);
@@ -547,9 +559,21 @@ public class ProcessNN1 {
         if (checkResetTR == true) {
             TradingSignalProcess TS = new TradingSignalProcess();
             String trName = ConstantKey.TR_NN3;
-            ArrayList<StockTRHistoryObj> THhistory = TS.resetVitualTransaction(serviceAFWeb, accountObj, stock, trName);
+            ///asc thObjList old first - recent last
+            ArrayList<StockTRHistoryObj> THhistory = TS.resetVitualTransaction(serviceAFWeb, stock, trName);
+            if (THhistory != null) {
+                if (THhistory.size() > 0) {
+                    ///desc recent last - thObjList old first
+                    Collections.reverse(THhistory);
+                    StockTRHistoryObj thObj = THhistory.get(0);
+                    int resetSignal = thObj.getTrsignal();
+                    if (currSignal != resetSignal) {
+                        return resetSignal;
+                    }
+                }
+            }
         }
-        return 0;
+        return currSignal;
     }
 
     public float Rule2_LongTran(NNObj nn, long lastTHLong, long curSGLong) {
