@@ -336,7 +336,7 @@ public class ProcessNN2 {
 //                                    nnSignal = rule4Signal;
 //                                    break;
 //                                }
-                                float delta = specialOverrideRule1(prevSignal, thClose, StClose);
+                                float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
                                 long lastTHLong = lastTH.getUpdateDatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
@@ -345,7 +345,7 @@ public class ProcessNN2 {
                                     nnSignal = emaSignal;
                                     confident += 15;
                                 } else {
-                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = emaSignal;
@@ -366,7 +366,7 @@ public class ProcessNN2 {
         }
         if (nnSignal != prevSignal) {
             // signal change double check wiht NN trend
-            int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+            int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
             //override the previous NN1 prediction
             if (nnSignal == trendSignal) {
                 confident += 30;
@@ -376,7 +376,7 @@ public class ProcessNN2 {
             nnSignal = trendSignal;
         }
         if (nnSignal != prevSignal) {
-            int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+            int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
             if (nnSignal == retSignal) {
                 confident += 10;
             }
@@ -465,7 +465,7 @@ public class ProcessNN2 {
 //                                    nnSignal = rule4Signal;
 //                                    confident += 15;
 //                                } else {
-                                float delta = specialOverrideRule1(prevSignal, thClose, StClose);
+                                float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
@@ -475,7 +475,7 @@ public class ProcessNN2 {
                                     confident += 15;
                                 } else {
 
-                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = emaSignal;
@@ -489,7 +489,7 @@ public class ProcessNN2 {
                 }
                 if (nnSignal != prevSignal) {
                     // signal change double check wiht NN trend
-                    int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+                    int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
                     //override the previous NN1 prediction
                     if (nnSignal == trendSignal) {
                         confident += 30;
@@ -498,7 +498,7 @@ public class ProcessNN2 {
                 }
 
                 if (nnSignal != prevSignal) {
-                    int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+                    int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
                     if (nnSignal == retSignal) {
                         confident += 10;
                     }
@@ -527,7 +527,7 @@ public class ProcessNN2 {
     public static float nn2StopLoss = 16;  // 20
     // check stop loss
 
-    public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
+    public float Rule1_StopLoss(int currSignal, float thClose, float StClose) {
 //        if (true) {
 //            return 0;
 //        }
@@ -549,7 +549,7 @@ public class ProcessNN2 {
         return 0;
     }
 
-    public float specialOverrideRule2(NNObj nn, long lastTHLong, long curSGLong) {
+    public float Rule2_LongTran(NNObj nn, long lastTHLong, long curSGLong) {
         // ignore rule 2
         if (true) {
             return 0;
@@ -569,7 +569,7 @@ public class ProcessNN2 {
 
     // return signal
     // check current trend change
-    public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
+    public int Rule3_CheckTrend(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
 //        if (true) {
 //            return nnSignal;
 //        }
@@ -655,7 +655,7 @@ public class ProcessNN2 {
     }
 
     // check current day change
-    public int specialOverrideRule4(int newSignal, int preSignal, ArrayList StockArray, int offset) {
+    public int Rule4_DayChange(int newSignal, int preSignal, ArrayList StockArray, int offset) {
 
         AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
         float StClose = stockinfo.getFclose();

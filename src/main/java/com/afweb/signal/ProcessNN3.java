@@ -326,7 +326,7 @@ public class ProcessNN3 {
                                 float thClose = lastTH.getClose();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                float delta = specialOverrideRule1(prevSignal, thClose, StClose);
+                                float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
                                 long lastTHLong = lastTH.getUpdateDatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
@@ -335,7 +335,7 @@ public class ProcessNN3 {
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
-                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> ProcessTRH NN3 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = macdSignal;
@@ -356,7 +356,7 @@ public class ProcessNN3 {
         }
         if (nnSignal != prevSignal) {
             // signal change double check wiht NN trend
-            int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+            int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
             //override the previous NN3 prediction
             if (nnSignal == trendSignal) {
                 confident += 30;
@@ -366,7 +366,7 @@ public class ProcessNN3 {
             nnSignal = trendSignal;
         }
         if (nnSignal != prevSignal) {
-            int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+            int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
             if (nnSignal == retSignal) {
                 confident += 10;
             }
@@ -437,7 +437,7 @@ public class ProcessNN3 {
                                 float thClose = lastTH.getAvgprice();
                                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                                 float StClose = stockinfo.getFclose();
-                                float delta = specialOverrideRule1(prevSignal, thClose, StClose);
+                                float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
                                 long lastTHLong = lastTH.getEntrydatel();
                                 long curSGLong = stockinfo.getEntrydatel();
                                 if (delta > 0) {
@@ -447,7 +447,7 @@ public class ProcessNN3 {
                                     confident += 15;
                                 } else {
 
-                                    delta = specialOverrideRule2(nn, lastTHLong, curSGLong);
+                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
                                     if (delta > 0) {
 //                                        logger.info("> updateAdminTR nn3 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
                                         nnSignal = macdSignal;
@@ -461,7 +461,7 @@ public class ProcessNN3 {
                 }
                 if (nnSignal != prevSignal) {
                     // signal change double check wiht NN trend
-                    int trendSignal = this.specialOverrideRule3(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+                    int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
                     //override the previous NN3 prediction
                     if (nnSignal == trendSignal) {
                         confident += 30;
@@ -470,7 +470,7 @@ public class ProcessNN3 {
                 }
 
                 if (nnSignal != prevSignal) {
-                    int retSignal = specialOverrideRule4(nnSignal, prevSignal, StockArray, offset);
+                    int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
 //                    if (ServiceAFweb.mydebugtestflag == true) {
 //                        if (stock.getSymbol().equals("HOU.TO")) {
 //                            logger.info("> updateAdminTradingsignalnn3 " + ", offset=" + offset + ", retSignal=" + retSignal + ", nnSignal=" + nnSignal);
@@ -505,7 +505,7 @@ public class ProcessNN3 {
     public static float nn3StopLoss = 16;  // 20
     // check stop loss
 
-    public float specialOverrideRule1(int currSignal, float thClose, float StClose) {
+    public float Rule1_StopLoss(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
         if (ServiceAFweb.mydebugnewtest == true) {
             nn3StopLoss = 5; // test with 5 % stop loss
@@ -524,7 +524,7 @@ public class ProcessNN3 {
         return 0;
     }
 
-    public float specialOverrideRule2(NNObj nn, long lastTHLong, long curSGLong) {
+    public float Rule2_LongTran(NNObj nn, long lastTHLong, long curSGLong) {
         // ignore rule 2
         if (true) {
             return 0;
@@ -543,7 +543,7 @@ public class ProcessNN3 {
     }
 
     // check current trend change
-    public int specialOverrideRule3(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
+    public int Rule3_CheckTrend(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
         NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, tradingRuleList, StockArray, offset);
         if (nn != null) {
 
@@ -624,7 +624,7 @@ public class ProcessNN3 {
     }
 
     // check current day change
-    public int specialOverrideRule4(int newSignal, int preSignal, ArrayList StockArray, int offset) {
+    public int Rule4_DayChange(int newSignal, int preSignal, ArrayList StockArray, int offset) {
 
         AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
         float StClose = stockinfo.getFclose();
