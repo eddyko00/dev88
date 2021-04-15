@@ -285,7 +285,7 @@ public class ProcessNN1 {
     int ProcessTRHistoryOffsetNN1(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
         int confident = 0;
-        boolean stopLoss = false;
+        boolean stopLoss = false;      
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
         float prediction = -1;
@@ -399,6 +399,7 @@ public class ProcessNN1 {
         NNObj nnRet = new NNObj();
         int confident = 0;
         boolean stopLoss = false;
+        boolean stopReset = false;          
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
                 MACDObj macdNN = this.getTechnicalCal(StockArray, offset);
@@ -480,7 +481,9 @@ public class ProcessNN1 {
                         if (rule5_Signal != prevSignal) {
                             logger.info("> updateAdminTR nn1 " + symbol + " Override 5 signal " + stockDate.toString());
                             nnSignal = rule5_Signal;
-                            confident += 15;
+                            confident += 15;        
+                            stopReset = false;  
+                            
                         }
                     }
                 }
@@ -512,6 +515,9 @@ public class ProcessNN1 {
                     if (prevSignal == ConstantKey.S_SELL) {
                         confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
+                    if (stopReset == true) {
+                        confidentSt = confidentSt + " (Stop NewTR)";
+                    }                    
                     if (stopLoss == true) {
                         confidentSt = confidentSt + " (Stop Loss)";
                     }

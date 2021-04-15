@@ -409,6 +409,7 @@ public class ProcessNN2 {
             TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
         NNObj nnRet = new NNObj();
         boolean stopLoss = false;
+        boolean stopReset = false;
         int confident = 0;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
@@ -511,6 +512,7 @@ public class ProcessNN2 {
                             logger.info("> updateAdminTR nn2 " + symbol + " Override 5 signal " + stockDate.toString());
                             nnSignal = rule5_Signal;
                             confident += 15;
+                            stopReset = true;
                         }
                     }
                 }
@@ -536,6 +538,9 @@ public class ProcessNN2 {
                     if (prevSignal == ConstantKey.S_SELL) {
                         confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
+                    if (stopReset == true) {
+                        confidentSt = confidentSt + " (Stop NewTR)";
+                    }                         
                     if (stopLoss == true) {
                         confidentSt = confidentSt + " (Stop Loss)";
                     }

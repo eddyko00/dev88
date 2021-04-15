@@ -398,6 +398,7 @@ public class ProcessNN3 {
         NNObj nnRet = new NNObj();
         int confident = 0;
         boolean stopLoss = false;
+        boolean stopReset = false;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
                 MACDObj macdNN = this.getTechnicalCal(StockArray, offset);
@@ -475,6 +476,7 @@ public class ProcessNN3 {
                             logger.info("> updateAdminTR nn3 " + symbol + " Override 5 signal " + stockDate.toString());
                             nnSignal = rule5_Signal;
                             confident += 15;
+                            stopReset = true;
                         }
                     }
                 }                
@@ -506,6 +508,9 @@ public class ProcessNN3 {
                     if (prevSignal == ConstantKey.S_SELL) {
                         confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
+                    if (stopReset == true) {
+                        confidentSt = confidentSt + " (Stop NewTR)";
+                    }                                             
                     if (stopLoss == true) {
                         confidentSt = confidentSt + " (Stop Loss)";
                     }
