@@ -147,143 +147,143 @@ public class ProcessNN92 {
 //    that the trend is shifting up. This is known as a "golden cross."
 //    Meanwhile, when the shorter-term MA crosses below the longer-term MA, it's a sell signal, 
 //    as it indicates that the trend is shifting down. This is known as a "dead/death cross."
-    //StockArray assume recent date to old data
-    //StockArray assume recent date to old data
-    //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> trainingNN92dataEMA1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-//        logger.info("> trainingNN92 ");
-
-        String username = CKey.ADMIN_USERNAME;
-        String accountid = "1";
-        String symbol = sym;
-
-        String TRname = ConstantKey.TR_NN92;
-        NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjNN92 = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, TRname);
-
-        TradingRuleObj trObj2 = new TradingRuleObj();
-        trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA1);
-//        trObj2.setType(ConstantKey.INT_TR_EMA00);
-        // normal
-
-        trObj2.setAccount(trObjNN92.getAccount());
-        trObj2.setStockid(trObjNN92.getStockid());
-
-        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
-
-        if (getEnv.checkLocalPC() == true) {
-            if (CKey.NN_DEBUG == true) {
-                if (monthSize > 5) {
-                    ArrayList<String> writeArray = new ArrayList();
-                    ArrayList<String> displayArray = new ArrayList();
-                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListEMA, writeArray, displayArray);
-                    boolean flagHis = false;
-                    if (flagHis == true) {
-                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_2" + "_tran.csv", writeArray);
-                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListEMA, symbol, TRname + "_2", null);
-                    }
-                }
-            }
-        }
-
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
-        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
-
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
-        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
-
-        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN92(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
-
-        return inputDatalist;
-    }
-
-    public ArrayList<NNInputDataObj> trainingNN92dataEMA2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-//        logger.info("> trainingNN92 ");
-
-        String username = CKey.ADMIN_USERNAME;
-        String accountid = "1";
-        String symbol = sym;
-//        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
-        String TRname = ConstantKey.TR_NN92;
-
-        NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjNN92 = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, TRname);
-
-        TradingRuleObj trObj2 = new TradingRuleObj();
-        trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA2);
-//        trObj2.setType(ConstantKey.INT_TR_EMA0);
-        // slow
-
-        trObj2.setAccount(trObjNN92.getAccount());
-        trObj2.setStockid(trObjNN92.getStockid());
-
-        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
-
-        if (getEnv.checkLocalPC() == true) {
-            if (CKey.NN_DEBUG == true) {
-                if (monthSize > 5) {
-                    ArrayList<String> writeArray = new ArrayList();
-                    ArrayList<String> displayArray = new ArrayList();
-                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListEMA, writeArray, displayArray);
-                    boolean flagHis = false;
-                    if (flagHis == true) {
-                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_1" + "_tran.csv", writeArray);
-                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListEMA, symbol, TRname + "_1", null);
-                    }
-                }
-            }
-        }
-
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
-        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
-
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
-        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
-
-        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN92(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
-
-        return inputDatalist;
-    }
-
-    //StockArray assume recent date to old data
-    //StockArray assume recent date to old data
-    //StockArray assume recent date to old data   
-    public ArrayList<NNInputDataObj> RetrainingNN92dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-//        logger.info("> trainingNN ");
-//        this.serviceAFWeb = serviceAFWeb;
-        String username = CKey.ADMIN_USERNAME;
-        String accountid = "1";
-        String symbol = sym;
-//        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
-
-        NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjNN92 = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_NN92);
-
-        TradingRuleObj trObj2 = new TradingRuleObj();
-        trObj2.setTrname(ConstantKey.TR_NN92);
-        trObj2.setType(ConstantKey.INT_TR_NN92);
-
-        trObj2.setAccount(trObjNN92.getAccount());
-        trObj2.setStockid(trObjNN92.getStockid());
-
-        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
-
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
-        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
-
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
-        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
-
-        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN92(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
-
-        return inputDatalist;
-    }
+//    //StockArray assume recent date to old data
+//    //StockArray assume recent date to old data
+//    //StockArray assume recent date to old data   
+//    public ArrayList<NNInputDataObj> trainingNN92dataEMA1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+////        logger.info("> trainingNN92 ");
+//
+//        String username = CKey.ADMIN_USERNAME;
+//        String accountid = "1";
+//        String symbol = sym;
+//
+//        String TRname = ConstantKey.TR_NN92;
+//        NNTrainObj nnTrSym = new NNTrainObj();
+//        TradingRuleObj trObjNN92 = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, TRname);
+//
+//        TradingRuleObj trObj2 = new TradingRuleObj();
+//        trObj2.setTrname(ConstantKey.TR_MV);
+//        trObj2.setType(ConstantKey.INT_TR_EMA1);
+////        trObj2.setType(ConstantKey.INT_TR_EMA00);
+//        // normal
+//
+//        trObj2.setAccount(trObjNN92.getAccount());
+//        trObj2.setStockid(trObjNN92.getStockid());
+//
+//        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
+//
+//        if (getEnv.checkLocalPC() == true) {
+//            if (CKey.NN_DEBUG == true) {
+//                if (monthSize > 5) {
+//                    ArrayList<String> writeArray = new ArrayList();
+//                    ArrayList<String> displayArray = new ArrayList();
+//                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListEMA, writeArray, displayArray);
+//                    boolean flagHis = false;
+//                    if (flagHis == true) {
+//                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_2" + "_tran.csv", writeArray);
+//                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListEMA, symbol, TRname + "_2", null);
+//                    }
+//                }
+//            }
+//        }
+//
+//        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
+//        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
+//
+//        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
+//        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
+//
+//        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN92(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
+//
+//        return inputDatalist;
+//    }
+//
+//    public ArrayList<NNInputDataObj> trainingNN92dataEMA2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+////        logger.info("> trainingNN92 ");
+//
+//        String username = CKey.ADMIN_USERNAME;
+//        String accountid = "1";
+//        String symbol = sym;
+////        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
+//        String TRname = ConstantKey.TR_NN92;
+//
+//        NNTrainObj nnTrSym = new NNTrainObj();
+//        TradingRuleObj trObjNN92 = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, TRname);
+//
+//        TradingRuleObj trObj2 = new TradingRuleObj();
+//        trObj2.setTrname(ConstantKey.TR_MV);
+//        trObj2.setType(ConstantKey.INT_TR_EMA2);
+////        trObj2.setType(ConstantKey.INT_TR_EMA0);
+//        // slow
+//
+//        trObj2.setAccount(trObjNN92.getAccount());
+//        trObj2.setStockid(trObjNN92.getStockid());
+//
+//        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
+//
+//        if (getEnv.checkLocalPC() == true) {
+//            if (CKey.NN_DEBUG == true) {
+//                if (monthSize > 5) {
+//                    ArrayList<String> writeArray = new ArrayList();
+//                    ArrayList<String> displayArray = new ArrayList();
+//                    int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcess(thObjListEMA, writeArray, displayArray);
+//                    boolean flagHis = false;
+//                    if (flagHis == true) {
+//                        FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_1" + "_tran.csv", writeArray);
+//                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListEMA, symbol, TRname + "_1", null);
+//                    }
+//                }
+//            }
+//        }
+//
+//        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
+//        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
+//
+//        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
+//        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
+//
+//        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN92(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
+//
+//        return inputDatalist;
+//    }
+//
+//    //StockArray assume recent date to old data
+//    //StockArray assume recent date to old data
+//    //StockArray assume recent date to old data   
+//    public ArrayList<NNInputDataObj> RetrainingNN92dataReTrain(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
+//
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+////        logger.info("> trainingNN ");
+////        this.serviceAFWeb = serviceAFWeb;
+//        String username = CKey.ADMIN_USERNAME;
+//        String accountid = "1";
+//        String symbol = sym;
+////        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
+//
+//        NNTrainObj nnTrSym = new NNTrainObj();
+//        TradingRuleObj trObjNN92 = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_NN92);
+//
+//        TradingRuleObj trObj2 = new TradingRuleObj();
+//        trObj2.setTrname(ConstantKey.TR_NN92);
+//        trObj2.setType(ConstantKey.INT_TR_NN92);
+//
+//        trObj2.setAccount(trObjNN92.getAccount());
+//        trObj2.setStockid(trObjNN92.getStockid());
+//
+//        ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
+//
+//        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
+//        ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
+//
+//        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
+//        ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
+//
+//        ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN92(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
+//
+//        return inputDatalist;
+//    }
 
     int ProcessTRHistoryOffsetNN92(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
             int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
@@ -404,126 +404,127 @@ public class ProcessNN92 {
         return ema510;
     }
 
-    public NNObj updateAdminTradingsignalNN92(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
-            TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
-        NNObj nnRet = new NNObj();
-        boolean stopLoss = false;
-        int confident = 0;
-        try {
-            if (trObj.getSubstatus() == ConstantKey.OPEN) {
-/////////////////////////////////////////////              
-                EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
-                // EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
-
-                int emaSignal = ema510.trsignal;
-/////////////////////////////////////////////                
-
-                AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
-                Date stockDate = new Date(stockinfoT.getEntrydatel());
-                int prevSignal = trObj.getTrsignal();
-                int nnSignal = trObj.getTrsignal();
-                if (nnSignal == ConstantKey.S_NEUTRAL) {
-                    nnSignal = emaSignal;
-                }
-                if (emaSignal == nnSignal) {
-                    nnRet.setTrsignal(emaSignal);
-                    return nnRet;
-                }
-                confident += 30;
-                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN92, accountObj, stock, tradingRuleList, StockArray, offset);
-
-                if (nn != null) {
-                    float output1 = nn.getOutput1();
-                    float output2 = nn.getOutput2();
-                    if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
-                        nn.setTrsignal(nnSignal);
-                        float predictionV = nn.getPrediction();
-                        if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
-                            nnSignal = emaSignal;
-                            confident += 30;
-                        }
-                    } else {
-                        // get the last transaction price
-                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
-                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
-                                accObj.getId() + "", symbol, ConstantKey.TR_NN92, 0);
-
-                        if (thList != null) {
-                            // somthing wrong. no transaction for 1 year
-                            if (thList.size() == 1) {
-                                // try to get the MACD transaction. for sure this will have some signal
-                                thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
-                                        accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
-                            }
-                            if (thList.size() > 0) {
-                                TransationOrderObj lastTH = thList.get(0);
-                                float thClose = lastTH.getAvgprice();
-                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
-                                float StClose = stockinfo.getFclose();
-//                                int rule4Signal = specialOverrideRule4(adxObj, prevSignal, thClose, StClose);
-//                                if (rule4Signal != prevSignal) {
-//                                    nnSignal = rule4Signal;
+//    public NNObj updateAdminTradingsignalNN92(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol,
+//            TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList) {
+//        NNObj nnRet = new NNObj();
+//        boolean stopLoss = false;
+//        int confident = 0;
+//        try {
+//            if (trObj.getSubstatus() == ConstantKey.OPEN) {
+///////////////////////////////////////////////              
+//                EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
+//                // EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
+//
+//                int emaSignal = ema510.trsignal;
+///////////////////////////////////////////////                
+//
+//                AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
+//                Date stockDate = new Date(stockinfoT.getEntrydatel());
+//                int prevSignal = trObj.getTrsignal();
+//                int nnSignal = trObj.getTrsignal();
+//                if (nnSignal == ConstantKey.S_NEUTRAL) {
+//                    nnSignal = emaSignal;
+//                }
+//                if (emaSignal == nnSignal) {
+//                    nnRet.setTrsignal(emaSignal);
+//                    return nnRet;
+//                }
+//                confident += 30;
+//                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN92, accountObj, stock, tradingRuleList, StockArray, offset);
+//
+//                if (nn != null) {
+//                    float output1 = nn.getOutput1();
+//                    float output2 = nn.getOutput2();
+//                    if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
+//                        nn.setTrsignal(nnSignal);
+//                        float predictionV = nn.getPrediction();
+//                        if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
+//                            nnSignal = emaSignal;
+//                            confident += 30;
+//                        }
+//                    } else {
+//                        // get the last transaction price
+//                        AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+//                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
+//                                accObj.getId() + "", symbol, ConstantKey.TR_NN92, 0);
+//
+//                        if (thList != null) {
+//                            // somthing wrong. no transaction for 1 year
+//                            if (thList.size() == 1) {
+//                                // try to get the MACD transaction. for sure this will have some signal
+//                                thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
+//                                        accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
+//                            }
+//                            if (thList.size() > 0) {
+//                                TransationOrderObj lastTH = thList.get(0);
+//                                float thClose = lastTH.getAvgprice();
+//                                AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
+//                                float StClose = stockinfo.getFclose();
+////                                int rule4Signal = specialOverrideRule4(adxObj, prevSignal, thClose, StClose);
+////                                if (rule4Signal != prevSignal) {
+////                                    nnSignal = rule4Signal;
+////                                    confident += 15;
+////                                } else {
+//                                float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
+//                                long lastTHLong = lastTH.getEntrydatel();
+//                                long curSGLong = stockinfo.getEntrydatel();
+//                                if (delta > 0) {
+//                                    logger.info("> updateAdminTR nn92 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
+//                                    stopLoss = true;
+//                                    nnSignal = emaSignal;
 //                                    confident += 15;
 //                                } else {
-                                float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
-                                long lastTHLong = lastTH.getEntrydatel();
-                                long curSGLong = stockinfo.getEntrydatel();
-                                if (delta > 0) {
-                                    logger.info("> updateAdminTR nn92 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
-                                    stopLoss = true;
-                                    nnSignal = emaSignal;
-                                    confident += 15;
-                                } else {
-
-                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
-                                    if (delta > 0) {
-//                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
-                                        nnSignal = emaSignal;
-                                        confident += 15;
-                                    }
-                                }
+//
+//                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
+//                                    if (delta > 0) {
+////                                        logger.info("> updateAdminTR nn1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
+//                                        nnSignal = emaSignal;
+//                                        confident += 15;
+//                                    }
 //                                }
-                            } //thList.size() > 0
-                        }
-                    }
-                }
-                if (nnSignal != prevSignal) {
-                    // signal change double check wiht NN trend
-                    int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
-                    //override the previous NN1 prediction
-                    if (nnSignal == trendSignal) {
-                        confident += 30;
-                    }
-                    nnSignal = trendSignal;
-                }
+////                                }
+//                            } //thList.size() > 0
+//                        }
+//                    }
+//                }
+//                if (nnSignal != prevSignal) {
+//                    // signal change double check wiht NN trend
+//                    int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+//                    //override the previous NN1 prediction
+//                    if (nnSignal == trendSignal) {
+//                        confident += 30;
+//                    }
+//                    nnSignal = trendSignal;
+//                }
+//
+//                if (nnSignal != prevSignal) {
+//                    int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
+//                    if (nnSignal == retSignal) {
+//                        confident += 10;
+//                    }
+//                    nnSignal = retSignal;
+//                }
+//
+//                if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
+//                    String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
+//                    if (prevSignal == ConstantKey.S_SELL) {
+//                        confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
+//                    }
+//                    if (stopLoss == true) {
+//                        confidentSt = confidentSt + " (Stop Loss)";
+//                    }
+//                    nnRet.setConfident(confidentSt);
+//                }
+//
+//                nnRet.setTrsignal(nnSignal);
+//                return nnRet;
+//            }
+//        } catch (Exception ex) {
+//            logger.info("> updateAdminTradingsignalnn92 Exception" + ex.getMessage());
+//        }
+//        return null;
+//    }
 
-                if (nnSignal != prevSignal) {
-                    int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
-                    if (nnSignal == retSignal) {
-                        confident += 10;
-                    }
-                    nnSignal = retSignal;
-                }
-
-                if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
-                    String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
-                    if (prevSignal == ConstantKey.S_SELL) {
-                        confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
-                    }
-                    if (stopLoss == true) {
-                        confidentSt = confidentSt + " (Stop Loss)";
-                    }
-                    nnRet.setConfident(confidentSt);
-                }
-
-                nnRet.setTrsignal(nnSignal);
-                return nnRet;
-            }
-        } catch (Exception ex) {
-            logger.info("> updateAdminTradingsignalnn92 Exception" + ex.getMessage());
-        }
-        return null;
-    }
     public static float nn92StopLoss = 16;  // 20
     // check stop loss
 
