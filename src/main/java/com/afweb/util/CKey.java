@@ -100,11 +100,11 @@ public class CKey {
     public static int SHORT_MONTH_SIZE = 2;//3;
     public static double PREDICT_THRESHOLD = 0.6;
 //    
-    public static double NN1_ERROR_THRESHOLD = 0.155; // 0.159; //0.172;  
-    public static double NN2_ERROR_THRESHOLD = 0.137; //0.155;// prev=0.07;  
-    public static double NN3_ERROR_THRESHOLD = 0.07; //0.155;// prev=0.07;      
-    public static double NN30_ERROR_THRESHOLD = 0.226; //0.228; //0.211;  
-    public static double NN40_ERROR_THRESHOLD = 0.096; // 0.232; // 0.276;     
+    public static double NN1_ERROR_THRESHOLD = 0.156; //0.155; // 0.159; //0.172;  
+    public static double NN2_ERROR_THRESHOLD = 0.138; //0.137; //0.155;// 
+    public static double NN3_ERROR_THRESHOLD = 0.156;   
+    public static double NN30_ERROR_THRESHOLD = 0.227; //0.226; //0.228; //0.211;  
+    public static double NN40_ERROR_THRESHOLD = 0.227;   
 //
     public static final int NN_OUTPUT_SIZE = 2;
     public static final int NN_INPUT_SIZE = 10;

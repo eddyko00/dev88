@@ -526,15 +526,12 @@ public class ProcessNN3 {
         }
         return null;
     }
-    public static float nn3StopLoss = 16;  // 20
+    public static float nn3StopLoss = 5; //16;  // 20
     // check stop loss
 
     public float Rule1_StopLoss(int currSignal, float thClose, float StClose) {
         float delPer = 100 * (StClose - thClose) / thClose;
 
-        if (ServiceAFweb.mydebugnewtest == true) {
-            nn3StopLoss = 5; // test with 5 % stop loss
-        }
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer < -nn3StopLoss) {
                 delPer = Math.abs(delPer);
