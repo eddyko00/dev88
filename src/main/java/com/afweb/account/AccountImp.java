@@ -398,11 +398,10 @@ public class AccountImp {
     ////// do not expose interface
     ////// do not expose interface
     ////// do not expose interface high risk
-      public int systemUpdateCustAllStatus(CustomerObj custObj) {
-          return accountdb.updateCustAllStatus(custObj);
-      }
-    
-    
+    public int systemUpdateCustAllStatus(CustomerObj custObj) {
+        return accountdb.updateCustAllStatus(custObj);
+    }
+
 //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&payment=0&balance=15
     public int updateAddCustStatusPaymentBalance(String UserName,
             int status, float payment, float balance) {
@@ -821,6 +820,10 @@ public class AccountImp {
                         }
                     } else if (cSubTypePlan == ConstantKey.INT_PP_DELUXEX2) {
                         if (stockNameList.size() >= ConstantKey.INT_PP_DELUXEX2_NUM) {
+                            return AccountObj.MAX_ALLOW_STOCK_ERROR;
+                        }
+                    } else if (cSubTypePlan == ConstantKey.INT_PP_API) {
+                        if (stockNameList.size() >= ConstantKey.INT_PP_API_NUM) {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
                         }
                     }

@@ -45,8 +45,8 @@ public class ConstantKey {
 
     public static final String PP_API = "PP_API";
     public static final int INT_PP_API = 99;
-    public static final int INT_PP_API_NUM = 99;
-    public static final float INT_PP_API_PRICE = 10000;
+    public static final int INT_PP_API_NUM = 1000;
+    public static final float INT_PP_API_PRICE = 6000;
     public static final String MSG_OPEN = "ENABLE";
     public static final int OPEN = 0;
 
