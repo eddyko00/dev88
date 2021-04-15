@@ -1725,7 +1725,7 @@ public class AccountDB {
         return 0;
     }
 
-    public int addAccount(CustomerObj customer, String accountName, int accType, int accSubStatus) {
+    public int addAccountTypeSubStatus(CustomerObj customer, String accountName, int accType, int accSubStatus) {
 
         if (customer == null) {
             return 0;
@@ -1799,23 +1799,23 @@ public class AccountDB {
                 if (customer.getType() == CustomerObj.INT_ADMIN_USER) {
 
                     String accountName = "acc-" + customer.getId() + "-" + AccountObj.ADMIN_ACCOUNT;
-                    result = addAccount(customer, accountName, AccountObj.INT_ADMIN_ACCOUNT, ConstantKey.OPEN);
+                    result = addAccountTypeSubStatus(customer, accountName, AccountObj.INT_ADMIN_ACCOUNT, ConstantKey.OPEN);
 
                 } else if (customer.getType() == CustomerObj.INT_FUND_USER) {
 
                     String accountName = "acc-" + customer.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
-                    result = addAccount(customer, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.OPEN);
+                    result = addAccountTypeSubStatus(customer, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.OPEN);
                     accountName = "acc-" + customer.getId() + "-" + AccountObj.TRADING_ACCOUNT;
-                    result = addAccount(customer, accountName, AccountObj.INT_TRADING_ACCOUNT, ConstantKey.OPEN);
+                    result = addAccountTypeSubStatus(customer, accountName, AccountObj.INT_TRADING_ACCOUNT, ConstantKey.OPEN);
                     return 1;
                 } else if (customer.getType() == CustomerObj.INT_GUEST_USER) {
 
                     String accountName = "acc-" + customer.getId() + "-" + AccountObj.TRADING_ACCOUNT;
-                    result = addAccount(customer, accountName, AccountObj.INT_TRADING_ACCOUNT, ConstantKey.OPEN);
+                    result = addAccountTypeSubStatus(customer, accountName, AccountObj.INT_TRADING_ACCOUNT, ConstantKey.OPEN);
 
                 }
                 String accountName = "acc-" + customer.getId() + "-" + AccountObj.TRADING_ACCOUNT;
-                result = addAccount(customer, accountName, AccountObj.INT_TRADING_ACCOUNT, ConstantKey.OPEN);
+                result = addAccountTypeSubStatus(customer, accountName, AccountObj.INT_TRADING_ACCOUNT, ConstantKey.OPEN);
                 return 1;
 
             }

@@ -1925,6 +1925,50 @@ public class ServiceAFweb {
         return ret;
     }
 
+    ///////////////////////
+    public int changeFundCustomer(String customername) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        CustomerObj custObj = getAccountImp().getCustomerStatus(customername, null);
+
+        if (custObj == null) {
+            return 0;
+        }
+
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return 0;
+        }
+        custObj.setType(CustomerObj.INT_FUND_USER);
+        custObj.setSubstatus(ConstantKey.INT_PP_DELUXE);
+
+        int result = getAccountImp().systemUpdateCustAllStatus(custObj);
+        if (result == 1) {
+            String accountName = "acc-" + custObj.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
+            result = getAccountImp().addAccountTypeSubStatus(custObj, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.OPEN);
+        }
+        return result;
+    }
+
+    public int changeAPICustomer(String customername) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        CustomerObj custObj = getAccountImp().getCustomerStatus(customername, null);
+
+        if (custObj == null) {
+            return 0;
+        }
+
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return 0;
+        }
+        custObj.setType(CustomerObj.INT_API_USER);
+        custObj.setSubstatus(ConstantKey.INT_PP_API);
+
+        return getAccountImp().systemUpdateCustAllStatus(custObj);
+    }
+
     //////////////////////////////////////
     // need ConstantKey.DISABLE status beofore remove customer
     public int removeCustomer(String customername) {

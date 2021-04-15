@@ -347,8 +347,8 @@ public class AccountImp {
         return accountdb.updateAccountPortfolio(accountName, portfolio);
     }
 
-    public int addAccount(CustomerObj customer, String accountName, int accType, int accPPlan) {
-        return accountdb.addAccount(customer, accountName, accType, accPPlan);
+    public int addAccountTypeSubStatus(CustomerObj customer, String accountName, int accType, int accSub) {
+        return accountdb.addAccountTypeSubStatus(customer, accountName, accType, accSub);
     }
 
     public ArrayList getAccounBestFundList(String UserName, String Password) {
@@ -394,8 +394,16 @@ public class AccountImp {
         }
         return null;
     }
-//http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&payment=0&balance=15
 
+    ////// do not expose interface
+    ////// do not expose interface
+    ////// do not expose interface high risk
+      public int systemUpdateCustAllStatus(CustomerObj custObj) {
+          return accountdb.updateCustAllStatus(custObj);
+      }
+    
+    
+//http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&payment=0&balance=15
     public int updateAddCustStatusPaymentBalance(String UserName,
             int status, float payment, float balance) {
 
@@ -846,7 +854,7 @@ public class AccountImp {
                 tr.setTrname(ConstantKey.TR_NN93);
                 tr.setType(ConstantKey.INT_TR_NN93);
                 tr.setComment("");
-                retAdd = accountdb.addAccountStock(accountObj.getId(), StockID, tr);                
+                retAdd = accountdb.addAccountStock(accountObj.getId(), StockID, tr);
             }
 
             return retAdd; // successful

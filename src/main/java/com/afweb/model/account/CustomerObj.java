@@ -17,6 +17,7 @@ public class CustomerObj extends customer {
     public static final int INT_GUEST_USER = 0;
     public static final int INT_CLIENT_BASIC_USER = 10;
     public static final int INT_FUND_USER = 20;
+    public static final int INT_API_USER = 30;    
     public static final int INT_ADMIN_USER = 99;
 // Customer - type
 

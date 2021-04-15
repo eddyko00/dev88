@@ -128,8 +128,10 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
 
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
-        arrayString.add("/cust/{username}/sys/cust/{customername}/removeCustomer");
-
+        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
+        arrayString.add("/cust/{username}/sys/cust/{customername}/changeapi");
+        arrayString.add("/cust/{username}/sys/cust/{customername}/changefundmgr");
+        
         arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
         arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
 
@@ -2602,7 +2604,54 @@ public class IndexController {
         return 0;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/removeCustomer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//        arrayString.add("/cust/{username}/sys/cust/{customername}/changeapi");
+    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/changeapir", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int ChAPICustomer(
+            @PathVariable("username") String username,
+            @PathVariable("customername") String customername
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        if (customername == null) {
+            return 0;
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int result = afWebService.changeAPICustomer(customername);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+        
+//        arrayString.add("/cust/{username}/sys/cust/{customername}/changefundmgr");
+    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/changefundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int ChFundCustomer(
+            @PathVariable("username") String username,
+            @PathVariable("customername") String customername
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        if (customername == null) {
+            return 0;
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int result = afWebService.changeFundCustomer(customername);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+    
+//        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");    
+    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/removecustomer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int removeCustomer(
             @PathVariable("username") String username,
