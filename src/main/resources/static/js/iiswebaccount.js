@@ -73,16 +73,19 @@ var app = {
         }
 
 
-        var htmlAdmin = '<button id="configbtn"  >Configuration</button>';
-        htmlAdmin += '<button id="invoicebtn"  >Billing Invoice</button>';
-        htmlAdmin += '<button id="fundbtn"  >View Fund Mgr Subscription</button>';
-        $("#adminid").html(htmlAdmin);
+        $("#adminid").html("");
+        var htmlAdmin = "";
         if (custObj.type == 99) {
             var htmlAdmin = '<br><br><button id="sysbtn" >System Status</button>';
             htmlAdmin += '<button id="admsgbtn" >Administration</button>';
             htmlAdmin += '<button id="rptbtn" >Accounting Report</button>';
-            $("#adminid").append(htmlAdmin);
         }
+        htmlAdmin += '<button id="stockLbtn"  >View My Stock List</button>';
+        htmlAdmin += '<button id="configbtn"  >Configuration</button>';
+        htmlAdmin += '<button id="invoicebtn"  >Billing Invoice</button>';
+        htmlAdmin += '<button id="fundbtn"  >View Fund Mgr Subscription</button>';
+        $("#adminid").append(htmlAdmin);
+
 
         $("#accheader").html("Customer Account" + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
@@ -146,6 +149,25 @@ var app = {
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountst_1.html";
+        });
+
+
+        $("#stockLbtn").click(function () {
+            var accObjList = JSON.parse(accObjListStr);
+
+            var accObj = null;
+            for (i = 0; i < accObjList.length; i++) {
+                var accObjTmp = accObjList[i];
+                if (accObjTmp.type == 110) { //INT_TRADING_ACCOUNT
+                    accObj = accObjTmp;
+                    break;
+                }
+            }
+            var accId = accObj.id;
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+            window.location.href = "accountst_1.html";
+
         });
 
 
