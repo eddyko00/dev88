@@ -1947,7 +1947,20 @@ public class ServiceAFweb {
             String accountName = "acc-" + custObj.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
             result = getAccountImp().addAccountTypeSubStatus(custObj, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.OPEN);
         }
+
+        String tzid = "America/New_York"; //EDT
+        TimeZone tz = TimeZone.getTimeZone(tzid);
+        AccountObj accountAdminObj = getAdminObjFromCache();
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        java.sql.Date d = new java.sql.Date(dateNowLong);
+        DateFormat format = new SimpleDateFormat(" hh:mm a");
+        format.setTimeZone(tz);
+        String ESTdate = format.format(d);
+        String msg = ESTdate + " " + custObj.getUsername() + " Cust change to Fund Manager Result:" + result;
+        this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
         return result;
+
     }
 
     public int changeAPICustomer(String customername) {
@@ -1966,7 +1979,20 @@ public class ServiceAFweb {
         custObj.setType(CustomerObj.INT_API_USER);
         custObj.setSubstatus(ConstantKey.INT_PP_API);
 
-        return getAccountImp().systemUpdateCustAllStatus(custObj);
+        int result = getAccountImp().systemUpdateCustAllStatus(custObj);
+
+        String tzid = "America/New_York"; //EDT
+        TimeZone tz = TimeZone.getTimeZone(tzid);
+        AccountObj accountAdminObj = getAdminObjFromCache();
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        java.sql.Date d = new java.sql.Date(dateNowLong);
+        DateFormat format = new SimpleDateFormat(" hh:mm a");
+        format.setTimeZone(tz);
+        String ESTdate = format.format(d);
+        String msg = ESTdate + " " + custObj.getUsername() + " Cust change to API User Result:" + result;
+        this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+        return result;
     }
 
     //////////////////////////////////////
