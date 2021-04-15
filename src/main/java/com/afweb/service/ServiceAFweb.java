@@ -1033,15 +1033,15 @@ public class ServiceAFweb {
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            String symbol = "DIA";
+            String symbol = "XIU.TO";
             int trNN = ConstantKey.INT_TR_NN1;
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            mydebugnewtest = true;
 //            TradingNNData tn = new TradingNNData();
 //            ArrayList<NNInputDataObj> inputlist = new ArrayList();

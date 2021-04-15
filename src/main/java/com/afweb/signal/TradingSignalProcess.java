@@ -894,21 +894,25 @@ public class TradingSignalProcess {
 
     ///asc thObjList old first - recent last
     public ArrayList<StockTRHistoryObj> resetVitualTransaction(ServiceAFweb serviceAFWeb, AFstockObj stock, String trName) {
-
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
-        TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), trName);
-        // get 2 year
-        /// thObjList old first - recent last
-        ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.SHORT_MONTH_SIZE);
+        try {
+            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
+            TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), trName);
+            // get 2 year
+            /// thObjList old first - recent last
+            ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.SHORT_MONTH_SIZE);
 
 //        int size1year = 20 * 12 * 1 + (50 * 3);
 //        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
 //        int offset = 0;
 //        ///asc thObjList old first - recent last
 //        ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, CKey.SHORT_MONTH_SIZE);
-        serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
-        return trHistoryList;
+            serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
+            return trHistoryList;
+        } catch (Exception ex) {
+            logger.info("> resetVitualTransaction Exception" + ex.getMessage());
+        }
+        return null;
     }
 
     public void upateAdminTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
