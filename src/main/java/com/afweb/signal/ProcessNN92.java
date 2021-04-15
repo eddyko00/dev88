@@ -29,116 +29,116 @@ public class ProcessNN92 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN92");
 
-    public static NNObj NNpredictNN92(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
-            ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        NNObj nn = new NNObj();
-
-        String symbol = stock.getSymbol();
-        AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
-
-        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN92 + "_" + symbol;
-
-        ArrayList<NNInputDataObj> inputList = null;
-
-        //StockArray assume recent date to old data  
-        //StockArray assume recent date to old data              
-        //trainingNN1dataMACD will return oldest first to new date
-        //trainingNN1dataMACD will return oldest first to new date
-        ProcessNN92 nn92 = new ProcessNN92();
-        inputList = nn92.trainingNN92dataEMA1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
-        // alway use normal
-
-        if (inputList.size() == 0) {
-            // it is okay for input relearning
-//            logger.info(">NNpredict  error inpulist");
-            return nn;
-        }
-
-        //trainingNN1dataMACD will return oldest to new date so need reverse
-        //trainingNN1dataMACD will return oldest to new date so need reverse
-        Collections.reverse(inputList);
-        ArrayList<NNInputOutObj> inputTraininglist = new ArrayList();
-        NNInputOutObj inputObj = inputList.get(0).getObj();
-        inputTraininglist.add(inputObj);
-
-        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist, ConstantKey.TR_NN92);
-
-        nnTraining.setNameNN(BPname);
-        nnTraining.setSymbol(symbol);
-        nnTraining.setTrname(ConstantKey.TR_NN92);
-        int retNN = TRprocessImp.OutputNNBP(serviceAFWeb, nnTraining);
-        if (retNN == 0) {
-            return nn;
-        }
-
-        if (getEnv.checkLocalPC() == true) {
-            boolean flag = false;
-            if (flag == true) {
-                double[][] inputpattern = null;
-                double[][] targetpattern = null;
-                double[][] response = null;
-
-                inputpattern = nnTraining.getInputpattern();
-                targetpattern = nnTraining.getOutputpattern();
-                response = nnTraining.getResponse();
-                double[] input;
-                double[] output;
-                double[] rsp;
-                ArrayList writeArray = new ArrayList();
-                for (int j = 0; j < inputpattern.length; j++) {
-                    input = inputpattern[j];
-                    output = targetpattern[j];
-                    rsp = response[j];
-
-                    double NNprediction = rsp[0];
-                    int temp = 0;
-                    NNprediction = NNprediction * 1000;
-                    temp = (int) NNprediction;
-                    NNprediction = temp;
-                    NNprediction = NNprediction / 1000;
-
-                    String stDate = new java.sql.Date(stocktmp.getEntrydatel()).toString();
-                    String st = "\"" + stDate + "\",\"" + stocktmp.getFclose() + "\"";
-                    st += "\",\"" + NNprediction
-                            + "\",\"" + output[0]
-                            + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
-                            + "\",\"" + input[3] + "\",\"" + input[4]
-                            + "\",\"" + input[5] + "\",\"" + input[6] + "\",\"" + input[7]
-                            + "\",\"" + input[8] + "\",\"" + input[9]
-                            + "\"";
-
-                    writeArray.add(st);
-                    logger.info(">NNpredict " + st);
-                }
-                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + symbol + "_Predect.csv", writeArray);
-            }
-        }
-        double[][] rsp = nnTraining.getResponse();
-        nn.setOutput1((float) rsp[0][0]);
-        nn.setOutput2((float) rsp[0][1]);
-        inputObj.setOutput1((float) rsp[0][0]);
-        inputObj.setOutput2((float) rsp[0][1]);
-
-        double NNprediction = rsp[0][0];
-        int temp = 0;
-        NNprediction = NNprediction * 1000;
-        temp = (int) NNprediction;
-        NNprediction = temp;
-        NNprediction = NNprediction / 1000;
-
-        nn.setPrediction((float) NNprediction);
-        nn.setTrsignal(inputObj.getTrsignal());
-        String nameST;
-        try {
-            inputObj.setOutput1(NNprediction);
-            nameST = new ObjectMapper().writeValueAsString(inputObj);
-            nn.setComment(nameST);
-        } catch (JsonProcessingException ex) {
-        }
-
-        return nn;
-    }
+//    public static NNObj NNpredictNN92(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
+//            ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//        NNObj nn = new NNObj();
+//
+//        String symbol = stock.getSymbol();
+//        AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
+//
+//        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN92 + "_" + symbol;
+//
+//        ArrayList<NNInputDataObj> inputList = null;
+//
+//        //StockArray assume recent date to old data  
+//        //StockArray assume recent date to old data              
+//        //trainingNN1dataMACD will return oldest first to new date
+//        //trainingNN1dataMACD will return oldest first to new date
+//        ProcessNN92 nn92 = new ProcessNN92();
+//        inputList = nn92.trainingNN92dataEMA1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+//        // alway use normal
+//
+//        if (inputList.size() == 0) {
+//            // it is okay for input relearning
+////            logger.info(">NNpredict  error inpulist");
+//            return nn;
+//        }
+//
+//        //trainingNN1dataMACD will return oldest to new date so need reverse
+//        //trainingNN1dataMACD will return oldest to new date so need reverse
+//        Collections.reverse(inputList);
+//        ArrayList<NNInputOutObj> inputTraininglist = new ArrayList();
+//        NNInputOutObj inputObj = inputList.get(0).getObj();
+//        inputTraininglist.add(inputObj);
+//
+//        NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist, ConstantKey.TR_NN92);
+//
+//        nnTraining.setNameNN(BPname);
+//        nnTraining.setSymbol(symbol);
+//        nnTraining.setTrname(ConstantKey.TR_NN92);
+//        int retNN = TRprocessImp.OutputNNBP(serviceAFWeb, nnTraining);
+//        if (retNN == 0) {
+//            return nn;
+//        }
+//
+//        if (getEnv.checkLocalPC() == true) {
+//            boolean flag = false;
+//            if (flag == true) {
+//                double[][] inputpattern = null;
+//                double[][] targetpattern = null;
+//                double[][] response = null;
+//
+//                inputpattern = nnTraining.getInputpattern();
+//                targetpattern = nnTraining.getOutputpattern();
+//                response = nnTraining.getResponse();
+//                double[] input;
+//                double[] output;
+//                double[] rsp;
+//                ArrayList writeArray = new ArrayList();
+//                for (int j = 0; j < inputpattern.length; j++) {
+//                    input = inputpattern[j];
+//                    output = targetpattern[j];
+//                    rsp = response[j];
+//
+//                    double NNprediction = rsp[0];
+//                    int temp = 0;
+//                    NNprediction = NNprediction * 1000;
+//                    temp = (int) NNprediction;
+//                    NNprediction = temp;
+//                    NNprediction = NNprediction / 1000;
+//
+//                    String stDate = new java.sql.Date(stocktmp.getEntrydatel()).toString();
+//                    String st = "\"" + stDate + "\",\"" + stocktmp.getFclose() + "\"";
+//                    st += "\",\"" + NNprediction
+//                            + "\",\"" + output[0]
+//                            + "\",\"" + input[0] + "\",\"" + input[1] + "\",\"" + input[2]
+//                            + "\",\"" + input[3] + "\",\"" + input[4]
+//                            + "\",\"" + input[5] + "\",\"" + input[6] + "\",\"" + input[7]
+//                            + "\",\"" + input[8] + "\",\"" + input[9]
+//                            + "\"";
+//
+//                    writeArray.add(st);
+//                    logger.info(">NNpredict " + st);
+//                }
+//                FileUtil.FileWriteTextArray(ServiceAFweb.FileLocalDebugPath + symbol + "_Predect.csv", writeArray);
+//            }
+//        }
+//        double[][] rsp = nnTraining.getResponse();
+//        nn.setOutput1((float) rsp[0][0]);
+//        nn.setOutput2((float) rsp[0][1]);
+//        inputObj.setOutput1((float) rsp[0][0]);
+//        inputObj.setOutput2((float) rsp[0][1]);
+//
+//        double NNprediction = rsp[0][0];
+//        int temp = 0;
+//        NNprediction = NNprediction * 1000;
+//        temp = (int) NNprediction;
+//        NNprediction = temp;
+//        NNprediction = NNprediction / 1000;
+//
+//        nn.setPrediction((float) NNprediction);
+//        nn.setTrsignal(inputObj.getTrsignal());
+//        String nameST;
+//        try {
+//            inputObj.setOutput1(NNprediction);
+//            nameST = new ObjectMapper().writeValueAsString(inputObj);
+//            nn.setComment(nameST);
+//        } catch (JsonProcessingException ex) {
+//        }
+//
+//        return nn;
+//    }
 
 //    A moving average can be any length: 15, 28, 89, etc. Adjusting the moving average 
 //    so it provides more accurate signals on historical data may help create better future signals.
