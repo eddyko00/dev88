@@ -32,7 +32,7 @@ public class ConstantKey {
     public static final String PP_PREMIUM = "PREMIUM";
     public static final int INT_PP_PREMIUM = 10;
     public static final int INT_PP_REMIUM_NUM = 10;
-    public static final float INT_PP_REMIUM_PRICE = 60;
+    public static final float INT_PP_REMIUM_PRICE = 70;
     public static final String PP_DELUXE = "DELUXE";
     public static final int INT_PP_DELUXE = 20;
     public static final int INT_PP_DELUXE_NUM = 20;
