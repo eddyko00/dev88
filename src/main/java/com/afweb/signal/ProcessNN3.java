@@ -10,7 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.nnprocess.*;
+
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -560,7 +560,7 @@ public class ProcessNN3 {
 
         float delPer = 100 * (StClose - thClose) / thClose;
 
-        float delErr = (float) 2; // greater 1.5%
+        float delErr = (float) 1.6; //2; // greater 1.5%
 
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer < -delErr) {
