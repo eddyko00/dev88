@@ -1930,7 +1930,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        CustomerObj custObj = getAccountImp().getCustomerStatus(customername, null);
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
 
         if (custObj == null) {
             return 0;
@@ -1954,7 +1954,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        CustomerObj custObj = getAccountImp().getCustomerStatus(customername, null);
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
 
         if (custObj == null) {
             return 0;
@@ -1975,7 +1975,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        CustomerObj custObj = getAccountImp().getCustomerStatus(customername, null);
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
 
         if (custObj == null) {
             return 0;
@@ -5897,7 +5897,7 @@ public class ServiceAFweb {
         } catch (NumberFormatException e) {
             return 0;
         }
-        CustomerObj custObj = getAccountImp().getCustomerStatus(customername, null);
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
         custObj.setStatus(status);
         custObj.setSubstatus(substatus);
         return getAccountImp().updateCustStatusSubStatus(custObj, custObj.getStatus(), custObj.getSubstatus());
@@ -6738,7 +6738,7 @@ public class ServiceAFweb {
         if (portfolio.length() == 0) {
             return;
         }
-        CustomerObj custObj = getAccountImp().getCustomerStatus(CKey.FUND_MANAGER_USERNAME, null);
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(CKey.FUND_MANAGER_USERNAME, null);
         ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {

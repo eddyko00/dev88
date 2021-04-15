@@ -313,7 +313,7 @@ public class FundMgrProcess {
         ServiceAFweb.lastfun = "updateIndexMutualFundAll";    
         logger.info("updateIndexMutualFundAll");
 
-        CustomerObj custObj = getAccountImp().getCustomerStatus(CKey.INDEXFUND_MANAGER_USERNAME, null);
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(CKey.INDEXFUND_MANAGER_USERNAME, null);
         ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {
@@ -380,7 +380,7 @@ public class FundMgrProcess {
             portfolioArray.add(stock);
         }
 
-        CustomerObj custFundObj = getAccountImp().getCustomerStatus(CKey.FUND_MANAGER_USERNAME, null);
+        CustomerObj custFundObj = getAccountImp().getCustomerBySystem(CKey.FUND_MANAGER_USERNAME, null);
         ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custFundObj);
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {

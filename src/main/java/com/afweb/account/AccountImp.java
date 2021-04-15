@@ -155,7 +155,8 @@ public class AccountImp {
         return accountdb.updateCustStatusSubStatus(custObj, status, subStatus);
     }
 
-    public CustomerObj getCustomerStatus(String UserName, String Password) {
+    
+    public CustomerObj getCustomerBySystem(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
         CustomerObj customer = accountdb.getCustomer(UserName, Password);
