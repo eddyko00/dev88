@@ -180,31 +180,31 @@ public class IndexController {
 
         ArrayList arrayString = new ArrayList();
         //
-        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
-        arrayString.add("/cust/login?email={email}&pass={pass}");
+        arrayString.add("/api/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
+        arrayString.add("/api/cust/login?email={email}&pass={pass}");
 
-        arrayString.add("/cust/{username}/acc");
-        arrayString.add("/cust/{username}/acc/{accountid}");
+        arrayString.add("/api/cust/{username}/acc");
+        arrayString.add("/api/cust/{username}/acc/{accountid}");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/comm?length= (default/Max 20)");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist= (-1 delete all)");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/comm?length= (default/Max 20)");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/comm/remove?idlist= (-1 delete all)");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/comm/remove/{id}");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/billing?length= (default/Max 12)");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/billing?length= (default/Max 12)");
         
-        arrayString.add("/cust/{username}/acc/{accountid}/stname");                
-        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/remove/{symbol}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/removesymbol?symbol={symbol}");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/stname");                
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/add/{symbol}");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/remove/{symbol}");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/removesymbol?symbol={symbol}");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf");
+        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf");
 
         return arrayString;
     }
