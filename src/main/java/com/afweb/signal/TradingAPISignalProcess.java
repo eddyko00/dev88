@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class TradingAPISignalProcess {
 
-    protected static Logger logger = Logger.getLogger("TradingAPIProcess");
+    protected static Logger logger = Logger.getLogger("TradingAPISignalProcess");
 
     private static ArrayList stockSignalNameArray = new ArrayList();
 
