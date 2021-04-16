@@ -2665,7 +2665,7 @@ public class IndexController {
     }
 
 //        arrayString.add("/cust/{username}/sys/cust/{customername}/changeapi");
-    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/changeapir", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/changeapi", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int ChAPICustomer(
             @PathVariable("username") String username,
