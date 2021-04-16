@@ -1972,11 +1972,13 @@ public class ServiceAFweb {
 
     }
 
-    public int changeAPICustomer(String customername) {
+    public int changeAPICustomer(String EmailUserName) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);
 
         if (custObj == null) {
             return 0;
@@ -2017,11 +2019,13 @@ public class ServiceAFweb {
 
     //////////////////////////////////////
     // need ConstantKey.DISABLE status beofore remove customer
-    public int removeCustomer(String customername) {
+    public int removeCustomer(String EmailUserName) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);        
 
         if (custObj == null) {
             return 0;

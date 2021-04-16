@@ -93,7 +93,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/custacc");
         arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/stname");          
+        arrayString.add("/cust/{username}/acc/{accountid}/stname");
         arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
         arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/remove/{symbol}");
@@ -130,8 +130,8 @@ public class IndexController {
 
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
         arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
-        arrayString.add("/cust/{username}/sys/cust/{customername}/changeapi");
-        arrayString.add("/cust/{username}/sys/cust/{customername}/changefundmgr");
+        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
+        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
 
         arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
         arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
@@ -191,8 +191,8 @@ public class IndexController {
         arrayString.add("/api/cust/{username}/acc/{accountid}/comm/remove/{id}");
 
         arrayString.add("/api/cust/{username}/acc/{accountid}/billing?length= (default/Max 12)");
-        
-        arrayString.add("/api/cust/{username}/acc/{accountid}/stname");                
+
+        arrayString.add("/api/cust/{username}/acc/{accountid}/stname");
         arrayString.add("/api/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
         arrayString.add("/api/cust/{username}/acc/{accountid}/st/add/{symbol}");
         arrayString.add("/api/cust/{username}/acc/{accountid}/st/remove/{symbol}");
@@ -209,7 +209,7 @@ public class IndexController {
         return arrayString;
     }
 //////////////////////////////////////////////////////////////////////
-    
+
 //////////////////////////////////////////////////////////////////////
     @RequestMapping(value = "/cust/{username}/sys/mysql", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -2664,22 +2664,22 @@ public class IndexController {
         return 0;
     }
 
-//        arrayString.add("/cust/{username}/sys/cust/{customername}/changeapi");
-    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/changeapi", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}"); 
+    @RequestMapping(value = "/cust/{username}/sys/custchangeapi", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int ChAPICustomer(
             @PathVariable("username") String username,
-            @PathVariable("customername") String customername
+            @RequestParam(value = "email", required = true) String emailSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
 
-        if (customername == null) {
+        if (emailSt == null) {
             return 0;
         }
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.changeAPICustomer(customername);
+                int result = afWebService.changeAPICustomer(emailSt);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -2687,22 +2687,22 @@ public class IndexController {
         return 0;
     }
 
-//        arrayString.add("/cust/{username}/sys/cust/{customername}/changefundmgr");
-    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/changefundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");  
+    @RequestMapping(value = "/cust/{username}/sys/custchangefund", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int ChFundCustomer(
             @PathVariable("username") String username,
-            @PathVariable("customername") String customername
+            @RequestParam(value = "email", required = true) String emailSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
 
-        if (customername == null) {
+        if (emailSt == null) {
             return 0;
         }
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.changeFundCustomer(customername);
+                int result = afWebService.changeFundCustomer(emailSt);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
