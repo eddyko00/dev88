@@ -183,6 +183,21 @@ public class AccountDB {
         return null;
     }
 
+    public  ArrayList<CustomerObj> getCustomerByType(int type) {
+        try {
+            String sql = "select * from customer where type =" + type;
+
+            ArrayList<CustomerObj> entries = getCustomerListSQL(sql, 1);
+            if (entries == null) {
+                return null;
+            }
+            return entries;
+        } catch (Exception e) {
+            logger.info("> getCustomerByCustID exception " + type + " - " + e.getMessage());
+        }
+        return null;
+    }
+
     public CustomerObj getCustomerByCustID(int custId) {
         CustomerObj customer = null;
         try {

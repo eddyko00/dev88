@@ -136,7 +136,7 @@ public class TradingSignalProcess {
                         boolean ret = this.checkStock(serviceAFWeb, symbol);
                         if (ret == true) {
 
-                            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_MACD);
+                            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
                             if (trObj != null) {
                                 long lastUpdate = trObj.getUpdatedatel();
                                 long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);

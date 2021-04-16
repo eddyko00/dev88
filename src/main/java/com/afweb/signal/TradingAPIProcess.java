@@ -1,0 +1,212 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.afweb.signal;
+
+import com.afweb.account.*;
+import com.afweb.model.*;
+
+import com.afweb.model.account.*;
+import com.afweb.model.stock.*;
+import com.afweb.service.ServiceAFweb;
+
+import com.afweb.nn.*;
+import com.afweb.nnBP.NNBPservice;
+import com.afweb.nnprocess.NN1ProcessBySignal;
+
+import com.afweb.stock.*;
+import com.afweb.util.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.TimeZone;
+
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author eddyko
+ */
+public class TradingAPIProcess {
+
+    protected static Logger logger = Logger.getLogger("TradingAPIProcess");
+
+    private static ArrayList stockSignalNameArray = new ArrayList();
+
+    public void InitSystemData() {
+        stockSignalNameArray = new ArrayList();
+    }
+
+    private ArrayList UpdateStockSignalNameArray(ServiceAFweb serviceAFWeb) {
+        if (stockSignalNameArray != null && stockSignalNameArray.size() > 0) {
+            return stockSignalNameArray;
+        }
+        ArrayList<CustomerObj> custList = serviceAFWeb.getAccountImp().getCustomerByType(CustomerObj.INT_API_USER);
+        if (custList == null) {
+            return stockSignalNameArray;
+        }
+
+        for (int i = 0; i < custList.size(); i++) {
+            CustomerObj cust = custList.get(i);
+            AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountByType(cust.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+
+            ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
+            ArrayList stockNameAccIdArray = new ArrayList();
+            if (stockNameArray != null) {
+                for (int j = 0; j < stockNameArray.size(); j++) {
+                    String sym = (String) stockNameArray.get(j);
+                    sym = accountObj.getId() + "#" + sym;
+                    stockNameAccIdArray.add(sym);
+                }
+                stockSignalNameArray.addAll(stockNameAccIdArray);
+            }
+        }
+        return stockSignalNameArray;
+    }
+
+    public void ProcessAPISignalTrading(ServiceAFweb serviceAFWeb) {
+//        logger.info("> ProcessAPISignalTrading ");
+//        this.serviceAFWeb = serviceAFWeb;
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        if (accountAdminObj == null) {
+            return;
+        }
+
+        UpdateStockSignalNameArray(serviceAFWeb);
+        if (stockSignalNameArray == null) {
+            return;
+        }
+        if (stockSignalNameArray.size() == 0) {
+            return;
+        }
+
+        String LockName = null;
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long lockDateValue = dateNow.getTimeInMillis();
+
+        LockName = "API_" + ServiceAFweb.getServerObj().getServerName();
+        LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
+
+        long lockReturn = 1;
+        lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
+
+        boolean testing = false;
+        if (testing == true) {
+            lockReturn = 1;
+        }
+        logger.info("ProcessAPISignalTrading " + LockName + " LockName " + lockReturn);
+        if (lockReturn > 0) {
+
+            long currentTime = System.currentTimeMillis();
+            long lockDate5Min = TimeConvertion.addMinutes(currentTime, 5);
+            logger.info("ProcessAPISignalTrading for 3 minutes stocksize=" + stockSignalNameArray.size());
+
+            for (int i = 0; i < 10; i++) {
+                currentTime = System.currentTimeMillis();
+                if (testing == true) {
+                    currentTime = 0;
+                }
+                if (lockDate5Min < currentTime) {
+                    break;
+                }
+                if (stockSignalNameArray.size() == 0) {
+                    break;
+                }
+
+                try {
+                    String accIdSymbol = (String) stockSignalNameArray.get(0);
+                    stockSignalNameArray.remove(0);
+                    String[] accIdSymList = accIdSymbol.split("#");
+
+                    String accIdSt = accIdSymList[0];
+                    String symbol = accIdSymList[1];
+
+                    int accId = Integer.parseInt(accIdSt);
+                    AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountByAccountID(accId);
+
+                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+                    if (stock != null) {
+                        if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+                            logger.info("> ProcessAPISignalTrading return stock split " + symbol);
+                            continue;
+                        }
+                    }
+                    if (stock == null) {
+                        logger.info("> ProcessAPISignalTrading return stock null ");
+                        continue;
+                    }
+
+                    String LockStock = "API_" + symbol;
+                    LockStock = LockStock.toUpperCase();
+
+                    long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+                    long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
+                    if (testing == true) {
+                        lockReturnStock = 1;
+                    }
+//                    logger.info("ProcessAdminSignalTrading " + LockStock + " LockStock " + lockReturnStock);
+                    if (lockReturnStock > 0) {
+
+                        boolean ret = this.checkStock(serviceAFWeb, symbol);
+                        if (ret == true) {
+
+                            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
+                            if (trObj != null) {
+                                long lastUpdate = trObj.getUpdatedatel();
+                                long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);
+
+                                long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+                                if (testing == true) {
+                                    lastUpdate5Min = 0;
+                                }
+                                if (lastUpdate5Min < curDateValue) {
+
+                                    ret = this.checkStock(serviceAFWeb, symbol);
+
+                                    if (ret == true) {
+                                        serviceAFWeb.getAccountProcessImp().updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
+                                        serviceAFWeb.getAccountProcessImp().updateTradingTransaction(serviceAFWeb, accountObj, symbol);
+                                    }
+                                }
+                            }
+                        }
+
+                        serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+//                        logger.info("ProcessAPISignalTrading " + LockStock + " unLock LockStock ");
+                    }
+                } catch (Exception ex) {
+                    logger.info("> ProcessAPISignalTrading Exception" + ex.getMessage());
+                }
+            }
+            serviceAFWeb.removeNameLock(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+//            logger.info("ProcessAPISignalTrading " + LockName + " unlock LockName");
+        }
+    }
+
+    public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+        if (stock == null) {
+            return false;
+        }
+        if (stock.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+        if (stock.getAfstockInfo() == null) {
+            return false;
+        }
+        return true;
+    }
+
+    /////////////
+}

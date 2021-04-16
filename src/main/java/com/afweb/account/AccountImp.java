@@ -155,7 +155,6 @@ public class AccountImp {
         return accountdb.updateCustStatusSubStatus(custObj, status, subStatus);
     }
 
-    
     public CustomerObj getCustomerBySystem(String UserName, String Password) {
 //        logger.info("> getCustomerPassword  " + UserName);
         UserName = UserName.toUpperCase();
@@ -171,6 +170,11 @@ public class AccountImp {
     public CustomerObj getCustomerByCustID(int custId) {
         CustomerObj customer = accountdb.getCustomerByCustID(custId);
         return customer;
+    }
+
+    public ArrayList<CustomerObj> getCustomerByType(int type) {
+        ArrayList<CustomerObj> customerList = accountdb.getCustomerByType(type);
+        return customerList;
     }
 
     public CustomerObj getCustomerByAccount(AccountObj accountObj) {
