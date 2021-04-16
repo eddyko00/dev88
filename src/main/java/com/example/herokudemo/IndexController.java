@@ -108,7 +108,7 @@ public class IndexController {
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chartfile");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/clear");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/{signal}/order");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf?length=");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history");
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history/display");
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
@@ -204,7 +204,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf?length=");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf");
 
         return arrayString;
     }
@@ -1338,7 +1338,7 @@ public class IndexController {
         return ret;
     }
 
-    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/perf?length=");
+    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/perf");
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/perf", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getFundAccountStockTranPerf(
@@ -1347,7 +1347,6 @@ public class IndexController {
             @PathVariable("accfundid") String accfundid,
             @PathVariable("stockidsymbol") String stockidsymbol,
             @PathVariable("trname") String trname,
-            @RequestParam(value = "length", required = false) String lengthSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -1356,16 +1355,14 @@ public class IndexController {
             return null;
         }
         int length = 0;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-        }
-        ArrayList returnList = afWebService.getFundAccountStockTRPerfList(username, lengthSt, accountid, accfundid, stockidsymbol, trname, length);
+
+        ArrayList returnList = afWebService.getFundAccountStockTRPerfList(username, null, accountid, accfundid, stockidsymbol, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
     }
 
-    // "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf?length=0"
+    // "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/perf", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getAccountStockTranPerf(
@@ -1373,7 +1370,6 @@ public class IndexController {
             @PathVariable("accountid") String accountid,
             @PathVariable("stockidsymbol") String stockidsymbol,
             @PathVariable("trname") String trname,
-            @RequestParam(value = "length", required = false) String lengthSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -1382,10 +1378,7 @@ public class IndexController {
             return null;
         }
         int length = 0;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-        }
-        ArrayList returnList = afWebService.getAccountStockTRPerfList(username, lengthSt, accountid, stockidsymbol, trname, length);
+        ArrayList returnList = afWebService.getAccountStockTRPerfList(username, null, accountid, stockidsymbol, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
