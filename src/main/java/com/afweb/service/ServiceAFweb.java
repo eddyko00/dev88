@@ -6710,6 +6710,13 @@ public class ServiceAFweb {
             newCustomer.setType(CustomerObj.INT_ADMIN_USER);
             //// result 1 = success, 2 = existed,  0 = fail
             getAccountImp().addCustomer(newCustomer);
+
+            newCustomer.setUsername(CKey.API_USERNAME);
+            newCustomer.setPassword("eddy");
+            newCustomer.setFirstname("APIUser");
+            newCustomer.setType(CustomerObj.INT_API_USER);
+            getAccountImp().addCustomer(newCustomer);
+
             if (retSatus == 0) {
 
                 newCustomer.setUsername(CKey.G_USERNAME);
@@ -6728,12 +6735,6 @@ public class ServiceAFweb {
                 newCustomer.setPassword("passw0rd");
                 newCustomer.setFirstname("IndexMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
-                getAccountImp().addCustomer(newCustomer);
-
-                newCustomer.setUsername(CKey.API_USERNAME);
-                newCustomer.setPassword("eddy");
-                newCustomer.setFirstname("APIUser");
-                newCustomer.setType(CustomerObj.INT_API_USER);
                 getAccountImp().addCustomer(newCustomer);
 
                 AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);

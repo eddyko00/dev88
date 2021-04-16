@@ -68,7 +68,7 @@ var app = {
         }
         $("#trheader").html(htmltrHeader);
 
-        var numCust = 5;
+        var numDispCust = 5;
 
         $("#commid").html(" "); //clear the field
         var htmlhead = '<div class="ui-grid-b">';
@@ -110,11 +110,11 @@ var app = {
             htmlhead += '</div>';
 
             $("#myid").html('<li id="0" >' + htmlhead + '</li>');
-            var beg = (CustNListCnt) * 2;
+            var beg = CustNListCnt * numDispCust;
             if (beg > CustNList.length) {
                 beg = CustNList.length;
             }
-            var end = beg + numCust;
+            var end = beg + numDispCust;
             if (end > CustNList.length) {
                 end = CustNList.length;
             }
@@ -179,7 +179,7 @@ var app = {
 
         $("#nextCust").click(function () {
             if (CustNListStr !== "") {
-                var beg = (CustNListCnt + 1) * numCust;
+                var beg = (CustNListCnt + 1) * numDispCust;
                 if (beg <= CustNList.length) {
                     CustNListCnt++;
                 }
