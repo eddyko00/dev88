@@ -12,25 +12,11 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.nn.*;
-import com.afweb.nnBP.NNBPservice;
-import com.afweb.nnprocess.NN1ProcessBySignal;
-
-import com.afweb.stock.*;
 import com.afweb.util.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.TimeZone;
+
 
 import java.util.logging.Logger;
 
