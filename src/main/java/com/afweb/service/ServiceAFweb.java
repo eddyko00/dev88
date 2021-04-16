@@ -2152,6 +2152,8 @@ public class ServiceAFweb {
                     // no change
                 } else {
                     if (custObj.getStatus() == CustomerObj.INT_API_USER) {
+                        ;
+                    } else {
                         if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_PREMIUM)
                                 || (planid == ConstantKey.INT_PP_DELUXE)) {
                             custPortfilio.setnPlan(planid);
