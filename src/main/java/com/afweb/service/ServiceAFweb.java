@@ -682,7 +682,7 @@ public class ServiceAFweb {
 
             PUBSUBprocess pubsub = new PUBSUBprocess();
             pubsub.ProcessPUBSUBAccount(this);
-//            getAccountProcessImp().ProcessAdminAccount(this);
+
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
             TRprocessImp.UpdateAllStock(this);
