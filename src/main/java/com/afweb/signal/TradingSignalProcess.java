@@ -2923,7 +2923,8 @@ public class TradingSignalProcess {
     }
 
     //////////////////////////////////////// transaction order
-    public int AddTransactionOrderWithComm(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate, boolean fromSystem) {
+    // user add buy or sell transaction manually
+    public int AddTransactionOrderWithComm(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         int ret = TRprocessImp.AddTransactionOrder(serviceAFWeb, accountObj, stock, trName, tranSignal, null, false);
         if (ret == 1) {
@@ -2943,9 +2944,19 @@ public class TradingSignalProcess {
             } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
                 sig = ConstantKey.S_SELL_ST;
             }
+
+            CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accountObj);
+            if (cust.getType() == CustomerObj.INT_API_USER) {
+                DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+                formatD.setTimeZone(tz);
+                String ESTdateD = formatD.format(d);
+
+                serviceAFWeb.getAccountProcessImp().AddCommAPISignalMessage(serviceAFWeb, accountObj, trObj, ESTdateD, stock.getSymbol(), sig);
+                return ret;
+            }
             String accTxt = "acc-" + accountObj.getId();
             String msg = ESTdate + " " + accTxt + " " + stock.getSymbol() + " Sig:" + sig;
-            serviceAFWeb.getAccountProcessImp().AddCommMessage(serviceAFWeb, accountObj, trObj, msg);
+            serviceAFWeb.getAccountProcessImp().AddCommSignalMessage(serviceAFWeb, accountObj, trObj, msg);
         }
         return ret;
 

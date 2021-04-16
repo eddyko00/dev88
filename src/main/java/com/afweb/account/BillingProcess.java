@@ -561,7 +561,7 @@ public class BillingProcess {
                     try {
                         int FundId = Integer.parseInt(FundIdSt);
                         AccountObj accFund = serviceAFWeb.getAccountImp().getAccountByAccountID(FundId);
-                        CustomerObj custFund = serviceAFWeb.getCustomerbyAccoutObj(accFund);
+                        CustomerObj custFund = serviceAFWeb.getCustomerByAccoutObj(accFund);
                         portfolio = custFund.getPortfolio();
                         custPortfilio = new CustPort();
                         if ((portfolio != null) && (portfolio.length() > 0)) {
@@ -678,7 +678,7 @@ public class BillingProcess {
             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
             serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
 
-            CustomerObj custFund = serviceAFWeb.getCustomerbyAccoutObj(accFund);
+            CustomerObj custFund = serviceAFWeb.getCustomerByAccoutObj(accFund);
             portfolio = custFund.getPortfolio();
             custPortfilio = new CustPort();
             if ((portfolio != null) && (portfolio.length() > 0)) {

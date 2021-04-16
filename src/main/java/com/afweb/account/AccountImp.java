@@ -113,7 +113,7 @@ public class AccountImp {
         return accountdb.getCustomerNameList(name);
     }
 
-    public CustomerObj getCustomerbyAccoutObj(AccountObj accObj) {
+    public CustomerObj getCustomerByAccoutObj(AccountObj accObj) {
         if (accObj == null) {
             return null;
         }

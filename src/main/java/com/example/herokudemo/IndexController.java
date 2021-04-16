@@ -118,7 +118,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/costofgoodsold?payment=&curyear=&reason=&comment=");
-        
+
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
@@ -131,7 +131,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
         arrayString.add("/cust/{username}/sys/cust/{customername}/changeapi");
         arrayString.add("/cust/{username}/sys/cust/{customername}/changefundmgr");
-        
+
         arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
         arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
 
@@ -170,6 +170,40 @@ public class IndexController {
 //        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
 //        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
 //        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
+        return arrayString;
+    }
+
+    @RequestMapping(value = "/api/phelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList SystemAPIHelpPage() {
+
+        ArrayList arrayString = new ArrayList();
+        //
+        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
+        arrayString.add("/cust/login?email={email}&pass={pass}");
+
+        arrayString.add("/cust/{username}/acc");
+        arrayString.add("/cust/{username}/acc/{accountid}");
+
+        arrayString.add("/cust/{username}/acc/{accountid}/comm?length= (default/Max 20)");
+        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist= (-1 delete all)");
+        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
+
+        arrayString.add("/cust/{username}/acc/{accountid}/billing?length= (default 5)");
+
+        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter=&length= (default 20)");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/remove/{symbol}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/removesymbol?symbol={symbol}");
+
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
+
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf?length=");
+
         return arrayString;
     }
 
@@ -713,6 +747,9 @@ public class IndexController {
         int length = 20;
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
+            if (length > 20) {
+                length=20;
+            }
         }
         ArrayList<CommObj> commObjList = afWebService.getCommByCustomerAccountID(username, null, accountid, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
@@ -2046,8 +2083,7 @@ public class IndexController {
         }
         return 0;
     }
-    
-    
+
     //"/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment="
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/deprecation", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -2626,7 +2662,7 @@ public class IndexController {
         }
         return 0;
     }
-        
+
 //        arrayString.add("/cust/{username}/sys/cust/{customername}/changefundmgr");
     @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/changefundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -2649,7 +2685,7 @@ public class IndexController {
         }
         return 0;
     }
-    
+
 //        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");    
     @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/removecustomer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

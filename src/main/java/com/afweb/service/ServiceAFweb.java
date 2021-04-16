@@ -2346,12 +2346,12 @@ public class ServiceAFweb {
         return null;
     }
 
-    public CustomerObj getCustomerbyAccoutObj(AccountObj accObj) {
+    public CustomerObj getCustomerByAccoutObj(AccountObj accObj) {
         CustomerObj result = null;
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = getAccountImp().getCustomerbyAccoutObj(accObj);
+        result = getAccountImp().getCustomerByAccoutObj(accObj);
         return result;
     }
 
@@ -3675,7 +3675,7 @@ public class ServiceAFweb {
             }
 
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-            int ret = TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stock, trName, signal, null, false);
+            int ret = TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stock, trName, signal);
 
             return ret;
         }
@@ -5118,7 +5118,7 @@ public class ServiceAFweb {
                 UpdateTRList.add(tradingRuleObj);
                 getAccountImp().updateAccountStockSignal(UpdateTRList);
 
-                TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal, null, false);
+                TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal);
             }
 
             return getAccountImp().removeAccountStock(accountObj, stockObj.getId());

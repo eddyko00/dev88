@@ -683,6 +683,7 @@ public class AccountDB {
     public ArrayList<CommObj> getComSignalSplitObjByAccountID(int accountID, int length) {
 //        String sql = "select * from comm where type=" + type + " and accountid=" + acountID;
         ///////// Not sure why it cannot pass as type in remote DB. Local DB is working ????????????
+        ///////// Not sure why it cannot pass as type in remote DB. Local DB is working ????????????
         String sql = "select * from comm where accountid=" + accountID
                 + " and (type=" + ConstantKey.INT_TYPE_COM_SIGNAL + " or type=" + ConstantKey.INT_TYPE_COM_SPLIT + ")";
 
