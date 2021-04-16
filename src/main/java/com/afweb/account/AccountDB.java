@@ -1800,6 +1800,12 @@ public class AccountDB {
                     newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
                     newCustomer.setBalance(0);
                     break;
+                case CustomerObj.INT_API_USER:
+                    newCustomer.setSubstatus(ConstantKey.INT_PP_API);
+                    newCustomer.setPayment(ConstantKey.INT_PP_API_PRICE);
+                    newCustomer.setBalance(0);
+                    break;                    
+
                 default:
                     newCustomer.setSubstatus(ConstantKey.INT_PP_BASIC);
                     newCustomer.setPayment(ConstantKey.INT_PP_BASIC_PRICE);

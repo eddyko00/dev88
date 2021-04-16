@@ -1940,13 +1940,23 @@ public class ServiceAFweb {
         }
         custObj.setType(CustomerObj.INT_FUND_USER);
         custObj.setSubstatus(ConstantKey.INT_PP_DELUXE);
-
+        custObj.setPayment(0);
+        
         int result = getAccountImp().systemUpdateCustAllStatus(custObj);
         if (result == 1) {
             String accountName = "acc-" + custObj.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
             result = getAccountImp().addAccountTypeSubStatus(custObj, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.OPEN);
         }
-
+        /// clear the last build to regenerate new bill
+        AccountObj account = getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+        // get last bill
+        ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), 2);
+        if (billingObjList != null) {
+            if (billingObjList.size() > 0) {
+                BillingObj billObj = billingObjList.get(0);
+                this.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
+            }
+        }
         String tzid = "America/New_York"; //EDT
         TimeZone tz = TimeZone.getTimeZone(tzid);
         AccountObj accountAdminObj = getAdminObjFromCache();
@@ -1977,8 +1987,19 @@ public class ServiceAFweb {
         }
         custObj.setType(CustomerObj.INT_API_USER);
         custObj.setSubstatus(ConstantKey.INT_PP_API);
+        custObj.setPayment(0);
 
         int result = getAccountImp().systemUpdateCustAllStatus(custObj);
+        /// clear the last build to regenerate new bill
+        AccountObj account = getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+        // get last bill
+        ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), 2);
+        if (billingObjList != null) {
+            if (billingObjList.size() > 0) {
+                BillingObj billObj = billingObjList.get(0);
+                this.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
+            }
+        }
 
         String tzid = "America/New_York"; //EDT
         TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -6708,6 +6729,12 @@ public class ServiceAFweb {
                 newCustomer.setFirstname("IndexMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
                 getAccountImp().addCustomer(newCustomer);
+                
+                newCustomer.setUsername(CKey.API_USERNAME);
+                newCustomer.setPassword("eddy");
+                newCustomer.setFirstname("APIUser");
+                newCustomer.setType(CustomerObj.INT_API_USER);
+                getAccountImp().addCustomer(newCustomer);                
 
                 AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
                 if (account != null) {

@@ -130,6 +130,8 @@ public class BillingProcess {
             byPassPayment = true;
         } else if (customer.getUsername().equals(CKey.G_USERNAME)) {
             byPassPayment = true;
+        } else if (customer.getUsername().equals(CKey.API_USERNAME)) {
+            byPassPayment = true;                        
         }
         return byPassPayment;
     }
@@ -452,6 +454,14 @@ public class BillingProcess {
                     billData.setFeat(ConstantKey.PP_DELUXE);
                     fInvoice = ConstantKey.INT_PP_DELUXE_PRICE;
                     break;
+                case ConstantKey.INT_PP_DELUXEX2:
+                    billData.setFeat(ConstantKey.PP_DELUXEX2);
+                    fInvoice = ConstantKey.INT_PP_DELUXEX2_PRICE;
+                    break;                    
+                case ConstantKey.INT_PP_API:
+                    billData.setFeat(ConstantKey.PP_API);
+                    fInvoice = ConstantKey.INT_PP_API_PRICE;
+                    break;                    
             }
             billData.setCurPaym(fInvoice);  ///// for the plan invoice
             customer.setPayment(fInvoice);
