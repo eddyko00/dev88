@@ -1941,7 +1941,7 @@ public class ServiceAFweb {
         custObj.setType(CustomerObj.INT_FUND_USER);
         custObj.setSubstatus(ConstantKey.INT_PP_DELUXE);
         custObj.setPayment(0);
-        
+
         int result = getAccountImp().systemUpdateCustAllStatus(custObj);
         if (result == 1) {
             String accountName = "acc-" + custObj.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
@@ -2176,7 +2176,7 @@ public class ServiceAFweb {
                         ;
                     } else {
                         if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_PREMIUM)
-                                || (planid == ConstantKey.INT_PP_DELUXE)) {
+                                || (planid == ConstantKey.INT_PP_DELUXE) || (planid == ConstantKey.INT_PP_DELUXEX2)) {
                             custPortfilio.setnPlan(planid);
                         } else {
                             // error
@@ -6729,12 +6729,12 @@ public class ServiceAFweb {
                 newCustomer.setFirstname("IndexMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
                 getAccountImp().addCustomer(newCustomer);
-                
+
                 newCustomer.setUsername(CKey.API_USERNAME);
                 newCustomer.setPassword("eddy");
                 newCustomer.setFirstname("APIUser");
                 newCustomer.setType(CustomerObj.INT_API_USER);
-                getAccountImp().addCustomer(newCustomer);                
+                getAccountImp().addCustomer(newCustomer);
 
                 AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
                 if (account != null) {
