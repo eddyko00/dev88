@@ -174,7 +174,7 @@ public class IndexController {
         return arrayString;
     }
 
-    @RequestMapping(value = "/api/phelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/api/help", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList SystemAPIHelpPage() {
 
