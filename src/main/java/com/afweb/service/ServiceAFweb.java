@@ -3489,6 +3489,19 @@ public class ServiceAFweb {
         return null;
     }
 
+    public ArrayList<AFstockObj> getStockNameListByAccountID(String EmailUserName, String Password, String AccountIDSt) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
+        if (accountObj != null) {
+
+            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
+            return stockNameList;
+        }
+        return null;
+    }
+
     public ArrayList<AFstockObj> getStockListByAccountIDTRname(String EmailUserName, String Password, String AccountIDSt, String trname, String filterSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -3497,13 +3510,17 @@ public class ServiceAFweb {
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         if (accountObj != null) {
 
-            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
+            ArrayList stockNameList = null;
 
             ArrayList<String> filterArray = new ArrayList();
             if (filterSt != null) {
                 if (filterSt.length() > 0) {
                     String[] filterList = filterSt.split(",");
-                    for (int i = 0; i < filterList.length; i++) {
+                    int len = filterList.length;
+                    if (len > 50) {
+                        len = 50;
+                    }
+                    for (int i = 0; i < len; i++) {
                         String sym = filterList[i];
                         if (sym.length() > 0) {
                             filterArray.add(sym);
@@ -3511,9 +3528,13 @@ public class ServiceAFweb {
                     }
                 }
             }
+
             if (filterArray.size() > 0) {
                 stockNameList = filterArray;
+            } else {
+                stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
             }
+
             if (stockNameList != null) {
                 if (lenght == 0) {
                     lenght = stockNameList.size();

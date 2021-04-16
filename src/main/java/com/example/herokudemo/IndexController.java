@@ -87,13 +87,14 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year=");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/perf?length=");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/billing?length=");
+        arrayString.add("/cust/{username}/acc/{accountid}/billing?length= (default/Max 12)");
         arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
         arrayString.add("/cust/{username}/acc/{accountid}/custacc");
         arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter=&length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/acc/{accountid}/stname");          
+        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
         arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/remove/{symbol}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
@@ -189,9 +190,10 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist= (-1 delete all)");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
 
-        arrayString.add("/cust/{username}/acc/{accountid}/billing?length= (default 5)");
-
-        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter=&length= (default 20)");
+        arrayString.add("/cust/{username}/acc/{accountid}/billing?length= (default/Max 12)");
+        
+        arrayString.add("/cust/{username}/acc/{accountid}/stname");                
+        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
         arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/remove/{symbol}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
@@ -661,6 +663,9 @@ public class IndexController {
         int length = 12;
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
+            if (length > 12) {
+                length = 12;
+            }
         }
 
         ArrayList<BillingObj> billingObjList = afWebService.getBillingByCustomerAccountID(username, null, accountid, length);
@@ -748,7 +753,7 @@ public class IndexController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
             if (length > 20) {
-                length=20;
+                length = 20;
             }
         }
         ArrayList<CommObj> commObjList = afWebService.getCommByCustomerAccountID(username, null, accountid, length);
@@ -923,7 +928,28 @@ public class IndexController {
         return returnList;
     }
 
-    // "/cust/{username}/acc/{accountid}/st?trname=&filter=&length="
+    // "/cust/{username}/acc/{accountid}/stname"
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/stname", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getAccountStockName_StockList(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @RequestParam(value = "length", required = false) String lengthSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+
+        ArrayList returnList = afWebService.getStockNameListByAccountID(username, null, accountid);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+
+        return returnList;
+    }
+
+    // "/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getAccountStock_StockList(
@@ -942,6 +968,9 @@ public class IndexController {
         int length = 20;
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
+            if (length > 50) {
+                length = 50;
+            }
         }
         String trname = ConstantKey.TR_ACC;
         if (trnameSt != null) {
