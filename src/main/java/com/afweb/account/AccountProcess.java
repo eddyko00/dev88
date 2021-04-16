@@ -892,21 +892,20 @@ public class AccountProcess {
                                         DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
                                         formatD.setTimeZone(tz);
                                         String ESTdateD = formatD.format(d);
-
                                         this.AddCommAPISignalMessage(serviceAFWeb, accountObj, trTradingACCObj, ESTdateD, symbol, sig);
-                                        break;
+
+                                    } else {
+                                        String accTxt = "acc-" + accountObj.getId();
+                                        String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
+                                        this.AddCommSignalMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
+
+                                        // send email
+                                        DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+                                        formatD.setTimeZone(tz);
+                                        String ESTdateD = formatD.format(d);
+                                        String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
+                                        this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
                                     }
-                                    String accTxt = "acc-" + accountObj.getId();
-                                    String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
-                                    this.AddCommSignalMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
-
-                                    // send email
-                                    DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
-                                    formatD.setTimeZone(tz);
-                                    String ESTdateD = formatD.format(d);
-                                    String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
-                                    this.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
-
 //                                logger.info("> updateTradingsignal update " + msg);
                                 }
                                 break;

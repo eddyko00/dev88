@@ -2952,11 +2952,12 @@ public class TradingSignalProcess {
                 String ESTdateD = formatD.format(d);
 
                 serviceAFWeb.getAccountProcessImp().AddCommAPISignalMessage(serviceAFWeb, accountObj, trObj, ESTdateD, stock.getSymbol(), sig);
-                return ret;
+
+            } else {
+                String accTxt = "acc-" + accountObj.getId();
+                String msg = ESTdate + " " + accTxt + " " + stock.getSymbol() + " Sig:" + sig;
+                serviceAFWeb.getAccountProcessImp().AddCommSignalMessage(serviceAFWeb, accountObj, trObj, msg);
             }
-            String accTxt = "acc-" + accountObj.getId();
-            String msg = ESTdate + " " + accTxt + " " + stock.getSymbol() + " Sig:" + sig;
-            serviceAFWeb.getAccountProcessImp().AddCommSignalMessage(serviceAFWeb, accountObj, trObj, msg);
         }
         return ret;
 
