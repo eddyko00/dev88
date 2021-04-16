@@ -208,7 +208,9 @@ public class IndexController {
 
         return arrayString;
     }
-
+//////////////////////////////////////////////////////////////////////
+    
+//////////////////////////////////////////////////////////////////////
     @RequestMapping(value = "/cust/{username}/sys/mysql", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getmysql(
