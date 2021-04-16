@@ -683,7 +683,6 @@ public class ServiceAFweb {
             PUBSUBprocess pubsub = new PUBSUBprocess();
             pubsub.ProcessPUBSUBAccount(this);
 
-
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
             TRprocessImp.UpdateAllStock(this);
             TRprocessImp.ProcessAdminSignalTrading(this);
@@ -2145,18 +2144,21 @@ public class ServiceAFweb {
         }
         if ((Plan != null) && (Plan.length() > 0)) {
             try {
+
                 int planid = Integer.parseInt(Plan);
                 // update pending plan
                 // -1 no change, 0, 10, 20
                 if (planid == -1) {
                     // no change
                 } else {
-                    if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_PREMIUM)
-                            || (planid == ConstantKey.INT_PP_DELUXE)) {
-                        custPortfilio.setnPlan(planid);
-                    } else {
-                        // error
-                        return loginObj;
+                    if (custObj.getStatus() == CustomerObj.INT_API_USER) {
+                        if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_PREMIUM)
+                                || (planid == ConstantKey.INT_PP_DELUXE)) {
+                            custPortfilio.setnPlan(planid);
+                        } else {
+                            // error
+                            return loginObj;
+                        }
                     }
                 }
             } catch (Exception e) {

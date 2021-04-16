@@ -107,6 +107,8 @@ var app = {
                     pp = "Premium Plan - Max 10 stocks";
                 } else if (custObj.substatus == 20) {
                     pp = "Deluxe Plan - Max 20 stocks";
+                } else if (custObj.substatus == 90) {
+                    pp = "API Plan - Max 1000 stocks";                    
                 }
 
                 htmlName += '<br>Plan: ' + pp;
