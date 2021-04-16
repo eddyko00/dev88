@@ -439,8 +439,8 @@ public class ServiceAFweb {
                     setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
 
                     //try 2 times
-                    getAccountProcessImp().ProcessAdminAccount(this);
-                    getAccountProcessImp().ProcessAdminAccount(this);
+                    getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+                    getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
                 }
                 // final initialization
@@ -687,13 +687,13 @@ public class ServiceAFweb {
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
             TRprocessImp.UpdateAllStock(this);
             TRprocessImp.ProcessAdminSignalTrading(this);
-            getAccountProcessImp().ProcessAdminAccount(this);
+            getAccountProcessImp().ProcessAdminAddRemoveStock(this);
             //
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            getAccountProcessImp().ProcessAdminAccount(this);
+            getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
 //            
             if (CKey.PROXY == false) {

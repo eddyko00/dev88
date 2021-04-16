@@ -70,7 +70,7 @@ public class AccountProcess {
                 // reomve customer with no activity in 4 days  
                 ProcessCustomerRemoveMaintance(serviceAFWeb);
                 // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
-                ProcessAdminAccount(serviceAFWeb);
+                ProcessAdminAddRemoveStock(serviceAFWeb);
                 //delete stock if disable
                 ProcessStockInfodeleteMaintance(serviceAFWeb);
             } else if ((acTimerCnt % 3) == 0) {
@@ -80,7 +80,7 @@ public class AccountProcess {
                 ProcessStockkMaintance(serviceAFWeb);
 
                 // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
-                ProcessAdminAccount(serviceAFWeb);
+                ProcessAdminAddRemoveStock(serviceAFWeb);
 
                 // cleanup Lock entry pass 30 min
                 ProcessAllLockCleanup(serviceAFWeb);
@@ -600,8 +600,8 @@ public class AccountProcess {
         return 0;
     }
 
-    public void ProcessAdminAccount(ServiceAFweb serviceAFWeb) {
-        ServiceAFweb.lastfun = "ProcessAdminAccount";
+    public void ProcessAdminAddRemoveStock(ServiceAFweb serviceAFWeb) {
+        ServiceAFweb.lastfun = "ProcessAdminAddRemoveStock";
 
         // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
 //        logger.info("> ProcessAdminAccount ......... ");
@@ -632,7 +632,7 @@ public class AccountProcess {
             for (int i = 0; i < addedList.size(); i++) {
                 String symbol = (String) addedList.get(i);
                 int resultAdd = serviceAFWeb.addAccountStockByCustAcc(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
-                logger.info("> ProcessAdminAccount add TR stock " + symbol);
+                logger.info("> AdminAddRemoveStock add TR stock " + symbol);
                 numCnt++;
                 if (numCnt > 10) {
                     break;
@@ -644,7 +644,7 @@ public class AccountProcess {
             for (int i = 0; i < removeList.size(); i++) {
                 String symbol = (String) removeList.get(i);
                 int resultRemove = serviceAFWeb.removeAccountStockByUserNameAccId(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
-                logger.info("> ProcessAdminAccount remove TR stock " + symbol);
+                logger.info("> AdminAddRemoveStock remove TR stock " + symbol);
                 numCnt++;
                 if (numCnt > 10) {
                     break;
