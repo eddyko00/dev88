@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author eddyko
  */
-public class TradingAPIProcess {
+public class TradingAPISignalProcess {
 
     protected static Logger logger = Logger.getLogger("TradingAPIProcess");
 
