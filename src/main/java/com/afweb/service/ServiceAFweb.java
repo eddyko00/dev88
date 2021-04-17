@@ -846,9 +846,9 @@ public class ServiceAFweb {
             while (true) {
                 processInitLocalRemoteNN();
 
-                logger.info("> Waiting 30 sec ........");
+                logger.info("> Waiting 60 minutes ........");
                 try {
-                    Thread.sleep(30 * 1000);
+                    Thread.sleep(30 * 1000 * 60);
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }

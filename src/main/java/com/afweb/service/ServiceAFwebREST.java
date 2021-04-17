@@ -6,6 +6,7 @@
 package com.afweb.service;
 
 import com.afweb.model.*;
+import com.afweb.model.stock.AFneuralNet;
 
 import com.afweb.util.CKey;
 
@@ -982,25 +983,25 @@ public class ServiceAFwebREST {
 //        return null;
 //    }
 //
-//    public int setNeuralNetObjWeight0(AFneuralNet nn) {
-//        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-//        String subResourcePath = "/cust/" + CKey.ADMIN_USERNAME + "/sys/neuralnet/" + nn.getName() + "/updateweight0";
-//
-//        try {
-//            String nnSt = new ObjectMapper().writeValueAsString(nn);
-//
-////            ClientResponse response = post(subResourcePath, null, nnSt);
-////            String output = response.getEntity(String.class);
-//            String output = sendRequest_1(METHOD_POST, subResourcePath, null, nnSt);
-//
-//            int result = new ObjectMapper().readValue(output, Integer.class);
-//            return result;
-//        } catch (Exception ex) {
-//            logger.info("setStockLock exception " + ex);
-//            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-//        }
-//        return 0;
-//    }
+    public int setNeuralNetObjWeight0(AFneuralNet nn, String URL) {
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+        String subResourcePath = URL + "/cust/" + CKey.ADMIN_USERNAME + "/sys/neuralnet/" + nn.getName() + "/updateweight0";
+
+        try {
+            String nnSt = new ObjectMapper().writeValueAsString(nn);
+
+//            ClientResponse response = post(subResourcePath, null, nnSt);
+//            String output = response.getEntity(String.class);
+            String output = sendRequest_1(METHOD_POST, subResourcePath, null, nnSt);
+
+            int result = new ObjectMapper().readValue(output, Integer.class);
+            return result;
+        } catch (Exception ex) {
+            logger.info("setStockLock exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+        }
+        return 0;
+    }
 //
 //    public int setNeuralNetObjWeight1(AFneuralNet nn) {
 //        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
@@ -1120,6 +1121,7 @@ public class ServiceAFwebREST {
 //    }
 //
 //    /cust/{username}/acc/{accountid}/stname
+
     public ArrayList<String> getRESTAccountStockNameList(String EmailUserName, String AccountIDSt, String URL) {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
         String subResourcePath = URL + "/cust/" + EmailUserName + "/acc/" + AccountIDSt + "/stname";
