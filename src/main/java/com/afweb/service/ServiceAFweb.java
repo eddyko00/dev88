@@ -376,7 +376,7 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
-                displayStr += "\r\n" + (">>>>> System processLocalRemoteNN:" + initLocalRemoteNN);
+                displayStr += "\r\n" + (">>>>> System initLocalRemoteNN:" + initLocalRemoteNN);
 
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);

@@ -27,7 +27,7 @@ public class Javamain {
             ServiceAFweb.processRestinputflag = true;
         } else if (cmd.indexOf("processRestAllStockflag") != -1) {
             ServiceAFweb.processRestAllStockflag = true;
-        } else if (cmd.indexOf("processLocalRemoteNN") != -1) {
+        } else if (cmd.indexOf("initLocalRemoteNN") != -1) {
             ServiceAFweb.initLocalRemoteNN = true;
             
         } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
