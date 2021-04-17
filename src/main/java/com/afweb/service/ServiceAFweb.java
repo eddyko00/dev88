@@ -1038,10 +1038,11 @@ public class ServiceAFweb {
                 AccountObj accountObj = this.getAdminObjFromCache();
                 ArrayList<String> stockNameArray1 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
                         accountObj.getId() + "", CKey.URL_PATH_HERO);
-
+                logger.info("> remote dB stock:" + stockNameArray1.size());
                 StockNameRemoteList.addAll(stockNameArray1);
                 ArrayList<String> stockNameArray2 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
                         accountObj.getId() + "", CKey.URL_PATH_OP);
+                logger.info("> remote dB1 stock:" + stockNameArray2.size());
                 StockNameRemoteList.addAll(stockNameArray2);
 
                 ArrayList<AccountObj> accountAPIObjL = this.getAccountList(CKey.API_USERNAME, null);
@@ -1056,6 +1057,7 @@ public class ServiceAFweb {
                 if (APIStockNameList == null) {
                     return;
                 }
+                logger.info("> API stock:" + APIStockNameList.size() + " remote dB stock:" + StockNameRemoteList.size());
                 ArrayList addedList = new ArrayList();
 
                 ArrayList removeList = new ArrayList();
@@ -1074,6 +1076,7 @@ public class ServiceAFweb {
                 ////update all stock
                 TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
+                logger.info("> update  stock:" + APIStockNameList.size());
                 for (int i = 0; i < APIStockNameList.size(); i++) {
                     String symbol = (String) APIStockNameList.get(i);
                     int re = TRprocessImp.updateAllStockProcess(this, symbol);
