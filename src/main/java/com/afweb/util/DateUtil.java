@@ -48,7 +48,7 @@ public class DateUtil {
                 }
             }
         }
-        if (ServiceAFweb.mydebugtestflag == true) {
+        if (ServiceAFweb.mydebugnewtest == true) {
             mkopen = true;
         }
         return mkopen;

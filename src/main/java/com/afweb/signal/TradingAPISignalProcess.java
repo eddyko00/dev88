@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 
-
 import java.util.logging.Logger;
 
 /**
@@ -152,22 +151,10 @@ public class TradingAPISignalProcess {
 
                             TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
                             if (trObj != null) {
-                                long lastUpdate = trObj.getUpdatedatel();
-                                long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);
 
-                                long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                                if (testing == true) {
-                                    lastUpdate5Min = 0;
-                                }
-                                if (lastUpdate5Min < curDateValue) {
+                                serviceAFWeb.getAccountProcessImp().updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
+                                serviceAFWeb.getAccountProcessImp().updateTradingTransaction(serviceAFWeb, accountObj, symbol);
 
-                                    ret = this.checkStock(serviceAFWeb, symbol);
-
-                                    if (ret == true) {
-                                        serviceAFWeb.getAccountProcessImp().updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
-                                        serviceAFWeb.getAccountProcessImp().updateTradingTransaction(serviceAFWeb, accountObj, symbol);
-                                    }
-                                }
                             }
                         }
 
