@@ -111,7 +111,7 @@ public class CKey {
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 110; //120; 
 
-    public static final boolean WEIGHT_COMPASS = false;
+//    public static final boolean WEIGHT_COMPASS = false;    
 
     public static float iis_ver = (float) 1.1;
 

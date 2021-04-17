@@ -422,26 +422,26 @@ public class StockImp {
     }
 
     public int setCreateNeuralNetObj0(String name, String weight) {
-        if (CKey.WEIGHT_COMPASS == true) {
-            if (weight != null) {
-                if (weight.length() > 0) {
-                    String weightSt = ServiceAFweb.compress(weight);
-                    weight = weightSt;
-                }
-            }
-        }
+//        if (CKey.WEIGHT_COMPASS == true) {
+//            if (weight != null) {
+//                if (weight.length() > 0) {
+//                    String weightSt = ServiceAFweb.compress(weight);
+//                    weight = weightSt;
+//                }
+//            }
+//        }
         return stockdb.setCreateNeuralNetObj0(name, weight);
     }
 
     public int setCreateNeuralNetObj1(String name, String weight) {
-        if (CKey.WEIGHT_COMPASS == true) {
-            if (weight != null) {
-                if (weight.length() > 0) {
-                    String weightSt = ServiceAFweb.compress(weight);
-                    weight = weightSt;
-                }
-            }
-        }
+//        if (CKey.WEIGHT_COMPASS == true) {
+//            if (weight != null) {
+//                if (weight.length() > 0) {
+//                    String weightSt = ServiceAFweb.compress(weight);
+//                    weight = weightSt;
+//                }
+//            }
+//        }
         int ret = stockdb.setCreateNeuralNetObj1(name, weight);
         if (ret == 1) {
             return stockdb.updateNeuralNetStatus1(name, ConstantKey.OPEN, 0);
