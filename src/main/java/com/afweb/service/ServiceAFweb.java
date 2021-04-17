@@ -376,6 +376,8 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
+                displayStr += "\r\n" + (">>>>> System processLocalRemoteNN:" + initLocalRemoteNN);
+
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
                 displayStr += "\r\n" + (">>>>> System mydebugnewtest:" + ServiceAFweb.mydebugnewtest);
@@ -718,6 +720,8 @@ public class ServiceAFweb {
     public static boolean processRestinputflag = false;
     public static boolean processRestAllStockflag = false;
 
+    public static boolean initLocalRemoteNN = false;
+
     public static boolean processEmailFlag = false;
     public static boolean processNeuralNetFlag = false;
     public static boolean nn1testflag = false;
@@ -838,6 +842,18 @@ public class ServiceAFweb {
         NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
 
         TradingSignalProcess.forceToGenerateNewNN = false;
+        if (initLocalRemoteNN == true) {
+            while (true) {
+                processInitLocalRemoteNN();
+
+                logger.info("> Waiting 30 sec ........");
+                try {
+                    Thread.sleep(30 * 1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
 
         if (processNeuralNetFlag == true) {
             int num = 0;
@@ -1009,6 +1025,65 @@ public class ServiceAFweb {
 
     }
 
+    boolean initLRnn = false;
+
+    public void processInitLocalRemoteNN() {
+        logger.info("> processInitLocalRemoteNN ");
+
+        try {
+            if (initLRnn == false) {
+                initLRnn = true;
+                ArrayList<String> StockNameRemoteList = new ArrayList();
+
+                AccountObj accountObj = this.getAdminObjFromCache();
+                ArrayList<String> stockNameArray1 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
+                        accountObj.getId() + "", CKey.URL_PATH_HERO);
+
+                StockNameRemoteList.addAll(stockNameArray1);
+                ArrayList<String> stockNameArray2 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
+                        accountObj.getId() + "", CKey.URL_PATH_OP);
+                StockNameRemoteList.addAll(stockNameArray2);
+
+                ArrayList<AccountObj> accountAPIObjL = this.getAccountList(CKey.API_USERNAME, null);
+                if (accountAPIObjL == null) {
+                    return;
+                }
+                if (accountAPIObjL.size() == 0) {
+                    return;
+                }
+                AccountObj accountAPIObj = accountAPIObjL.get(0);
+                ArrayList APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
+                if (APIStockNameList == null) {
+                    return;
+                }
+                ArrayList addedList = new ArrayList();
+
+                ArrayList removeList = new ArrayList();
+                boolean result = AccountProcess.compareStockList(StockNameRemoteList, APIStockNameList, addedList, removeList);
+                if (result == true) {
+                    for (int i = 0; i < addedList.size(); i++) {
+                        String symbol = (String) addedList.get(i);
+                        int resultAdd = addAccountStockByCustAcc(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
+                        logger.info("> Add API stock " + symbol);
+
+                        ServiceAFweb.AFSleep();
+
+                    }
+                }
+                ////update all stock
+                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+                APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
+                for (int i = 0; i < APIStockNameList.size(); i++) {
+                    String symbol = (String) APIStockNameList.get(i);
+                    int re = TRprocessImp.updateAllStockProcess(this, symbol);
+                }
+
+            }
+        } catch (Exception ex) {
+            logger.info("> processInitLocalRemoteNN Exception " + ex.getMessage());
+        }
+    }
+
 ///////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
@@ -1038,6 +1113,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            this.processInitLocalRemoteNN();
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
@@ -2025,7 +2101,7 @@ public class ServiceAFweb {
         }
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);        
+        CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);
 
         if (custObj == null) {
             return 0;

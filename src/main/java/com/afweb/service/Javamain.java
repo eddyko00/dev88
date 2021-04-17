@@ -27,7 +27,9 @@ public class Javamain {
             ServiceAFweb.processRestinputflag = true;
         } else if (cmd.indexOf("processRestAllStockflag") != -1) {
             ServiceAFweb.processRestAllStockflag = true;
-
+        } else if (cmd.indexOf("processLocalRemoteNN") != -1) {
+            ServiceAFweb.initLocalRemoteNN = true;
+            
         } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
             CKey.OTHER_PHP1_MYSQL = true;
             CKey.SERVER_TIMMER_URL = CKey.URL_PATH_OP;

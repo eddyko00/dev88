@@ -6,18 +6,13 @@
 package com.afweb.service;
 
 import com.afweb.model.*;
-import com.afweb.model.account.*;
-import com.afweb.model.stock.*;
 
 import com.afweb.util.CKey;
 
-import com.afweb.model.stock.AFneuralNet;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -25,15 +20,11 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
-import org.apache.commons.codec.binary.Base64;
+
 import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 /**
@@ -1130,25 +1121,26 @@ public class ServiceAFwebREST {
 //        return null;
 //    }
 //
-//    public ArrayList getAccountStockNameList(String EmailUserName, String Password, String AccountIDSt) {
-//        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-//        String subResourcePath = "/cust/" + EmailUserName + "/sys/acc/" + AccountIDSt + "/stockNameList";
-//        try {
-//
-////            ClientResponse response = get(subResourcePath, null);
-////            String output = response.getEntity(String.class);
-//            String output = sendRequest_1(METHOD_GET, subResourcePath, null, null);
-//            ArrayList<String> stockNameList = new ArrayList();
-//            stockNameList = new ObjectMapper().readValue(output, ArrayList.class);
-//
-//            return stockNameList;
-//
-//        } catch (Exception ex) {
-//            logger.info("getAccountStockNameList exception " + ex);
-//            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-//        }
-//        return null;
-//    }
+//    /cust/{username}/acc/{accountid}/stname
+    public ArrayList<String> getRESTAccountStockNameList(String EmailUserName, String AccountIDSt, String URL) {
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+        String subResourcePath = URL + "/cust/" + EmailUserName + "/acc/" + AccountIDSt + "/stname";
+        try {
+
+//            ClientResponse response = get(subResourcePath, null);
+//            String output = response.getEntity(String.class);
+            String output = sendRequest_1(METHOD_GET, subResourcePath, null, null);
+            ArrayList<String> stockNameList = new ArrayList();
+            stockNameList = new ObjectMapper().readValue(output, ArrayList.class);
+
+            return stockNameList;
+
+        } catch (Exception ex) {
+            logger.info("getRESTAccountStockNameList exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+        }
+        return null;
+    }
 //
 //    public ArrayList getServerList() {
 //        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
@@ -1173,8 +1165,7 @@ public class ServiceAFwebREST {
 //        }
 //        return null;
 //    }
-    
-    
+
     public RequestObj getSQLRequest(RequestObj sqlObj) {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
         String subResourcePath = "/cust/" + CKey.ADMIN_USERNAME + "/sys/request";
@@ -1191,7 +1182,7 @@ public class ServiceAFwebREST {
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
         }
         return null;
-    }    
+    }
     // operations names constants
     private static final String METHOD_POST = "post";
     private static final String METHOD_GET = "get";
