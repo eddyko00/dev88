@@ -18,7 +18,7 @@ import com.afweb.service.ServiceAFweb;
 
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
-import com.afweb.nnprocess.NN1ProcessBySignal;
+
 
 import com.afweb.stock.*;
 import com.afweb.util.*;
