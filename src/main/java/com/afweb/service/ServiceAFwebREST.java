@@ -35,7 +35,6 @@ public class ServiceAFwebREST {
 
     public static Logger logger = Logger.getLogger("ServiceAFwebREST");
 
-    public static String ResourcePath = "";
 //
 //    public LoginObj addCustomerPassword(String EmailUserName, String Password, String FirstName, String LastName) {
 //        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
@@ -1022,7 +1021,6 @@ public class ServiceAFwebREST {
 //        return 0;
 //    }
 //
-
 //    //////////////////////////////////////////
 //
 //    public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
@@ -1166,9 +1164,9 @@ public class ServiceAFwebREST {
 //        return null;
 //    }
 
-    public RequestObj getSQLRequest(RequestObj sqlObj) {
+    public RequestObj getSQLRequest(RequestObj sqlObj, String URL) {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-        String subResourcePath = "/cust/" + CKey.ADMIN_USERNAME + "/sys/request";
+        String subResourcePath = URL + "/cust/" + CKey.ADMIN_USERNAME + "/sys/request";
 
         try {
             String sqlSt = new ObjectMapper().writeValueAsString(sqlObj);

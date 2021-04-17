@@ -6169,7 +6169,7 @@ public class ServiceAFweb {
 
         boolean RemoteCallflag = ServiceAFweb.getServerObj().isLocalDBservice();
         if (RemoteCallflag == false) {
-            return getServiceAFwebREST().getSQLRequest(sqlObj);
+            return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
         }
         String st = "";
         String nameST = "";
