@@ -738,7 +738,13 @@ public class AccountProcess {
                 if (accountObj == null) {
                     continue;
                 }
-
+                //////////// Ignore API acocunt
+                //////////// Ignore API acocunt heandle by ProcessAPISignalTrading               
+                CustomerObj cust = serviceAFWeb.getAccountImp().getCustomerByAccount(accountObj);
+                if (cust.getType() == CustomerObj.INT_API_USER) {
+                    continue;
+                }
+                
                 ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountId);
                 if (stockNameArray == null) {
                     continue;

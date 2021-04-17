@@ -16,6 +16,7 @@ import com.afweb.util.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 
 import java.util.logging.Logger;
@@ -28,7 +29,7 @@ public class TradingAPISignalProcess {
 
     protected static Logger logger = Logger.getLogger("TradingAPISignalProcess");
 
-    private static ArrayList stockSignalNameArray = new ArrayList();
+    private static ArrayList<String> stockSignalNameArray = new ArrayList();
 
     public void InitSystemData() {
         stockSignalNameArray = new ArrayList();
@@ -58,6 +59,8 @@ public class TradingAPISignalProcess {
                 stockSignalNameArray.addAll(stockNameAccIdArray);
             }
         }
+        //make it random for multiple API users
+        Collections.shuffle(stockSignalNameArray);
         return stockSignalNameArray;
     }
 
@@ -98,7 +101,7 @@ public class TradingAPISignalProcess {
             long lockDate5Min = TimeConvertion.addMinutes(currentTime, 5);
             logger.info("ProcessAPISignalTrading for 3 minutes stocksize=" + stockSignalNameArray.size());
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 30; i++) {
                 currentTime = System.currentTimeMillis();
                 if (testing == true) {
                     currentTime = 0;

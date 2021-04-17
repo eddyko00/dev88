@@ -690,6 +690,8 @@ public class ServiceAFweb {
             TRprocessImp.ProcessAdminSignalTrading(this);
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
             //
+            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
+            TRAPI.ProcessAPISignalTrading(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             TRprocessImp.UpdateAllStock(this);
@@ -1180,6 +1182,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
+//            TRAPI.ProcessAPISignalTrading(this);
+            
 //            this.processInitLocalRemoteNN();
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
