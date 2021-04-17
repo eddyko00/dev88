@@ -1123,7 +1123,7 @@ public class ServiceAFweb {
         if (APIStockNameList == null) {
             return 0;
         }
-  
+
         logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + "" + URL);
 
         String BPnameSym = CKey.NN_version + "_" + nnName;
@@ -1140,9 +1140,9 @@ public class ServiceAFweb {
                 nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj1 != null) {
                     serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
+                } else {
+                    logger.info("> updateRESTNNWeight0 not found " + BPnameSym);
                 }
-                logger.info("> updateRESTNNWeight0 not found " + BPnameSym);
-
             } catch (Exception ex) {
                 logger.info("> updateRESTNNWeight0 Exception " + ex.getMessage());
             }
@@ -1510,18 +1510,6 @@ public class ServiceAFweb {
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 //
-////////////////////////////////////////////////////////////
-//            while (true) {
-//                TRprocessImp.ProcessAdminSignalTrading(this);
-//                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-//                logger.info("> Waiting 30 sec........");
-//                try {
-//                    Thread.sleep(30 * 1000);
-//                } catch (InterruptedException ex) {
-//                    Thread.currentThread().interrupt();
-//                }
-//            }
-//
 /////////////////////////////////////////////////////////////
 //            getStockImp().deleteNeuralNet1(BPnameSym);
 //            AFneuralNet nnObj1 = nn2ProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, trNN, symbol);
@@ -1584,124 +1572,20 @@ public class ServiceAFweb {
             }
         }
 
-        boolean dbhero2opflag = false;
-        if (dbhero2opflag == true) {
-            boolean prevOPSHIFT = CKey.OTHER_PHP1_MYSQL;
-
-            CKey.OTHER_PHP1_MYSQL = false;
-            ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
-            backupSystem();
-
-            CKey.OTHER_PHP1_MYSQL = true;
-            ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
-            restoreSystem();
-
-            // restore original
-            CKey.OTHER_PHP1_MYSQL = prevOPSHIFT;
-        }
-
-        /////other macd, mv, nn1, nn2
-        boolean flagTran_TR_OTHER = false;
-        if (flagTran_TR_OTHER == true) {
-            SystemClearNNtran(ConstantKey.SIZE_TR);
-        }
-        boolean flagClearNN0Table = false;
-        if (flagClearNN0Table == true) {
-            this.getStockImp().deleteNeuralNet0Table();
-        }
-
-        boolean flagClearNN1Table = false;
-        if (flagClearNN1Table == true) {
-            this.getStockImp().deleteNeuralNet1Table();
-        }
-
-        boolean flagClearNNdataTable = false;
-        if (flagClearNNdataTable == true) {
-            this.getStockImp().deleteNeuralNetDataTable();
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////   
-        ///////////////////////////////////////////////////////////////////////////////////  
-//        boolean flagSig = false;
-//        if (flagSig == true) {
-//
-//            String symbol = "HOU.TO";
-//            symbol = "AAPL";
-//            String nnName = ConstantKey.TR_NN1;
-//            int TR_NN = ConstantKey.INT_TR_NN1;
-//
-////            TrandingSignalProcess tsprocess = new TrandingSignalProcess();
-////            int result = tsprocess.updateAllStockProcess(this, symbol);
-////            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-////            AccountObj accountAdminObj = this.getAdminObjFromCache();
-////            AFstockObj stock = this.getRealTimeStockImp(symbol);
-////            getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-//            NNProcessByTrend nnStProcByTrend = new NNProcessByTrend();
-//            NN1ProcessBySignal nnProcBySig = new NN1ProcessBySignal();
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//
-//            for (int i = 0; i < 3; i++) {
-//                nnName = ConstantKey.TR_NN1;
-//                TR_NN = ConstantKey.INT_TR_NN1;
-//                String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//                AFneuralNet nnObj1 = nnProcBySig.ProcessTrainNeuralNet1(this, BPnameSym, TR_NN, symbol);
-//
-//                nnName = ConstantKey.TR_NN3;
-//                BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//                nnObj1 = nnStProcByTrend.ProcessTrainNeuralNetByTrend1(this, BPnameSym, TR_NN, symbol);
-//
-//                NNProcessImp.inputReTrainStockNeuralNetData(this, TR_NN, symbol);
-//            }
-//
-//            TRprocessImp.testUpdateAdminTradingsignal(this, symbol);
-//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-//
+//        boolean flagClearNN0Table = false;
+//        if (flagClearNN0Table == true) {
+//            this.getStockImp().deleteNeuralNet0Table();
 //        }
-        boolean flagtesting = false;
-        if (flagtesting == true) {
-            TRprocessImp.updateStockProcess(this, "HOU.TO");
-            ArrayList StockArraytmp = getStockHistorical("HOU.TO", 5 * 52 * 4);
-
-        }
-
-        boolean initflag = false;
-        if (initflag == true) {
-            for (int m = 0; m < 20; m++) {
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            }
-        }
-
-        boolean updatetrflag = false;
-        if (updatetrflag == true) {
-
-            AccountObj account = getAccountImp().getAccountByType(CKey.ADMIN_USERNAME, null, AccountObj.INT_ADMIN_ACCOUNT);
-            ArrayList stockNameList = getAccountImp().getAccountStockNameList(account.getId());
-            if (stockNameList == null) {
-                return;
-            }
-            int result = 0;
-//            for (int j = 0; j < stockNameList.size(); j++) {
-//                String stockN = (String) stockNameList.get(j);
-//                AFstockObj stock = getStockImp().getRealTimeStock(stockN, null);
-//                result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-//            }
-            account = getAccountImp().getAccountByType("GUEST", null, AccountObj.INT_TRADING_ACCOUNT);
-//            account.setSubstatus(ConstantKey.INT_PP_DELUXE);
-//            account.setBalance(ConstantKey.INT_PP_DELUXE_PRICE);
-//            getAccountImp().updateAccountStatus(account.getAccountname(), account);
-            stockNameList = getAccountImp().getAccountStockNameList(account.getId());
-            if (stockNameList == null) {
-                return;
-            }
-
-            for (int j = 0; j < stockNameList.size(); j++) {
-                String stockN = (String) stockNameList.get(j);
-                AFstockObj stock = getStockImp().getRealTimeStock(stockN, null);
-                result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
-            }
-        }
-//        
-
+//
+//        boolean flagClearNN1Table = false;
+//        if (flagClearNN1Table == true) {
+//            this.getStockImp().deleteNeuralNet1Table();
+//        }
+//
+//        boolean flagClearNNdataTable = false;
+//        if (flagClearNNdataTable == true) {
+//            this.getStockImp().deleteNeuralNetDataTable();
+//        }
         ///////////////////////////////////////////////////////////////////////////////////   
         /// update stock split process
         ///////////////////////////////////////////////////////////////////////////////////
@@ -1754,84 +1638,14 @@ public class ServiceAFweb {
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
-//        boolean comtestflag = false;
-//        if (comtestflag == true) {
-//            AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
-//
-//            ArrayList<BillingObj> billingObjList = getAccountImp().getBillingObjByAccountID(account.getId());
-//            String bill = "eddy testing billing";
-//            getAccountImp().addAccountBilling(account, 10, 20, bill);
-//            billingObjList = getAccountImp().getBillingObjByAccountID(account.getId());
-//            if (billingObjList != null) {
-//                BillingObj billObj = billingObjList.get(0);
-//                getAccountImp().updateAccountBillingData(billObj.getId(), 1, 1, billObj.getData());
-//            }
-//
-//            ArrayList<CommObj> comObjList = getAccountImp().getComObjByAccountID(account.getId(), 0);
-//            String msg = "eddy testing communication";
-//            getAccountImp().addAccountMessage(account, ConstantKey.COM_SIGNAL, msg);
-//            comObjList = getAccountImp().getComObjByAccountID(account.getId(), 0);
-//            if (comObjList != null) {
-//                ;
-//            }
-//        }
-//        boolean commadmflag = false;
-//        if (commadmflag == true) {
-//
-//            //clear all communication
-////            this.getAccountImp().removeCommByCommID(65);
-////            this.getAccountImp().removeCommByCommID(215);
-////            this.getAccountImp().removeCommByCommID(216);
-//            String tzid = "America/New_York"; //EDT
-//            TimeZone tz = TimeZone.getTimeZone(tzid);
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//            long dateNowLong = dateNow.getTimeInMillis();
-//            java.sql.Date d = new java.sql.Date(dateNowLong);
-//            DateFormat format = new SimpleDateFormat(" hh:mm a");
-//            format.setTimeZone(tz);
-//            String ESTdate = format.format(d);
-//            String msg = ESTdate + " testing Cust signup Result: 0";
-//            this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-//
-//            // send admin messsage
-//            String commMsg = ESTdate + " Test" + " stock split= 10";
-//            CommData commDataObj = new CommData();
-//            commDataObj.setType(0);
-//            commDataObj.setSymbol("test");
-//            commDataObj.setEntrydatedisplay(new java.sql.Date(dateNowLong));
-//            commDataObj.setEntrydatel(dateNowLong);
-//            commDataObj.setSplit(10);
-//            commDataObj.setOldclose(1);
-//            commDataObj.setNewclose(2);
-//            commDataObj.setMsg(commMsg);
-//            getAccountProcessImp().AddCommObjMessage(this, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
-//
-//        }
-        boolean flagNeuralData = false;
-        if (flagNeuralData == true) {
-            SystemClearNNData();
-        }
-
     }
 
     public void debugtest() {
-        String symbol = "IWM";
-        AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
-        int size1yearAll = 20 * 12 * 5 + (50 * 3);
-        ArrayList<AFstockInfo> StockArray = getStockHistorical(symbol, size1yearAll);
+//        String symbol = "IWM";
+//        AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
+//        int size1yearAll = 20 * 12 * 5 + (50 * 3);
+//        ArrayList<AFstockInfo> StockArray = getStockHistorical(symbol, size1yearAll);
 
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//
-//        long workaround = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
-//        long endDay = workaround;
-//        long start = endDay;
-//        long end = 0;
-//        logger.info("debugtest>>> dateNow " + dateNow.getTimeInMillis() + ", start " + start);
-//
-//        String sql = "select * from stockinfo where stockid = " + stock.getId();
-//        sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
-//        logger.info("debugtest>>> sql " + sql);
     }
 
     public void updateErrorStockYahooParseError(String symbol) {
