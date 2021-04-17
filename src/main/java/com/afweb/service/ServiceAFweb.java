@@ -1052,8 +1052,10 @@ public class ServiceAFweb {
                 if (accountAPIObjL.size() == 0) {
                     return;
                 }
+////////////////////////////////
+                // Add or remove stock
                 AccountObj accountAPIObj = accountAPIObjL.get(0);
-                ArrayList APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
+                ArrayList<String> APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
                 if (APIStockNameList == null) {
                     return;
                 }
@@ -1071,9 +1073,19 @@ public class ServiceAFweb {
                         ServiceAFweb.AFSleep();
 
                     }
+                    for (int i = 0; i < removeList.size(); i++) {
+                        String symbol = (String) removeList.get(i);
+                        int resultRemove = removeAccountStockByUserNameAccId(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
+                        logger.info("> Remove API stock " + symbol);
+
+                        ServiceAFweb.AFSleep();
+
+                    }
                 }
+////////////////////////////////////////////////                
+                ////update all stock                
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-                ////update all stock
+
                 TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
                 logger.info("> update  stock:" + APIStockNameList.size());
@@ -1082,10 +1094,60 @@ public class ServiceAFweb {
                     int re = TRprocessImp.updateAllStockProcess(this, symbol);
                 }
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+
+////////////////////////////////////////////////                
+                ////update remote Neural Net
+                String URL = CKey.URL_PATH_HERO;
+                String nnName = ConstantKey.TR_NN1;
+                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                nnName = ConstantKey.TR_NN2;
+                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                nnName = ConstantKey.TR_NN30;
+                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+////////////////
+////////////////
+                URL = CKey.URL_PATH_OP;
+                nnName = ConstantKey.TR_NN1;
+                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                nnName = ConstantKey.TR_NN2;
+                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                nnName = ConstantKey.TR_NN30;
+                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
             }
         } catch (Exception ex) {
             logger.info("> processInitLocalRemoteNN Exception " + ex.getMessage());
         }
+    }
+
+    private int updateRESTNNWeight0(ArrayList<String> APIStockNameList, String nnName, String URL) {
+        if (APIStockNameList == null) {
+            return 0;
+        }
+  
+        logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + "" + URL);
+
+        String BPnameSym = CKey.NN_version + "_" + nnName;
+        AFneuralNet nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
+        if (nnObj1 != null) {
+            serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
+        }
+
+        for (int i = 0; i < APIStockNameList.size(); i++) {
+            String symbol = (String) APIStockNameList.get(i);
+
+            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            try {
+                nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
+                if (nnObj1 != null) {
+                    serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
+                }
+
+            } catch (Exception ex) {
+                logger.info("> updateRESTNNWeight0 Exception " + ex.getMessage());
+            }
+
+        }
+        return 1;
     }
 
 ///////////////////////////////
