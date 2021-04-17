@@ -20,6 +20,8 @@ var app = {
                 pp = "Premium Plan - Max 10 stocks";
             } else if (custObj.substatus == 20) {
                 pp = "Deluxe Plan - Max 20 stocks";
+            } else if (custObj.substatus == 90) {
+                pp = "API Plan - Max 1000 stocks";                
             }
             document.getElementById("txt-cur-plan").setAttribute('value', pp);
 
@@ -39,6 +41,8 @@ var app = {
                                         pp = "Premium Plan - Max 10 stocks";
                                     } else if (detailObj.nPlan == 20) {
                                         pp = "Deluxe Plan - Max 20 stocks";
+                                    } else if (detailObj.nPlan == 90) {
+                                        pp = "API Plan - Max 1000 stocks";                                        
                                     }
                                     document.getElementById("txt-cur-plan").setAttribute('value', '*Pending to change* ' + pp);
                                 }
