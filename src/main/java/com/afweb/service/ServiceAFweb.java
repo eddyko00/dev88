@@ -2133,7 +2133,7 @@ public class ServiceAFweb {
                 if (planid == -1) {
                     // no change
                 } else {
-                    if (custObj.getStatus() == CustomerObj.INT_API_USER) {
+                    if (custObj.getType() == CustomerObj.INT_API_USER) {
                         ;
                     } else {
                         if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_PREMIUM)

@@ -1953,7 +1953,7 @@ public class AccountProcess {
                 String sql = AccountDB.insertTransaction(item);
                 writeSQLArray.add(sql);
                 index++;
-                if (index > 400) {
+                if (index > 200) {
                     index = 0;
                     int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
