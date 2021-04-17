@@ -828,8 +828,13 @@ public class AccountImp {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
                         }
                     } else if (cSubTypePlan == ConstantKey.INT_PP_API) {
-                        if (stockNameList.size() >= ConstantKey.INT_PP_API_NUM) {
-                            return AccountObj.MAX_ALLOW_STOCK_ERROR;
+                        if (cust.getUsername().equals(CKey.API_USERNAME)) {
+                            // API use is unlimited
+                            ;
+                        } else {
+                            if (stockNameList.size() >= ConstantKey.INT_PP_API_NUM) {
+                                return AccountObj.MAX_ALLOW_STOCK_ERROR;
+                            }
                         }
                     }
                 }
