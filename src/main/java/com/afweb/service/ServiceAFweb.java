@@ -1124,7 +1124,7 @@ public class ServiceAFweb {
             return 0;
         }
 
-        logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + "" + URL);
+        logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + " " + URL);
 
         String BPnameSym = CKey.NN_version + "_" + nnName;
         AFneuralNet nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
