@@ -1070,6 +1070,7 @@ public class ServiceAFweb {
 
                     }
                 }
+                getAccountProcessImp().ProcessAdminAddRemoveStock(this);
                 ////update all stock
                 TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
@@ -1077,7 +1078,7 @@ public class ServiceAFweb {
                     String symbol = (String) APIStockNameList.get(i);
                     int re = TRprocessImp.updateAllStockProcess(this, symbol);
                 }
-
+                getAccountProcessImp().ProcessAdminAddRemoveStock(this);
             }
         } catch (Exception ex) {
             logger.info("> processInitLocalRemoteNN Exception " + ex.getMessage());
