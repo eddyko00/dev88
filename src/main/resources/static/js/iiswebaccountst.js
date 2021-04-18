@@ -83,7 +83,9 @@ var app = {
 
         $("#accheader").html('Account ' + accObj.accountname + ' ' + '<a href="#page-intro"><small>Help</small></a>');
 
-        var htmlhead = '<div class="ui-grid-d">';
+        var htmlhead = '';
+        htmlhead += 'Number of Stock:' + STnameNum;
+         htmlhead += '<div class="ui-grid-d">';
         if (trName === "TR_ACC") {
             htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym <small>' + trName + '</small></strong></div>';
             htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
@@ -100,7 +102,7 @@ var app = {
         }
         htmlhead += '</div>';
         htmlhead += '</div>';
-        htmlhead += 'Number of Stock:' + STnameNum;
+
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
         for (i = 0; i < stockObjList.length; i++) {
             var stockObj = stockObjList[i];
