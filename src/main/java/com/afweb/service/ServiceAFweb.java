@@ -1128,13 +1128,16 @@ public class ServiceAFweb {
 
         for (int i = 0; i < APIStockNameList.size(); i++) {
             String symbol = (String) APIStockNameList.get(i);
-
+            if (symbol.equals("T.T")){
+                continue;
+            }
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
                 nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj1 != null) {
                     serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
                 } else {
+                    
                     logger.info("> updateRESTNNWeight0 not found " + BPnameSym);
                 }
             } catch (Exception ex) {
