@@ -758,12 +758,7 @@ public class ServiceAFweb {
                 NNProcessImp.ProcessReLearnInputNeuralNet(this);
                 cntNN = 0;
                 return;
-//            } else if (cntNN == 6) {
-//                nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
-//                return;
-//            } else if (cntNN == 7) {
-//                nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
-//                return;
+
             }
 
             cntNN = 0;
