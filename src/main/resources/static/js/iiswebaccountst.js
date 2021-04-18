@@ -42,6 +42,9 @@ var app = {
         }
 
         var StNListCnt = iisWebObj.StNListCnt;
+        if (typeof StNListCnt === "undefined") {
+            StNListCnt = 0;
+        }
 
         var STnameListStr = iisWebObj.STnameListStr;
         var STnameNum = 0;
