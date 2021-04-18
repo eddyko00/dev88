@@ -1182,8 +1182,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
-            TRAPI.ProcessAPISignalTrading(this);
+//            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
+//            TRAPI.ProcessAPISignalTrading(this);
             
 //            this.processInitLocalRemoteNN();
 //            AccountObj accountAdminObj = getAdminObjFromCache();
@@ -6776,7 +6776,7 @@ public class ServiceAFweb {
 //        tr.setTrname(ConstantKey.TR_NN91);
 //        tr.setType(ConstantKey.INT_TR_NN91);
 //        tr.setComment("");
-        getTRList().add(tr);
+//        getTRList().add(tr);
     }
 
     public void InitSystemFund(String portfolio) {
