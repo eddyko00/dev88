@@ -40,6 +40,7 @@ var app = {
         if (accObj == null) {
             window.location.href = "index.html";
         }
+        var StNListCnt = iisWebObj.StNListCnt;
         var trFilter = "";
         if (iisWebObj.trFilter != null) {
             trFilter = iisWebObj.trFilter;

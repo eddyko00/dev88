@@ -30,6 +30,12 @@ var app = {
         var accId = iisWebObj.accId;
         console.log(accId);
 
+        var StNListCnt = iisWebObj.StNListCnt;
+        if (typeof StNListCnt === "undefined") {
+            StNListCnt = 0;
+        }
+
+
         var trName = "TR_ACC";
         if (iisWebObj.trName != null) {
             trName = iisWebObj.trName;
@@ -40,27 +46,53 @@ var app = {
             trFilter = iisWebObj.trFilter;
         }
         $.ajax({
-            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st?trname=" + trName + "&filter=" + trFilter,
+            url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/stname",
             crossDomain: true,
             cache: false,
             beforeSend: function () {
                 $("#loader").show();
             },
-            error: function () {
-                alert('Network failure. Please try again later.');
-                window.location.href = "index.html";
-            },
-            success: function (resultStockList) {
-                console.log(resultStockList);
+
+            success: function (resultSTnameList) {
+                console.log(resultSTnameList);
                 window.localStorage.setItem(iisMsgSession, "");
 
-                var stockObjListStr = JSON.stringify(resultStockList, null, '\t');
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'trName': trName};
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "accountst.html";
+                var STnameListStr = "";
+                if (resultSTnameList !== "") {
+                    if (resultSTnameList.length > 0) {
+                        STnameListStr = JSON.stringify(resultSTnameList, null, '\t');
+                    }
+                }
+                $.ajax({
+                    // default st size 20
+                    url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/st?trname=" + trName + "&filter=" + trFilter,
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {
+                        $("#loader").show();
+                    },
+                    error: function () {
+                        alert('Network failure. Please try again later.');
+                        window.location.href = "index.html";
+                    },
+                    success: function (resultStockList) {
+                        console.log(resultStockList);
+                        window.localStorage.setItem(iisMsgSession, "");
+
+                        var stockObjListStr = JSON.stringify(resultStockList, null, '\t');
+                        var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'STnameListStr': STnameListStr,
+                            'StNListCnt': StNListCnt, 'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'trName': trName};
+                        window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                        window.location.href = "accountst.html";
+                    }
+                });
+
+
             }
         });
+
+
+
     }
 };
 app.initialize();

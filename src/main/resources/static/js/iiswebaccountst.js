@@ -28,6 +28,7 @@ var app = {
         var accObjListStr = iisWebObj.accObjListStr;
         var accObjList = JSON.parse(accObjListStr);
         var accId = iisWebObj.accId;
+
         var accObj = null;
         for (i = 0; i < accObjList.length; i++) {
             var accObjTmp = accObjList[i];
@@ -38,6 +39,21 @@ var app = {
         }
         if (accObj == null) {
             window.location.href = "index.html";
+        }
+
+        var StNListCnt = iisWebObj.StNListCnt;
+
+        var STnameListStr = iisWebObj.STnameListStr;
+        var STnameNum = 0;
+        var STnameList = "";
+        if (STnameListStr !== "") {
+            STnameList = JSON.parse(STnameListStr);
+            STnameNum = STnameList.length;
+
+        }
+
+        if (STnameNum <= 20) {
+            $("#footheader").hide(0);
         }
 
         var trName = "TR_ACC";
@@ -56,8 +72,8 @@ var app = {
             });
         }
 
-        var physicalScreenWidth = window.screen.width * window.devicePixelRatio;
-        var physicalScreenHeight = window.screen.height * window.devicePixelRatio;
+//        var physicalScreenWidth = window.screen.width * window.devicePixelRatio;
+//        var physicalScreenHeight = window.screen.height * window.devicePixelRatio;
 
         var stockObjListStr = iisWebObj.stockObjListStr;
         var stockObjList = JSON.parse(stockObjListStr);
@@ -81,6 +97,7 @@ var app = {
         }
         htmlhead += '</div>';
         htmlhead += '</div>';
+        htmlhead += 'Number of Stock:' + STnameNum;
         $("#myid").html('<li id="0" >' + htmlhead + '</li>');
         for (i = 0; i < stockObjList.length; i++) {
             var stockObj = stockObjList[i];
@@ -194,7 +211,7 @@ var app = {
             }
 
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId};
+                'StNListCnt': StNListCnt, 'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountsttr_1.html";
         });
@@ -305,7 +322,7 @@ var app = {
             }
             trFilter = filter;
 
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'StNListCnt': StNListCnt, 'accId': accId,
                 'stockObjListStr': stockObjListStr, 'trName': trName, 'trFilter': trFilter};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountst_1.html";
@@ -348,7 +365,7 @@ var app = {
 
 
             trName = "TR_ACC"
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'StNListCnt': StNListCnt, 'accId': accId,
                 'stockObjListStr': stockObjListStr, 'trName': trName, 'trFilter': trFilter};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountst_1.html";
@@ -358,15 +375,76 @@ var app = {
 
 
             trName = "TR_NN1"
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'StNListCnt': StNListCnt, 'accId': accId,
                 'stockObjListStr': stockObjListStr, 'trName': trName, 'trFilter': trFilter};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountst_1.html";
         });
 
 
+///////////////////////////////
+        var numDispCust = 20;
 
+        $("#nextSt").click(function () {
+            if (STnameList !== "") {
+                var begTest = (StNListCnt + 1) * numDispCust;
+                if (begTest <= STnameList.length) {
+                    StNListCnt++;
+                }
 
+                var filter = [];
+                var j = 0;
+                var beg = (StNListCnt) * numDispCust;
+                for (i = beg; i < (beg + numDispCust); i++) {
+                    if (i < STnameList.length) {
+                        var sym = STnameList[i];
+                        filter [j] = sym;
+                        j++;
+                    } else {
+                        break;
+                    }
+
+                }
+                trFilter = filter;
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'StNListCnt': StNListCnt, 'accId': accId,
+                    'stockObjListStr': stockObjListStr, 'trName': trName, 'trFilter': trFilter};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountst_1.html";
+            }
+
+        });
+
+        $("#prevSt").click(function () {
+            if (STnameList !== "") {
+                if (StNListCnt == 0) {
+                    return;
+                }
+                StNListCnt--;
+                var filter = [];
+                var j = 0;
+                var beg = (StNListCnt) * numDispCust;
+                for (i = beg; i < (beg + numDispCust); i++) {
+                    if (i < STnameList.length) {
+                        var sym = STnameList[i];
+                        filter [j] = sym;
+                        j++;
+                    } else {
+                        break;
+                    }
+
+                }
+                trFilter = filter;
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'StNListCnt': StNListCnt, 'accId': accId,
+                    'stockObjListStr': stockObjListStr, 'trName': trName, 'trFilter': trFilter};
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+                window.location.href = "accountst_1.html";
+            }
+
+        });
+
+//////////////////////////////
 
         function functionAlertConfirm(msg, myYes, myNo, myOk) {
             var confirmBox = $("#alertconfirm");

@@ -18,7 +18,7 @@ var app = {
 //        console.log(iisWebObj);
         var iisurlStr = iisWebObj.iisurlStr;
         iisurl = iisurlStr;
-        
+
         var custObjStr = iisWebObj.custObjStr;
         if (custObjStr == null) {
             window.location.href = "index.html";
@@ -56,10 +56,11 @@ var app = {
         if (stockObj == null) {
             window.location.href = "index.html";
         }
+        var StNListCnt = iisWebObj.StNListCnt;
         var trFilter = "";
         if (iisWebObj.trFilter != null) {
             trFilter = iisWebObj.trFilter;
-        }        
+        }
         var trObjListStr = iisWebObj.trObjListStr;
         var trObjList = JSON.parse(trObjListStr);
 
@@ -83,7 +84,7 @@ var app = {
 
                 var tranObjListStr = JSON.stringify(resultTranList, null, '\t');
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
+                    'StNListCnt': StNListCnt, 'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
                     'trObjListStr': trObjListStr, 'trName': trName, 'tranObjListStr': tranObjListStr};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));

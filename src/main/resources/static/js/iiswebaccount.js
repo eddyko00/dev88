@@ -108,7 +108,7 @@ var app = {
                 } else if (custObj.substatus == 20) {
                     pp = "Deluxe Plan - Max 20 stocks";
                 } else if (custObj.substatus == 90) {
-                    pp = "API Plan - Max 1000 stocks";                    
+                    pp = "API Plan - Max 1000 stocks";
                 }
 
                 htmlName += '<br>Plan: ' + pp;
@@ -147,8 +147,9 @@ var app = {
 //                alert(accId);
                 return;
             }
-
-            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId};
+            var StNListCnt = 0;
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                'StNListCnt': StNListCnt, 'accId': accId};
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
             window.location.href = "accountst_1.html";
         });
