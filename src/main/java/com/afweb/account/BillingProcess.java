@@ -783,12 +783,15 @@ public class BillingProcess {
         String DepSt = "CostofGS " + expense + " for 1 year from " + dateSt.toString() + ". ";
         data = DepSt + data;
 
+        // 0- 11
         int monNum = TimeConvertion.getMonthNum(entrytime);
         monNum += 1; // start 1 - 12
         int remMonNum = (12 - monNum) + 1;
         float curExpense = (expense / 12) * remMonNum;
         curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, curExpense, 0, data, entrytime);
+        if (curExpense > 0) {
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, curExpense, 0, data, entrytime);
+        }
         remainExpense = expense - curExpense;
         if (remainExpense > 0) {
             entrytime = TimeConvertion.addMonths(entrytime, 12);
@@ -850,8 +853,9 @@ public class BillingProcess {
                 if (i == (yearCnt - 1)) {
                     exDeplication = remainExpense;
                 }
-
-                result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, exDeplication, 0, data, entrytime);
+                if (exDeplication > 0) {
+                    result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, exDeplication, 0, data, entrytime);
+                }
                 remainExpense = remainExpense - exDeplication;
                 if (remainExpense < 0) {
                     break;
