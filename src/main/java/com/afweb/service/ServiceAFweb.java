@@ -1128,7 +1128,7 @@ public class ServiceAFweb {
 
         for (int i = 0; i < APIStockNameList.size(); i++) {
             String symbol = (String) APIStockNameList.get(i);
-            if (symbol.equals("T.T")){
+            if (symbol.equals("T.T")) {
                 continue;
             }
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
@@ -1137,7 +1137,7 @@ public class ServiceAFweb {
                 if (nnObj1 != null) {
                     serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
                 } else {
-                    
+
                     logger.info("> updateRESTNNWeight0 not found " + BPnameSym);
                 }
             } catch (Exception ex) {
@@ -2014,7 +2014,7 @@ public class ServiceAFweb {
     }
 
     // result 1 = success, 2 = existed,  0 = fail
-    public LoginObj addCustomerPassword(String EmailUserName, String Password, String FirstName, String LastName) {
+    public LoginObj addCustomerPassword(String EmailUserName, String Password, String FirstName, String LastName, String planSt) {
         LoginObj loginObj = new LoginObj();
         loginObj.setCustObj(null);
         WebStatus webStatus = new WebStatus();
@@ -2036,8 +2036,18 @@ public class ServiceAFweb {
             newCustomer.setEmail(EmailUserName);
             newCustomer.setFirstname(FirstName);
             newCustomer.setLastname(LastName);
+            int plan = 0;
+            plan = Integer.parseInt(planSt);
+            if (plan == ConstantKey.INT_PP_BASIC) {
+                ;
+            } else if (plan == ConstantKey.INT_PP_PREMIUM) {
+                ;
+            } else if (plan == ConstantKey.INT_PP_DELUXE) {
+                ;
+            }
+
             // result 1 = success, 2 = existed,  0 = fail
-            int result = getAccountImp().addCustomer(newCustomer);
+            int result = getAccountImp().addCustomer(newCustomer, plan);
             if (result == 1) {
                 CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
                 if (custObj != null) {
@@ -6670,13 +6680,13 @@ public class ServiceAFweb {
             newCustomer.setFirstname("ADM");
             newCustomer.setType(CustomerObj.INT_ADMIN_USER);
             //// result 1 = success, 2 = existed,  0 = fail
-            getAccountImp().addCustomer(newCustomer);
+            getAccountImp().addCustomer(newCustomer, -1);
 
             newCustomer.setUsername(CKey.API_USERNAME);
             newCustomer.setPassword("eddy");
             newCustomer.setFirstname("APIUser");
             newCustomer.setType(CustomerObj.INT_API_USER);
-            getAccountImp().addCustomer(newCustomer);
+            getAccountImp().addCustomer(newCustomer, -1);
 
             if (retSatus == 0) {
 
@@ -6684,19 +6694,19 @@ public class ServiceAFweb {
                 newCustomer.setPassword("guest");
                 newCustomer.setFirstname("G");
                 newCustomer.setType(CustomerObj.INT_GUEST_USER);
-                getAccountImp().addCustomer(newCustomer);
+                getAccountImp().addCustomer(newCustomer, -1);
 
                 newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);
                 newCustomer.setPassword("passw0rd");
                 newCustomer.setFirstname("FundMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
-                getAccountImp().addCustomer(newCustomer);
+                getAccountImp().addCustomer(newCustomer, -1);
 //                
                 newCustomer.setUsername(CKey.INDEXFUND_MANAGER_USERNAME);
                 newCustomer.setPassword("passw0rd");
                 newCustomer.setFirstname("IndexMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
-                getAccountImp().addCustomer(newCustomer);
+                getAccountImp().addCustomer(newCustomer, -1);
 
                 AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
                 if (account != null) {
@@ -6716,7 +6726,7 @@ public class ServiceAFweb {
             newCustomer.setPassword("pass");
             newCustomer.setFirstname("E");
             newCustomer.setType(CustomerObj.INT_CLIENT_BASIC_USER);
-            getAccountImp().addCustomer(newCustomer);
+            getAccountImp().addCustomer(newCustomer, -1);
         }
         return retSatus;
 

@@ -183,7 +183,7 @@ public class AccountDB {
         return null;
     }
 
-    public  ArrayList<CustomerObj> getCustomerByType(int type) {
+    public ArrayList<CustomerObj> getCustomerByType(int type) {
         try {
             String sql = "select * from customer where type =" + type;
 
@@ -1780,37 +1780,52 @@ public class AccountDB {
     }
 
     // result 1 = success, 2 = existed,  0 = fail
-    public int addCustomerAccount(CustomerObj newCustomer) {
+    public int addCustomerAccount(CustomerObj newCustomer, int plan) {
 //        logger.info("> addCustomer " + newCustomer.getUsername());
 
         try {
-            switch (newCustomer.getType()) {
-                case CustomerObj.INT_ADMIN_USER:
-                    newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                    newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
-                    newCustomer.setBalance(0);
-                    break;
-                case CustomerObj.INT_FUND_USER:
-                    newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                    newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
-                    newCustomer.setBalance(0);
-                    break;
-                case CustomerObj.INT_GUEST_USER:
-                    newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                    newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
-                    newCustomer.setBalance(0);
-                    break;
-                case CustomerObj.INT_API_USER:
-                    newCustomer.setSubstatus(ConstantKey.INT_PP_API);
-                    newCustomer.setPayment(ConstantKey.INT_PP_API_PRICE);
-                    newCustomer.setBalance(0);
-                    break;                    
+            if (plan == -1) {
+                switch (newCustomer.getType()) {
+                    case CustomerObj.INT_ADMIN_USER:
+                        newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
+                        newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
+                        newCustomer.setBalance(0);
+                        break;
+                    case CustomerObj.INT_FUND_USER:
+                        newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
+                        newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
+                        newCustomer.setBalance(0);
+                        break;
+                    case CustomerObj.INT_GUEST_USER:
+                        newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
+                        newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
+                        newCustomer.setBalance(0);
+                        break;
+                    case CustomerObj.INT_API_USER:
+                        newCustomer.setSubstatus(ConstantKey.INT_PP_API);
+                        newCustomer.setPayment(ConstantKey.INT_PP_API_PRICE);
+                        newCustomer.setBalance(0);
+                        break;
 
-                default:
-                    newCustomer.setSubstatus(ConstantKey.INT_PP_BASIC);
-                    newCustomer.setPayment(ConstantKey.INT_PP_BASIC_PRICE);
+                    default:
+                        newCustomer.setSubstatus(ConstantKey.INT_PP_BASIC);
+                        newCustomer.setPayment(ConstantKey.INT_PP_BASIC_PRICE);
+                        newCustomer.setBalance(0);
+                        break;
+                }
+            } else {
+                newCustomer.setSubstatus(ConstantKey.INT_PP_BASIC);
+                newCustomer.setPayment(ConstantKey.INT_PP_BASIC_PRICE);
+                newCustomer.setBalance(0);
+                if (plan == ConstantKey.INT_PP_PREMIUM) {
+                    newCustomer.setSubstatus(ConstantKey.INT_PP_PREMIUM);
+                    newCustomer.setPayment(ConstantKey.INT_PP_PEMIUM_PRICE);
                     newCustomer.setBalance(0);
-                    break;
+                } else if (plan == ConstantKey.INT_PP_DELUXE) {
+                    newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
+                    newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
+                    newCustomer.setBalance(0);
+                }
             }
             int result = addCustomer(newCustomer);
             if (result != 0) {

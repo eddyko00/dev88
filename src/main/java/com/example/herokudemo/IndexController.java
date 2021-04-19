@@ -63,7 +63,7 @@ public class IndexController {
         arrayString.add("/st/deleteinfo/{symbol}");
         arrayString.add("/st/addfailcnt/{symbol}");
         //
-        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
+        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
         arrayString.add("/cust/login?email={email}&pass={pass}");
 //        arrayString.add("/cust/{username}/login&pass={pass}");
 
@@ -371,6 +371,7 @@ public class IndexController {
         return msg;
     }
 
+    ///cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=
     @RequestMapping(value = "/cust/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     LoginObj addCustomerPassword(
@@ -378,6 +379,7 @@ public class IndexController {
             @RequestParam(value = "pass", required = true) String passSt,
             @RequestParam(value = "firstName", required = false) String firstNameSt,
             @RequestParam(value = "lastName", required = false) String lastNameSt,
+            @RequestParam(value = "plan", required = false) String planSt,            
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -391,7 +393,7 @@ public class IndexController {
             return loginObj;
         }
 //       SUCC = 1;  EXISTED = 2; FAIL =0;
-        LoginObj loginObj = afWebService.addCustomerPassword(emailSt, passSt, firstNameSt, lastNameSt);
+        LoginObj loginObj = afWebService.addCustomerPassword(emailSt, passSt, firstNameSt, lastNameSt, planSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
     }

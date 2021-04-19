@@ -272,7 +272,7 @@ public class AccountImp {
     }
 
     // result 1 = success, 2 = existed,  0 = fail
-    public int addCustomer(CustomerObj newCustomer) {
+    public int addCustomer(CustomerObj newCustomer, int plan) {
         if (newCustomer == null) {
             return 0;
         }
@@ -286,7 +286,7 @@ public class AccountImp {
         }
         int result = 0;
         try {
-            result = accountdb.addCustomerAccount(newCustomer);
+            result = accountdb.addCustomerAccount(newCustomer, plan);
         } catch (Exception ex) {
             logger.info("> addCustomer exception " + newCustomer.getUsername() + " - " + ex.getMessage());
         }

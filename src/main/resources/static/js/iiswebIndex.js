@@ -95,6 +95,7 @@ var app = {
             var txtemailaddress = document.getElementById("txt-email-address-signup").value;
             var txtpassword = document.getElementById("txt-password-signup").value;
             var txtpasswordconfirm = document.getElementById("txt-password-confirm-signup").value;
+            var pricemodelconfirm = document.getElementById("pricemodel").value;
 
             if (txtpassword !== txtpasswordconfirm) {
                 $('#error_message-signup').fadeIn().html("Password does not match with confirmed password. Please try again.");
@@ -102,7 +103,8 @@ var app = {
 //          "/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}"
 //          SUCC = 1;  EXISTED = 2; FAIL =0;
             $.ajax({
-                url: iisurl + "/cust/add?email=" + txtemailaddress + "&pass=" + txtpassword + "&firstName=" + txtfirstname + "&lastName=" + txtlastname,
+                url: iisurl + "/cust/add?email=" + txtemailaddress + "&pass=" + txtpassword + "&firstName=" + txtfirstname 
+                        + "&lastName=" + txtlastname + "&plan=" + pricemodelconfirm,
                 crossDomain: true,
                 cache: false,
                 error: function () {

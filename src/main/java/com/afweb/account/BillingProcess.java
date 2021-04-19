@@ -448,7 +448,7 @@ public class BillingProcess {
                     break;
                 case ConstantKey.INT_PP_PREMIUM:
                     billData.setFeat(ConstantKey.PP_PREMIUM);
-                    fInvoice = ConstantKey.INT_PP_REMIUM_PRICE;
+                    fInvoice = ConstantKey.INT_PP_PEMIUM_PRICE;
                     break;
                 case ConstantKey.INT_PP_DELUXE:
                     billData.setFeat(ConstantKey.PP_DELUXE);
