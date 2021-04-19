@@ -1177,9 +1177,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
-//            TRAPI.ProcessAPISignalTrading(this);
-            
+            NN35ProcessByTrend nn35 = new NN35ProcessByTrend();
+            nn35.ProcessTrainNeuralNetNN35ByTrend(this);
+
 //            this.processInitLocalRemoteNN();
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);

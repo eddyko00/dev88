@@ -146,7 +146,6 @@ public class NN35ProcessByTrend {
     // training neural net input data
     // create neural net input data
     //     
-
 //    private void NeuralNetInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
 //        int sizeYr = 2;
 //        for (int j = 0; j < sizeYr; j++) { //4; j++) {
@@ -388,7 +387,6 @@ public class NN35ProcessByTrend {
 //        }
 //        return false;
 //    }
-
     //////////////////////////////////////////////////
     private static ArrayList stockNNprocessNameArray = new ArrayList();
     private static ArrayList stockNNinputNameArray = new ArrayList();
@@ -399,24 +397,8 @@ public class NN35ProcessByTrend {
             return stockNNprocessNameArray;
         }
 
-//        boolean guestFlag = false;
-//        if (guestFlag == true) {
-//            AccountObj account = serviceAFWeb.getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
-//            accountObj = account;
-//        }
         ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
 
-        if (stockNameArray != null) {
-            stockNameArray.add(0, "HOU.TO");
-            ArrayList stockTRNameArray = new ArrayList();
-            for (int i = 0; i < stockNameArray.size(); i++) {
-                String sym = (String) stockNameArray.get(i);
-                String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
-                stockTRNameArray.add(symTR);
-            }
-
-            stockNNprocessNameArray = stockTRNameArray;
-        }
         return stockNNprocessNameArray;
     }
 
@@ -435,13 +417,13 @@ public class NN35ProcessByTrend {
         for (int i = 0; i < stockNNprocessNameArray.size(); i++) {
             printName += stockNNprocessNameArray.get(i) + ",";
         }
-        logger.info("ProcessTrainNeuralNetNN30ByTrend " + printName);
+        logger.info("ProcessTrainNeuralNetNN35ByTrend " + printName);
 
         String LockName = null;
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
-        LockName = "NN30_" + ServiceAFweb.getServerObj().getServerName();
+        LockName = "NN35_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
@@ -623,9 +605,33 @@ public class NN35ProcessByTrend {
     public int inputStockNeuralNetData(ServiceAFweb serviceAFWeb, int TR_Name, String symbol) {
         boolean nnsym = true;
         if (nnsym == true) {
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+            if (TRprocessImp.checkNN1Ready(serviceAFWeb, symbol, false) == false) {
+                return 0;
+            }
+
+            String BPnameNN1Sym = CKey.NN_version + "_" + ConstantKey.TR_NN1 + "_" + symbol;
+            try {
+                AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameNN1Sym, 0);
+                if (nnObj0 == null) {
+                    return 0;
+                }
+
+                logger.info("> inputStockNeuralNetData " + BPnameNN1Sym);
+
+                ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
+                //StockArray assume recent date to old data   
+                NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
+                ArrayList<NNInputDataObj> inputlistSym1 = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
+                inputlistSym.addAll(inputlistSym1);
+
+            } catch (Exception e) {
+                logger.info("> inputStockNeuralNetData exception " + BPnameNN1Sym + " - " + e.getMessage());
+                return 0;
+            }
             int totalAdd = 0;
             int totalDup = 0;
-            String nnName = ConstantKey.TR_NN30;
+            String nnName = ConstantKey.TR_NN35;
 
             String nnNameSym = nnName + "_" + symbol;
 
@@ -694,12 +700,7 @@ public class NN35ProcessByTrend {
                             continue;
                         }
                         totalDup++;
-//                        boolean flag = false;
-//                        if (flag == true) {
-//                            if (CKey.NN_DEBUG == true) {
-////                                logger.info("> inputStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
-//                            }
-//                        }
+
                     }
                 }
                 ReferNameData refData = new ReferNameData();
@@ -740,14 +741,7 @@ public class NN35ProcessByTrend {
                     logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getmError());
                     serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);
                 }
-//                if (refName != null) {
-//                    if (refName.length() > 0) {
-//
-//                        logger.info("> inputStockNeuralNetData  " + BPnameSym + " refError " + refName);
-//                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
-//                    }
-//                }
-//                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
+
                 return ret;
 
             } catch (Exception e) {
