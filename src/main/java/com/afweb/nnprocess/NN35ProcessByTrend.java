@@ -149,6 +149,9 @@ public class NN35ProcessByTrend {
 
         String symbol = "";
         String symbolL[] = ServiceAFweb.primaryStock;
+
+        String symbolTest[] = {"HOU.TO"};
+        symbolL = symbolTest;
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
@@ -167,71 +170,71 @@ public class NN35ProcessByTrend {
 
                 //StockArray assume recent date to old data   
                 NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
-                ArrayList<NNInputDataObj> inputListSym = new ArrayList();
-                inputListSym = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
+                ArrayList<NNInputDataObj> inputList = new ArrayList();
+                inputList = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
 
+                boolean testFlag = false;
+                if (testFlag == true) {
+                    ArrayList writeArray = new ArrayList();
+                    String stTitle = "";
 
-                ArrayList writeArray = new ArrayList();
-                String stTitle = "";
-                int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use     
+                    int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use     
+                    for (int j = 0; j < inputList.size(); j++) {
 
-//                for (int i = 0; i < inputList.size(); i++) {
-//                    NNInputDataObj objData = inputList.get(i);
-//                    NNInputOutObj obj = objData.getObj();
-//                    int stockId = 0;
-//                    String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
-//                            + "\",\"" + obj.getOutput1()
-//                            + "\",\"" + obj.getOutput2()
-//                            + "\",\"" + obj.getInput1()
-//                            + "\",\"" + obj.getInput2()
-//                            + "\",\"" + obj.getInput3()
-//                            + "\",\"" + obj.getInput4()
-//                            + "\",\"" + obj.getInput5()
-//                            + "\",\"" + obj.getInput6()
-//                            + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
-//                            + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
-//                            // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
-//                            + "\"";
-//
-//                    if (i == 0) {
-//                        st += ",\"last\"";
-//                    }
-//
-//                    if (i + 1 >= inputList.size()) {
-//                        st += ",\"first\"";
-//                    }
-//
-//                    if (i == 0) {
-//                        stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-//                                + "\",\"" + "output1"
-//                                + "\",\"" + "output2"
-//                                + "\",\"" + "macd TSig"
-//                                + "\",\"" + "LTerm"
-//                                + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-//                                + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-//                                + "\",\"" + symbol + "\"";
-//
-//                    }
-//                    String stDispaly = st.replaceAll("\"", "");
-//                    writeArray.add(stDispaly);
-//                }
-//                writeArray.add(stTitle.replaceAll("\"", ""));
-//
-//                Collections.reverse(writeArray);
-//                Collections.reverse(inputList);
-//
-//                if (getEnv.checkLocalPC() == true) {
-//                    String nn12 = TradingSignalProcess.NN1_FILE_1; //"_nn1_";
-//                    if (tr == ConstantKey.INT_TR_MACD2) {
-//                        nn12 = TradingSignalProcess.NN1_FILE_2; // "_nn2_";
-//                    }
-//                    String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
-//
-//                    FileUtil.FileWriteTextArray(filename, writeArray);
-//                }
+                        NNInputDataObj objData = inputList.get(j);
+                        NNInputOutObj obj = objData.getObj();
+                        int stockId = 0;
+                        String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+                                + "\",\"" + obj.getOutput1()
+                                + "\",\"" + obj.getOutput2()
+                                + "\",\"" + obj.getInput1()
+                                + "\",\"" + obj.getInput2()
+                                + "\",\"" + obj.getInput3()
+                                + "\",\"" + obj.getInput4()
+                                + "\",\"" + obj.getInput5()
+                                + "\",\"" + obj.getInput6()
+                                + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+                                + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+                                // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
+                                + "\"";
 
+                        if (j == 0) {
+                            st += ",\"last\"";
+                        }
+
+                        if (j + 1 >= inputList.size()) {
+                            st += ",\"first\"";
+                        }
+
+                        if (j == 0) {
+                            stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+                                    + "\",\"" + "output1"
+                                    + "\",\"" + "output2"
+                                    + "\",\"" + "macd TSig"
+                                    + "\",\"" + "LTerm"
+                                    + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+                                    + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+                                    + "\",\"" + symbol + "\"";
+
+                        }
+                        String stDispaly = st.replaceAll("\"", "");
+                        writeArray.add(stDispaly);
+                    }
+                    writeArray.add(stTitle.replaceAll("\"", ""));
+
+                    Collections.reverse(writeArray);
+                    Collections.reverse(inputList);
+
+                    if (getEnv.checkLocalPC() == true) {
+                        String nn35 = TradingSignalProcess.NN35_FILE_1;
+
+                        String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn35 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+
+                        FileUtil.FileWriteTextArray(filename, writeArray);
+                    }
+                }
             } catch (Exception e) {
-                logger.info("> inputStockNeuralNetData exception " + BPnameNN1Sym + " - " + e.getMessage());
+                logger.info("> NeuralNetInputTesting exception " + BPnameNN1Sym + " - " + e.getMessage());
 
             }
 

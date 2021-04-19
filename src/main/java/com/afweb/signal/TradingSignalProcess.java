@@ -2166,7 +2166,9 @@ public class TradingSignalProcess {
     public static String NN2_FILE_2 = "_nn22_";
     public static String NN3_FILE_1 = "_nn31_";
     public static String NN3_FILE_2 = "_nn32_";
-
+    public static String NN35_FILE_1 = "_nn351_";
+    public static String NN35_FILE_2 = "_nn352_";
+    
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
