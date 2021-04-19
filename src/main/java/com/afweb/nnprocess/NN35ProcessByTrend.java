@@ -34,20 +34,19 @@ public class NN35ProcessByTrend {
 
     public static Logger logger = Logger.getLogger("NNProcessStock");
 
-//    public void processNN35InputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
-//        ////////////////////////////////////////////
-//        boolean flagIntitNN35Input = true;
-//        if (flagIntitNN35Input == true) {
-//
-//            TradingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning
-//            TradingSignalProcess.forceToGenerateNewNN = false;
-//            logger.info("> processInputTrend TR MACD0... ");
-//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD0);
-//            logger.info("> processInputTrend TR MACD1... ");
-//            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_MACD1);
-//            // need to debug to generate the java first time
-//            TradingSignalProcess.forceToGenerateNewNN = true;
-//
+    public void processNN35InputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
+        ////////////////////////////////////////////
+        boolean flagIntitNN35Input = true;
+        if (flagIntitNN35Input == true) {
+
+            TradingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning
+            TradingSignalProcess.forceToGenerateNewNN = false;
+            logger.info("> processInputTrend TR NN1... ");
+            NeuralNetInputTesting(serviceAFWeb, ConstantKey.INT_TR_NN1);
+
+            // need to debug to generate the java first time
+            TradingSignalProcess.forceToGenerateNewNN = true;
+
 //            TradingSignalProcess.forceToErrorNewNN = true;
 //            // start training
 //            // TrainingNNBP inputpattern 1748
@@ -63,11 +62,10 @@ public class NN35ProcessByTrend {
 //            NeuralNetProcessTesting(serviceAFWeb);
 //            NeuralNetNN30CreateJava(serviceAFWeb, ConstantKey.TR_NN30);
 //            logger.info("> processInputNeuralNetTrend TR NN30 end....... ");
-//
-//        }
-//
-//        ////////////////////////////////////////////
-//    }
+        }
+
+        ////////////////////////////////////////////
+    }
 //
 //
 //    public void NeuralNetProcessTesting(ServiceAFweb serviceAFWeb) {
@@ -146,29 +144,100 @@ public class NN35ProcessByTrend {
     // training neural net input data
     // create neural net input data
     //     
-//    private void NeuralNetInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
-//        int sizeYr = 2;
-//        for (int j = 0; j < sizeYr; j++) { //4; j++) {
-//            int size = 20 * CKey.MONTH_SIZE * j;
-////                writeArrayNeuralNet.clear();
-//            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-//            logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
+
+    private void NeuralNetInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
+
+        String symbol = "";
+        String symbolL[] = ServiceAFweb.primaryStock;
+        for (int i = 0; i < symbolL.length; i++) {
+            symbol = symbolL[i];
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+            if (TRprocessImp.checkNN1Ready(serviceAFWeb, symbol, false) == false) {
+                continue;
+            }
+
+            String BPnameNN1Sym = CKey.NN_version + "_" + ConstantKey.TR_NN1 + "_" + symbol;
+            try {
+                AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameNN1Sym, 0);
+                if (nnObj0 == null) {
+                    continue;
+                }
+
+                logger.info("> inputStockNeuralNetData " + BPnameNN1Sym);
+
+                //StockArray assume recent date to old data   
+                NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
+                ArrayList<NNInputDataObj> inputListSym = new ArrayList();
+                inputListSym = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
+
+
+                ArrayList writeArray = new ArrayList();
+                String stTitle = "";
+                int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use     
+
+//                for (int i = 0; i < inputList.size(); i++) {
+//                    NNInputDataObj objData = inputList.get(i);
+//                    NNInputOutObj obj = objData.getObj();
+//                    int stockId = 0;
+//                    String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+//                            + "\",\"" + obj.getOutput1()
+//                            + "\",\"" + obj.getOutput2()
+//                            + "\",\"" + obj.getInput1()
+//                            + "\",\"" + obj.getInput2()
+//                            + "\",\"" + obj.getInput3()
+//                            + "\",\"" + obj.getInput4()
+//                            + "\",\"" + obj.getInput5()
+//                            + "\",\"" + obj.getInput6()
+//                            + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+//                            + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+//                            // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
+//                            + "\"";
 //
-//            String symbol = "";
-//            String symbolL[] = ServiceAFweb.primaryStock;
-//            for (int i = 0; i < symbolL.length; i++) {
-//                ///// too much data Skop "AMZN" "RY.TO"      
-//                ///// too much data Skop "AMZN" "RY.TO"      
-//                symbol = symbolL[i];
-//                if (symbol.equals("AMZN")) {
-//                    continue;
-//                } else if (symbol.equals("RY.TO")) {
-//                    continue;
+//                    if (i == 0) {
+//                        st += ",\"last\"";
+//                    }
+//
+//                    if (i + 1 >= inputList.size()) {
+//                        st += ",\"first\"";
+//                    }
+//
+//                    if (i == 0) {
+//                        stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+//                                + "\",\"" + "output1"
+//                                + "\",\"" + "output2"
+//                                + "\",\"" + "macd TSig"
+//                                + "\",\"" + "LTerm"
+//                                + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+//                                + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+//                                + "\",\"" + symbol + "\"";
+//
+//                    }
+//                    String stDispaly = st.replaceAll("\"", "");
+//                    writeArray.add(stDispaly);
 //                }
-//                ArrayList<NNInputDataObj> InputList = getTrainingNNtrendProcess(serviceAFWeb, symbol, TR_Name, size);
-//            }
-//        }
-//    }
+//                writeArray.add(stTitle.replaceAll("\"", ""));
+//
+//                Collections.reverse(writeArray);
+//                Collections.reverse(inputList);
+//
+//                if (getEnv.checkLocalPC() == true) {
+//                    String nn12 = TradingSignalProcess.NN1_FILE_1; //"_nn1_";
+//                    if (tr == ConstantKey.INT_TR_MACD2) {
+//                        nn12 = TradingSignalProcess.NN1_FILE_2; // "_nn2_";
+//                    }
+//                    String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+//
+//                    FileUtil.FileWriteTextArray(filename, writeArray);
+//                }
+
+            } catch (Exception e) {
+                logger.info("> inputStockNeuralNetData exception " + BPnameNN1Sym + " - " + e.getMessage());
+
+            }
+
+        }
+
+    }
 //
 //    private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
 //        int sizeYr = 2;

@@ -1178,7 +1178,7 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
             NN35ProcessByTrend nn35 = new NN35ProcessByTrend();
-            nn35.ProcessTrainNeuralNetNN35ByTrend(this);
+            nn35.processNN35InputNeuralNetTrend(this);
 
 //            this.processInitLocalRemoteNN();
 //            AccountObj accountAdminObj = getAdminObjFromCache();
