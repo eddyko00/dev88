@@ -271,7 +271,7 @@ public class ProcessNN00 {
     }
 
     private ArrayList<NNInputDataObj> ProcessTrainingNN00_dataMACD(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize, int type) {
-        NN1ProcessByTrend NNProcessTrend = new NN1ProcessByTrend();
+        NN30ProcessByTrend NNProcessTrend = new NN30ProcessByTrend();
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 

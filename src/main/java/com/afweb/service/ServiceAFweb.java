@@ -737,7 +737,7 @@ public class ServiceAFweb {
         if (processNeuralNetFlag == true) {
             cntNN++;
             TradingNNprocess NNProcessImp = new TradingNNprocess();
-            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+            NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
@@ -752,7 +752,7 @@ public class ServiceAFweb {
                 nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
                 return;
             } else if (cntNN == 3) {
-                nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
+                nn1trend.ProcessTrainNeuralNetNN30ByTrend(this);
                 return;
             } else if (cntNN == 4) {
                 NNProcessImp.ProcessReLearnInputNeuralNet(this);
@@ -771,7 +771,7 @@ public class ServiceAFweb {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
-        NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+        NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
         NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
 
@@ -829,7 +829,7 @@ public class ServiceAFweb {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
-        NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+        NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
         NN2ProcessByTrend nn2trend = new NN2ProcessByTrend();
 
@@ -911,7 +911,7 @@ public class ServiceAFweb {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN30);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
-                    nn1trend.ProcessTrainNeuralNetNN1ByTrend(this);
+                    nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
                     logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
 //                } else if (nn2testflag == true) {
 //                    if (((k % 5) == 0) || (k == 0)) {
@@ -967,7 +967,7 @@ public class ServiceAFweb {
                     /// remember to update nnData and nn3Data and version                
                     nn1ProcBySig.processNN1InputNeuralNet(this);
 
-                    nn1trend.processNN30InputNeuralNetTrend(this);
+                    nn30trend.processNN30InputNeuralNetTrend(this);
 
                 }
                 if (nn2testflag == true) {
@@ -1163,7 +1163,7 @@ public class ServiceAFweb {
 
             // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
             logger.info("Start mydebugtestflag.....");
-            NN1ProcessByTrend nn1trend = new NN1ProcessByTrend();
+            NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();

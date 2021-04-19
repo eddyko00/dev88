@@ -10,7 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.nnprocess.NN1ProcessByTrend;
+import com.afweb.nnprocess.NN30ProcessByTrend;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
