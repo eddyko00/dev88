@@ -131,7 +131,7 @@ public class BillingProcess {
         } else if (customer.getUsername().equals(CKey.G_USERNAME)) {
             byPassPayment = true;
         } else if (customer.getUsername().equals(CKey.API_USERNAME)) {
-            byPassPayment = true;                        
+            byPassPayment = true;
         }
         return byPassPayment;
     }
@@ -457,11 +457,11 @@ public class BillingProcess {
                 case ConstantKey.INT_PP_DELUXEX2:
                     billData.setFeat(ConstantKey.PP_DELUXEX2);
                     fInvoice = ConstantKey.INT_PP_DELUXEX2_PRICE;
-                    break;                    
+                    break;
                 case ConstantKey.INT_PP_API:
                     billData.setFeat(ConstantKey.PP_API);
                     fInvoice = ConstantKey.INT_PP_API_PRICE;
-                    break;                    
+                    break;
             }
             billData.setCurPaym(fInvoice);  ///// for the plan invoice
             customer.setPayment(fInvoice);
@@ -836,6 +836,17 @@ public class BillingProcess {
                     entrytime = TimeConvertion.addMonths(entrytime, 12);
                 }
 
+                /// first year will prorated to the end of year
+                if (i == 0) {
+                    int monNum = TimeConvertion.getMonthNum(entrytime);
+                    monNum += 1; // start 1 - 12
+                    int remMonNum = (12 - monNum) + 1;
+                    float curExpense = (exDeplication / 12) * remMonNum;
+                    curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
+                    exDeplication = curExpense;
+                }
+
+                //////// last year will claim the rest of expense
                 if (i == (yearCnt - 1)) {
                     exDeplication = remainExpense;
                 }
