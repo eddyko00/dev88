@@ -1277,11 +1277,11 @@ public class TradingSignalProcess {
 //                            if (offset < 99) {
 //                                prevSignal = nn1Signal;
 //                            }
-                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-
-                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
-                                    + " L:" + LTerm1 + " S:" + STerm1);
+//                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+//                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+//
+//                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
+//                                    + " L:" + LTerm1 + " S:" + STerm1);
 
                         }
                     }
@@ -1302,10 +1302,10 @@ public class TradingSignalProcess {
 //                            if (offset < 99) {
 //                                prevSignal = nn2Signal;
 //                            }
-                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-                            logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal + " C:" + trHistory.getParm5()
-                                    + " L:" + LTerm1 + " S:" + STerm1);
+//                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+//                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+//                            logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal + " C:" + trHistory.getParm5()
+//                                    + " L:" + LTerm1 + " S:" + STerm1);
                         }
                     }
                     break;
@@ -1325,10 +1325,10 @@ public class TradingSignalProcess {
 //                                if (offset < 99) {
 //                                    prevSignal = nn3Signal;
 //                                }
-                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-                                logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
-                                        + " L:" + LTerm1 + " S:" + STerm1);
+//                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+//                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+//                                logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
+//                                        + " L:" + LTerm1 + " S:" + STerm1);
                             }
                         }
                     }
