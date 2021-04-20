@@ -68,6 +68,8 @@ public class Javamain {
             ServiceAFweb.nn2testflag = true;
         } else if (cmd.indexOf("nn3testflag") != -1) {
             ServiceAFweb.nn3testflag = true;
+        } else if (cmd.indexOf("nn35testflag") != -1) {
+            ServiceAFweb.nn35testflag = true;
 
         } else if (cmd.indexOf("mydebugnewtest") != -1) {
             ServiceAFweb.mydebugnewtest = true;

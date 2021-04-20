@@ -67,7 +67,7 @@ public class TradingNNprocess {
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN2;
                     stockTRNameArray.add(symTR);
                 }
-            }
+            }        
             setStockNNretrainNameArray(stockTRNameArray);
         }
         return stockNNretrainNameArray;
