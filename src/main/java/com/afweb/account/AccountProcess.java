@@ -678,7 +678,7 @@ public class AccountProcess {
 
     // for all account 
     public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
-        ServiceAFweb.lastfun = "ProcessAllAccountTradingSignal";
+//        ServiceAFweb.lastfun = "ProcessAllAccountTradingSignal";
 
 //        this.serviceAFWeb = serviceAFWeb;
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
@@ -707,12 +707,13 @@ public class AccountProcess {
         if (testing == true) {
             lockReturn = 1;
         }
-        logger.info("ProcessAllAccountTradingSignal " + LockName + " LockName " + lockReturn);
+//        logger.info("ProcessAllAccountTradingSignal " + LockName + " LockName " + lockReturn);
 
         if (lockReturn > 0) {
 
             long LastServUpdateTimer = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, 5); // add 3 minutes
+            logger.info("ProcessAllAccountTradingSignal for 5 minutes accountsize=" + accountIdNameArray.size());
             // update Trading signal
             for (int i = 0; i < 10; i++) {
 
@@ -744,7 +745,7 @@ public class AccountProcess {
                 if (cust.getType() == CustomerObj.INT_API_USER) {
                     continue;
                 }
-                
+
                 ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountId);
                 if (stockNameArray == null) {
                     continue;
@@ -766,7 +767,7 @@ public class AccountProcess {
                 }  // end of stockNameArray.size() for that account
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.SIGNAL_LOCKTYPE);
-            logger.info("ProcessAllAccountTradingSignal " + LockName + " unlock LockName ");
+//            logger.info("ProcessAllAccountTradingSignal " + LockName + " unlock LockName ");
         }
 
     }

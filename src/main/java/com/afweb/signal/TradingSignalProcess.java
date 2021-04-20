@@ -19,7 +19,6 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 
-
 import com.afweb.stock.*;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -87,12 +86,12 @@ public class TradingSignalProcess {
         if (testing == true) {
             lockReturn = 1;
         }
-        logger.info("ProcessAdminSignalTrading " + LockName + " LockName " + lockReturn);
+//        logger.info("ProcessAdminSignalTrading " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
 
             long currentTime = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(currentTime, 5);
-            logger.info("ProcessAdminSignalTrading for 3 minutes stocksize=" + stockSignalNameArray.size());
+            logger.info("ProcessAdminSignalTrading for 5 minutes stockNamesize=" + stockSignalNameArray.size());
 
             for (int i = 0; i < 10; i++) {
                 currentTime = System.currentTimeMillis();
@@ -163,7 +162,7 @@ public class TradingSignalProcess {
                 }
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
-            logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
+//            logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
         }
     }
 //////////////////////////////////////////////////
@@ -2168,7 +2167,7 @@ public class TradingSignalProcess {
     public static String NN3_FILE_2 = "_nn32_";
     public static String NN35_FILE_1 = "_nn351_";
     public static String NN35_FILE_2 = "_nn352_";
-    
+
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
