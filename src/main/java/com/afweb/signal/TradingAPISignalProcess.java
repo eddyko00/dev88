@@ -93,12 +93,12 @@ public class TradingAPISignalProcess {
         if (testing == true) {
             lockReturn = 1;
         }
-        logger.info("ProcessAPISignalTrading " + LockName + " LockName " + lockReturn);
+//        logger.info("ProcessAPISignalTrading " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
 
             long currentTime = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(currentTime, 5);
-            logger.info("ProcessAPISignalTrading for 3 minutes stocksize=" + stockSignalNameArray.size());
+            logger.info("ProcessAPISignalTrading for 5 minutes stocksize=" + stockSignalNameArray.size());
 
             for (int i = 0; i < 30; i++) {
                 currentTime = System.currentTimeMillis();
