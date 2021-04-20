@@ -150,8 +150,8 @@ public class NN35ProcessByTrend {
         String symbol = "";
         String symbolL[] = ServiceAFweb.primaryStock;
 
-        String symbolTest[] = {"HOU.TO"};
-        symbolL = symbolTest;
+//        String symbolTest[] = {"HOU.TO"};
+//        symbolL = symbolTest;
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();

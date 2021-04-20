@@ -936,7 +936,7 @@ public class ServiceAFweb {
                 
             }
             if (nn35testflag == true) {
-                nn35trend.ProcessTrainNeuralNetNN35ByTrend(this);
+                nn35trend.processNN35InputNeuralNetTrend(this);
             }
 ////////////////////////////////////////////////////////////////////////////
 
