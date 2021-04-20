@@ -1284,12 +1284,12 @@ public class StockDB {
         return 0;
     }
 
-    private int insertNeuralNetObject0(String name, String weight) {
+    private int insertNeuralNetObject0(String name, String weight, String refName) {
         try {
 
             Calendar dateDefault = TimeConvertion.getDefaultCalendar();
             String sqlCMD = "insert into neuralnet(name, refname, status, type, weight, updatedatedisplay, updatedatel) VALUES "
-                    + "('" + name + "',''," + ConstantKey.OPEN + "," + ConstantKey.OPEN + ",'" + weight + "'"
+                    + "('" + name + "','" + refName + "'," + ConstantKey.OPEN + "," + ConstantKey.OPEN + ",'" + weight + "'"
                     + ",'" + new java.sql.Date(dateDefault.getTimeInMillis()) + "'," + dateDefault.getTimeInMillis() + ")";
             return processUpdateDB(sqlCMD);
 
@@ -1324,7 +1324,7 @@ public class StockDB {
             String nameSt = getNeuralNetName0(name);
             Calendar dateDefault = TimeConvertion.getCurrentCalendar();
             if (nameSt == null) {
-                return insertNeuralNetObject0(name, weight);
+                return insertNeuralNetObject0(name, weight, refName);
             }
 
             String sqlCMD = "update neuralnet set weight='" + weight + "',refname='" + refName + "'";
