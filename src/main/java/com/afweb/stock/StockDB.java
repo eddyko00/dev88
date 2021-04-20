@@ -1314,7 +1314,7 @@ public class StockDB {
         return 0;
     }
 
-    public int setCreateNeuralNetObj0(String name, String weight) {
+    public int setCreateNeuralNetObj0(String name, String weight, String refName) {
         try {
             if (weight == null) {
                 weight = "";
@@ -1327,7 +1327,7 @@ public class StockDB {
                 return insertNeuralNetObject0(name, weight);
             }
 
-            String sqlCMD = "update neuralnet set weight='" + weight + "'";
+            String sqlCMD = "update neuralnet set weight='" + weight + "',refname='" + refName + "'";
             sqlCMD += ",updatedatedisplay='" + new java.sql.Date(dateDefault.getTimeInMillis()) + "', updatedatel=" + dateDefault.getTimeInMillis();
             sqlCMD += " where name='" + name + "'";
             return processUpdateDB(sqlCMD);
@@ -1469,10 +1469,11 @@ public class StockDB {
         ArrayList entries = getAllNeuralNetDataSQL(sql);
         return entries;
     }
+
     //desc
     public ArrayList getNeuralNetDataObj(String name, int length) {
         String sql = "select * from neuralnetdata where name='" + name + "'" + " order by updatedatel desc";
-        
+
         sql = ServiceAFweb.getSQLLengh(sql, length);
         ArrayList entries = getAllNeuralNetDataSQL(sql);
         return entries;

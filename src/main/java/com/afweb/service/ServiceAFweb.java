@@ -1177,24 +1177,15 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            NN35ProcessByTrend nn35 = new NN35ProcessByTrend();
-            nn35.processNN35InputNeuralNetTrend(this);
-
+//            NN35ProcessByTrend nn35 = new NN35ProcessByTrend();
+//            nn35.processNN35InputNeuralNetTrend(this);
 //            this.processInitLocalRemoteNN();
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //
-//            mydebugnewtest = true;
-//            TradingNNData tn = new TradingNNData();
-//            ArrayList<NNInputDataObj> inputlist = new ArrayList();
-//            tn.getNNOtherDataDB(this, nnName, inputlist);
-//            long fistyear = DateUtil.getFirstDayCurrentYear();
-//            Date dat = new Date(fistyear);
-//            logger.info(dat.toString());
-//            long lastyear = TimeConvertion.addMonths(fistyear, -12);
-//            dat = new Date(lastyear);
-//            logger.info(dat.toString());
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//
+
 //            TRprocessImp.ProcessAdminSignalTrading(this);
 //            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
 //            getAccountProcessImp().ProcessAdminAccount(this);
@@ -5484,7 +5475,9 @@ public class ServiceAFweb {
         }
         // assume only 1 of the weight is set and the other are empty
         // assume only 1 of the weight is set and the other are empty
-        return getStockImp().setCreateNeuralNetObj0(nn.getName(), nn.getWeight());
+
+        int ret = getStockImp().setCreateNeuralNetObjRef0(nn.getName(), nn.getWeight(), nn.getRefname());
+        return ret;
     }
 
     public int setNeuralNetObjWeight1(AFneuralNet nn) {
