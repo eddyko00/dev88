@@ -333,7 +333,7 @@ public class ProcessNN00 {
     }
 
     private ArrayList<NNInputDataObj> ProcessTrainingNN00_dataEMA(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize, int type) {
-        NN2ProcessByTrend NN2ProcessTrend = new NN2ProcessByTrend();
+        NN40ProcessByTrend NN2ProcessTrend = new NN40ProcessByTrend();
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 

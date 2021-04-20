@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author koed
  */
-public class NN2ProcessByTrend {
+public class NN40ProcessByTrend {
 
     public static Logger logger = Logger.getLogger("NNProcessStock");
 
