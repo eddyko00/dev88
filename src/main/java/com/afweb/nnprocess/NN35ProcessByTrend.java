@@ -169,19 +169,85 @@ public class NN35ProcessByTrend {
                 logger.info("> inputStockNeuralNetData " + BPnameNN1Sym);
 
                 //StockArray assume recent date to old data   
+                ArrayList<NNInputDataObj> inputTrendList = new ArrayList();
                 NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
                 ArrayList<NNInputDataObj> inputList = new ArrayList();
+                //return oldest first to new date
                 inputList = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
 
-                boolean testFlag = false;
+                NNInputDataObj objDataPrev = null;
+                int curSig = 0;
+                int curInd = 0;
+                int prevSig = 0;
+                int prevInd = 0;
+
+                for (int j = 0; j < inputList.size(); j++) {
+
+                    NNInputDataObj objData = inputList.get(j);
+                    NNInputOutObj obj = objData.getObj();
+                    if (j == 0) {
+                        continue;
+                    }
+
+                    if (j + 1 >= inputList.size()) {
+                        continue;
+                    }
+                    curInd = j;
+                    if (objDataPrev != null) {
+                        curSig = objData.getObj().getTrsignal();
+                        prevSig = objDataPrev.getObj().getTrsignal();
+                        if (curSig == prevSig) {
+                            continue;
+                        }
+
+                        float close = objData.getObj().getClose();
+                        float preClose = objDataPrev.getObj().getClose();
+                        float perCent = 0;
+                        float threshH = 15;
+                        float up = 0;
+                        float down = 0;
+                        if (close > preClose) {
+                            perCent = (float) (100.0 * (close - preClose) / preClose);
+                            if (perCent > threshH) {
+                                up = perCent;
+                            }
+                        } else {
+                            perCent = (float) (100.0 * (preClose - close) / close);
+                            if (perCent > threshH) {
+                                down = perCent;
+                            }
+                        }
+                        /////
+                        // copy prevInd - curInd 
+                        for (int k = prevInd; k <= curInd; k++) {
+                            NNInputDataObj objDataTrend = inputList.get(k);
+                            if (up > 0) {
+                                objDataTrend.getObj().setOutput1(0.9);
+                                objDataTrend.getObj().setOutput2(0.1);
+                            } else if (down > 0) {
+                                objDataTrend.getObj().setOutput1(0.1);
+                                objDataTrend.getObj().setOutput2(0.9);
+                            } else {
+                                objDataTrend.getObj().setOutput1(0.1);
+                                objDataTrend.getObj().setOutput2(0.1);
+                            }
+                            inputTrendList.add(objDataTrend);
+                        }
+                    }
+
+                    objDataPrev = objData;
+                    prevInd = j;
+                }
+
+                boolean testFlag = true;
                 if (testFlag == true) {
                     ArrayList writeArray = new ArrayList();
                     String stTitle = "";
 
                     int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use     
-                    for (int j = 0; j < inputList.size(); j++) {
+                    for (int j = 0; j < inputTrendList.size(); j++) {
 
-                        NNInputDataObj objData = inputList.get(j);
+                        NNInputDataObj objData = inputTrendList.get(j);
                         NNInputOutObj obj = objData.getObj();
                         int stockId = 0;
                         String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
