@@ -1128,7 +1128,7 @@ public class ServiceAFweb {
 
         for (int i = 0; i < APIStockNameList.size(); i++) {
             String symbol = (String) APIStockNameList.get(i);
-            if (symbol.equals("T.T")) {
+            if (symbol.equals("T_T")) {
                 continue;
             }
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
