@@ -902,7 +902,7 @@ public class AccountProcess {
                                         this.AddCommAPISignalMessage(serviceAFWeb, accountObj, trTradingACCObj, ESTdateD, symbol, sig);
 
                                     } else {
-                                        String accTxt = "acc-" + accountObj.getId();
+                                        String accTxt = "acc-" + cust.getId();
                                         String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
                                         this.AddCommSignalMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
 
@@ -980,8 +980,8 @@ public class AccountProcess {
                     } else if (newTsSig == ConstantKey.S_SELL) {
                         sig = ConstantKey.S_SELL_ST;
                     }
-
-                    String accTxt = "acc-" + accFundObj.getId();
+                    CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accFundObj);
+                    String accTxt = "acc-" + cust.getId();
                     String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
                     // comm message is in the trading account instead of multfund account
                     this.AddCommSignalMessage(serviceAFWeb, accTrading, trFundACCObj, msg);

@@ -2955,7 +2955,7 @@ public class TradingSignalProcess {
                 serviceAFWeb.getAccountProcessImp().AddCommAPISignalMessage(serviceAFWeb, accountObj, trObj, ESTdateD, stock.getSymbol(), sig);
 
             } else {
-                String accTxt = "acc-" + accountObj.getId();
+                String accTxt = "acc-" + cust.getId();
                 String msg = ESTdate + " " + accTxt + " " + stock.getSymbol() + " Sig:" + sig;
                 serviceAFWeb.getAccountProcessImp().AddCommSignalMessage(serviceAFWeb, accountObj, trObj, msg);
             }
