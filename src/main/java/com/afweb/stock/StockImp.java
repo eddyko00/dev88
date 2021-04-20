@@ -330,18 +330,14 @@ public class StockImp {
         ///NeuralNetObj0 release
         String nameSt = stockdb.getNeuralNetName1(name);
         if (nameSt != null) {
-            String refName = "";
-            AFneuralNet nnObj0 = getNeuralNetObjWeight0(name);
-            if (nnObj0 != null) {
-                refName = nnObj0.getRefname();
-            }
+
             AFneuralNet nnObj1 = getNeuralNetObjWeight1(name);
             NNBPservice nnTemp = new NNBPservice();
             nnTemp.createNet(nnObj1.getWeight());
             nnTemp.setInputpattern(null);
             nnTemp.setOutputpattern(null);
             String weightSt = nnTemp.getNetObjSt();
-            int ret = setCreateNeuralNetObjRef0(name, weightSt, refName);
+            int ret = setCreateNeuralNetObj0(name, weightSt);
             if (ret == 1) {
                 stockdb.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
 
@@ -425,6 +421,17 @@ public class StockImp {
 //        }
         return nn;
     }
+    public int setCreateNeuralNetObj0(String name, String weight) {
+//        if (CKey.WEIGHT_COMPASS == true) {
+//            if (weight != null) {
+//                if (weight.length() > 0) {
+//                    String weightSt = ServiceAFweb.compress(weight);
+//                    weight = weightSt;
+//                }
+//            }
+//        }
+        return stockdb.setCreateNeuralNetObj0(name, weight);
+    }
 
     public int setCreateNeuralNetObjRef0(String name, String weight, String RefName) {
 //        if (CKey.WEIGHT_COMPASS == true) {
@@ -435,20 +442,10 @@ public class StockImp {
 //                }
 //            }
 //        }
-        return stockdb.setCreateNeuralNetObj0(name, weight, RefName);
+        return stockdb.setCreateNeuralNetObRefj0(name, weight, RefName);
     }
 
-//    public int setCreateNeuralNetObj0(String name, String weight) {
-////        if (CKey.WEIGHT_COMPASS == true) {
-////            if (weight != null) {
-////                if (weight.length() > 0) {
-////                    String weightSt = ServiceAFweb.compress(weight);
-////                    weight = weightSt;
-////                }
-////            }
-////        }
-//        return stockdb.setCreateNeuralNetObj0(name, weight);
-//    }
+
     public int setCreateNeuralNetObj1(String name, String weight) {
 //        if (CKey.WEIGHT_COMPASS == true) {
 //            if (weight != null) {
