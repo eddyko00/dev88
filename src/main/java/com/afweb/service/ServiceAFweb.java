@@ -1143,6 +1143,11 @@ public class ServiceAFweb {
             if (symbol.equals("T_T")) {
                 continue;
             }
+
+            ///*****Make sure the DB name is _ not .
+            ///*****Make sure the DB name is _ not .
+            ///*****Make sure the DB name is _ not .
+            symbol = symbol.replace(".", "_");
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
                 nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
@@ -1193,7 +1198,6 @@ public class ServiceAFweb {
 //            processRestinputflag=true;
 //            nn35testflag = true;
 //            processNeuralNetTrain();
-
 //            //
 //            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
 //            TRAPI.ProcessAPISignalTrading(this);
