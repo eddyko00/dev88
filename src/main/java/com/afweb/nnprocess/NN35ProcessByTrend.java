@@ -145,6 +145,156 @@ public class NN35ProcessByTrend {
     // create neural net input data
     //     
 
+    public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol) {
+        ArrayList<NNInputDataObj> inputTrendList = new ArrayList();
+
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+        if (TRprocessImp.checkNN1Ready(serviceAFWeb, symbol, false) == false) {
+            return inputTrendList;
+        }
+
+        String BPnameNN1Sym = CKey.NN_version + "_" + ConstantKey.TR_NN1 + "_" + symbol;
+        try {
+            AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameNN1Sym, 0);
+            if (nnObj0 == null) {
+                return inputTrendList;
+            }
+
+            logger.info("> trainingNN35dataNN1 " + BPnameNN1Sym);
+
+            //StockArray assume recent date to old data   
+            NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
+            ArrayList<NNInputDataObj> inputList = new ArrayList();
+            //return oldest first to new date
+            inputList = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
+
+            NNInputDataObj objDataPrev = null;
+            int curSig = 0;
+            int curInd = 0;
+            int prevSig = 0;
+            int prevInd = 0;
+
+            for (int j = 0; j < inputList.size(); j++) {
+
+                NNInputDataObj objData = inputList.get(j);
+                NNInputOutObj obj = objData.getObj();
+                if (j == 0) {
+                    continue;
+                }
+
+                if (j + 1 >= inputList.size()) {
+                    continue;
+                }
+                curInd = j;
+                if (objDataPrev != null) {
+                    curSig = objData.getObj().getTrsignal();
+                    prevSig = objDataPrev.getObj().getTrsignal();
+                    if (curSig == prevSig) {
+                        continue;
+                    }
+
+                    float close = objData.getObj().getClose();
+                    float preClose = objDataPrev.getObj().getClose();
+                    float perCent = 0;
+                    float threshH = 15;
+                    float up = 0;
+                    float down = 0;
+                    if (close > preClose) {
+                        perCent = (float) (100.0 * (close - preClose) / preClose);
+                        if (perCent > threshH) {
+                            up = perCent;
+                        }
+                    } else {
+                        perCent = (float) (100.0 * (preClose - close) / close);
+                        if (perCent > threshH) {
+                            down = perCent;
+                        }
+                    }
+                    /////
+                    // copy prevInd - curInd 
+                    if (prevInd == curInd - 1) {
+                        continue;
+                    }
+                    for (int k = prevInd; k <= (curInd - 1); k++) {
+                        NNInputDataObj objDataTrend = inputList.get(k);
+                        if (up > 0) {
+                            objDataTrend.getObj().setOutput1(0.9);
+                            objDataTrend.getObj().setOutput2(0.1);
+                        } else if (down > 0) {
+                            objDataTrend.getObj().setOutput1(0.1);
+                            objDataTrend.getObj().setOutput2(0.9);
+                        } else {
+                            objDataTrend.getObj().setOutput1(0.1);
+                            objDataTrend.getObj().setOutput2(0.1);
+                        }
+                        inputTrendList.add(objDataTrend);
+                    }
+                }
+
+                objDataPrev = objData;
+                prevInd = j;
+            }
+
+            boolean testFlag = true;
+            if (testFlag == true) {
+                ArrayList writeArray = new ArrayList();
+                String stTitle = "";
+
+                int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use     
+                for (int j = 0; j < inputTrendList.size(); j++) {
+
+                    NNInputDataObj objData = inputTrendList.get(j);
+                    NNInputOutObj obj = objData.getObj();
+                    int stockId = 0;
+                    String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+                            + "\",\"" + obj.getOutput1()
+                            + "\",\"" + obj.getOutput2()
+                            + "\",\"" + obj.getInput1()
+                            + "\",\"" + obj.getInput2()
+                            + "\",\"" + obj.getInput3()
+                            + "\",\"" + obj.getInput4()
+                            + "\",\"" + obj.getInput5()
+                            + "\",\"" + obj.getInput6()
+                            + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+                            + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+                            // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
+                            + "\"";
+
+                    if (j == 0) {
+                        stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+                                + "\",\"" + "output1"
+                                + "\",\"" + "output2"
+                                + "\",\"" + "macd TSig"
+                                + "\",\"" + "LTerm"
+                                + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+                                + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+                                + "\",\"" + symbol + "\"";
+
+                    }
+                    String stDispaly = st.replaceAll("\"", "");
+                    writeArray.add(stDispaly);
+                }
+                writeArray.add(stTitle.replaceAll("\"", ""));
+
+                Collections.reverse(writeArray);
+                Collections.reverse(inputList);
+
+                if (getEnv.checkLocalPC() == true) {
+                    String nn35 = TradingSignalProcess.NN35_FILE_1;
+
+                    String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn35 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+
+                    FileUtil.FileWriteTextArray(filename, writeArray);
+                }
+            }
+            return inputTrendList;
+        } catch (Exception e) {
+            logger.info("> trainingNN35dataNN1 exception " + BPnameNN1Sym + " - " + e.getMessage());
+        }
+
+        return inputTrendList;
+    }
+
     private void NeuralNetInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
 
         String symbol = "";
@@ -219,10 +369,10 @@ public class NN35ProcessByTrend {
                         }
                         /////
                         // copy prevInd - curInd 
-                        if (prevInd == curInd-1) {
+                        if (prevInd == curInd - 1) {
                             continue;
                         }
-                        for (int k = prevInd; k <= (curInd-1); k++) {
+                        for (int k = prevInd; k <= (curInd - 1); k++) {
                             NNInputDataObj objDataTrend = inputList.get(k);
                             if (up > 0) {
                                 objDataTrend.getObj().setOutput1(0.9);
@@ -1406,5 +1556,6 @@ public class NN35ProcessByTrend {
         return closef;
 
     }
+////////////////////////////////////////////
 
 }
