@@ -990,8 +990,11 @@ public class ServiceAFweb {
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
                 }
-                if (nn3testflag == true) {
-                    logger.info("> processNN1InputNeuralNet Rest input..");
+                if (nn35testflag == true) {
+                    String nnName = ConstantKey.TR_NN35;
+                    String BPname = CKey.NN_version + "_" + nnName;
+                    getStockImp().deleteNeuralNetDataByBPname(BPname);
+                    logger.info("> processNN35InputNeuralNet Rest input..");
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
@@ -1187,7 +1190,10 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            nn35trend.processNN35InputNeuralNetTrend(this);
+            processRestinputflag=true;
+            nn35testflag = true;
+            processNeuralNetTrain();
+
 //            //
 //            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
 //            TRAPI.ProcessAPISignalTrading(this);

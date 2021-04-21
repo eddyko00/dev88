@@ -312,8 +312,8 @@ public class NN35ProcessByTrend {
 
     public ArrayList<NNInputDataObj> getTrainingNN35dataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
 //        logger.info("> getTrainingNN35dataProcess tr_" + tr + " " + NormalizeSym);
-        ArrayList<NNInputDataObj> inputList = null;
         String symbol = NormalizeSym.replace(".", "_");
+        ArrayList<NNInputDataObj> inputList = null;
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
         if (offset == 0) {
@@ -330,7 +330,8 @@ public class NN35ProcessByTrend {
             throw new ArithmeticException(msg);
         }
 
-        inputList = this.trainingNN35dataNN1(serviceAFWeb, symbol);
+        // require sym.TO format
+        inputList = this.trainingNN35dataNN1(serviceAFWeb, NormalizeSym);
 
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
 
