@@ -1190,9 +1190,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            processRestinputflag=true;
-            nn35testflag = true;
-            processNeuralNetTrain();
+//            processRestinputflag=true;
+//            nn35testflag = true;
+//            processNeuralNetTrain();
 
 //            //
 //            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
