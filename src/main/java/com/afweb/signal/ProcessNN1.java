@@ -875,6 +875,7 @@ public class ProcessNN1 {
 
                             StockTRHistoryObj thObjMACDIndex = thObjListMACD.get(index);
                             inputDaObj.setUpdatedatel(thObjMACDIndex.getUpdateDatel());
+                            inputDaObj.getObj().setDateSt(thObjMACDIndex.getUpdateDateD());
                             inputDaObj.setObj(inputList);
                             inputRetDatalist.add(inputDaObj);
 //                                logger.info("> getAccountStockTR MACD NN1 add " + inputDaObj.getObj().getDateSt());

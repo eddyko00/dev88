@@ -58,48 +58,48 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ServiceAFweb {
-    
+
     public static Logger logger = Logger.getLogger("AFwebService");
-    
+
     private static ServerObj serverObj = new ServerObj();
-    
+
     private JdbcTemplate jdbcTemplate;
     private DataSource dataSource;
-    
+
     public static String serverLockName = "server";
     public static boolean NN_AllowTraingStockFlag = false;
     private static boolean initProcessTimer = false;
     private static int delayProcessTimer = 0;
     private static long timerThreadDateValue = 0;
-    
+
     private StockImp stockImp = new StockImp();
     private AccountImp accountImp = new AccountImp();
     private AccountProcess accountProcessImp = new AccountProcess();
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
-    
+
     public static String PROXYURL = "";
     public static String URL_LOCALDB = "";
     public static String FileLocalPath = "";
-    
+
     public static String UA_Str = "";
     public static String PA_Str = "";
     public static String UU_Str = "";
-    
+
     private static ArrayList TRList = new ArrayList();
-    
+
     private static AccountObj cacheAccountAdminObj = null;
     private static long cacheAccountAdminObjDL = 0;
-    
+
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
-    
+
     public static String ignoreStock[] = {"T.T"};
 //    public static String allStock[] = {"NEM", "SE", "MSFT", "T.TO"};
 //    public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO", "GLD"};
 
     public static String allStock[] = {"NEM", "SE", "MSFT", "T.TO", "GLD"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "AMZN", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
-    
+
     public static String etfStock[] = {"SPY", "DIA", "QQQ", "XIU.TO", "GLD", "FAS", "HOU.TO", "IWM", "IYR"};
 
     /**
@@ -111,7 +111,7 @@ public class ServiceAFweb {
             cacheAccountAdminObjDL = dateNow.getTimeInMillis();
         }
         long dateNow5Min = TimeConvertion.addMinutes(cacheAccountAdminObjDL, 5);
-        
+
         if (dateNow5Min < cacheAccountAdminObjDL) {
             cacheAccountAdminObjDL = dateNow5Min;
             cacheAccountAdminObj = null;
@@ -125,7 +125,7 @@ public class ServiceAFweb {
     public static void setCacheAccountAdminObj(AccountObj aCacheAccountAdminObj) {
         cacheAccountAdminObj = aCacheAccountAdminObj;
     }
-    
+
     public AccountObj getAdminObjFromCache() {
         try {
             AccountObj accountAdminObj = ServiceAFweb.getCacheAccountAdminObj();
@@ -196,14 +196,14 @@ public class ServiceAFweb {
     public static void setServerObj(ServerObj aServerObj) {
         serverObj = aServerObj;
     }
-    
+
     public ArrayList getServerList() {
         ServerObj serverObj = ServiceAFweb.getServerObj();
         ArrayList serverObjList = new ArrayList();
         serverObjList.add(serverObj);
         return serverObjList;
     }
-    
+
     public void initDataSource() {
         logger.info(">initDataSource ");
         //testing
@@ -212,7 +212,7 @@ public class ServiceAFweb {
         //testing        
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.dataSource = dataSource;
-        
+
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);
         PROXYURL = enSt;
@@ -228,11 +228,11 @@ public class ServiceAFweb {
         paStr = CKey.UU;
         paStr = StringTag.replaceAll("abc", "", paStr);
         UU_Str = paStr;
-        
+
     }
-    
+
     public int timerThread() {
-        
+
         if (timerThreadDateValue > 0) {
             long currentTime = System.currentTimeMillis();
             long timerThreadDate5Min = TimeConvertion.addMinutes(timerThreadDateValue, 10); // add 8 minutes
@@ -240,7 +240,7 @@ public class ServiceAFweb {
                 return getServerObj().getTimerCnt();
             }
         }
-        
+
         try {
 //            while (true) {
             Thread.sleep(10 * 100);
@@ -250,7 +250,7 @@ public class ServiceAFweb {
         } catch (Exception ex) {
             logger.info("> timerThread Exception" + ex.getMessage());
         }
-        
+
         return getServerObj().getTimerCnt();
     }
 
@@ -269,14 +269,14 @@ public class ServiceAFweb {
             }
             return getServerObj().getTimerCnt();
         }
-        
+
         if (getServerObj().getTimerCnt() < 0) {
             serverObj.setTimerCnt(0);
         }
 
         //only allow 1 thread 
         if (getServerObj().getTimerQueueCnt() > 0) {
-            
+
             long currentTime = System.currentTimeMillis();
             int waitMinute = 8;
             if (getServerObj().isSysMaintenance() == true) {
@@ -288,7 +288,7 @@ public class ServiceAFweb {
             }
             return getServerObj().getTimerCnt();
         }
-        
+
         serverObj.setLastServUpdateTimer(lockDateValue);
         serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() + 1);
         try {
@@ -300,17 +300,17 @@ public class ServiceAFweb {
             // format date in target timezone
             format.setTimeZone(tz);
             serverObj.setLastServUpdateESTdate(format.format(d));
-            
+
             serverObj.setTimerMsg("timerHandlerServ=" + getServerObj().getServerName() + "-" + "timerCnt=" + getServerObj().getTimerCnt() + "-timerQueueCnt=" + getServerObj().getTimerQueueCnt());
 //            logger.info(getServerObj().getTimerMsg());
             if (timerThreadMsg != null) {
                 serverObj.setTimerThreadMsg(timerThreadMsg);
             }
-            
+
             if (getServerObj().isSysMaintenance() == true) {
                 return getServerObj().getTimerCnt();
             }
-            
+
             if (getServerObj().isTimerInit() == false) {
                 /////////////
                 initDataSource();
@@ -322,17 +322,17 @@ public class ServiceAFweb {
                 // work around. must initialize for remote MYSQL
                 serverObj.setTimerInit(true);
                 getServerObj().setProcessTimerCnt(0);
-                
+
                 String SrvName = "iisweb";
                 String stlockDateValue = "" + lockDateValue;
                 stlockDateValue = stlockDateValue.substring(10);
-                
+
                 serverObj.setServerName(SrvName + lockDateValue);
                 serverObj.setVerString(ConstantKey.VERSION); // + " " + getServerObj().getLastServUpdateESTdate());
                 serverObj.setSrvProjName(SrvName + stlockDateValue);
-                
+
                 serverLockName = ServiceAFweb.getServerObj().getServerName();
-                
+
                 String displayStr = "";
                 getServerObj().setLocalDBservice(true);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -357,7 +357,7 @@ public class ServiceAFweb {
                 }
                 displayStr += "\r\n" + dbStr;
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                
+
                 displayStr += "\r\n" + (">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
                 displayStr += "\r\n" + (">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
                 displayStr += "\r\n" + (">>>>> System backupFlag:" + CKey.backupFlag);
@@ -368,21 +368,21 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
                 displayStr += "\r\n" + (">>>>> System delayrestoryflag DELAY_RESTORE:" + CKey.DELAY_RESTORE);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                
+
                 displayStr += "\r\n" + (">>>>> System processEmailFlag:" + processEmailFlag);
-                
+
                 displayStr += "\r\n" + (">>>>> System processNeuralNetFlag:" + processNeuralNetFlag);
-                
+
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
-                displayStr += "\r\n" + (">>>>> System nn35testflag:" + nn35testflag);                
+                displayStr += "\r\n" + (">>>>> System nn35testflag:" + nn35testflag);
                 displayStr += "\r\n" + (">>>>> System initLocalRemoteNN:" + initLocalRemoteNN);
-                
+
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + (">>>>> System mydebugtestflag:" + ServiceAFweb.mydebugtestflag);
                 displayStr += "\r\n" + (">>>>> System mydebugnewtest:" + ServiceAFweb.mydebugnewtest);
-                
+
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + dbStr;
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -393,21 +393,21 @@ public class ServiceAFweb {
                     backupSystem();
                     serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
                     return getServerObj().getTimerCnt();
-                    
+
                 }
 //                boolean restoreFlag = false;
                 if (CKey.restoreFlag == true) {
                     restoreSystem();
                     serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
                     return getServerObj().getTimerCnt();
-                    
+
                 }
 //                boolean restoreNNonlyFlag = false;
                 if (CKey.restoreNNonlyFlag == true) {
                     restoreNNonlySystem();
                     serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
                     return getServerObj().getTimerCnt();
-                    
+
                 }
                 if (CKey.UI_ONLY == false) {
                     String sysPortfolio = "";
@@ -419,12 +419,12 @@ public class ServiceAFweb {
                     int ret = InitDBData();  // init DB Adding customer account
 //                        sysPortfolio = CKey.FUND_PORTFOLIO;
                     if (ret != -1) {
-                        
+
                         InitSystemData();   // Add Stock 
                         InitSystemFund(sysPortfolio);
                         initProcessTimer = false;
                         delayProcessTimer = 0;
-                        
+
                         getServerObj().setSysMaintenance(false);
                         serverObj.setTimerInit(true);
                         logger.info(">>>>>>> InitDBData Competed.....");
@@ -434,17 +434,17 @@ public class ServiceAFweb {
                         logger.info(">>>>>>> InitDBData Failed.....");
                         return getServerObj().getTimerCnt();
                     }
-                    
+
                     serverObj.setTimerInit(true);
                     String servIP = StockInternet.getServerIP();
                     serverObj.setServip(servIP);
-                    
+
                     setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
 
                     //try 2 times
                     getAccountProcessImp().ProcessAdminAddRemoveStock(this);
                     getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-                    
+
                 }
                 // final initialization
             } else {
@@ -461,7 +461,7 @@ public class ServiceAFweb {
                 }
                 processTimer("");
             }
-            
+
         } catch (Exception ex) {
             logger.info("> Exception lastfun - " + lastfun);
             logger.info("> timerHandler Exception" + ex.getMessage());
@@ -469,9 +469,9 @@ public class ServiceAFweb {
         serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
         return getServerObj().getTimerCnt();
     }
-    
+
     private void backupSystem() {
-        
+
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
         if (CKey.NN_DEBUG == true) {
@@ -486,14 +486,14 @@ public class ServiceAFweb {
             } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                 logger.info(">>>>> SystemDownloadDBData form local My SQL");
             }
-            
+
             SystemDownloadDBData();
             getServerObj().setSysMaintenance(true);
             logger.info(">>>>> SystemDownloadDBData done");
         }
-        
+
     }
-    
+
     private void restoreNNonlySystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
@@ -507,21 +507,21 @@ public class ServiceAFweb {
             } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                 logger.info(">>>>> SystemRestoreDBData form to My SQL");
             }
-            
+
             Scanner scan = new Scanner(System.in);
             System.out.print("Hit any key to continue to restore?");
             String YN = scan.next();
-            
+
             String retSt = SystemCleanNNonlyDBData();
             if (retSt.equals("true")) {
                 SystemRestoreNNonlyDBData();
                 getServerObj().setSysMaintenance(true);
                 logger.info(">>>>> SystemRestoreDBData done");
             }
-            
+
         }
     }
-    
+
     private void restoreSystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
@@ -538,7 +538,7 @@ public class ServiceAFweb {
             Scanner scan = new Scanner(System.in);
             System.out.print("Hit any key to continue to restore?");
             String YN = scan.next();
-            
+
             String retSt = SystemCleanDBData();
             if (retSt.equals("true")) {
                 SystemRestoreDBData();
@@ -550,13 +550,13 @@ public class ServiceAFweb {
     //////////
     private long lastProcessTimer = 0;
     public boolean debugFlag = false;
-    
+
     public static int initTrainNeuralNetNumber = 0;
-    
+
     public static String lastfun = "";
-    
+
     private void processTimer(String cmd) {
-        
+
         if (getEnv.checkLocalPC() == true) {
             if (CKey.NN_DEBUG == true) {
                 if (debugFlag == false) {
@@ -614,17 +614,17 @@ public class ServiceAFweb {
         }
         //////        
         if (CKey.UI_ONLY == true) {
-            
+
             return;
         }
-        
+
         try {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long lockDateValue = dateNow.getTimeInMillis();
-            
+
             LockName = "LOCK_" + ServiceAFweb.getServerObj().getServerName();
             long lockReturn = setLockNameProcess(LockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, "ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
-            
+
             if (CKey.NN_DEBUG == true) {
                 lockReturn = 1;
             }
@@ -656,7 +656,7 @@ public class ServiceAFweb {
         }
         removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
     }
-    
+
     void AFwebExec() {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         ////////////
@@ -675,17 +675,17 @@ public class ServiceAFweb {
             System.gc();
             getAccountProcessImp().ProcessAddRemoveFundAccount(this);
             getAccountProcessImp().ProcessSystemMaintance(this);
-            
+
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);
             AFprocessNeuralNet();
 //            
             BillingProcess billProc = new BillingProcess();
             billProc.processUserBillingAll(this);
-            
+
             PUBSUBprocess pubsub = new PUBSUBprocess();
             pubsub.ProcessPUBSUBAccount(this);
-            
+
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
             TRprocessImp.UpdateAllStock(this);
             TRprocessImp.ProcessAdminSignalTrading(this);
@@ -693,7 +693,7 @@ public class ServiceAFweb {
             //
             TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
             TRAPI.ProcessAPISignalTrading(this);
-            
+
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             TRprocessImp.UpdateAllStock(this);
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
@@ -707,14 +707,14 @@ public class ServiceAFweb {
                 }
             }
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-            
+
         } else {
-            
+
         }
     }
-    
+
     public static String debugSymbol = "HOU.TO";
-    
+
     public static boolean forceNNReadFileflag = false;
     public static boolean flagNNLearningSignal = false;
     public static boolean flagNN3LearningTrend = false;
@@ -722,21 +722,21 @@ public class ServiceAFweb {
     public static boolean processNNSignalAdmin = false;
     public static boolean processRestinputflag = false;
     public static boolean processRestAllStockflag = false;
-    
+
     public static boolean initLocalRemoteNN = false;
-    
+
     public static boolean processEmailFlag = false;
     public static boolean processNeuralNetFlag = false;
     public static boolean nn1testflag = false;
     public static boolean nn2testflag = false;
     public static boolean nn3testflag = false;
-        public static boolean nn35testflag = false;
+    public static boolean nn35testflag = false;
 
     public static int cntNN = 0;
-    
+
     public void AFprocessNeuralNet() {
         ServiceAFweb.lastfun = "AFprocessNeuralNet";
-        
+
         if (processNeuralNetFlag == true) {
             cntNN++;
             TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -744,10 +744,10 @@ public class ServiceAFweb {
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             NN40ProcessByTrend nn40trend = new NN40ProcessByTrend();
-            
+
             nn1testflag = true;
             nn2testflag = true;
- 
+
             if (cntNN == 1) {
                 nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
                 return;
@@ -761,30 +761,30 @@ public class ServiceAFweb {
                 NNProcessImp.ProcessReLearnInputNeuralNet(this);
                 cntNN = 0;
                 return;
-                
+
             }
-            
+
             cntNN = 0;
         }
     }
-    
+
     public boolean processReLearnNewNeuralNet() {
         ServiceAFweb.lastfun = "processReLearnNewNeuralNet";
-        
+
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
         NN40ProcessByTrend nn2trend = new NN40ProcessByTrend();
-        
+
         AccountObj accountAdminObj = getAdminObjFromCache();
         ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
-        
+
         if (stockNameArray != null) {
             logger.info("Start processReLearnNewNeuralNet.....Stock Size " + stockNameArray.size());
             for (int i = 0; i < stockNameArray.size(); i++) {
-                
+
                 String symbol = (String) stockNameArray.get(i);
                 AFstockObj stock = getRealTimeStockImp(symbol);
                 if (stock == null) {
@@ -796,7 +796,7 @@ public class ServiceAFweb {
                 if (TRprocessImp.checkNN1Ready(this, symbol, true) == false) {
                     // process train symbol
                     nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
-                    
+
                     for (int j = 0; j < 5; j++) {
                         nn1ProcBySig.TrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
                         NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
@@ -805,15 +805,15 @@ public class ServiceAFweb {
                     logger.info("End processReLearnNewNeuralNet.....NN1 " + symbol);
                     return true;
                 }
-                
+
                 if (TRprocessImp.checkNN2Ready(this, symbol, true) == false) {
                     // process train symbol
 //                    nn2trend.TrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
                     nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
-                    
+
                     for (int j = 0; j < 5; j++) {
                         nn2ProcBySig.TrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
-                        
+
                         NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
                     }
 //                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
@@ -825,10 +825,10 @@ public class ServiceAFweb {
         logger.info("End processNewNeuralNet.....");
         return false;
     }
-    
+
     public void processNeuralNetTrain() {
         ServiceAFweb.lastfun = "processNeuralNetTrain";
-        
+
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
@@ -836,14 +836,14 @@ public class ServiceAFweb {
         NN35ProcessByTrend nn35trend = new NN35ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
         NN40ProcessByTrend nn2trend = new NN40ProcessByTrend();
-        
+
         NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
-        
+
         TradingSignalProcess.forceToGenerateNewNN = false;
         if (initLocalRemoteNN == true) {
             while (true) {
                 processInitLocalRemoteNN();
-                
+
                 logger.info("> Waiting 60 minutes ........");
                 try {
                     Thread.sleep(30 * 1000 * 60);
@@ -852,7 +852,7 @@ public class ServiceAFweb {
                 }
             }
         }
-        
+
         if (processNeuralNetFlag == true) {
             int num = 0;
             while (true) {
@@ -868,7 +868,7 @@ public class ServiceAFweb {
                         num = 0;
                     }
                 }
-                
+
                 logger.info("> Waiting 30 sec cntNN " + cntNN + "........");
                 try {
                     Thread.sleep(30 * 1000);
@@ -877,7 +877,7 @@ public class ServiceAFweb {
                 }
             }
         }
-        
+
         int k = 0;
         while (true) {
             k++;
@@ -893,17 +893,17 @@ public class ServiceAFweb {
                     logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
                     nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
                     logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
-                    
+
                 } else if (nn2testflag == true) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN2);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 2 cycle " + k);
-                    
+
                     nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
                     logger.info("> ProcessTrainNeuralNet NN 2 end... cycle " + k);
-                    
+
                 }
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -933,7 +933,7 @@ public class ServiceAFweb {
                 logger.info("> ProcessReLeanInput NN 1 cycle " + k);
                 NNProcessImp.ProcessReLearnInputNeuralNet(this);
                 logger.info("> ProcessReLeanInput end... cycle " + k);
-                
+
             }
             if (nn35testflag == true) {
                 nn35trend.processNN35InputNeuralNetTrend(this);
@@ -957,25 +957,25 @@ public class ServiceAFweb {
                     String nnName = ConstantKey.TR_NN1;
                     String BPname = CKey.NN_version + "_" + nnName;
                     getStockImp().deleteNeuralNetDataByBPname(BPname);
-                    
+
                     nnName = ConstantKey.TR_NN30;
                     BPname = CKey.NN_version + "_" + nnName;
                     getStockImp().deleteNeuralNetDataByBPname(BPname);
-                    
+
                     nnName = ConstantKey.TR_NN2;
                     BPname = CKey.NN_version + "_" + nnName;
                     getStockImp().deleteNeuralNetDataByBPname(BPname);
                 }
-                
+
                 if (nn1testflag == true) {
                     logger.info("> processNN1InputNeuralNet Rest input..");
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn1ProcBySig.processNN1InputNeuralNet(this);
-                    
+
                     nn30trend.processNN30InputNeuralNetTrend(this);
-                    
+
                 }
                 if (nn2testflag == true) {
                     logger.info("> processNN2InputNeuralNet Rest input..");
@@ -994,7 +994,7 @@ public class ServiceAFweb {
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn3ProcBySig.processNN3InputNeuralNet(this);
-                    
+
                 }
                 logger.info("> processNN1InputNeuralNet Edn..");
                 return;
@@ -1005,10 +1005,10 @@ public class ServiceAFweb {
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
                 TradingNNprocess.CreateAllStockHistoryJava(this, symbolL, "nnAllStock", "NN_ST");
-                
+
                 String symbolLallSt[] = ServiceAFweb.allStock;
                 TradingNNprocess.CreateAllStockHistoryJava(this, symbolLallSt, "nnAllStock_1", "NN_ST1");
-                
+
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -1023,19 +1023,19 @@ public class ServiceAFweb {
                 Thread.currentThread().interrupt();
             }
         }
-        
+
     }
-    
+
     boolean initLRnn = false;
-    
+
     public void processInitLocalRemoteNN() {
         logger.info("> processInitLocalRemoteNN ");
-        
+
         try {
             if (initLRnn == false) {
                 initLRnn = true;
                 ArrayList<String> StockNameRemoteList = new ArrayList();
-                
+
                 AccountObj accountObj = this.getAdminObjFromCache();
                 ArrayList<String> stockNameArray1 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
                         accountObj.getId() + "", CKey.URL_PATH_HERO);
@@ -1045,7 +1045,7 @@ public class ServiceAFweb {
                         accountObj.getId() + "", CKey.URL_PATH_OP);
                 logger.info("> remote dB1 stock:" + stockNameArray2.size());
                 StockNameRemoteList.addAll(stockNameArray2);
-                
+
                 ArrayList<AccountObj> accountAPIObjL = this.getAccountList(CKey.API_USERNAME, null);
                 if (accountAPIObjL == null) {
                     return;
@@ -1062,7 +1062,7 @@ public class ServiceAFweb {
                 }
                 logger.info("> API stock:" + APIStockNameList.size() + " remote dB stock:" + StockNameRemoteList.size());
                 ArrayList addedList = new ArrayList();
-                
+
                 ArrayList removeList = new ArrayList();
                 boolean result = AccountProcess.compareStockList(StockNameRemoteList, APIStockNameList, addedList, removeList);
                 if (result == true) {
@@ -1070,23 +1070,23 @@ public class ServiceAFweb {
                         String symbol = (String) addedList.get(i);
                         int resultAdd = addAccountStockByCustAcc(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Add API stock " + symbol);
-                        
+
                         ServiceAFweb.AFSleep();
-                        
+
                     }
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
                         int resultRemove = removeAccountStockByUserNameAccId(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Remove API stock " + symbol);
-                        
+
                         ServiceAFweb.AFSleep();
-                        
+
                     }
                 }
 ////////////////////////////////////////////////                
                 ////update all stock                
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-                
+
                 TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
                 logger.info("> update  stock:" + APIStockNameList.size());
@@ -1119,20 +1119,20 @@ public class ServiceAFweb {
             logger.info("> processInitLocalRemoteNN Exception " + ex.getMessage());
         }
     }
-    
+
     private int updateRESTNNWeight0(ArrayList<String> APIStockNameList, String nnName, String URL) {
         if (APIStockNameList == null) {
             return 0;
         }
-        
+
         logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + " " + URL);
-        
+
         String BPnameSym = CKey.NN_version + "_" + nnName;
         AFneuralNet nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
         if (nnObj1 != null) {
             serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
         }
-        
+
         for (int i = 0; i < APIStockNameList.size(); i++) {
             String symbol = (String) APIStockNameList.get(i);
             if (symbol.equals("T_T")) {
@@ -1144,13 +1144,13 @@ public class ServiceAFweb {
                 if (nnObj1 != null) {
                     serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
                 } else {
-                    
+
                     logger.info("> updateRESTNNWeight0 not found " + BPnameSym);
                 }
             } catch (Exception ex) {
                 logger.info("> updateRESTNNWeight0 Exception " + ex.getMessage());
             }
-            
+
         }
         return 1;
     }
@@ -1158,7 +1158,7 @@ public class ServiceAFweb {
 ///////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
-    
+
     public static boolean mydebugnewtest = false; //false;
 
     private void AFprocessDebug() {
@@ -1170,11 +1170,12 @@ public class ServiceAFweb {
 
             // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
             logger.info("Start mydebugtestflag.....");
-            NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
+            NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
+            NN35ProcessByTrend nn35trend = new NN35ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
-            
+
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
@@ -1184,9 +1185,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            TRprocessImp.UpdateAllStock(this);
-//            TRprocessImp.ProcessAdminSignalTrading(this);
-//            getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+            nn35trend.processNN35InputNeuralNetTrend(this);
 //            //
 //            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
 //            TRAPI.ProcessAPISignalTrading(this);
@@ -1528,7 +1527,7 @@ public class ServiceAFweb {
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
             logger.info("End mydebugtestflag.....");
         }
-        
+
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
         ///// only acc reset
@@ -1626,23 +1625,23 @@ public class ServiceAFweb {
                         logger.info("updateStockFile not found " + nnFileName);
                         return;
                     }
-                    
+
                     getStockImp().deleteStockInfoByStockId(stock);
                     // update file
                     retBoolean = StockInternet.updateStockFile(this, sym);
-                    
+
                     if (retBoolean == true) {
                         processStockSplit(commData.getSymbol(), commData.getSplit());
                     }
                 }
             }
-            
+
         }
 
         ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
     }
-    
+
     public void debugtest() {
 //        String symbol = "IWM";
 //        AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
@@ -1650,11 +1649,11 @@ public class ServiceAFweb {
 //        ArrayList<AFstockInfo> StockArray = getStockHistorical(symbol, size1yearAll);
 
     }
-    
+
     public void updateErrorStockYahooParseError(String symbol) {
 //        String symbol = "HOU.TO";
         AFstockObj stock = this.getRealTimeStockImp(symbol);
-        
+
         stock.setStatus(ConstantKey.OPEN);
         //send SQL update
         String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
@@ -1664,7 +1663,7 @@ public class ServiceAFweb {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TRprocessImp.updateRealTimeStock(this, stock);
     }
-    
+
     public void forceRemoveCustTest(String login, String pass) {
         CustomerObj custObj = getAccountImp().getCustomerPasswordForce(login, pass);
         if (custObj == null) {
@@ -1683,7 +1682,7 @@ public class ServiceAFweb {
         updateCustStatusSubStatus(custObj.getUsername(), custObj.getStatus() + "", custObj.getSubstatus() + "");
         removeCustomer(custObj.getUsername());
     }
-    
+
     public int processStockSplit(String symbol, float split) {
         logger.info(">processStockSplit");
         ArrayList accountIdList = SystemAllOpenAccountIDList();
@@ -1691,11 +1690,11 @@ public class ServiceAFweb {
             return 0;
         }
         AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
-        
+
         if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
             return 0;
         }
-        
+
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
         ArrayList<AFstockInfo> StockInfoArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);
         if (StockInfoArray == null) {
@@ -1711,7 +1710,7 @@ public class ServiceAFweb {
             if (accountObj == null) {
                 continue;
             }
-            
+
             if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
                 continue;
             }
@@ -1719,7 +1718,7 @@ public class ServiceAFweb {
             if (stockNameList == null) {
                 continue;
             }
-            
+
             boolean foundS = false;
             for (int j = 0; j < stockNameList.size(); j++) {
                 String stockN = (String) stockNameList.get(j);
@@ -1731,7 +1730,7 @@ public class ServiceAFweb {
             if (foundS == false) {
                 continue;
             }
-            
+
             ArrayList<TransationOrderObj> thList = getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), "TR_ACC", 0);
             if (thList == null) {
                 continue;
@@ -1741,7 +1740,7 @@ public class ServiceAFweb {
                 TransationOrderObj thObj = thList.get(k);
                 float avgprice = thObj.getAvgprice();
                 float share = thObj.getShare();
-                
+
                 long stockdatel = TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
                 AFstockInfo stockInfoMatch = null;
                 for (int j = 0; j < StockInfoArray.size(); j++) {
@@ -1751,7 +1750,7 @@ public class ServiceAFweb {
                         stockInfoMatch = stockInfo;
                         break;
                     }
-                    
+
                 }
                 if (stockInfoMatch == null) {
                     continue;
@@ -1774,10 +1773,10 @@ public class ServiceAFweb {
                         SystemUpdateSQLList(sqlList);
                         logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
                     }
-                    
+
                     continue;
                 }
-                
+
                 if (split > 0) {
                     avgprice = avgprice / split;
                     share = share * split;
@@ -1791,10 +1790,10 @@ public class ServiceAFweb {
                 thObj.setShare(share);
                 String trSql = AccountDB.updateSplitTransactionSQL(thObj);
                 transSQL.add(trSql);
-                
+
             }
             logger.info("> processStockSplit " + accountObj.getAccountname() + " total update:" + transSQL.size());
-            
+
             int ret = 0;
             if (transSQL.size() > 0) {
                 ret = getAccountImp().updateTransactionOrder(transSQL);
@@ -1812,7 +1811,7 @@ public class ServiceAFweb {
                 //udpate performance logic
                 //udpate performance logic
             }
-            
+
         }
         logger.info("> processStockSplit no update " + symbol);
         //clear stocksplit
@@ -1825,7 +1824,7 @@ public class ServiceAFweb {
             SystemUpdateSQLList(sqlList);
             logger.info("updateRealTimeStock " + symbol + " Stock Split cleared");
         }
-        
+
         return 1;
     }
 
@@ -1841,7 +1840,7 @@ public class ServiceAFweb {
             Thread.currentThread().interrupt();
         }
     }
-    
+
     public static void AFSleep() {
         try {
             // delay seems causing openshif not working
@@ -1850,10 +1849,10 @@ public class ServiceAFweb {
 //        }
             Thread.sleep(10);
         } catch (InterruptedException ex) {
-            
+
         }
     }
-    
+
     private void RandomDelayMilSec(int sec) {
 
         // delay seems causing openshif not working
@@ -1865,17 +1864,17 @@ public class ServiceAFweb {
             int min = sec;
             Random randomNum = new Random();
             int sleepRandom = min + randomNum.nextInt(max);
-            
+
             if (sleepRandom < 0) {
                 sleepRandom = sec;
             }
-            
+
             Thread.sleep(sleepRandom);
         } catch (InterruptedException ex) {
             logger.info("> RandomDelayMilSec exception " + ex.getMessage());
         }
     }
-    
+
     public static boolean checkCallRemoteMysql() {
         boolean ret = true;
         if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
@@ -1890,18 +1889,18 @@ public class ServiceAFweb {
             return 0;
         }
         CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
-        
+
         if (custObj == null) {
             return 0;
         }
-        
+
         if (custObj.getStatus() != ConstantKey.OPEN) {
             return 0;
         }
         custObj.setType(CustomerObj.INT_FUND_USER);
         custObj.setSubstatus(ConstantKey.INT_PP_DELUXE);
         custObj.setPayment(0);
-        
+
         int result = getAccountImp().systemUpdateCustAllStatus(custObj);
         if (result == 1) {
             String accountName = "acc-" + custObj.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
@@ -1929,9 +1928,9 @@ public class ServiceAFweb {
         String msg = ESTdate + " " + custObj.getUsername() + " Cust change to Fund Manager Result:" + result;
         this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
         return result;
-        
+
     }
-    
+
     public int changeAPICustomer(String EmailUserName) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -1939,18 +1938,18 @@ public class ServiceAFweb {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);
-        
+
         if (custObj == null) {
             return 0;
         }
-        
+
         if (custObj.getStatus() != ConstantKey.OPEN) {
             return 0;
         }
         custObj.setType(CustomerObj.INT_API_USER);
         custObj.setSubstatus(ConstantKey.INT_PP_API);
         custObj.setPayment(0);
-        
+
         int result = getAccountImp().systemUpdateCustAllStatus(custObj);
         /// clear the last build to regenerate new bill
         AccountObj account = getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
@@ -1962,7 +1961,7 @@ public class ServiceAFweb {
                 this.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
             }
         }
-        
+
         String tzid = "America/New_York"; //EDT
         TimeZone tz = TimeZone.getTimeZone(tzid);
         AccountObj accountAdminObj = getAdminObjFromCache();
@@ -1986,7 +1985,7 @@ public class ServiceAFweb {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);
-        
+
         if (custObj == null) {
             return 0;
         }
@@ -2012,7 +2011,7 @@ public class ServiceAFweb {
                 getAccountImp().removeAccount(accountObj);
             }
         }
-        
+
         return getAccountImp().removeCustomer(custObj);
     }
 
@@ -2027,7 +2026,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return loginObj;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         boolean validEmail = NameObj.isEmailValid(EmailUserName);
@@ -2083,7 +2082,7 @@ public class ServiceAFweb {
 
     // result 1 = success, 2 = existed,  0 = fail
     public LoginObj updateCustomerPassword(String EmailUserName, String AccountID, String Email, String Password, String FirstName, String LastName, String Plan) {
-        
+
         CustomerObj custObj = null;
         LoginObj loginObj = new LoginObj();
         loginObj.setCustObj(null);
@@ -2095,7 +2094,7 @@ public class ServiceAFweb {
         }
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        
+
         custObj = getAccountImp().getCustomerPassword(UserName, null);
         if (custObj == null) {
             return loginObj;
@@ -2103,7 +2102,7 @@ public class ServiceAFweb {
         if (custObj.getStatus() != ConstantKey.OPEN) {
             return loginObj;
         }
-        
+
         String portfolio = custObj.getPortfolio();
         CustPort custPortfilio = new CustPort();
         if ((portfolio != null) && (portfolio.length() > 0)) {
@@ -2113,7 +2112,7 @@ public class ServiceAFweb {
             } catch (Exception ex) {
             }
         }
-        
+
         if ((Email != null) && (Email.length() > 0)) {
             boolean validEmail = NameObj.isEmailValid(Email);
             if (validEmail == true) {
@@ -2139,7 +2138,7 @@ public class ServiceAFweb {
         }
         if ((Plan != null) && (Plan.length() > 0)) {
             try {
-                
+
                 int planid = Integer.parseInt(Plan);
                 // update pending plan
                 // -1 no change, 0, 10, 20
@@ -2165,13 +2164,13 @@ public class ServiceAFweb {
         try {
             int accountid = Integer.parseInt(AccountID);
             result = getAccountImp().updateCustomer(custObj, accountid);
-            
+
             String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
             result = getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
         } catch (Exception ex) {
             logger.info("> updateCustomerPassword exception " + ex.getMessage());
         }
-        
+
         String tzid = "America/New_York"; //EDT
         TimeZone tz = TimeZone.getTimeZone(tzid);
         AccountObj accountAdminObj = getAdminObjFromCache();
@@ -2188,21 +2187,21 @@ public class ServiceAFweb {
 //        loginObj.setCustObj(custObj);
         loginObj.setWebMsg(webStatus);
         return loginObj;
-        
+
     }
-    
+
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         return getAccountImp().getCustomerPassword(UserName, Password);
     }
-    
+
     public CustomerObj getCustomerPassword(String EmailUserName, String Password) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
@@ -2214,18 +2213,18 @@ public class ServiceAFweb {
         }
         return custObj;
     }
-    
+
     public LoginObj getCustomerEmailLogin(String EmailUserName, String Password) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
         CustomerObj custObj = null;
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         WebStatus webStatus = new WebStatus();
         webStatus.setResultID(-1);
-        
+
         custObj = getAccountImp().getCustomerPassword(UserName, Password);
         if (custObj != null) {
             webStatus.setResultID(custObj.getStatus());
@@ -2268,7 +2267,7 @@ public class ServiceAFweb {
             return null;
         }
         CustomerObj custObj = null;
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, null, AccountIDSt);
@@ -2287,7 +2286,7 @@ public class ServiceAFweb {
         }
         loginObj.setWebMsg(webStatus);
         return loginObj;
-        
+
     }
 
     ////////////////////////////
@@ -2297,17 +2296,17 @@ public class ServiceAFweb {
             return null;
         }
         result = this.getStockImp().getAllRemoveStockNameList(length);
-        
+
         return result;
     }
-    
+
     public ArrayList getExpiredStockNameList(int length) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
         result = this.getStockImp().getAllDisableStockNameList(length);
-        
+
         return result;
     }
 
@@ -2317,21 +2316,21 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         result = getAccountImp().getExpiredCustomerList(length);
         return result;
     }
-    
+
     public ArrayList getCustomerNList(int length) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         result = getAccountImp().getCustomerNList(length);
         return result;
     }
-    
+
     public CustomerObj getCustomerObjByName(String name) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2344,7 +2343,7 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public CustomerObj getCustomerByAccoutObj(AccountObj accObj) {
         CustomerObj result = null;
         if (getServerObj().isSysMaintenance() == true) {
@@ -2353,47 +2352,47 @@ public class ServiceAFweb {
         result = getAccountImp().getCustomerByAccoutObj(accObj);
         return result;
     }
-    
+
     public ArrayList getCustomerList(int length) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
         result = getAccountImp().getCustomerObjList(length);
-        
+
         return result;
     }
-    
+
     public ArrayList getFundAccounBestFundList(String EmailUserName, String Password) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        
+
         return getAccountImp().getAccounBestFundList(UserName, Password);
-        
+
     }
-    
+
     public ArrayList getAccountList(String EmailUserName, String Password) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        
+
         return getAccountImp().getAccountList(UserName, Password);
-        
+
     }
-    
+
     public ArrayList SystemUserNamebyAccountID(int accountID) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
         if (checkCallRemoteMysql() == true) {
-            
+
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.UserNamebyAccountID + "");
             sqlObj.setReq("" + accountID);
@@ -2403,7 +2402,7 @@ public class ServiceAFweb {
                 return null;
             }
             ArrayList<String> NameList = new ArrayList();
-            
+
             try {
                 NameList = new ObjectMapper().readValue(output, ArrayList.class
                 );
@@ -2414,7 +2413,7 @@ public class ServiceAFweb {
         }
         return getAccountImp().getUserNamebyAccountID(accountID);
     }
-    
+
     public ArrayList<AFstockInfo> SystemStockHistoricalRange(String symbol, long start, long end) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2426,7 +2425,7 @@ public class ServiceAFweb {
                 sqlObj.setReq(symbol);
                 sqlObj.setReq1(start + "");
                 sqlObj.setReq2(end + "");
-                
+
                 RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
@@ -2435,15 +2434,15 @@ public class ServiceAFweb {
                 if (output.equals(ConstantKey.nullSt)) {
                     return null;
                 }
-                
+
                 ArrayList<AFstockInfo> trArray = null;
                 AFstockInfo[] arrayItem = new ObjectMapper().readValue(output, AFstockInfo[].class
                 );
-                
+
                 List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
                 trArray = new ArrayList<AFstockInfo>(listItem);
                 return trArray;
-                
+
             } catch (Exception ex) {
                 logger.info("> SystemStockHistoricalRange exception " + ex.getMessage());
             }
@@ -2451,7 +2450,7 @@ public class ServiceAFweb {
         }
         return getStockImp().getStockHistoricalRange(symbol, start, end);
     }
-    
+
     public ArrayList<String> SystemAccountStockNameList(int accountId) {
         ArrayList<String> NameList = new ArrayList();
         if (getServerObj().isSysMaintenance() == true) {
@@ -2465,9 +2464,9 @@ public class ServiceAFweb {
             String output = sqlObjresp.getResp();
             if (output == null) {
                 return NameList;
-                
+
             }
-            
+
             try {
                 NameList = new ObjectMapper().readValue(output, ArrayList.class
                 );
@@ -2478,7 +2477,7 @@ public class ServiceAFweb {
         }
         return getAccountImp().getAccountStockNameList(accountId);
     }
-    
+
     public ArrayList SystemAllOpenAccountIDList() {
         ArrayList<String> NameList = new ArrayList();
         if (getServerObj().isSysMaintenance() == true) {
@@ -2487,14 +2486,14 @@ public class ServiceAFweb {
         if (checkCallRemoteMysql() == true) {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllOpenAccountIDList + "");
-            
+
             RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
                 return NameList;
-                
+
             }
-            
+
             try {
                 NameList = new ObjectMapper().readValue(output, ArrayList.class);
             } catch (Exception ex) {
@@ -2504,7 +2503,7 @@ public class ServiceAFweb {
         }
         return getAccountImp().getAllOpenAccountID();
     }
-    
+
     public ArrayList SystemAllAccountStockNameListExceptionAdmin(int accountId) {
         ArrayList<String> NameList = new ArrayList();
         if (getServerObj().isSysMaintenance() == true) {
@@ -2515,13 +2514,13 @@ public class ServiceAFweb {
             sqlObj.setCmd(ServiceAFweb.AllAccountStockNameListExceptionAdmin + "");
             sqlObj.setReq(accountId + "");
             RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-            
+
             String output = sqlObjresp.getResp();
             if (output == null) {
                 return NameList;
-                
+
             }
-            
+
             try {
                 NameList = new ObjectMapper().readValue(output, ArrayList.class
                 );
@@ -2531,9 +2530,9 @@ public class ServiceAFweb {
             return NameList;
         }
         return getAccountImp().getAllAccountStockNameListExceptionAdmin(accountId);
-        
+
     }
-    
+
     public AFstockObj SystemRealTimeStockByStockID(int stockId) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2548,7 +2547,7 @@ public class ServiceAFweb {
                 return null;
             }
             AFstockObj stockObj = null;
-            
+
             try {
                 stockObj = new ObjectMapper().readValue(output, AFstockObj.class
                 );
@@ -2559,7 +2558,7 @@ public class ServiceAFweb {
         }
         return getStockImp().getRealTimeStockByStockID(stockId, null);
     }
-    
+
     public AccountObj SystemAccountObjByAccountID(int accountId) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2574,7 +2573,7 @@ public class ServiceAFweb {
                 return null;
             }
             AccountObj accountObj = null;
-            
+
             try {
                 accountObj = new ObjectMapper().readValue(output, AccountObj.class
                 );
@@ -2585,89 +2584,89 @@ public class ServiceAFweb {
         }
         return getAccountImp().getAccountObjByAccountID(accountId);
     }
-    
+
     public TradingRuleObj SystemAccountStockIDByTRname(int accountID, int stockID, String trName) {
-        
+
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         if (checkCallRemoteMysql() == true) {
             try {
                 RequestObj sqlObj = new RequestObj();
                 sqlObj.setCmd(ServiceAFweb.AccountStockIDByTRname + "");
-                
+
                 sqlObj.setReq(accountID + "");
                 sqlObj.setReq1(stockID + "");
                 sqlObj.setReq2(trName);
-                
+
                 RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
                     return null;
-                    
+
                 }
-                
+
                 TradingRuleObj ret = new ObjectMapper().readValue(output, TradingRuleObj.class
                 );
                 return ret;
-                
+
             } catch (Exception ex) {
                 logger.info("> SystemAccountStockIDByTRname exception " + ex.getMessage());
             }
         }
         return getAccountImp().getAccountStockIDByTRname(accountID, stockID, trName);
     }
-    
+
     public int SystemAccountStockClrTranByAccountID(AccountObj accountObj, int stockId, String trName) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         if (checkCallRemoteMysql() == true) {
             try {
                 RequestObj sqlObj = new RequestObj();
                 sqlObj.setCmd(ServiceAFweb.AccountStockClrTranByAccountID + "");
-                
+
                 String st = new ObjectMapper().writeValueAsString(accountObj);
                 sqlObj.setReq(st);
                 sqlObj.setReq1(stockId + "");
                 sqlObj.setReq2(trName);
-                
+
                 RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
                     return 0;
-                    
+
                 }
-                
+
                 int result = new ObjectMapper().readValue(output, Integer.class
                 );
                 return result;
-                
+
             } catch (Exception ex) {
                 logger.info("> SystemAccountStockClrTranByAccountID exception " + ex.getMessage());
             }
             return 0;
         }
-        
+
         return getAccountImp().clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
-        
+
     }
-    
+
     public ArrayList<TradingRuleObj> SystemAccountStockListByAccountID(int accountId, String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         if (checkCallRemoteMysql() == true) {
             try {
                 RequestObj sqlObj = new RequestObj();
                 sqlObj.setCmd(ServiceAFweb.AccountStockListByAccountID + "");
-                
+
                 sqlObj.setReq(accountId + "");
                 sqlObj.setReq1(symbol);
-                
+
                 RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
@@ -2677,13 +2676,13 @@ public class ServiceAFweb {
                     return null;
                 }
                 ArrayList<TradingRuleObj> trArray = null;
-                
+
                 TradingRuleObj[] arrayItem = new ObjectMapper().readValue(output, TradingRuleObj[].class
                 );
                 List<TradingRuleObj> listItem = Arrays.<TradingRuleObj>asList(arrayItem);
                 trArray = new ArrayList<TradingRuleObj>(listItem);
                 return trArray;
-                
+
             } catch (Exception ex) {
                 logger.info("> SystemAccountStockListByAccountID exception " + ex.getMessage());
             }
@@ -2693,20 +2692,20 @@ public class ServiceAFweb {
         int stockID = stock.getId();
         return getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
     }
-    
+
     public ArrayList<TradingRuleObj> SystemAccountStockListByAccountIDStockID(int accountId, int stockId) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         if (checkCallRemoteMysql() == true) {
             try {
                 RequestObj sqlObj = new RequestObj();
                 sqlObj.setCmd(ServiceAFweb.AccountStockListByAccountIDStockID + "");
-                
+
                 sqlObj.setReq(accountId + "");
                 sqlObj.setReq1(stockId + "");
-                
+
                 RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
                 String output = sqlObjresp.getResp();
                 if (output == null) {
@@ -2716,22 +2715,22 @@ public class ServiceAFweb {
                     return null;
                 }
                 ArrayList<TradingRuleObj> trArray = null;
-                
+
                 TradingRuleObj[] arrayItem = new ObjectMapper().readValue(output, TradingRuleObj[].class
                 );
                 List<TradingRuleObj> listItem = Arrays.<TradingRuleObj>asList(arrayItem);
                 trArray = new ArrayList<TradingRuleObj>(listItem);
                 return trArray;
-                
+
             } catch (Exception ex) {
                 logger.info("> SystemAccountStockListByAccountIDStockID exception " + ex.getMessage());
             }
             return null;
         }
-        
+
         return getAccountImp().getAccountStockTRListByAccountID(accountId, stockId);
     }
-    
+
     public int SystemUpdateSQLList(ArrayList<String> SQLlist) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -2747,7 +2746,7 @@ public class ServiceAFweb {
                 String output = sqlObjresp.getResp();
                 if (output == null) {
                     return 0;
-                    
+
                 }
                 int result = new ObjectMapper().readValue(output, Integer.class
                 );
@@ -2759,7 +2758,7 @@ public class ServiceAFweb {
         }
         return getStockImp().updateSQLArrayList(SQLlist);
     }
-    
+
     public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2779,7 +2778,7 @@ public class ServiceAFweb {
                     return null;
                 }
                 ArrayList<AFneuralNetData> trArray = null;
-                
+
                 AFneuralNetData[] arrayItem = new ObjectMapper().readValue(output, AFneuralNetData[].class
                 );
                 List<AFneuralNetData> listItem = Arrays.<AFneuralNetData>asList(arrayItem);
@@ -2792,7 +2791,7 @@ public class ServiceAFweb {
         }
         return getStockImp().getNeuralNetDataObj(BPnameTR, 0);
     }
-    
+
     public ArrayList<AFneuralNetData> SystemNeuralNetDataObjStockid(String BPname, int stockId, long updatedatel) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2814,7 +2813,7 @@ public class ServiceAFweb {
                     return null;
                 }
                 ArrayList<AFneuralNetData> trArray = null;
-                
+
                 AFneuralNetData[] arrayItem = new ObjectMapper().readValue(output, AFneuralNetData[].class
                 );
                 List<AFneuralNetData> listItem = Arrays.<AFneuralNetData>asList(arrayItem);
@@ -2851,7 +2850,7 @@ public class ServiceAFweb {
                     return null;
                 }
                 ArrayList<TransationOrderObj> trArray = null;
-                
+
                 TransationOrderObj[] arrayItem = new ObjectMapper().readValue(output, TransationOrderObj[].class
                 );
                 List<TransationOrderObj> listItem = Arrays.<TransationOrderObj>asList(arrayItem);
@@ -2864,7 +2863,7 @@ public class ServiceAFweb {
         }
         return getAccountImp().getAccountStockTransList(accountID, stockID, trName, length);
     }
-    
+
     public ArrayList<PerformanceObj> SystemAccountStockPerfList(int accountID, int stockID, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2887,7 +2886,7 @@ public class ServiceAFweb {
                     return null;
                 }
                 ArrayList<PerformanceObj> trArray = null;
-                
+
                 PerformanceObj[] arrayItem = new ObjectMapper().readValue(output, PerformanceObj[].class
                 );
                 List<PerformanceObj> listItem = Arrays.<PerformanceObj>asList(arrayItem);
@@ -2900,7 +2899,7 @@ public class ServiceAFweb {
         }
         return getAccountImp().getAccountStockPerfList(accountID, stockID, trName, length);
     }
-    
+
     public String SystemSQLquery(String SQL) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return "";
@@ -2908,7 +2907,7 @@ public class ServiceAFweb {
         if (checkCallRemoteMysql() == true) {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllSQLquery + "");
-            
+
             try {
                 sqlObj.setReq(SQL);
                 RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
@@ -2916,7 +2915,7 @@ public class ServiceAFweb {
                 if (output == null) {
                     return "";
                 }
-                
+
                 return output;
             } catch (Exception ex) {
                 logger.info("> SystemSQLquery exception " + ex.getMessage());
@@ -2925,7 +2924,7 @@ public class ServiceAFweb {
         }
         return getAccountImp().getAllSQLquery(SQL);
     }
-    
+
     public int SystemAddTransactionOrder(AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -2933,7 +2932,7 @@ public class ServiceAFweb {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         return TRprocessImp.AddTransactionOrder(this, accountObj, stock, trName, tranSignal, tranDate, true);
     }
-    
+
     public int SystemuUpdateTransactionOrder(ArrayList<String> transSQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -2949,7 +2948,7 @@ public class ServiceAFweb {
                 String output = sqlObjresp.getResp();
                 if (output == null) {
                     return 0;
-                    
+
                 }
                 int result = new ObjectMapper().readValue(output, Integer.class
                 );
@@ -2961,12 +2960,12 @@ public class ServiceAFweb {
         }
         return getAccountImp().updateTransactionOrder(transSQL);
     }
-    
+
     public int SystemFundClearfundbalance(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -2978,19 +2977,19 @@ public class ServiceAFweb {
                 float balance = 0;
                 float servicefee = 0;
                 getAccountImp().updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
-                
+
                 return 1;
             }
         } catch (Exception e) {
         }
         return 0;
     }
-    
+
     public int getFundAccountAddAccundFund(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3001,7 +3000,7 @@ public class ServiceAFweb {
             if (custObj.getStatus() != ConstantKey.OPEN) {
                 return 0;
             }
-            
+
             String portfolio = custObj.getPortfolio();
             CustPort custPortfilio = null;
             try {
@@ -3029,7 +3028,7 @@ public class ServiceAFweb {
                     return 0;
                 }
             }
-            
+
             int accFundId = Integer.parseInt(FundIDSt);
             AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
             if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
@@ -3042,20 +3041,20 @@ public class ServiceAFweb {
                 BP.updateFundFeat(this, custObj, accFundObj);
                 return 1;
             }
-            
+
         } catch (Exception e) {
         }
         return 0;
     }
-    
+
     public int getFundAccountRemoveAcocuntFund(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        
+
         CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
         if (custObj == null) {
             return 0;
@@ -3063,7 +3062,7 @@ public class ServiceAFweb {
         if (custObj.getStatus() != ConstantKey.OPEN) {
             return 0;
         }
-        
+
         String portfolio = custObj.getPortfolio();
         CustPort custPortfilio = null;
         try {
@@ -3080,9 +3079,9 @@ public class ServiceAFweb {
         if (featL == null) {
             return 0;
         }
-        
+
         String delFundFeat = "delfund" + FundIDSt;
-        
+
         for (int i = 0; i < featL.size(); i++) {
             String feat = featL.get(i);
             if (delFundFeat.equals(feat)) {
@@ -3098,16 +3097,16 @@ public class ServiceAFweb {
         } catch (Exception ex) {
         }
         return 0;
-        
+
     }
-    
+
     public ArrayList<AccountObj> getFundAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         ArrayList<AccountObj> accountObjList = new ArrayList();
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3118,7 +3117,7 @@ public class ServiceAFweb {
             if (custObj.getStatus() != ConstantKey.OPEN) {
                 return null;
             }
-            
+
             String portfolio = custObj.getPortfolio();
             CustPort custPortfilio = null;
             try {
@@ -3135,7 +3134,7 @@ public class ServiceAFweb {
             if (featL == null) {
                 return null;
             }
-            
+
             for (int i = 0; i < featL.size(); i++) {
                 String feat = featL.get(i);
                 try {
@@ -3159,14 +3158,14 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
         return null;
-        
+
     }
-    
+
     public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3175,14 +3174,14 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
         return null;
-        
+
     }
-    
+
     public ArrayList<BillingObj> getBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3192,14 +3191,14 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
         return null;
-        
+
     }
-    
+
     public int removeBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3211,12 +3210,12 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public AccEntryObj getAccountingEntryByCustomerById(String EmailUserName, String Password, String idSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3233,12 +3232,12 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public int removeAccountingEntryById(String EmailUserName, String Password, String idSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3254,12 +3253,12 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3276,19 +3275,19 @@ public class ServiceAFweb {
                     AccReportObj accReport = BP.getAccountReportYear(this, year);
                     return accReport;
                 }
-                
+
             }
         } catch (Exception e) {
         }
         return null;
-        
+
     }
-    
+
     public ArrayList<CommObj> getCommEmaiByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3297,14 +3296,14 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
         return null;
-        
+
     }
-    
+
     public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3313,14 +3312,14 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
         return null;
-        
+
     }
-    
+
     public int addCommByCustAccountID(String EmailUserName, String Password, String AccountIDSt, String data) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3330,7 +3329,7 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public int removeAllCommBy1Month() {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -3340,14 +3339,14 @@ public class ServiceAFweb {
 
         getAccountImp().removeCommByTimebefore(last1monthbefore, ConstantKey.INT_TYPE_COM_SIGNAL);
         return 1;
-        
+
     }
-    
+
     public int removeCommByID(String EmailUserName, String Password, String AccountIDSt, String IDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3358,12 +3357,12 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public int removeAllEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3375,12 +3374,12 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public int removeAllCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
@@ -3390,15 +3389,15 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public ArrayList<AFstockObj> getFundStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        
+
         CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
         if (custObj == null) {
             return null;
@@ -3406,7 +3405,7 @@ public class ServiceAFweb {
         if (custObj.getStatus() != ConstantKey.OPEN) {
             return null;
         }
-        
+
         String portfolio = custObj.getPortfolio();
         CustPort custPortfilio = null;
         try {
@@ -3419,12 +3418,12 @@ public class ServiceAFweb {
         if (custPortfilio == null) {
             return null;
         }
-        
+
         ArrayList<String> featL = custPortfilio.getFeatL();
         if (featL == null) {
             return null;
         }
-        
+
         String fundFeat = "fund" + FundIDSt;
         boolean featureExist = false;
         for (int i = 0; i < featL.size(); i++) {
@@ -3445,7 +3444,7 @@ public class ServiceAFweb {
         if (accFundObj.getType() != AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
             return null;
         }
-        
+
         ArrayList stockNameList = getAccountImp().getAccountStockNameList(accFundObj.getId());
         if (stockNameList != null) {
             if (lenght == 0) {
@@ -3457,29 +3456,29 @@ public class ServiceAFweb {
 
             /// only TR ACC allowed
             String trname = ConstantKey.TR_ACC;
-            
+
             for (int i = 0; i < lenght; i++) {
                 String NormalizeSymbol = (String) stockNameList.get(i);
                 AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
                 if (stock != null) {
-                    
+
                     ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accFundObj.getId(), stock.getId());
                     if (trObjList != null) {
                         for (int j = 0; j < trObjList.size(); j++) {
                             TradingRuleObj trObj = trObjList.get(j);
-                            
+
                             if (trname.equals(ConstantKey.TR_ACC)) {
                                 stock.setTRsignal(trObj.getTrsignal());
-                                
+
                                 float total = ServiceAFweb.performanceRT(trObj, stock);
                                 stock.setPerform(total);
-                                
+
                                 break;
                             }
-                            
+
                         }
                     }
-                    
+
                     returnStockList.add(stock);
                 }
             }
@@ -3487,30 +3486,30 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public ArrayList<AFstockObj> getStockNameListByAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         if (accountObj != null) {
-            
+
             ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
             return stockNameList;
         }
         return null;
     }
-    
+
     public ArrayList<AFstockObj> getStockListByAccountIDTRname(String EmailUserName, String Password, String AccountIDSt, String trname, String filterSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         if (accountObj != null) {
-            
+
             ArrayList stockNameList = null;
-            
+
             ArrayList<String> filterArray = new ArrayList();
             if (filterSt != null) {
                 if (filterSt.length() > 0) {
@@ -3527,27 +3526,27 @@ public class ServiceAFweb {
                     }
                 }
             }
-            
+
             if (filterArray.size() > 0) {
                 stockNameList = filterArray;
             } else {
                 stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
             }
-            
+
             if (stockNameList != null) {
                 if (lenght == 0) {
                     lenght = stockNameList.size();
                 } else if (lenght > stockNameList.size()) {
                     lenght = stockNameList.size();
                 }
-                
+
                 ArrayList<AFstockObj> returnStockList = new ArrayList();
                 for (int i = 0; i < lenght; i++) {
                     String NormalizeSymbol = (String) stockNameList.get(i);
                     AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
                     if (stock != null) {
                         stock.setTrname(trname);
-                        
+
                         ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stock.getId());
                         if (trObjList != null) {
                             if (trObjList.size() == 0) {
@@ -3555,20 +3554,20 @@ public class ServiceAFweb {
                             }
                             for (int j = 0; j < trObjList.size(); j++) {
                                 TradingRuleObj trObj = trObjList.get(j);
-                                
+
                                 if (trname.equals(ConstantKey.TR_ACC)) {
                                     stock.setTRsignal(trObj.getTrsignal());
-                                    
+
                                     float total = ServiceAFweb.performanceRT(trObj, stock);
                                     stock.setPerform(total);
-                                    
+
                                     break;
                                 } else if (trname.equals(trObj.getTrname())) {
-                                    
+
                                     stock.setTRsignal(trObj.getTrsignal());
                                     float total = ServiceAFweb.performanceRT(trObj, stock);
                                     stock.setPerform(total);
-                                    
+
                                     break;
                                 }
 
@@ -3589,7 +3588,7 @@ public class ServiceAFweb {
 //                                }
                             }
                         }
-                        
+
                         returnStockList.add(stock);
                     }
                 }
@@ -3598,7 +3597,7 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public static float performanceRT(TradingRuleObj trObj, AFstockObj stock) {
         float total = 0;
         float deltaTotal = 0;
@@ -3613,7 +3612,7 @@ public class ServiceAFweb {
             if (stock.getAfstockInfo() == null) {
                 return 0;
             }
-            
+
             float close = stock.getAfstockInfo().getFclose();
             if (trObj.getTrsignal() == ConstantKey.S_BUY) {
                 sharebalance = trObj.getLongamount();
@@ -3632,7 +3631,7 @@ public class ServiceAFweb {
             }
             total = trObj.getBalance() + sharebalance;
             total = total - trObj.getInvestment();
-            
+
             if (stock.getSubstatus() == 0) {
                 total = total + deltaTotal;
             }
@@ -3642,14 +3641,14 @@ public class ServiceAFweb {
         }
         return total;
     }
-    
+
     public AFstockObj getStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        
+
         int stockID = 0;
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -3672,12 +3671,12 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public int addAccountStockTran(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int signal) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         int stockID = 0;
@@ -3693,20 +3692,20 @@ public class ServiceAFweb {
             if (stock == null) {
                 return 0;
             }
-            
+
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             int ret = TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stock, trName, signal);
-            
+
             return ret;
         }
         return 0;
     }
-    
+
     public int getAccountStockTRClrTranByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -3725,12 +3724,12 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -3745,7 +3744,7 @@ public class ServiceAFweb {
             if (stock == null) {
                 return null;
             }
-            
+
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 return getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), length);
             } else {
@@ -3758,14 +3757,14 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public ArrayList<PerformanceObj> getFundAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        
+
         CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
         if (custObj == null) {
             return null;
@@ -3773,7 +3772,7 @@ public class ServiceAFweb {
         if (custObj.getStatus() != ConstantKey.OPEN) {
             return null;
         }
-        
+
         String portfolio = custObj.getPortfolio();
         CustPort custPortfilio = null;
         try {
@@ -3786,14 +3785,14 @@ public class ServiceAFweb {
         if (custPortfilio == null) {
             return null;
         }
-        
+
         ArrayList<String> featL = custPortfilio.getFeatL();
         if (featL == null) {
             return null;
         }
         int accFundId = Integer.parseInt(FundIDSt);
         AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
-        
+
         AFstockObj stock = null;
         if (accFundObj != null) {
             try {
@@ -3821,12 +3820,12 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public ArrayList<PerformanceObj> getAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -3855,12 +3854,12 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public int setAccountStockTRoption(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, String TROptType) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -3872,7 +3871,7 @@ public class ServiceAFweb {
                 String NormalizeSymbol = symObj.getYahooSymbol();
                 stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
             }
-            
+
             if (stock == null) {
                 return 0;
             }
@@ -3889,10 +3888,10 @@ public class ServiceAFweb {
                 } catch (NumberFormatException ex) {
                     opt = ConstantKey.getTRtypeByName(TROptType);
                 }
-                
+
                 if (opt < ConstantKey.SIZE_TR) {
                     tr.setLinktradingruleid(opt);
-                    
+
                     ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
                     UpdateTRList.add(tr);
                     return getAccountImp().updateAccountStockSignal(UpdateTRList);
@@ -3900,14 +3899,14 @@ public class ServiceAFweb {
             }
         }
         return 0;
-        
+
     }
-    
+
     public ArrayList<PerformanceObj> getAccountStockTRPerfHistory(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -3928,24 +3927,24 @@ public class ServiceAFweb {
                 TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 return TRprocessImp.ProcessTranPerfHistory(this, tranOrderList, stock, length, true);  // buyOnly = true
             }
-            
+
             AccountObj accountAdminObj = getAdminObjFromCache();
             if (accountAdminObj == null) {
                 return null;
             }
             tranOrderList = getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-            
+
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             return TRprocessImp.ProcessTranPerfHistory(this, tranOrderList, stock, length, false);  // buyOnly = false
         }
         return null;
     }
-    
+
     public ArrayList<PerformanceObj> getAccountStockTRPerfHistoryReinvest(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         if (accountObj != null) {
@@ -3972,25 +3971,25 @@ public class ServiceAFweb {
                 return null;
             }
             tranOrderList = getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-            
+
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             return TRprocessImp.ProcessTranPerfHistoryReinvest(this, tranOrderList, stock, length, false); //buyOnly = false
         }
         return null;
     }
-    
+
     public ArrayList<String> getAccountStockTRPerfHistoryDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
-        
+
         ArrayList<StockTRHistoryObj> trObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
         ArrayList<String> writeTranArray = new ArrayList();
         ArrayList<String> displayArray = new ArrayList();
         int ret = getAccountStockTRListHistoryDisplayProcess(trObjList, writeTranArray, displayArray);
-        
+
         ArrayList<PerformanceObj> perfObjList = getAccountStockTRPerfHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
         ArrayList<String> writePerfArray = new ArrayList();
         ArrayList<String> perfList = new ArrayList();
         ret = getAccountStockTRPerfHistoryDisplayProcess(perfObjList, writePerfArray, perfList);
-        
+
         ArrayList<String> writeAllArray = new ArrayList();
         if (ret == 1) {
             if (getEnv.checkLocalPC() == true) {
@@ -4004,12 +4003,12 @@ public class ServiceAFweb {
                         continue;
                     }
                     StockTRHistoryObj tran = trObjList.get(i - 1);
-                    
+
                     if (j >= perfObjList.size()) {
                         j = perfObjList.size() - 1;
                     }
                     PerformanceObj perf = perfObjList.get(j - 1);
-                    
+
                     if (tran.getUpdateDateD().equals(perf.getUpdateDateD())) {
                         String st = writeTranArray.get(i);
                         st += "," + writePerfArray.get(j);
@@ -4041,18 +4040,18 @@ public class ServiceAFweb {
                     FileUtil.FileWriteTextArray(FileLocalDebugPath + stockidsymbol + "_" + trname + "_perf.csv", writeAllArray);
                 }
             }
-            
+
         }
         return perfList;
-        
+
     }
-    
+
     public int getAccountStockTRPerfHistoryDisplayProcess(ArrayList<PerformanceObj> perfObjList, ArrayList<String> writePerfArray, ArrayList<String> perfList) {
-        
+
         if (perfObjList == null) {
             return 0;
         }
-        
+
         for (int i = 0; i < perfObjList.size(); i++) {
             PerformanceObj trObj = perfObjList.get(i);
             String st = "";
@@ -4075,21 +4074,21 @@ public class ServiceAFweb {
                     + "\",\"" + trObj.getPerformData().getMaxwin() + "\",\"" + trObj.getPerformData().getMaxloss()
                     + "\",\"" + trObj.getPerformData().getMaxholdtime() + "\",\"" + trObj.getPerformData().getMinholdtime()
                     + "\",\"" + trObj.getUpdateDateD() + "\"";
-            
+
             writePerfArray.add(st);
             stDispaly = st.replaceAll("\"", "");
             perfList.add(stDispaly);
-            
+
         }
-        
+
         return 1;
     }
-    
+
     public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
         int stockID = 0;
@@ -4110,15 +4109,15 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public TradingRuleObj getFundAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trname) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        
+
         CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
         if (custObj == null) {
             return null;
@@ -4126,7 +4125,7 @@ public class ServiceAFweb {
         if (custObj.getStatus() != ConstantKey.OPEN) {
             return null;
         }
-        
+
         String portfolio = custObj.getPortfolio();
         CustPort custPortfilio = null;
         try {
@@ -4139,12 +4138,12 @@ public class ServiceAFweb {
         if (custPortfilio == null) {
             return null;
         }
-        
+
         ArrayList<String> featL = custPortfilio.getFeatL();
         if (featL == null) {
             return null;
         }
-        
+
         String fundFeat = "fund" + FundIDSt;
         boolean featureExist = false;
         for (int i = 0; i < featL.size(); i++) {
@@ -4157,7 +4156,7 @@ public class ServiceAFweb {
         if (featureExist == false) {
             return null;
         }
-        
+
         int accFundId = Integer.parseInt(FundIDSt);
         AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
         if (accFundObj == null) {
@@ -4166,10 +4165,10 @@ public class ServiceAFweb {
         if (accFundObj.getType() != AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
             return null;
         }
-        
+
         AFstockObj stock = null;
         int stockID = 0;
-        
+
         try {
             stockID = Integer.parseInt(stockidsymbol);
             stock = getStockImp().getRealTimeStockByStockID(stockID, null);
@@ -4183,14 +4182,14 @@ public class ServiceAFweb {
         }
         stockID = stock.getId();
         return getAccountImp().getAccountStockIDByTRname(accFundObj.getId(), stockID, trname);
-        
+
     }
-    
+
     public TradingRuleObj getAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         trname = trname.toUpperCase();
         AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
@@ -4212,13 +4211,13 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public String getAccountStockTRListHistoryChartProcess(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
         try {
             if (thObjListMain == null) {
                 return "";
             }
-            
+
             if ((pathSt == null) || (pathSt.length() == 0)) {
                 pathSt = "t:/Netbean/debug";
             }
@@ -4226,13 +4225,13 @@ public class ServiceAFweb {
                 pathSt = "t:/Netbean/debug";
             }
             String filepath = pathSt + "/" + stockidsymbol + "_" + trname + "_" + initTrainNeuralNetNumber;
-            
+
             List<Date> xDate = new ArrayList<Date>();
             List<Double> yD = new ArrayList<Double>();
-            
+
             ArrayList<StockTRHistoryObj> thObjList = new ArrayList();
             thObjList.addAll(thObjListMain);
-            
+
             ArrayList closeList = new ArrayList<Float>();
             for (int i = 0; i < thObjList.size(); i++) {
                 StockTRHistoryObj thObj = thObjList.get(i);
@@ -4241,14 +4240,14 @@ public class ServiceAFweb {
             }
             NNormalObj normal = new NNormalObj();
             normal.initHighLow(closeList);
-            
+
             List<Date> buyDate = new ArrayList<Date>();
             List<Double> buyD = new ArrayList<Double>();
             List<Date> sellDate = new ArrayList<Date>();
             List<Double> sellD = new ArrayList<Double>();
-            
+
             StockTRHistoryObj prevThObj = null;
-            
+
             for (int i = 0; i < thObjList.size(); i++) {
                 StockTRHistoryObj thObj = thObjList.get(i);
                 if (i == 0) {
@@ -4259,10 +4258,10 @@ public class ServiceAFweb {
                 float close = thObj.getClose();
                 double norClose = normal.getNormalizeValue(close);
                 yD.add(norClose);
-                
+
                 int signal = thObj.getTrsignal();
                 if (signal != prevThObj.getTrsignal()) {
-                    
+
                     if (signal == ConstantKey.S_BUY) {
                         buyD.add(norClose);
                         buyDate.add(da);
@@ -4282,7 +4281,7 @@ public class ServiceAFweb {
             logger.info("> getAccountStockTRListHistoryChartProcess exception" + ex.getMessage());
         }
         return "Save failed";
-        
+
     }
 //////////
 
@@ -4290,7 +4289,7 @@ public class ServiceAFweb {
             String trname, String yearSt) {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        
+
         CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
         if (custObj == null) {
             return null;
@@ -4298,7 +4297,7 @@ public class ServiceAFweb {
         if (custObj.getStatus() != ConstantKey.OPEN) {
             return null;
         }
-        
+
         String portfolio = custObj.getPortfolio();
         CustPort custPortfilio = null;
         try {
@@ -4311,7 +4310,7 @@ public class ServiceAFweb {
         if (custPortfilio == null) {
             return null;
         }
-        
+
         ArrayList<String> featL = custPortfilio.getFeatL();
         if (featL == null) {
             return null;
@@ -4338,19 +4337,19 @@ public class ServiceAFweb {
                     year = 5;
                 }
             } catch (Exception ex) {
-                
+
             }
         }
         ArrayList<TransationOrderObj> thList = getAccountImp().getAccountStockTransList(accFundObj.getId(), stock.getId(), trname.toUpperCase(), 0);
-        
+
         if (thList == null) {
             // still allow to display dummy graph
 //            return null;
             thList = new ArrayList();
         }
-        
+
         int sizeLen = 20 * 10;
-        
+
         if (year > 0) {
             sizeLen = 20 * 12 * year;
         }
@@ -4366,9 +4365,9 @@ public class ServiceAFweb {
         // recent date last
         Collections.reverse(StockArray);
         Collections.reverse(thList);
-        
+
         ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
-        
+
         float closeFirst = StockArray.get(StockArray.size() - 1).getFclose();
         float closeLast = StockArray.get(0).getFclose();
         float perC = 100 * (closeFirst - closeLast) / closeLast;
@@ -4377,7 +4376,7 @@ public class ServiceAFweb {
 
         boolean highdif = false;
         int index = sizeLen;
-        
+
         if (perC > thold) { //35) {
             for (int j = 0; j < StockArray.size(); j++) {
                 closeLast = StockArray.get(j).getFclose();
@@ -4392,28 +4391,28 @@ public class ServiceAFweb {
         if (highdif == true) {
             index = sizeLen - (sizeLen / 4);
         }
-        
+
         List<Date> xDate = new ArrayList<Date>();
         List<Double> yD = new ArrayList<Double>();
-        
+
         List<Date> buyDate = new ArrayList<Date>();
         List<Double> buyD = new ArrayList<Double>();
         List<Date> sellDate = new ArrayList<Date>();
         List<Double> sellD = new ArrayList<Double>();
-        
+
         xDate = new ArrayList<Date>();
         yD = new ArrayList<Double>();
         buyDate = new ArrayList<Date>();
         buyD = new ArrayList<Double>();
         sellDate = new ArrayList<Date>();
         sellD = new ArrayList<Double>();
-        
+
         StockArrayTmp = new ArrayList();
         for (int i = index; i < StockArray.size(); i++) {
             StockArrayTmp.add(StockArray.get(i));
         }
         int numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
-        
+
         if (numBS < 5) {
             index = sizeLen / 2;
             xDate = new ArrayList<Date>();
@@ -4422,7 +4421,7 @@ public class ServiceAFweb {
             buyD = new ArrayList<Double>();
             sellDate = new ArrayList<Date>();
             sellD = new ArrayList<Double>();
-            
+
             StockArrayTmp = new ArrayList();
             for (int i = index; i < StockArray.size(); i++) {
                 StockArrayTmp.add(StockArray.get(i));
@@ -4432,14 +4431,14 @@ public class ServiceAFweb {
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);
-        
+
         return ioStream;
-        
+
     }
-    
+
     public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol,
             String trname, String yearSt) {
-        
+
         int year = 0;
         if (yearSt != null) {
             try {
@@ -4448,11 +4447,11 @@ public class ServiceAFweb {
                     year = 5;
                 }
             } catch (Exception ex) {
-                
+
             }
         }
         ArrayList<TransationOrderObj> thList = this.getAccountStockTRTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
-        
+
         if (thList == null) {
             thList = new ArrayList();
         }
@@ -4462,7 +4461,7 @@ public class ServiceAFweb {
             return null;
         }
         int sizeLen = 20 * 10;
-        
+
         if (year > 0) {
             sizeLen = 20 * 12 * year;
         }
@@ -4478,9 +4477,9 @@ public class ServiceAFweb {
         // recent date last
         Collections.reverse(StockArray);
         Collections.reverse(thList);
-        
+
         ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
-        
+
         float closeFirst = StockArray.get(StockArray.size() - 1).getFclose();
         float closeLast = StockArray.get(0).getFclose();
         float perC = 100 * (closeFirst - closeLast) / closeLast;
@@ -4489,7 +4488,7 @@ public class ServiceAFweb {
 
         boolean highdif = false;
         int index = sizeLen;
-        
+
         if (perC > thold) { //35) {
             for (int j = 0; j < StockArray.size(); j++) {
                 closeLast = StockArray.get(j).getFclose();
@@ -4504,28 +4503,28 @@ public class ServiceAFweb {
         if (highdif == true) {
             index = sizeLen - (sizeLen / 4);
         }
-        
+
         List<Date> xDate = new ArrayList<Date>();
         List<Double> yD = new ArrayList<Double>();
-        
+
         List<Date> buyDate = new ArrayList<Date>();
         List<Double> buyD = new ArrayList<Double>();
         List<Date> sellDate = new ArrayList<Date>();
         List<Double> sellD = new ArrayList<Double>();
-        
+
         xDate = new ArrayList<Date>();
         yD = new ArrayList<Double>();
         buyDate = new ArrayList<Date>();
         buyD = new ArrayList<Double>();
         sellDate = new ArrayList<Date>();
         sellD = new ArrayList<Double>();
-        
+
         StockArrayTmp = new ArrayList();
         for (int i = index; i < StockArray.size(); i++) {
             StockArrayTmp.add(StockArray.get(i));
         }
         int numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
-        
+
         if (numBS < 5) {
             index = sizeLen / 2;
             xDate = new ArrayList<Date>();
@@ -4534,7 +4533,7 @@ public class ServiceAFweb {
             buyD = new ArrayList<Double>();
             sellDate = new ArrayList<Date>();
             sellD = new ArrayList<Double>();
-            
+
             StockArrayTmp = new ArrayList();
             for (int i = index; i < StockArray.size(); i++) {
                 StockArrayTmp.add(StockArray.get(i));
@@ -4544,31 +4543,31 @@ public class ServiceAFweb {
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);
-        
+
         return ioStream;
-        
+
     }
-    
+
     private int checkCurrentChartDisplay(ArrayList<AFstockInfo> StockArray, List<Date> xDate, List<Double> yD,
             List<Date> buyDate, List<Double> buyD, List<Date> sellDate, List<Double> sellD,
             ArrayList<TransationOrderObj> thList) {
-        
+
         for (int j = 0; j < StockArray.size(); j++) {
             AFstockInfo stockinfo = StockArray.get(j);
-            
+
             Date da = new Date(stockinfo.getEntrydatel());
             xDate.add(da);
             float close = stockinfo.getFclose();
             double norClose = close;
             yD.add(norClose);
-            
+
         }
-        
+
         AFstockInfo stockinfo = StockArray.get(0);
         long stockdatel = stockinfo.getEntrydatel();
         for (int i = 0; i < thList.size(); i++) {
             TransationOrderObj thObj = thList.get(i);
-            
+
             long THdatel = thObj.getEntrydatel(); //TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
             if (stockdatel > THdatel) {
                 continue;
@@ -4586,7 +4585,7 @@ public class ServiceAFweb {
                 }
             }
             int signal = thObj.getTrsignal();
-            
+
             float close = thObj.getAvgprice();
             double norClose = close;
             Date da = new Date(thObj.getEntrydatel());
@@ -4610,10 +4609,10 @@ public class ServiceAFweb {
         float close = stockinfo.getFclose();
         double norClose = close;
         yD.add(norClose);
-        
+
         return buyD.size() + sellD.size();
     }
-    
+
     public String getAccountStockTRLIstCurrentChartFile(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         try {
@@ -4622,7 +4621,7 @@ public class ServiceAFweb {
                 return null;
             }
             Collections.reverse(thList);
-            
+
             trname = trname.toUpperCase();
             String symbol = stockidsymbol;
             AFstockObj stock = this.getRealTimeStockImp(symbol);
@@ -4793,17 +4792,17 @@ public class ServiceAFweb {
 //                    }
 //                }  // local PC
             }
-            
+
             int size1year = 20 * 10;
             ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1year);
             if (StockArray == null) {
                 return null;
             }
             Collections.reverse(StockArray);
-            
+
             List<Date> xDate = new ArrayList<Date>();
             List<Double> yD = new ArrayList<Double>();
-            
+
             ArrayList<Float> closeList = new ArrayList<Float>();
             for (int i = 0; i < StockArray.size(); i++) {
                 AFstockInfo stockinfo = StockArray.get(i);
@@ -4812,15 +4811,15 @@ public class ServiceAFweb {
             }
             NNormalObj normal = new NNormalObj();
             normal.initHighLow(closeList);
-            
+
             List<Date> buyDate = new ArrayList<Date>();
             List<Double> buyD = new ArrayList<Double>();
             List<Date> sellDate = new ArrayList<Date>();
             List<Double> sellD = new ArrayList<Double>();
-            
+
             for (int j = 0; j < StockArray.size(); j++) {
                 AFstockInfo stockinfo = StockArray.get(j);
-                
+
                 Date da = new Date(stockinfo.getEntrydatel());
                 xDate.add(da);
                 long stockdatel = TimeConvertion.endOfDayInMillis(stockinfo.getEntrydatel());
@@ -4833,7 +4832,7 @@ public class ServiceAFweb {
                     if (stockdatel != THdatel) {
                         continue;
                     }
-                    
+
                     TransationOrderObj thObjNext = thObj;
                     if ((thObj.getTrsignal() == ConstantKey.S_BUY) || (thObj.getTrsignal() == ConstantKey.S_SELL)) {
                         ;
@@ -4846,7 +4845,7 @@ public class ServiceAFweb {
                             thObj = thObjNext;
                         }
                     }
-                    
+
                     int signal = thObj.getTrsignal();
                     if (signal == ConstantKey.S_BUY) {
                         buyD.add(norClose);
@@ -4870,7 +4869,7 @@ public class ServiceAFweb {
                 pathSt = "t:/Netbean/debug";
             }
             String filepath = pathSt + "/" + stockidsymbol + "_" + trname;
-            
+
             ChartService chart = new ChartService();
             chart.saveChartToFile(stockidsymbol + "_" + trname, filepath,
                     xDate, yD, buyDate, buyD, sellDate, sellD);
@@ -4942,7 +4941,7 @@ public class ServiceAFweb {
 //    }
     public ArrayList<String> getAccountStockTRListHistoryDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         ArrayList<StockTRHistoryObj> thObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
-        
+
         ArrayList<String> writeArray = new ArrayList();
         ArrayList<String> displayArray = new ArrayList();
         int ret = getAccountStockTRListHistoryDisplayProcess(thObjList, writeArray, displayArray);
@@ -4953,9 +4952,9 @@ public class ServiceAFweb {
         }
         return displayArray;
     }
-    
+
     public int getAccountStockTRListHistoryDisplayProcess(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
-        
+
         if (trObjList == null) {
             return 0;
         }
@@ -4968,13 +4967,13 @@ public class ServiceAFweb {
                 /////
                 if (trObj.getType() == ConstantKey.INT_TR_MV) {
                     st += "\",\"ema2050" + "\",\"last ema2050" + "\",\"LTerm" + "\",\"STerm" + "\",\"-";
-                    
+
                 } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
                     st += "\",\"macd 12 26" + "\",\"signal 9" + "\",\"diff" + "\",\"-" + "\",\"-";
-                    
+
                 } else if (trObj.getType() == ConstantKey.INT_TR_RSI) {
                     st += "\",\"rsi 14" + "\",\"last rsi 14" + "\",\"-" + "\",\"-" + "\",\"-";
-                    
+
                 } else {
                     st += "\",\"parm1" + "\",\"parm2" + "\",\"parm3" + "\",\"parm4" + "\",\"name";
                 }
@@ -4987,22 +4986,22 @@ public class ServiceAFweb {
             st = "\"" + trObj.getSymbol() + "\",\"" + trObj.getTrname() + "\",\"" + trObj.getType();
             st += "\",\"" + trObj.getParm1() + "\",\"" + trObj.getParm2() + "\",\"" + trObj.getParm3() + "\",\"" + trObj.getParm4() + "\",\"" + trObj.getParmSt1();
             st += "\",\"" + trObj.getClose() + "\",\"" + trObj.getTrsignal() + "\",\"" + trObj.getUpdateDateD() + "\"";
-            
+
             writeArray.add(st);
             stDispaly = st.replaceAll("\"", "");
             displayArray.add(stDispaly);
-            
+
         }
-        
+
         return 1;
     }
-    
+
     public ArrayList<StockTRHistoryObj> getAccountStockTRListHistory(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         ArrayList<TradingRuleObj> trObjList = ServiceAFweb.this.getAccountStockTRListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol);
         trname = trname.toUpperCase();
         if (trObjList != null) {
@@ -5016,21 +5015,21 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public int updateAccountStockSignal(TRObj stockTRObj) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         return getAccountImp().updateAccountStockSignal(stockTRObj.getTrlist());
-        
+
     }
-    
+
     public int addAccountStockByCustAcc(String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
@@ -5058,7 +5057,7 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public int addAccountStockByAccount(AccountObj accountObj, String symbol) {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
@@ -5083,17 +5082,17 @@ public class ServiceAFweb {
         }
         return getAccountImp().addAccountStockId(accountObj, stockObj.getId(), TRList);
     }
-    
+
     public int systemRemoveAllEmail() {
         getAccountImp().removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
-    
+
     public int removeAccountStockByUserNameAccId(String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
@@ -5108,12 +5107,12 @@ public class ServiceAFweb {
 
     //ConstantKey.NOTEXISTED
     public int removeAccountStockSymbol(AccountObj accountObj, String symbol) {
-        
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
         if (stockObj != null) {
-            
+
             int signal = ConstantKey.S_NEUTRAL;
             String trName = ConstantKey.TR_ACC;
             TradingRuleObj tradingRuleObj = SystemAccountStockIDByTRname(accountObj.getId(), stockObj.getId(), trName);
@@ -5121,7 +5120,7 @@ public class ServiceAFweb {
                 return ConstantKey.NOTEXISTED;
             }
             int curSignal = tradingRuleObj.getTrsignal();
-            
+
             boolean updateTran = true;
             if (curSignal == ConstantKey.S_BUY) {
                 ;
@@ -5133,26 +5132,26 @@ public class ServiceAFweb {
             if (updateTran == true) {
                 TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
-                
+
                 ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
                 UpdateTRList.add(tradingRuleObj);
                 getAccountImp().updateAccountStockSignal(UpdateTRList);
-                
+
                 TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal);
             }
-            
+
             return getAccountImp().removeAccountStock(accountObj, stockObj.getId());
         }
-        
+
         return 0;
     }
-    
+
     public int addStock(String symbol) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         int result = getStockImp().addStock(NormalizeSymbol);
@@ -5161,12 +5160,12 @@ public class ServiceAFweb {
         }
         return result;
     }
-    
+
     public int removeStockInfo(String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getRealTimeStockImp(NormalizeSymbol);
@@ -5175,28 +5174,28 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
     public int disableStock(String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         return getStockImp().disableStock(NormalizeSymbol);
     }
-    
+
     public AFstockObj getRealTimeStockImp(String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        
+
         return getStockImp().getRealTimeStock(NormalizeSymbol, null);
     }
-    
+
     public ArrayList<AFstockInfo> getStockHistoricalRange(String symbol, long start, long end) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -5204,11 +5203,11 @@ public class ServiceAFweb {
         if (checkCallRemoteMysql() == true) {
             return SystemStockHistoricalRange(symbol, start, end);
         }
-        
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         ArrayList<AFstockInfo> stockInfoArray = getStockImp().getStockHistoricalRange(NormalizeSymbol, start, end);
-        
+
         return stockInfoArray;
     }
 
@@ -5216,7 +5215,7 @@ public class ServiceAFweb {
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(String symbol, int length) {
         ServiceAFweb.lastfun = "getStockHistorical";
-        
+
         if (length == 0) {
             return null;
         }
@@ -5228,9 +5227,9 @@ public class ServiceAFweb {
 //        }
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        
+
         List<AFstockInfo> mergedList = new ArrayList();
-        
+
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         //////some bug in Heroku to get the current day actually missing the first date
         ///// may be the server time - 2hr when try to do end of day not working in this case.
@@ -5240,11 +5239,11 @@ public class ServiceAFweb {
         float len = (float) (1.5 * length);  // add sat sun in to the length
         length = (int) (len);
         long end = TimeConvertion.addDays(start, -length);
-        
+
         if (CKey.CACHE_STOCKH == true) {
             start = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
             end = TimeConvertion.addDays(start, -length);
-            
+
             long endStaticDay = 0;
             ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(NormalizeSymbol);
             if (stockInfoArrayStatic == null) {
@@ -5255,9 +5254,9 @@ public class ServiceAFweb {
                 AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
                 endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
                 end = TimeConvertion.addDays(endStaticDay, 1);
-                
+
             }
-            
+
             long startLoop = start;
             long endLoop = 0;
             while (true) {
@@ -5280,7 +5279,7 @@ public class ServiceAFweb {
                 }
             }
             mergedList.addAll(stockInfoArrayStatic);
-            
+
         } else {
             long startLoop = start;
             long endLoop = 0;
@@ -5331,12 +5330,12 @@ public class ServiceAFweb {
 //           logger.info(symbol + "getStockHistorical first " + first.getEntrydatel() + " first-1 " + first1.getEntrydatel());
             AFstockInfo last = mergedList.get(mergedList.size() - 1);
             AFstockInfo last1 = mergedList.get(mergedList.size() - 2);
-            
+
             if (last.getEntrydatel() > last1.getEntrydatel()) {
 //                logger.info(symbol + " getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
                 //drop the last become only the last one become the current day (not happen in local) 
                 mergedList.remove(last);
-                
+
             }
         }
 //        return (ArrayList) mergedList;
@@ -5350,45 +5349,45 @@ public class ServiceAFweb {
             }
         }
         return retArray;
-        
+
     }
-    
+
     public ArrayList getAllOpenStockNameArray() {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         ArrayList stockNameList = getStockImp().getOpenStockNameArray();
         return stockNameList;
     }
-    
+
     public ArrayList getStockArray(int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         ArrayList stockList = getStockImp().getStockArray(length);
         return stockList;
     }
 
     ////////////////////////
     public ArrayList getAllLock() {
-        
+
         ArrayList result = null;
-        
+
         result = getStockImp().getAllLock();
         return result;
     }
-    
+
     public int setRenewLock(String symbol_acc, int type) {
-        
+
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
-        
+
         String name = symbol_acc;
         if (type == ConstantKey.STOCK_LOCKTYPE) {
             SymbolNameObj symObj = new SymbolNameObj(symbol_acc);
@@ -5396,7 +5395,7 @@ public class ServiceAFweb {
         }
         return getStockImp().setRenewLock(name, type, lockDateValue);
     }
-    
+
     public int setLockNameProcess(String name, int type, long lockdatel, String comment) {
         int resultLock = setLockName(name, type, lockdatel, comment);
         // DB will enusre the name in the lock is unique and s
@@ -5407,15 +5406,15 @@ public class ServiceAFweb {
                 return 1;
             }
         }
-        
+
         return 0;
     }
-    
+
     public AFLockObject getLockName(String symbol_acc, int type) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        
+
         String name = symbol_acc;
         name = name.toUpperCase();
         if (type == ConstantKey.STOCK_LOCKTYPE) {
@@ -5425,12 +5424,12 @@ public class ServiceAFweb {
         name = name.toUpperCase();
         return getStockImp().getLockName(name, type);
     }
-    
+
     public int setLockName(String symbol_acc, int type, long lockdatel, String comment) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         String name = symbol_acc;
         name = name.toUpperCase();
         if (type == ConstantKey.STOCK_LOCKTYPE) {
@@ -5440,12 +5439,12 @@ public class ServiceAFweb {
         name = name.toUpperCase();
         return getStockImp().setLockName(name, type, lockdatel, comment);
     }
-    
+
     public int removeNameLock(String symbol_acc, int type) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         String name = symbol_acc;
         name = name.toUpperCase();
         if (type == ConstantKey.STOCK_LOCKTYPE) {
@@ -5454,7 +5453,7 @@ public class ServiceAFweb {
         }
         name = name.toUpperCase();
         return getStockImp().removeLock(name, type);
-        
+
     }
 //////////////////
 
@@ -5466,21 +5465,21 @@ public class ServiceAFweb {
 //        return getStockImp().releaseNeuralNetObj(name);
         return getStockImp().releaseNeuralNetBPObj(name);
     }
-    
+
     public AFneuralNet getNeuralNetObjWeight0(String name, int type) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
         return getStockImp().getNeuralNetObjWeight0(name);
     }
-    
+
     public AFneuralNet getNeuralNetObjWeight1(String name, int type) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
         return getStockImp().getNeuralNetObjWeight1(name);
     }
-    
+
     public int setNeuralNetObjWeight0(AFneuralNet nn) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5491,7 +5490,7 @@ public class ServiceAFweb {
         int ret = getStockImp().setCreateNeuralNetObjRef0(nn.getName(), nn.getWeight(), nn.getRefname());
         return ret;
     }
-    
+
     public int setNeuralNetObjWeight1(AFneuralNet nn) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5506,19 +5505,19 @@ public class ServiceAFweb {
 
     public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
         ServiceAFweb.lastfun = "updateStockInfoTransaction";
-        
+
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
         return getStockImp().updateStockInfoTransaction(stockInfoTran);
     }
-    
+
     public int updateAccountingExCostofGS(String customername, String paymentSt, String curYearSt, String reasonSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingExCostofGS";
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
@@ -5541,7 +5540,7 @@ public class ServiceAFweb {
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
                     commSt += "System expense change " + currency;
-                    
+
                     String entryName = BillingProcess.E_COST_SERVICE;
                     if (reasonSt != null) {
                         if (reasonSt.length() > 0) {
@@ -5560,12 +5559,12 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    
+
                     BP.insertAccountingExCostofGS(this, customer, entryName, payment, curYear, commSt);
                     ret = 1;
                 }
             }
-            
+
             if (ret == 1) {
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -5574,27 +5573,27 @@ public class ServiceAFweb {
                 DateFormat format = new SimpleDateFormat(" hh:mm a");
                 format.setTimeZone(tz);
                 String ESTtime = format.format(d);
-                
+
                 String msg = ESTtime + " " + commSt;
-                
+
                 AccountObj accountAdminObj = getAdminObjFromCache();
                 getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-                
+
             }
             return ret;
-            
+
         } catch (Exception e) {
-            
+
         }
         return 0;
     }
-    
+
     public int updateAccountingExDeprecation(String customername, String paymentSt, String rateSt, String reasonSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingExDeprecation";
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
@@ -5617,7 +5616,7 @@ public class ServiceAFweb {
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
                     commSt += "System expense change " + currency;
-                    
+
                     String entryName = BillingProcess.E_DEPRECATE;
                     if (reasonSt != null) {
                         if (reasonSt.length() > 0) {
@@ -5636,12 +5635,12 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    
+
                     BP.insertAccountExDeprecation(this, customer, entryName, payment, rate, commSt);
                     ret = 1;
                 }
             }
-            
+
             if (ret == 1) {
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -5650,27 +5649,27 @@ public class ServiceAFweb {
                 DateFormat format = new SimpleDateFormat(" hh:mm a");
                 format.setTimeZone(tz);
                 String ESTtime = format.format(d);
-                
+
                 String msg = ESTtime + " " + commSt;
-                
+
                 AccountObj accountAdminObj = getAdminObjFromCache();
                 getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-                
+
             }
             return ret;
-            
+
         } catch (Exception e) {
-            
+
         }
         return 0;
     }
-    
+
     public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt, String reasonSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
@@ -5693,7 +5692,7 @@ public class ServiceAFweb {
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
                     commSt += "System expense change " + currency;
-                    
+
                     String entryName = BillingProcess.SYS_EXPENSE;
                     if (reasonSt != null) {
                         if (reasonSt.length() > 0) {
@@ -5713,10 +5712,10 @@ public class ServiceAFweb {
             if (balanceSt != null) {
                 if (!balanceSt.equals("")) {
                     balance = Float.parseFloat(balanceSt);
-                    
+
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(balance);
-                    
+
                     commSt += "System revenue change " + currency;
 
                     ////////update accounting entry
@@ -5731,7 +5730,7 @@ public class ServiceAFweb {
                     }
                     BP.insertAccountRevenue(this, customer, entryName, balance, commSt);
                     ret = 1;
-                    
+
                 }
             }
             if (ret == 1) {
@@ -5742,17 +5741,17 @@ public class ServiceAFweb {
                 DateFormat format = new SimpleDateFormat(" hh:mm a");
                 format.setTimeZone(tz);
                 String ESTtime = format.format(d);
-                
+
                 String msg = ESTtime + " " + commSt;
-                
+
                 AccountObj accountAdminObj = getAdminObjFromCache();
                 getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-                
+
             }
             return ret;
-            
+
         } catch (Exception e) {
-            
+
         }
         return 0;
     }
@@ -5763,7 +5762,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
@@ -5773,7 +5772,7 @@ public class ServiceAFweb {
                 return 0;
             }
             ArrayList accountList = getAccountList(UserName, null);
-            
+
             if (accountList == null) {
                 return 0;
             }
@@ -5807,14 +5806,14 @@ public class ServiceAFweb {
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
                     emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
-                    
+
                 }
             }
             float balance = -9999;
             if (balanceSt != null) {
                 if (!balanceSt.equals("")) {
                     balance = Float.parseFloat(balanceSt);
-                    
+
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(balance);
                     emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
@@ -5837,7 +5836,7 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    
+
                 }
             }
             int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
@@ -5849,9 +5848,9 @@ public class ServiceAFweb {
                 DateFormat format = new SimpleDateFormat(" hh:mm a");
                 format.setTimeZone(tz);
                 String ESTtime = format.format(d);
-                
+
                 String msg = ESTtime + " " + emailSt;
-                
+
                 getAccountImp().addAccountMessage(accountObj, ConstantKey.ACCT_TRAN, msg);
                 AccountObj accountAdminObj = getAdminObjFromCache();
                 getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
@@ -5862,21 +5861,21 @@ public class ServiceAFweb {
                 String ESTdateD = formatD.format(d);
                 String msgD = ESTdateD + " " + emailSt;
                 getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.ACCT_TRAN, msgD);
-                
+
             }
             return ret;
-            
+
         } catch (Exception e) {
         }
         return 0;
     }
-    
+
     public int systemCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        
+
         customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
@@ -5886,7 +5885,7 @@ public class ServiceAFweb {
                 return 0;
             }
             ArrayList accountList = getAccountList(UserName, null);
-            
+
             if (accountList == null) {
                 return 0;
             }
@@ -5901,7 +5900,7 @@ public class ServiceAFweb {
             if (accountObj == null) {
                 return 0;
             }
-            
+
             int status = -9999;
             if (statusSt != null) {
                 if (!statusSt.equals("")) {
@@ -5921,7 +5920,7 @@ public class ServiceAFweb {
                 }
             }
             return getAccountImp().setCustStatusPaymentBalance(UserName, status, payment, balance);
-            
+
         } catch (Exception e) {
         }
         return 0;
@@ -5950,10 +5949,10 @@ public class ServiceAFweb {
         custObj.setSubstatus(substatus);
         return getAccountImp().updateCustStatusSubStatus(custObj, custObj.getStatus(), custObj.getSubstatus());
     }
-    
+
     public WebStatus serverPing() {
         WebStatus msg = new WebStatus();
-        
+
         msg.setResult(true);
         msg.setResponse("Server Ready");
         ArrayList serverlist = getServerList();
@@ -5980,12 +5979,12 @@ public class ServiceAFweb {
         }
         return msg;
     }
-    
+
     public String SystemRemoteUpdateMySQLList(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
         }
-        
+
         String st = SQL;
         String[] sqlList = st.split("~");
         for (int i = 0; i < sqlList.length; i++) {
@@ -5994,20 +5993,20 @@ public class ServiceAFweb {
         }
         return ("" + sqlList.length);
     }
-    
+
     public String SystemRemoteUpdateMySQL(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
         }
-        
+
         return getStockImp().updateRemoteMYSQL(SQL) + "";
     }
-    
+
     public String SystemRemoteGetMySQL(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
         }
-        
+
         return getStockImp().getRemoteMYSQL(SQL);
     }
 
@@ -6058,7 +6057,7 @@ public class ServiceAFweb {
     public static final int NeuralNetDataObjStockid = 121; //"120";   
 
     public RequestObj SystemSQLRequest(RequestObj sqlObj) {
-        
+
         boolean RemoteCallflag = ServiceAFweb.getServerObj().isLocalDBservice();
         if (RemoteCallflag == false) {
             return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
@@ -6068,11 +6067,11 @@ public class ServiceAFweb {
         int ret;
         int accountId = 0;
         ArrayList<String> nameList = null;
-        
+
         try {
             String typeCd = sqlObj.getCmd();
             int type = Integer.parseInt(typeCd);
-            
+
             switch (type) {
                 case AllName:
                     nameList = getStockImp().getAllNameSQL(sqlObj.getReq());
@@ -6126,19 +6125,19 @@ public class ServiceAFweb {
                     nameST = getAccountImp().getAllAccountStockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                
+
                 case RemoteGetMySQL:  //RemoteGetMySQL = 9; //"9"; 
                     st = sqlObj.getReq();
                     nameST = getStockImp().getRemoteMYSQL(st);
                     sqlObj.setResp("" + nameST);
-                    
+
                     return sqlObj;
-                
+
                 case RemoteUpdateMySQL:  //RemoteUpdateMySQL = 10; //"10"; 
                     st = sqlObj.getReq();
                     ret = getStockImp().updateRemoteMYSQL(st);
                     sqlObj.setResp("" + ret);
-                    
+
                     return sqlObj;
                 case RemoteUpdateMySQLList:  //RemoteUpdateMySQLList = 11; //"11"; 
                     st = sqlObj.getReq();
@@ -6148,9 +6147,9 @@ public class ServiceAFweb {
                         ret = getStockImp().updateRemoteMYSQL(sqlCmd);
                     }
                     sqlObj.setResp("" + sqlList.length);
-                    
+
                     return sqlObj;
-                
+
                 case AllTransationorder: //AllTransationorder = 12; //"12";
                     nameST = getAccountImp().getAllTransationOrderDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
@@ -6159,12 +6158,12 @@ public class ServiceAFweb {
                     nameST = getAccountImp().getAllPerformanceDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                
+
                 case AllSQLquery: //AllSQLreq = 14; //"14";  
                     nameST = getAccountImp().getAllSQLquery(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                
+
                 case AllComm: //AllComm = 16; //"16";
                     nameST = getAccountImp().getAllCommDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
@@ -6176,17 +6175,17 @@ public class ServiceAFweb {
 /////////////////////////
                 case UpdateSQLList:  //UpdateSQLList = "101";
                     ArrayList<String> SQLArray = new ArrayList();
-                    
+
                     try {
                         SQLArray = new ObjectMapper().readValue(sqlObj.getReq(), ArrayList.class
                         );
                         int result = getStockImp().updateSQLArrayList(SQLArray);
                         sqlObj.setResp("" + result);
-                        
+
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case updateAccountStockSignal:  //updateAccountStockSignal = "102";
                     try {
                         st = sqlObj.getReq();
@@ -6194,11 +6193,11 @@ public class ServiceAFweb {
                         );
                         int result = getAccountImp().updateAccountStockSignal(stockTRObj.getTrlist());
                         sqlObj.setResp("" + result);
-                        
+
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case updateStockInfoTransaction:  //updateStockInfoTransaction = "103";
                     try {
                         st = sqlObj.getReq();
@@ -6206,17 +6205,17 @@ public class ServiceAFweb {
                         );
                         int result = getStockImp().updateStockInfoTransaction(stockInfoTran);
                         sqlObj.setResp("" + result);
-                        
+
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AllOpenAccountIDList:  //AllOpenAccountIDList = "104";
                     ArrayList<String> nameId = getAccountImp().getAllOpenAccountID();
                     nameST = new ObjectMapper().writeValueAsString(nameId);
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                
+
                 case AccountObjByAccountID:  //AccountObjByAccountID = "105";
                     String accIdSt = sqlObj.getReq();
                     accountId = Integer.parseInt(accIdSt);
@@ -6224,7 +6223,7 @@ public class ServiceAFweb {
                     nameST = new ObjectMapper().writeValueAsString(accountObj);
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                
+
                 case AccountStockNameList:  //AccountStockNameList = "106";
                     accIdSt = sqlObj.getReq();
                     accountId = Integer.parseInt(accIdSt);
@@ -6232,7 +6231,7 @@ public class ServiceAFweb {
                     nameST = new ObjectMapper().writeValueAsString(nameList);
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                
+
                 case UserNamebyAccountID:  //UserNamebyAccountID = "107";
                     accIdSt = sqlObj.getReq();
                     accountId = Integer.parseInt(accIdSt);
@@ -6247,11 +6246,11 @@ public class ServiceAFweb {
                         );
                         ret = this.getAccountImp().updateTransactionOrder(transSQL);
                         sqlObj.setResp("" + ret);
-                        
+
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AccountStockListByAccountID:  //AccountStockListByAccountID = 110; //"110";  
                     try {
                         accIdSt = sqlObj.getReq();
@@ -6265,7 +6264,7 @@ public class ServiceAFweb {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AccountStockClrTranByAccountID:  //AccountStockClrTranByAccountID = 111; //"111";       
                     try {
                         st = sqlObj.getReq();
@@ -6274,14 +6273,14 @@ public class ServiceAFweb {
                                 );
                         String stockID = sqlObj.getReq1();
                         String trName = sqlObj.getReq2();
-                        
+
                         int stockId = Integer.parseInt(stockID);
                         ret = getAccountImp().clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
                         sqlObj.setResp("" + ret);
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AllAccountStockNameListExceptionAdmin:  //AllAccountStockNameListExceptionAdmin = 112; //"112";        
                     try {
                         accIdSt = sqlObj.getReq();
@@ -6293,7 +6292,7 @@ public class ServiceAFweb {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AddTransactionOrder:  //AddTransactionOrder = 113; //"113";         
                     try {
                         st = sqlObj.getReq();
@@ -6318,7 +6317,7 @@ public class ServiceAFweb {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case StockHistoricalRange: //StockHistoricalRange = 114; //"114";  
                     try {
                         String symbol = sqlObj.getReq();
@@ -6332,7 +6331,7 @@ public class ServiceAFweb {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AccountStockTransList: //AccountStockTransList = 115; //"115";    
                     try {
                         String accountIDSt = sqlObj.getReq();
@@ -6342,15 +6341,15 @@ public class ServiceAFweb {
                         String trName = sqlObj.getReq2();
                         String lengthSt = sqlObj.getReq3();
                         int length = Integer.parseInt(lengthSt);
-                        
+
                         ArrayList<TransationOrderObj> retArray = getAccountImp().getAccountStockTransList(accountID, stockID, trName, length);
-                        
+
                         nameST = new ObjectMapper().writeValueAsString(retArray);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AccountStockPerfList: //AccountStockPerfList = 116; //"116";    
                     try {
                         String accountIDSt = sqlObj.getReq();
@@ -6360,22 +6359,22 @@ public class ServiceAFweb {
                         String trName = sqlObj.getReq2();
                         String lengthSt = sqlObj.getReq3();
                         int length = Integer.parseInt(lengthSt);
-                        
+
                         ArrayList<PerformanceObj> retArray = getAccountImp().getAccountStockPerfList(accountID, stockID, trName, length);
-                        
+
                         nameST = new ObjectMapper().writeValueAsString(retArray);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AccountStockIDByTRname:  //AccountStockIDByTRname = 117; //"117";          
                     try {
-                        
+
                         String accountID = sqlObj.getReq();
                         String stockID = sqlObj.getReq1();
                         String trName = sqlObj.getReq2();
-                        
+
                         accountId = Integer.parseInt(accountID);
                         int stockId = Integer.parseInt(stockID);
                         TradingRuleObj trObj = getAccountImp().getAccountStockIDByTRname(accountId, stockId, trName);
@@ -6384,21 +6383,21 @@ public class ServiceAFweb {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case AccountStockListByAccountIDStockID:  //AccountStockListByAccountIDStockID = 118; //"118";
                     try {
                         accIdSt = sqlObj.getReq();
                         accountId = Integer.parseInt(accIdSt);
                         String stockIdSt = sqlObj.getReq1();
                         int stockId = Integer.parseInt(stockIdSt);
-                        
+
                         ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockTRListByAccountID(accountId, stockId);
                         nameST = new ObjectMapper().writeValueAsString(trList);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
                     String stockIdSt = sqlObj.getReq();
                     int stockId = Integer.parseInt(stockIdSt);
@@ -6406,7 +6405,7 @@ public class ServiceAFweb {
                     nameST = new ObjectMapper().writeValueAsString(stockObj);
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                
+
                 case NeuralNetDataObj: //NeuralNetDataObj = 120; //"120";      
 
                     try {
@@ -6414,21 +6413,21 @@ public class ServiceAFweb {
                         ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname, 0);
                         nameST = new ObjectMapper().writeValueAsString(retArray);
                         sqlObj.setResp("" + nameST);
-                        
+
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                
+
                 case NeuralNetDataObjStockid: //NeuralNetDataObj = 121; //"121";        
                     try {
                         String BPname = sqlObj.getReq();
-                        
+
                         String stockID = sqlObj.getReq1();
                         int stockId121 = Integer.parseInt(stockID);
-                        
+
                         String updatedateSt = sqlObj.getReq2();
                         long updatedatel = Long.parseLong(updatedateSt);
-                        
+
                         ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname, stockId121, updatedatel);
                         nameST = new ObjectMapper().writeValueAsString(retArray);
                         sqlObj.setResp("" + nameST);
@@ -6443,7 +6442,7 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public AccData getAccData(TradingRuleObj trObj) {
         AccData refData = new AccData();
         String refName = trObj.getComment();
@@ -6472,10 +6471,10 @@ public class ServiceAFweb {
         }
         return refData;
     }
-    
+
     public String SystemDownloadDBData() {
         boolean retSatus = false;
-        
+
         serverObj.setSysMaintenance(true);
         retSatus = getAccountProcessImp().downloadDBData(this);
         if (retSatus == true) {
@@ -6484,13 +6483,13 @@ public class ServiceAFweb {
             serverObj.setTimerQueueCnt(0);
             serverObj.setTimerCnt(0);
         }
-        
+
         return "SystemDownloadDBData " + retSatus;
     }
-    
+
     public String SystemRestoreNNonlyDBData() {
         boolean retSatus = false;
-        
+
         serverObj.setSysMaintenance(true);
         retSatus = getAccountProcessImp().restoreNNonlyDBData(this);
         if (retSatus == true) {
@@ -6499,7 +6498,7 @@ public class ServiceAFweb {
             serverObj.setTimerQueueCnt(0);
             serverObj.setTimerCnt(0);
         }
-        
+
         return "SystemUploadDBData " + retSatus;
     }
 
@@ -6510,7 +6509,7 @@ public class ServiceAFweb {
     ///// Restore DB need the following    
     public String SystemRestoreDBData() {
         boolean retSatus = false;
-        
+
         serverObj.setSysMaintenance(true);
         retSatus = getAccountProcessImp().restoreDBData(this);
         if (retSatus == true) {
@@ -6519,17 +6518,17 @@ public class ServiceAFweb {
             serverObj.setTimerQueueCnt(0);
             serverObj.setTimerCnt(0);
         }
-        
+
         return "SystemUploadDBData " + retSatus;
     }
-    
+
     public String SystemStop() {
         boolean retSatus = true;
         serverObj.setSysMaintenance(true);
-        
+
         return "sysMaintenance " + retSatus;
     }
-    
+
     public boolean SystemFundResetGlobal() {
         FundMgrProcess fundmgr = new FundMgrProcess();
         logger.info(">ProcessGetGlobalFundMgr start ");
@@ -6537,76 +6536,76 @@ public class ServiceAFweb {
 //        fundmgr.ProcessFundMgrAccount(this);
         return true;
     }
-    
+
     public boolean SystemFundSelectBest() {
         FundMgrProcess fundmgr = new FundMgrProcess();
         logger.info(">ProcessSelectBestFundMgrAccount start ");
         fundmgr.ProcessSelectBestFundMgrAccount(this);
         return true;
     }
-    
+
     public boolean SystemFundPocessAddRemove() {
         logger.info(">ProcessAddRemoveFundAccount start ");
         getAccountProcessImp().ProcessAddRemoveFundAccount(this);
         return true;
     }
-    
+
     public boolean SystemDeleteNN1Table() {
         logger.info(">SystemDeleteNN1Table start ");
         getStockImp().deleteNeuralNet1Table();
         logger.info(">SystemDeleteNN1Table end ");
         return true;
     }
-    
+
     public String SystemCleanNNonlyDBData() {
         boolean retSatus = false;
         serverObj.setSysMaintenance(true);
         retSatus = getStockImp().cleanNNonlyStockDB();
         return "" + retSatus;
     }
-    
+
     public String SystemCleanDBData() {
         boolean retSatus = false;
-        
+
         serverObj.setSysMaintenance(true);
         retSatus = getStockImp().cleanStockDB();
         return "" + retSatus;
     }
-    
+
     public String SystemClearLock() {
         int retSatus = 0;
         retSatus = getStockImp().deleteAllLock();
         return "" + retSatus;
     }
-    
+
     public String SystemRestDBData() {
         boolean retSatus = false;
         // make sure the system is stopped first
         retSatus = getStockImp().restStockDB();
         return "" + retSatus;
     }
-    
+
     public String SystemClearNNinput() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-        
+
         retSatus = NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
 //            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
 
         return "" + retSatus;
     }
-    
+
     public String SystemClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         AccountObj accountAdminObj = this.getAdminObjFromCache();
         int retStatus = NNProcessImp.ClearStockNNData(this, accountAdminObj);
         return "" + retStatus;
     }
-    
+
     public String SystemClearNNtranAllAcc() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-        
+
         retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
         return "" + retSatus;
     }
@@ -6615,19 +6614,19 @@ public class ServiceAFweb {
     public String SystemClearNNtran(String sym) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-        
+
         retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
         retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
         retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
         retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
         retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
         retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
-        
+
         return "" + retSatus;
     }
-    
+
     public String SystemClearNNtran(int tr) {
-        
+
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
         if (tr == ConstantKey.SIZE_TR) {
@@ -6653,10 +6652,10 @@ public class ServiceAFweb {
         } else if (tr == ConstantKey.INT_TR_NN3) {
             retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
         }
-        
+
         return "" + retSatus;
     }
-    
+
     public String SystemStart() {
         boolean retSatus = true;
         serverObj.setSysMaintenance(false);
@@ -6665,18 +6664,18 @@ public class ServiceAFweb {
         serverObj.setTimerCnt(0);
         return "sysMaintenance " + retSatus;
     }
-    
+
     public int testDBData() {
         logger.info(">testDBData ");
         int retSatus = getStockImp().testStockDB();
         return retSatus;
     }
-    
+
     public int InitDBData() {
         logger.info(">InitDBData ");
         // 0 - new db, 1 - db already exist, -1 db error
         int retSatus = getStockImp().initStockDB();
-        
+
         if (retSatus >= 0) {
             logger.info(">InitDB Customer account ");
             CustomerObj newCustomer = new CustomerObj();
@@ -6686,21 +6685,21 @@ public class ServiceAFweb {
             newCustomer.setType(CustomerObj.INT_ADMIN_USER);
             //// result 1 = success, 2 = existed,  0 = fail
             getAccountImp().addCustomer(newCustomer, -1);
-            
+
             newCustomer.setUsername(CKey.API_USERNAME);
             newCustomer.setPassword("eddy");
             newCustomer.setFirstname("APIUser");
             newCustomer.setType(CustomerObj.INT_API_USER);
             getAccountImp().addCustomer(newCustomer, -1);
-            
+
             if (retSatus == 0) {
-                
+
                 newCustomer.setUsername(CKey.G_USERNAME);
                 newCustomer.setPassword("guest");
                 newCustomer.setFirstname("G");
                 newCustomer.setType(CustomerObj.INT_GUEST_USER);
                 getAccountImp().addCustomer(newCustomer, -1);
-                
+
                 newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);
                 newCustomer.setPassword("passw0rd");
                 newCustomer.setFirstname("FundMgr");
@@ -6712,7 +6711,7 @@ public class ServiceAFweb {
                 newCustomer.setFirstname("IndexMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
                 getAccountImp().addCustomer(newCustomer, -1);
-                
+
                 AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
                 if (account != null) {
                     int result = 0;
@@ -6726,7 +6725,7 @@ public class ServiceAFweb {
                     result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                 }
             }
-            
+
             newCustomer.setUsername(CKey.E_USERNAME);
             newCustomer.setPassword("pass");
             newCustomer.setFirstname("E");
@@ -6734,9 +6733,9 @@ public class ServiceAFweb {
             getAccountImp().addCustomer(newCustomer, -1);
         }
         return retSatus;
-        
+
     }
-    
+
     public void InitStaticData() {
         logger.info(">InitDB InitStaticData ");
         getTRList().clear();
@@ -6745,37 +6744,37 @@ public class ServiceAFweb {
         tr.setType(ConstantKey.INT_TR_ACC);
         tr.setComment("");
         getTRList().add(tr);
-        
+
         tr = new TradingRuleObj();
         tr.setTrname(ConstantKey.TR_MV);
         tr.setType(ConstantKey.INT_TR_MV);
         tr.setComment("");
         getTRList().add(tr);
-        
+
         tr = new TradingRuleObj();
         tr.setTrname(ConstantKey.TR_MACD);
         tr.setType(ConstantKey.INT_TR_MACD);
         tr.setComment("");
         getTRList().add(tr);
-        
+
         tr = new TradingRuleObj();
         tr.setTrname(ConstantKey.TR_RSI);
         tr.setType(ConstantKey.INT_TR_RSI);
         tr.setComment("");
         getTRList().add(tr);
-        
+
         tr = new TradingRuleObj();
         tr.setTrname(ConstantKey.TR_NN1);
         tr.setType(ConstantKey.INT_TR_NN1);
         tr.setComment("");
         getTRList().add(tr);
-        
+
         tr = new TradingRuleObj();
         tr.setTrname(ConstantKey.TR_NN2);
         tr.setType(ConstantKey.INT_TR_NN2);
         tr.setComment("");
         getTRList().add(tr);
-        
+
         tr = new TradingRuleObj();
         tr.setTrname(ConstantKey.TR_NN3);
         tr.setType(ConstantKey.INT_TR_NN3);
@@ -6788,7 +6787,7 @@ public class ServiceAFweb {
 //        tr.setComment("");
 //        getTRList().add(tr);
     }
-    
+
     public void InitSystemFund(String portfolio) {
         if (portfolio.length() == 0) {
             return;
@@ -6804,17 +6803,17 @@ public class ServiceAFweb {
                 }
             }
         }
-        
+
     }
-    
+
     public void InitSystemData() {
         logger.info(">InitDB InitSystemData for Stock and account ");
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TRprocessImp.InitSystemData();
         getAccountProcessImp().InitSystemData();
-        
+
     }
-    
+
     public static String getSQLLengh(String sql, int length) {
         //https://www.petefreitag.com/item/59.cfm
         //SELECT TOP 10 column FROM table - Microsoft SQL Server
@@ -6829,7 +6828,7 @@ public class ServiceAFweb {
                 }
             }
         }
-        
+
         if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
             if (length != 0) {
                 if (length == 1) {
@@ -6909,7 +6908,7 @@ public class ServiceAFweb {
     public void setServiceAFwebREST(ServiceAFwebREST serviceAFwebREST) {
         this.serviceAFwebREST = serviceAFwebREST;
     }
-    
+
     public static String compress(String str) {
         if (str == null || str.length() == 0) {
             return str;
@@ -6926,16 +6925,16 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public static String decompress(String str) {
         if (str == null || str.length() == 0) {
             return str;
         }
-        
+
         try {
             String outEncoding = "UTF-8";
             String decode = URLDecoder.decode(str, "UTF-8");
-            
+
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ByteArrayInputStream in = new ByteArrayInputStream(decode.getBytes("ISO-8859-1"));
             GZIPInputStream gunzip = new GZIPInputStream(in);
@@ -6950,5 +6949,5 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
 }

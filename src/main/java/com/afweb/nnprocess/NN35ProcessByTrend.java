@@ -219,7 +219,10 @@ public class NN35ProcessByTrend {
                         }
                         /////
                         // copy prevInd - curInd 
-                        for (int k = prevInd; k <= curInd; k++) {
+                        if (prevInd == curInd-1) {
+                            continue;
+                        }
+                        for (int k = prevInd; k <= (curInd-1); k++) {
                             NNInputDataObj objDataTrend = inputList.get(k);
                             if (up > 0) {
                                 objDataTrend.getObj().setOutput1(0.9);
@@ -263,14 +266,6 @@ public class NN35ProcessByTrend {
                                 + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
                                 // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
                                 + "\"";
-
-                        if (j == 0) {
-                            st += ",\"last\"";
-                        }
-
-                        if (j + 1 >= inputList.size()) {
-                            st += ",\"first\"";
-                        }
 
                         if (j == 0) {
                             stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
