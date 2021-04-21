@@ -917,13 +917,15 @@ public class ServiceAFweb {
                     logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
                     nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
                     logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
-//                } else if (nn2testflag == true) {
-//                    if (((k % 5) == 0) || (k == 0)) {
-//                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN40);
-//                    }
-//                    logger.info("> ProcessTrainNeuralNet NN 40 cycle " + k);
-//                    nn2trend.ProcessTrainNeuralNetNN2ByTrend(this);
-//                    logger.info("> ProcessTrainNeuralNet NN 40 end... cycle " + k);
+
+                }
+                if (nn35testflag == true) {
+                    if (((k % 5) == 0) || (k == 0)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN35);
+                    }
+                    logger.info("> ProcessTrainNeuralNet NN 35 cycle " + k);
+                    nn35trend.ProcessTrainNeuralNetNN35ByTrend(this);
+                    logger.info("> ProcessTrainNeuralNet NN 35 end... cycle " + k);
                 }
             }
 
