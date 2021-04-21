@@ -10,7 +10,7 @@ public class CKey {
     public static final String ADMIN_USERNAME = "ADMIN1";
     public static final String FUND_MANAGER_USERNAME = "FUNDMGR";
     public static final String INDEXFUND_MANAGER_USERNAME = "INDEXMGR";
-    public static final String API_USERNAME = "ADMAPI";    
+    public static final String API_USERNAME = "ADMAPI";
     public static final String AF_SYSTEM = "AFSYSTEM";
     public static final String G_USERNAME = "GUEST";
     public static final String E_USERNAME = "EDDY";
@@ -103,16 +103,17 @@ public class CKey {
 //    
     public static double NN1_ERROR_THRESHOLD = 0.156; //0.155; // 0.159; //0.172;  
     public static double NN2_ERROR_THRESHOLD = 0.138; //0.137; //0.155;// 
-    public static double NN3_ERROR_THRESHOLD = 0.156;   
+    public static double NN3_ERROR_THRESHOLD = 0.156;
     public static double NN30_ERROR_THRESHOLD = 0.227; //0.226; //0.228; //0.211;  
-    public static double NN40_ERROR_THRESHOLD = 0.227;   
+    public static double NN35_ERROR_THRESHOLD = 0.127; //0.226; //0.228; //0.211;  
+
+    public static double NN40_ERROR_THRESHOLD = 0.227;
 //
     public static final int NN_OUTPUT_SIZE = 2;
     public static final int NN_INPUT_SIZE = 10;
     public static final int NN1_MIDDLE_SIZE = 110; //120; 
 
 //    public static final boolean WEIGHT_COMPASS = false;    
-
     public static float iis_ver = (float) 1.1;
 
     // must match to the nnData and nn3Data version  make sure both 
@@ -124,6 +125,7 @@ public class CKey {
     public static String NN3_WEIGHT_0 = nn1Data.NN1_WEIGHT_0;
 
     public static String NN30_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
+    public static String NN35_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;    
     public static String NN40_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
     //////////////////////
     public static final int MSSQL = 1;/////// do not use //jdbc:sqlserver://sql.freeasphost.net\\MSSQL2016;databaseName=eddyko00_SampleDB
