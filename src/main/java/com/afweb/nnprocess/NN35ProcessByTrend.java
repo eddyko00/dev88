@@ -312,7 +312,7 @@ public class NN35ProcessByTrend {
 
     public ArrayList<NNInputDataObj> getTrainingNN35dataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
 //        logger.info("> getTrainingNN35dataProcess tr_" + tr + " " + NormalizeSym);
-        String symbol = NormalizeSym.replace(".", "_");
+        String symbol = NormalizeSym;
         ArrayList<NNInputDataObj> inputList = null;
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);

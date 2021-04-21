@@ -1144,10 +1144,10 @@ public class ServiceAFweb {
                 continue;
             }
 
-            ///*****Make sure the DB name is _ not .
-            ///*****Make sure the DB name is _ not .
-            ///*****Make sure the DB name is _ not .
-            symbol = symbol.replace(".", "_");
+            ///*****Make sure the DB name is HOU.TO.
+            ///*****Make sure the DB name is RY.TO.
+            ///*****Make sure the DB name is .
+  
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
                 nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
