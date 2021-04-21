@@ -56,7 +56,7 @@ var app = {
 
                 var htmlName = '<div class="ui-grid-a">';
                 htmlName += '<div class="ui-block-a" style="width:30%"><strong>' + commObj.updatedatedisplay + '</strong></div>';
-                htmlName += '<div class="ui-block-b" >' + commObj.name + ' ' + commObj.accountid + '</div>';
+                htmlName += '<div class="ui-block-b" >' + commObj.name + ' ' + custObj.id + '</div>';
                 htmlName += '</div>';
                 htmlName += '<p>' + commObj.data + '</p>';
 
