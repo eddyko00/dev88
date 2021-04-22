@@ -1147,7 +1147,6 @@ public class ServiceAFweb {
             ///*****Make sure the DB name is HOU.TO.
             ///*****Make sure the DB name is RY.TO.
             ///*****Make sure the DB name is .
-  
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
                 nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
@@ -1189,11 +1188,14 @@ public class ServiceAFweb {
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
-            String symbol = "XIU.TO";
+            String symbol = "HOU.TO";
             int trNN = ConstantKey.INT_TR_NN1;
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+            TradingNNprocess TRNNProc = new TradingNNprocess();
+            TRNNProc.ReLearnInputNeuralNet(this, symbol, trNN);
 
 //            processRestinputflag=true;
 //            nn35testflag = true;

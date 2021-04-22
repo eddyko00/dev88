@@ -1297,7 +1297,6 @@ public class NN1ProcessBySignal {
         return -1;
     }
 
-    //return oldest first to new date
     public ArrayList<NNInputDataObj> getReTrainingNNdataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;

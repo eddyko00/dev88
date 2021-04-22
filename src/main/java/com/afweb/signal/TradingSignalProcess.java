@@ -19,6 +19,7 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 
+
 import com.afweb.stock.*;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -86,12 +87,12 @@ public class TradingSignalProcess {
         if (testing == true) {
             lockReturn = 1;
         }
-//        logger.info("ProcessAdminSignalTrading " + LockName + " LockName " + lockReturn);
+        logger.info("ProcessAdminSignalTrading " + LockName + " LockName " + lockReturn);
         if (lockReturn > 0) {
 
             long currentTime = System.currentTimeMillis();
             long lockDate5Min = TimeConvertion.addMinutes(currentTime, 5);
-            logger.info("ProcessAdminSignalTrading for 5 minutes stockNamesize=" + stockSignalNameArray.size());
+            logger.info("ProcessAdminSignalTrading for 3 minutes stocksize=" + stockSignalNameArray.size());
 
             for (int i = 0; i < 10; i++) {
                 currentTime = System.currentTimeMillis();
@@ -162,7 +163,7 @@ public class TradingSignalProcess {
                 }
             }
             serviceAFWeb.removeNameLock(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
-//            logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
+            logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
         }
     }
 //////////////////////////////////////////////////
@@ -1277,11 +1278,11 @@ public class TradingSignalProcess {
 //                            if (offset < 99) {
 //                                prevSignal = nn1Signal;
 //                            }
-//                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-//                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-//
-//                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
-//                                    + " L:" + LTerm1 + " S:" + STerm1);
+                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+
+                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
+                                    + " L:" + LTerm1 + " S:" + STerm1);
 
                         }
                     }
@@ -1302,10 +1303,10 @@ public class TradingSignalProcess {
 //                            if (offset < 99) {
 //                                prevSignal = nn2Signal;
 //                            }
-//                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-//                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-//                            logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal + " C:" + trHistory.getParm5()
-//                                    + " L:" + LTerm1 + " S:" + STerm1);
+                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+                            logger.info(">ProcessTRHistoryOffset NN2 " + offset + " " + stdate + " S:" + nn2Signal + " C:" + trHistory.getParm5()
+                                    + " L:" + LTerm1 + " S:" + STerm1);
                         }
                     }
                     break;
@@ -1325,10 +1326,10 @@ public class TradingSignalProcess {
 //                                if (offset < 99) {
 //                                    prevSignal = nn3Signal;
 //                                }
-//                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-//                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-//                                logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
-//                                        + " L:" + LTerm1 + " S:" + STerm1);
+                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+                                logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
+                                        + " L:" + LTerm1 + " S:" + STerm1);
                             }
                         }
                     }
@@ -2167,10 +2168,40 @@ public class TradingSignalProcess {
     public static String NN3_FILE_2 = "_nn32_";
     public static String NN35_FILE_1 = "_nn351_";
     public static String NN35_FILE_2 = "_nn352_";
-
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
+//        if (nnName.equals(ConstantKey.TR_NN40)) {
+//
+//            String nnIndex = NN40_FILE_1; //"_nn400_";
+//
+//            for (int i = 1; i < 20; i++) {
+//                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+////            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+//                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+//                if (i == 0) {
+//                    continue;
+//                }
+//                if (ret == false) {
+//                    break;
+//                }
+//            }
+//            nnIndex = NN40_FILE_2; //"_nn401_";
+//            for (int i = 1; i < 20; i++) {
+//                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+////            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+//                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+//                if (i == 0) {
+//                    continue;
+//                }
+//                if (ret == false) {
+//                    break;
+//                }
+//            }
+//
+//            return inputDatalist;
+//        }
+
         if (nnName.equals(ConstantKey.TR_NN30)) {
 
             String nnIndex = NN30_FILE_1; //"_nn300_";
@@ -2187,37 +2218,6 @@ public class TradingSignalProcess {
                 }
             }
             nnIndex = NN30_FILE_2; //"_nn301_";
-            for (int i = 1; i < 20; i++) {
-                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
-                if (i == 0) {
-                    continue;
-                }
-                if (ret == false) {
-                    break;
-                }
-            }
-
-            return inputDatalist;
-        }
-
-        if (nnName.equals(ConstantKey.TR_NN35)) {
-
-            String nnIndex = NN35_FILE_1; //"_nn300_";
-
-            for (int i = 1; i < 20; i++) {
-                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
-                if (i == 0) {
-                    continue;
-                }
-                if (ret == false) {
-                    break;
-                }
-            }
-            nnIndex = NN35_FILE_2; //"_nn301_";
             for (int i = 1; i < 20; i++) {
                 String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
 //            logger.info("> initTrainingNeuralNet1 " + nnFileName);
@@ -2955,7 +2955,7 @@ public class TradingSignalProcess {
                 serviceAFWeb.getAccountProcessImp().AddCommAPISignalMessage(serviceAFWeb, accountObj, trObj, ESTdateD, stock.getSymbol(), sig);
 
             } else {
-                String accTxt = "acc-" + cust.getId();
+                String accTxt = "acc-" + accountObj.getId();
                 String msg = ESTdate + " " + accTxt + " " + stock.getSymbol() + " Sig:" + sig;
                 serviceAFWeb.getAccountProcessImp().AddCommSignalMessage(serviceAFWeb, accountObj, trObj, msg);
             }
