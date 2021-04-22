@@ -141,7 +141,7 @@ public class NN35ProcessByTrend {
     // training neural net input data
     // create neural net input data
     //     
-    public static float THpercent = 18;
+    public static float THpercent = 17;
 
     public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol, int offset) {
         ArrayList<NNInputDataObj> inputTrendList = new ArrayList();
