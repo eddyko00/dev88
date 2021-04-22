@@ -141,7 +141,7 @@ public class NN35ProcessByTrend {
     //     
     public static float THpercent = 18;
 
-    public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol, int offset) {
+    public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol, ArrayList<AFstockInfo> StockArray, int offset) {
         ArrayList<NNInputDataObj> inputTrendList = new ArrayList();
 
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
@@ -162,7 +162,7 @@ public class NN35ProcessByTrend {
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             ArrayList<NNInputDataObj> inputList = new ArrayList();
             //return oldest first to new date
-            inputList = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, offset);
+            inputList = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, StockArray, offset);
 
             NNInputDataObj objDataPrev = null;
             int curSig = 0;
@@ -320,6 +320,7 @@ public class NN35ProcessByTrend {
         if (offset == 0) {
             size1yearAll = size1yearAll / 2;
         }
+
         AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSym, null);
         if ((stockObj == null) || (stockObj.getAfstockInfo() == null)) {
             String msg = "> getTrainingNNdataProcess symbol " + symbol + " - null";
@@ -332,7 +333,8 @@ public class NN35ProcessByTrend {
         }
 
         // require sym.TO format
-        inputList = this.trainingNN35dataNN1(serviceAFWeb, NormalizeSym, offset);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        inputList = this.trainingNN35dataNN1(serviceAFWeb, NormalizeSym, StockArray, offset);
         logger.info("> getTrainingNN35dataProcess " + NormalizeSym + "  Size:" + inputList.size());
 
         // ignor first and last
@@ -840,27 +842,38 @@ public class NN35ProcessByTrend {
 
     public ArrayList<NNInputDataObj> getTrainingNN35dataStock(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> trainingNN ");
-        int size1yearAll = 20 * 12 * 2 + (50 * 3);
 
-//        logger.info("> trainingNN " + symbol);
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
-        if (tr == ConstantKey.INT_TR_NN35) {
-            //StockArray assume recent date to old data  
-            //StockArray assume recent date to old data              
-            //trainingNNdataMACD will return oldest first to new date
-            //trainingNNdataMACD will return oldest first to new date            
-            ProcessNN00 nn00 = new ProcessNN00();
-            inputList = nn00.trainingNN00_dataMACD0(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
-
-//            inputList = nn00.trainingNN00_0dataMACD(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE); // 14
+        int size1yearAll = 20 * 12 * 5 + (50 * 3);
+        if (offset == 0) {
+            size1yearAll = size1yearAll / 2;
         }
+        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+        if ((stockObj == null) || (stockObj.getAfstockInfo() == null)) {
+            String msg = "> getTrainingNNdataProcess symbol " + symbol + " - null";
+            logger.info(msg);
+
+            if (ServiceAFweb.mydebugtestflag == true) {
+                return null;
+            }
+            throw new ArithmeticException(msg);
+        }
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        inputList = this.trainingNN35dataNN1(serviceAFWeb, symbol, StockArray, offset);
+
+        logger.info("> getTrainingNN35dataProcess " + symbol + "  Size:" + inputList.size());
 
         // ignor first and last
         int len = inputList.size();
         if (len <= 2) {
             return null;
+        }
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+        if (stock == null) {
+            return inputList;
         }
         return inputList;
     }
@@ -890,7 +903,6 @@ public class NN35ProcessByTrend {
 //        }
 //        return stockNNretrainprocessNameArray;
 //    }
-
     public int TrainingNNTrendNeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
 

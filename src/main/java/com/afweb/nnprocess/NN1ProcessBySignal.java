@@ -1209,8 +1209,11 @@ public class NN1ProcessBySignal {
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
+                
+                int size1yearAll = 20 * 12 * 5 + (50 * 3);
+                ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
                 //StockArray assume recent date to old data   
-                ArrayList<NNInputDataObj> inputlistSym1 = getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
+                ArrayList<NNInputDataObj> inputlistSym1 = getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, StockArray, 0);
                 inputlistSym.addAll(inputlistSym1);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
@@ -1296,13 +1299,10 @@ public class NN1ProcessBySignal {
         return -1;
     }
 
-    public ArrayList<NNInputDataObj> getReTrainingNNdataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
+    public ArrayList<NNInputDataObj> getReTrainingNNdataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, ArrayList<AFstockInfo> StockArray, int offset) {
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;
-        int size1yearAll = 20 * 12 * 5 + (50 * 3);
 
-//        logger.info("> trainingNN " + symbol);
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
         if (tr == ConstantKey.INT_TR_NN1) {
