@@ -932,13 +932,11 @@ public class ServiceAFweb {
 ////////////////////////////////////////////////////////////////////////////          
             if (flagNNReLearning == true) {
                 exitflag = false;
-                if (nn35testflag == true) {
-                    nn35trend.processNN35InputNeuralNetTrend(this);
-                } else {
-                    logger.info("> ProcessReLeanInput NN 1 cycle " + k);
-                    NNProcessImp.ProcessReLearnInputNeuralNet(this);
-                    logger.info("> ProcessReLeanInput end... cycle " + k);
-                }
+
+                logger.info("> ProcessReLeanInput NN 1 cycle " + k);
+                NNProcessImp.ProcessReLearnInputNeuralNet(this);
+                logger.info("> ProcessReLeanInput end... cycle " + k);
+
             }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -998,7 +996,7 @@ public class ServiceAFweb {
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
-                    nn3ProcBySig.processNN3InputNeuralNet(this);
+                    nn35trend.processNN35InputNeuralNetTrend(this);
 
                 }
                 logger.info("> processNN1InputNeuralNet Edn..");
