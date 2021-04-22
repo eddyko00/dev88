@@ -141,6 +141,7 @@ public class NN35ProcessByTrend {
     // training neural net input data
     // create neural net input data
     //     
+    public static float THpercent = 18;
 
     public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol, int offset) {
         ArrayList<NNInputDataObj> inputTrendList = new ArrayList();
@@ -194,17 +195,17 @@ public class NN35ProcessByTrend {
                     float close = objData.getObj().getClose();
                     float preClose = objDataPrev.getObj().getClose();
                     float perCent = 0;
-                    float threshH = 15;
+
                     float up = 0;
                     float down = 0;
                     if (close > preClose) {
                         perCent = (float) (100.0 * (close - preClose) / preClose);
-                        if (perCent > threshH) {
+                        if (perCent > THpercent) {
                             up = perCent;
                         }
                     } else {
                         perCent = (float) (100.0 * (preClose - close) / close);
-                        if (perCent > threshH) {
+                        if (perCent > THpercent) {
                             down = perCent;
                         }
                     }
@@ -305,12 +306,12 @@ public class NN35ProcessByTrend {
             serviceAFWeb.initTrainNeuralNetNumber = j + 1;
             logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
 
-        String symbol = "";
-        String symbolL[] = ServiceAFweb.primaryStock;
-        for (int i = 0; i < symbolL.length; i++) {
-            symbol = symbolL[i];
-            ArrayList<NNInputDataObj> InputList = getTrainingNN35dataProcess(serviceAFWeb, symbol, TR_Name, size);
-        }
+            String symbol = "";
+            String symbolL[] = ServiceAFweb.primaryStock;
+            for (int i = 0; i < symbolL.length; i++) {
+                symbol = symbolL[i];
+                ArrayList<NNInputDataObj> InputList = getTrainingNN35dataProcess(serviceAFWeb, symbol, TR_Name, size);
+            }
         }
     }
 
