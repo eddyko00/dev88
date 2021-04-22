@@ -1192,9 +1192,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            CustomerObj customer = getAccountImp().getCustomerBySystem(CKey.G_USERNAME, null);
+//            BillingProcess BP = new BillingProcess();
+//            BP.updateUserBilling(this, customer);
+
 //            TradingNNprocess TRNNProc = new TradingNNprocess();
 //            TRNNProc.ReLearnInputNeuralNet(this, symbol, trNN);
-
 //            processRestinputflag=true;
 //            nn35testflag = true;
 //            processNeuralNetTrain();
