@@ -932,16 +932,16 @@ public class ServiceAFweb {
 ////////////////////////////////////////////////////////////////////////////          
             if (flagNNReLearning == true) {
                 exitflag = false;
-                logger.info("> ProcessReLeanInput NN 1 cycle " + k);
-                NNProcessImp.ProcessReLearnInputNeuralNet(this);
-                logger.info("> ProcessReLeanInput end... cycle " + k);
+                if (nn35testflag == true) {
+                    nn35trend.processNN35InputNeuralNetTrend(this);
+                } else {
+                    logger.info("> ProcessReLeanInput NN 1 cycle " + k);
+                    NNProcessImp.ProcessReLearnInputNeuralNet(this);
+                    logger.info("> ProcessReLeanInput end... cycle " + k);
+                }
+            }
 
-            }
-            if (nn35testflag == true) {
-                nn35trend.processNN35InputNeuralNetTrend(this);
-            }
 ////////////////////////////////////////////////////////////////////////////
-
             if (processNNSignalAdmin == true) {
                 exitflag = false;
                 logger.info("> processNNSignalAdmin  cycle " + k);

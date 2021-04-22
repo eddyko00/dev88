@@ -2201,7 +2201,6 @@ public class TradingSignalProcess {
 //
 //            return inputDatalist;
 //        }
-
         if (nnName.equals(ConstantKey.TR_NN30)) {
 
             String nnIndex = NN30_FILE_1; //"_nn300_";
@@ -2218,6 +2217,36 @@ public class TradingSignalProcess {
                 }
             }
             nnIndex = NN30_FILE_2; //"_nn301_";
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
+
+            return inputDatalist;
+        }
+        if (nnName.equals(ConstantKey.TR_NN35)) {
+
+            String nnIndex = NN35_FILE_1; //"_nn300_";
+
+            for (int i = 1; i < 20; i++) {
+                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
+//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
+                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
+                if (i == 0) {
+                    continue;
+                }
+                if (ret == false) {
+                    break;
+                }
+            }
+            nnIndex = NN35_FILE_2; //"_nn301_";
             for (int i = 1; i < 20; i++) {
                 String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
 //            logger.info("> initTrainingNeuralNet1 " + nnFileName);

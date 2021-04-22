@@ -142,7 +142,7 @@ public class NN35ProcessByTrend {
     // create neural net input data
     //     
 
-    public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol) {
+    public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol, int offset) {
         ArrayList<NNInputDataObj> inputTrendList = new ArrayList();
 
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
@@ -164,7 +164,7 @@ public class NN35ProcessByTrend {
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             ArrayList<NNInputDataObj> inputList = new ArrayList();
             //return oldest first to new date
-            inputList = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, 0);
+            inputList = nn1ProcBySig.getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, offset);
 
             NNInputDataObj objDataPrev = null;
             int curSig = 0;
@@ -298,16 +298,20 @@ public class NN35ProcessByTrend {
     // create neural net input data
     //     
     private void NeuralNetInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
-
-        logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
+        int sizeYr = 2;
+        for (int j = 0; j < sizeYr; j++) { //4; j++) {
+            int size = 20 * CKey.MONTH_SIZE * j;
+//                writeArrayNeuralNet.clear();
+            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
+            logger.info("> NeuralNetInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
 
         String symbol = "";
         String symbolL[] = ServiceAFweb.primaryStock;
         for (int i = 0; i < symbolL.length; i++) {
             symbol = symbolL[i];
-            ArrayList<NNInputDataObj> InputList = getTrainingNN35dataProcess(serviceAFWeb, symbol, TR_Name, 0);
+            ArrayList<NNInputDataObj> InputList = getTrainingNN35dataProcess(serviceAFWeb, symbol, TR_Name, size);
         }
-
+        }
     }
 
     public ArrayList<NNInputDataObj> getTrainingNN35dataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
@@ -331,7 +335,7 @@ public class NN35ProcessByTrend {
         }
 
         // require sym.TO format
-        inputList = this.trainingNN35dataNN1(serviceAFWeb, NormalizeSym);
+        inputList = this.trainingNN35dataNN1(serviceAFWeb, NormalizeSym, offset);
 
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
 
