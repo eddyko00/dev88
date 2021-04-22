@@ -865,31 +865,31 @@ public class NN35ProcessByTrend {
         return inputList;
     }
 
-    public ArrayList retrainStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        if (stockNNretrainprocessNameArray != null && stockNNretrainprocessNameArray.size() > 0) {
-            return stockNNretrainprocessNameArray;
-        }
-
-        ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountAdminObj.getId());
-
-        if (stockNameArray != null) {
-            stockNameArray.add(0, "HOU.TO");
-            ArrayList stockTRNameArray = new ArrayList();
-            for (int i = 0; i < stockNameArray.size(); i++) {
-                String sym = (String) stockNameArray.get(i);
-                String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
-                stockTRNameArray.add(symTR);
-                boolean NN2flag = true;
-                if (NN2flag == true) {
-                    symTR = sym + "#" + ConstantKey.INT_TR_NN2;
-                    stockTRNameArray.add(symTR);
-                }
-            }
-            stockNNretrainprocessNameArray = stockTRNameArray;
-        }
-        return stockNNretrainprocessNameArray;
-    }
+//    public ArrayList retrainStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
+//        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+//        if (stockNNretrainprocessNameArray != null && stockNNretrainprocessNameArray.size() > 0) {
+//            return stockNNretrainprocessNameArray;
+//        }
+//
+//        ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountAdminObj.getId());
+//
+//        if (stockNameArray != null) {
+//            stockNameArray.add(0, "HOU.TO");
+//            ArrayList stockTRNameArray = new ArrayList();
+//            for (int i = 0; i < stockNameArray.size(); i++) {
+//                String sym = (String) stockNameArray.get(i);
+//                String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
+//                stockTRNameArray.add(symTR);
+//                boolean NN2flag = true;
+//                if (NN2flag == true) {
+//                    symTR = sym + "#" + ConstantKey.INT_TR_NN2;
+//                    stockTRNameArray.add(symTR);
+//                }
+//            }
+//            stockNNretrainprocessNameArray = stockTRNameArray;
+//        }
+//        return stockNNretrainprocessNameArray;
+//    }
 
     public int TrainingNNTrendNeuralNetData(ServiceAFweb serviceAFWeb, String nnName, String nnNameSym, String symbol, double nnError) {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
