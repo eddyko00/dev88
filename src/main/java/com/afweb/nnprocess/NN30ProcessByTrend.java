@@ -907,52 +907,51 @@ public class NN30ProcessByTrend {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
-        //just for testing
+        //must set ot reading DB
         ServiceAFweb.forceNNReadFileflag = false;
-        //just for testing 
+        //must set ot reading DB
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
-//            inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);
 
-            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-            for (String sym : stockInputMap.keySet()) {
-                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
-                inputDatalist.addAll(inputL);
-            }
-            for (int i = 0; i < inputDatalist.size(); i++) {
-                NNInputDataObj inputDObj = inputDatalist.get(i);
-                NNInputOutObj inputObj = new NNInputOutObj();
-                inputObj.setDateSt(inputDObj.getObj().getDateSt());
-                inputObj.setClose(inputDObj.getObj().getClose());
-                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-                inputObj.setInput1(inputDObj.getObj().getInput1());
-                inputObj.setInput2(inputDObj.getObj().getInput2());
-                inputObj.setInput3(inputDObj.getObj().getInput3());
-                inputObj.setInput4(inputDObj.getObj().getInput4());
-                inputObj.setInput5(inputDObj.getObj().getInput5());
-                inputObj.setInput6(inputDObj.getObj().getInput6());
-                inputObj.setInput7(inputDObj.getObj().getInput7());
-                inputObj.setInput8(inputDObj.getObj().getInput8());
-                inputObj.setInput9(inputDObj.getObj().getInput9());
-                inputObj.setInput10(inputDObj.getObj().getInput10());
-                inputObj.setInput11(inputDObj.getObj().getInput11());
-                inputObj.setInput12(inputDObj.getObj().getInput12());
-                inputObj.setInput13(inputDObj.getObj().getInput13());
-                //////
-                inputObj.setOutput1(inputDObj.getObj().getOutput1());
-                inputObj.setOutput2(inputDObj.getObj().getOutput2());
-                inputObj.setOutput3(inputDObj.getObj().getOutput3());
-                inputObj.setOutput4(inputDObj.getObj().getOutput4());
-                if (inputObj.getOutput1() < 0) {
-                    continue;
-                }
-                if (inputObj.getOutput2() < 0) {
-                    continue;
-                }
-                inputlist.add(inputObj);
-            }
+//            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+//            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+//            for (String sym : stockInputMap.keySet()) {
+//                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
+//                inputDatalist.addAll(inputL);
+//            }
+//            for (int i = 0; i < inputDatalist.size(); i++) {
+//                NNInputDataObj inputDObj = inputDatalist.get(i);
+//                NNInputOutObj inputObj = new NNInputOutObj();
+//                inputObj.setDateSt(inputDObj.getObj().getDateSt());
+//                inputObj.setClose(inputDObj.getObj().getClose());
+//                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
+//                inputObj.setInput1(inputDObj.getObj().getInput1());
+//                inputObj.setInput2(inputDObj.getObj().getInput2());
+//                inputObj.setInput3(inputDObj.getObj().getInput3());
+//                inputObj.setInput4(inputDObj.getObj().getInput4());
+//                inputObj.setInput5(inputDObj.getObj().getInput5());
+//                inputObj.setInput6(inputDObj.getObj().getInput6());
+//                inputObj.setInput7(inputDObj.getObj().getInput7());
+//                inputObj.setInput8(inputDObj.getObj().getInput8());
+//                inputObj.setInput9(inputDObj.getObj().getInput9());
+//                inputObj.setInput10(inputDObj.getObj().getInput10());
+//                inputObj.setInput11(inputDObj.getObj().getInput11());
+//                inputObj.setInput12(inputDObj.getObj().getInput12());
+//                inputObj.setInput13(inputDObj.getObj().getInput13());
+//                //////
+//                inputObj.setOutput1(inputDObj.getObj().getOutput1());
+//                inputObj.setOutput2(inputDObj.getObj().getOutput2());
+//                inputObj.setOutput3(inputDObj.getObj().getOutput3());
+//                inputObj.setOutput4(inputDObj.getObj().getOutput4());
+//                if (inputObj.getOutput1() < 0) {
+//                    continue;
+//                }
+//                if (inputObj.getOutput2() < 0) {
+//                    continue;
+//                }
+//                inputlist.add(inputObj);
+//            }
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
             String subSymbol = null;

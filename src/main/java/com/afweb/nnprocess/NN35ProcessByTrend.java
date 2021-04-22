@@ -19,11 +19,9 @@ import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -141,7 +139,7 @@ public class NN35ProcessByTrend {
     // training neural net input data
     // create neural net input data
     //     
-    public static float THpercent = 17;
+    public static float THpercent = 18;
 
     public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol, int offset) {
         ArrayList<NNInputDataObj> inputTrendList = new ArrayList();
@@ -159,8 +157,7 @@ public class NN35ProcessByTrend {
                 return inputTrendList;
             }
 
-            logger.info("> trainingNN35dataNN1 " + BPnameNN1Sym);
-
+//            logger.info("> trainingNN35dataNN1 " + BPnameNN1Sym);
             //StockArray assume recent date to old data   
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             ArrayList<NNInputDataObj> inputList = new ArrayList();
@@ -229,63 +226,57 @@ public class NN35ProcessByTrend {
                         inputTrendList.add(objDataTrend);
                     }
                 }
-
                 objDataPrev = objData;
                 prevInd = j;
             }
 
-            boolean testFlag = false;
-            if (testFlag == true) {
-                ArrayList writeArray = new ArrayList();
-                String stTitle = "";
-
-                int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use     
-                for (int j = 0; j < inputTrendList.size(); j++) {
-
-                    NNInputDataObj objData = inputTrendList.get(j);
-                    NNInputOutObj obj = objData.getObj();
-                    int stockId = 0;
-                    String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
-                            + "\",\"" + obj.getOutput1()
-                            + "\",\"" + obj.getOutput2()
-                            + "\",\"" + obj.getInput1()
-                            + "\",\"" + obj.getInput2()
-                            + "\",\"" + obj.getInput3()
-                            + "\",\"" + obj.getInput4()
-                            + "\",\"" + obj.getInput5()
-                            + "\",\"" + obj.getInput6()
-                            + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
-                            + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
-                            // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
-                            + "\"";
-
-                    if (j == 0) {
-                        stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-                                + "\",\"" + "output1"
-                                + "\",\"" + "output2"
-                                + "\",\"" + "macd TSig"
-                                + "\",\"" + "LTerm"
-                                + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-                                + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                                + "\",\"" + symbol + "\"";
-
-                    }
-                    String stDispaly = st.replaceAll("\"", "");
-                    writeArray.add(stDispaly);
-                }
-                writeArray.add(stTitle.replaceAll("\"", ""));
-
-                Collections.reverse(writeArray);
-                Collections.reverse(inputList);
-
-                if (getEnv.checkLocalPC() == true) {
-                    String nn35 = TradingSignalProcess.NN35_FILE_1;
-
-                    String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn35 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
-
-                    FileUtil.FileWriteTextArray(filename, writeArray);
-                }
-            }
+//            boolean testFlag = false;
+//            if (testFlag == true) {
+//                ArrayList writeArray = new ArrayList();
+//                String stTitle = "";
+//
+//                int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use     
+//                for (int j = 0; j < inputTrendList.size(); j++) {
+//
+//                    NNInputDataObj objData = inputTrendList.get(j);
+//                    NNInputOutObj obj = objData.getObj();
+//                    int stockId = 0;
+//                    String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+//                            + "\",\"" + obj.getOutput1()
+//                            + "\",\"" + obj.getOutput2()
+//                            + "\",\"" + obj.getInput1()
+//                            + "\",\"" + obj.getInput2()
+//                            + "\",\"" + obj.getInput3()
+//                            + "\",\"" + obj.getInput4()
+//                            + "\",\"" + obj.getInput5()
+//                            + "\",\"" + obj.getInput6()
+//                            + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+//                            + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+//                            // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
+//                            + "\"";
+//
+//                    if (j == 0) {
+//                        stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+//                                + "\",\"" + "output1"
+//                                + "\",\"" + "output2"
+//                                + "\",\"" + "macd TSig"
+//                                + "\",\"" + "LTerm"
+//                                + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+//                                + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+//                                + "\",\"" + symbol + "\"";
+//                    }
+//                    String stDispaly = st.replaceAll("\"", "");
+//                    writeArray.add(stDispaly);
+//                }
+//                writeArray.add(stTitle.replaceAll("\"", ""));
+//                Collections.reverse(writeArray);
+//                Collections.reverse(inputList);
+//                if (getEnv.checkLocalPC() == true) {
+//                    String nn35 = TradingSignalProcess.NN35_FILE_1;
+//                    String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn35 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+//                    FileUtil.FileWriteTextArray(filename, writeArray);
+//                }
+//            }
             return inputTrendList;
         } catch (Exception e) {
             logger.info("> trainingNN35dataNN1 exception " + BPnameNN1Sym + " - " + e.getMessage());
@@ -308,6 +299,11 @@ public class NN35ProcessByTrend {
 
             String symbol = "";
             String symbolL[] = ServiceAFweb.primaryStock;
+            for (int i = 0; i < symbolL.length; i++) {
+                symbol = symbolL[i];
+                ArrayList<NNInputDataObj> InputList = getTrainingNN35dataProcess(serviceAFWeb, symbol, TR_Name, size);
+            }
+            symbolL = ServiceAFweb.allStock;
             for (int i = 0; i < symbolL.length; i++) {
                 symbol = symbolL[i];
                 ArrayList<NNInputDataObj> InputList = getTrainingNN35dataProcess(serviceAFWeb, symbol, TR_Name, size);
@@ -381,17 +377,17 @@ public class NN35ProcessByTrend {
 //            if (i + 1 >= inputList.size()) {
 //                st += ",\"first\"";
 //            }
-//            if (i == 0) {
-//                stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-//                        + "\",\"" + "output1"
-//                        + "\",\"" + "output2"
-//                        + "\",\"" + "macd TSig"
-//                        + "\",\"" + "LTerm"
-//                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
-//                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-//                        + "\",\"" + symbol + "\"";
-//
-//            }
+            if (i == 0) {
+                stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+                        + "\",\"" + "output1"
+                        + "\",\"" + "output2"
+                        + "\",\"" + "macd TSig"
+                        + "\",\"" + "LTerm"
+                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+                        + "\",\"" + symbol + "\"";
+
+            }
             String stDispaly = st.replaceAll("\"", "");
             writeArray.add(stDispaly);
         }
@@ -408,34 +404,7 @@ public class NN35ProcessByTrend {
 //            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
 
         }
-//        inputList.remove(len - 1);
-//        inputList.remove(0);
 
-        //////// do not save in DB, only files
-        //////// do not save in DB, only files
-        //////// do not save in DB, only files
-//        boolean inputSaveFlag = false;
-//        if (inputSaveFlag == true) {
-//            int totalAdd = 0;
-//            int totalDup = 0;
-//            for (int i = 0; i < inputList.size(); i++) {
-//                NNInputDataObj objData = inputList.get(i);
-//                ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPname, stockId, objData.getUpdatedatel());
-//                if ((objList == null) || (objList.size() == 0)) {
-//                    serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPname, stockId, objData);
-//                    totalAdd++;
-//                    continue;
-//                }
-//                totalDup++;
-////                boolean flag = false;
-////                if (flag == true) {
-////                    if (CKey.NN_DEBUG == true) {
-////                        logger.info("> getTrainingNNdataProcess duplicate " + BPname + " " + symbol + " " + objData.getObj().getDateSt());
-////                    }
-////                }
-//            }
-//            logger.info("> getTrainingNNdataProcess " + BPname + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
-//        }
         return inputList;
     }
 
@@ -956,65 +925,54 @@ public class NN35ProcessByTrend {
         String BPnameSym = CKey.NN_version + "_" + nnNameSym;
         ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
-        //just for testing
+        //must set ot reading DB
         ServiceAFweb.forceNNReadFileflag = false;
-        //just for testing 
+        //must set ot reading DB
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
-//            inputlist = getTrainingInputFromFile(serviceAFWeb, nnName);
 
-            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-            for (String sym : stockInputMap.keySet()) {
-                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
-                inputDatalist.addAll(inputL);
-            }
-            for (int i = 0; i < inputDatalist.size(); i++) {
-                NNInputDataObj inputDObj = inputDatalist.get(i);
-                NNInputOutObj inputObj = new NNInputOutObj();
-                inputObj.setDateSt(inputDObj.getObj().getDateSt());
-                inputObj.setClose(inputDObj.getObj().getClose());
-                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-                inputObj.setInput1(inputDObj.getObj().getInput1());
-                inputObj.setInput2(inputDObj.getObj().getInput2());
-                inputObj.setInput3(inputDObj.getObj().getInput3());
-                inputObj.setInput4(inputDObj.getObj().getInput4());
-                inputObj.setInput5(inputDObj.getObj().getInput5());
-                inputObj.setInput6(inputDObj.getObj().getInput6());
-                inputObj.setInput7(inputDObj.getObj().getInput7());
-                inputObj.setInput8(inputDObj.getObj().getInput8());
-                inputObj.setInput9(inputDObj.getObj().getInput9());
-                inputObj.setInput10(inputDObj.getObj().getInput10());
-                inputObj.setInput11(inputDObj.getObj().getInput11());
-                inputObj.setInput12(inputDObj.getObj().getInput12());
-                inputObj.setInput13(inputDObj.getObj().getInput13());
-                //////
-                inputObj.setOutput1(inputDObj.getObj().getOutput1());
-                inputObj.setOutput2(inputDObj.getObj().getOutput2());
-                inputObj.setOutput3(inputDObj.getObj().getOutput3());
-                inputObj.setOutput4(inputDObj.getObj().getOutput4());
-                if (inputObj.getOutput1() < 0) {
-                    continue;
-                }
-                if (inputObj.getOutput2() < 0) {
-                    continue;
-                }
-                inputlist.add(inputObj);
-            }
+//            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+//            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
+//            for (String sym : stockInputMap.keySet()) {
+//                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
+//                inputDatalist.addAll(inputL);
+//            }
+//            for (int i = 0; i < inputDatalist.size(); i++) {
+//                NNInputDataObj inputDObj = inputDatalist.get(i);
+//                NNInputOutObj inputObj = new NNInputOutObj();
+//                inputObj.setDateSt(inputDObj.getObj().getDateSt());
+//                inputObj.setClose(inputDObj.getObj().getClose());
+//                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
+//                inputObj.setInput1(inputDObj.getObj().getInput1());
+//                inputObj.setInput2(inputDObj.getObj().getInput2());
+//                inputObj.setInput3(inputDObj.getObj().getInput3());
+//                inputObj.setInput4(inputDObj.getObj().getInput4());
+//                inputObj.setInput5(inputDObj.getObj().getInput5());
+//                inputObj.setInput6(inputDObj.getObj().getInput6());
+//                inputObj.setInput7(inputDObj.getObj().getInput7());
+//                inputObj.setInput8(inputDObj.getObj().getInput8());
+//                inputObj.setInput9(inputDObj.getObj().getInput9());
+//                inputObj.setInput10(inputDObj.getObj().getInput10());
+//                inputObj.setInput11(inputDObj.getObj().getInput11());
+//                inputObj.setInput12(inputDObj.getObj().getInput12());
+//                inputObj.setInput13(inputDObj.getObj().getInput13());
+//                //////
+//                inputObj.setOutput1(inputDObj.getObj().getOutput1());
+//                inputObj.setOutput2(inputDObj.getObj().getOutput2());
+//                inputObj.setOutput3(inputDObj.getObj().getOutput3());
+//                inputObj.setOutput4(inputDObj.getObj().getOutput4());
+//                if (inputObj.getOutput1() < 0) {
+//                    continue;
+//                }
+//                if (inputObj.getOutput2() < 0) {
+//                    continue;
+//                }
+//                inputlist.add(inputObj);
+//            }
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
             String subSymbol = null;
-//            if (symbol.length() != 0) {
-//                subSymbol = "RY.TO";
-//                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-//                    String stockN = ServiceAFweb.primaryStock[i];
-//                    if (stockN.equals(symbol)) {
-//                        subSymbol = null;
-//                        break;
-//                    }
-//                }
-//            }
 
             inputDatalist = GetNN35InputBasefromDB(serviceAFWeb, "", subSymbol, nnName);
 
