@@ -1192,8 +1192,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            TradingNNprocess TRNNProc = new TradingNNprocess();
-            TRNNProc.ReLearnInputNeuralNet(this, symbol, trNN);
+//            TradingNNprocess TRNNProc = new TradingNNprocess();
+//            TRNNProc.ReLearnInputNeuralNet(this, symbol, trNN);
 
 //            processRestinputflag=true;
 //            nn35testflag = true;
