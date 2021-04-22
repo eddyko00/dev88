@@ -887,7 +887,7 @@ public class ServiceAFweb {
             if (flagNNLearningSignal == true) {
                 if (nn1testflag == true) {
                     exitflag = false;
-                    if (((k % 5) == 0) || (k == 0)) {
+                    if (((k % 5) == 0) || (k == 1)) {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
@@ -911,7 +911,7 @@ public class ServiceAFweb {
             if (flagNN3LearningTrend == true) {
                 exitflag = false;
                 if (nn1testflag == true) {
-                    if (((k % 5) == 0) || (k == 0)) {
+                    if (((k % 5) == 0) || (k == 1)) {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN30);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
@@ -920,7 +920,7 @@ public class ServiceAFweb {
 
                 }
                 if (nn35testflag == true) {
-                    if (((k % 5) == 0) || (k == 0)) {
+                    if (((k % 5) == 0) || (k == 1)) {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN35);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 35 cycle " + k);

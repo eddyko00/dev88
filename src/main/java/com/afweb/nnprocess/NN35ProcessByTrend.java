@@ -498,7 +498,7 @@ public class NN35ProcessByTrend {
         }
 
         ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
-
+        stockNNprocessNameArray = stockNameArray;
         return stockNNprocessNameArray;
     }
 
