@@ -333,8 +333,7 @@ public class NN35ProcessByTrend {
 
         // require sym.TO format
         inputList = this.trainingNN35dataNN1(serviceAFWeb, NormalizeSym, offset);
-
-        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
+        logger.info("> getTrainingNN35dataProcess " + NormalizeSym + "  Size:" + inputList.size());
 
         // ignor first and last
         int len = inputList.size();
