@@ -1192,6 +1192,14 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            nn3testflag = true;
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);            
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+
 //            CustomerObj customer = getAccountImp().getCustomerBySystem(CKey.G_USERNAME, null);
 //            BillingProcess BP = new BillingProcess();
 //            BP.updateUserBilling(this, customer);
@@ -1231,11 +1239,7 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-            symbol = "GLD";
-            trNN = ConstantKey.INT_TR_NN3;
-            TR_NN = trNN;
-            nnName = ConstantKey.TR_NN3;
-            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
 
 ////            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
 //            AccountObj accountAdminObj = getAdminObjFromCache();

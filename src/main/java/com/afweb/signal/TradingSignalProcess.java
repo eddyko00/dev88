@@ -2575,7 +2575,7 @@ public class TradingSignalProcess {
                 return null;
             }
         }
-        return null;
+        return nnObj1;
     }
 
     public int OutputNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {

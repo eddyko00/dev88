@@ -573,6 +573,7 @@ public class ProcessNN3 {
             }
             return macdSignal;
         }
+        nnSignal =ConstantKey.S_EXIT;
         return nnSignal;
     }
 
