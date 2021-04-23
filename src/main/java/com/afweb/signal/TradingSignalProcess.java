@@ -19,7 +19,6 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 
-
 import com.afweb.stock.*;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -2168,6 +2167,7 @@ public class TradingSignalProcess {
     public static String NN3_FILE_2 = "_nn32_";
     public static String NN35_FILE_1 = "_nn351_";
     public static String NN35_FILE_2 = "_nn352_";
+
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         symbol = symbol.replace(".", "_");
@@ -2460,20 +2460,9 @@ public class TradingSignalProcess {
     public static long lastUpdateTime30 = 0;
     public static long lastUpdateTime35 = 0;
 
-    public int OutputNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
-        double[][] inputpattern = null;
-        double[][] targetpattern = null;
-        double[][] response = null;
-        if (nnTraining == null) {
-            return 0;
-        }
-
+    private AFneuralNet getCacheNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
         String BPname = nnTraining.getNameNN();
-        if (BPname == null) {
-            return 0;
-        }
         AFneuralNet nnObj1 = null;
-
         if (nnTraining.getTrname().equals(ConstantKey.TR_NN1)) {
             if (nn1ObjCache != null) {
                 if (nn1ObjCache.getName().equals(BPname)) {
@@ -2489,7 +2478,7 @@ public class TradingSignalProcess {
             if (nnObj1 == null) {
                 nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
                 if (nnObj1 == null) {
-                    return 0;
+                    return null;
                 }
                 nn1ObjCache = nnObj1;
                 lastUpdateTime1 = System.currentTimeMillis();
@@ -2509,7 +2498,7 @@ public class TradingSignalProcess {
             if (nnObj1 == null) {
                 nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
                 if (nnObj1 == null) {
-                    return 0;
+                    return null;
                 }
                 nn2ObjCache = nnObj1;
                 lastUpdateTime2 = System.currentTimeMillis();
@@ -2529,7 +2518,7 @@ public class TradingSignalProcess {
             if (nnObj1 == null) {
                 nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
                 if (nnObj1 == null) {
-                    return 0;
+                    return null;
                 }
                 nn3ObjCache = nnObj1;
                 lastUpdateTime3 = System.currentTimeMillis();
@@ -2549,7 +2538,7 @@ public class TradingSignalProcess {
             if (nnObj1 == null) {
                 nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
                 if (nnObj1 == null) {
-                    return 0;
+                    return null;
                 }
                 nn30ObjCache = nnObj1;
                 lastUpdateTime30 = System.currentTimeMillis();
@@ -2569,7 +2558,7 @@ public class TradingSignalProcess {
             if (nnObj1 == null) {
                 nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
                 if (nnObj1 == null) {
-                    return 0;
+                    return null;
                 }
                 nn35ObjCache = nnObj1;
                 lastUpdateTime35 = System.currentTimeMillis();
@@ -2578,8 +2567,28 @@ public class TradingSignalProcess {
             logger.info("> OutputNNBP exception - need to define new cache " + nnTraining.getTrname());
             nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
             if (nnObj1 == null) {
-                return 0;
+                return null;
             }
+        }
+        return null;
+    }
+
+    public int OutputNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
+        double[][] inputpattern = null;
+        double[][] targetpattern = null;
+        double[][] response = null;
+        if (nnTraining == null) {
+            return 0;
+        }
+
+        String BPname = nnTraining.getNameNN();
+        if (BPname == null) {
+            return 0;
+        }
+        AFneuralNet nnObj1 = null;
+        nnObj1 = this.getCacheNNBP(serviceAFWeb, nnTraining);
+        if (nnObj1 == null) {
+            return 0;
         }
         String weightSt1 = nnObj1.getWeight();
         if (weightSt1.length() > 0) {
