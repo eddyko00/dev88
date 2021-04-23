@@ -992,7 +992,7 @@ public class ServiceAFweb {
                     String nnName = ConstantKey.TR_NN35;
 
                     logger.info("> processNN35InputNeuralNet Rest input..");
-                    deleteNeuralNetAllSymbolDataByTR(nnName);
+                    removeNeuralNetDataAllSymbolByTR(nnName);
 
                     exitflag = true;
                     /// reset weight0 and use latest stock
@@ -1030,8 +1030,8 @@ public class ServiceAFweb {
 
     }
 
-    public int deleteNeuralNetAllSymbolDataByTR(String TRname) {
-        logger.info("> deleteNeuralNetAllSymbolDataByTR Rest input.." + TRname);
+    public int removeNeuralNetDataAllSymbolByTR(String TRname) {
+        logger.info("> removeNeuralNetDataAllSymbolByTR Rest input.." + TRname);
 
         String BPname = CKey.NN_version + "_" + TRname;
         getStockImp().deleteNeuralNetDataByBPname(BPname);
@@ -1040,7 +1040,7 @@ public class ServiceAFweb {
         ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
 
         if (stockNameArray != null) {
-            logger.info("> deleteNeuralNetAllSymbolDataByTR Stock " + stockNameArray.size());
+            logger.info("> removeNeuralNetDataAllSymbolByTR Stock " + stockNameArray.size());
 
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String symbol = (String) stockNameArray.get(i);
