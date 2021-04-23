@@ -1040,6 +1040,8 @@ public class ServiceAFweb {
         ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
 
         if (stockNameArray != null) {
+            logger.info("> deleteNeuralNetAllSymbolDataByTR Stock " + stockNameArray.size());
+
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String symbol = (String) stockNameArray.get(i);
 
