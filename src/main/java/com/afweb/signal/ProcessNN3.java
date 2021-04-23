@@ -288,7 +288,6 @@ public class ProcessNN3 {
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
 
-
         macdSignal = this.Rule6_CheckDirection(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, prevSignal);
 
         if (nnSignal == ConstantKey.S_NEUTRAL) {
@@ -307,7 +306,7 @@ public class ProcessNN3 {
 
         trObj.setTrsignal(nnSignal);
         trHistory.setTrsignal(nnSignal);
-        
+
         return nnSignal;
 
     }
@@ -541,25 +540,25 @@ public class ProcessNN3 {
 
             float output1 = nn.getOutput1();
             float output2 = nn.getOutput2();
-            if ((CKey.PREDICT_THRESHOLD > output1) && (CKey.PREDICT_THRESHOLD > output2)) {
-                // loop to find the previous trend.
-
-                for (int i = 0; i < 10; i++) {
-                    //StockArray recent to old date
-                    NNObj nn3 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN35, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
-                    if (nn3 != null) {
-                        output1 = nn3.getOutput1();
-                        output2 = nn3.getOutput2();
-                        if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
-                            nn = nn3;
-                            break;
-
-                        }
-
-                    }
-                }
-
-            }
+//            if ((CKey.PREDICT_THRESHOLD > output1) && (CKey.PREDICT_THRESHOLD > output2)) {
+//                // loop to find the previous trend.
+//
+//                for (int i = 0; i < 10; i++) {
+//                    //StockArray recent to old date
+//                    NNObj nn3 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN35, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
+//                    if (nn3 != null) {
+//                        output1 = nn3.getOutput1();
+//                        output2 = nn3.getOutput2();
+//                        if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
+//                            nn = nn3;
+//                            break;
+//
+//                        }
+//
+//                    }
+//                }
+//
+//            }
             int macdSignal = nnSignal;
             if (nn != null) {
                 if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
@@ -570,10 +569,11 @@ public class ProcessNN3 {
                     }
 
                 }
+                return macdSignal;
             }
-            return macdSignal;
+
         }
-        nnSignal =ConstantKey.S_EXIT;
+        nnSignal = ConstantKey.S_EXIT;
         return nnSignal;
     }
 

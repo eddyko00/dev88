@@ -142,7 +142,7 @@ public class ProcessNN00 {
 
     }
 
-        public static NNObj NNpredictNN35(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
+    public static NNObj NNpredictNN35(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         NNObj nn = new NNObj();
@@ -185,10 +185,10 @@ public class ProcessNN00 {
         if (retNN == 0) {
             return nn;
         }
+        boolean flag = false;
+        if (flag == true) {
+            if (getEnv.checkLocalPC() == true) {
 
-        if (getEnv.checkLocalPC() == true) {
-            boolean flag = false;
-            if (flag == true) {
                 double[][] inputpattern = null;
                 double[][] targetpattern = null;
                 double[][] response = null;
@@ -288,7 +288,6 @@ public class ProcessNN00 {
         // TR_NN1
         trObjMACD1.setTrname(ConstantKey.TR_MACD);
         trObjMACD1.setType(type);
-
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());

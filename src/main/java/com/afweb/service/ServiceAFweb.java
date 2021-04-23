@@ -990,9 +990,10 @@ public class ServiceAFweb {
                 }
                 if (nn35testflag == true) {
                     String nnName = ConstantKey.TR_NN35;
-                    String BPname = CKey.NN_version + "_" + nnName;
-                    getStockImp().deleteNeuralNetDataByBPname(BPname);
+
                     logger.info("> processNN35InputNeuralNet Rest input..");
+                    deleteNeuralNetAllSymbolDataByTR(nnName);
+
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
@@ -1027,6 +1028,27 @@ public class ServiceAFweb {
             }
         }
 
+    }
+
+    public int deleteNeuralNetAllSymbolDataByTR(String TRname) {
+        logger.info("> deleteNeuralNetAllSymbolDataByTR Rest input.." + TRname);
+
+        String BPname = CKey.NN_version + "_" + TRname;
+        getStockImp().deleteNeuralNetDataByBPname(BPname);
+
+        AccountObj accountObj = getAdminObjFromCache();
+        ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
+
+        if (stockNameArray != null) {
+            for (int i = 0; i < stockNameArray.size(); i++) {
+                String symbol = (String) stockNameArray.get(i);
+
+                String BPnameSym = CKey.NN_version + "_" + TRname + "_" + symbol;
+                getStockImp().deleteNeuralNetDataByBPname(BPnameSym);
+            }
+        }
+
+        return 1;
     }
 
     boolean initLRnn = false;
@@ -1192,18 +1214,17 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            nn3testflag = true;
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);            
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+            nn3testflag = true;
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
 //            CustomerObj customer = getAccountImp().getCustomerBySystem(CKey.G_USERNAME, null);
 //            BillingProcess BP = new BillingProcess();
 //            BP.updateUserBilling(this, customer);
-
 //            TradingNNprocess TRNNProc = new TradingNNprocess();
 //            TRNNProc.ReLearnInputNeuralNet(this, symbol, trNN);
 //            processRestinputflag=true;
@@ -1239,8 +1260,6 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-
-
 ////            // http://localhost:8080/cust/admin1/acc/1/st/hou_to/tr/TR_nn2/tran/history/chart
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            AFstockObj stock = getRealTimeStockImp(symbol);
