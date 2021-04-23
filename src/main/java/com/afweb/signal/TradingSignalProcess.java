@@ -955,7 +955,7 @@ public class TradingSignalProcess {
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
                     if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (stock.getSymbol().equals("GLD")) {
+                        if (stock.getSymbol().equals("HOU.TO")) {
                             ;
                         } else {
                             continue;
@@ -1473,6 +1473,11 @@ public class TradingSignalProcess {
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         if (ServiceAFweb.nn3testflag == true) {
+                            if (stock.getSymbol().equals("HOU.TO")) {
+                                ;
+                            } else {
+                                break;
+                            }
                             ProcessNN3 nn3 = new ProcessNN3();
                             NNObj nn = nn3.updateAdminTradingsignalNN3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                             if (nn != null) {
