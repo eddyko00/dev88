@@ -1938,7 +1938,7 @@ public class ServiceAFweb {
             return 0;
         }
         custObj.setType(CustomerObj.INT_FUND_USER);
-        custObj.setSubstatus(ConstantKey.INT_PP_DELUXE);
+        custObj.setSubstatus(ConstantKey.INT_PP_PEMIUM);
         custObj.setPayment(0);
 
         int result = getAccountImp().systemUpdateCustAllStatus(custObj);
@@ -2082,9 +2082,9 @@ public class ServiceAFweb {
             plan = Integer.parseInt(planSt);
             if (plan == ConstantKey.INT_PP_BASIC) {
                 ;
-            } else if (plan == ConstantKey.INT_PP_PREMIUM) {
+            } else if (plan == ConstantKey.INT_PP_STANDARD) {
                 ;
-            } else if (plan == ConstantKey.INT_PP_DELUXE) {
+            } else if (plan == ConstantKey.INT_PP_PEMIUM) {
                 ;
             }
 
@@ -2188,8 +2188,8 @@ public class ServiceAFweb {
                     if (custObj.getType() == CustomerObj.INT_API_USER) {
                         ;
                     } else {
-                        if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_PREMIUM)
-                                || (planid == ConstantKey.INT_PP_DELUXE) || (planid == ConstantKey.INT_PP_DELUXEX2)) {
+                        if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_STANDARD)
+                                || (planid == ConstantKey.INT_PP_PEMIUM) || (planid == ConstantKey.INT_PP_DELUXEX2)) {
                             custPortfilio.setnPlan(planid);
                         } else {
                             // error

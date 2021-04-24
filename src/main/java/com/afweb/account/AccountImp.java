@@ -815,12 +815,12 @@ public class AccountImp {
                         if (stockNameList.size() >= ConstantKey.INT_PP_BASIC_NUM) {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
                         }
-                    } else if (cSubTypePlan == ConstantKey.INT_PP_PREMIUM) {
-                        if (stockNameList.size() >= ConstantKey.INT_PP_REMIUM_NUM) {
+                    } else if (cSubTypePlan == ConstantKey.INT_PP_STANDARD) {
+                        if (stockNameList.size() >= ConstantKey.INT_PP_STANDARD_NUM) {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
                         }
-                    } else if (cSubTypePlan == ConstantKey.INT_PP_DELUXE) {
-                        if (stockNameList.size() >= ConstantKey.INT_PP_DELUXE_NUM) {
+                    } else if (cSubTypePlan == ConstantKey.INT_PP_PEMIUM) {
+                        if (stockNameList.size() >= ConstantKey.INT_PP_PEMIUM_NUM) {
                             return AccountObj.MAX_ALLOW_STOCK_ERROR;
                         }
                     } else if (cSubTypePlan == ConstantKey.INT_PP_DELUXEX2) {

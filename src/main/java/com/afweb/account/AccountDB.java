@@ -1787,18 +1787,18 @@ public class AccountDB {
             if (plan == -1) {
                 switch (newCustomer.getType()) {
                     case CustomerObj.INT_ADMIN_USER:
-                        newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                        newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
+                        newCustomer.setSubstatus(ConstantKey.INT_PP_PEMIUM);
+                        newCustomer.setPayment(ConstantKey.INT_PP_PEMIUM_PRICE);
                         newCustomer.setBalance(0);
                         break;
                     case CustomerObj.INT_FUND_USER:
-                        newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                        newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
+                        newCustomer.setSubstatus(ConstantKey.INT_PP_PEMIUM);
+                        newCustomer.setPayment(ConstantKey.INT_PP_PEMIUM_PRICE);
                         newCustomer.setBalance(0);
                         break;
                     case CustomerObj.INT_GUEST_USER:
-                        newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                        newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
+                        newCustomer.setSubstatus(ConstantKey.INT_PP_PEMIUM);
+                        newCustomer.setPayment(ConstantKey.INT_PP_PEMIUM_PRICE);
                         newCustomer.setBalance(0);
                         break;
                     case CustomerObj.INT_API_USER:
@@ -1817,13 +1817,13 @@ public class AccountDB {
                 newCustomer.setSubstatus(ConstantKey.INT_PP_BASIC);
                 newCustomer.setPayment(ConstantKey.INT_PP_BASIC_PRICE);
                 newCustomer.setBalance(0);
-                if (plan == ConstantKey.INT_PP_PREMIUM) {
-                    newCustomer.setSubstatus(ConstantKey.INT_PP_PREMIUM);
-                    newCustomer.setPayment(ConstantKey.INT_PP_PEMIUM_PRICE);
+                if (plan == ConstantKey.INT_PP_STANDARD) {
+                    newCustomer.setSubstatus(ConstantKey.INT_PP_STANDARD);
+                    newCustomer.setPayment(ConstantKey.INT_PP_STANDARD_PRICE);
                     newCustomer.setBalance(0);
-                } else if (plan == ConstantKey.INT_PP_DELUXE) {
-                    newCustomer.setSubstatus(ConstantKey.INT_PP_DELUXE);
-                    newCustomer.setPayment(ConstantKey.INT_PP_DELUXE_PRICE);
+                } else if (plan == ConstantKey.INT_PP_PEMIUM) {
+                    newCustomer.setSubstatus(ConstantKey.INT_PP_PEMIUM);
+                    newCustomer.setPayment(ConstantKey.INT_PP_PEMIUM_PRICE);
                     newCustomer.setBalance(0);
                 }
             }

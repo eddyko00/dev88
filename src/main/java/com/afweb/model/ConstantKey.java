@@ -29,24 +29,25 @@ public class ConstantKey {
     public static final int INT_PP_BASIC = 0;
     public static final int INT_PP_BASIC_NUM = 2;
     public static final float INT_PP_BASIC_PRICE = 30;
-    public static final String PP_PREMIUM = "PREMIUM";
-    public static final int INT_PP_PREMIUM = 10;
-    public static final int INT_PP_REMIUM_NUM = 8;
-    public static final float INT_PP_PEMIUM_PRICE = 60;
-    public static final String PP_DELUXE = "DELUXE";
-    public static final int INT_PP_DELUXE = 20;
-    public static final int INT_PP_DELUXE_NUM = 20;
-    public static final float INT_PP_DELUXE_PRICE = 100;
+    public static final String PP_STANDARD = "STANDARD"; // standard
+    public static final int INT_PP_STANDARD = 10;
+    public static final int INT_PP_STANDARD_NUM = 8;
+    public static final float INT_PP_STANDARD_PRICE = 60;
+    public static final String PP_PEMIUM = "PREMIUM";
+    public static final int INT_PP_PEMIUM = 20;
+    public static final int INT_PP_PEMIUM_NUM = 20;
+    public static final float INT_PP_PEMIUM_PRICE = 120;
 
-    public static final String PP_DELUXEX2 = "DELUXEX2";
+    public static final String PP_DELUXEX2 = "DELUXE";
     public static final int INT_PP_DELUXEX2 = 40;
     public static final int INT_PP_DELUXEX2_NUM = 40;
-    public static final float INT_PP_DELUXEX2_PRICE = 200;
+    public static final float INT_PP_DELUXEX2_PRICE = 240;
 
     public static final String PP_API = "PP_API";
     public static final int INT_PP_API = 90;
     public static final int INT_PP_API_NUM = 1000;
     public static final float INT_PP_API_PRICE = 6000;
+//    
     public static final String MSG_OPEN = "ENABLE";
     public static final int OPEN = 0;
 

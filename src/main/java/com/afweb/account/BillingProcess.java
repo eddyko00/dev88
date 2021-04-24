@@ -446,13 +446,13 @@ public class BillingProcess {
                     billData.setFeat(ConstantKey.PP_BASIC);
                     fInvoice = ConstantKey.INT_PP_BASIC_PRICE;
                     break;
-                case ConstantKey.INT_PP_PREMIUM:
-                    billData.setFeat(ConstantKey.PP_PREMIUM);
-                    fInvoice = ConstantKey.INT_PP_PEMIUM_PRICE;
+                case ConstantKey.INT_PP_STANDARD:
+                    billData.setFeat(ConstantKey.PP_STANDARD);
+                    fInvoice = ConstantKey.INT_PP_STANDARD_PRICE;
                     break;
-                case ConstantKey.INT_PP_DELUXE:
-                    billData.setFeat(ConstantKey.PP_DELUXE);
-                    fInvoice = ConstantKey.INT_PP_DELUXE_PRICE;
+                case ConstantKey.INT_PP_PEMIUM:
+                    billData.setFeat(ConstantKey.PP_PEMIUM);
+                    fInvoice = ConstantKey.INT_PP_PEMIUM_PRICE;
                     break;
                 case ConstantKey.INT_PP_DELUXEX2:
                     billData.setFeat(ConstantKey.PP_DELUXEX2);
