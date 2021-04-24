@@ -24,7 +24,8 @@ public class ConstantKey {
     public static final int NN_ST_LOCKTYPE = 52;
     public static final int FUND_LOCKTYPE = 60;
     public static final int H2_LOCKTYPE = 100;
-
+//////////////////////////////////////////////////////////////////
+/// Price plan configuration    
     public static final String PP_BASIC = "BASIC";
     public static final int INT_PP_BASIC = 0;
     public static final int INT_PP_BASIC_NUM = 2;
@@ -47,6 +48,7 @@ public class ConstantKey {
     public static final int INT_PP_API = 90;
     public static final int INT_PP_API_NUM = 1000;
     public static final float INT_PP_API_PRICE = 6000;
+//////////////////////////////////////////////////////////////////  
 //    
     public static final String MSG_OPEN = "ENABLE";
     public static final int OPEN = 0;
@@ -68,7 +70,8 @@ public class ConstantKey {
 
     public static final String MSG_COMPLETED = "COMPLETED";
     public static final int COMPLETED = 5;
-
+/////////////////////////////////////////////////////////////////
+//  communication messsage
 /////// SubStatus        
     public static final String MSG_NEW = "NEW";
     public static final int NEW = 1;
@@ -110,8 +113,8 @@ public class ConstantKey {
     public static final int INT_BILLING = 10;
     public static final String ACCT_TRAN = "ACCTRAN";
     public static final int INT_ACC_TRAN = 20;
-    
-//// Android configuration      
+/////////////////////////////////////////////////////////////////////////    
+//// Signal configuration      
     public static final String nullSt = "null";    // fix mapper object translation
 
     public static final String S_PENDING_ST = "pending";     // no trade
@@ -138,7 +141,7 @@ public class ConstantKey {
     public static final int S_EXIT_LONG = 5;
     public static final int S_EXIT_SHORT = 6;
     public static final int S_EXIT = 8;
-
+//////////////////////////////////////////////////////////////////////
     //trading rule
     //******** must be capital for hte TR name ***********************
     public static final String TR_ACC = "TR_ACC";  // transaction account
@@ -246,23 +249,23 @@ public class ConstantKey {
     public static final int INT_TR_MACD2 = 103;
     //INT_MACD_12, ConstantKey.INT_MACD_26, ConstantKey.INT_MACD_9
 
-    public static int getTRtypeByName(String trname) {
-        trname = trname.toUpperCase();
-        if (trname.equals(TR_ACC)) {
-            return INT_TR_ACC;
-        } else if (trname.equals(TR_MV)) {
-            return INT_TR_MV;
-        } else if (trname.equals(TR_MACD)) {
-            return INT_TR_MACD;
-        } else if (trname.equals(TR_RSI)) {
-            return INT_TR_RSI;
-        } else if (trname.equals(TR_NN1)) {
-            return INT_TR_NN1;
-        } else if (trname.equals(TR_NN2)) {
-            return INT_TR_NN2;
-        } else if (trname.equals(TR_NN3)) {
-            return INT_TR_NN3;
-        }
-        return 0;
-    }
+//    public static int getTRtypeByName(String trname) {
+//        trname = trname.toUpperCase();
+//        if (trname.equals(TR_ACC)) {
+//            return INT_TR_ACC;
+//        } else if (trname.equals(TR_MV)) {
+//            return INT_TR_MV;
+//        } else if (trname.equals(TR_MACD)) {
+//            return INT_TR_MACD;
+//        } else if (trname.equals(TR_RSI)) {
+//            return INT_TR_RSI;
+//        } else if (trname.equals(TR_NN1)) {
+//            return INT_TR_NN1;
+//        } else if (trname.equals(TR_NN2)) {
+//            return INT_TR_NN2;
+//        } else if (trname.equals(TR_NN3)) {
+//            return INT_TR_NN3;
+//        }
+//        return 0;
+//    }
 }

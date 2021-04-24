@@ -3926,7 +3926,7 @@ public class ServiceAFweb {
                         opt = Integer.parseInt(TROptType);
                     }
                 } catch (NumberFormatException ex) {
-                    opt = ConstantKey.getTRtypeByName(TROptType);
+
                 }
 
                 if (opt < ConstantKey.SIZE_TR) {
