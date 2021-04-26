@@ -227,11 +227,13 @@ var app = {
                 return;
             }
             var comment = document.getElementById("excomm").value;
+            var rate = document.getElementById("exrate").value;  
+            
             var payment = examount;
             ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/update?payment=" + payment + "&comment=" + comment,
+                        + "/accounting/update?payment=" + payment + "&rate=" + rate + "&comment=" + comment,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
