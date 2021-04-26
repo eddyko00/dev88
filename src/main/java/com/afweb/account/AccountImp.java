@@ -281,6 +281,8 @@ public class AccountImp {
         newCustomer.setUsername(userN);
         if (userN.equals(CKey.ADMIN_USERNAME)) {
             logger.info("> addCustomer  ADM");
+        } else if (userN.equals(CKey.API_USERNAME)) {
+            logger.info("> addCustomer  API");
         } else {
             logger.info("> addCustomer  " + newCustomer.getUsername());
         }

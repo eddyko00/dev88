@@ -5666,7 +5666,7 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    float rate = 50;
+                    float rate = 100;
                     if (rateSt != null) {
                         if (rateSt.length() > 0) {
                             try {
@@ -5704,7 +5704,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt, String reasonSt, String commentSt) {
+    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt, String reasonSt, String rateSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5742,9 +5742,16 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-//                    if (entryName.equals(BillingProcess.E_COST_SERVICE)) {
-//                    }
-                    BP.insertAccountExpense(this, customer, entryName, payment, commSt);
+                    float rate = 100;
+                    if (rateSt != null) {
+                        if (rateSt.length() > 0) {
+                            try {
+                                rate = Float.parseFloat(rateSt);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+                    BP.insertAccountExpense(this, customer, entryName, payment, rate, commSt);
                     ret = 1;
                 }
             }
@@ -5870,7 +5877,7 @@ public class ServiceAFweb {
                         if (byPassPayment == false) {
                             BillingProcess BP = new BillingProcess();
                             if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                                BP.insertAccountExpense(this, customer, entryName, -balance, emailSt);
+                                BP.insertAccountExpense(this, customer, entryName, -balance, 100, emailSt);
                             } else {
                                 BP.insertAccountRevenue(this, customer, entryName, balance, emailSt);
                             }
