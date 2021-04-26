@@ -2175,7 +2175,7 @@ public class TradingSignalProcess {
 
     public ArrayList<NNInputDataObj> getTrainingInputDataFromFileProcess(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
-        symbol = symbol.replace(".", "_");
+//        symbol = symbol.replace(".", "_");
 
         if (nnName.equals(ConstantKey.TR_NN30)) {
 

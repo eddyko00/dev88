@@ -110,19 +110,20 @@ public class NN2ProcessBySignal {
         }
     }
 
-    public ArrayList<NNInputDataObj> getTrainingNN2dataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
+    public ArrayList<NNInputDataObj> getTrainingNN2dataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
 
-        String symbol = NormalizeSym.replace(".", "_");
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
         if (offset == 0) {
             size1yearAll = size1yearAll / 2;
         }
 
-        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSym, null);
+        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSymbol, null);
         if ((stockObj == null) || (stockObj.getAfstockInfo() == null)) {
-            String msg = "> getTrainingNNdataProcess symbol " + symbol + " - null";
+            String msg = "> getTrainingNNdataProcess symbol " + NormalizeSymbol + " - null";
             logger.info(msg);
 
             if (ServiceAFweb.mydebugtestflag == true) {
@@ -130,7 +131,7 @@ public class NN2ProcessBySignal {
             }
             throw new ArithmeticException(msg);
         }
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
 //        if (tr == ConstantKey.INT_TR_ADX1) {
@@ -141,12 +142,12 @@ public class NN2ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN2 nn2 = new ProcessNN2();
 //            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA2(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
 //        } else if (tr == ConstantKey.INT_TR_ADX2) {
         } else if (tr == ConstantKey.INT_TR_EMA1) {
             ProcessNN2 nn2 = new ProcessNN2();
 //            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
 
         }
         String nnName = ConstantKey.TR_NN2;
@@ -157,8 +158,7 @@ public class NN2ProcessBySignal {
         if (len <= 2) {
             return null;
         }
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
+
         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
         if (stock == null) {
             return inputList;
@@ -202,7 +202,7 @@ public class NN2ProcessBySignal {
                         + "\",\"" + "LTerm"
                         + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "adx"
                         + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                        + "\",\"" + symbol + "\"";
+                        + "\",\"" + NormalizeSymbol + "\"";
 
             }
             String stDispaly = st.replaceAll("\"", "");
@@ -219,7 +219,7 @@ public class NN2ProcessBySignal {
             if (tr == ConstantKey.INT_TR_EMA2) {
                 nn21 = TradingSignalProcess.NN2_FILE_2; //"_nn22_";
             }
-            String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn21 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+            String filename = ServiceAFweb.FileLocalDebugPath + NormalizeSymbol + nn21 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
             FileUtil.FileWriteTextArray(filename, writeArray);
 //            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);

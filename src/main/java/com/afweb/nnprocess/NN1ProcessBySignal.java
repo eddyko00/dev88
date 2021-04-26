@@ -112,18 +112,20 @@ public class NN1ProcessBySignal {
         }
     }
 
-    public ArrayList<NNInputDataObj> getTrainingNN1dataProcess(ServiceAFweb serviceAFWeb, String NormalizeSym, int tr, int offset) {
+    public ArrayList<NNInputDataObj> getTrainingNN1dataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
 
-        String symbol = NormalizeSym.replace(".", "_");
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
         if (offset == 0) {
             size1yearAll = size1yearAll / 2;
         }
-        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSym, null);
+        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSymbol, null);
         if ((stockObj == null) || (stockObj.getAfstockInfo() == null)) {
-            String msg = "> getTrainingNNdataProcess symbol " + symbol + " - null";
+            String msg = "> getTrainingNNdataProcess symbol " + NormalizeSymbol + " - null";
             logger.info(msg);
 
             if (ServiceAFweb.mydebugtestflag == true) {
@@ -132,7 +134,7 @@ public class NN1ProcessBySignal {
             throw new ArithmeticException(msg);
         }
 
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
         if (tr == ConstantKey.INT_TR_MACD1) {
@@ -142,11 +144,11 @@ public class NN1ProcessBySignal {
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_MACD2) {
 
             ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn1.trainingNN1dataMACD2(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
         }
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
 
@@ -155,8 +157,6 @@ public class NN1ProcessBySignal {
         if (len <= 2) {
             return null;
         }
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
         if (stock == null) {
             return inputList;
@@ -200,7 +200,7 @@ public class NN1ProcessBySignal {
                         + "\",\"" + "LTerm"
                         + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
                         + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                        + "\",\"" + symbol + "\"";
+                        + "\",\"" + NormalizeSymbol + "\"";
 
             }
             String stDispaly = st.replaceAll("\"", "");
@@ -216,7 +216,7 @@ public class NN1ProcessBySignal {
             if (tr == ConstantKey.INT_TR_MACD2) {
                 nn12 = TradingSignalProcess.NN1_FILE_2; // "_nn2_";
             }
-            String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+            String filename = ServiceAFweb.FileLocalDebugPath + NormalizeSymbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
             FileUtil.FileWriteTextArray(filename, writeArray);
 //            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
