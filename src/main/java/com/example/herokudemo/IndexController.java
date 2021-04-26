@@ -119,6 +119,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/costofgoodsold?payment=&curyear=&reason=&comment=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=");
 
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
@@ -379,7 +380,7 @@ public class IndexController {
             @RequestParam(value = "pass", required = true) String passSt,
             @RequestParam(value = "firstName", required = false) String firstNameSt,
             @RequestParam(value = "lastName", required = false) String lastNameSt,
-            @RequestParam(value = "plan", required = false) String planSt,            
+            @RequestParam(value = "plan", required = false) String planSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -2067,7 +2068,7 @@ public class IndexController {
             @RequestParam(value = "payment", required = false) String paymentSt,
             @RequestParam(value = "balance", required = false) String balanceSt,
             @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "rate", required = false) String rateSt,            
+            @RequestParam(value = "rate", required = false) String rateSt,
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -2077,6 +2078,31 @@ public class IndexController {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
                     int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, rateSt, commentSt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return 0;
+    }
+
+    //"/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/tax", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateAccoundingEntryTAX(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "payment", required = false) String paymentSt,
+            @RequestParam(value = "reason", required = false) String reasonSt,
+            @RequestParam(value = "comment", required = false) String commentSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.insertAccountTAX(username, paymentSt, reasonSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
