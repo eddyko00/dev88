@@ -1216,7 +1216,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            nn35trend.NeuralNetNN35CreateJava(this, ConstantKey.TR_NN35);
+//            nn35trend.NeuralNetNN35CreateJava(this, ConstantKey.TR_NN35);
 
 //            nn3testflag = true;
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
