@@ -755,6 +755,9 @@ public class BillingProcess {
         if (rate > 0) {
             accExpense = expense * rate / 100;
         }
+        String ExSt = "Expense: " + expense + " for rate " + rate + "%. ";
+        data = ExSt + data;
+
         int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, accExpense, 0, data, 0);
         result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data, 0);
 
@@ -785,7 +788,7 @@ public class BillingProcess {
         long entrytime = dateNow.getTimeInMillis();
         float remainExpense = expense;
         Date dateSt = new Date(entrytime);
-        String DepSt = "CostofGS " + expense + " for 1 year from " + dateSt.toString() + ". ";
+        String DepSt = "CostofGoodSold: " + expense + " for 1 year from " + dateSt.toString() + ". ";
         data = DepSt + data;
 
         // 0- 11
@@ -834,7 +837,7 @@ public class BillingProcess {
             float remainExpense = expense;
 
             Date dateSt = new Date(entrytime);
-            String DepSt = "Deprecation " + expense + " for " + yearCnt + "Yr from " + dateSt.toString() + ". ";
+            String DepSt = "Deprecation: " + expense + " for " + yearCnt + "Yr from " + dateSt.toString() + ". ";
             data = DepSt + data;
 
             for (int i = 0; i < yearCnt; i++) {
