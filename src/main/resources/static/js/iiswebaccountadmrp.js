@@ -93,8 +93,11 @@ var app = {
                     htmlName += '</div>';
                     $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
                     $("#myid").append('<li> </li>');
-                    
+
                     continue;
+                }
+                if (i + 1 === entryList.length) {
+                    $("#myid").append('<li> </li>');
                 }
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
@@ -227,8 +230,8 @@ var app = {
                 return;
             }
             var comment = document.getElementById("excomm").value;
-            var rate = document.getElementById("exrate").value;  
-            
+            var rate = document.getElementById("exrate").value;
+
             var payment = examount;
             ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
             $.ajax({
@@ -341,6 +344,47 @@ var app = {
                 window.location.href = "accountadmrp_1.html";
             }
         });
+
+        //"/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=
+        $("#taxsubmit").click(function () {
+            var taxamount = document.getElementById("taxamount").value;
+            if (taxamount === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
+            var comment = document.getElementById("taxcomm").value;
+
+            var payment = taxamount;
+            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+                        + "/accounting/tax?payment=" + payment + "&comment=" + comment,
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Accounting Update result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmrp_1.html";
+            }
+        });
+
 
         $("#nextbtn").click(function () {
             yearRpt = yearRpt + 1;
