@@ -1572,48 +1572,48 @@ public class ServiceAFweb {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
         ///// only acc reset
-        boolean flagTran_TR_ACC = false;
-        if (flagTran_TR_ACC == true) {
-            SystemClearNNtranAllAcc();
-        }
+//        boolean flagTran_TR_ACC = false;
+//        if (flagTran_TR_ACC == true) {
+//            SystemClearNNtranAllAcc();
+//        }
 
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work        
-        boolean flaginputStock = false;
-        if (flaginputStock == true) {
-            StockInternet.updateAllStockFile(this);
-        }
+//        boolean flaginputStock = false;
+//        if (flaginputStock == true) {
+//            StockInternet.updateAllStockFile(this);
+//        }
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work 
 
-        boolean saveStockFileFlag = false;
-        if (saveStockFileFlag == true) {
-            ArrayList stockNameArray = getAllOpenStockNameArray();
-            logger.info("updateRealTimeStock " + stockNameArray.size());
-            for (int i = 0; i < stockNameArray.size(); i++) {
-                String sym = (String) stockNameArray.get(i);
-                ArrayList<String> writeArray = new ArrayList();
-                int size1year = 5 * 52;
-                ArrayList StockArray = getStockHistorical(sym, size1year * 4);
-                if (StockArray == null) {
-                    continue;
-                }
-                if (StockArray.size() == 0) {
-                    continue;
-                }
-                String StFileName = FileLocalPath + sym + ".txt";
-                logger.info("saveStockFile Size " + StockArray.size() + " " + StFileName);
-                for (int j = 0; j < StockArray.size(); j++) {
-                    try {
-                        AFstockInfo obj = (AFstockInfo) StockArray.get(j);
-                        String st = new ObjectMapper().writeValueAsString(obj);
-                        writeArray.add(st);
-                    } catch (JsonProcessingException ex) {
-                    }
-                }
-                FileUtil.FileWriteTextArray(StFileName, writeArray);
-            }
-        }
+//        boolean saveStockFileFlag = false;
+//        if (saveStockFileFlag == true) {
+//            ArrayList stockNameArray = getAllOpenStockNameArray();
+//            logger.info("updateRealTimeStock " + stockNameArray.size());
+//            for (int i = 0; i < stockNameArray.size(); i++) {
+//                String sym = (String) stockNameArray.get(i);
+//                ArrayList<String> writeArray = new ArrayList();
+//                int size1year = 5 * 52;
+//                ArrayList StockArray = getStockHistorical(sym, size1year * 4);
+//                if (StockArray == null) {
+//                    continue;
+//                }
+//                if (StockArray.size() == 0) {
+//                    continue;
+//                }
+//                String StFileName = FileLocalPath + sym + ".txt";
+//                logger.info("saveStockFile Size " + StockArray.size() + " " + StFileName);
+//                for (int j = 0; j < StockArray.size(); j++) {
+//                    try {
+//                        AFstockInfo obj = (AFstockInfo) StockArray.get(j);
+//                        String st = new ObjectMapper().writeValueAsString(obj);
+//                        writeArray.add(st);
+//                    } catch (JsonProcessingException ex) {
+//                    }
+//                }
+//                FileUtil.FileWriteTextArray(StFileName, writeArray);
+//            }
+//        }
 
 //        boolean flagClearNN0Table = false;
 //        if (flagClearNN0Table == true) {
@@ -1691,38 +1691,38 @@ public class ServiceAFweb {
 
     }
 
-    public void updateErrorStockYahooParseError(String symbol) {
-//        String symbol = "HOU.TO";
-        AFstockObj stock = this.getRealTimeStockImp(symbol);
+//    public void updateErrorStockYahooParseError(String symbol) {
+////        String symbol = "HOU.TO";
+//        AFstockObj stock = this.getRealTimeStockImp(symbol);
+//
+//        stock.setStatus(ConstantKey.OPEN);
+//        //send SQL update
+//        String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
+//        ArrayList sqlList = new ArrayList();
+//        sqlList.add(sockUpdateSQL);
+//        SystemUpdateSQLList(sqlList);
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//        TRprocessImp.updateRealTimeStock(this, stock);
+//    }
 
-        stock.setStatus(ConstantKey.OPEN);
-        //send SQL update
-        String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
-        ArrayList sqlList = new ArrayList();
-        sqlList.add(sockUpdateSQL);
-        SystemUpdateSQLList(sqlList);
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        TRprocessImp.updateRealTimeStock(this, stock);
-    }
-
-    public void forceRemoveCustTest(String login, String pass) {
-        CustomerObj custObj = getAccountImp().getCustomerPasswordForce(login, pass);
-        if (custObj == null) {
-            return;
-        }
-        if (custObj.getStatus() == ConstantKey.DISABLE) {
-            custObj.setStatus(ConstantKey.DISABLE);;
-        }
-        float bal = custObj.getBalance();
-        float payment = custObj.getPayment();
-        float outstand = bal - payment;
-        if (outstand >= 0) {  //No out standing payment 
-            custObj.setStatus(ConstantKey.DISABLE);
-        }
-        custObj.setStatus(ConstantKey.DISABLE);
-        updateCustStatusSubStatus(custObj.getUsername(), custObj.getStatus() + "", custObj.getSubstatus() + "");
-        removeCustomer(custObj.getUsername());
-    }
+//    public void forceRemoveCustTest(String login, String pass) {
+//        CustomerObj custObj = getAccountImp().getCustomerPasswordForce(login, pass);
+//        if (custObj == null) {
+//            return;
+//        }
+//        if (custObj.getStatus() == ConstantKey.DISABLE) {
+//            custObj.setStatus(ConstantKey.DISABLE);;
+//        }
+//        float bal = custObj.getBalance();
+//        float payment = custObj.getPayment();
+//        float outstand = bal - payment;
+//        if (outstand >= 0) {  //No out standing payment 
+//            custObj.setStatus(ConstantKey.DISABLE);
+//        }
+//        custObj.setStatus(ConstantKey.DISABLE);
+//        updateCustStatusSubStatus(custObj.getUsername(), custObj.getStatus() + "", custObj.getSubstatus() + "");
+//        removeCustomer(custObj.getUsername());
+//    }
 
     public int processStockSplit(String symbol, float split) {
         logger.info(">processStockSplit");
