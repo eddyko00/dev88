@@ -99,7 +99,7 @@ public class ServiceAFweb {
 
     public static String allStock[] = {"NEM", "SE", "MSFT", "T.TO", "AMZN"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "GLD", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
-
+ 
     public static String etfStock[] = {"SPY", "DIA", "QQQ", "XIU.TO", "GLD", "FAS", "HOU.TO", "IWM", "IYR"};
 
     /**
