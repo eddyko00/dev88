@@ -556,7 +556,7 @@ public class ProcessNN3 {
         }
         return null;
     }
-    public static float nn3StopLoss = 5; //16;  // 20
+    public static float nn3StopLoss = 2; //16;  // 20
     // check stop loss
 
     public float Rule1_StopLoss(int currSignal, float thClose, float StClose) {
