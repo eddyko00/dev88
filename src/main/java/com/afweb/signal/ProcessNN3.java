@@ -37,7 +37,7 @@ public class ProcessNN3 {
         String symbol = stock.getSymbol();
         AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(DataOffset);
 
-        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN3 + "_" + symbol;
+
 
         ArrayList<NNInputDataObj> inputList = null;
 
@@ -63,7 +63,8 @@ public class ProcessNN3 {
         inputTraininglist.add(inputObj);
 
         NNTrainObj nnTraining = TradingNNprocess.trainingNNsetupTraining(inputTraininglist, ConstantKey.TR_NN3);
-
+        //////have to NN2
+        String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN2 + "_" + symbol;
         nnTraining.setNameNN(BPname);
         nnTraining.setSymbol(symbol);
         nnTraining.setTrname(ConstantKey.TR_NN2);  /////////must using NN2
