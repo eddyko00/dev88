@@ -144,11 +144,11 @@ public class NN3ProcessBySignal {
             //trainingNN3dataMACD will return oldest first to new date
             //trainingNN3dataMACD will return oldest first to new date            
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN3dataMACD1(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn3.trainingNN3dataEMA1(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_MACD2) {
 
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN3dataMACD2(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = nn3.trainingNN3dataEMA2(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
         }
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN3;
 
@@ -950,14 +950,14 @@ public class NN3ProcessBySignal {
             //trainingNN3dataMACD will return oldest first to new date
             //trainingNN3dataMACD will return oldest first to new date            
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN3dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
+            inputList = nn3.trainingNN3dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
         } else if (tr == ConstantKey.INT_TR_MACD2) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN3dataMACD will return oldest first to new date
             //trainingNN3dataMACD will return oldest first to new date 
             ProcessNN3 nn3 = new ProcessNN3();
-            inputList = nn3.trainingNN3dataMACD2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10);
+            inputList = nn3.trainingNN3dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10);
         }
 
         // ignor first and last
