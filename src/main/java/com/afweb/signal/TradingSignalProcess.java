@@ -18,6 +18,7 @@ import com.afweb.service.ServiceAFweb;
 
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
+import com.afweb.nnprocess.*;
 
 import com.afweb.stock.*;
 import com.afweb.util.*;
@@ -786,111 +787,6 @@ public class TradingSignalProcess {
     ///////////////////////////////////////////////////////
     // only admin update need to check the CheckRefData = true
     // relearn NN does not need to check the CheckRefData = false
-    public boolean checkNN1Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
-
-        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
-        if (nnObj0 == null) {
-            return false;
-        }
-        if (nnObj0.getStatus() != ConstantKey.OPEN) {
-            return false;
-        }
-
-        if (CheckRefData == true) {
-            ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
-            int numReLearn = refData.getnRLearn();
-            if (numReLearn == -1) {
-                return false;
-            }
-            if (numReLearn > 5) {
-                return false;
-            }
-            if (refData.getnRLCnt() < 4) {
-                return false;
-            }
-        }
-
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
-        if (nnObj0 == null) {
-            return false;
-        }
-        if (nnObj0.getStatus() != ConstantKey.OPEN) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean checkNN2Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
-
-        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN2, symbol);
-        if (nnObj0 == null) {
-            return false;
-        }
-        if (nnObj0.getStatus() != ConstantKey.OPEN) {
-            return false;
-        }
-
-        if (CheckRefData == true) {
-            ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
-            int numReLearn = refData.getnRLearn();
-            if (numReLearn == -1) {
-                return false;
-            }
-            if (numReLearn > 5) {
-                return false;
-            }
-            if (refData.getnRLCnt() < 4) {
-                return false;
-            }
-
-        }
-//        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
-        if (nnObj0 == null) {
-            return false;
-        }
-        if (nnObj0.getStatus() != ConstantKey.OPEN) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean checkNN3Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
-
-//        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
-        AFneuralNet nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
-        if (nnObj0 == null) {
-            return false;
-        }
-        if (nnObj0.getStatus() != ConstantKey.OPEN) {
-            return false;
-        }
-
-        if (CheckRefData == true) {
-            ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
-            int numReLearn = refData.getnRLearn();
-            if (numReLearn == -1) {
-                return false;
-            }
-            if (numReLearn > 5) {
-                return false;
-            }
-            if (refData.getnRLCnt() < 4) {
-                return false;
-            }
-
-        }
-//        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
-        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
-        if (nnObj0 == null) {
-            return false;
-        }
-        if (nnObj0.getStatus() != ConstantKey.OPEN) {
-            return false;
-        }
-        return true;
-    }
-
     ///asc thObjList old first - recent last
     public ArrayList<StockTRHistoryObj> resetVitualTransaction(ServiceAFweb serviceAFWeb, AFstockObj stock, String trName) {
         try {
@@ -937,7 +833,8 @@ public class TradingSignalProcess {
                 int subStatus = trObj.getSubstatus();
 
                 if (trObj.getType() == ConstantKey.INT_TR_NN1) {
-                    if (checkNN1Ready(serviceAFWeb, symbol, true) == false) {
+                    NN1ProcessBySignal NN1Proc = new NN1ProcessBySignal();
+                    if (NN1Proc.checkNN1Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN91) { // shadow of INT_TR_NN1
@@ -950,7 +847,8 @@ public class TradingSignalProcess {
                     String name = ConstantKey.TR_NN93; // just for the search name
                     continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN2) {
-                    if (checkNN2Ready(serviceAFWeb, symbol, true) == false) {
+                    NN2ProcessBySignal NN2Proc = new NN2ProcessBySignal();
+                    if (NN2Proc.checkNN2Ready(serviceAFWeb, symbol, true) == false) {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
@@ -961,7 +859,8 @@ public class TradingSignalProcess {
                             continue;
                         }
                     } else {
-                        if (checkNN3Ready(serviceAFWeb, symbol, true) == false) {
+                        NN3ProcessBySignal NN3Proc = new NN3ProcessBySignal();
+                        if (NN3Proc.checkNN3Ready(serviceAFWeb, symbol, true) == false) {
                             continue;
                         }
                         if (ServiceAFweb.nn3testflag == false) {

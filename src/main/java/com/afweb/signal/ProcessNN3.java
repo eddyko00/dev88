@@ -29,7 +29,6 @@ public class ProcessNN3 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
 
- 
     public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
@@ -541,7 +540,7 @@ public class ProcessNN3 {
                     }
                     if (stopReset == true) {
                         confidentSt = confidentSt + " (Stop NewTR)";
-                    }                         
+                    }
                     if (stopLoss == true) {
                         confidentSt = confidentSt + " (Stop Loss)";
                     }

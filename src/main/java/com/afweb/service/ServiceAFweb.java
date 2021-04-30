@@ -99,7 +99,7 @@ public class ServiceAFweb {
 
     public static String allStock[] = {"NEM", "SE", "MSFT", "T.TO", "AMZN"};
     public static String primaryStock[] = {"HOU.TO", "IWM", "GLD", "SPY", "DIA", "QQQ", "HOD.TO", "FAS", "FAZ", "XIU.TO", "AAPL", "RY.TO"};
- 
+
     public static String etfStock[] = {"SPY", "DIA", "QQQ", "XIU.TO", "GLD", "FAS", "HOU.TO", "IWM", "IYR"};
 
     /**
@@ -793,7 +793,7 @@ public class ServiceAFweb {
                 if (stock.getAfstockInfo() == null) {
                     continue;
                 }
-                if (TRprocessImp.checkNN1Ready(this, symbol, true) == false) {
+                if (nn1ProcBySig.checkNN1Ready(this, symbol, true) == false) {
                     // process train symbol
                     nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
 
@@ -806,7 +806,7 @@ public class ServiceAFweb {
                     return true;
                 }
 
-                if (TRprocessImp.checkNN2Ready(this, symbol, true) == false) {
+                if (nn2ProcBySig.checkNN2Ready(this, symbol, true) == false) {
                     // process train symbol
 //                    nn2trend.TrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
                     nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
@@ -990,14 +990,14 @@ public class ServiceAFweb {
                 }
                 if (nn35testflag == true) {
                     String nnName = ConstantKey.TR_NN35;
-
-                    logger.info("> processNN35InputNeuralNet Rest input..");
-                    removeNeuralNetDataAllSymbolByTR(nnName);
-
-                    exitflag = true;
-                    /// reset weight0 and use latest stock
-                    /// remember to update nnData and nn3Data and version                
-                    nn35trend.processNN35InputNeuralNetTrend(this);
+//
+//                    logger.info("> processNN35InputNeuralNet Rest input..");
+//                    removeNeuralNetDataAllSymbolByTR(nnName);
+//
+//                    exitflag = true;
+//                    /// reset weight0 and use latest stock
+//                    /// remember to update nnData and nn3Data and version                
+//                    nn35trend.processNN35InputNeuralNetTrend(this);
 
                 }
                 logger.info("> processNN1InputNeuralNet Edn..");
@@ -1216,43 +1216,22 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            nn35trend.NeuralNetNN35CreateJava(this, ConstantKey.TR_NN35);
+            nn3testflag = true;
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
-//            nn3testflag = true;
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-//            CustomerObj customer = getAccountImp().getCustomerBySystem(CKey.G_USERNAME, null);
-//            BillingProcess BP = new BillingProcess();
-//            BP.updateUserBilling(this, customer);
-//            TradingNNprocess TRNNProc = new TradingNNprocess();
-//            TRNNProc.ReLearnInputNeuralNet(this, symbol, trNN);
-//            processRestinputflag=true;
-//            nn35testflag = true;
-//            processNeuralNetTrain();
+            symbol = "GLD";
+            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 //            //
-//            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
-//            TRAPI.ProcessAPISignalTrading(this);
-//            NN35ProcessByTrend nn35 = new NN35ProcessByTrend();
-//            nn35.processNN35InputNeuralNetTrend(this);
-//            this.processInitLocalRemoteNN();
+
 //
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//
-//            TRprocessImp.ProcessAdminSignalTrading(this);
-//            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-//            getAccountProcessImp().ProcessAdminAccount(this);
-//            PUBSUBprocess pubsub = new PUBSUBprocess();
-//            pubsub.ProcessPUBSUBAccount(this);
-//            for (int j = 0; j < 5; j++) {
-//                nn3ProcBySig.TrainNN3NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN3, null);
-//                nn3ProcBySig.ReLearnNN3StockNeuralNetData(this, ConstantKey.INT_TR_NN1, symbol);
-//            }
 //            symbol = "GLD";
 //            trNN = ConstantKey.INT_TR_MACD;
 //            TR_NN = trNN;
@@ -1576,7 +1555,6 @@ public class ServiceAFweb {
 //        if (flagTran_TR_ACC == true) {
 //            SystemClearNNtranAllAcc();
 //        }
-
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work        
 //        boolean flaginputStock = false;
@@ -1585,7 +1563,6 @@ public class ServiceAFweb {
 //        }
         // need this only if yahoo get history stock does not work
         // need this only if yahoo get history stock does not work 
-
 //        boolean saveStockFileFlag = false;
 //        if (saveStockFileFlag == true) {
 //            ArrayList stockNameArray = getAllOpenStockNameArray();
@@ -1614,7 +1591,6 @@ public class ServiceAFweb {
 //                FileUtil.FileWriteTextArray(StFileName, writeArray);
 //            }
 //        }
-
 //        boolean flagClearNN0Table = false;
 //        if (flagClearNN0Table == true) {
 //            this.getStockImp().deleteNeuralNet0Table();
@@ -1704,7 +1680,6 @@ public class ServiceAFweb {
 //        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        TRprocessImp.updateRealTimeStock(this, stock);
 //    }
-
 //    public void forceRemoveCustTest(String login, String pass) {
 //        CustomerObj custObj = getAccountImp().getCustomerPasswordForce(login, pass);
 //        if (custObj == null) {
@@ -1723,7 +1698,6 @@ public class ServiceAFweb {
 //        updateCustStatusSubStatus(custObj.getUsername(), custObj.getStatus() + "", custObj.getSubstatus() + "");
 //        removeCustomer(custObj.getUsername());
 //    }
-
     public int processStockSplit(String symbol, float split) {
         logger.info(">processStockSplit");
         ArrayList accountIdList = SystemAllOpenAccountIDList();

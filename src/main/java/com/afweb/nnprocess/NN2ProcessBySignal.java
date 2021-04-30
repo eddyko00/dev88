@@ -1097,8 +1097,7 @@ public class NN2ProcessBySignal {
             int totalDup = 0;
             String nnName = ConstantKey.TR_NN2;
 
-            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-            if (TRprocessImp.checkNN2Ready(serviceAFWeb, symbol, false) == false) {
+            if (checkNN2Ready(serviceAFWeb, symbol, false) == false) {
                 return 0;
             }
 
@@ -1232,4 +1231,41 @@ public class NN2ProcessBySignal {
         return inputList;
     }
 
+    
+    public boolean checkNN2Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
+        TradingSignalProcess TSproc = new TradingSignalProcess();
+        AFneuralNet nnObj0 = TSproc.testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN2, symbol);
+        if (nnObj0 == null) {
+            return false;
+        }
+        if (nnObj0.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+
+        if (CheckRefData == true) {
+            ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
+            int numReLearn = refData.getnRLearn();
+            if (numReLearn == -1) {
+                return false;
+            }
+            if (numReLearn > 5) {
+                return false;
+            }
+            if (refData.getnRLCnt() < 4) {
+                return false;
+            }
+
+        }
+//        nnObj0 = testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN40, symbol);
+        nnObj0 = TSproc.testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN30, symbol);
+        if (nnObj0 == null) {
+            return false;
+        }
+        if (nnObj0.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

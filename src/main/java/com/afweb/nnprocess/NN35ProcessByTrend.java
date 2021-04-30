@@ -144,8 +144,8 @@ public class NN35ProcessByTrend {
     public ArrayList<NNInputDataObj> trainingNN35dataNN1(ServiceAFweb serviceAFWeb, String symbol, ArrayList<AFstockInfo> StockArray, int offset) {
         ArrayList<NNInputDataObj> inputTrendList = new ArrayList();
 
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        if (TRprocessImp.checkNN1Ready(serviceAFWeb, symbol, false) == false) {
+        NN1ProcessBySignal NN1Proc = new NN1ProcessBySignal();
+        if (NN1Proc.checkNN1Ready(serviceAFWeb, symbol, false) == false) {
             logger.info("> trainingNN35dataNN1 NN not ready " + symbol);
             return inputTrendList;
         }
