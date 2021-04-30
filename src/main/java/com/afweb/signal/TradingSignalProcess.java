@@ -1374,6 +1374,8 @@ public class TradingSignalProcess {
                         if (ServiceAFweb.nn3testflag == true) {
                             if (stock.getSymbol().equals("HOU.TO")) {
                                 ;
+                            } else if (stock.getSymbol().equals("GLD")) {
+                                ;
                             } else {
                                 break;
                             }

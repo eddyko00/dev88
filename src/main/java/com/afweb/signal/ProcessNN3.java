@@ -66,7 +66,7 @@ public class ProcessNN3 {
 
         nnTraining.setNameNN(BPname);
         nnTraining.setSymbol(symbol);
-        nnTraining.setTrname(ConstantKey.TR_NN3);
+        nnTraining.setTrname(ConstantKey.TR_NN2);  /////////must using NN2
         int retNN = TRprocessImp.OutputNNBP(serviceAFWeb, nnTraining);
         if (retNN == 0) {
             return nn;

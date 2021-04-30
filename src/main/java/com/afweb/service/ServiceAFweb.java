@@ -1224,11 +1224,11 @@ public class ServiceAFweb {
             TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
             TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
-            symbol = "GLD";
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//            symbol = "GLD";
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 //            //
 
 //
