@@ -1331,9 +1331,22 @@ public class AccountDB {
         return sqlCMD;
     }
 
-    public int updateAccounStocktRef(TradingRuleObj tr, String refname) {
+    public int updateAccounStockComment(TradingRuleObj tr, String refname) {
         try {
             String sqlCMD = "update tradingrule set comment='" + refname + "' "
+                    + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and type=" + tr.getType();
+            processUpdateDB(sqlCMD);
+            return 1;
+
+        } catch (Exception e) {
+            logger.info("> updateAccounStocktRef exception " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int updateAccounStockPref(TradingRuleObj tr, float perf) {
+        try {
+            String sqlCMD = "update tradingrule set perf=" + perf
                     + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and type=" + tr.getType();
             processUpdateDB(sqlCMD);
             return 1;
@@ -1696,7 +1709,6 @@ public class AccountDB {
 
         return sqlCMD;
     }
-
 
     public int updateCustomerPortfolio(String username, String portfolio) {
         portfolio = portfolio.replaceAll("\"", "#");

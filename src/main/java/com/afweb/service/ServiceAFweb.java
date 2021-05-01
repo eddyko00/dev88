@@ -18,7 +18,6 @@ import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1222,14 +1221,12 @@ public class ServiceAFweb {
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-
 //            symbol = "GLD";
 //            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 //            //
-
 //
 //            symbol = "GLD";
 //            trNN = ConstantKey.INT_TR_MACD;
@@ -3484,7 +3481,7 @@ public class ServiceAFweb {
                             if (trname.equals(ConstantKey.TR_ACC)) {
                                 stock.setTRsignal(trObj.getTrsignal());
 
-                                float total = ServiceAFweb.performanceRT(trObj, stock);
+                                float total = getAccountStockRealTimeBalance(trObj);
                                 stock.setPerform(total);
 
                                 break;
@@ -3572,14 +3569,14 @@ public class ServiceAFweb {
                                 if (trname.equals(ConstantKey.TR_ACC)) {
                                     stock.setTRsignal(trObj.getTrsignal());
 
-                                    float total = ServiceAFweb.performanceRT(trObj, stock);
+                                    float total = getAccountStockRealTimeBalance(trObj);
                                     stock.setPerform(total);
 
                                     break;
                                 } else if (trname.equals(trObj.getTrname())) {
 
                                     stock.setTRsignal(trObj.getTrsignal());
-                                    float total = ServiceAFweb.performanceRT(trObj, stock);
+                                    float total = getAccountStockRealTimeBalance(trObj);
                                     stock.setPerform(total);
 
                                     break;
@@ -3612,7 +3609,8 @@ public class ServiceAFweb {
         return null;
     }
 
-    public static float performanceRT(TradingRuleObj trObj, AFstockObj stock) {
+    public float getAccountStockRealTimeBalance(TradingRuleObj trObj) {
+
         float total = 0;
         float deltaTotal = 0;
         float sharebalance = 0;
@@ -3620,6 +3618,8 @@ public class ServiceAFweb {
             if (trObj == null) {
                 return 0;
             }
+            int stockId = trObj.getStockid();
+            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
             if (stock == null) {
                 return 0;
             }

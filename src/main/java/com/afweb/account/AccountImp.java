@@ -486,7 +486,7 @@ public class AccountImp {
     }
 
     // return 0 for error
-    public int updateAccountRef(TradingRuleObj trObj, AccData refnameData) {
+    public int updateAccountStockComment(TradingRuleObj trObj, AccData refnameData) {
         String nameSt = "";
 
         try {
@@ -495,7 +495,11 @@ public class AccountImp {
         } catch (JsonProcessingException ex) {
             return 0;
         }
-        return accountdb.updateAccounStocktRef(trObj, nameSt);
+        return accountdb.updateAccounStockComment(trObj, nameSt);
+    }
+
+    public int updateAccounStockPref(TradingRuleObj trObj, float perf) {
+        return accountdb.updateAccounStockPref(trObj, perf);
     }
 
     ////////////////////////////////
@@ -1077,7 +1081,7 @@ public class AccountImp {
         trObj.setUpdatedatel(trOrder.getEntrydatel());
         trObj.setShortshare(0);
         trObj.setShortamount(0);
- 
+
         //update trObj
         String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
         transSQL.add(trSql);

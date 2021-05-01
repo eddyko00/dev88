@@ -151,6 +151,7 @@ public class TradingSignalProcess {
                                     updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
                                     upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
+                                    upateAdminTRPerf(serviceAFWeb, accountAdminObj, symbol);
                                 }
                             }
                         }
@@ -213,6 +214,36 @@ public class TradingSignalProcess {
                     serviceAFWeb.SystemUpdateSQLList(sqlList);
                 }
             }
+
+        }  // loop
+    }
+
+    public void upateAdminTRPerf(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        // update Trading signal
+        //testing
+//        symbol = "DIA";
+        //testing
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return;
+        }
+        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+        ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
+
+        for (int j = 0; j < tradingRuleList.size(); j++) {
+            TradingRuleObj trObj = (TradingRuleObj) tradingRuleList.get(j);
+//            if (trObj.getType() == ConstantKey.INT_TR_ACC) {
+//                continue;
+//            }
+            // process performance
+            String trName = trObj.getTrname();
+            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+            if ((tranOrderList == null) || (tranOrderList.size() == 0)) {
+                continue;
+            }
+            float perf = serviceAFWeb.getAccountStockRealTimeBalance(trObj);
+            trObj.setPerf(perf);
+            
+            serviceAFWeb.getAccountImp().updateAccounStockPref(trObj, perf);
 
         }  // loop
     }
