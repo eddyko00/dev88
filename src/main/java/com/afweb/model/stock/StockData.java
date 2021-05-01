@@ -12,6 +12,20 @@ package com.afweb.model.stock;
 public class StockData {
 
     /**
+     * @return the pCl
+     */
+    public float getpCl() {
+        return pCl;
+    }
+
+    /**
+     * @param pCl the pCl to set
+     */
+    public void setpCl(float pCl) {
+        this.pCl = pCl;
+    }
+
+    /**
      * @return the chDir
      */
     public int getChDir() {
@@ -69,5 +83,7 @@ public class StockData {
     private int chDir=0;
     private int upDn=0;
     private int top=0;
+    private float pCl=0; // predict close
     private int rec=0; // recommended
+
 }
