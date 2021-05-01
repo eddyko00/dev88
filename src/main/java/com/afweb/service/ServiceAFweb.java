@@ -3650,6 +3650,8 @@ public class ServiceAFweb {
                 total = total + deltaTotal;
             }
             total = (total / CKey.TRADING_AMOUNT) * 100;
+            // rounding 2 decimal round off
+            total = (float) (Math.round(total * 100.0) / 100.0);
         } catch (Exception ex) {
             logger.info("> performanceRT exception " + ex.getMessage());
         }
