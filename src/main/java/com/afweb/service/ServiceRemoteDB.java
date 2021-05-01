@@ -509,11 +509,8 @@ public class ServiceRemoteDB {
 //            String[] dataArray = output.split("~");
             String[] dataArray = splitIncludeEmpty(output, '~');
             output = "[";
-//"create table customer (id int identity not null, username varchar(255) not null unique, password varchar(255) not null, type int not null, status int not null, 
-//substatus int not null, startdate date null, firstname varchar(255) null, lastname varchar(255) null, email varchar(255) null, 
-//investment float(10) not null, balance float(10) not null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
 
-            int recSize = 15;
+            int recSize = 16;
             for (int i = 0; i < dataArray.length; i += recSize) {
                 output += "{";
                 output += "\"id\":\"" + dataArray[i] + "\",";
@@ -529,8 +526,9 @@ public class ServiceRemoteDB {
                 output += "\"payment\":\"" + dataArray[i + 10] + "\",";
                 output += "\"balance\":\"" + dataArray[i + 11] + "\",";
                 output += "\"portfolio\":\"" + dataArray[i + 12] + "\",";
-                output += "\"updatedatedisplay\":\"" + dataArray[i + 13] + "\",";
-                output += "\"updatedatel\":\"" + dataArray[i + 14] + "\"";
+                output += "\"data\":\"" + dataArray[i + 13] + "\",";
+                output += "\"updatedatedisplay\":\"" + dataArray[i + 14] + "\",";
+                output += "\"updatedatel\":\"" + dataArray[i + 15] + "\"";
 
                 if (i + recSize >= dataArray.length) {
                     output += "}";
@@ -586,6 +584,7 @@ public class ServiceRemoteDB {
                 customer.setPayment(Float.parseFloat(rs.getPayment()));
                 customer.setBalance(Float.parseFloat(rs.getBalance()));
                 customer.setPortfolio(rs.getPortfolio());
+                customer.setData(rs.getData());
                 customer.setUpdatedatel(Long.parseLong(rs.getUpdatedatel()));
                 customer.setUpdatedatedisplay(new java.sql.Date(customer.getUpdatedatel()));
 
@@ -1185,13 +1184,10 @@ public class ServiceRemoteDB {
 //            String[] dataArray = output.split("~");
             String[] dataArray = splitIncludeEmpty(output, '~');
             output = "[";
-//"create table tradingrule (id int(10) not null auto_increment, trname varchar(255) not null, type int(10) not null, 
-//trsignal int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, status int(10) not null, 
-//substatus int(10) not null, investment float not null, balance float not null, longshare float not null, longamount float not null, shortshare float not null, shortamount float not null, linktradingruleid int(10) not null, stockid int(10) not null, accountid int(10) not null, comment varchar(255) not null, primary key (id))");
 
             //"select tradingrule.*, stock.symbol as symbol  always add symbol at the end
             //"select tradingrule.*, stock.symbol as symbol  always add symbol at the end
-            int recSize = 19;
+            int recSize = 20;
             for (int i = 0; i < dataArray.length; i += recSize) {
                 output += "{";
                 output += "\"id\":\"" + dataArray[i] + "\",";
@@ -1208,11 +1204,12 @@ public class ServiceRemoteDB {
                 output += "\"longamount\":\"" + dataArray[i + 11] + "\",";
                 output += "\"shortshare\":\"" + dataArray[i + 12] + "\",";
                 output += "\"shortamount\":\"" + dataArray[i + 13] + "\",";
-                output += "\"linktradingruleid\":\"" + dataArray[i + 14] + "\",";
-                output += "\"stockid\":\"" + dataArray[i + 15] + "\",";
-                output += "\"accountid\":\"" + dataArray[i + 16] + "\",";
-                output += "\"comment\":\"" + dataArray[i + 17] + "\",";
-                output += "\"symbol\":\"" + dataArray[i + 18] + "\"";
+                output += "\"perf\":\"" + dataArray[i + 14] + "\",";
+                output += "\"linktradingruleid\":\"" + dataArray[i + 15] + "\",";
+                output += "\"stockid\":\"" + dataArray[i + 16] + "\",";
+                output += "\"accountid\":\"" + dataArray[i + 17] + "\",";
+                output += "\"comment\":\"" + dataArray[i + 18] + "\",";
+                output += "\"symbol\":\"" + dataArray[i + 19] + "\"";
 
                 if (i + recSize >= dataArray.length) {
                     output += "}";
@@ -1261,6 +1258,8 @@ public class ServiceRemoteDB {
                 tradingRule.setLongamount(Float.parseFloat(rs.getLongamount()));
                 tradingRule.setShortshare(Float.parseFloat(rs.getShortshare()));
                 tradingRule.setShortamount(Float.parseFloat(rs.getShortamount()));
+                tradingRule.setPerf(Float.parseFloat(rs.getPerf()));
+
                 tradingRule.setComment(rs.getComment());
                 tradingRule.setLinktradingruleid(Integer.parseInt(rs.getLinktradingruleid()));
                 tradingRule.setAccountid(Integer.parseInt(rs.getAccountid()));

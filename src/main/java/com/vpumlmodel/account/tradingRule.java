@@ -2,6 +2,20 @@ package com.vpumlmodel.account;
 
 public class tradingRule {
 
+    /**
+     * @return the perf
+     */
+    public float getPerf() {
+        return perf;
+    }
+
+    /**
+     * @param perf the perf to set
+     */
+    public void setPerf(float perf) {
+        this.perf = perf;
+    }
+
     private account account;
     private transationOrder[] transationorder;
     private int id;
@@ -18,6 +32,7 @@ public class tradingRule {
     private float longshare;
     private float shortshare;
     private float shortamount;
+    private float perf;
     private String comment;
     private int linktradingruleid;
     private int accountid;

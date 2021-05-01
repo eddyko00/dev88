@@ -1077,6 +1077,7 @@ public class AccountImp {
         trObj.setUpdatedatel(trOrder.getEntrydatel());
         trObj.setShortshare(0);
         trObj.setShortamount(0);
+ 
         //update trObj
         String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
         transSQL.add(trSql);

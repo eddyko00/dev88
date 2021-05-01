@@ -13,6 +13,20 @@ import com.vpumlmodel.account.account;
  */
 public class CustomerRDB {
 
+    /**
+     * @return the data
+     */
+    public String getData() {
+        return data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
+
     private account[] account;
     private String id;
     private String username;
@@ -27,6 +41,7 @@ public class CustomerRDB {
     private String payment;
     private String balance;
     private String portfolio;
+    private String data;
     private String updatedatedisplay;
     private String updatedatel;
 

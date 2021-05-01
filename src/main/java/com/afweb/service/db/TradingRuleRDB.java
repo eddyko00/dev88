@@ -14,6 +14,20 @@ import com.vpumlmodel.account.transationOrder;
  */
 public class TradingRuleRDB {
 
+    /**
+     * @return the perf
+     */
+    public String getPerf() {
+        return perf;
+    }
+
+    /**
+     * @param perf the perf to set
+     */
+    public void setPerf(String perf) {
+        this.perf = perf;
+    }
+
     private account account;
     private transationOrder[] transationorder;
     private String id;
@@ -30,6 +44,7 @@ public class TradingRuleRDB {
     private String longamount;
     private String shortshare;
     private String shortamount;
+    private String perf;
     private String comment;
     private String linktradingruleid;
     private String accountid;

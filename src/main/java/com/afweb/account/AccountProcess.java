@@ -819,6 +819,7 @@ public class AccountProcess {
                     trObj.setShortamount(trAdminObj.getShortamount());
                     trObj.setShortshare(trAdminObj.getShortshare());
 
+                    trObj.setPerf(trAdminObj.getPerf());
                     trObj.setComment(trAdminObj.getComment());
 
                     UpdateTRList.add(trObj);

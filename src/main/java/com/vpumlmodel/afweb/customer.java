@@ -5,6 +5,20 @@ import com.vpumlmodel.account.*;
 public class customer {
 
     /**
+     * @return the data
+     */
+    public String getData() {
+        return data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    /**
      * @return the payment
      */
     public float getPayment() {
@@ -46,6 +60,7 @@ public class customer {
     private float payment;
     private float balance;
     private String portfolio="";
+    private String data="";
     private java.sql.Date updatedatedisplay;
     private long updatedatel;
 

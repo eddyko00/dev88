@@ -160,6 +160,7 @@ public class AccountDB {
                     customer.setPayment(rs.getFloat("payment"));
                     customer.setBalance(rs.getFloat("balance"));
                     customer.setPortfolio(rs.getString("portfolio"));
+                    customer.setData(rs.getString("data"));
                     customer.setUpdatedatel(rs.getLong("updatedatel"));
                     //entrydatedisplay not reliable. should use entrydatel
                     customer.setUpdatedatedisplay(new java.sql.Date(customer.getUpdatedatel()));
@@ -336,11 +337,11 @@ public class AccountDB {
         newC.setUpdatedatedisplay(new java.sql.Date(newC.getUpdatedatel()));
         String sqlCMD
                 = "insert into customer(username, password, type, status, substatus, startdate, firstname, lastname,"
-                + " email, payment, balance, portfolio, updatedatedisplay, updatedatel, id) values "
+                + " email, payment, balance, portfolio, data, updatedatedisplay, updatedatel, id) values "
                 + "('" + newC.getUsername() + "','" + newC.getPassword() + "'," + newC.getType()
                 + "," + newC.getStatus() + "," + newC.getSubstatus() + ",'" + newC.getStartdate() + "'"
                 + ",'" + firstname + "','" + lastname + "'"
-                + ",'" + email + "'," + newC.getPayment() + "," + newC.getBalance() + ",'" + newC.getPortfolio() + "'"
+                + ",'" + email + "'," + newC.getPayment() + "," + newC.getBalance() + ",'" + newC.getPortfolio() + "','" + newC.getData() + "'"
                 + ",'" + newC.getUpdatedatedisplay() + "'," + newC.getUpdatedatel() + "," + newC.getId() + ")";
         return sqlCMD;
     }
@@ -377,11 +378,11 @@ public class AccountDB {
 
             String sqlCMD
                     = "insert into customer(username, password, type, status, substatus, startdate, firstname, lastname,"
-                    + " email, payment, balance, portfolio, updatedatedisplay, updatedatel) values "
+                    + " email, payment, balance, portfolio, data, updatedatedisplay, updatedatel) values "
                     + "('" + newC.getUsername() + "','" + newC.getPassword() + "'," + newC.getType()
                     + "," + ConstantKey.OPEN + "," + newC.getSubstatus() + ",'" + new java.sql.Date(dateNowLong) + "'"
                     + ",'" + newC.getFirstname() + "','" + newC.getLastname() + "'"
-                    + ",'" + newC.getEmail() + "'," + newC.getPayment() + "," + newC.getBalance() + ",'" + newC.getPortfolio() + "'"
+                    + ",'" + newC.getEmail() + "'," + newC.getPayment() + "," + newC.getBalance() + ",'" + newC.getPortfolio() + "','" + newC.getData() + "'"
                     + ",'" + new java.sql.Date(dateNowLong) + "'," + dateNowLong + ")";
 
             processUpdateDB(sqlCMD);
@@ -1027,6 +1028,7 @@ public class AccountDB {
         tr.setLongamount(0);
         tr.setShortshare(0);
         tr.setShortamount(0);
+        tr.setPerf(0);
         Calendar dateNowUpdate = TimeConvertion.getCurrentCalendar();
         tr.setUpdatedatedisplay(new java.sql.Date(dateNowUpdate.getTimeInMillis()));
         tr.setUpdatedatel(dateNowUpdate.getTimeInMillis());
@@ -1034,7 +1036,8 @@ public class AccountDB {
         String updateTRSQL
                 = "update tradingrule set status=" + tr.getStatus() + ", substatus=" + tr.getSubstatus() + ", trsignal=" + tr.getTrsignal()
                 + ",updatedatedisplay='" + tr.getUpdatedatedisplay() + "', updatedatel=" + tr.getUpdatedatel()
-                + ", investment=" + tr.getInvestment() + ", balance=" + tr.getBalance() + ",longshare=" + tr.getLongshare() + ",longamount=" + tr.getLongamount() + ", shortshare=" + tr.getShortshare() + ", shortamount=" + tr.getShortamount()
+                + ", investment=" + tr.getInvestment() + ", balance=" + tr.getBalance() + ",longshare=" + tr.getLongshare() + ",longamount=" + tr.getLongamount() + ", shortshare=" + tr.getShortshare()
+                + ", shortamount=" + tr.getShortamount() + ", perf=" + tr.getPerf()
                 + ", linktradingruleid=" + tr.getLinktradingruleid()
                 + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and id=" + tr.getId();
 
@@ -1253,6 +1256,7 @@ public class AccountDB {
                     tradingRule.setLongamount(rs.getFloat("longamount"));
                     tradingRule.setShortshare(rs.getFloat("shortshare"));
                     tradingRule.setShortamount(rs.getFloat("shortamount"));
+                    tradingRule.setPerf(rs.getFloat("perf"));
                     tradingRule.setComment(rs.getString("comment"));
                     tradingRule.setLinktradingruleid(rs.getInt("linktradingruleid"));
                     tradingRule.setAccountid(rs.getInt("accountid"));
@@ -1277,11 +1281,11 @@ public class AccountDB {
         tr.setUpdatedatedisplay(new java.sql.Date(tr.getUpdatedatel()));
         String sqlCMD
                 = "insert into tradingrule(trname, type, trsignal, updatedatedisplay, updatedatel,"
-                + " status, substatus, investment, balance, longshare, longamount, shortshare, shortamount, comment, linktradingruleid, stockid, accountid, id) values "
+                + " status, substatus, investment, balance, longshare, longamount, shortshare, shortamount,perf, comment, linktradingruleid, stockid, accountid, id) values "
                 + "('" + tr.getTrname() + "'," + tr.getType() + "," + tr.getTrsignal()
                 + ",'" + tr.getUpdatedatedisplay() + "'," + tr.getUpdatedatel()
                 + "," + tr.getStatus() + "," + tr.getSubstatus() + "," + tr.getInvestment() + "," + tr.getBalance() + "," + tr.getLongshare() + "," + tr.getLongamount()
-                + "," + tr.getShortshare() + "," + tr.getShortamount() + ",'" + tr.getComment() + "'," + tr.getLinktradingruleid()
+                + "," + tr.getShortshare() + "," + tr.getShortamount() + "," + tr.getPerf() + ",'" + tr.getComment() + "'," + tr.getLinktradingruleid()
                 + "," + tr.getStockid() + "," + tr.getAccountid() + "," + tr.getId() + ")";
 
         return sqlCMD;
@@ -1293,7 +1297,8 @@ public class AccountDB {
                 TradingRuleObj tr = (TradingRuleObj) TRList.get(i);
                 String sqlCMD = "update tradingrule set trsignal=" + tr.getTrsignal() + ", status=" + tr.getStatus() + ", substatus=" + tr.getSubstatus()
                         + ",updatedatedisplay='" + tr.getUpdatedatedisplay() + "', updatedatel=" + tr.getUpdatedatel()
-                        + ", investment=" + tr.getInvestment() + ", balance=" + tr.getBalance() + ",longshare=" + tr.getLongshare() + ",longamount=" + tr.getLongamount() + ", shortshare=" + tr.getShortshare() + ", shortamount=" + tr.getShortamount()
+                        + ", investment=" + tr.getInvestment() + ", balance=" + tr.getBalance() + ",longshare=" + tr.getLongshare() + ",longamount=" + tr.getLongamount() + ", shortshare=" + tr.getShortshare()
+                        + ", shortamount=" + tr.getShortamount() + ", perf=" + tr.getPerf()
                         + ", comment='" + tr.getComment() + "', linktradingruleid=" + tr.getLinktradingruleid()
                         + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and type=" + tr.getType();
                 processUpdateDB(sqlCMD);
@@ -1319,7 +1324,8 @@ public class AccountDB {
 
         String sqlCMD = "update tradingrule set trsignal=" + tr.getTrsignal()
                 + ",updatedatedisplay='" + tr.getUpdatedatedisplay() + "', updatedatel=" + tr.getUpdatedatel()
-                + ", investment=" + tr.getInvestment() + ", balance=" + tr.getBalance() + ",longshare=" + tr.getLongshare() + ",longamount=" + tr.getLongamount() + ", shortshare=" + tr.getShortshare() + ", shortamount=" + tr.getShortamount()
+                + ", investment=" + tr.getInvestment() + ", balance=" + tr.getBalance() + ",longshare=" + tr.getLongshare() + ",longamount=" + tr.getLongamount() + ", shortshare=" + tr.getShortshare()
+                + ", shortamount=" + tr.getShortamount() + ", perf=" + tr.getPerf()
                 + " where accountid=" + tr.getAccountid() + " and stockid=" + tr.getStockid() + " and type=" + tr.getType();
 
         return sqlCMD;
@@ -1350,7 +1356,7 @@ public class AccountDB {
                 if (tradingRuleObj.getStatus() == ConstantKey.CLOSE) {
 
                     String sqlCMD = "update tradingrule set trsignal=" + ConstantKey.S_NEUTRAL + ", status=" + ConstantKey.OPEN + ", substatus=" + ConstantKey.INITIAL
-                            + ", investment=0, balance=0,longshare=0,longamount=0, shortshare=0, shortamount=0"
+                            + ", investment=0, balance=0,longshare=0,longamount=0, shortshare=0, shortamount=0, perf=0"
                             + ", comment=' ', linktradingruleid=" + tr.getLinktradingruleid()
                             + " where accountid=" + tradingRuleObj.getAccountid() + " and stockid=" + tradingRuleObj.getStockid() + " and type=" + tr.getType();
                     processUpdateDB(sqlCMD);
@@ -1364,10 +1370,10 @@ public class AccountDB {
             Calendar dateDefault = TimeConvertion.getDefaultCalendar();
             String sqlCMD
                     = "insert into tradingrule( trname, type, trsignal, updatedatedisplay, updatedatel,"
-                    + " status, substatus, investment, balance, longshare, longamount, shortshare, shortamount, comment, linktradingruleid, stockid, accountid) values "
+                    + " status, substatus, investment, balance, longshare, longamount, shortshare, shortamount, perf, comment, linktradingruleid, stockid, accountid) values "
                     + "('" + tr.getTrname() + "'," + tr.getType() + "," + ConstantKey.S_NEUTRAL
                     + ",'" + new java.sql.Date(dateDefault.getTimeInMillis()) + "'," + dateDefault.getTimeInMillis()
-                    + "," + ConstantKey.OPEN + "," + ConstantKey.INITIAL + ",0,0,0,0,0,0,''," + tr.getLinktradingruleid() + "," + StockID + "," + AccountID + ")";
+                    + "," + ConstantKey.OPEN + "," + ConstantKey.INITIAL + ",0,0,0,0,0,0,0,''," + tr.getLinktradingruleid() + "," + StockID + "," + AccountID + ")";
 
             processUpdateDB(sqlCMD);
 //            logger.info("> addAccountStock " + sqlCMD);
@@ -1691,11 +1697,7 @@ public class AccountDB {
         return sqlCMD;
     }
 
-//    public static String SQLUpdateAccountPortfoli(String accountName, String portfolio) {
-//        String sqlCMD = "update account set portfolio='" + portfolio + "'"
-//                + " where accountname='" + accountName + "'";
-//        return sqlCMD;
-//    }
+
     public int updateCustomerPortfolio(String username, String portfolio) {
         portfolio = portfolio.replaceAll("\"", "#");
         String sqlCMD = "update customer set portfolio='" + portfolio + "'"
