@@ -323,7 +323,7 @@ public class ServiceRemoteDB {
                 output += "\"failedupdate\":\"" + dataArray[i + 7] + "\",";
                 output += "\"longterm\":\"" + dataArray[i + 8] + "\",";
                 output += "\"shortterm\":\"" + dataArray[i + 9] + "\",";
-                output += "\"direction\":\"" + dataArray[i + 10] + "\"";
+                output += "\"direction\":\"" + dataArray[i + 10] + "\",";
                 output += "\"data\":\"" + dataArray[i + 11] + "\"";
                 if (i + recSize >= dataArray.length) {
                     output += "}";
