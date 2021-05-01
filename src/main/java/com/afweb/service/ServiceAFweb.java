@@ -3565,38 +3565,14 @@ public class ServiceAFweb {
                             }
                             for (int j = 0; j < trObjList.size(); j++) {
                                 TradingRuleObj trObj = trObjList.get(j);
-
-                                if (trname.equals(ConstantKey.TR_ACC)) {
-                                    stock.setTRsignal(trObj.getTrsignal());
-
-                                    float total = getAccountStockRealTimeBalance(trObj);
-                                    stock.setPerform(total);
-
-                                    break;
-                                } else if (trname.equals(trObj.getTrname())) {
+                                if (trname.equals(trObj.getTrname())) {
 
                                     stock.setTRsignal(trObj.getTrsignal());
                                     float total = getAccountStockRealTimeBalance(trObj);
                                     stock.setPerform(total);
-
                                     break;
                                 }
 
-//                                if (trObj.getTrname().equals(ConstantKey.TR_ACC)) {
-//                                    stock.setTRsignal(trObj.getTrsignal());
-//                                } else if (trObj.getTrname().equals(ConstantKey.TR_NN1)) {
-//                                    float perfProfit = 0;
-//                                    AccountObj accountAdminObj = getAdminObjFromCache();
-//                                    ArrayList<PerformanceObj> perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trObj.getTrname(), 1);
-//                                    if (perfList != null) {
-//                                        if (perfList.size() > 0) {
-//                                            PerformanceObj perf = perfList.get(0);
-//                                            perfProfit = perf.getGrossprofit();
-//                                        }
-//                                    }
-//                                    float per = 100 * (perfProfit) / CKey.TRADING_AMOUNT;
-//                                    stock.setPerform(per);
-//                                }
                             }
                         }
 
@@ -3653,7 +3629,7 @@ public class ServiceAFweb {
             // rounding 2 decimal round off
             total = (float) (Math.round(total * 100.0) / 100.0);
         } catch (Exception ex) {
-            logger.info("> performanceRT exception " + ex.getMessage());
+            logger.info("> getAccountStockRealTimeBalance exception " + ex.getMessage());
         }
         return total;
     }
