@@ -242,7 +242,7 @@ public class TradingSignalProcess {
             }
             float perf = serviceAFWeb.getAccountStockRealTimeBalance(trObj);
             trObj.setPerf(perf);
-            
+
             serviceAFWeb.getAccountImp().updateAccounStockPref(trObj, perf);
 
         }  // loop
@@ -1674,8 +1674,11 @@ public class TradingSignalProcess {
                         long lastUpdate5Day = TimeConvertion.addDays(lastupdate1, 5); // 5 days
 
                         if (lastUpdate5Day > currentdate) {
+
                             //////// Update Long and short term trend 
                             int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
+                            // udpate other trends 
+                            updateStockRecommendation(serviceAFWeb, stock);
                             if (resultCalcuate == 1) {
                                 // send SQL update
                                 String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
@@ -1715,6 +1718,35 @@ public class TradingSignalProcess {
             }
         } catch (Exception ex) {
             logger.info("> updateAllStock exception " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int updateStockRecommendation(ServiceAFweb serviceAFWeb, AFstockObj stock) {
+        if (stock == null) {
+            return 0;
+        }
+        if (stock.getStatus() != ConstantKey.OPEN) {
+            return 0;
+        }
+        String NormalizeSymbol = stock.getSymbol();
+        String dataSt = stock.getData();
+
+        StockData stockData = new StockData();
+        try {
+            if ((dataSt != null) && (dataSt.length() > 0)) {
+                dataSt = dataSt.replaceAll("#", "\"");
+                stockData = new ObjectMapper().readValue(dataSt, StockData.class);
+            }
+        } catch (Exception ex) {
+        }
+
+        try {
+            String sdataStr = new ObjectMapper().writeValueAsString(stockData);
+            sdataStr = sdataStr.replaceAll("\"", "#");
+            stock.setData(sdataStr);
+            return 1;
+        } catch (Exception ex) {
         }
         return 0;
     }
@@ -1792,15 +1824,12 @@ public class TradingSignalProcess {
                     int size1yearAll = 20;
                     ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
                     if ((StockArrayHistory != null) && (StockArrayHistory.size() > 10)) {
-//                    AFstockInfo stockInfoObj = StockArray.get(0);
                         AFstockInfo stockInfoHistory = StockArrayHistory.get(0);
                         boolean ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
                         if (ret == false) {
-//                        stockInfoObj = StockArray.get(1);
                             stockInfoHistory = StockArrayHistory.get(1);
                             ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
                             if (ret == false) {
-//                            stockInfoObj = StockArray.get(2);
                                 stockInfoHistory = StockArrayHistory.get(2);
                                 ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
 
@@ -1810,78 +1839,6 @@ public class TradingSignalProcess {
                             return 0;
                         }
                     }
-//                    float splitF = 0;
-//                    String msg = "";
-//                    CommData commDataObj = new CommData();
-//                    if (StockArrayTemp != null && StockArrayTemp.size() > 0) {
-//                        AFstockInfo stockInfo = StockArrayTemp.get(0);
-//                        long historydate = stockInfo.getEntrydatel();
-//                        historydate = TimeConvertion.endOfDayInMillis(historydate);
-//                        float newClose = stockInfo.getFclose();
-//                        for (int j = 0; j < StockArray.size(); j++) {
-//                            AFstockInfo stockInfoObjTmp = StockArray.get(j);
-//                            long currentdate = TimeConvertion.endOfDayInMillis(stockInfoObjTmp.getEntrydatel());
-//                            if (historydate == currentdate) {
-//
-//                                float oldClose = stockInfoObjTmp.getFclose();
-//                                float deltaPTmp = 0;
-//                                if (newClose > oldClose) {
-//                                    deltaPTmp = newClose / oldClose;
-//                                    splitF = deltaPTmp;
-//                                } else {
-//                                    deltaPTmp = oldClose / newClose;
-//                                    splitF = -deltaPTmp;
-//                                }
-//                                if (deltaPTmp > CKey.SPLIT_VAL) {
-////                                
-//                                    splitFlag = true;
-//                                    msg = "updateRealTimeStock " + NormalizeSymbol + " Split=" + splitF + " "
-//                                            + stockInfoObj.getEntrydatedisplay() + " newClose " + newClose + " oldClose " + oldClose;
-//
-//                                    commDataObj.setType(0);
-//                                    commDataObj.setSymbol(NormalizeSymbol);
-//                                    commDataObj.setEntrydatedisplay(stockInfoObj.getEntrydatedisplay());
-//                                    commDataObj.setEntrydatel(stockInfoObj.getEntrydatel());
-//                                    commDataObj.setSplit(splitF);
-//                                    commDataObj.setOldclose(oldClose);
-//                                    commDataObj.setNewclose(newClose);
-//                                }
-//                                break;
-//                            }
-//                        }
-//
-//                    }
-//                    if (splitFlag == true) {
-//                        if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-//                            //just for testing
-//                            return 0;
-//                        }
-//                        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
-//                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-//                        ArrayList sqlList = new ArrayList();
-//                        sqlList.add(sockNameSQL);
-//                        serviceAFWeb.SystemUpdateSQLList(sqlList);
-//                        logger.info(msg);
-//
-//                        // send admin messsage
-//                        String tzid = "America/New_York"; //EDT
-//                        TimeZone tz = TimeZone.getTimeZone(tzid);
-//                        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-//                        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//                        long dateNowLong = dateNow.getTimeInMillis();
-//                        java.sql.Date d = new java.sql.Date(dateNowLong);
-////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-//                        DateFormat format = new SimpleDateFormat(" hh:mm a");
-//                        format.setTimeZone(tz);
-//                        String ESTdate = format.format(d);
-//
-//                        String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
-//
-//                        commDataObj.setMsg(commMsg);
-//                        serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_COM_SPLIT, commDataObj);
-//
-//                        return 0;
-//                    }
 
                 }
 
@@ -1897,27 +1854,6 @@ public class TradingSignalProcess {
                     return 0;
                 }
 
-//                boolean primarySt = true;
-//                if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//                    primarySt = true;
-//                }
-////                for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-////                    String stockN = ServiceAFweb.primaryStock[i];
-////                    if (stockN.equals(NormalizeSymbol.toUpperCase())) {
-////                        primarySt = true;
-////                        break;
-////                    }
-////                }
-//                if (primarySt == false) {
-//                    // assume yahoo finance is working.
-//                    // save only the last 10 to save memory 10M only in Clever Cloud 
-//                    ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
-//                    for (int j = 0; j < 25; j++) {
-//                        StockArrayTmp.add(StockArray.get(j));
-//                    }
-//                    StockArray = StockArrayTmp;
-//
-//                }
                 ArrayList<AFstockInfo> StockSendArray = new ArrayList();
                 int index = 0;
 
