@@ -97,20 +97,10 @@ public class StockDB {
     }
 
     public static String SQLupdateStockSignal(AFstockObj stock) {
-        String sqlCMD = "update stock set longterm=" + stock.getLongterm() + ", shortterm=" + stock.getShortterm() + ", direction=" + stock.getDirection() + " where id=" + stock.getId();
+        String sqlCMD = "update stock set longterm=" + stock.getLongterm() + ", shortterm=" + stock.getShortterm() + ", data='" + stock.getData() + "', direction=" + stock.getDirection() + " where id=" + stock.getId();
         return sqlCMD;
     }
 
-//    public int updateStockSignal(AFstockObj stock) {
-//
-//        try {
-//            String sqlCMD = "update stock set longterm=" + stock.getLongterm() + ", shortterm=" + stock.getShortterm() + ", direction=" + stock.getDirection() + " where id=" + stock.getId();
-//            return processUpdateDB(sqlCMD);
-//        } catch (Exception ex) {
-//            Logger.getLogger(StockDB.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return 0;
-//    }
     public static String SQLupdateStockName(AFstockObj stock) {
         String sqlCMD = "update stock set stockname='" + stock.getStockname() + "' where id=" + stock.getId();
         return sqlCMD;
@@ -147,12 +137,12 @@ public class StockDB {
 
     public static String insertStock(AFstockObj newS) {
         newS.setUpdatedatedisplay(new java.sql.Date(newS.getUpdatedatel()));
-        String sqlCMD = "insert into stock (stockname, symbol, status, substatus, updatedatedisplay, updatedatel, failedupdate, longterm, shortterm, direction, id) "
+        String sqlCMD = "insert into stock (stockname, symbol, status, substatus, updatedatedisplay, updatedatel, failedupdate, longterm, shortterm, direction, data, id) "
                 + "values ('" + newS.getStockname() + "'," + "'" + newS.getSymbol() + "',"
                 + newS.getStatus() + "," + newS.getSubstatus() + ","
                 + "'" + newS.getUpdatedatedisplay() + "'," + newS.getUpdatedatel()
                 + "," + newS.getFailedupdate() + "," + newS.getLongterm() + "," + newS.getShortterm()
-                + "," + newS.getDirection() + "," + newS.getId() + ")";
+                + "," + newS.getDirection() + ",'" + newS.getData() + "'," + newS.getId() + ")";
         return sqlCMD;
     }
 
@@ -175,12 +165,12 @@ public class StockDB {
 
                 return ConstantKey.EXISTED;
             }
-            String sqlCMD = "insert into stock (stockname, symbol, status, substatus, updatedatedisplay, updatedatel, failedupdate, longterm, shortterm, direction) "
+            String sqlCMD = "insert into stock (stockname, symbol, status, substatus, updatedatedisplay, updatedatel, failedupdate, longterm, shortterm, direction, data) "
                     + "values ('" + NormalizeSymbol + "',"
                     + "'" + NormalizeSymbol + "',"
                     + ConstantKey.OPEN + "," + ConstantKey.INITIAL + ","
                     + "'" + new java.sql.Date(dateNowLong) + "',"
-                    + dateNowLong + ",0,0,0,0)";
+                    + dateNowLong + ",0,0,0,0,'')";
 
             int ret = processUpdateDB(sqlCMD);
             if (ret == 1) {
@@ -312,6 +302,7 @@ public class StockDB {
                 stock.setLongterm(rs.getFloat("longterm"));
                 stock.setShortterm(rs.getFloat("shortterm"));
                 stock.setDirection(rs.getFloat("direction"));
+                stock.setData(rs.getString("data"));
 
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -879,7 +870,7 @@ public class StockDB {
             if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
                 createTableList.add("create table dummy1 (id int identity not null, primary key (id))");
                 createTableList.add("create table tradingrule (id int identity not null, trname varchar(255) not null, type int not null, trsignal int not null, updatedatedisplay date null, updatedatel bigint not null, status int not null, substatus int not null, investment float(10) not null, balance float(10) not null, longshare float(10) not null, longamount float(10) not null, shortshare float(10) not null, shortamount float(10) not null, linktradingruleid int not null, stockid int not null, accountid int not null, comment varchar(255) not null, primary key (id))");
-                createTableList.add("create table stock (id int identity not null, symbol varchar(255) not null unique, stockname varchar(255) not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, failedupdate int not null, longterm float(10) not null, shortterm float(10) not null, direction float(10) not null, primary key (id))");
+                createTableList.add("create table stock (id int identity not null, symbol varchar(255) not null unique, stockname varchar(255) not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, failedupdate int not null, longterm float(10) not null, shortterm float(10) not null, direction float(10) not null, data varchar(255) not null,primary key (id))");
                 createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, stockid int not null, primary key (id))");
                 createTableList.add("create table account (id int identity not null, accountname varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, startdate date null, investment float(10) not null, balance float(10) not null, servicefee float(10) not null, portfolio varchar(255) not null, linkaccountid int not null, customerid int not null, primary key (id))");
                 createTableList.add("create table lockobject (id int identity not null, lockname varchar(255) not null unique, type int not null, lockdatedisplay date null, lockdatel bigint null, comment varchar(255) null, primary key (id))");
@@ -905,7 +896,7 @@ public class StockDB {
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummy1 (id int(10) not null auto_increment, primary key (id))");
                 createTableList.add("create table tradingrule (id int(10) not null auto_increment, trname varchar(255) not null, type int(10) not null, trsignal int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, status int(10) not null, substatus int(10) not null, investment float not null, balance float not null, longshare float not null, longamount float not null, shortshare float not null, shortamount float not null, linktradingruleid int(10) not null, stockid int(10) not null, accountid int(10) not null, comment varchar(255) not null, primary key (id))");
-                createTableList.add("create table stock (id int(10) not null auto_increment, symbol varchar(255) not null unique, stockname varchar(255) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, failedupdate int(10) not null, longterm float not null, shortterm float not null, direction float not null, primary key (id))");
+                createTableList.add("create table stock (id int(10) not null auto_increment, symbol varchar(255) not null unique, stockname varchar(255) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, failedupdate int(10) not null, longterm float not null, shortterm float not null, direction float not null, data varchar(255) not null, primary key (id))");
                 createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, stockid int(10) not null, primary key (id))");
                 createTableList.add("create table account (id int(10) not null auto_increment, accountname varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, startdate date, investment float not null, balance float not null, servicefee float not null, portfolio varchar(255) not null, linkaccountid int(10) not null, customerid int(10) not null, primary key (id))");
                 createTableList.add("create table lockobject (id int(10) not null auto_increment, lockname varchar(255) not null unique, type int(10) not null, lockdatedisplay date, lockdatel bigint(20), comment varchar(255), primary key (id))");

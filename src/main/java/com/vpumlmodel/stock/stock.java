@@ -2,6 +2,20 @@ package com.vpumlmodel.stock;
 
 public class stock {
 
+    /**
+     * @return the data
+     */
+    public String getData() {
+        return data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
+
 	private stockInfo[] stockInfo;
 	private int id;
 	private String symbol;
@@ -14,6 +28,7 @@ public class stock {
 	private float longterm;
 	private float shortterm;
 	private float direction;
+        private String data;
 
     /**
      * @return the stockInfo

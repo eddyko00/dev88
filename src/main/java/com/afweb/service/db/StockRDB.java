@@ -21,6 +21,7 @@ public class StockRDB {
 	private String longterm;
 	private String shortterm;
 	private String direction;
+	private String data;        
 
     /**
      * @return the id
@@ -174,6 +175,20 @@ public class StockRDB {
      */
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    /**
+     * @return the data
+     */
+    public String getData() {
+        return data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(String data) {
+        this.data = data;
     }
 
 

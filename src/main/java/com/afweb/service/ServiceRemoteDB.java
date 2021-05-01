@@ -310,7 +310,7 @@ public class ServiceRemoteDB {
 //"create table stock (id int(10) not null auto_increment, symbol varchar(255) not null unique, stockname varchar(255) not null, status int(10) not null, substatus int(10) not null, 
 //updatedatedisplay date, updatedatel bigint(20) not null, failedupdate int(10) not null, longterm float not null, shortterm float not null, direction float not null, primary key (id))");
 
-            int recSize = 11;
+            int recSize = 12;
             for (int i = 0; i < dataArray.length; i += recSize) {
                 output += "{";
                 output += "\"id\":\"" + dataArray[i] + "\",";
@@ -324,7 +324,7 @@ public class ServiceRemoteDB {
                 output += "\"longterm\":\"" + dataArray[i + 8] + "\",";
                 output += "\"shortterm\":\"" + dataArray[i + 9] + "\",";
                 output += "\"direction\":\"" + dataArray[i + 10] + "\"";
-
+                output += "\"data\":\"" + dataArray[i + 11] + "\"";
                 if (i + recSize >= dataArray.length) {
                     output += "}";
                 } else {
@@ -366,6 +366,7 @@ public class ServiceRemoteDB {
                 stock.setLongterm(Float.parseFloat(stockRDB.getLongterm()));
                 stock.setShortterm(Float.parseFloat(stockRDB.getShortterm()));
                 stock.setDirection(Float.parseFloat(stockRDB.getDirection()));
+                stock.setData(stockRDB.getData());
 
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -823,10 +824,9 @@ public class ServiceRemoteDB {
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
-
             HashMap newbodymap = new HashMap();
             newbodymap.put(CMDPOST, sqlCMD);
-            
+
             String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
 
             int beg = output.indexOf("~~ ");
