@@ -986,16 +986,19 @@ public class ServiceAFweb {
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
                 }
+                if (nn3testflag == true) {
+                    logger.info("> processNN3InputNeuralNet Rest input..");
+                    exitflag = true;
+                    /// reset weight0 and use latest stock
+                    /// remember to update nnData and nn3Data and version                
+                    nn3ProcBySig.processNN3InputNeuralNet(this);
+
+//                    nn2trend.processNN40InputNeuralNetTrend(this);
+//                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
+                    ///////////////////////////////
+                }                
                 if (nn35testflag == true) {
                     String nnName = ConstantKey.TR_NN35;
-//
-//                    logger.info("> processNN35InputNeuralNet Rest input..");
-//                    removeNeuralNetDataAllSymbolByTR(nnName);
-//
-//                    exitflag = true;
-//                    /// reset weight0 and use latest stock
-//                    /// remember to update nnData and nn3Data and version                
-//                    nn35trend.processNN35InputNeuralNetTrend(this);
 
                 }
                 logger.info("> processNN1InputNeuralNet Edn..");
@@ -1214,7 +1217,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            nn3testflag = true;
+            nn3testflag = true;
+            
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
 //            AccountObj accountAdminObj = getAdminObjFromCache();
