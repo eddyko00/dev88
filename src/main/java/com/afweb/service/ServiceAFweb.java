@@ -1230,7 +1230,7 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
             nn3testflag = true;
-            nn3ProcBySig.NeuralNetNN3CreateJava(this, ConstantKey.TR_NN3);
+//            nn3ProcBySig.NeuralNetNN3CreateJava(this, ConstantKey.TR_NN3);
 
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
