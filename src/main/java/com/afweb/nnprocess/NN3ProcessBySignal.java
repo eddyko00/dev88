@@ -115,7 +115,7 @@ public class NN3ProcessBySignal {
 
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getAverageStockHistorical(ArrayList<AFstockInfo> StockArray) {
-        if (StockArray != null) {
+        if (StockArray == null) {
             return StockArray;
         }
         if (StockArray.size() == 0) {
@@ -175,9 +175,8 @@ public class NN3ProcessBySignal {
             throw new ArithmeticException(msg);
         }
         // // return stock history starting recent date to the old date
-        ArrayList<AFstockInfo> StockArrayOrg = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
 
-        ArrayList<AFstockInfo> StockArray = getAverageStockHistorical(StockArrayOrg);
         ArrayList<NNInputDataObj> inputList = null;
 
         if (tr == ConstantKey.INT_TR_MACD1) {
@@ -634,6 +633,7 @@ public class NN3ProcessBySignal {
                     } else if (stock.getSymbol().equals("HOU.TO")) {
 
                     } else {
+                        stockNNprocessNameArray.remove(0);
                         continue;
                     }
 

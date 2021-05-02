@@ -1070,15 +1070,7 @@ public class TradingSignalProcess {
         int sizeTR = 20 * monthSize; //20 * 14;
 
 //////////////
-// just for testing
-        if (ServiceAFweb.nn3testflag == true) {
-            if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                NN3ProcessBySignal nn3Proc = new NN3ProcessBySignal();
-                ArrayList<AFstockInfo> StockArrayNN3 = nn3Proc.getAverageStockHistorical(StockArray);
-                StockArray = StockArrayNN3;
-            }
-        }
-////////////////
+//////////////
         int i = 0;
         int offset = sizeTR + offsetInput - i;
         while (offset > offsetInput) {

@@ -10,6 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.nnprocess.NN3ProcessBySignal;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
@@ -165,6 +166,11 @@ public class ProcessNN3 {
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
+// just for testing
+
+        NN3ProcessBySignal nn3Proc = new NN3ProcessBySignal();
+        ArrayList<AFstockInfo> StockArrayNN3 = nn3Proc.getAverageStockHistorical(StockArray);
+        StockArray = StockArrayNN3;
 
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
 
@@ -218,7 +224,11 @@ public class ProcessNN3 {
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
-
+        
+        NN3ProcessBySignal nn3Proc = new NN3ProcessBySignal();
+        ArrayList<AFstockInfo> StockArrayNN3 = nn3Proc.getAverageStockHistorical(StockArray);
+        StockArray = StockArrayNN3;
+        
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
 
         if (getEnv.checkLocalPC() == true) {
