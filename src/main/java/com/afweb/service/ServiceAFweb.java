@@ -998,7 +998,12 @@ public class ServiceAFweb {
                     ///////////////////////////////
                 }
                 if (nn3testflag == true) {
+                    logger.info("> processNNInputNeuralNet Clear NN DB..");
+                    String nnName = ConstantKey.TR_NN3;
+                    String BPname = CKey.NN_version + "_" + nnName;
+                    getStockImp().deleteNeuralNetDataByBPname(BPname);                    
                     logger.info("> processNN3InputNeuralNet Rest input..");
+                    
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
