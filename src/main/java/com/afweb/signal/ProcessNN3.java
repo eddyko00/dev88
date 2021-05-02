@@ -166,11 +166,12 @@ public class ProcessNN3 {
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
-// just for testing
 
+///////// create Stock Array to Average 2 day
         NN3ProcessBySignal nn3Proc = new NN3ProcessBySignal();
         ArrayList<AFstockInfo> StockArrayNN3 = nn3Proc.getAverageStockHistorical(StockArray);
         StockArray = StockArrayNN3;
+///////// create Stock Array to Average 2 day
 
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
 
@@ -224,11 +225,13 @@ public class ProcessNN3 {
 
         trObjMACD1.setAccount(trObjMACD.getAccount());
         trObjMACD1.setStockid(trObjMACD.getStockid());
-        
+
+///////// create Stock Array to Average 2 day        
         NN3ProcessBySignal nn3Proc = new NN3ProcessBySignal();
         ArrayList<AFstockInfo> StockArrayNN3 = nn3Proc.getAverageStockHistorical(StockArray);
         StockArray = StockArrayNN3;
-        
+///////// create Stock Array to Average 2 day
+
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
 
         if (getEnv.checkLocalPC() == true) {

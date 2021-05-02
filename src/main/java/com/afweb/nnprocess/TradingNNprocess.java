@@ -68,6 +68,13 @@ public class TradingNNprocess {
                     stockTRNameArray.add(symTR);
                 }
             }
+            if (ServiceAFweb.nn3testflag == true) {
+                for (int i = 0; i < stockNameArray.size(); i++) {
+                    String sym = (String) stockNameArray.get(i);
+                    String symTR = sym + "#" + ConstantKey.INT_TR_NN3;
+                    stockTRNameArray.add(symTR);
+                }
+            }            
             setStockNNretrainNameArray(stockTRNameArray);
         }
         return stockNNretrainNameArray;
