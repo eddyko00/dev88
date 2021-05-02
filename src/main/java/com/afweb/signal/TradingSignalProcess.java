@@ -883,21 +883,22 @@ public class TradingSignalProcess {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-                    if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (stock.getSymbol().equals("HOU.TO")) {
-                            ;
-                        } else {
-                            continue;
-                        }
-                    } else {
-                        NN3ProcessBySignal NN3Proc = new NN3ProcessBySignal();
-                        if (NN3Proc.checkNN3Ready(serviceAFWeb, symbol, true) == false) {
-                            continue;
-                        }
-                        if (ServiceAFweb.nn3testflag == false) {
-                            continue;
-                        }
+//                    if (stock.getSymbol().equals("GLD")) {
+//
+//                    } else if (stock.getSymbol().equals("HOU.TO")) {
+//
+//                    } else {
+//                        continue;
+//                    }
+
+                    NN3ProcessBySignal NN3Proc = new NN3ProcessBySignal();
+                    if (NN3Proc.checkNN3Ready(serviceAFWeb, symbol, true) == false) {
+                        continue;
                     }
+                    if (ServiceAFweb.nn3testflag == false) {
+                        continue;
+                    }
+
                 }
 
                 /////// no need to handle other indicator. Just make NN1 and NN2 working
