@@ -86,7 +86,7 @@ var app = {
         var htmlhead = '';
 
         if (trName === "TR_ACC") {
-            htmlhead += ":" + trName + ' #Stock:' + STnameNum;
+            htmlhead += trName + ' #Stock:' + STnameNum;
             htmlhead += '<div class="ui-grid-d">';
             htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Sym </strong></div>';
             htmlhead += '<div class="ui-block-b" style="text-align: center;width:20%">Sig</div>';
@@ -94,7 +94,7 @@ var app = {
             htmlhead += '<div class="ui-block-d" style="text-align: center;width:20%">Daily %</div>';
             htmlhead += '<div class="ui-block-e" style="text-align: right;width:20%">perf %</div>';
         } else {
-            htmlhead += '<div  style="color:SteelBlue">:' + trName + ' #Stock:' + STnameNum + '</div>';
+            htmlhead += '<div  style="color:SteelBlue">' + trName + ' #Stock:' + STnameNum + '</div>';
             htmlhead += '<div class="ui-grid-d">';
 
             htmlhead += '<div class="ui-block-a" style="color:SteelBlue;width:20%"><strong>Sym </strong></div>';
