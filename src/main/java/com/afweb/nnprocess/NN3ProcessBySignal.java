@@ -122,7 +122,7 @@ public class NN3ProcessBySignal {
             return StockArray;
         }
         ArrayList<AFstockInfo> StockArrayRet = new ArrayList();
-        for (int i = 0; i < StockArray.size(); i++) {
+        for (int i = 0; i < StockArray.size()-1; i++) {
 
             AFstockInfo info = StockArray.get(i);
             AFstockInfo info1 = StockArray.get(i + 1);
@@ -143,7 +143,7 @@ public class NN3ProcessBySignal {
             infoNew.setVolume(info.getVolume());
             StockArrayRet.add(infoNew);
 
-            if ((i + 1) < StockArray.size()) {
+            if ((i + 2) < StockArray.size()) {
                 continue;
             }
             // make the size the same
