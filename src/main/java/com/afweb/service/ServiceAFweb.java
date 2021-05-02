@@ -902,7 +902,18 @@ public class ServiceAFweb {
                     nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
                     logger.info("> ProcessTrainNeuralNet NN 2 end... cycle " + k);
 
-                }
+                
+                } else if (nn3testflag == true) {
+                    exitflag = false;
+                    if (((k % 5) == 0) || (k == 0)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN3);
+                    }
+                    logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
+
+                    nn3ProcBySig.ProcessTrainNN3NeuralNetBySign(this);
+                    logger.info("> ProcessTrainNeuralNet NN 3 end... cycle " + k);
+
+                }                
             }
 ////////////////////////////////////////////////////////////////////////////
 
