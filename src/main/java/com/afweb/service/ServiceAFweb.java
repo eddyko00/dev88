@@ -965,15 +965,15 @@ public class ServiceAFweb {
                     logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN1;
                     String BPname = CKey.NN_version + "_" + nnName;
-                    getStockImp().deleteNeuralNetDataByBPname(BPname);
+                    removeNeuralNetDataAllSymbolByTR(BPname);
 
                     nnName = ConstantKey.TR_NN30;
                     BPname = CKey.NN_version + "_" + nnName;
-                    getStockImp().deleteNeuralNetDataByBPname(BPname);
+                    removeNeuralNetDataAllSymbolByTR(BPname);
 
                     nnName = ConstantKey.TR_NN2;
                     BPname = CKey.NN_version + "_" + nnName;
-                    getStockImp().deleteNeuralNetDataByBPname(BPname);
+                    removeNeuralNetDataAllSymbolByTR(BPname);
                 }
 
                 if (nn1testflag == true) {
@@ -1001,7 +1001,7 @@ public class ServiceAFweb {
                     logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN3;
                     String BPname = CKey.NN_version + "_" + nnName;
-                    getStockImp().deleteNeuralNetDataByBPname(BPname);                    
+                    removeNeuralNetDataAllSymbolByTR(BPname);                    
                     logger.info("> processNN3InputNeuralNet Rest input..");
                     
                     exitflag = true;
