@@ -741,7 +741,7 @@ public class ServiceAFweb {
             NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-            NN40ProcessByTrend nn40trend = new NN40ProcessByTrend();
+
 
             nn1testflag = true;
             nn2testflag = true;
@@ -774,7 +774,7 @@ public class ServiceAFweb {
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-        NN40ProcessByTrend nn2trend = new NN40ProcessByTrend();
+
 
         AccountObj accountAdminObj = getAdminObjFromCache();
         ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
@@ -833,7 +833,7 @@ public class ServiceAFweb {
         NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
         NN35ProcessByTrend nn35trend = new NN35ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-        NN40ProcessByTrend nn2trend = new NN40ProcessByTrend();
+
 
         NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
 

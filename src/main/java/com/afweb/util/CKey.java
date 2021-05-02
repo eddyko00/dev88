@@ -122,11 +122,11 @@ public class CKey {
 
     public static String NN1_WEIGHT_0 = nn1Data.NN1_WEIGHT_0;
     public static String NN2_WEIGHT_0 = nn2Data.TR_NN2_WEIGHT_0;
-    public static String NN3_WEIGHT_0 = nn1Data.NN1_WEIGHT_0;
+    public static String NN3_WEIGHT_0 = nn3Data.NN3_WEIGHT_0;
 
     public static String NN30_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
     public static String NN35_WEIGHT_0 = nn35Data.TR_NN35_WEIGHT_0;    
-    public static String NN40_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
+//    public static String NN40_WEIGHT_0 = nn30Data.TR_NN30_WEIGHT_0;
     //////////////////////
     public static final int MSSQL = 1;/////// do not use //jdbc:sqlserver://sql.freeasphost.net\\MSSQL2016;databaseName=eddyko00_SampleDB
 
