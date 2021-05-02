@@ -1256,6 +1256,13 @@ public class TradingSignalProcess {
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         if (ServiceAFweb.nn3testflag == true) {
+                            if (stock.getSymbol().equals("GLD")) {
+
+                            } else if (stock.getSymbol().equals("HOU.TO")) {
+
+                            } else {
+                                break;
+                            }
                             ProcessNN3 nn3 = new ProcessNN3();
                             int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                             prevSignal = nn3Signal;
@@ -1411,10 +1418,10 @@ public class TradingSignalProcess {
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         if (ServiceAFweb.nn3testflag == true) {
-                            if (stock.getSymbol().equals("HOU.TO")) {
-                                ;
-                            } else if (stock.getSymbol().equals("GLD")) {
-                                ;
+                            if (stock.getSymbol().equals("GLD")) {
+
+                            } else if (stock.getSymbol().equals("HOU.TO")) {
+
                             } else {
                                 break;
                             }

@@ -156,13 +156,7 @@ public class NN3ProcessBySignal {
 
     public ArrayList<NNInputDataObj> getTrainingNN3dataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
-        if (symbol.equals("GLD")) {
-            
-        }else if (symbol.equals("HOU.TO")) {
-            
-        } else {
-            return null;
-        }
+
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
