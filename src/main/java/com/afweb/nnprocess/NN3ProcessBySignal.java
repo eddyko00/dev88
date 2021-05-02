@@ -122,14 +122,15 @@ public class NN3ProcessBySignal {
             return StockArray;
         }
         ArrayList<AFstockInfo> StockArrayRet = new ArrayList();
-        for (int i = 0; i < StockArray.size() - 1; i++) {
+        for (int i = 0; i < StockArray.size() - 2; i++) {
 
             AFstockInfo info = StockArray.get(i);
             AFstockInfo info1 = StockArray.get(i + 1);
-            float fclose = (info.getFclose() + info1.getFclose()) / 2;
-            float fopen = (info.getFopen() + info1.getFopen()) / 2;
-            float fhigh = (info.getHigh() + info1.getHigh()) / 2;
-            float flow = (info.getLow() + info1.getLow()) / 2;
+            AFstockInfo info2 = StockArray.get(i + 2);
+            float fclose = (info.getFclose() + info1.getFclose() + info2.getFclose()) / 3;
+            float fopen = (info.getFopen() + info1.getFopen() + info2.getFopen()) / 3;
+            float fhigh = (info.getHigh() + info1.getHigh() + info2.getHigh()) / 3;
+            float flow = (info.getLow() + info1.getLow() + info2.getLow()) / 3;
 
             AFstockInfo infoNew = new AFstockInfo();
             infoNew.setAdjustclose(info.getAdjustclose());
@@ -143,13 +144,41 @@ public class NN3ProcessBySignal {
             infoNew.setVolume(info.getVolume());
             StockArrayRet.add(infoNew);
 
-            if ((i + 2) < StockArray.size()) {
+            if ((i + 3) < StockArray.size()) {
                 continue;
             }
             // make the size the same
             StockArrayRet.add(info1);
-
+            StockArrayRet.add(info2);
         }
+//        for (int i = 0; i < StockArray.size() - 1; i++) {
+//
+//            AFstockInfo info = StockArray.get(i);
+//            AFstockInfo info1 = StockArray.get(i + 1);
+//            float fclose = (info.getFclose() + info1.getFclose()) / 2;
+//            float fopen = (info.getFopen() + info1.getFopen()) / 2;
+//            float fhigh = (info.getHigh() + info1.getHigh()) / 2;
+//            float flow = (info.getLow() + info1.getLow()) / 2;
+//
+//            AFstockInfo infoNew = new AFstockInfo();
+//            infoNew.setAdjustclose(info.getAdjustclose());
+//            infoNew.setEntrydatedisplay(info.getEntrydatedisplay());
+//            infoNew.setEntrydatel(info.getEntrydatel());
+//            infoNew.setFclose(fclose);
+//            infoNew.setFopen(fopen);
+//            infoNew.setHigh(fhigh);
+//            infoNew.setLow(flow);
+//            infoNew.setStockid(info.getStockid());
+//            infoNew.setVolume(info.getVolume());
+//            StockArrayRet.add(infoNew);
+//
+//            if ((i + 2) < StockArray.size()) {
+//                continue;
+//            }
+//            // make the size the same
+//            StockArrayRet.add(info1);
+//
+//        }
 
         return StockArrayRet;
     }
