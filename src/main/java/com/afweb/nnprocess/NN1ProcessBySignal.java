@@ -115,7 +115,6 @@ public class NN1ProcessBySignal {
     public ArrayList<NNInputDataObj> getTrainingNN1dataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
 
-
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
@@ -363,8 +362,14 @@ public class NN1ProcessBySignal {
                     + "    public static String NN1_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
             int len = weightSt.length();
+            ////// ignore the /n at the end - inserted by FileReadText 
+            len = len - 2;
+            ////// ignore the /n at the end - inserted by FileReadText  
+
             int beg = 0;
+
             int end = sizeline;
+
             if (end <= len) {
                 ;
             } else {
@@ -372,7 +377,8 @@ public class NN1ProcessBySignal {
             }
             while (true) {
                 String st = weightSt.substring(beg, end);
-                msgWrite.append("+ \"" + st + "\"\n");
+                st = "+ \"" + st + "\"\n";
+                msgWrite.append(st);
                 if (end >= len) {
                     break;
                 }
@@ -1149,7 +1155,7 @@ public class NN1ProcessBySignal {
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
-                
+
                 int size1yearAll = 20 * 12 * 5 + (50 * 3);
                 ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
                 //StockArray assume recent date to old data   
@@ -1265,7 +1271,7 @@ public class NN1ProcessBySignal {
         return inputList;
     }
 
-  public boolean checkNN1Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
+    public boolean checkNN1Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
         TradingSignalProcess TSproc = new TradingSignalProcess();
         AFneuralNet nnObj0 = TSproc.testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN1, symbol);
         if (nnObj0 == null) {
@@ -1298,6 +1304,5 @@ public class NN1ProcessBySignal {
         }
         return true;
     }
-    
-    
+
 }

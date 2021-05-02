@@ -742,7 +742,6 @@ public class ServiceAFweb {
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
-
             nn1testflag = true;
             nn2testflag = true;
 
@@ -774,7 +773,6 @@ public class ServiceAFweb {
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-
 
         AccountObj accountAdminObj = getAdminObjFromCache();
         ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
@@ -833,7 +831,6 @@ public class ServiceAFweb {
         NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
         NN35ProcessByTrend nn35trend = new NN35ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-
 
         NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
 
@@ -902,7 +899,6 @@ public class ServiceAFweb {
                     nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
                     logger.info("> ProcessTrainNeuralNet NN 2 end... cycle " + k);
 
-                
                 } else if (nn3testflag == true) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
@@ -913,7 +909,7 @@ public class ServiceAFweb {
                     nn3ProcBySig.ProcessTrainNN3NeuralNetBySign(this);
                     logger.info("> ProcessTrainNeuralNet NN 3 end... cycle " + k);
 
-                }                
+                }
             }
 ////////////////////////////////////////////////////////////////////////////
 
@@ -1001,9 +997,9 @@ public class ServiceAFweb {
                     logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN3;
                     String BPname = CKey.NN_version + "_" + nnName;
-                    removeNeuralNetDataAllSymbolByTR(BPname);                    
+                    removeNeuralNetDataAllSymbolByTR(BPname);
                     logger.info("> processNN3InputNeuralNet Rest input..");
-                    
+
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
@@ -1012,7 +1008,7 @@ public class ServiceAFweb {
 //                    nn2trend.processNN40InputNeuralNetTrend(this);
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
-                }                
+                }
                 if (nn35testflag == true) {
                     String nnName = ConstantKey.TR_NN35;
 
@@ -1234,7 +1230,8 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
             nn3testflag = true;
-            
+            nn3ProcBySig.NeuralNetNN3CreateJava(this, ConstantKey.TR_NN3);
+
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, symbol);
 //            AccountObj accountAdminObj = getAdminObjFromCache();

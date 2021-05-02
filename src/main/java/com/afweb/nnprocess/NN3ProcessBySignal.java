@@ -122,7 +122,7 @@ public class NN3ProcessBySignal {
             return StockArray;
         }
         ArrayList<AFstockInfo> StockArrayRet = new ArrayList();
-        for (int i = 0; i < StockArray.size()-1; i++) {
+        for (int i = 0; i < StockArray.size() - 1; i++) {
 
             AFstockInfo info = StockArray.get(i);
             AFstockInfo info1 = StockArray.get(i + 1);
@@ -405,8 +405,14 @@ public class NN3ProcessBySignal {
                     + "    public static String NN3_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
             int len = weightSt.length();
+            ////// ignore the /n at the end - inserted by FileReadText 
+            len = len - 2;
+            ////// ignore the /n at the end - inserted by FileReadText  
+
             int beg = 0;
+
             int end = sizeline;
+
             if (end <= len) {
                 ;
             } else {
@@ -414,7 +420,8 @@ public class NN3ProcessBySignal {
             }
             while (true) {
                 String st = weightSt.substring(beg, end);
-                msgWrite.append("+ \"" + st + "\"\n");
+                st = "+ \"" + st + "\"\n";
+                msgWrite.append(st);
                 if (end >= len) {
                     break;
                 }

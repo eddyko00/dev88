@@ -367,8 +367,14 @@ public class NN30ProcessByTrend {
                     + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
             int len = weightSt.length();
+            ////// ignore the /n at the end - inserted by FileReadText 
+            len = len - 2;
+            ////// ignore the /n at the end - inserted by FileReadText  
+
             int beg = 0;
+
             int end = sizeline;
+
             if (end <= len) {
                 ;
             } else {
@@ -376,7 +382,8 @@ public class NN30ProcessByTrend {
             }
             while (true) {
                 String st = weightSt.substring(beg, end);
-                msgWrite.append("+ \"" + st + "\"\n");
+                st = "+ \"" + st + "\"\n";
+                msgWrite.append(st);
                 if (end >= len) {
                     break;
                 }
