@@ -206,6 +206,92 @@ public class TechnicalCal {
         return -1;
     }
 
+    public static SMAObj SMASignal(ArrayList StockRecArray, int DataOffset, int fast, int slow) {
+        SMAObj emaObj = new SMAObj();
+
+        int j = 0;
+
+        for (int i = 0; i < StockRecArray.size(); i++) {
+            double fastValue = SMA(StockRecArray, DataOffset + j, fast);
+            double slowValue = SMA(StockRecArray, DataOffset + j, slow);
+
+            if ((fastValue == -1) || (slowValue == -1)) {
+                break;
+            }
+            double signal = fastValue - slowValue;
+            if (j == 0) {
+                emaObj.ema = signal;
+                emaObj.trsignal = ConstantKey.S_BUY;
+                if (emaObj.ema < 0) {
+                    emaObj.trsignal = ConstantKey.S_SELL;
+                }
+            }
+
+            if (emaObj.ema > 0) {
+                if (signal < 0) {
+                    emaObj.lastema = signal;
+                    emaObj.lastOffset = j - DataOffset;
+                    emaObj.trsignal = ConstantKey.S_BUY;
+                    if (emaObj.ema < 0) {
+                        emaObj.trsignal = ConstantKey.S_SELL;
+                    }
+                    break;
+                }
+            }
+            if (emaObj.ema < 0) {
+                if (signal > 0) {
+                    emaObj.lastema = signal;
+                    emaObj.lastOffset = j - DataOffset;
+                    emaObj.trsignal = ConstantKey.S_BUY;
+                    if (emaObj.ema < 0) {
+                        emaObj.trsignal = ConstantKey.S_SELL;
+                    }
+                    break;
+                }
+            }
+            j++;
+            if (j > 10) {
+                emaObj.lastema = 0;
+                emaObj.lastOffset = j - DataOffset;
+                emaObj.trsignal = ConstantKey.S_NEUTRAL;
+                if (emaObj.ema < 0) {
+                    emaObj.trsignal = ConstantKey.S_SELL;
+                }
+                break;
+            }
+        }
+
+        emaObj.trsignal = ConstantKey.S_BUY;
+        if (emaObj.ema < 0) {
+            emaObj.trsignal = ConstantKey.S_SELL;
+        }
+
+        return emaObj;
+    }
+
+    public static double SMA(ArrayList StockRecArray, int DataOffset, int period) {
+        try {
+            SimpleMovingAverage movingAverage = new SimpleMovingAverage();
+            int dataSize = period + 20;
+            if (StockRecArray.size() < DataOffset + dataSize) {
+                logger.warning("> SMV incorrect StockRecArray size" + StockRecArray.size());
+                return -1;
+            }
+            double[] close = new double[dataSize];
+
+            for (int i = 0; i < dataSize; i++) {
+                AFstockInfo stocktmp = (AFstockInfo) StockRecArray.get(i + DataOffset);
+                close[dataSize - 1 - i] = stocktmp.getFclose();
+            }
+            SimpleMovingAverage result = movingAverage.calculate(close, period);
+            double[] retEMA = result.getSMA();
+            return retEMA[dataSize - 1];
+        } catch (Exception ex) {
+            
+        }
+        return -1;
+    }
+    
     // period = 14
 //    Crossovers of the -DI and +DI lines can be used to generate trade signals. 
 //    For example, if the +DI line crosses above the -DI line and the ADX is above 20, or ideally above 25, 
