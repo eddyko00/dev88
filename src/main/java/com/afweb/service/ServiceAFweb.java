@@ -1199,6 +1199,64 @@ public class ServiceAFweb {
         return 1;
     }
 
+    public void saveNNInputOutObjList(ArrayList<NNInputDataObj> inputList, String symbol) {
+        if (inputList != null) {
+            //merge inputlistSym
+            ArrayList writeArray = new ArrayList();
+            String stTitle = "";
+            int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use        
+            for (int i = 0; i < inputList.size(); i++) {
+                NNInputDataObj objData = inputList.get(i);
+                NNInputOutObj obj = objData.getObj();
+
+                String st = "\"" + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+                        + "\",\"" + obj.getOutput1()
+                        + "\",\"" + obj.getOutput2()
+                        + "\",\"" + obj.getInput1()
+                        + "\",\"" + obj.getInput2()
+                        + "\",\"" + obj.getInput3()
+                        + "\",\"" + obj.getInput4()
+                        + "\",\"" + obj.getInput5()
+                        + "\",\"" + obj.getInput6()
+                        + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
+                        + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
+                        // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
+                        + "\"";
+
+                if (i == 0) {
+                    st += ",\"last\"";
+                }
+
+                if (i + 1 >= inputList.size()) {
+                    st += ",\"first\"";
+                }
+
+                if (i == 0) {
+                    stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
+                            + "\",\"" + "output1"
+                            + "\",\"" + "output2"
+                            + "\",\"" + "macd TSig"
+                            + "\",\"" + "LTerm"
+                            + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
+                            + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
+                            + "\",\"" + symbol + "\"";
+
+                }
+                String stDispaly = st.replaceAll("\"", "");
+                writeArray.add(stDispaly);
+            }
+            writeArray.add(stTitle.replaceAll("\"", ""));
+
+            if (getEnv.checkLocalPC() == true) {
+
+                String filename = ServiceAFweb.FileLocalDebugPath + symbol + "_temp.csv";
+
+                FileUtil.FileWriteTextArray(filename, writeArray);
+//            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
+
+            }
+        }
+    }
 ///////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
