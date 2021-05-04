@@ -1292,12 +1292,12 @@ public class ServiceAFweb {
 
 //            AFneuralNet nnObj1 = nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
-//
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+////
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 ///////////////////////
 //            nn3testflag = true;
 //            nn3ProcBySig.NeuralNetNN3CreateJava(this, ConstantKey.TR_NN3);
@@ -4515,17 +4515,16 @@ public class ServiceAFweb {
     }
 
     public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol,
-            String trname, String yearSt) {
+            String trname, String monthSt) {
 
-        int year = 0;
-        if (yearSt != null) {
+        int month = 6;
+        if (monthSt != null) {
             try {
-                year = Integer.parseInt(yearSt);
-                if (year > 5) {
-                    year = 5;
+                month = Integer.parseInt(monthSt);
+                if (month > 48) {
+                    month = 48;
                 }
             } catch (Exception ex) {
-
             }
         }
         ArrayList<TransationOrderObj> thList = this.getAccountStockTRTranListByAccountID(EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
@@ -4540,8 +4539,8 @@ public class ServiceAFweb {
         }
         int sizeLen = 20 * 10;
 
-        if (year > 0) {
-            sizeLen = 20 * 12 * year;
+        if (month > 0) {
+            sizeLen = 20 * month;
         }
 
         // recent date first
@@ -4558,29 +4557,29 @@ public class ServiceAFweb {
 
         ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
 
-        float closeFirst = StockArray.get(StockArray.size() - 1).getFclose();
-        float closeLast = StockArray.get(0).getFclose();
-        float perC = 100 * (closeFirst - closeLast) / closeLast;
-        perC = Math.abs(perC);
-        float thold = 45; // 35;
-
-        boolean highdif = false;
+//        float closeFirst = StockArray.get(StockArray.size() - 1).getFclose();
+//        float closeLast = StockArray.get(0).getFclose();
+//        float perC = 100 * (closeFirst - closeLast) / closeLast;
+//        perC = Math.abs(perC);
+//        float thold = 45; // 35;
+//
+//        boolean highdif = false;
         int index = sizeLen;
-
-        if (perC > thold) { //35) {
-            for (int j = 0; j < StockArray.size(); j++) {
-                closeLast = StockArray.get(j).getFclose();
-                perC = 100 * (closeFirst - closeLast) / closeLast;
-                perC = Math.abs(perC);
-                if (perC < thold) { // 35) {
-                    highdif = true;
-                    break;
-                }
-            }
-        }
-        if (highdif == true) {
-            index = sizeLen - (sizeLen / 4);
-        }
+//
+//        if (perC > thold) { //35) {
+//            for (int j = 0; j < StockArray.size(); j++) {
+//                closeLast = StockArray.get(j).getFclose();
+//                perC = 100 * (closeFirst - closeLast) / closeLast;
+//                perC = Math.abs(perC);
+//                if (perC < thold) { // 35) {
+//                    highdif = true;
+//                    break;
+//                }
+//            }
+//        }
+//        if (highdif == true) {
+//            index = sizeLen - (sizeLen / 4);
+//        }
 
         List<Date> xDate = new ArrayList<Date>();
         List<Double> yD = new ArrayList<Double>();
@@ -4602,22 +4601,22 @@ public class ServiceAFweb {
             StockArrayTmp.add(StockArray.get(i));
         }
         int numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
-
-        if (numBS < 5) {
-            index = sizeLen / 2;
-            xDate = new ArrayList<Date>();
-            yD = new ArrayList<Double>();
-            buyDate = new ArrayList<Date>();
-            buyD = new ArrayList<Double>();
-            sellDate = new ArrayList<Date>();
-            sellD = new ArrayList<Double>();
-
-            StockArrayTmp = new ArrayList();
-            for (int i = index; i < StockArray.size(); i++) {
-                StockArrayTmp.add(StockArray.get(i));
-            }
-            numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
-        }
+//
+//        if (numBS < 5) {
+//            index = sizeLen / 2;
+//            xDate = new ArrayList<Date>();
+//            yD = new ArrayList<Double>();
+//            buyDate = new ArrayList<Date>();
+//            buyD = new ArrayList<Double>();
+//            sellDate = new ArrayList<Date>();
+//            sellD = new ArrayList<Double>();
+//
+//            StockArrayTmp = new ArrayList();
+//            for (int i = index; i < StockArray.size(); i++) {
+//                StockArrayTmp.add(StockArray.get(i));
+//            }
+//            numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
+//        }
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);

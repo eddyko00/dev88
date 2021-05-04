@@ -104,7 +104,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year=");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?month=");
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chartfile");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/clear");
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/{signal}/order");
@@ -1275,7 +1275,7 @@ public class IndexController {
         return ret;
     }
 
-    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year=");   
+    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?month=");   
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE})
     public @ResponseBody
     byte[] getAccountFundStockHistoryChartDisplay(
@@ -1284,7 +1284,7 @@ public class IndexController {
             @PathVariable("accfundid") String accfundid,
             @PathVariable("stockidsymbol") String stockidsymbol,
             @PathVariable("trname") String trname,
-            @RequestParam(value = "year", required = false) String yearSt,
+            @RequestParam(value = "month", required = false) String monthSt,            
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -1293,13 +1293,13 @@ public class IndexController {
             return null;
         }
 
-        byte[] ret = afWebService.getFundAccountStockTRLIstCurrentChartDisplay(username, null, accountid, accfundid, stockidsymbol, trname, yearSt);
+        byte[] ret = afWebService.getFundAccountStockTRLIstCurrentChartDisplay(username, null, accountid, accfundid, stockidsymbol, trname, monthSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
     }
 
-    //"/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year="
+    //"/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?month="
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE})
     public @ResponseBody
     byte[] getAccountStockHistoryChartDisplay(
@@ -1307,7 +1307,7 @@ public class IndexController {
             @PathVariable("accountid") String accountid,
             @PathVariable("stockidsymbol") String stockidsymbol,
             @PathVariable("trname") String trname,
-            @RequestParam(value = "year", required = false) String yearSt,
+            @RequestParam(value = "month", required = false) String monthSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -1316,7 +1316,7 @@ public class IndexController {
             return null;
         }
 
-        byte[] ret = afWebService.getAccountStockTRLIstCurrentChartDisplay(username, null, accountid, stockidsymbol, trname, yearSt);
+        byte[] ret = afWebService.getAccountStockTRLIstCurrentChartDisplay(username, null, accountid, stockidsymbol, trname, monthSt);
 //        byte[] ret = afWebService.getAccountStockTRListHistoryChartDisplay(username, null, accountid, stockidsymbol, trname, pathSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
