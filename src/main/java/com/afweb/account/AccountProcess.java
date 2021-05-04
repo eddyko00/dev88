@@ -1424,6 +1424,7 @@ public class AccountProcess {
 //        this.serviceAFWeb = serviceAFWeb;
 
         if (FileUtil.FileTest(ServiceAFweb.FileLocalPath + "customer.txt") == false) {
+              logger.info(">>>>>>> Exit restoreDBData - No customer.txt");
             return false;
         }
 

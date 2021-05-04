@@ -735,6 +735,10 @@ public class NN1ProcessBySignal {
                     inputlistSym1 = getTrainingNNdataStockMACD(serviceAFWeb, symbol, ConstantKey.INT_TR_MACD1, 0);
                     inputlistSym2 = getTrainingNNdataStockMACD(serviceAFWeb, symbol, ConstantKey.INT_TR_MACD2, 0);
                 }
+                if (serviceAFWeb.mydebugtestflag == true) {
+                    serviceAFWeb.saveNNInputOutObjList(inputlistSym1, symbol+"_1");
+                    serviceAFWeb.saveNNInputOutObjList(inputlistSym2, symbol+"_2");                    
+                }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
 

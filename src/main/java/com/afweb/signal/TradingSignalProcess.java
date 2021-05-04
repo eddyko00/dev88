@@ -1205,9 +1205,7 @@ public class TradingSignalProcess {
                         int nn1Signal = nn1.ProcessTRHistoryOffsetNN1(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
                         prevSignal = nn1Signal;
                         if (ServiceAFweb.mydebugtestflag == true) {
-//                            if (offset < 99) {
-//                                prevSignal = nn1Signal;
-//                            }
+
                             float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
                             float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
 

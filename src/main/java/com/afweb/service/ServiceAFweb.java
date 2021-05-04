@@ -1290,14 +1290,14 @@ public class ServiceAFweb {
             symbol = "GLD";
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            AFneuralNet nnObj1 = nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
+//            AFneuralNet nnObj1 = nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+            AccountObj accountAdminObj = getAdminObjFromCache();
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
 //
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 ///////////////////////
 //            nn3testflag = true;
 //            nn3ProcBySig.NeuralNetNN3CreateJava(this, ConstantKey.TR_NN3);
