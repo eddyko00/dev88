@@ -112,7 +112,7 @@ public class TradingNNprocess {
             long LastServUpdateTimer = System.currentTimeMillis();
             int timeout = 15;
             if (ServiceAFweb.processNeuralNetFlag == true) {
-                timeout = timeout * 2;
+                timeout = timeout * 3;
             }
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, timeout); // add 3 minutes
 

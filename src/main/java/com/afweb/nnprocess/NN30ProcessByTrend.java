@@ -474,7 +474,7 @@ public class NN30ProcessByTrend {
             long LastServUpdateTimer = System.currentTimeMillis();
             int timeout = 15;
             if (ServiceAFweb.processNeuralNetFlag == true) {
-                timeout = timeout * 4;
+                timeout = timeout * 6;
             }
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, timeout); // add 3 minutes
 
