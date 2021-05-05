@@ -1791,9 +1791,9 @@ public class TradingSignalProcess {
                 }
                 int internetHistoryLen = 0;
                 
-                int size1yearAll1 = 20;
-                ArrayList<AFstockInfo> StockArrayHistory1 = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll1);
-                if ((StockArrayHistory1 == null) || (StockArrayHistory1.size() == 0)) {
+                int size1yearAll = 20;
+                ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
+                if ((StockArrayHistory == null) || (StockArrayHistory.size() == 0)) {
                     ;
                 } else {
                     AFstockInfo stockinfoDB = stock.getAfstockInfo();
@@ -1833,9 +1833,11 @@ public class TradingSignalProcess {
 
                 if (stockRTinternet != null) {
                     // check for stock split
-
-                    int size1yearAll = 20;
-                    ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
+                    // check for stock split
+                    
+//                    StockArrayHistory It has done early
+//                    int size1yearAll = 20;
+//                    ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
                     if ((StockArrayHistory != null) && (StockArrayHistory.size() > 10)) {
                         AFstockInfo stockInfoHistory = StockArrayHistory.get(0);
                         boolean ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
