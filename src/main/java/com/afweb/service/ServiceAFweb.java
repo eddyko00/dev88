@@ -1072,6 +1072,9 @@ public class ServiceAFweb {
         logger.info("> processInitLocalRemoteNN ");
 
         try {
+            if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
+                return;
+            }
             if (initLRnn == false) {
                 initLRnn = true;
                 ArrayList<String> StockNameRemoteList = new ArrayList();
