@@ -1133,6 +1133,9 @@ public class ServiceAFweb {
                 for (int i = 0; i < APIStockNameList.size(); i++) {
                     String symbol = (String) APIStockNameList.get(i);
                     int re = TRprocessImp.updateAllStockProcess(this, symbol);
+                    if ((i % 5) == 0) {
+                        logger.info("> updated: " + i);
+                    }
                 }
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
@@ -1291,7 +1294,6 @@ public class ServiceAFweb {
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 //            AFneuralNet nnObj1 = nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
-
 //            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
