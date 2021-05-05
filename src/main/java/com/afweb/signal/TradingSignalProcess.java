@@ -1780,7 +1780,7 @@ public class TradingSignalProcess {
             if (stockRTinternet != null) {
                 stock.setUpdatedatedisplay(stockRTinternet.getUpdatedatedisplay());
                 stock.setUpdatedatel(stockRTinternet.getUpdatedatel());
-                stock.setStockInfo(stockRTinternet.getStockInfo());
+                stock.setAfstockInfo(stockRTinternet.getAfstockInfo());
                 stock.setDirection(timerCnt);
                 if (!stock.getStockname().equals(stockRTinternet.getStockname())) {
                     stock.setStockname(stockRTinternet.getStockname());
@@ -1790,14 +1790,21 @@ public class TradingSignalProcess {
                     serviceAFWeb.SystemUpdateSQLList(sqlList);
                 }
                 int internetHistoryLen = 0;
-                AFstockInfo stockinfoDB = stock.getAfstockInfo();
-                if (stockinfoDB != null) {
-                    long lastUpdate = stockinfoDB.getEntrydatel();
-                    long lastUpdate5Mon = TimeConvertion.addMonths(lastUpdate, 5);
-                    Calendar dateNow = TimeConvertion.getCurrentCalendar();
-                    long dateValue = dateNow.getTimeInMillis();
-                    if (lastUpdate5Mon > dateValue) {
-                        internetHistoryLen = 20 * 6; // 6 month;
+                
+                int size1yearAll1 = 20;
+                ArrayList<AFstockInfo> StockArrayHistory1 = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll1);
+                if ((StockArrayHistory1 == null) || (StockArrayHistory1.size() == 0)) {
+                    ;
+                } else {
+                    AFstockInfo stockinfoDB = stock.getAfstockInfo();
+                    if (stockinfoDB != null) {
+                        long lastUpdate = stockinfoDB.getEntrydatel();
+                        long lastUpdate5Mon = TimeConvertion.addMonths(lastUpdate, 5);
+                        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+                        long dateValue = dateNow.getTimeInMillis();
+                        if (lastUpdate5Mon > dateValue) {
+                            internetHistoryLen = 20 * 6; // 6 month;
+                        }
                     }
                 }
                 // eddy testing

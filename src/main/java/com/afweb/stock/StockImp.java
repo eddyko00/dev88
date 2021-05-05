@@ -116,9 +116,9 @@ public class StockImp {
         return stockdb.disableStock(NormalizeSymbol);
     }
 
-    public int deleteStockInfo(AFstockInfo stockInfo) {
-        return stockdb.deleteStockInfo(stockInfo);
-    }
+//    public int deleteStockInfo(AFstockInfo stockInfo) {
+//        return stockdb.deleteStockInfo(stockInfo);
+//    }
 
     public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
         AFstockObj stock = getRealTimeStock(NormalizeSymbol, null);

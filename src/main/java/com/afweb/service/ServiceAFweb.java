@@ -1296,8 +1296,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "GLD";
+            symbol = "BB.TO";
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+
+//            AFstockObj stock = getRealTimeStockImp(symbol);
+//            getStockImp().deleteStockInfoByStockId(stock);
+//            TRprocessImp.updateRealTimeStock(this, stock);
 
 //            AFneuralNet nnObj1 = nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 //            AccountObj accountAdminObj = getAdminObjFromCache();
