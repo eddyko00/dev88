@@ -1135,6 +1135,9 @@ public class ServiceAFweb {
                 logger.info("> update  stock:" + APIStockNameList.size());
                 for (int i = 0; i < APIStockNameList.size(); i++) {
                     String symbol = (String) APIStockNameList.get(i);
+                    if (symbol.equals("T_T")) {
+                        continue;
+                    }
                     int re = TRprocessImp.updateAllStockProcess(this, symbol);
                     if ((i % 5) == 0) {
                         logger.info("> updated: " + i);
