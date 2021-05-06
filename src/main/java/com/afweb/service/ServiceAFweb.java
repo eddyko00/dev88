@@ -1300,12 +1300,12 @@ public class ServiceAFweb {
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 
-           AccountObj accountAdminObj = getAdminObjFromCache();
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
-//
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//           AccountObj accountAdminObj = getAdminObjFromCache();
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+////            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+////
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 ///////////////////////
 //            nn3testflag = true;
 //            nn3ProcBySig.NeuralNetNN3CreateJava(this, ConstantKey.TR_NN3);
