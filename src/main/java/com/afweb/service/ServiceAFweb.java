@@ -1296,20 +1296,16 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "BB.TO";
+            symbol = "AAPL";
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            AFstockObj stock = getRealTimeStockImp(symbol);
-//            getStockImp().deleteStockInfoByStockId(stock);
-//            TRprocessImp.updateRealTimeStock(this, stock);
 
-//            AFneuralNet nnObj1 = nn1ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+           AccountObj accountAdminObj = getAdminObjFromCache();
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
-////
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//
+            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 ///////////////////////
 //            nn3testflag = true;
 //            nn3ProcBySig.NeuralNetNN3CreateJava(this, ConstantKey.TR_NN3);

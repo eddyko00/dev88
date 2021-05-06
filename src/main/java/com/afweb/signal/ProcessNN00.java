@@ -50,6 +50,8 @@ public class ProcessNN00 {
         //trainingNN1dataMACD will return oldest first to new date
         ProcessNN00 nn00 = new ProcessNN00();
         inputList = nn00.trainingNN00_dataMACD1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+//        inputList = nn00.trainingNN00_dataMACD0(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+
         if (inputList.size() == 0) {
             // it is okay for input relearning
 //            logger.info(">NNpredict  error inpulist");
