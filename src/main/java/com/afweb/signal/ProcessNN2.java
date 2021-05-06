@@ -774,7 +774,7 @@ public class ProcessNN2 {
 
                 float delPer = 100 * (StClose - thClose) / thClose;
 
-                float DEL_ERR = (float) 6; //10;
+                float DEL_ERR = (float) 7; //10;
                 int currSignal = nnSignal;
 
                 // need to check if 5 days has drop of 5%
