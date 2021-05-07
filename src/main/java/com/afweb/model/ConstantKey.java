@@ -153,6 +153,9 @@ public class ConstantKey {
     public static final int INT_MV_20 = 20;
     public static final int INT_MV_50 = 50; //50;
 
+    public static final int INT_TR_SMA0 = 140;  // fast
+    public static final int INT_TR_SMA1 = 142;  
+    
     public static final int INT_TR_EMA00 = 134;
     public static final int INT_TR_EMA0 = 130;  // fast
     //ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6
