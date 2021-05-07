@@ -142,12 +142,12 @@ public class NN1ProcessBySignal {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-            ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN1 NN1 = new ProcessNN1();
+            inputList = NN1.trainingNN1dataMACD1(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
         } else if (tr == ConstantKey.INT_TR_MACD2) {
 
-            ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD2(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN1 NN1 = new ProcessNN1();
+            inputList = NN1.trainingNN1dataMACD2(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
         }
         String BPname = CKey.NN_version + "_" + ConstantKey.TR_NN1;
 
@@ -211,11 +211,11 @@ public class NN1ProcessBySignal {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn12 = TradingSignalProcess.NN1_FILE_1; //"_nn1_";
+            String NN12 = TradingSignalProcess.NN1_FILE_1; //"_NN1_";
             if (tr == ConstantKey.INT_TR_MACD2) {
-                nn12 = TradingSignalProcess.NN1_FILE_2; // "_nn2_";
+                NN12 = TradingSignalProcess.NN1_FILE_2; // "_nn2_";
             }
-            String filename = ServiceAFweb.FileLocalDebugPath + NormalizeSymbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+            String filename = ServiceAFweb.FileLocalDebugPath + NormalizeSymbol + NN12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
             FileUtil.FileWriteTextArray(filename, writeArray);
 //            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
@@ -357,7 +357,7 @@ public class NN1ProcessBySignal {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nn1Data {\n"
+                    + "public class NN1Data {\n"
                     + "\n"
                     + "    public static String NN1_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
@@ -397,7 +397,7 @@ public class NN1ProcessBySignal {
                     ///
                     + ""
             );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nn1Data.java";
+            fileN = ServiceAFweb.FileLocalDebugPath + "NN1Data.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -405,86 +405,7 @@ public class NN1ProcessBySignal {
         return false;
     }
 //
-//    public boolean NeuralNetAllStockCreatJava(ServiceAFweb serviceAFWeb, String nnName) {
-//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-//
-//        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-//
-//        try {
-//            TRprocessImp.getStaticJavaAllStockInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-//
-//            String inputListSt = "Data in DB";
-//            if (CKey.NN_DATA_DB == true) {
-//                TradingNNData nndata = new TradingNNData();
-//                nndata.saveNNBaseDataDB(serviceAFWeb, nnName, stockInputMap);
-//
-//            } else {
-//
-//                String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-//                inputListSt = ServiceAFweb.compress(inputListRawSt);
-//            }
-//
-//            StringBuffer msgWrite = new StringBuffer();
-//            msgWrite.append("" ///
-//                    + "package com.afweb.nn;\n"
-//                    + "\n"
-//                    + "public class nn1AllData {\n"
-//                    + "\n");
-//
-//            int sizeline = 1000;
-//            int len = inputListSt.length();
-//            int beg = 0;
-//            int end = sizeline;
-//            if (end <= len) {
-//                ;
-//            } else {
-//                end = len;
-//            }
-//            int index = 1;
-//            int line = 0;
-//            while (true) {
-//                if (line == 0) {
-//                    msgWrite.append(""
-//                            + "    public static String NN_ALLINPUTLIST" + index + " = \"\"\n"
-//                            + "            + \"\"\n");
-//                }
-//                line++;
-//                String st = inputListSt.substring(beg, end);
-//
-//                msgWrite.append("+ \"" + st + "\"\n");
-//
-//                if (end >= len) {
-//                    msgWrite.append(""
-//                            + "            + \"\";\n");
-//
-//                    break;
-//                }
-//                if (line == 20) {
-//                    msgWrite.append(""
-//                            + "            + \"\";\n");
-//                    line = 0;
-//                    index++;
-//                }
-//                beg = end;
-//                if (end + sizeline <= len) {
-//                    end += sizeline;
-//                } else {
-//                    end = len;
-//                }
-//            }
-//
-//            msgWrite.append(""
-//                    + "}\n"
-//                    ///
-//                    + ""
-//            );
-//            String fileN = ServiceAFweb.FileLocalDebugPath + "nn1AllData.java";
-//            FileUtil.FileWriteText(fileN, msgWrite);
-//            return true;
-//        } catch (Exception ex) {
-//        }
-//        return false;
-//    }
+
 
 //////////
 //////////////////////////////////////////////////
@@ -909,15 +830,15 @@ public class NN1ProcessBySignal {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-            ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
+            ProcessNN1 NN1 = new ProcessNN1();
+            inputList = NN1.trainingNN1dataMACD1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10); // 14
         } else if (tr == ConstantKey.INT_TR_MACD2) {
             //StockArray assume recent date to old data  
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date 
-            ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.trainingNN1dataMACD2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10);
+            ProcessNN1 NN1 = new ProcessNN1();
+            inputList = NN1.trainingNN1dataMACD2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE + 10);
         }
 
         // ignor first and last
@@ -970,45 +891,7 @@ public class NN1ProcessBySignal {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
 
-//            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-//            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-//            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-//            for (String sym : stockInputMap.keySet()) {
-//                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
-//                inputDatalist.addAll(inputL);
-//            }
-//            for (int i = 0; i < inputDatalist.size(); i++) {
-//                NNInputDataObj inputDObj = inputDatalist.get(i);
-//                NNInputOutObj inputObj = new NNInputOutObj();
-//                inputObj.setDateSt(inputDObj.getObj().getDateSt());
-//                inputObj.setClose(inputDObj.getObj().getClose());
-//                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-//                inputObj.setInput1(inputDObj.getObj().getInput1());
-//                inputObj.setInput2(inputDObj.getObj().getInput2());
-//                inputObj.setInput3(inputDObj.getObj().getInput3());
-//                inputObj.setInput4(inputDObj.getObj().getInput4());
-//                inputObj.setInput5(inputDObj.getObj().getInput5());
-//                inputObj.setInput6(inputDObj.getObj().getInput6());
-//                inputObj.setInput7(inputDObj.getObj().getInput7());
-//                inputObj.setInput8(inputDObj.getObj().getInput8());
-//                inputObj.setInput9(inputDObj.getObj().getInput9());
-//                inputObj.setInput10(inputDObj.getObj().getInput10());
-//                inputObj.setInput11(inputDObj.getObj().getInput11());
-//                inputObj.setInput12(inputDObj.getObj().getInput12());
-//                inputObj.setInput13(inputDObj.getObj().getInput13());
-//                //////
-//                inputObj.setOutput1(inputDObj.getObj().getOutput1());
-//                inputObj.setOutput2(inputDObj.getObj().getOutput2());
-//                inputObj.setOutput3(inputDObj.getObj().getOutput3());
-//                inputObj.setOutput4(inputDObj.getObj().getOutput4());
-//                if (inputObj.getOutput1() < 0) {
-//                    continue;
-//                }
-//                if (inputObj.getOutput2() < 0) {
-//                    continue;
-//                }
-//                inputlist.add(inputObj);
-//            }
+
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
             String subSymbol = null;
@@ -1236,8 +1119,8 @@ public class NN1ProcessBySignal {
                 if (getEnv.checkLocalPC() == true) {
                     boolean flag = false;
                     if (flag == true) {
-                        String nn12 = "_nn1_retarin_";
-                        String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ".csv";
+                        String NN12 = "_NN1_retarin_";
+                        String filename = ServiceAFweb.FileLocalDebugPath + symbol + NN12 + ".csv";
                         FileUtil.FileWriteTextArray(filename, writeArray);
                     }
                 }
@@ -1260,8 +1143,8 @@ public class NN1ProcessBySignal {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date    
-            ProcessNN1 nn1 = new ProcessNN1();
-            inputList = nn1.RetrainingNN1dataReTrain(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN1 NN1 = new ProcessNN1();
+            inputList = NN1.RetrainingNN1dataReTrain(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         // ignor first and last

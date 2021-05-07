@@ -44,8 +44,8 @@ public class ProcessNN2 {
         //StockArray assume recent date to old data              
         //trainingNN1dataMACD will return oldest first to new date
         //trainingNN1dataMACD will return oldest first to new date
-        ProcessNN2 nn2 = new ProcessNN2();
-        inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
+        ProcessNN2 NN2 = new ProcessNN2();
+        inputList = NN2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockRecArray, DataOffset, CKey.SHORT_MONTH_SIZE);
         // alway use normal
 
         if (inputList.size() == 0) {
@@ -475,14 +475,14 @@ public class ProcessNN2 {
                                 float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
 
                                 if (delta > 0) {
-                                    logger.info("> updateAdminTR nn2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
+                                    logger.info("> updateAdminTR NN2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
                                     stopLoss = true;
                                     nnSignal = emaSignal;
                                     confident += 15;
                                 } else {
 //                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
 //                                    if (rule5_Signal != prevSignal) {
-//                                        logger.info("> updateAdminTR nn2 " + symbol + " Override 5 signal " + stockDate.toString());
+//                                        logger.info("> updateAdminTR NN2 " + symbol + " Override 5 signal " + stockDate.toString());
 //                                        nnSignal = rule5_Signal;
 //                                        confident += 15;
 //                                    }
@@ -514,7 +514,7 @@ public class ProcessNN2 {
                         float StClose = stockinfo.getFclose();
                         int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
                         if (rule5_Signal != prevSignal) {
-                            logger.info("> updateAdminTR nn2 " + symbol + " Override 5 signal " + stockDate.toString());
+                            logger.info("> updateAdminTR NN2 " + symbol + " Override 5 signal " + stockDate.toString());
                             nnSignal = rule5_Signal;
                             confident += 15;
                             stopReset = true;
@@ -562,11 +562,11 @@ public class ProcessNN2 {
                 return nnRet;
             }
         } catch (Exception ex) {
-            logger.info("> updateAdminTradingsignalnn2 Exception" + ex.getMessage());
+            logger.info("> updateAdminTradingsignalNN2 Exception" + ex.getMessage());
         }
         return null;
     }
-    public static float nn2StopLoss = 7; //16;  // 20
+    public static float NN2StopLoss = 7; //16;  // 20
     // check stop loss
 
     public float Rule1_StopLoss(int currSignal, float thClose, float StClose) {
@@ -576,12 +576,12 @@ public class ProcessNN2 {
         float delPer = 100 * (StClose - thClose) / thClose;
 
         if (currSignal == ConstantKey.S_BUY) {
-            if (delPer < -nn2StopLoss) {
+            if (delPer < -NN2StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }
         } else if (currSignal == ConstantKey.S_SELL) {
-            if (delPer > nn2StopLoss) {
+            if (delPer > NN2StopLoss) {
                 delPer = Math.abs(delPer);
                 return delPer;
             }

@@ -140,14 +140,14 @@ public class NN2ProcessBySignal {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-            ProcessNN2 nn2 = new ProcessNN2();
-//            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA2(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN2 NN2 = new ProcessNN2();
+//            inputList = NN2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = NN2.trainingNN2dataEMA2(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
 //        } else if (tr == ConstantKey.INT_TR_ADX2) {
         } else if (tr == ConstantKey.INT_TR_EMA1) {
-            ProcessNN2 nn2 = new ProcessNN2();
-//            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN2 NN2 = new ProcessNN2();
+//            inputList = NN2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = NN2.trainingNN2dataEMA1(serviceAFWeb, NormalizeSymbol, StockArray, offset, CKey.MONTH_SIZE);
 
         }
         String nnName = ConstantKey.TR_NN2;
@@ -214,12 +214,12 @@ public class NN2ProcessBySignal {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn21 = TradingSignalProcess.NN2_FILE_1; //"_nn21_";
+            String NN21 = TradingSignalProcess.NN2_FILE_1; //"_NN21_";
 //            if (tr == ConstantKey.INT_TR_ADX2) {
             if (tr == ConstantKey.INT_TR_EMA2) {
-                nn21 = TradingSignalProcess.NN2_FILE_2; //"_nn22_";
+                NN21 = TradingSignalProcess.NN2_FILE_2; //"_NN22_";
             }
-            String filename = ServiceAFweb.FileLocalDebugPath + NormalizeSymbol + nn21 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
+            String filename = ServiceAFweb.FileLocalDebugPath + NormalizeSymbol + NN21 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
             FileUtil.FileWriteTextArray(filename, writeArray);
 //            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
@@ -364,45 +364,7 @@ public class NN2ProcessBySignal {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
 
-//            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-//            HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-//            TRprocessImp.getStaticJavaInputDataFromFile(serviceAFWeb, nnName, stockInputMap);
-//            for (String sym : stockInputMap.keySet()) {
-//                ArrayList<NNInputDataObj> inputL = stockInputMap.get(sym);
-//                inputDatalist.addAll(inputL);
-//            }
-//            for (int i = 0; i < inputDatalist.size(); i++) {
-//                NNInputDataObj inputDObj = inputDatalist.get(i);
-//                NNInputOutObj inputObj = new NNInputOutObj();
-//                inputObj.setDateSt(inputDObj.getObj().getDateSt());
-//                inputObj.setClose(inputDObj.getObj().getClose());
-//                inputObj.setTrsignal(inputDObj.getObj().getTrsignal());
-//                inputObj.setInput1(inputDObj.getObj().getInput1());
-//                inputObj.setInput2(inputDObj.getObj().getInput2());
-//                inputObj.setInput3(inputDObj.getObj().getInput3());
-//                inputObj.setInput4(inputDObj.getObj().getInput4());
-//                inputObj.setInput5(inputDObj.getObj().getInput5());
-//                inputObj.setInput6(inputDObj.getObj().getInput6());
-//                inputObj.setInput7(inputDObj.getObj().getInput7());
-//                inputObj.setInput8(inputDObj.getObj().getInput8());
-//                inputObj.setInput9(inputDObj.getObj().getInput9());
-//                inputObj.setInput10(inputDObj.getObj().getInput10());
-//                inputObj.setInput11(inputDObj.getObj().getInput11());
-//                inputObj.setInput12(inputDObj.getObj().getInput12());
-//                inputObj.setInput13(inputDObj.getObj().getInput13());
-//                //////
-//                inputObj.setOutput1(inputDObj.getObj().getOutput1());
-//                inputObj.setOutput2(inputDObj.getObj().getOutput2());
-//                inputObj.setOutput3(inputDObj.getObj().getOutput3());
-//                inputObj.setOutput4(inputDObj.getObj().getOutput4());
-//                if (inputObj.getOutput1() < 0) {
-//                    continue;
-//                }
-//                if (inputObj.getOutput2() < 0) {
-//                    continue;
-//                }
-//                inputlist.add(inputObj);
-//            }
+
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
             String subSymbol = null;
@@ -582,7 +544,7 @@ public class NN2ProcessBySignal {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nn2Data {\n"
+                    + "public class NN2Data {\n"
                     + "\n"
                     + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
@@ -622,7 +584,7 @@ public class NN2ProcessBySignal {
                     ///
                     + ""
             );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nn2Data.java";
+            fileN = ServiceAFweb.FileLocalDebugPath + "NN2Data.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
@@ -738,49 +700,7 @@ public class NN2ProcessBySignal {
                     }
                     this.TrainNN2NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
 
-//                    String LockStock = "NN2_TR_" + symbol; // + "_" + trNN;
-//                    LockStock = LockStock.toUpperCase();
-//
-//                    long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-//                    long lockReturnStock = 1;
-//
-//                    lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
-//                    if (testing == true) {
-//                        lockReturnStock = 1;
-//                    }
-////                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
-//                    if (lockReturnStock == 0) {
-//                        stockNNprocessNameArray.remove(0);
-//                        continue;
-//                    }
-//
-//                    if (lockReturnStock > 0) {
-//                        try {
-//                            String nnName = ConstantKey.TR_NN2;
-//                            String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-//
-//                            AFneuralNet nnObj1 = ProcessTrainSignalNeuralNet(serviceAFWeb, BPnameSym, TR_NN, symbol);
-//
-//                            if (nnObj1 != null) {
-//                                if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
-//                                    stockNNprocessNameArray.remove(0);
-//                                    serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
-//
-////                                    if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
-////                                        /// need to create the table to reduce the memeory in DB
-////                                        serviceAFWeb.getStockImp().deleteNeuralNet1Table();
-////                                    } else {
-////                                        serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
-////                                    }
-//                                }
-//                            }
-//
-//                        } catch (Exception ex) {
-//                            logger.info("> ProcessTrainNN2NeuralNetBySign Exception" + ex.getMessage());
-//                        }
-//                        serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
-////                        logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
-//                    }
+
                 }
             }  // end for loop
             serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
@@ -798,7 +718,7 @@ public class NN2ProcessBySignal {
 
         lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
 
-//                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
+//      logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
         if (lockReturnStock == 0) {
             if (stockNNprocessNameArray != null) {
                 stockNNprocessNameArray.remove(0);
@@ -1073,14 +993,14 @@ public class NN2ProcessBySignal {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date            
-            ProcessNN2 nn2 = new ProcessNN2();
-//            inputList = nn2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);            
-            inputList = nn2.trainingNN2dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN2 NN2 = new ProcessNN2();
+//            inputList = NN2.trainingNN2dataADX1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);            
+            inputList = NN2.trainingNN2dataEMA2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 //        } else if (tr == ConstantKey.INT_TR_ADX2) {
         } else if (tr == ConstantKey.INT_TR_EMA1) {
-            ProcessNN2 nn2 = new ProcessNN2();
-//            inputList = nn2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
-            inputList = nn2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN2 NN2 = new ProcessNN2();
+//            inputList = NN2.trainingNN2dataADX2(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            inputList = NN2.trainingNN2dataEMA1(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
 
         }
 
@@ -1199,7 +1119,7 @@ public class NN2ProcessBySignal {
                 if (getEnv.checkLocalPC() == true) {
                     boolean flag = false;
                     if (flag == true) {
-                        String nn12 = "_nn2_retarin_";
+                        String nn12 = "_NN2_retarin_";
                         String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ".csv";
                         FileUtil.FileWriteTextArray(filename, writeArray);
                     }
@@ -1223,8 +1143,8 @@ public class NN2ProcessBySignal {
             //StockArray assume recent date to old data              
             //trainingNN1dataMACD will return oldest first to new date
             //trainingNN1dataMACD will return oldest first to new date    
-            ProcessNN2 nn2 = new ProcessNN2();
-            inputList = nn2.RetrainingNN2dataReTrain(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
+            ProcessNN2 NN2 = new ProcessNN2();
+            inputList = NN2.RetrainingNN2dataReTrain(serviceAFWeb, symbol, StockArray, offset, CKey.MONTH_SIZE);
         }
 
         // ignor first and last
