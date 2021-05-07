@@ -435,12 +435,6 @@ var app = {
                     var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                     $("#spaceimage").attr("src", resultURL);
-
-
-//                    var grHeader = '<button type="submit" id="y1btn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ">1 year</button>';
-//                    grHeader += '<button type="submit" id="y2btn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ">2 year</button>';
-//                    $("#grheader").html(grHeader);
-
                     window.location.href = "#page_graph";
                 }
             }
@@ -612,7 +606,6 @@ var app = {
             }
         });
 
-
         $("#y2btn").click(function () {
             $("#grtxt2").show(0);
             if (trname !== null) {
@@ -631,6 +624,7 @@ var app = {
                 window.location.href = "#page_graph2";
             }
         });
+        
         $("#y3btn").click(function () {
             $("#grtxt3").show(0);
             if (trname !== null) {
