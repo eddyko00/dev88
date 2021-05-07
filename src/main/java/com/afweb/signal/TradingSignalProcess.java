@@ -906,11 +906,13 @@ public class TradingSignalProcess {
                     continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
                     if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (stock.getSymbol().equals("GLD")) {
-                            ;
-                        } else {
-                            continue;
-                        }
+                            if (stock.getSymbol().equals("GLD")) {
+                                ;
+                            } else if (stock.getSymbol().equals("HOU.TO")) {
+                                ;
+                            } else {
+                                continue;
+                            }
                     } else {
                         continue;
                     }
@@ -1133,13 +1135,13 @@ public class TradingSignalProcess {
                     trHistory.setParm2((float) sma48.lastema);
                     break;      
                     
-                case ConstantKey.INT_TR_EMA0:
-                    EMAObj ema12 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_1, ConstantKey.INT_EMA_2);
-                    trObj.setTrsignal(ema12.trsignal);
-                    trHistory.setTrsignal(trObj.getTrsignal());
-                    trHistory.setParm1((float) ema12.ema);
-                    trHistory.setParm2((float) ema12.lastema);
-                    break;                                        
+//                case ConstantKey.INT_TR_EMA0:
+//                    EMAObj ema12 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_1, ConstantKey.INT_EMA_2);
+//                    trObj.setTrsignal(ema12.trsignal);
+//                    trHistory.setTrsignal(trObj.getTrsignal());
+//                    trHistory.setParm1((float) ema12.ema);
+//                    trHistory.setParm2((float) ema12.lastema);
+//                    break;                                        
                 case ConstantKey.INT_TR_EMA1:   // normal
                     EMAObj ema36 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
                     trObj.setTrsignal(ema36.trsignal);
