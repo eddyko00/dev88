@@ -1207,7 +1207,7 @@ public class ServiceAFweb {
                 NNInputDataObj objData = inputList.get(i);
                 NNInputOutObj obj = objData.getObj();
 
-                String st = "\"" + stockId + "\",\"" + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+                String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
                         + "\",\"" + obj.getOutput1()
                         + "\",\"" + obj.getOutput2()
                         + "\",\"" + obj.getInput1()
@@ -1243,11 +1243,10 @@ public class ServiceAFweb {
                 String stDispaly = st.replaceAll("\"", "");
                 writeArray.add(stDispaly);
             }
+
             writeArray.add(stTitle.replaceAll("\"", ""));
 
             FileUtil.FileWriteTextArray(filename, writeArray);
-//            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
-
         }
     }
 ///////////////////////////////
