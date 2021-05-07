@@ -166,52 +166,8 @@ public class NN3ProcessBySignal {
         }
         int stockId = stock.getId();
 
-        ArrayList writeArray = new ArrayList();
-        String stTitle = "";
         int nnInputSize = CKey.NN_INPUT_SIZE;  // just for search refrence no use        
-        for (int i = 0; i < inputList.size(); i++) {
-            NNInputDataObj objData = inputList.get(i);
-            NNInputOutObj obj = objData.getObj();
 
-            String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
-                    + "\",\"" + obj.getOutput1()
-                    + "\",\"" + obj.getOutput2()
-                    + "\",\"" + obj.getInput1()
-                    + "\",\"" + obj.getInput2()
-                    + "\",\"" + obj.getInput3()
-                    + "\",\"" + obj.getInput4()
-                    + "\",\"" + obj.getInput5()
-                    + "\",\"" + obj.getInput6()
-                    + "\",\"" + obj.getInput7() + "\",\"" + obj.getInput8()
-                    + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
-                    // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
-                    + "\"";
-
-            if (i == 0) {
-                st += ",\"last\"";
-            }
-
-            if (i + 1 >= inputList.size()) {
-                st += ",\"first\"";
-            }
-
-            if (i == 0) {
-                stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
-                        + "\",\"" + "output1"
-                        + "\",\"" + "output2"
-                        + "\",\"" + "macd TSig"
-                        + "\",\"" + "LTerm"
-                        + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "adx"
-                        + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
-                        + "\",\"" + NormalizeSymbol + "\"";
-
-            }
-            String stDispaly = st.replaceAll("\"", "");
-            writeArray.add(stDispaly);
-        }
-        writeArray.add(stTitle.replaceAll("\"", ""));
-
-        Collections.reverse(writeArray);
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
@@ -221,11 +177,10 @@ public class NN3ProcessBySignal {
                 NN31 = TradingSignalProcess.NN3_FILE_2; //"_NN32_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + NormalizeSymbol + NN31 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
-
-            FileUtil.FileWriteTextArray(filename, writeArray);
-//            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
+            serviceAFWeb.fileNNInputOutObjList(inputList, symbol, stockId, filename);
 
         }
+        Collections.reverse(inputList);
         inputList.remove(len - 1);
         inputList.remove(0);
 
@@ -364,7 +319,6 @@ public class NN3ProcessBySignal {
         //must set ot reading DB
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
-
 
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
@@ -700,7 +654,6 @@ public class NN3ProcessBySignal {
                         continue;
                     }
                     this.TrainNN3NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
-
 
                 }
             }  // end for loop
@@ -1159,7 +1112,6 @@ public class NN3ProcessBySignal {
         return inputList;
     }
 
-    
     public boolean checkNN3Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
         TradingSignalProcess TSproc = new TradingSignalProcess();
         AFneuralNet nnObj0 = TSproc.testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN3, symbol);
@@ -1194,6 +1146,5 @@ public class NN3ProcessBySignal {
         }
         return true;
     }
-    
-    
+
 }

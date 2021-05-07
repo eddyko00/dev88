@@ -728,7 +728,6 @@ public class ServiceAFweb {
     public static boolean nn2testflag = false;
     public static boolean nn3testflag = false;
 
-
     public static int cntNN = 0;
 
     public void AFprocessNeuralNet() {
@@ -1195,7 +1194,10 @@ public class ServiceAFweb {
         return 1;
     }
 
-    public void saveNNInputOutObjList(ArrayList<NNInputDataObj> inputList, String symbol) {
+    public void fileNNInputOutObjList(ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
+        if (getEnv.checkLocalPC() == false) {
+            return;
+        }
         if (inputList != null) {
             //merge inputlistSym
             ArrayList writeArray = new ArrayList();
@@ -1205,7 +1207,7 @@ public class ServiceAFweb {
                 NNInputDataObj objData = inputList.get(i);
                 NNInputOutObj obj = objData.getObj();
 
-                String st = "\"" + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
+                String st = "\"" + stockId + "\",\"" + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
                         + "\",\"" + obj.getOutput1()
                         + "\",\"" + obj.getOutput2()
                         + "\",\"" + obj.getInput1()
@@ -1243,14 +1245,9 @@ public class ServiceAFweb {
             }
             writeArray.add(stTitle.replaceAll("\"", ""));
 
-            if (getEnv.checkLocalPC() == true) {
-
-                String filename = ServiceAFweb.FileLocalDebugPath + symbol + "_temp.csv";
-
-                FileUtil.FileWriteTextArray(filename, writeArray);
+            FileUtil.FileWriteTextArray(filename, writeArray);
 //            ServiceAFweb.writeArrayNeuralNet.addAll(writeArray);
 
-            }
         }
     }
 ///////////////////////////////
@@ -1284,7 +1281,6 @@ public class ServiceAFweb {
 
             symbol = "AAPL";
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
 
 //           AccountObj accountAdminObj = getAdminObjFromCache();
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();

@@ -406,7 +406,6 @@ public class NN1ProcessBySignal {
     }
 //
 
-
 //////////
 //////////////////////////////////////////////////
     private static ArrayList stockNNprocessNameArray = new ArrayList();
@@ -657,8 +656,10 @@ public class NN1ProcessBySignal {
                     inputlistSym2 = getTrainingNNdataStockMACD(serviceAFWeb, symbol, ConstantKey.INT_TR_MACD2, 0);
                 }
                 if (serviceAFWeb.mydebugtestflag == true) {
-                    serviceAFWeb.saveNNInputOutObjList(inputlistSym1, symbol+"_1");
-                    serviceAFWeb.saveNNInputOutObjList(inputlistSym2, symbol+"_2");                    
+                    String filename = ServiceAFweb.FileLocalDebugPath + symbol + "_tmp1.csv";
+                    serviceAFWeb.fileNNInputOutObjList(inputlistSym1, symbol, 0, filename);
+                    filename = ServiceAFweb.FileLocalDebugPath + symbol + "_tmp2.csv";
+                    serviceAFWeb.fileNNInputOutObjList(inputlistSym2, symbol, 0, filename);
                 }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
@@ -890,7 +891,6 @@ public class NN1ProcessBySignal {
         //must set ot reading DB
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
-
 
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
