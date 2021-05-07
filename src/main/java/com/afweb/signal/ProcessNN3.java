@@ -11,7 +11,6 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 
-
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,7 +28,6 @@ import java.util.logging.Logger;
 public class ProcessNN3 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
-
 
     public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
             ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
@@ -166,7 +164,7 @@ public class ProcessNN3 {
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA1);
+        trObj2.setType(ConstantKey.INT_TR_SMA0);
 //        trObj2.setType(ConstantKey.INT_TR_EMA00);
         // normal
 
@@ -216,7 +214,7 @@ public class ProcessNN3 {
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
-        trObj2.setType(ConstantKey.INT_TR_EMA2);
+        trObj2.setType(ConstantKey.INT_TR_SMA1);
 //        trObj2.setType(ConstantKey.INT_TR_EMA0);
         // slow
 
@@ -295,7 +293,7 @@ public class ProcessNN3 {
         int emaSignal = nnSignal;
         float prediction = -1;
 ///////////////////////////////   
-        EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
+        SMAObj ema510 = this.getTechnicalCal(StockArray, offset);
 //        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
 
         emaSignal = ema510.trsignal;
@@ -378,7 +376,7 @@ public class ProcessNN3 {
                 if (nnSignal == trendSignal) {
                     confident += 32;
 
-                }                
+                }
 //                logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
             }
             nnSignal = trendSignal;
@@ -407,8 +405,8 @@ public class ProcessNN3 {
 
     }
 
-    public EMAObj getTechnicalCal(ArrayList StockArray, int offset) {
-        EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_3, ConstantKey.INT_EMA_6);
+    public SMAObj getTechnicalCal(ArrayList StockArray, int offset) {
+        SMAObj ema510 = TechnicalCal.SMASignal(StockArray, offset, ConstantKey.INT_EMA_1, ConstantKey.INT_EMA_2);
         return ema510;
     }
 
@@ -417,12 +415,12 @@ public class ProcessNN3 {
         NNObj nnRet = new NNObj();
         boolean stopLoss = false;
         boolean stopReset = false;
-        boolean profitTake = false;        
+        boolean profitTake = false;
         int confident = 0;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 /////////////////////////////////////////////              
-                EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
+                SMAObj ema510 = this.getTechnicalCal(StockArray, offset);
                 // EMAObj ema510 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_5, ConstantKey.INT_EMA_10);
 
                 int emaSignal = ema510.trsignal;
@@ -553,10 +551,12 @@ public class ProcessNN3 {
                         confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
                     if (stopReset == true) {
-                        confidentSt = confidentSt + " (Stop NewTR)";
-                    }                         
+                        confidentSt = confidentSt + " (Stop NTR)";
+                    }
                     if (stopLoss == true) {
                         confidentSt = confidentSt + " (Stop Loss)";
+                    } else if (profitTake == true) {
+                        confidentSt = confidentSt + " (Take Profit)";
                     }
                     nnRet.setConfident(confidentSt);
                 }

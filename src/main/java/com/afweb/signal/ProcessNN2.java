@@ -375,7 +375,7 @@ public class ProcessNN2 {
                 if (nnSignal == trendSignal) {
                     confident += 32;
 
-                }                
+                }
 //                logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
             }
             nnSignal = trendSignal;
@@ -414,7 +414,7 @@ public class ProcessNN2 {
         NNObj nnRet = new NNObj();
         boolean stopLoss = false;
         boolean stopReset = false;
-        boolean profitTake = false;        
+        boolean profitTake = false;
         int confident = 0;
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
@@ -550,10 +550,12 @@ public class ProcessNN2 {
                         confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
                     if (stopReset == true) {
-                        confidentSt = confidentSt + " (Stop NewTR)";
-                    }                         
+                        confidentSt = confidentSt + " (Stop NTR)";
+                    }
                     if (stopLoss == true) {
                         confidentSt = confidentSt + " (Stop Loss)";
+                    } else if (profitTake == true) {
+                        confidentSt = confidentSt + " (Take Profit)";
                     }
                     nnRet.setConfident(confidentSt);
                 }

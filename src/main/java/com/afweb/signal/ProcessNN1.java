@@ -527,7 +527,7 @@ public class ProcessNN1 {
                         confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
                     }
                     if (stopReset == true) {
-                        confidentSt = confidentSt + " (Stop NewTR)";
+                        confidentSt = confidentSt + " (Stop NTR)";
                     } else if (stopLoss == true) {
                         confidentSt = confidentSt + " (Stop Loss)";
                     } else if (profitTake == true) {
