@@ -374,7 +374,6 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
-                displayStr += "\r\n" + (">>>>> System nn35testflag:" + nn35testflag);
                 displayStr += "\r\n" + (">>>>> System initLocalRemoteNN:" + initLocalRemoteNN);
 
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -728,7 +727,7 @@ public class ServiceAFweb {
     public static boolean nn1testflag = false;
     public static boolean nn2testflag = false;
     public static boolean nn3testflag = false;
-    public static boolean nn35testflag = false;
+
 
     public static int cntNN = 0;
 
@@ -829,7 +828,6 @@ public class ServiceAFweb {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
-        NN35ProcessByTrend nn35trend = new NN35ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
         NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
@@ -924,14 +922,6 @@ public class ServiceAFweb {
                     logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
 
                 }
-                if (nn35testflag == true) {
-                    if (((k % 5) == 0) || (k == 1)) {
-                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN35);
-                    }
-                    logger.info("> ProcessTrainNeuralNet NN 35 cycle " + k);
-                    nn35trend.ProcessTrainNeuralNetNN35ByTrend(this);
-                    logger.info("> ProcessTrainNeuralNet NN 35 end... cycle " + k);
-                }
             }
 
 ////////////////////////////////////////////////////////////////////////////          
@@ -1009,10 +999,7 @@ public class ServiceAFweb {
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
                 }
-                if (nn35testflag == true) {
-                    String nnName = ConstantKey.TR_NN35;
 
-                }
                 logger.info("> processNN1InputNeuralNet Edn..");
                 return;
             }
@@ -1282,7 +1269,6 @@ public class ServiceAFweb {
             // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
             logger.info("Start mydebugtestflag.....");
             NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
-            NN35ProcessByTrend nn35trend = new NN35ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
             NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();

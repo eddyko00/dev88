@@ -2090,36 +2090,7 @@ public class TradingSignalProcess {
 
             return inputDatalist;
         }
-        if (nnName.equals(ConstantKey.TR_NN35)) {
 
-            String nnIndex = NN35_FILE_1; //"_nn300_";
-
-            for (int i = 1; i < 20; i++) {
-                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
-                if (i == 0) {
-                    continue;
-                }
-                if (ret == false) {
-                    break;
-                }
-            }
-            nnIndex = NN35_FILE_2; //"_nn301_";
-            for (int i = 1; i < 20; i++) {
-                String nnFileName = ServiceAFweb.FileLocalDebugPath + symbol + nnIndex + i + ".csv";
-//            logger.info("> initTrainingNeuralNet1 " + nnFileName);
-                boolean ret = readTrainingNeuralNet(serviceAFWeb, inputDatalist, nnFileName, nnName);
-                if (i == 0) {
-                    continue;
-                }
-                if (ret == false) {
-                    break;
-                }
-            }
-
-            return inputDatalist;
-        }
 
         if (nnName.equals(ConstantKey.TR_NN2)) {
 
@@ -2431,26 +2402,7 @@ public class TradingSignalProcess {
                 nn30ObjCache = nnObj1;
                 lastUpdateTime30 = System.currentTimeMillis();
             }
-        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN35)) {
-            if (nn35ObjCache != null) {
-                if (nn35ObjCache.getName().equals(BPname)) {
 
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime35, 10);
-                    long currentTime = System.currentTimeMillis();
-                    if (date5Min > currentTime) {
-                        nnObj1 = nn35ObjCache;
-                    }
-                }
-            }
-
-            if (nnObj1 == null) {
-                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
-                if (nnObj1 == null) {
-                    return null;
-                }
-                nn35ObjCache = nnObj1;
-                lastUpdateTime35 = System.currentTimeMillis();
-            }
         } else {
             logger.info("> OutputNNBP exception - need to define new cache " + nnTraining.getTrname());
             nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
