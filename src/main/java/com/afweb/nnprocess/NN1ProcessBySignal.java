@@ -359,7 +359,7 @@ public class NN1ProcessBySignal {
                     + "\n"
                     + "public class NN1Data {\n"
                     + "\n"
-                    + "    public static String NN1_WEIGHT_0 = \"\"\n");
+                    + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
             int len = weightSt.length();
             ////// ignore the /n at the end - inserted by FileReadText 

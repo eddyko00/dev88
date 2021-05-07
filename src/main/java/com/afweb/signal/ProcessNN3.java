@@ -406,7 +406,7 @@ public class ProcessNN3 {
     }
 
     public SMAObj getTechnicalCal(ArrayList StockArray, int offset) {
-        SMAObj ema510 = TechnicalCal.SMASignal(StockArray, offset, ConstantKey.INT_EMA_1, ConstantKey.INT_EMA_2);
+        SMAObj ema510 = TechnicalCal.SMASignal(StockArray, offset, ConstantKey.INT_EMA_1, ConstantKey.INT_EMA_3);
         return ema510;
     }
 

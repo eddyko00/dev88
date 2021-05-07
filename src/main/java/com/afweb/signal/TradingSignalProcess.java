@@ -1121,7 +1121,7 @@ public class TradingSignalProcess {
                     break;
 
                 case ConstantKey.INT_TR_SMA0:
-                    SMAObj sma12 = TechnicalCal.SMASignal(StockArray, offset, ConstantKey.INT_EMA_1, ConstantKey.INT_EMA_2);
+                    SMAObj sma12 = TechnicalCal.SMASignal(StockArray, offset, ConstantKey.INT_EMA_1, ConstantKey.INT_EMA_3);
                     trObj.setTrsignal(sma12.trsignal);
                     trHistory.setTrsignal(trObj.getTrsignal());
                     trHistory.setParm1((float) sma12.ema);

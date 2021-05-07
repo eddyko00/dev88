@@ -308,9 +308,9 @@ public class NN30ProcessByTrend {
         Collections.reverse(inputList);
 
         if (getEnv.checkLocalPC() == true) {
-            String nn12 = TradingSignalProcess.NN30_FILE_2; //"_nn301_";
+            String nn12 = TradingSignalProcess.NN30_FILE_2; //"_NN301_";
             if (tr == ConstantKey.INT_TR_MACD0) {
-                nn12 = TradingSignalProcess.NN30_FILE_1; //"_nn300_";
+                nn12 = TradingSignalProcess.NN30_FILE_1; //"_NN300_";
             }
             String filename = ServiceAFweb.FileLocalDebugPath + symbol + nn12 + ServiceAFweb.initTrainNeuralNetNumber + ".csv";
 
@@ -362,7 +362,7 @@ public class NN30ProcessByTrend {
             msgWrite.append("" ///
                     + "package com.afweb.nn;\n"
                     + "\n"
-                    + "public class nn30Data {\n"
+                    + "public class NN30Data {\n"
                     + "\n"
                     + "    public static String " + nnName + "_WEIGHT_0 = \"\"\n");
             int sizeline = 1000;
@@ -402,7 +402,7 @@ public class NN30ProcessByTrend {
                     ///
                     + ""
             );
-            fileN = ServiceAFweb.FileLocalDebugPath + "nn30Data.java";
+            fileN = ServiceAFweb.FileLocalDebugPath + "NN30Data.java";
             FileUtil.FileWriteText(fileN, msgWrite);
             return true;
         } catch (Exception ex) {
