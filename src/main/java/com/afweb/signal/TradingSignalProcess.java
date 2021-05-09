@@ -906,13 +906,13 @@ public class TradingSignalProcess {
                     continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
                     if (ServiceAFweb.mydebugtestNN3flag == true) {
-                            if (stock.getSymbol().equals("GLD")) {
-                                ;
-                            } else if (stock.getSymbol().equals("HOU.TO")) {
-                                ;
-                            } else {
-                                continue;
-                            }
+                        if (stock.getSymbol().equals("GLD")) {
+                            ;
+                        } else if (stock.getSymbol().equals("HOU.TO")) {
+                            ;
+                        } else {
+                            continue;
+                        }
                     } else {
                         continue;
                     }
@@ -1133,8 +1133,8 @@ public class TradingSignalProcess {
                     trHistory.setTrsignal(trObj.getTrsignal());
                     trHistory.setParm1((float) sma48.ema);
                     trHistory.setParm2((float) sma48.lastema);
-                    break;      
-                    
+                    break;
+
 //                case ConstantKey.INT_TR_EMA0:
 //                    EMAObj ema12 = TechnicalCal.EMASignal(StockArray, offset, ConstantKey.INT_EMA_1, ConstantKey.INT_EMA_2);
 //                    trObj.setTrsignal(ema12.trsignal);
@@ -1744,7 +1744,7 @@ public class TradingSignalProcess {
         if (stock.getStatus() != ConstantKey.OPEN) {
             return 0;
         }
-        String NormalizeSymbol = stock.getSymbol();
+
         String dataSt = stock.getData();
 
         StockData stockData = new StockData();
@@ -1753,10 +1753,40 @@ public class TradingSignalProcess {
                 dataSt = dataSt.replaceAll("#", "\"");
                 stockData = new ObjectMapper().readValue(dataSt, StockData.class);
             }
+
         } catch (Exception ex) {
         }
-
+/////////////////////////////        
         try {
+            String trname = ConstantKey.TR_NN1;
+            if (stock != null) {
+                stock.setTrname(trname);
+                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                ArrayList<TradingRuleObj> trObjList = serviceAFWeb.getAccountImp().getAccountStockTRListByAccountID(accountAdminObj.getId(), stock.getId());
+                if (trObjList != null) {
+                    if (trObjList.size() != 0) {
+
+                        for (int j = 0; j < trObjList.size(); j++) {
+                            TradingRuleObj trObj = trObjList.get(j);
+                            if (trname.equals(trObj.getTrname())) {
+
+                                stock.setTRsignal(trObj.getTrsignal());
+                                float totalPercent = serviceAFWeb.getAccountStockRealTimeBalance(trObj);
+                                stock.setPerform(totalPercent);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (stock.getPerform() > 40) {  // greater than 20 %
+                    stockData.setRec(2);
+                } else if (stock.getPerform() > 20) {  // greater than 20 %
+                    stockData.setRec(1);
+                }
+
+                stockData.setUpDn((int) stock.getLongterm());
+            }
+//////////////////////
             String sdataStr = new ObjectMapper().writeValueAsString(stockData);
             sdataStr = sdataStr.replaceAll("\"", "#");
             stock.setData(sdataStr);
@@ -1799,7 +1829,7 @@ public class TradingSignalProcess {
                     serviceAFWeb.SystemUpdateSQLList(sqlList);
                 }
                 int internetHistoryLen = 0;
-                
+
                 int size1yearAll = 20;
                 ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
                 if ((StockArrayHistory == null) || (StockArrayHistory.size() == 0)) {
@@ -1843,7 +1873,7 @@ public class TradingSignalProcess {
                 if (stockRTinternet != null) {
                     // check for stock split
                     // check for stock split
-                    
+
 //                    StockArrayHistory It has done early
 //                    int size1yearAll = 20;
 //                    ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
@@ -2099,7 +2129,6 @@ public class TradingSignalProcess {
 
             return inputDatalist;
         }
-
 
         if (nnName.equals(ConstantKey.TR_NN2)) {
 

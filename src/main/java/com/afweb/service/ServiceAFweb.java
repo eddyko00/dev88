@@ -3660,9 +3660,10 @@ public class ServiceAFweb {
         return null;
     }
 
+    // returen percent
     public float getAccountStockRealTimeBalance(TradingRuleObj trObj) {
 
-        float total = 0;
+        float totalPercent = 0;
         float deltaTotal = 0;
         float sharebalance = 0;
         try {
@@ -3694,19 +3695,19 @@ public class ServiceAFweb {
                     }
                 }
             }
-            total = trObj.getBalance() + sharebalance;
-            total = total - trObj.getInvestment();
+            totalPercent = trObj.getBalance() + sharebalance;
+            totalPercent = totalPercent - trObj.getInvestment();
 
             if (stock.getSubstatus() == 0) {
-                total = total + deltaTotal;
+                totalPercent = totalPercent + deltaTotal;
             }
-            total = (total / CKey.TRADING_AMOUNT) * 100;
+            totalPercent = (totalPercent / CKey.TRADING_AMOUNT) * 100;
             // rounding 2 decimal round off
-            total = (float) (Math.round(total * 100.0) / 100.0);
+            totalPercent = (float) (Math.round(totalPercent * 100.0) / 100.0);
         } catch (Exception ex) {
             logger.info("> getAccountStockRealTimeBalance exception " + ex.getMessage());
         }
-        return total;
+        return totalPercent;
     }
 
     public AFstockObj getStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
