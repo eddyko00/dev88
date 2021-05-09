@@ -1553,7 +1553,7 @@ public class TradingSignalProcess {
     }
 
     public int UpdateAllStock(ServiceAFweb serviceAFWeb) {
-        return UpdateAllStockTrend(serviceAFWeb, false);
+        return UpdateAllStockTrend(serviceAFWeb, true);
     }
 
     public int UpdateAllStockTrend(ServiceAFweb serviceAFWeb, boolean updateTrend) {
@@ -1641,7 +1641,7 @@ public class TradingSignalProcess {
     }
 
     public int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol, boolean updateTrend) {
-        ServiceAFweb.lastfun = "updateAllStockProcess trend:" + updateTrend;
+        ServiceAFweb.lastfun = "updateAllStockProcess";
 
 //        logger.warning("> updateAllStock " + NormalizeSymbol);
         AFstockObj stock = null;
@@ -1681,7 +1681,7 @@ public class TradingSignalProcess {
 
                     stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
                     if (stock == null) {
-                        logger.info("> updateAllStock getRealTimeStockImp stock Null " + NormalizeSymbol);
+                        logger.info("> updateAllStockProcess " + NormalizeSymbol + " data:" + stock.getData());
                         return 0;
                     }
                     if (resultUpdate > 0) {
@@ -1695,6 +1695,7 @@ public class TradingSignalProcess {
                             if (updateTrend == true) {
                                 //////// Update Long and short term trend 
                                 int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
+                                logger.info("> updateAllStock " + NormalizeSymbol + " data:" + stock.getData());
                                 // udpate other trends 
                             }
 

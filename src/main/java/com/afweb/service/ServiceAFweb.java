@@ -1283,6 +1283,8 @@ public class ServiceAFweb {
             symbol = "AAPL";
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+             TRprocessImp.UpdateAllStock(this);
+             
 //           AccountObj accountAdminObj = getAdminObjFromCache();
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 ////            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
