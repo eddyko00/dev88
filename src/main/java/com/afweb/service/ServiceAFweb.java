@@ -684,7 +684,9 @@ public class ServiceAFweb {
             pubsub.ProcessPUBSUBAccount(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
+//            TRprocessImp.UpdateAllStockTrend(this, true);
             TRprocessImp.UpdateAllStock(this);
+            
             TRprocessImp.ProcessAdminSignalTrading(this);
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
             //
@@ -1124,7 +1126,7 @@ public class ServiceAFweb {
                     if (symbol.equals("T_T")) {
                         continue;
                     }
-                    int re = TRprocessImp.updateAllStockProcess(this, symbol);
+                    int re = TRprocessImp.updateAllStockProcess(this, symbol, false);
                     if ((i % 5) == 0) {
                         logger.info("> updated: " + i);
                     }

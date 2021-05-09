@@ -1553,6 +1553,10 @@ public class TradingSignalProcess {
     }
 
     public int UpdateAllStock(ServiceAFweb serviceAFWeb) {
+        return UpdateAllStockTrend(serviceAFWeb, false);
+    }
+
+    public int UpdateAllStockTrend(ServiceAFweb serviceAFWeb, boolean updateTrend) {
         ServiceAFweb.lastfun = "UpdateAllStock";
 
         //SimpleDateFormat etDf = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
@@ -1610,7 +1614,7 @@ public class TradingSignalProcess {
 
                 String NormalizeSymbol = (String) stockUpdateNameArray.get(0);
                 stockUpdateNameArray.remove(0);
-                result = updateAllStockProcess(serviceAFWeb, NormalizeSymbol);
+                result = updateAllStockProcess(serviceAFWeb, NormalizeSymbol, updateTrend);
                 if (result == 1) {
                     stockPass++;
                 } else {
@@ -1636,13 +1640,8 @@ public class TradingSignalProcess {
         return true;
     }
 
-    public int updateStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-//        this.serviceAFWeb = serviceAFWebObj;
-        return updateAllStockProcess(serviceAFWeb, NormalizeSymbol);
-    }
-
-    public int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        ServiceAFweb.lastfun = "updateAllStockProcess";
+    public int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol, boolean updateTrend) {
+        ServiceAFweb.lastfun = "updateAllStockProcess trend:" + updateTrend;
 
 //        logger.warning("> updateAllStock " + NormalizeSymbol);
         AFstockObj stock = null;
@@ -1693,18 +1692,18 @@ public class TradingSignalProcess {
 
                         if (lastUpdate5Day > currentdate) {
 
-                            //////// Update Long and short term trend 
-                            int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
-                            // udpate other trends 
-
-                            if (resultCalcuate == 1) {
-                                // send SQL update
-                                String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
-                                ArrayList sqlList = new ArrayList();
-                                sqlList.add(sockUpdateSQL);
-                                serviceAFWeb.SystemUpdateSQLList(sqlList);
-
+                            if (updateTrend == true) {
+                                //////// Update Long and short term trend 
+                                int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
+                                // udpate other trends 
                             }
+
+                            // send SQL update
+                            String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
+                            ArrayList sqlList = new ArrayList();
+                            sqlList.add(sockUpdateSQL);
+                            serviceAFWeb.SystemUpdateSQLList(sqlList);
+
                             serviceAFWeb.removeNameLock(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
                             return 1;
                         }
