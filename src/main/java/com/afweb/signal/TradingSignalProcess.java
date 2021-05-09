@@ -1695,7 +1695,7 @@ public class TradingSignalProcess {
                             if (updateTrend == true) {
                                 //////// Update Long and short term trend 
                                 int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
-                                logger.info("> updateAllStock " + NormalizeSymbol + " data:" + stock.getData());
+//                                logger.info("> updateAllStock " + NormalizeSymbol + " data:" + stock.getData());
                                 // udpate other trends 
                             }
 
@@ -1791,7 +1791,15 @@ public class TradingSignalProcess {
                 }
 
                 stockData.setUpDn((int) stock.getLongterm());
-
+                stockData.setChDir((int) stock.getDirection());
+                
+                if (stock.getLongterm() > 60) {
+                    stockData.setTop(1);
+                } else if (stock.getLongterm() < -60) {
+                    stockData.setTop(-1);
+                }
+                        
+                
                 stockData.setpCl(0);
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountAdminObj, stock, StockArray, 0);
                 if (nn != null) {
