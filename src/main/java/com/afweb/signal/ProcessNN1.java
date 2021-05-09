@@ -28,8 +28,8 @@ public class ProcessNN1 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN1");
 
-    public static NNObj NNpredictNN1(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
-            ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
+    public static NNObj NNpredictNN1(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock,
+            ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
 
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         NNObj nn = new NNObj();
@@ -306,7 +306,7 @@ public class ProcessNN1 {
 
         } else {
             confident += 30;
-            NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
+            NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, StockArray, offset);
             if (nn != null) {
                 float output1 = nn.getOutput1();
                 float output2 = nn.getOutput2();
@@ -422,7 +422,7 @@ public class ProcessNN1 {
                     return nnRet;
                 }
                 confident += 30;
-                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, tradingRuleList, StockArray, offset);
+                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, StockArray, offset);
 
                 if (nn != null) {
                     float output1 = nn.getOutput1();
@@ -630,7 +630,7 @@ public class ProcessNN1 {
 
     // check current trend change
     public int Rule3_CheckTrend(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
-        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, tradingRuleList, StockArray, offset);
+        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset);
         if (nn != null) {
 
             float output1 = nn.getOutput1();
@@ -640,7 +640,7 @@ public class ProcessNN1 {
 
                 for (int i = 0; i < 5; i++) {
                     //StockArray recent to old date
-                    NNObj NN1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
+                    NNObj NN1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset + 1 + i);
                     if (NN1 != null) {
                         output1 = NN1.getOutput1();
                         output2 = NN1.getOutput2();
@@ -854,7 +854,6 @@ public class ProcessNN1 {
                     }
                     trInputList.add(objDataPrev.getObj());
                     inputDatalist.add(objDataPrev);
-
 
                 }
                 prevThObj = thObjMACD;

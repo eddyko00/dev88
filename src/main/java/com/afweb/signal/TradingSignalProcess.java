@@ -1524,6 +1524,9 @@ public class TradingSignalProcess {
         stock.setLongterm(iLTerm);
         stock.setShortterm(iSTerm);
         stock.setDirection((float) adx.trsignal);
+
+        updateStockRecommendation(serviceAFWeb, stock, StockArray);
+
         return 1;
     }
 ///////////////
@@ -1693,7 +1696,7 @@ public class TradingSignalProcess {
                             //////// Update Long and short term trend 
                             int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
                             // udpate other trends 
-                            updateStockRecommendation(serviceAFWeb, stock);
+
                             if (resultCalcuate == 1) {
                                 // send SQL update
                                 String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
@@ -1737,7 +1740,7 @@ public class TradingSignalProcess {
         return 0;
     }
 
-    public int updateStockRecommendation(ServiceAFweb serviceAFWeb, AFstockObj stock) {
+    public int updateStockRecommendation(ServiceAFweb serviceAFWeb, AFstockObj stock, ArrayList StockArray) {
         if (stock == null) {
             return 0;
         }
@@ -1748,6 +1751,7 @@ public class TradingSignalProcess {
         String dataSt = stock.getData();
 
         StockData stockData = new StockData();
+
         try {
             if ((dataSt != null) && (dataSt.length() > 0)) {
                 dataSt = dataSt.replaceAll("#", "\"");
@@ -1778,6 +1782,8 @@ public class TradingSignalProcess {
                         }
                     }
                 }
+
+                stockData.setRec(0);
                 if (stock.getPerform() > 40) {  // greater than 20 %
                     stockData.setRec(2);
                 } else if (stock.getPerform() > 20) {  // greater than 20 %
@@ -1785,7 +1791,32 @@ public class TradingSignalProcess {
                 }
 
                 stockData.setUpDn((int) stock.getLongterm());
-            }
+
+                stockData.setpCl(0);
+                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountAdminObj, stock, StockArray, 0);
+                if (nn != null) {
+
+                    float output1 = nn.getOutput1();
+                    float output2 = nn.getOutput2();
+                    if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
+
+                        AFstockInfo stockinfo = (AFstockInfo) StockArray.get(0);
+                        float closeOutput0 = stockinfo.getFclose();
+                        float closeOutput = closeOutput0;
+                        if (CKey.PREDICT_THRESHOLD < output1) {
+                            float closef = (float) 0.9;
+                            closef = closef / 15;
+                            closeOutput = (closef * closeOutput0) + closeOutput0;
+                        } else if (CKey.PREDICT_THRESHOLD < output2) {
+                            float closef = (float) -0.9;
+                            closef = closef / 15;
+                            closeOutput = (closef * closeOutput0) + closeOutput0;
+                        }
+                        stockData.setpCl(closeOutput);
+                    }
+                }
+
+            } // end if stock null
 //////////////////////
             String sdataStr = new ObjectMapper().writeValueAsString(stockData);
             sdataStr = sdataStr.replaceAll("\"", "#");

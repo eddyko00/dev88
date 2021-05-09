@@ -24,32 +24,30 @@ public class NNCal {
 
     protected static Logger logger = Logger.getLogger("NNCal");
 
-    public static NNObj NNpredict(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
+    public static NNObj NNpredict(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
 
         NNObj nn = new NNObj();
 
         switch (TR_Name) {
             case ConstantKey.INT_TR_NN1:
-                return ProcessNN1.NNpredictNN1(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+                return ProcessNN1.NNpredictNN1(serviceAFWeb, accountObj, stock,  StockRecArray, DataOffset);
             case ConstantKey.INT_TR_NN91: // mirror to NN1
-                return ProcessNN1.NNpredictNN1(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+                return ProcessNN1.NNpredictNN1(serviceAFWeb, accountObj, stock, StockRecArray, DataOffset);
 
             case ConstantKey.INT_TR_NN2:
-                return ProcessNN2.NNpredictNN2(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+                return ProcessNN2.NNpredictNN2(serviceAFWeb, accountObj, stock, StockRecArray, DataOffset);
             case ConstantKey.INT_TR_NN92: // mirror to NN2
-                return ProcessNN2.NNpredictNN2(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+                return ProcessNN2.NNpredictNN2(serviceAFWeb, accountObj, stock, StockRecArray, DataOffset);
 
             case ConstantKey.INT_TR_NN3:
-                return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+                return ProcessNN3.NNpredictNN3(serviceAFWeb, accountObj, stock, StockRecArray, DataOffset);
             case ConstantKey.INT_TR_NN93: // mirror to NN3
-                return ProcessNN3.NNpredictNN3(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+                return ProcessNN3.NNpredictNN3(serviceAFWeb, accountObj, stock, StockRecArray, DataOffset);
 
 ////////////////////////////////////////////////////                
             case ConstantKey.INT_TR_NN30:
-                return ProcessNN00.NNpredictNN30(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
+                return ProcessNN00.NNpredictNN30(serviceAFWeb, accountObj, stock, StockRecArray, DataOffset);
 
-//            case ConstantKey.INT_TR_NN40:
-//                return ProcessNN00.NNpredictNN40(serviceAFWeb, TR_Name, accountObj, stock, tradingRuleList, StockRecArray, DataOffset);
             default:
                 break;
         }

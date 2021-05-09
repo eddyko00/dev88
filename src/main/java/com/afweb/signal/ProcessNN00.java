@@ -29,8 +29,8 @@ public class ProcessNN00 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
 
-    public static NNObj NNpredictNN30(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock,
-            ArrayList<TradingRuleObj> tradingRuleList, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
+    public static NNObj NNpredictNN30(ServiceAFweb serviceAFWeb,  AccountObj accountObj, AFstockObj stock,
+            ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         NNObj nn = new NNObj();
 
