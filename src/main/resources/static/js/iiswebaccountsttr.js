@@ -86,6 +86,16 @@ var app = {
             }
         }
 
+        var stockData = null;
+        var stockD = stockObj.data;
+        if (stockD !== "") {
+            var objDataStr = stockD.replaceAll('#', '"');
+            var objData = JSON.parse(objDataStr);
+            if (objData != null) {
+                stockData = objData;
+            }
+        }
+
         var stStr = 'Trading Model Listing<br>';
         var stStatus = "";
         if (stockObj.substatus == 12) { //ConstantKey.STOCK_SPLIT STOCK_DETLA = 12
@@ -114,6 +124,8 @@ var app = {
             var trObj = trObjList[i];
             console.log(trObj);
             var nameId = trObj.id;
+
+            var findTR_ACC = false;
 
             if (custObj.type == 99) {
                 if (trObj.trname === "TR_ACC") {
@@ -154,6 +166,7 @@ var app = {
             var htmlName = '<div class="ui-grid-b">';
             var dispName = trObj.trname;
             if (trObj.trname === "TR_ACC") {
+                findTR_ACC = true;
                 var status = trObj.status;
                 if (status == 2) { //int PENDING = 2;
                     dispName = 'PENDING'
@@ -274,13 +287,27 @@ var app = {
                 }
             }
             htmlBtn += '</div>';
-
             htmlName += htmlBtn;
 
 
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');
 
-        }
+            if (findTR_ACC === true) {
+
+                if (stockData !== null) {
+                    var stockMsg = "";
+                    var rec = stockData.rec;
+                    if (rec < recMsg.length) {
+                        stockMsg = recMsg[rec];
+                    }
+//                    stockMsg += ' <a href="accountsttrmsg.html"><small>continue....</a></small>';
+
+                    stockMsg += ' <a id="link" href="#"><small>continue....</a></small>';
+                    $("#myid").append('<li></li>');
+                    $("#myid").append(stockMsg);
+                }
+            }
+        } // end for loop
         if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) { //INT_MUTUAL_FUND_ACCOUNT = 120;
             ;
         } else {
@@ -624,7 +651,7 @@ var app = {
                 window.location.href = "#page_graph2";
             }
         });
-        
+
         $("#y3btn").click(function () {
             $("#grtxt3").show(0);
             if (trname !== null) {
@@ -782,21 +809,6 @@ var app = {
             window.location.href = "#page_conf";
         });
 
-//    public static final String TR_ACC = "TR_ACC";  // transaction account
-//    public static final int INT_TR_ACC = 0;
-//    public static final String TR_MV = "TR_MV";  // simulation 
-//    public static final int INT_TR_MV = 1;
-//    public static final String TR_MACD = "TR_MACD";
-//    public static final int INT_TR_MACD = 2;
-//    public static final String TR_RSI = "TR_RSI";
-//    public static final int INT_TR_RSI = 3;
-//    public static final String TR_NN1 = "TR_NN1"; //NN for MACD fast
-//    public static final int INT_TR_NN1 = 4;
-//    public static final String TR_NN2 = "TR_NN2"; //NN for MACD 12 26
-//    public static final int INT_TR_NN2 = 5;
-//    public static final String TR_NN3 = "TR_NN3"; //NN for MV
-//    public static final int INT_TR_NN3 = 6;    
-
         $("#savesubmit").click(function () {
 
             var tr = $('#myidtrmodel').val();
@@ -827,6 +839,13 @@ var app = {
                 }
                 window.location.href = "accountsttr_1.html";
             }
+        });
+
+        $('a#link').click(function () {
+//            alert("Hello");
+//            window.location.href = "#page-intro";
+            window.location.href = "accountsttrmsg.html";
+
         });
 
 
