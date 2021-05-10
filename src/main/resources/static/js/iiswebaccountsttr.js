@@ -305,6 +305,7 @@ var app = {
                     stockMsg += ' <a id="link" href="#"><small>continue....</a></small>';
                     $("#myid").append('<li></li>');
                     $("#myid").append(stockMsg);
+                    $("#myid").append('<li></li>');                    
                 }
             }
         } // end for loop
