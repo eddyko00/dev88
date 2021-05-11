@@ -1280,6 +1280,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            AccountObj accountAdminObj = getAdminObjFromCache();            
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+
 //            symbol = "GLD";
 //            nnName = ConstantKey.TR_NN3;
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;

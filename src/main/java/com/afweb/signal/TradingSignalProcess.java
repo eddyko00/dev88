@@ -188,26 +188,32 @@ public class TradingSignalProcess {
             }
             // process performance
             String trName = trObj.getTrname();
+            
+            // most recent tran first - old tran at the end 
             ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList == null) || (tranOrderList.size() == 0)) {
                 continue;
             }
             ///////add the dummy last transaction
             ///////add the dummy last transaction
-            ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
+            ArrayList<TransationOrderObj> currTranOrderList = new ArrayList ();
+            currTranOrderList.add(tranOrderList.get(0));
+            
+//            currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
+
             int tranSignal = ConstantKey.S_NEUTRAL;
-            if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-                tranSignal = ConstantKey.S_SELL;
-            } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                tranSignal = ConstantKey.S_BUY;
-            }
-            if (tranSignal == ConstantKey.S_NEUTRAL) {
+
+            if (trObj.getTrsignal() != ConstantKey.S_NEUTRAL) {
                 ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, trObj, accountObj, stock, trName, tranSignal, null, true);
 
                 if ((transObjList != null) && (transObjList.size() > 0)) {
+                    TransationOrderObj trOrder = null;
                     for (int i = 0; i < transObjList.size(); i += 2) {
-                        TransationOrderObj trOrder = (TransationOrderObj) transObjList.get(i);
+                        trOrder = (TransationOrderObj) transObjList.get(i);
                         TradingRuleObj trObjNew = (TradingRuleObj) transObjList.get(i + 1);
+                    }
+                    if (trOrder != null) {
+                        tranOrderList.add(0, trOrder);
                     }
                 }
             }
