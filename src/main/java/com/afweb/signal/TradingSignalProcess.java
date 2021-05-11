@@ -192,6 +192,25 @@ public class TradingSignalProcess {
             if ((tranOrderList == null) || (tranOrderList.size() == 0)) {
                 continue;
             }
+            ///////add the dummy last transaction
+            ///////add the dummy last transaction
+            ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
+            int tranSignal = ConstantKey.S_NEUTRAL;
+            if (trObj.getTrsignal() == ConstantKey.S_BUY) {
+                tranSignal = ConstantKey.S_SELL;
+            } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
+                tranSignal = ConstantKey.S_BUY;
+            }
+            if (tranSignal == ConstantKey.S_NEUTRAL) {
+                ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, trObj, accountObj, stock, trName, tranSignal, null, true);
+
+                if ((transObjList != null) && (transObjList.size() > 0)) {
+                    for (int i = 0; i < transObjList.size(); i += 2) {
+                        TransationOrderObj trOrder = (TransationOrderObj) transObjList.get(i);
+                        TradingRuleObj trObjNew = (TradingRuleObj) transObjList.get(i + 1);
+                    }
+                }
+            }
             // get one yr performance
             ArrayList<PerformanceObj> performanceList = ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, false); // buyOnly false
             if (performanceList != null) {
@@ -1792,14 +1811,13 @@ public class TradingSignalProcess {
 
                 stockData.setUpDn((int) stock.getLongterm());
                 stockData.setChDir((int) stock.getDirection());
-                
+
                 if (stock.getLongterm() > 60) {
                     stockData.setTop(1);
                 } else if (stock.getLongterm() < -60) {
                     stockData.setTop(-1);
                 }
-                        
-                
+
                 stockData.setpCl(0);
                 NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountAdminObj, stock, StockArray, 0);
                 if (nn != null) {
