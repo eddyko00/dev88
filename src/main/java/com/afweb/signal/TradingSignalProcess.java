@@ -188,7 +188,7 @@ public class TradingSignalProcess {
             }
             // process performance
             String trName = trObj.getTrname();
-            
+
             // most recent tran first - old tran at the end 
             ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList == null) || (tranOrderList.size() == 0)) {
@@ -196,15 +196,20 @@ public class TradingSignalProcess {
             }
             ///////add the dummy last transaction
             ///////add the dummy last transaction
-            ArrayList<TransationOrderObj> currTranOrderList = new ArrayList ();
+            ArrayList<TransationOrderObj> currTranOrderList = new ArrayList();
             currTranOrderList.add(tranOrderList.get(0));
-            
-//            currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
 
+//            currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
             int tranSignal = ConstantKey.S_NEUTRAL;
 
             if (trObj.getTrsignal() != ConstantKey.S_NEUTRAL) {
-                ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, trObj, accountObj, stock, trName, tranSignal, null, true);
+                AFstockInfo lastStockinfo = stock.getAfstockInfo();
+                Calendar tranDate = null;
+                if (lastStockinfo != null) {
+                    tranDate = Calendar.getInstance();
+                    tranDate.setTimeInMillis(lastStockinfo.getEntrydatel());
+                }
+                ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, trObj, accountObj, stock, trName, tranSignal, tranDate, true);
 
                 if ((transObjList != null) && (transObjList.size() > 0)) {
                     TransationOrderObj trOrder = null;
