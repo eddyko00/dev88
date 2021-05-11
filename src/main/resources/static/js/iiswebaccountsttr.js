@@ -302,7 +302,7 @@ var app = {
                     var stockMsg = "Stock Analysis:";
                     var rec = stockData.rec;
                     if (rec < recMsg.length) {
-                        stockMsg = recMsg[rec];
+                        stockMsg += recMsg[rec];
                     }
 //                    stockMsg += ' <a href="accountsttrmsg.html"><small>continue....</a></small>';
 

@@ -120,11 +120,7 @@ var app = {
 
         $("#accheader").html(' ' + accObj.accountname + ' ' + stockObj.symbol);
 
-
-        var htmlName = '<div class="ui-grid-b">';
-        htmlName += '<div class="ui-block-a" ></strong></div>';
-        htmlName += '<div class="ui-block-b" style="width:20%"></div>';
-        $("#myid").append('<li id="0">' + htmlName + '</li>');
+        $("#myid").append('<li>Stock Analysis:</li>');
 
         if (stockData !== null) {
             var stockMsg = "";
