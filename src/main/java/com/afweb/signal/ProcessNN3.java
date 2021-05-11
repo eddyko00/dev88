@@ -664,10 +664,7 @@ public class ProcessNN3 {
 ////////        
 //        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN40, accountObj, stock, tradingRuleList, StockArray, offset);
 
-        boolean flag = true;
-        if (flag == true) {
-            return nnSignal;
-        }
+
         NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset);
         if (nn != null) {
 
