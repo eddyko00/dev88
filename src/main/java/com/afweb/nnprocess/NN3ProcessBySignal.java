@@ -653,6 +653,16 @@ public class NN3ProcessBySignal {
                         stockNNprocessNameArray.remove(0);
                         continue;
                     }
+/////////////////
+                    if (symbol.equals("GLD")) {
+
+                    } else if (symbol.equals("HOU.TO")) {
+
+                    } else {
+                        stockNNprocessNameArray.remove(0);
+                        continue;
+                    }
+/////////////////                    
                     this.TrainNN3NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
 
                 }
