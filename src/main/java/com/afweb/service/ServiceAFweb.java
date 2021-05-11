@@ -686,7 +686,7 @@ public class ServiceAFweb {
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
             TRprocessImp.UpdateAllStock(this);
-            
+
             TRprocessImp.ProcessAdminSignalTrading(this);
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
             //
@@ -1280,15 +1280,15 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "AAPL";
-            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
-             TRprocessImp.UpdateAllStock(this);
-             
-//           AccountObj accountAdminObj = getAdminObjFromCache();
+//            symbol = "GLD";
+//            nnName = ConstantKey.TR_NN3;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//
+//            AccountObj accountAdminObj = getAdminObjFromCache();
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
-////            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
 ////
+//            nn3testflag = true;
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 ///////////////////////
