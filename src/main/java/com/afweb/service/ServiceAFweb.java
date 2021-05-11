@@ -1280,9 +1280,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            AccountObj accountAdminObj = getAdminObjFromCache();            
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
+
+            
 //            symbol = "GLD";
 //            nnName = ConstantKey.TR_NN3;
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
@@ -1294,6 +1294,11 @@ public class ServiceAFweb {
 //            nn3testflag = true;
 //            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//////// clear TR_NN3
+//            nnName = ConstantKey.TR_NN3;
+//            BPnameSym = CKey.NN_version + "_" + nnName;
+//            removeNeuralNetDataAllSymbolByTR(BPnameSym);
+//////// clear TR_NN3
 ///////////////////////
 //            nn3testflag = true;
 //            nn3ProcBySig.NeuralNetNN3CreateJava(this, ConstantKey.TR_NN3);
