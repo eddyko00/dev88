@@ -1280,13 +1280,13 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "AAPL";
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//            symbol = "AAPL";
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 
 
 //            symbol = "GLD";

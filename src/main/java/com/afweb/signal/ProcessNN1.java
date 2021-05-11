@@ -761,7 +761,7 @@ public class ProcessNN1 {
     }
 
     private int Rule6_CheckProfitTake(int nnSignal, ArrayList StockArray, int offset, float thClose, float StClose, int day) {
-        float DEL_ERR = (float) 7; //10;
+        float DEL_ERR = (float) 10; //10;
         int currSignal = nnSignal;
 
         float delPer = 100 * (StClose - thClose) / thClose;
