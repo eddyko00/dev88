@@ -299,7 +299,7 @@ var app = {
             if (findTR_ACC === true) {
 
                 if (stockData !== null) {
-                    var stockMsg = "";
+                    var stockMsg = "Stock Analysis:";
                     var rec = stockData.rec;
                     if (rec < recMsg.length) {
                         stockMsg = recMsg[rec];

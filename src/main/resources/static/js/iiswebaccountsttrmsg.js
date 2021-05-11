@@ -111,10 +111,11 @@ var app = {
             stStatus = "<font style= color:green>St: Ready</font>";
         }
 
-
-
         stStr += stockObj.stockname + '<br>' + stockObj.updateDateD + " " + stStatus + '<br>' +
-                'Pre Cl:' + preClose + '  Close:' + close + '  Per:' + percentSt
+                'Pre Close:' + preClose + '  Close:' + close + '  Per:' + percentSt
+        stStr += '<br>' + 'Long trend:' + stockObj.longterm + '<br>' + 'Short trend:' + stockObj.shortterm + '<br>' +
+                'Change Direction:' + stockObj.direction
+
         $("#0").html('<h1>' + stStr + '</h1>');
 
         $("#accheader").html(' ' + accObj.accountname + ' ' + stockObj.symbol);
@@ -141,17 +142,19 @@ var app = {
             stockMsg += "<p>";
 
             var stockMsg1 = "";
-            if (stockData.upDn != 0) {
+            if (stockData.upDn !== 0) {
                 if (stockData.upDn > 50) {
                     stockMsg1 = "The up trend is strong";
                 }
                 if (stockData.upDn > 70) {
                     stockMsg1 = "The up trend is very strong";
                 }
-                if (stockData.top == 1) {
-                    stockMsg1 += " and price is near to the top.";
-                } else {
-                    stockMsg1 += ".";
+                if (stockData.top !== 0) {
+                    if (stockData.top === 1) {
+                        stockMsg1 += " and price is near to the top.";
+                    } else {
+                        stockMsg1 += ".";
+                    }
                 }
             }
             if (stockData.upDn < -50) {
@@ -159,10 +162,12 @@ var app = {
                 if (stockData.upDn < -70) {
                     stockMsg1 = "The down trend is very strong";
                 }
-                if (stockData.top == -1) {
-                    stockMsg1 += " and price is near to the bottom.";
-                } else {
-                    stockMsg1 += ".";
+                if (stockData.top !== 0) {
+                    if (stockData.top === -1) {
+                        stockMsg1 += " and price is near to the bottom.";
+                    } else {
+                        stockMsg1 += ".";
+                    }
                 }
             }
         }
