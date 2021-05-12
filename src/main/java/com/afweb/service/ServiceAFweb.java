@@ -1152,8 +1152,7 @@ public class ServiceAFweb {
                     }
                 }
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-                
-                
+                                
             }
             
             
