@@ -1118,21 +1118,6 @@ public class ServiceAFweb {
                 ////update all stock                
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
-                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-                APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
-                logger.info("> update  stock:" + APIStockNameList.size());
-                for (int i = 0; i < APIStockNameList.size(); i++) {
-                    String symbol = (String) APIStockNameList.get(i);
-                    if (symbol.equals("T_T")) {
-                        continue;
-                    }
-                    int re = TRprocessImp.updateAllStockProcess(this, symbol, false);
-                    if ((i % 5) == 0) {
-                        logger.info("> updated: " + i);
-                    }
-                }
-                getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-
 ////////////////////////////////////////////////                
                 ////update remote Neural Net
                 String URL = CKey.URL_PATH_HERO;
@@ -1151,7 +1136,27 @@ public class ServiceAFweb {
                 this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
                 nnName = ConstantKey.TR_NN30;
                 this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+////////////////////////////////////////////////  
+
+                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+                APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
+                logger.info("> update  stock:" + APIStockNameList.size());
+                for (int i = 0; i < APIStockNameList.size(); i++) {
+                    String symbol = (String) APIStockNameList.get(i);
+                    if (symbol.equals("T_T")) {
+                        continue;
+                    }
+                    int re = TRprocessImp.updateAllStockProcess(this, symbol, false);
+                    if ((i % 5) == 0) {
+                        logger.info("> updated: " + i);
+                    }
+                }
+                getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+                
+                
             }
+            
+            
         } catch (Exception ex) {
             logger.info("> processInitLocalRemoteNN Exception " + ex.getMessage());
         }
