@@ -1152,10 +1152,9 @@ public class ServiceAFweb {
                     }
                 }
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-                                
+
             }
-            
-            
+
         } catch (Exception ex) {
             logger.info("> processInitLocalRemoteNN Exception " + ex.getMessage());
         }
@@ -1259,6 +1258,9 @@ public class ServiceAFweb {
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
 
+    public static boolean mydebugSim = false; //false;  
+    public static long SimDateL = 0;
+
     public static boolean mydebugnewtest = false; //false;
 
     private void AFprocessDebug() {
@@ -1284,15 +1286,29 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            symbol = "AAPL";
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+            symbol = "AAPL";
+            mydebugSim = true;
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            SimDateL = dateNow.getTimeInMillis();
+            SimDateL = TimeConvertion.addDays(SimDateL, -20);
 
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            AccountObj accountAdminObj = getAdminObjFromCache();
 
+            boolean flag1 = false;
+            if (flag1 == true) {
+                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+            } else {
+
+                for (int i = 0; i < 25; i++) {
+                    SimDateL = TimeConvertion.addDays(SimDateL, 1);
+
+                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+                }
+            }
 //            symbol = "GLD";
 //            nnName = ConstantKey.TR_NN3;
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
@@ -5230,6 +5246,22 @@ public class ServiceAFweb {
                 break;
             }
         }
+
+        if (mydebugSim == true) {
+            sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
+            retArray = new ArrayList();
+            for (int i = 0; i < sockInfoArray.size(); i++) {
+                AFstockInfo sInfo = sockInfoArray.get(i);
+                if (sInfo.getEntrydatel() > SimDateL) {
+                    continue;
+                }
+                retArray.add(sInfo);
+                if (i > length) {
+                    break;
+                }
+            }
+        }
+
         return retArray;
 
     }
