@@ -334,14 +334,7 @@ public class ProcessNN1 {
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
-//                                    long lastTHLong = lastTH.getUpdateDatel();
-//                                    long curSGLong = stockinfo.getEntrydatel();
-//                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
-//                                    if (delta > 0) {
-////                                        logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 2 signal  " + stockDate.toString() + " date from last signal > 40 date");
-//                                        nnSignal = macdSignal;
-//                                        confident += 15;
-//                                    }
+
                                 }
                                 break; // for loop
                             }
@@ -362,11 +355,6 @@ public class ProcessNN1 {
             if (nnSignal == trendSignal) {
                 confident += 30;
             } else {
-                trendSignal = this.Rule6_CheckProfitTake(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, prevSignal);
-                if (nnSignal == trendSignal) {
-                    confident += 32;
-
-                }
 //                logger.info("> ProcessTRH NN1 " + stock.getSymbol() + " Override 3 signal " + stockDate.toString() + " TrendSignal " + trendSignal);
             }
             nnSignal = trendSignal;
@@ -530,7 +518,6 @@ public class ProcessNN1 {
 //        return nnSignal;
 //
 //    }
-
     public MACDObj getTechnicalCal(ArrayList StockArray, int offset) {
         MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
         return macdNN;
@@ -590,20 +577,7 @@ public class ProcessNN1 {
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
-//                                    int rule5_Signal = this.Rule5_ResetTR(serviceAFWeb, accountObj, StockArray, offset, stock, prevSignal, thClose, StClose);
-//                                    if (rule5_Signal != prevSignal) {
-//                                        logger.info("> updateAdminTR NN1 " + symbol + " Override 5 signal " + stockDate.toString());
-//                                        nnSignal = rule5_Signal;
-//                                        confident += 15;
-//                                    }
-//                                    long lastTHLong = lastTH.getEntrydatel();
-//                                    long curSGLong = stockinfo.getEntrydatel();
-//                                    delta = Rule2_LongTran(nn, lastTHLong, curSGLong);
-//                                    if (delta > 0) {
-////                                        logger.info("> updateAdminTR NN1 " + symbol + " Override 2 signal " + stockDate.toString() + " date from last signal > 40 date");
-//                                        nnSignal = macdSignal;
-//                                        confident += 15;
-//                                    }
+
                                 }
 
                             }
@@ -835,7 +809,7 @@ public class ProcessNN1 {
 //        return null;
 //    }
 //    
-    
+
     public static float NN1StopLoss = 7; //5; //16;  // 20
     // check stop loss
 
@@ -1034,69 +1008,47 @@ public class ProcessNN1 {
                 AFstockInfo stockinfo = (AFstockInfo) StockArray.get(offset);
                 float StClose = stockinfo.getFclose();
 
-                float delPer = 100 * (StClose - thClose) / thClose;
-
-                float DEL_ERR = (float) 7; //10;
-                int currSignal = nnSignal;
-
-                // need to check if 5 days has drop of 5%
-                AFstockInfo stockinfo5 = (AFstockInfo) StockArray.get(offset + 5);
-                float StClose5 = stockinfo5.getFclose();
-                float delERR5 = (float) 3.5;
-
-                if (currSignal == ConstantKey.S_BUY) {
-                    if (delPer > DEL_ERR) {
-                        float delPer5 = 100 * (StClose - StClose5) / StClose5;
-                        if (delPer5 < -delERR5) {
-                            // force to take profit
-                            return ConstantKey.S_SELL;
-                        }
-                    }
-                } else if (currSignal == ConstantKey.S_SELL) {
-                    if (delPer < -DEL_ERR) {
-                        float delPer5 = 100 * (StClose - StClose5) / StClose5;
-                        if (delPer5 > delERR5) {
-                            // force to take profit
-                            return ConstantKey.S_BUY;
-                        }
-                    }
+                int nnSignalNew = Rule7_CheckProfitTake(nnSignal, StockArray, offset, thClose, StClose, 4);
+                if (nnSignal == nnSignalNew) {
+                    nnSignalNew = Rule7_CheckProfitTake(nnSignal, StockArray, offset, thClose, StClose, 8);
                 }
+                return nnSignalNew;
 
             }
         } catch (Exception ex) {
         }
         return nnSignal;
     }
-    
-//    private int Rule6_CheckProfitTake(int nnSignal, ArrayList StockArray, int offset, float thClose, float StClose, int day) {
-//        float DEL_ERR = (float) 10; //10;
-//        int currSignal = nnSignal;
-//
-//        float delPer = 100 * (StClose - thClose) / thClose;
-//        // need to check if 5 days has drop of 5%
-//        AFstockInfo stockinfo5 = (AFstockInfo) StockArray.get(offset + day);
-//        float StClose5 = stockinfo5.getFclose();
-//        float delERR5 = (float) 3.5;
-//
-//        if (currSignal == ConstantKey.S_BUY) {
-//            if (delPer > DEL_ERR) {
-//                float delPer5 = 100 * (StClose - StClose5) / StClose5;
-//                if (delPer5 < -delERR5) {
-//                    // force to take profit
-//                    return ConstantKey.S_SELL;
-//                }
-//            }
-//        } else if (currSignal == ConstantKey.S_SELL) {
-//            if (delPer < -DEL_ERR) {
-//                float delPer5 = 100 * (StClose - StClose5) / StClose5;
-//                if (delPer5 > delERR5) {
-//                    // force to take profit
-//                    return ConstantKey.S_BUY;
-//                }
-//            }
-//        }
-//        return currSignal;
-//    }
+
+    private int Rule7_CheckProfitTake(int nnSignal, ArrayList StockArray, int offset, float thClose, float StClose, int day) {
+        float DEL_ERR = (float) 7; //10;
+        int currSignal = nnSignal;
+
+        float delPer = 100 * (StClose - thClose) / thClose;
+        // need to check if 5 days has drop of 5%
+        AFstockInfo stockinfo5 = (AFstockInfo) StockArray.get(offset + day);
+        float StClose5 = stockinfo5.getFclose();
+        float delERR5 = (float) 2;
+
+        if (currSignal == ConstantKey.S_BUY) {
+            if (delPer > DEL_ERR) {
+                float delPer5 = 100 * (StClose - StClose5) / StClose5;
+                if (delPer5 < -delERR5) {
+                    // force to take profit
+                    return ConstantKey.S_SELL;
+                }
+            }
+        } else if (currSignal == ConstantKey.S_SELL) {
+            if (delPer < -DEL_ERR) {
+                float delPer5 = 100 * (StClose - StClose5) / StClose5;
+                if (delPer5 > delERR5) {
+                    // force to take profit
+                    return ConstantKey.S_BUY;
+                }
+            }
+        }
+        return currSignal;
+    }
 /////////////////////////////////////////////////////////
 
     public ArrayList<NNInputDataObj> getAccountStockTRListHistoryMACDNN1(ArrayList<StockTRHistoryObj> thObjListMACD, ArrayList<StockTRHistoryObj> thObjListMV, ArrayList<StockTRHistoryObj> thObjListRSI,

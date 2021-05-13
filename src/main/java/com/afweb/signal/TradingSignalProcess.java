@@ -1408,8 +1408,14 @@ public class TradingSignalProcess {
                                     trObj.setComment(nameSt);
 //                                    trObj.setComment(nn.getConfident());
                                 }
+
                             }
                             UpdateTRList.add(trObj);
+
+                            if (ServiceAFweb.mydebugtestflag == true) {
+                                logger.info(">testUpdateAdminTradingsignal NN1 " + offset + " S:" + trObj.getTrsignal()
+                                        + " " + trObj.getComment());
+                            }
                         }
                     }
                     break;

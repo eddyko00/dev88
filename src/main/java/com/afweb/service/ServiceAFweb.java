@@ -1290,7 +1290,7 @@ public class ServiceAFweb {
             mydebugSim = true;
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             SimDateL = dateNow.getTimeInMillis();
-            SimDateL = TimeConvertion.addDays(SimDateL, -20);
+            SimDateL = TimeConvertion.addDays(SimDateL, -25);
 
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             AccountObj accountAdminObj = getAdminObjFromCache();
@@ -1301,7 +1301,7 @@ public class ServiceAFweb {
                 TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
             } else {
 
-                for (int i = 0; i < 25; i++) {
+                for (int i = 0; i < 30; i++) {
                     SimDateL = TimeConvertion.addDays(SimDateL, 1);
 
                     TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
