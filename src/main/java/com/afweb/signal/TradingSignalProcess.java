@@ -1390,6 +1390,8 @@ public class TradingSignalProcess {
                 case ConstantKey.INT_TR_NN1:
                     boolean nn1Flag = true;
                     if (nn1Flag == true) {
+                        int preTrsignal = trObj.getTrsignal();
+
                         ProcessNN1 nn1 = new ProcessNN1();
                         NNObj nn = nn1.updateAdminTradingsignalNN1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                         if (nn != null) {
@@ -1413,8 +1415,12 @@ public class TradingSignalProcess {
                             UpdateTRList.add(trObj);
 
                             if (ServiceAFweb.mydebugtestflag == true) {
+
                                 logger.info(">testUpdateAdminTradingsignal NN1 " + offset + " S:" + trObj.getTrsignal()
                                         + " " + trObj.getComment());
+                                if (preTrsignal != trObj.getTrsignal()) {
+                                    logger.info("Signal change");
+                                }
                             }
                         }
                     }
@@ -1496,6 +1502,11 @@ public class TradingSignalProcess {
 
             trObj.setUpdatedatedisplay(new java.sql.Date(dateNowUpdate.getTimeInMillis()));
             trObj.setUpdatedatel(dateNowUpdate.getTimeInMillis());
+
+            if (ServiceAFweb.mydebugSim == true) {
+                trObj.setUpdatedatedisplay(new java.sql.Date(ServiceAFweb.SimDateL));
+                trObj.setUpdatedatel(ServiceAFweb.SimDateL);
+            }
         }
         if (trTradingACCObj != null) {
             int trLinkId = trTradingACCObj.getLinktradingruleid();

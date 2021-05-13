@@ -577,7 +577,12 @@ public class ProcessNN1 {
                                     nnSignal = macdSignal;
                                     confident += 15;
                                 } else {
-
+                                    int newSignal = this.Rule6_CheckProfitTake(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, prevSignal);
+                                    if (prevSignal != newSignal) {
+                                        confident += 32;
+                                        profitTake = true;
+                                        nnSignal = newSignal;
+                                    }
                                 }
 
                             }
@@ -604,20 +609,27 @@ public class ProcessNN1 {
                         }
                     }
                 }
-                if (nnSignal != prevSignal) {
-                    // signal change double check wiht NN trend
-                    int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
-                    //override the previous NN1 prediction
-                    if (nnSignal == trendSignal) {
-                        confident += 30;
-                    } else {
-                        trendSignal = this.Rule6_CheckProfitTake(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, prevSignal);
+
+                int newSignal = this.Rule6_CheckProfitTake(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, prevSignal);
+                if (prevSignal != newSignal) {
+                    confident += 32;
+                    profitTake = true;
+                    nnSignal = newSignal;
+                }
+                if ((profitTake == true) || (stopLoss == true)) {
+                    ;
+                } else {
+                    if (nnSignal != prevSignal) {
+
+                        // signal change double check wiht NN trend
+                        int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+                        //override the previous NN1 prediction
                         if (nnSignal == trendSignal) {
-                            confident += 32;
-                            profitTake = true;
+                            confident += 30;
+                        } else {
                         }
+                        nnSignal = trendSignal;
                     }
-                    nnSignal = trendSignal;
                 }
 
                 if (nnSignal != prevSignal) {
