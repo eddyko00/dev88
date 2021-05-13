@@ -1286,29 +1286,34 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "AAPL";
-            mydebugSim = true;
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            SimDateL = dateNow.getTimeInMillis();
-            SimDateL = TimeConvertion.addDays(SimDateL, -25);
+//////////////////////////////// trading Simulation ////////////              
+//////////////////////////////// trading Simulation ////////////  
+//            symbol = "AAPL";
+//            mydebugSim = true;
+//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//            SimDateL = dateNow.getTimeInMillis();
+//            SimDateL = TimeConvertion.addDays(SimDateL, -25);
+//
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//
+//            boolean flag1 = false;
+//            if (flag1 == true) {
+//                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+//                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            } else {
+//
+//                for (int i = 0; i < 30; i++) {
+//                    SimDateL = TimeConvertion.addDays(SimDateL, 1);
+//
+//                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//                }
+//            }
+//////////////////////////////// trading Simulation ////////////  
+//////////////////////////////// trading Simulation ////////////  
 
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-            AccountObj accountAdminObj = getAdminObjFromCache();
-
-            boolean flag1 = false;
-            if (flag1 == true) {
-                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
-                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            } else {
-
-                for (int i = 0; i < 30; i++) {
-                    SimDateL = TimeConvertion.addDays(SimDateL, 1);
-
-                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-                }
-            }
 //            symbol = "GLD";
 //            nnName = ConstantKey.TR_NN3;
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
