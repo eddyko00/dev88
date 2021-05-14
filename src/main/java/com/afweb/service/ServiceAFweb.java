@@ -1311,6 +1311,7 @@ public class ServiceAFweb {
                     TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
                     TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
                     TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+                    TRprocessImp.upateAdminTRPerf(this, accountAdminObj, symbol);
                 }
             }
 //////////////////////////////// trading Simulation ////////////  
@@ -3714,8 +3715,10 @@ public class ServiceAFweb {
             if (trObj == null) {
                 return 0;
             }
-            int stockId = trObj.getStockid();
-            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
+
+            AFstockObj stock = this.getStockRealTime(trObj.getSymbol()); 
+//            int stockId = trObj.getStockid();            
+//            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
             if (stock == null) {
                 return 0;
             }
