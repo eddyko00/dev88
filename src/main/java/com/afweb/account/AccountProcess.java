@@ -2395,7 +2395,7 @@ public class AccountProcess {
             for (int i = 0; i < array.size(); i++) {
                 TradingRuleObj obj = array.get(i);
                 if (ServiceAFweb.mydebugtestflag == true) {
-                    AccData accData = serviceAFWeb.getAccData(obj);
+                    AccData accData = serviceAFWeb.getAccData(obj.getComment());
                     String nameSt = "";
                     try {
                         nameSt = new ObjectMapper().writeValueAsString(accData);

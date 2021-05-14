@@ -1286,6 +1286,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+      
+            
 //////////////////////////////// trading Simulation ////////////              
 //////////////////////////////// trading Simulation ////////////  
             symbol = "AAPL";
@@ -1294,18 +1296,18 @@ public class ServiceAFweb {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             SimDateL = dateNow.getTimeInMillis();
             SimDateL = TimeConvertion.endOfDayInMillis(SimDateL);
-            SimDateL = TimeConvertion.addDays(SimDateL, -25);
+//            SimDateL = TimeConvertion.addDays(SimDateL, -10);
 
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             AccountObj accountAdminObj = getAdminObjFromCache();
 
-            boolean flag1 = false;
+            boolean flag1 = true;
             if (flag1 == true) {
                 int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
                 TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
             } else {
 
-                for (int i = 0; i < 30; i++) {
+                for (int i = 0; i < 15; i++) {
                     SimDateL = TimeConvertion.addDays(SimDateL, 1);
 
                     TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
@@ -3716,7 +3718,7 @@ public class ServiceAFweb {
                 return 0;
             }
 
-            AFstockObj stock = this.getStockRealTime(trObj.getSymbol()); 
+            AFstockObj stock = this.getStockRealTime(trObj.getSymbol());
 //            int stockId = trObj.getStockid();            
 //            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
             if (stock == null) {
@@ -6470,18 +6472,29 @@ public class ServiceAFweb {
         return null;
     }
 
-    public AccData getAccData(TradingRuleObj trObj) {
+    public AccData getAccData(String accDataStr) {
         AccData refData = new AccData();
-        String refTemp = trObj.getComment();
         try {
-            if ((refTemp != null) && (refTemp.length() > 0)) {
-                refTemp = refTemp.replaceAll("#", "\"");
-                refData = new ObjectMapper().readValue(refTemp, AccData.class);
+            if ((accDataStr != null) && (accDataStr.length() > 0)) {
+                accDataStr = accDataStr.replaceAll("#", "\"");
+                refData = new ObjectMapper().readValue(accDataStr, AccData.class);
                 return refData;
             }
         } catch (Exception ex) {
         }
         return refData;
+    }
+
+    public String saveAccData(AccData accData) {
+
+        String nameSt = "";
+        try {
+            nameSt = new ObjectMapper().writeValueAsString(accData);
+            nameSt = nameSt.replaceAll("\"", "#");
+        } catch (Exception ex) {
+        }
+
+        return nameSt;
     }
 
     /////helper function

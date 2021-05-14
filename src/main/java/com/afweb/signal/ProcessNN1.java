@@ -281,10 +281,13 @@ public class ProcessNN1 {
         return inputDatalist;
     }
 
-    int ProcessTRHistoryOffsetNN1(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize,
-            int prevSignal, int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray) {
+    int ProcessTRHistoryOffsetNN1(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int prevSignal,
+            int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray, AccData accData) {
         int confident = 0;
         boolean stopLoss = false;
+        boolean stopReset = false;
+        boolean profitTake = false;
+
         int nnSignal = prevSignal;
         int macdSignal = nnSignal;
         float prediction = -1;
@@ -304,6 +307,11 @@ public class ProcessNN1 {
         if (macdSignal == nnSignal) {
             trObj.setTrsignal(nnSignal);
 
+            trHistory.setTrsignal(nnSignal);
+            trHistory.setParm1((float) macdNN.macd); // getNNnormalizeInput must be set to macd vaule for NN input
+            trHistory.setParm2((float) macdNN.signal);
+            return nnSignal;
+
         } else {
             confident += 30;
             NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN1, accountObj, stock, StockArray, offset);
@@ -316,8 +324,14 @@ public class ProcessNN1 {
                     if (predictionV > CKey.PREDICT_THRESHOLD) { //0.6) {
                         nnSignal = macdSignal;
                         confident += 30;
+                        if (nnSignal != prevSignal) {
+                            accData.setNn(accData.getNn() + 1);
+                        } else {
+                            accData.setNn(0);
+                        }
                     }
                 } else {
+                    accData.setNn(0);
                     //
                     if (writeArray.size() > 0) {
                         for (int j = 0; j < writeArray.size(); j++) {
@@ -348,7 +362,11 @@ public class ProcessNN1 {
 //                }
             }
         }
-        if (nnSignal != prevSignal) {
+
+        if (accData.getNn() > 3) {
+            ;
+        } else if (nnSignal != prevSignal) {
+
             // signal change double check wiht NN trend
             int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
             //override the previous NN1 prediction
@@ -359,12 +377,35 @@ public class ProcessNN1 {
             }
             nnSignal = trendSignal;
         }
+
         if (nnSignal != prevSignal) {
             int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
             if (nnSignal == retSignal) {
                 confident += 10;
             }
             nnSignal = retSignal;
+        }
+
+        if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
+            String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
+            if (prevSignal == ConstantKey.S_SELL) {
+                confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_BUY_ST;
+            }
+            if (stopReset == true) {
+                confidentSt = confidentSt + " (Stop NTR)";
+            } else if (stopLoss == true) {
+                confidentSt = confidentSt + " (Stop Loss)";
+            } else if (profitTake == true) {
+                confidentSt = confidentSt + " (Take Profit)";
+            }
+
+            accData.setConf(confidentSt);
+        }
+
+        if (accData.getNn() > 3) {
+            if (nnSignal != prevSignal) {
+                accData.setNn(0);
+            }
         }
 
         trObj.setTrsignal(nnSignal);
@@ -376,7 +417,6 @@ public class ProcessNN1 {
         trHistory.setParm4(prediction);
         trHistory.setParm5(confident);
 
-        prevSignal = nnSignal;
         return nnSignal;
 
     }
@@ -531,7 +571,7 @@ public class ProcessNN1 {
         boolean stopReset = false;
         boolean profitTake = false;
         try {
-            
+
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
                 MACDObj macdNN = this.getTechnicalCal(StockArray, offset);
 //                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
@@ -557,13 +597,18 @@ public class ProcessNN1 {
                 if (nn != null) {
                     float output1 = nn.getOutput1();
                     float output2 = nn.getOutput2();
+                    nnRet.setComment(nn.getComment());
                     if ((CKey.PREDICT_THRESHOLD < output1) || (CKey.PREDICT_THRESHOLD < output2)) {
                         nn.setTrsignal(nnSignal);
                         float predictionV = nn.getPrediction();
                         if (predictionV > CKey.PREDICT_THRESHOLD) { //0.8) {
                             nnSignal = macdSignal;
                             confident += 30;
-                            accData.setNn(accData.getNn() + 1);
+                            if (nnSignal != prevSignal) {
+                                accData.setNn(accData.getNn() + 1);
+                            } else {
+                                accData.setNn(0);
+                            }
                         }
                     } else {
                         accData.setNn(0);

@@ -1240,16 +1240,23 @@ public class TradingSignalProcess {
                 case ConstantKey.INT_TR_NN1:
                     boolean nn1Flag = true;
                     if (nn1Flag == true) {
+                        AccData accData = serviceAFWeb.getAccData(trObj.getComment());
+
                         ProcessNN1 nn1 = new ProcessNN1();
-                        int nn1Signal = nn1.ProcessTRHistoryOffsetNN1(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                        int nn1Signal = nn1.ProcessTRHistoryOffsetNN1(serviceAFWeb, trObj, StockArray, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData);
                         prevSignal = nn1Signal;
+
+                        trObj.setTrsignal(nn1Signal);
+                        String nameSt = serviceAFWeb.saveAccData(accData);
+                        trObj.setComment(nameSt);
+
                         if (ServiceAFweb.mydebugtestflag == true) {
 
                             float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
                             float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
 
                             logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
-                                    + " " + trHistory.getParmSt1());
+                                    + " " + trObj.getComment() + " " + trHistory.getParmSt1());
 
                         }
                     }
@@ -1263,9 +1270,16 @@ public class TradingSignalProcess {
 
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
+                        AccData accData = serviceAFWeb.getAccData(trObj.getComment());
+
                         ProcessNN2 nn2 = new ProcessNN2();
-                        int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                        int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData);
                         prevSignal = nn2Signal;
+
+                        trObj.setTrsignal(nn2Signal);
+                        String nameSt = serviceAFWeb.saveAccData(accData);
+                        trObj.setComment(nameSt);
+
                         if (ServiceAFweb.mydebugtestflag == true) {
 //                            if (offset < 99) {
 //                                prevSignal = nn2Signal;
@@ -1391,44 +1405,23 @@ public class TradingSignalProcess {
                     boolean nn1Flag = true;
                     if (nn1Flag == true) {
                         int preTrsignal = trObj.getTrsignal();
-
-                        AccData accData = serviceAFWeb.getAccData(trObj);
+                        AccData accData = serviceAFWeb.getAccData(trObj.getComment());
 
                         ProcessNN1 nn1 = new ProcessNN1();
+
                         NNObj nn = nn1.updateAdminTradingsignalNN1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList, accData);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
 
-                            String nameSt = "";
-                            try {
-                                nameSt = new ObjectMapper().writeValueAsString(accData);
-                                nameSt = nameSt.replaceAll("\"", "#");
-                            } catch (JsonProcessingException ex) {
-                            }
+                            String nameSt = serviceAFWeb.saveAccData(accData);
                             trObj.setComment(nameSt);
 
-//                            if (nn.getConfident() != null) {
-//                                if (nn.getConfident().length() > 0) {
-//                                    AccData accData = serviceAFWeb.getAccData(trObj);
-//                                    accData.setConf(nn.getConfident());
-////                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
-//                                    String nameSt = "";
-//                                    try {
-//                                        nameSt = new ObjectMapper().writeValueAsString(accData);
-//                                        nameSt = nameSt.replaceAll("\"", "#");
-//                                    } catch (JsonProcessingException ex) {
-//                                    }
-//                                    trObj.setComment(nameSt);
-////                                    trObj.setComment(nn.getConfident());
-//                                }
-//
-//                            }
                             UpdateTRList.add(trObj);
 
                             if (ServiceAFweb.mydebugtestflag == true) {
 
                                 logger.info(">testUpdateAdminTradingsignal NN1 " + offset + " S:" + trObj.getTrsignal()
-                                        + " " + trObj.getComment());
+                                       + " " + trObj.getComment() + " " + nn.getComment());
                                 if (preTrsignal != trObj.getTrsignal()) {
                                     logger.info("Signal change");
                                 }
@@ -1442,25 +1435,16 @@ public class TradingSignalProcess {
 
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
+                        int preTrsignal = trObj.getTrsignal();
+                        AccData accData = serviceAFWeb.getAccData(trObj.getComment());
+
                         ProcessNN2 nn2 = new ProcessNN2();
-                        NNObj nn = nn2.updateAdminTradingsignalNN2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                        NNObj nn = nn2.updateAdminTradingsignalNN2(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList, accData);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            if (nn.getConfident() != null) {
-                                if (nn.getConfident().length() > 0) {
-                                    AccData accData = serviceAFWeb.getAccData(trObj);
-                                    accData.setConf(nn.getConfident());
-//                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
-                                    String nameSt = "";
-                                    try {
-                                        nameSt = new ObjectMapper().writeValueAsString(accData);
-                                        nameSt = nameSt.replaceAll("\"", "#");
-                                    } catch (JsonProcessingException ex) {
-                                    }
-                                    trObj.setComment(nameSt);
-//                                    trObj.setComment(nn.getConfident());
-                                }
-                            }
+                            String nameSt = serviceAFWeb.saveAccData(accData);
+                            trObj.setComment(nameSt);
+
                             UpdateTRList.add(trObj);
                         }
                     }
@@ -1478,25 +1462,16 @@ public class TradingSignalProcess {
                             } else {
                                 break;
                             }
+
+                            AccData accData = serviceAFWeb.getAccData(trObj.getComment());
                             ProcessNN3 nn3 = new ProcessNN3();
                             NNObj nn = nn3.updateAdminTradingsignalNN3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
                             if (nn != null) {
                                 trObj.setTrsignal(nn.getTrsignal());
-                                if (nn.getConfident() != null) {
-                                    if (nn.getConfident().length() > 0) {
-                                        AccData accData = serviceAFWeb.getAccData(trObj);
-                                        accData.setConf(nn.getConfident());
-//                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
-                                        String nameSt = "";
-                                        try {
-                                            nameSt = new ObjectMapper().writeValueAsString(accData);
-                                            nameSt = nameSt.replaceAll("\"", "#");
-                                        } catch (JsonProcessingException ex) {
-                                        }
-                                        trObj.setComment(nameSt);
-//                                    trObj.setComment(nn.getConfident());
-                                    }
-                                }
+
+                                String nameSt = serviceAFWeb.saveAccData(accData);
+                                trObj.setComment(nameSt);
+
                                 UpdateTRList.add(trObj);
                             }
                         }
@@ -2957,7 +2932,6 @@ public class TradingSignalProcess {
 //                    tranDate = cDate;
 //                }
 //            }
-
             ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
             TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
 
