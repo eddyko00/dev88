@@ -1392,26 +1392,37 @@ public class TradingSignalProcess {
                     if (nn1Flag == true) {
                         int preTrsignal = trObj.getTrsignal();
 
+                        AccData accData = serviceAFWeb.getAccData(trObj);
+
                         ProcessNN1 nn1 = new ProcessNN1();
-                        NNObj nn = nn1.updateAdminTradingsignalNN1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+                        NNObj nn = nn1.updateAdminTradingsignalNN1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList, accData);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            if (nn.getConfident() != null) {
-                                if (nn.getConfident().length() > 0) {
-                                    AccData accData = serviceAFWeb.getAccData(trObj);
-                                    accData.setConf(nn.getConfident());
-//                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
-                                    String nameSt = "";
-                                    try {
-                                        nameSt = new ObjectMapper().writeValueAsString(accData);
-                                        nameSt = nameSt.replaceAll("\"", "#");
-                                    } catch (JsonProcessingException ex) {
-                                    }
-                                    trObj.setComment(nameSt);
-//                                    trObj.setComment(nn.getConfident());
-                                }
-
+                            accData.setConf(nn.getConfident());
+                            String nameSt = "";
+                            try {
+                                nameSt = new ObjectMapper().writeValueAsString(accData);
+                                nameSt = nameSt.replaceAll("\"", "#");
+                            } catch (JsonProcessingException ex) {
                             }
+                            trObj.setComment(nameSt);
+
+//                            if (nn.getConfident() != null) {
+//                                if (nn.getConfident().length() > 0) {
+//                                    AccData accData = serviceAFWeb.getAccData(trObj);
+//                                    accData.setConf(nn.getConfident());
+////                                    serviceAFWeb.getAccountImp().updateAccountRef(accountObj, accData);
+//                                    String nameSt = "";
+//                                    try {
+//                                        nameSt = new ObjectMapper().writeValueAsString(accData);
+//                                        nameSt = nameSt.replaceAll("\"", "#");
+//                                    } catch (JsonProcessingException ex) {
+//                                    }
+//                                    trObj.setComment(nameSt);
+////                                    trObj.setComment(nn.getConfident());
+//                                }
+//
+//                            }
                             UpdateTRList.add(trObj);
 
                             if (ServiceAFweb.mydebugtestflag == true) {
@@ -2938,6 +2949,16 @@ public class TradingSignalProcess {
 
     public int AddTransactionOrder(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate, boolean fromSystem) {
         try {
+
+            if (ServiceAFweb.mydebugSim == true) {
+                if (ServiceAFweb.SimDateTranL != 0) {
+                    Calendar cDate = Calendar.getInstance();
+                    cDate.setTimeInMillis(ServiceAFweb.SimDateTranL);
+                    tranDate = cDate;
+                }
+
+            }
+
             ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
             TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
 

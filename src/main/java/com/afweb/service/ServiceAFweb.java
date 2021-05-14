@@ -1260,6 +1260,7 @@ public class ServiceAFweb {
 
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
+    public static long SimDateTranL = 0;    
 
     public static boolean mydebugnewtest = false; //false;
 
@@ -1306,7 +1307,7 @@ public class ServiceAFweb {
 
                 for (int i = 0; i < 30; i++) {
                     SimDateL = TimeConvertion.addDays(SimDateL, 1);
-
+                    SimDateTranL = SimDateL;
                     TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
                     TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
                     TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
@@ -6439,11 +6440,11 @@ public class ServiceAFweb {
 
     public AccData getAccData(TradingRuleObj trObj) {
         AccData refData = new AccData();
-        String refName = trObj.getComment();
+        String refTemp = trObj.getComment();
         try {
-            if ((refName != null) && (refName.length() > 0)) {
-                refName = refName.replaceAll("#", "\"");
-                refData = new ObjectMapper().readValue(refName, AccData.class);
+            if ((refTemp != null) && (refTemp.length() > 0)) {
+                refTemp = refTemp.replaceAll("#", "\"");
+                refData = new ObjectMapper().readValue(refTemp, AccData.class);
                 return refData;
             }
         } catch (Exception ex) {

@@ -11,8 +11,23 @@ package com.afweb.model.account;
  */
 public class AccData {
 
+    /**
+     * @return the nn
+     */
+    public int getNn() {
+        return nn;
+    }
+
+    /**
+     * @param nn the nn to set
+     */
+    public void setNn(int nn) {
+        this.nn = nn;
+    }
+
 
     private String conf="";
+    private int nn=0;
 
     /**
      * @return the conf
@@ -27,4 +42,6 @@ public class AccData {
     public void setConf(String conf) {
         this.conf = conf;
     }
+
+
 }
