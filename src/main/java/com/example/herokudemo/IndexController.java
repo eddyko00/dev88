@@ -1498,7 +1498,7 @@ public class IndexController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        AFstockObj stock = afWebService.getRealTimeStockImp(symbol);
+        AFstockObj stock = afWebService.getStockRealTime(symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return stock;
     }

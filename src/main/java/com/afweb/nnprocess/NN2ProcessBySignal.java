@@ -159,7 +159,7 @@ public class NN2ProcessBySignal {
             return null;
         }
 
-        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
         if (stock == null) {
             return inputList;
         }
@@ -688,7 +688,7 @@ public class NN2ProcessBySignal {
 //                    }
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
 
-                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+                    AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
 
                     if (stock == null) {
                         stockNNprocessNameArray.remove(0);

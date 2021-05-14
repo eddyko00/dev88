@@ -531,6 +531,7 @@ public class ProcessNN1 {
         boolean stopReset = false;
         boolean profitTake = false;
         try {
+            
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
                 MACDObj macdNN = this.getTechnicalCal(StockArray, offset);
 //                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
@@ -658,6 +659,7 @@ public class ProcessNN1 {
                     }
 
                     nnRet.setConfident(confidentSt);
+                    accData.setConf(confidentSt);
                 }
 
                 if (accData.getNn() > 3) {

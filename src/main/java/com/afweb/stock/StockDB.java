@@ -332,12 +332,12 @@ public class StockDB {
     }
 
     private AFstockObj getStockSQL(String stockSQL, Calendar dateNow) {
-
-        if (dateNow == null) {
-            dateNow = dateNow = TimeConvertion.getCurrentCalendar();
-        }
-        AFstockObj stock = null;
         try {
+            if (dateNow == null) {
+                dateNow = dateNow = TimeConvertion.getCurrentCalendar();
+            } 
+            AFstockObj stock = null;
+
             String sql = stockSQL;
             ArrayList<AFstockObj> entries = getStockListSQL(sql);
             if (entries == null) {

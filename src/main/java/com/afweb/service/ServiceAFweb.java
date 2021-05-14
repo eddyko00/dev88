@@ -782,7 +782,7 @@ public class ServiceAFweb {
             for (int i = 0; i < stockNameArray.size(); i++) {
 
                 String symbol = (String) stockNameArray.get(i);
-                AFstockObj stock = getRealTimeStockImp(symbol);
+                AFstockObj stock = getStockRealTime(symbol);
                 if (stock == null) {
                     continue;
                 }
@@ -1260,7 +1260,6 @@ public class ServiceAFweb {
 
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
-    public static long SimDateTranL = 0;    
 
     public static boolean mydebugnewtest = false; //false;
 
@@ -1290,10 +1289,11 @@ public class ServiceAFweb {
 //////////////////////////////// trading Simulation ////////////              
 //////////////////////////////// trading Simulation ////////////  
             symbol = "AAPL";
-            
+
             mydebugSim = true;
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             SimDateL = dateNow.getTimeInMillis();
+            SimDateL = TimeConvertion.endOfDayInMillis(SimDateL);
             SimDateL = TimeConvertion.addDays(SimDateL, -25);
 
             TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -1307,7 +1307,7 @@ public class ServiceAFweb {
 
                 for (int i = 0; i < 30; i++) {
                     SimDateL = TimeConvertion.addDays(SimDateL, 1);
-                    SimDateTranL = SimDateL;
+
                     TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
                     TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
                     TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
@@ -2130,7 +2130,7 @@ public class ServiceAFweb {
                 if (stockNameList != null) {
                     for (int j = 0; j < stockNameList.size(); j++) {
                         String symbol = (String) stockNameList.get(j);
-                        AFstockObj stock = getRealTimeStockImp(symbol);
+                        AFstockObj stock = getStockRealTime(symbol);
                         if (stock != null) {
                             getAccountImp().removeAccountStock(accountObj, stock.getId());
                         }
@@ -4567,7 +4567,7 @@ public class ServiceAFweb {
             thList = new ArrayList();
         }
         String symbol = stockidsymbol;
-        AFstockObj stock = this.getRealTimeStockImp(symbol);
+        AFstockObj stock = this.getStockRealTime(symbol);
         if (stock == null) {
             return null;
         }
@@ -4696,7 +4696,7 @@ public class ServiceAFweb {
 
             trname = trname.toUpperCase();
             String symbol = stockidsymbol;
-            AFstockObj stock = this.getRealTimeStockImp(symbol);
+            AFstockObj stock = this.getStockRealTime(symbol);
 
             int size1year = 20 * 10;
             ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1year);
@@ -5073,7 +5073,7 @@ public class ServiceAFweb {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = getRealTimeStockImp(NormalizeSymbol);
+        AFstockObj stockObj = getStockRealTime(NormalizeSymbol);
         if (stockObj != null) {
             return getStockImp().deleteStockInfoByStockId(stockObj);
         }
@@ -5090,7 +5090,7 @@ public class ServiceAFweb {
         return getStockImp().disableStock(NormalizeSymbol);
     }
 
-    public AFstockObj getRealTimeStockImp(String symbol) {
+    public AFstockObj getStockRealTime(String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -5098,7 +5098,36 @@ public class ServiceAFweb {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
-        return getStockImp().getRealTimeStock(NormalizeSymbol, null);
+        AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+
+        if (mydebugSim == true) {
+            Calendar cDate = null;
+            cDate = Calendar.getInstance();
+            cDate.setTimeInMillis(ServiceAFweb.SimDateL);
+            ArrayList<AFstockInfo> stockInfolist = getStockHistorical(NormalizeSymbol, 80);
+            if (stockInfolist != null) {
+                if (stockInfolist.size() > 0) {
+                    AFstockInfo stockinfo = stockInfolist.get(0);
+
+                    stock.setAfstockInfo(stockinfo);
+                    stock.setUpdatedatel(SimDateL);
+                    stock.setUpdatedatedisplay(new java.sql.Date(SimDateL));
+                    stock.setPrevClose(stockinfo.getFopen());
+
+                    String tzid = "America/New_York"; //EDT
+                    TimeZone tz = TimeZone.getTimeZone(tzid);
+                    Date d = new Date(stock.getUpdatedatel());
+                    DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                    format.setTimeZone(tz);
+                    String ESTdate = format.format(d);
+                    stock.setUpdateDateD(ESTdate);
+
+                    return stock;
+                }
+            }
+        }
+
+        return stock;
     }
 
     public ArrayList<AFstockInfo> getStockHistoricalRange(String symbol, long start, long end) {

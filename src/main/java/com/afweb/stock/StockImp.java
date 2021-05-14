@@ -119,7 +119,6 @@ public class StockImp {
 //    public int deleteStockInfo(AFstockInfo stockInfo) {
 //        return stockdb.deleteStockInfo(stockInfo);
 //    }
-
     public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
         AFstockObj stock = getRealTimeStock(NormalizeSymbol, null);
         if (stock == null) {
@@ -149,6 +148,10 @@ public class StockImp {
 //        logger.info("> getRealTimeStock " + NormalizeSymbol);
         AFstockObj stock = stockdb.getStock(NormalizeSymbol, dateNow);
         return stock;
+    }
+
+    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
+        return stockdb.getStockInfo(stock, length, dateNow);
     }
 
     public ArrayList getOpenStockNameArray() {
@@ -381,7 +384,6 @@ public class StockImp {
 //    public int deleteNeuralNetDataObj(String name, int stockId) {
 //        return stockdb.deleteNeuralNetDataObj(name, stockId);
 //    }
-
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int stockId, long updatedatel) {
         return stockdb.getNeuralNetDataObj(name, stockId, updatedatel);
     }
@@ -421,6 +423,7 @@ public class StockImp {
 //        }
         return nn;
     }
+
     public int setCreateNeuralNetObj0(String name, String weight) {
 //        if (CKey.WEIGHT_COMPASS == true) {
 //            if (weight != null) {
@@ -444,7 +447,6 @@ public class StockImp {
 //        }
         return stockdb.setCreateNeuralNetObRefj0(name, weight, RefName);
     }
-
 
     public int setCreateNeuralNetObj1(String name, String weight) {
 //        if (CKey.WEIGHT_COMPASS == true) {

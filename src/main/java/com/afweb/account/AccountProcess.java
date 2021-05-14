@@ -114,7 +114,7 @@ public class AccountProcess {
                 String symbol = (String) stockNameList.get(i);
                 serviceAFWeb.removeStockInfo(symbol);
 
-                AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+                AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
                 stock.setStatus(ConstantKey.COMPLETED);
                 //send SQL update
                 String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
@@ -1101,7 +1101,7 @@ public class AccountProcess {
 //        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         try {
-            AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+            AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
             if (stock != null) {
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                     return;

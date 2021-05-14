@@ -110,7 +110,7 @@ public class TradingSignalProcess {
                     String symbol = (String) stockSignalNameArray.get(0);
                     stockSignalNameArray.remove(0);
 
-                    AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+                    AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                             logger.info("> ProcessAdminSignalTrading return stock split " + symbol);
@@ -178,7 +178,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
         ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
 
         for (int j = 0; j < tradingRuleList.size(); j++) {
@@ -256,7 +256,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
         ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
 
         for (int j = 0; j < tradingRuleList.size(); j++) {
@@ -876,7 +876,7 @@ public class TradingSignalProcess {
             if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
                 return;
             }
-            AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+            AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
             if (stock != null) {
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                     return;
@@ -1055,7 +1055,7 @@ public class TradingSignalProcess {
 
         int size1year = 20 * 12 * lengthYr + (50 * 3);
         String symbol = trObj.getSymbol();
-        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
         int offset = 0;
         ///asc thObjList old first - recent last
@@ -1333,7 +1333,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(symbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
 
         if (stock != null) {
             if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
@@ -1398,7 +1398,7 @@ public class TradingSignalProcess {
                         NNObj nn = nn1.updateAdminTradingsignalNN1(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList, accData);
                         if (nn != null) {
                             trObj.setTrsignal(nn.getTrsignal());
-                            accData.setConf(nn.getConfident());
+
                             String nameSt = "";
                             try {
                                 nameSt = new ObjectMapper().writeValueAsString(accData);
@@ -1685,7 +1685,7 @@ public class TradingSignalProcess {
     }
 
     public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        AFstockObj stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
         if (stock == null) {
             return false;
         }
@@ -1710,7 +1710,7 @@ public class TradingSignalProcess {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long currentdate = dateNow.getTimeInMillis();
 
-            stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+            stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
             if (stock == null) {
                 return 0;
             }
@@ -1737,7 +1737,7 @@ public class TradingSignalProcess {
                     // get real time stock from internet and update shock DB
                     int resultUpdate = updateRealTimeStock(serviceAFWeb, stock);
 
-                    stock = serviceAFWeb.getRealTimeStockImp(NormalizeSymbol);
+                    stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
                     if (stock == null) {
                         logger.info("> updateAllStockProcess " + NormalizeSymbol + " data:" + stock.getData());
                         return 0;
@@ -2950,14 +2950,13 @@ public class TradingSignalProcess {
     public int AddTransactionOrder(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate, boolean fromSystem) {
         try {
 
-            if (ServiceAFweb.mydebugSim == true) {
-                if (ServiceAFweb.SimDateTranL != 0) {
-                    Calendar cDate = Calendar.getInstance();
-                    cDate.setTimeInMillis(ServiceAFweb.SimDateTranL);
-                    tranDate = cDate;
-                }
-
-            }
+//            if (ServiceAFweb.mydebugSim == true) {
+//                if (ServiceAFweb.SimDateTranL != 0) {
+//                    Calendar cDate = Calendar.getInstance();
+//                    cDate.setTimeInMillis(ServiceAFweb.SimDateTranL);
+//                    tranDate = cDate;
+//                }
+//            }
 
             ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
             TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
@@ -2995,8 +2994,13 @@ public class TradingSignalProcess {
                 return null;
             }
             if (tranDate == null) {
-                daOffset0 = TimeConvertion.getCurrentCalendar();
-                daOffset = TimeConvertion.getCurrentCalendar();
+                Calendar cDate = Calendar.getInstance();
+                cDate.setTimeInMillis(stock.getUpdatedatel());
+
+                daOffset0 = cDate;
+                daOffset = cDate;
+//                daOffset0 = TimeConvertion.getCurrentCalendar();
+//                daOffset = TimeConvertion.getCurrentCalendar();
             }
             boolean buyOnly = false;
             if (trObj.getType() == ConstantKey.INT_TR_ACC) {
