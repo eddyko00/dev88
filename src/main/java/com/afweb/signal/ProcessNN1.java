@@ -399,11 +399,11 @@ public class ProcessNN1 {
             }
             nnSignal = retSignal;
         }
-        if (serviceAFWeb.mydebugSim == true) {
-            if (serviceAFWeb.debugDateL < stockinfoT.getEntrydatel()) {
-                System.out.println( "after Rule4_DayChange nnSignal:" + nnSignal  + " ");
-            }
-        }
+//        if (serviceAFWeb.mydebugSim == true) {
+//            if (serviceAFWeb.debugDateL < stockinfoT.getEntrydatel()) {
+//                System.out.println( "after Rule4_DayChange nnSignal:" + nnSignal  + " ");
+//            }
+//        }
 
         if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
             String confidentSt = stockDate.toString() + " " + confident + "% confident on " + ConstantKey.S_SELL_ST;
