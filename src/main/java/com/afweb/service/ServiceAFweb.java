@@ -1261,8 +1261,6 @@ public class ServiceAFweb {
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
 
-    public static long debugDateL = 0;
-
     public static boolean mydebugnewtest = false; //false;
 
     private void AFprocessDebug() {
@@ -1290,34 +1288,32 @@ public class ServiceAFweb {
 
 //////////////////////////////// trading Simulation ////////////              
 //////////////////////////////// trading Simulation ////////////  
-            symbol = "AAPL";
-
-            mydebugSim = true;
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            SimDateL = dateNow.getTimeInMillis();
-            SimDateL = TimeConvertion.endOfDayInMillis(SimDateL);
-//            SimDateL = TimeConvertion.addDays(SimDateL, -10);
-
-            debugDateL = TimeConvertion.addDays(SimDateL, -10);
-
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-            AccountObj accountAdminObj = getAdminObjFromCache();
-
-            boolean flag1 = true;
-            if (flag1 == true) {
-                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
-                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            } else {
-
-                for (int i = 0; i < 15; i++) {
-                    SimDateL = TimeConvertion.addDays(SimDateL, 1);
-
-                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-                    TRprocessImp.upateAdminTRPerf(this, accountAdminObj, symbol);
-                }
-            }
+//            symbol = "AAPL";
+//
+//            mydebugSim = true;
+//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//            SimDateL = dateNow.getTimeInMillis();
+//            SimDateL = TimeConvertion.endOfDayInMillis(SimDateL);
+////            SimDateL = TimeConvertion.addDays(SimDateL, -10);
+//
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//
+//            boolean flag1 = true;
+//            if (flag1 == true) {
+//                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+//                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            } else {
+//
+//                for (int i = 0; i < 15; i++) {
+//                    SimDateL = TimeConvertion.addDays(SimDateL, 1);
+//
+//                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminTRPerf(this, accountAdminObj, symbol);
+//                }
+//            }
 //////////////////////////////// trading Simulation ////////////  
 //////////////////////////////// trading Simulation ////////////  
 
