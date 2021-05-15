@@ -313,6 +313,8 @@ public class ProcessNN2 {
 
         } else {
             confident += 30;
+
+            accData.setNn(0);
             NNObj nn = new NNObj();
             boolean nnFlag = this.Rule0_CheckNN(serviceAFWeb, nn, accountObj, StockArray, offset, stock);
             trHistory.setParmSt1(nn.getComment());
@@ -331,12 +333,10 @@ public class ProcessNN2 {
                             accData.setNn(accData.getNn() + 1);
                         }
                     }
-                } else {
-                    accData.setNn(0);
                 }
 
             } else {
-                accData.setNn(0);
+
                 //
                 if (writeArray.size() > 0) {
                     for (int j = 0; j < writeArray.size(); j++) {
@@ -412,12 +412,6 @@ public class ProcessNN2 {
             }
 
             accData.setConf(confidentSt);
-        }
-
-        if (accData.getNn() > 3) {
-            if (nnSignal != prevSignal) {
-                accData.setNn(0);
-            }
         }
 
         trObj.setTrsignal(nnSignal);
@@ -616,13 +610,15 @@ public class ProcessNN2 {
                     nnRet.setTrsignal(emaSignal);
                     return nnRet;
                 }
-                
-                 // get the last transaction price for later
+
+                // get the last transaction price for later
                 AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
                 ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
                         accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
 
                 confident += 30;
+
+                accData.setNn(0);
                 NNObj nn = new NNObj();
                 boolean nnFlag = this.Rule0_CheckNN(serviceAFWeb, nn, accountObj, StockArray, offset, stock);
 
@@ -641,13 +637,10 @@ public class ProcessNN2 {
                                 accData.setNn(accData.getNn() + 1);
                             }
                         }
-                    } else {
-                        accData.setNn(0);
                     }
                 } else {
-                    accData.setNn(0);
-                    // get the last transaction price
 
+                    // get the last transaction price
                     if (thList != null) {
                         // somthing wrong. no transaction for 1 year
                         if (thList.size() == 1) {
@@ -745,11 +738,6 @@ public class ProcessNN2 {
                     nnRet.setConfident(confidentSt);
                 }
 
-                if (accData.getNn() > 3) {
-                    if (nnSignal != prevSignal) {
-                        accData.setNn(0);
-                    }
-                }
                 nnRet.setTrsignal(nnSignal);
                 return nnRet;
             }

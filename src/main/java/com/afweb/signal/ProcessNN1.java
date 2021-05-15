@@ -596,6 +596,8 @@ public class ProcessNN1 {
                         accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
 
                 confident += 30;
+
+                accData.setNn(0);
                 NNObj nn = new NNObj();
                 boolean nnFlag = this.Rule0_CheckNN(serviceAFWeb, nn, accountObj, StockArray, offset, stock);
 
@@ -614,14 +616,11 @@ public class ProcessNN1 {
                                 accData.setNn(accData.getNn() + 1);
                             }
                         }
-                    } else {
-                        accData.setNn(0);
                     }
 
                 } else {
-                    accData.setNn(0);
-                    // get the last transaction price
 
+                    // get the last transaction price
                     if (thList != null) {
                         if (thList.size() > 0) {
                             TransationOrderObj lastTH = thList.get(0);
@@ -715,11 +714,6 @@ public class ProcessNN1 {
                     accData.setConf(confidentSt);
                 }
 
-                if (accData.getNn() > 3) {
-                    if (nnSignal != prevSignal) {
-                        accData.setNn(0);
-                    }
-                }
                 nnRet.setTrsignal(nnSignal);
                 return nnRet;
             }
