@@ -1261,6 +1261,8 @@ public class ServiceAFweb {
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
 
+    public static long debugDateL = 0;
+
     public static boolean mydebugnewtest = false; //false;
 
     private void AFprocessDebug() {
@@ -1286,8 +1288,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-      
-            
 //////////////////////////////// trading Simulation ////////////              
 //////////////////////////////// trading Simulation ////////////  
             symbol = "AAPL";
@@ -1297,6 +1297,8 @@ public class ServiceAFweb {
             SimDateL = dateNow.getTimeInMillis();
             SimDateL = TimeConvertion.endOfDayInMillis(SimDateL);
 //            SimDateL = TimeConvertion.addDays(SimDateL, -10);
+
+            debugDateL = TimeConvertion.addDays(SimDateL, -10);
 
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             AccountObj accountAdminObj = getAdminObjFromCache();

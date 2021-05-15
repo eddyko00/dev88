@@ -329,6 +329,11 @@ public class ProcessNN1 {
                         } else {
                             accData.setNn(0);
                         }
+//                        if (serviceAFWeb.mydebugSim == true) {
+//                            if (serviceAFWeb.debugDateL < stockinfoT.getEntrydatel()) {
+//                                System.out.println(stockDate.toString() + " macdSignal:" + macdSignal + " prevSignal:" + prevSignal + " ");
+//                            }
+//                        }
                     }
                 } else {
                     accData.setNn(0);
@@ -362,7 +367,11 @@ public class ProcessNN1 {
 //                }
             }
         }
-
+//        if (serviceAFWeb.mydebugSim == true) {
+//            if (serviceAFWeb.debugDateL < stockinfoT.getEntrydatel()) {
+//                System.out.println( "before Rule3_CheckTrend nnSignal:" + nnSignal  + " ");
+//            }
+//        }
         if (accData.getNn() > 3) {
             ;
         } else if (nnSignal != prevSignal) {
@@ -377,13 +386,23 @@ public class ProcessNN1 {
             }
             nnSignal = trendSignal;
         }
-
+//        if (serviceAFWeb.mydebugSim == true) {
+//            if (serviceAFWeb.debugDateL < stockinfoT.getEntrydatel()) {
+//                System.out.println( "after Rule3_CheckTrend nnSignal:" + nnSignal  + " ");
+//            }
+//        }
+        
         if (nnSignal != prevSignal) {
             int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
             if (nnSignal == retSignal) {
                 confident += 10;
             }
             nnSignal = retSignal;
+        }
+        if (serviceAFWeb.mydebugSim == true) {
+            if (serviceAFWeb.debugDateL < stockinfoT.getEntrydatel()) {
+                System.out.println( "after Rule4_DayChange nnSignal:" + nnSignal  + " ");
+            }
         }
 
         if ((prevSignal == ConstantKey.S_BUY) || (prevSignal == ConstantKey.S_SELL)) {
