@@ -276,6 +276,11 @@ var app = {
 
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');
 
+            if ((trObj.trname === "TR_NN1") || (trObj.trname === "TR_NN2")) {
+                $("#myid").append('<li></li>');
+                $("#myid").append('This is system simulated transactions with AI neural Networking.');
+                $("#myid").append('<li></li>');
+            }
         } // end for loop
 
 //

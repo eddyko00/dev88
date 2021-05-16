@@ -156,10 +156,13 @@ var app = {
             }
             htmlName += '<div class="ui-block-d" style="text-align: center;width:20%">P:' + percentSt + ' </div>';
             htmlName += '<div class="ui-block-e" style="text-align: right;width:20%">:' + perSt + '</div>';
+
             htmlName += '</div>';
+            htmlName += ' <small>' + stockObj.stockname+'</small>';
 
             var nameId = stockObj.id;
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');
+
         }
 
         if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) {

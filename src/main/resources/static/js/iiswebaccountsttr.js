@@ -219,7 +219,11 @@ var app = {
             }
             var totalSt = Number(total.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
             totalSt = totalSt.replace(".00", "");
-            htmlName += '<div class="ui-block-c">Profit: ' + totalSt + '</div>';
+            if (trObj.trname === "TR_ACC") {
+                htmlName += '<div class="ui-block-c" >Profit: ' + totalSt + '</div>';
+            } else {
+                htmlName += '<div class="ui-block-c"  style="color:SteelBlue">Profit: ' + totalSt + '</div>';
+            }
             htmlName += '</div>';
 
             var status = trObj.status;
