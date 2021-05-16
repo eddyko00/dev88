@@ -127,6 +127,9 @@ var app = {
                 if (buyOnly === 1) {
                     // assume buy only and no short selling
                     prevTranObj = tranObj;
+                    if (tranObjList.length === 1) {
+                        $("#myid").append('<li id="0" >No transaction ...</li>');
+                    }
                     continue;
                 }
             } else {

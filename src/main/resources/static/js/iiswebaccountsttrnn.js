@@ -69,6 +69,9 @@ var app = {
         if (stockObj == null) {
             window.location.href = "index.html";
         }
+        var trNameStr = iisWebObj.trName;
+
+
         var trObjListStr = iisWebObj.trObjListStr;
         var trObjList = JSON.parse(trObjListStr);
         var trObjacc = null;
@@ -129,8 +132,6 @@ var app = {
             console.log(trObj);
             var nameId = trObj.id;
 
-            var findTR_ACC = false;
-
             if (custObj.type == 99) {
                 if (trObj.trname === "TR_ACC") {
                     trObjacc = trObj;
@@ -159,18 +160,17 @@ var app = {
                 }
             }
 
-            if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) { //INT_MUTUAL_FUND_ACCOUNT = 120;
-                if (trObj.trname === "TR_ACC") {
-                    ;
-                } else {
-                    continue;
-                }
+
+            if (trObj.trname === trNameStr) {
+                ;
+            } else {
+                continue;
             }
+
 //https://demos.jquerymobile.com/1.1.2/docs/content/content-grids.html
             var htmlName = '<div class="ui-grid-b">';
             var dispName = trObj.trname;
             if (trObj.trname === "TR_ACC") {
-                findTR_ACC = true;
                 var status = trObj.status;
                 if (status == 2) { //int PENDING = 2;
                     dispName = 'PENDING'
@@ -267,62 +267,17 @@ var app = {
                 }
             }
 
-            if (findTR_ACC === true) {
-                var htmlBtn = '<div id="myidbtn" data-role="footer" data-theme="b" >';
-                htmlBtn += '<a href="#" id="' + nameId + '" type="graph"  value="' + trObj.trname + '" data-icon="myicongraph" data-role="button" data-theme="a">Chart</a>';
-                htmlBtn += '<a href="#" id="' + nameId + '" type="table"  value="' + trObj.trname + '" data-icon="myicontable" data-role="button" data-theme="a">Perf</a>';
-                if (trObj.trname === "TR_ACC") {
-                    if (trObj.linktradingruleid == 0) {
-                        if (trObj.trsignal === S_BUY) {
-//                        htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
-                            htmlBtn += '<a href="#" id="' + nameId + '" type="exit"  value="' + trObj.trname + '" data-icon="myiconexit" data-role="button" data-theme="a">Exit</a>';
-                        }
-                        if (trObj.trsignal === S_SELL) {
-                            htmlBtn += '<a href="#" id="' + nameId + '" type="buy"  value="' + trObj.trname + '" data-icon="myiconbuy" data-role="button" data-theme="a">Buy</a>';
-                            htmlBtn += '<a href="#" id="' + nameId + '" type="exit"  value="' + trObj.trname + '" data-icon="myiconexit" data-role="button" data-theme="a">Exit</a>';
-                        }
-                        if (trObj.trsignal !== S_BUY) {
-                            if (trObj.trsignal !== S_SELL) {
-                                htmlBtn += '<a href="#" id="' + nameId + '" type="buy"  value="' + trObj.trname + '" data-icon="myiconbuy" data-role="button" data-theme="a">Buy</a>';
-//                            htmlBtn += '<a href="#" id="' + nameId + '" type="sell"  value="' + trObj.trname + '" data-icon="myiconsell" data-role="button" data-theme="a">Sell</a>';
-                            }
-                        }
-                    }
-                }
-                htmlBtn += '</div>';
-                htmlName += htmlBtn;
-            }
+            var htmlBtn = '<div id="myidbtn" data-role="footer" data-theme="b" >';
+            htmlBtn += '<a href="#" id="' + nameId + '" type="graph"  value="' + trObj.trname + '" data-icon="myicongraph" data-role="button" data-theme="a">Chart</a>';
+            htmlBtn += '<a href="#" id="' + nameId + '" type="table"  value="' + trObj.trname + '" data-icon="myicontable" data-role="button" data-theme="a">Perf</a>';
+
+            htmlBtn += '</div>';
+            htmlName += htmlBtn;
+
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');
-            if (findTR_ACC === true) {
 
-                if (stockData !== null) {
-                    var stockMsg = "Stock Analysis:<br>";
-                    var rec = stockData.rec;
-                    if (rec < recMsg.length) {
-                        stockMsg += recMsg[rec];
-                    }
-//                    stockMsg += ' <a href="accountsttrmsg.html"><small>continue....</a></small>';
-
-                    stockMsg += ' <a id="link" href="#"><small>continue....</a></small>';
-                    $("#myid").append('<li></li>');
-                    $("#myid").append(stockMsg);
-                    $("#myid").append('<li></li>');
-                }
-            }
         } // end for loop
-        if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) { //INT_MUTUAL_FUND_ACCOUNT = 120;
-            ;
-        } else {
-            var htmlName = '<div class="ui-grid-b">';
-            htmlName += '<div class="ui-block-a" ></strong></div>';
-            htmlName += '<div class="ui-block-b" style="width:20%"></div>';
 
-            htmlName += '<div class="ui-block-c"></div>';
-            htmlName += '</div>';
-            htmlName = '<button id="configbtn"  >Configure auto trading</button>';
-
-            $("#myid").append('<li id="0">' + htmlName + '</li>');
-        }
 //
         var buttonGraph = false;
         var type = "";
@@ -357,7 +312,6 @@ var app = {
                         window.location.href = "#page_index";
                         return;
                     }
-
                     var urlSt = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/" + sig + "/order";
                     console.log(urlSt);
                     $.ajax({
@@ -397,7 +351,6 @@ var app = {
                         window.location.href = "#page_index";
                         return;
                     }
-
                     var urlSt = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/" + sig + "/order";
                     console.log(urlSt);
                     $.ajax({
@@ -571,7 +524,6 @@ var app = {
             buttonGraph = true;
             var trname = $(this).attr('value');
             if (trname != null) {
-
                 var symbol = stockObj.symbol;
                 symbol = symbol.replace(".", "_");
                 var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
@@ -611,15 +563,6 @@ var app = {
                 return;
             }
             var trName = trObj.trname;
-            if (trName !== "TR_ACC") {
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'StNListCnt': StNListCnt, 'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
-                    'trObjListStr': trObjListStr, 'trName': trName};
-
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-                window.location.href = "accountsttrnn.html";
-                return;
-            }
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
                 'StNListCnt': StNListCnt, 'accId': accId, 'trFilter': trFilter, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
                 'trObjListStr': trObjListStr, 'trName': trName};
