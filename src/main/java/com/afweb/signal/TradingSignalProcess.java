@@ -1307,17 +1307,24 @@ public class TradingSignalProcess {
                             } else {
                                 break;
                             }
+                            AccData accData = serviceAFWeb.getAccData(trObj.getComment());
+
                             ProcessNN3 nn3 = new ProcessNN3();
-                            int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                            int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData);
                             prevSignal = nn3Signal;
+
+                            trObj.setTrsignal(nn3Signal);
+                            String nameSt = serviceAFWeb.saveAccData(accData);
+                            trObj.setComment(nameSt);
+
                             if (ServiceAFweb.mydebugtestflag == true) {
-//                                if (offset < 99) {
-//                                    prevSignal = nn3Signal;
-//                                }
+
                                 float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
                                 float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+
                                 logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
-                                        + " L:" + LTerm1 + " S:" + STerm1);
+                                        + " " + trObj.getComment() + " " + trHistory.getParmSt1());
+
                             }
                         }
                     }
@@ -1421,7 +1428,7 @@ public class TradingSignalProcess {
                             if (ServiceAFweb.mydebugtestflag == true) {
 
                                 logger.info(">testUpdateAdminTradingsignal NN1 " + offset + " S:" + trObj.getTrsignal()
-                                       + " " + trObj.getComment() + " " + nn.getComment());
+                                        + " " + trObj.getComment() + " " + nn.getComment());
                                 if (preTrsignal != trObj.getTrsignal()) {
                                     logger.info("Signal change");
                                 }
@@ -1462,10 +1469,12 @@ public class TradingSignalProcess {
                             } else {
                                 break;
                             }
-
+                            int preTrsignal = trObj.getTrsignal();
                             AccData accData = serviceAFWeb.getAccData(trObj.getComment());
+
                             ProcessNN3 nn3 = new ProcessNN3();
-                            NNObj nn = nn3.updateAdminTradingsignalNN3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList);
+
+                            NNObj nn = nn3.updateAdminTradingsignalNN3(serviceAFWeb, accountObj, symbol, trObj, StockArray, offset, stock, tradingRuleList, accData);
                             if (nn != null) {
                                 trObj.setTrsignal(nn.getTrsignal());
 
@@ -1473,7 +1482,17 @@ public class TradingSignalProcess {
                                 trObj.setComment(nameSt);
 
                                 UpdateTRList.add(trObj);
+
+                                if (ServiceAFweb.mydebugtestflag == true) {
+
+                                    logger.info(">testUpdateAdminTradingsignal NN3 " + offset + " S:" + trObj.getTrsignal()
+                                            + " " + trObj.getComment() + " " + nn.getComment());
+                                    if (preTrsignal != trObj.getTrsignal()) {
+                                        logger.info("Signal change");
+                                    }
+                                }
                             }
+
                         }
                     }
                     break;
