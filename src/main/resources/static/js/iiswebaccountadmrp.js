@@ -69,8 +69,8 @@ var app = {
             htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
             htmlhead += '<div class="ui-block-b" style="text-align: center;width:10%">Id</div>';
             htmlhead += '<div class="ui-block-c" style="text-align: left;width:30%">Name</div>';
-            htmlhead += '<div class="ui-block-d" style="text-align: right">Debit</div>';
-            htmlhead += '<div class="ui-block-e" style="text-align: right">Credit</div>';
+            htmlhead += '<div class="ui-block-d" style="text-align: right">Expense</div>';
+            htmlhead += '<div class="ui-block-e" style="text-align: right">Income</div>';
             htmlhead += '</div>';
 
             $("#myid").append('<li id="0" >' + htmlhead + '</li>');
@@ -92,11 +92,20 @@ var app = {
                     htmlName += '<div class="ui-block-e" style="color:SteelBlue;text-align: right">' + totSt + '</div>';
                     htmlName += '</div>';
                     $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
-                    $("#myid").append('<li> </li>');
 
+//                    htmlhead = '<div class="ui-grid-d">';
+//                    htmlhead += '<div class="ui-block-a" style="width:20%"><strong> </strong></div>';
+//                    htmlhead += '<div class="ui-block-b" style="text-align: center;width:10%"> </div>';
+//                    htmlhead += '<div class="ui-block-c" style="text-align: left;width:30%"> </div>';
+//                    htmlhead += '<div class="ui-block-d" style="text-align: right">Debit</div>';
+//                    htmlhead += '<div class="ui-block-e" style="text-align: right">Credit</div>';
+//                    htmlhead += '</div>';
+//                    $("#myid").append('<li>' + htmlhead + '</li>');
+                    $("#myid").append('<li> </li>');
                     continue;
                 }
                 if (i + 1 === entryList.length) {
+
                     $("#myid").append('<li> </li>');
                 }
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
