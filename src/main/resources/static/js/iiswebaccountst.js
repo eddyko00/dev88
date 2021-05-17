@@ -158,7 +158,7 @@ var app = {
             htmlName += '<div class="ui-block-e" style="text-align: right;width:20%">:' + perSt + '</div>';
 
             htmlName += '</div>';
-            htmlName += ' <small>' + stockObj.stockname+'</small>';
+            htmlName += '   <span style="color:gray"> <small>' + stockObj.stockname + '</small></span>';
 
             var nameId = stockObj.id;
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');

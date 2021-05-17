@@ -219,6 +219,8 @@ var app = {
             }
             var totalSt = Number(total.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
             totalSt = totalSt.replace(".00", "");
+            var totalPer = 100*total/TRADING_AMOUNT;
+            totalSt += "("+totalPer.toFixed(1)+"%)";
             if (trObj.trname === "TR_ACC") {
                 htmlName += '<div class="ui-block-c" >Profit: ' + totalSt + '</div>';
             } else {
