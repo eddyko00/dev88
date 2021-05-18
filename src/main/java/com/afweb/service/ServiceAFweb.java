@@ -951,16 +951,13 @@ public class ServiceAFweb {
                     // clear NN1 and NN2
                     logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN1;
-                    String BPname = CKey.NN_version + "_" + nnName;
-                    removeNeuralNetDataAllSymbolByTR(BPname);
+                    removeNeuralNetDataAllSymbolByTR(nnName);
 
                     nnName = ConstantKey.TR_NN30;
-                    BPname = CKey.NN_version + "_" + nnName;
-                    removeNeuralNetDataAllSymbolByTR(BPname);
+                    removeNeuralNetDataAllSymbolByTR(nnName);
 
                     nnName = ConstantKey.TR_NN2;
-                    BPname = CKey.NN_version + "_" + nnName;
-                    removeNeuralNetDataAllSymbolByTR(BPname);
+                     removeNeuralNetDataAllSymbolByTR(nnName);
                 }
 
                 if (nn1testflag == true) {
@@ -987,8 +984,7 @@ public class ServiceAFweb {
                 if (nn3testflag == true) {
                     logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN3;
-                    String BPname = CKey.NN_version + "_" + nnName;
-                    removeNeuralNetDataAllSymbolByTR(BPname);
+                    removeNeuralNetDataAllSymbolByTR(nnName);
                     logger.info("> processNN3InputNeuralNet Rest input..");
 
                     exitflag = true;
@@ -1286,6 +1282,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+
 //////////////////////////////// trading Simulation ////////////              
 //////////////////////////////// trading Simulation ////////////  
 //            symbol = "AAPL";
@@ -1316,7 +1313,6 @@ public class ServiceAFweb {
 //            }
 //////////////////////////////// trading Simulation ////////////  
 //////////////////////////////// trading Simulation ////////////  
-
 //            symbol = "GLD";
 //            nnName = ConstantKey.TR_NN3;
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
