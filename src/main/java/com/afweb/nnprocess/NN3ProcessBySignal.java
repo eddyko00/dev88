@@ -501,7 +501,14 @@ public class NN3ProcessBySignal {
                     String symbol = symbolArray[0];
                     //////////////////////
                     // just for testing
-//                    symbol = "BABA";
+                    if (symbol.equals("GLD")) {
+
+                    } else if (symbol.equals("HOU.TO")) {
+
+                    } else {
+                        stockNNprocessNameArray.remove(0);
+                        continue;
+                    }//                    
 
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN3
                     AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);

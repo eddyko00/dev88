@@ -951,13 +951,13 @@ public class ServiceAFweb {
                     // clear NN1 and NN2
                     logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN1;
-                    removeNeuralNetDataAllSymbolByTR(nnName);
+                    removeNeuralNetDataAllNNSymbolByTR(nnName);
 
                     nnName = ConstantKey.TR_NN30;
-                    removeNeuralNetDataAllSymbolByTR(nnName);
+                    removeNeuralNetDataAllNNSymbolByTR(nnName);
 
                     nnName = ConstantKey.TR_NN2;
-                     removeNeuralNetDataAllSymbolByTR(nnName);
+                    removeNeuralNetDataAllNNSymbolByTR(nnName);
                 }
 
                 if (nn1testflag == true) {
@@ -984,7 +984,7 @@ public class ServiceAFweb {
                 if (nn3testflag == true) {
                     logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN3;
-                    removeNeuralNetDataAllSymbolByTR(nnName);
+                    removeNeuralNetDataAllNNSymbolByTR(nnName);
                     logger.info("> processNN3InputNeuralNet Rest input..");
 
                     exitflag = true;
@@ -1027,17 +1027,25 @@ public class ServiceAFweb {
 
     }
 
-    public int removeNeuralNetDataAllSymbolByTR(String TRname) {
-        logger.info("> removeNeuralNetDataAllSymbolByTR Rest input.." + TRname);
+    public int removeNeuralNetDataAllNNSymbolByTR(String TRname) {
+        logger.info("> removeNeuralNetDataAllNNSymbolByTR Reset input.." + TRname);
 
         String BPname = CKey.NN_version + "_" + TRname;
         getStockImp().deleteNeuralNetDataByBPname(BPname);
+
+        return removeNeuralNetDataSymbolListByTR(TRname);
+    }
+
+    public int removeNeuralNetDataSymbolListByTR(String TRname) {
+        logger.info("> removeNeuralNetDataSymbolListByTR Reset input.." + TRname);
+
+        String BPname = CKey.NN_version + "_" + TRname;
 
         AccountObj accountObj = getAdminObjFromCache();
         ArrayList stockNameArray = SystemAccountStockNameList(accountObj.getId());
 
         if (stockNameArray != null) {
-            logger.info("> removeNeuralNetDataAllSymbolByTR Stock " + stockNameArray.size());
+            logger.info("> removeNeuralNetDataSymbolListByTR Stock " + stockNameArray.size());
 
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String symbol = (String) stockNameArray.get(i);
@@ -1283,36 +1291,11 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
 
-//////////////////////////////// trading Simulation ////////////              
-//////////////////////////////// trading Simulation ////////////  
-//            symbol = "AAPL";
-//
-//            mydebugSim = true;
-//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//            SimDateL = dateNow.getTimeInMillis();
-//            SimDateL = TimeConvertion.endOfDayInMillis(SimDateL);
-////            SimDateL = TimeConvertion.addDays(SimDateL, -10);
-//
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            AccountObj accountAdminObj = getAdminObjFromCache();
-//
-//            boolean flag1 = true;
-//            if (flag1 == true) {
-//                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
-//                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//            } else {
-//
-//                for (int i = 0; i < 15; i++) {
-//                    SimDateL = TimeConvertion.addDays(SimDateL, 1);
-//
-//                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-//                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-//                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
-//                    TRprocessImp.upateAdminTRPerf(this, accountAdminObj, symbol);
-//                }
-//            }
-//////////////////////////////// trading Simulation ////////////  
-//////////////////////////////// trading Simulation ////////////  
+//            trNN = ConstantKey.INT_TR_NN3;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN3;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//            AFneuralNet nnObj1 = nn3ProcBySig.ProcessTrainSignalNeuralNet(this, BPnameSym, TR_NN, symbol);
 //            symbol = "GLD";
 //            nnName = ConstantKey.TR_NN3;
 //            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
@@ -1438,6 +1421,36 @@ public class ServiceAFweb {
 //                billProc.processUserBillingAll(this);
 //            }       
 //
+//////////////////////////////// trading Simulation ////////////              
+//////////////////////////////// trading Simulation ////////////  
+//            symbol = "AAPL";
+//
+//            mydebugSim = true;
+//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//            SimDateL = dateNow.getTimeInMillis();
+//            SimDateL = TimeConvertion.endOfDayInMillis(SimDateL);
+////            SimDateL = TimeConvertion.addDays(SimDateL, -10);
+//
+//            TradingNNprocess NNProcessImp = new TradingNNprocess();
+//            AccountObj accountAdminObj = getAdminObjFromCache();
+//
+//            boolean flag1 = true;
+//            if (flag1 == true) {
+//                int retSatus = NNProcessImp.ClearStockNNTranHistory(this, nnName, symbol);
+//                TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//            } else {
+//
+//                for (int i = 0; i < 15; i++) {
+//                    SimDateL = TimeConvertion.addDays(SimDateL, 1);
+//
+//                    TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+//                    TRprocessImp.upateAdminTRPerf(this, accountAdminObj, symbol);
+//                }
+//            }
+//////////////////////////////// trading Simulation ////////////  
+//////////////////////////////// trading Simulation ////////////  
 ///////////////////////////////////////////////////// Update new TR NN91 in Admin
 //            ///////Adding  new TR in Admin Sotcks
 //            AccountObj accountObj = getAdminObjFromCache();
