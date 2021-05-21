@@ -426,9 +426,19 @@ public class NN3ProcessBySignal {
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
-            ArrayList stockTRNameArray = new ArrayList();
+            ArrayList stockTRNameArray = new ArrayList();            
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String sym = (String) stockNameArray.get(i);
+
+                if (ServiceAFweb.mydebugtestNN3flag == true) {
+                    if (sym.equals("GLD")) {
+
+                    } else if (sym.equals("HOU.TO")) {
+
+                    } else {
+                        continue;
+                    }
+                }                
                 String symTR = sym + "#" + ConstantKey.INT_TR_NN3;
                 stockTRNameArray.add(symTR);
 
@@ -500,15 +510,7 @@ public class NN3ProcessBySignal {
 
                     String symbol = symbolArray[0];
                     //////////////////////
-                    // just for testing
-                    if (symbol.equals("GLD")) {
-
-                    } else if (symbol.equals("HOU.TO")) {
-
-                    } else {
-                        stockNNprocessNameArray.remove(0);
-                        continue;
-                    }//                    
+                    // just for testing                
 
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN3
                     AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);

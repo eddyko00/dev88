@@ -1265,7 +1265,7 @@ public class ServiceAFweb {
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
 
-    public static boolean mydebugnewtest = false; //false;
+    public static boolean mydebugnewtest = false; //isMarketOpen;
 
     private void AFprocessDebug() {
         //Feb 10, 2021 db size = 5,543 InnoDB utf8_general_ci 4.7 MiB	

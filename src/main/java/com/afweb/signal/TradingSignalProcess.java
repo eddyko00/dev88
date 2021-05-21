@@ -913,13 +913,6 @@ public class TradingSignalProcess {
                         continue;
                     }
                 } else if (trObj.getType() == ConstantKey.INT_TR_NN3) {
-//                    if (stock.getSymbol().equals("GLD")) {
-//
-//                    } else if (stock.getSymbol().equals("HOU.TO")) {
-//
-//                    } else {
-//                        continue;
-//                    }
 
                     NN3ProcessBySignal NN3Proc = new NN3ProcessBySignal();
                     if (NN3Proc.checkNN3Ready(serviceAFWeb, symbol, true) == false) {
@@ -936,13 +929,7 @@ public class TradingSignalProcess {
                     continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
                     if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (stock.getSymbol().equals("GLD")) {
-                            ;
-                        } else if (stock.getSymbol().equals("HOU.TO")) {
-                            ;
-                        } else {
-                            continue;
-                        }
+                        ;
                     } else {
                         continue;
                     }
@@ -1300,13 +1287,6 @@ public class TradingSignalProcess {
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         if (ServiceAFweb.nn3testflag == true) {
-                            if (stock.getSymbol().equals("GLD")) {
-
-                            } else if (stock.getSymbol().equals("HOU.TO")) {
-
-                            } else {
-                                break;
-                            }
                             AccData accData = serviceAFWeb.getAccData(trObj.getComment());
 
                             ProcessNN3 nn3 = new ProcessNN3();
@@ -1462,13 +1442,7 @@ public class TradingSignalProcess {
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         if (ServiceAFweb.nn3testflag == true) {
-                            if (stock.getSymbol().equals("GLD")) {
 
-                            } else if (stock.getSymbol().equals("HOU.TO")) {
-
-                            } else {
-                                break;
-                            }
                             int preTrsignal = trObj.getTrsignal();
                             AccData accData = serviceAFWeb.getAccData(trObj.getComment());
 

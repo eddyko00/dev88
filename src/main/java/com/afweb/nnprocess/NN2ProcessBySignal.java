@@ -613,6 +613,17 @@ public class NN2ProcessBySignal {
             ArrayList stockTRNameArray = new ArrayList();
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String sym = (String) stockNameArray.get(i);
+                
+                if (ServiceAFweb.mydebugtestNN3flag == true) {
+                    if (sym.equals("GLD")) {
+
+                    } else if (sym.equals("HOU.TO")) {
+
+                    } else {
+                        continue;
+                    }
+                }
+                
                 String symTR = sym + "#" + ConstantKey.INT_TR_NN2;
                 stockTRNameArray.add(symTR);
             }

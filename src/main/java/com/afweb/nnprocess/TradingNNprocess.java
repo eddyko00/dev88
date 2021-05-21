@@ -54,27 +54,32 @@ public class TradingNNprocess {
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
             ArrayList stockTRNameArray = new ArrayList();
-            if (ServiceAFweb.nn1testflag == true) {
-                for (int i = 0; i < stockNameArray.size(); i++) {
-                    String sym = (String) stockNameArray.get(i);
+
+            for (int i = 0; i < stockNameArray.size(); i++) {
+                String sym = (String) stockNameArray.get(i);
+                if (ServiceAFweb.mydebugtestNN3flag == true) {
+                    if (sym.equals("GLD")) {
+
+                    } else if (sym.equals("HOU.TO")) {
+
+                    } else {
+                        continue;
+                    }
+                }
+                if (ServiceAFweb.nn1testflag == true) {
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN1;
                     stockTRNameArray.add(symTR);
                 }
-            }
-            if (ServiceAFweb.nn2testflag == true) {
-                for (int i = 0; i < stockNameArray.size(); i++) {
-                    String sym = (String) stockNameArray.get(i);
+                if (ServiceAFweb.nn2testflag == true) {
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN2;
                     stockTRNameArray.add(symTR);
                 }
-            }
-            if (ServiceAFweb.nn3testflag == true) {
-                for (int i = 0; i < stockNameArray.size(); i++) {
-                    String sym = (String) stockNameArray.get(i);
+                 if (ServiceAFweb.nn3testflag == true) {
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN3;
-                    stockTRNameArray.add(symTR);
-                }
-            }            
+                    stockTRNameArray.add(symTR);                     
+                 }
+            }
+
             setStockNNretrainNameArray(stockTRNameArray);
         }
         return stockNNretrainNameArray;
@@ -1081,7 +1086,7 @@ public class TradingNNprocess {
         if (stockInputMap == null) {
             stockInputMap = nnAllStock_src.AllStockHistoryStaticCodeInit(stockInputMap);
         }
-        ArrayList<AFstockInfo> stockInfoList =  ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap);
+        ArrayList<AFstockInfo> stockInfoList = ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap);
         if (stockInfoList != null) {
             return stockInfoList;
         }
@@ -1091,7 +1096,7 @@ public class TradingNNprocess {
     private static ArrayList<AFstockInfo> getAllStockHistory_1(String symbol) {
         if (stockInputMap_1 == null) {
             stockInputMap_1 = nnAllStock_1_src.AllStockHistoryStaticCodeInit(stockInputMap_1);
-        }        
+        }
         return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap_1);
 
     }
@@ -1131,6 +1136,7 @@ public class TradingNNprocess {
     }
 /////////////////////////////////////////
     // return stock history starting recent date to the old date
+
     public ArrayList<AFstockInfo> getAverageStockHistorical(ArrayList<AFstockInfo> StockArray) {
         if (StockArray == null) {
             return StockArray;
@@ -1199,6 +1205,6 @@ public class TradingNNprocess {
 
         return StockArrayRet;
     }
-    
+
 /////////////////////////////////////////    
 }
