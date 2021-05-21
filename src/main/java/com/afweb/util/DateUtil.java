@@ -48,7 +48,7 @@ public class DateUtil {
                 }
             }
         }
-        if (ServiceAFweb.mydebugnewtest == true) {
+        if (ServiceAFweb.forceMarketOpen == true) {
             mkopen = true;
         }
         return mkopen;
