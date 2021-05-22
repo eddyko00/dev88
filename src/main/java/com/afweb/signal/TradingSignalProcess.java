@@ -110,6 +110,15 @@ public class TradingSignalProcess {
                     String symbol = (String) stockSignalNameArray.get(0);
                     stockSignalNameArray.remove(0);
 
+                    if (ServiceAFweb.mydebugtestNN3flag == true) {
+                        if (symbol.equals("GLD")) {
+
+                        } else if (symbol.equals("HOU.TO")) {
+
+                        } else {
+                            continue;
+                        }
+                    }
                     AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {

@@ -758,6 +758,16 @@ public class AccountProcess {
 //                }
                 for (int j = 0; j < stockNameArray.size(); j++) {
                     String symbol = (String) stockNameArray.get(j);
+
+                    if (ServiceAFweb.mydebugtestNN3flag == true) {
+                        if (symbol.equals("GLD")) {
+
+                        } else if (symbol.equals("HOU.TO")) {
+
+                        } else {
+                            continue;
+                        }
+                    }
                     boolean ret = TRprocessImp.checkStock(serviceAFWeb, symbol);
 
                     if (ret == true) {
@@ -1424,7 +1434,7 @@ public class AccountProcess {
 //        this.serviceAFWeb = serviceAFWeb;
 
         if (FileUtil.FileTest(ServiceAFweb.FileLocalPath + "customer.txt") == false) {
-              logger.info(">>>>>>> Exit restoreDBData - No customer.txt");
+            logger.info(">>>>>>> Exit restoreDBData - No customer.txt");
             return false;
         }
 
