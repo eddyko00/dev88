@@ -72,7 +72,8 @@ public class Javamain {
         } else if (cmd.indexOf("forceMarketOpen") != -1) {
             ServiceAFweb.forceMarketOpen = true;
         } else if (cmd.indexOf("mydebugtestNN3flag") != -1) {
-            ServiceAFweb.mydebugtestNN3flag = true;            
+            ServiceAFweb.mydebugtestNN3flag = true;    
+            ServiceAFweb.forceMarketOpen = true;
 
         } else if (cmd.indexOf("mydebugtestflag") != -1) {
             CKey.NN_DEBUG = true;
