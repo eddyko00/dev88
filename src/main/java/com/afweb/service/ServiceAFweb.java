@@ -888,7 +888,8 @@ public class ServiceAFweb {
                     nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(this);
                     logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
 
-                } else if (nn2testflag == true) {
+                }
+                if (nn2testflag == true) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN2);
@@ -898,7 +899,8 @@ public class ServiceAFweb {
                     nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(this);
                     logger.info("> ProcessTrainNeuralNet NN 2 end... cycle " + k);
 
-                } else if (nn3testflag == true) {
+                }
+                if (nn3testflag == true) {
                     exitflag = false;
                     if (((k % 5) == 0) || (k == 0)) {
                         NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN3);
@@ -935,15 +937,6 @@ public class ServiceAFweb {
 
             }
 
-////////////////////////////////////////////////////////////////////////////
-            if (processNNSignalAdmin == true) {
-                exitflag = false;
-                logger.info("> processNNSignalAdmin  cycle " + k);
-                TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                TRprocessImp.UpdateAllStock(this);
-                logger.info("> processNNSignalAdmin end... cycle " + k);
-            }
 
 ////////////////////////////////////////////////////////////////////////////            
             if (processRestinputflag == true) {
@@ -1013,6 +1006,15 @@ public class ServiceAFweb {
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
+
+            if (processNNSignalAdmin == true) {
+                exitflag = false;
+                logger.info("> processNNSignalAdmin  cycle " + k);
+                TRprocessImp.ProcessAdminSignalTrading(this);
+                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                TRprocessImp.UpdateAllStock(this);
+                logger.info("> processNNSignalAdmin end... cycle " + k);
+            }
 ////////////////////////////////////////////////////////////////////////////
             if (exitflag == true) {
                 break;
@@ -1289,7 +1291,6 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
 
 //            trNN = ConstantKey.INT_TR_NN3;
 //            TR_NN = trNN;
