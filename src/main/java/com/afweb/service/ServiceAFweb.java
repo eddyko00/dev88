@@ -374,6 +374,8 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
+                displayStr += "\r\n" + (">>>>> System nn30testflag:" + nn30testflag);      
+                
                 displayStr += "\r\n" + (">>>>> System initLocalRemoteNN:" + initLocalRemoteNN);
 
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -1499,7 +1501,7 @@ public class ServiceAFweb {
 //            AFstockObj stock = getRealTimeStockImp(symbol);
 //            TRprocessImp.updateRealTimeStock(this, stock);
 /////////////////////////////////////////////////////            
-            if (nn3testflag == true) {
+//            if (nn3testflag == true) {
                 // javamain localmysqlflag nn3testflag mydebugtestflag
                 // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/tran/history/chart
                 // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/perf
@@ -1531,7 +1533,7 @@ public class ServiceAFweb {
 //                    TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //                    TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
 //                }
-            }
+//            }
 ////////////////////////////////////////////////////////
 //            systemRemoveAllEmail();
 //            BillingProcess billProc = new BillingProcess();
