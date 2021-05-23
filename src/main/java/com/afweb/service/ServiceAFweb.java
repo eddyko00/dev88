@@ -716,7 +716,7 @@ public class ServiceAFweb {
 
     public static boolean forceNNReadFileflag = false;
     public static boolean flagNNLearningSignal = false;
-    public static boolean flagNN3LearningTrend = false;
+
     public static boolean flagNNReLearning = false;
     public static boolean processNNSignalAdmin = false;
     public static boolean processRestinputflag = false;
@@ -729,7 +729,7 @@ public class ServiceAFweb {
     public static boolean nn1testflag = false;
     public static boolean nn2testflag = false;
     public static boolean nn3testflag = false;
-
+    public static boolean nn30testflag = false;
     public static int cntNN = 0;
 
     public void AFprocessNeuralNet() {
@@ -911,21 +911,20 @@ public class ServiceAFweb {
                     logger.info("> ProcessTrainNeuralNet NN 3 end... cycle " + k);
 
                 }
-            }
-////////////////////////////////////////////////////////////////////////////
+                if (nn30testflag == true) {
+                    exitflag = false;
+                    if (nn1testflag == true) {
+                        if (((k % 5) == 0) || (k == 1)) {
+                            NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN30);
+                        }
+                        logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
+                        nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
+                        logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
 
-            if (flagNN3LearningTrend == true) {
-                exitflag = false;
-                if (nn1testflag == true) {
-                    if (((k % 5) == 0) || (k == 1)) {
-                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN30);
                     }
-                    logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
-                    nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
-                    logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
-
                 }
             }
+////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////          
             if (flagNNReLearning == true) {
@@ -1274,7 +1273,7 @@ public class ServiceAFweb {
             if (symbol.equals("GLD")) {
 
             } else if (symbol.equals("HOU.TO")) {
-                
+
             } else if (symbol.equals("XIU.TO")) {
 
             } else {

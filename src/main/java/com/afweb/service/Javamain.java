@@ -17,8 +17,7 @@ public class Javamain {
 
         if (cmd.indexOf("flagNNLearningSignal") != -1) {
             ServiceAFweb.flagNNLearningSignal = true;
-        } else if (cmd.indexOf("flagNN3LearningTrend") != -1) {
-            ServiceAFweb.flagNN3LearningTrend = true;
+
         } else if (cmd.indexOf("flagNNReLearning") != -1) {
             ServiceAFweb.flagNNReLearning = true;
         } else if (cmd.indexOf("processNNSignalAdmin") != -1) {
@@ -29,7 +28,7 @@ public class Javamain {
             ServiceAFweb.processRestAllStockflag = true;
         } else if (cmd.indexOf("initLocalRemoteNN") != -1) {
             ServiceAFweb.initLocalRemoteNN = true;
-            
+
         } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
             CKey.OTHER_PHP1_MYSQL = true;
             CKey.SERVER_TIMMER_URL = CKey.URL_PATH_OP;
@@ -68,11 +67,13 @@ public class Javamain {
             ServiceAFweb.nn2testflag = true;
         } else if (cmd.indexOf("nn3testflag") != -1) {
             ServiceAFweb.nn3testflag = true;
+        } else if (cmd.indexOf("nn30testflag") != -1) {
+            ServiceAFweb.nn30testflag = true;
 
         } else if (cmd.indexOf("forceMarketOpen") != -1) {
             ServiceAFweb.forceMarketOpen = true;
         } else if (cmd.indexOf("mydebugtestNN3flag") != -1) {
-            ServiceAFweb.mydebugtestNN3flag = true;    
+            ServiceAFweb.mydebugtestNN3flag = true;
             ServiceAFweb.forceMarketOpen = true;
 
         } else if (cmd.indexOf("mydebugtestflag") != -1) {
