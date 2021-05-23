@@ -374,8 +374,8 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System nn1testflag:" + nn1testflag);
                 displayStr += "\r\n" + (">>>>> System nn2testflag:" + nn2testflag);
                 displayStr += "\r\n" + (">>>>> System nn3testflag:" + nn3testflag);
-                displayStr += "\r\n" + (">>>>> System nn30testflag:" + nn30testflag);      
-                
+                displayStr += "\r\n" + (">>>>> System nn30testflag:" + nn30testflag);
+
                 displayStr += "\r\n" + (">>>>> System initLocalRemoteNN:" + initLocalRemoteNN);
 
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -915,15 +915,14 @@ public class ServiceAFweb {
                 }
                 if (nn30testflag == true) {
                     exitflag = false;
-                    if (nn1testflag == true) {
-                        if (((k % 5) == 0) || (k == 1)) {
-                            NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN30);
-                        }
-                        logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
-                        nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
-                        logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
 
+                    if (((k % 5) == 0) || (k == 1)) {
+                        NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN30);
                     }
+                    logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
+                    nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
+                    logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
+
                 }
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -1502,11 +1501,10 @@ public class ServiceAFweb {
 //            TRprocessImp.updateRealTimeStock(this, stock);
 /////////////////////////////////////////////////////            
 //            if (nn3testflag == true) {
-                // javamain localmysqlflag nn3testflag mydebugtestflag
-                // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/tran/history/chart
-                // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/perf
-                // https://iiswebsrv.herokuapp.com/cust/admin1/acc/1/st/gld/tr/TR_NN2/tran/history/chart
-
+            // javamain localmysqlflag nn3testflag mydebugtestflag
+            // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/tran/history/chart
+            // http://localhost:8080/cust/admin1/acc/1/st/gld/tr/TR_NN3/perf
+            // https://iiswebsrv.herokuapp.com/cust/admin1/acc/1/st/gld/tr/TR_NN2/tran/history/chart
 //                symbol = "HOU.TO"; // "GLD";
 //                trNN = ConstantKey.INT_TR_NN3;
 //                TR_NN = trNN;
