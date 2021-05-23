@@ -1274,6 +1274,8 @@ public class ServiceAFweb {
             if (symbol.equals("GLD")) {
 
             } else if (symbol.equals("HOU.TO")) {
+                
+            } else if (symbol.equals("XIU.TO")) {
 
             } else {
                 return false;
