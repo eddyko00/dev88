@@ -9,13 +9,15 @@ TAG POS=1 TYPE=A ATTR=TXT:Account:<SP>acc-2-TradingPlan:<SP>Premium<SP>Plan<SP>-
 WAIT SECONDS=20
 TAG POS=1 TYPE=STRONG ATTR=TXT:SPY
 WAIT SECONDS=10
+TAG POS=1 TYPE=STRONG ATTR=TXT:TR_NN1
+WAIT SECONDS=10
 TAG POS=1 TYPE=A ATTR=ID:26
 WAIT SECONDS=30
-TAG POS=2 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr.html#page-index
+TAG POS=2 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttrnn.html#page-index
 WAIT SECONDS=10
 TAG POS=2 TYPE=A ATTR=ID:26
 WAIT SECONDS=10
-TAG POS=3 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr.html#page-index
+TAG POS=3 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttrnn.html#page-index
 WAIT SECONDS=10
 TAG POS=1 TYPE=STRONG ATTR=TXT:TR_NN1
 WAIT SECONDS=10
@@ -25,13 +27,15 @@ TAG POS=1 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountst_1.html
 WAIT SECONDS=20
 TAG POS=1 TYPE=STRONG ATTR=TXT:DIA
 WAIT SECONDS=10
+TAG POS=1 TYPE=STRONG ATTR=TXT:TR_NN1
+WAIT SECONDS=10
 TAG POS=1 TYPE=A ATTR=ID:33
 WAIT SECONDS=30
-TAG POS=2 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr.html#page-index
+TAG POS=2 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttrnn.html#page-index
 WAIT SECONDS=10
 TAG POS=2 TYPE=A ATTR=ID:33
 WAIT SECONDS=10
-TAG POS=3 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttr.html#page-index
+TAG POS=3 TYPE=A ATTR=HREF:https://iiswebsrv.herokuapp.com/accountsttrnn.html#page-index
 WAIT SECONDS=10
 TAG POS=1 TYPE=STRONG ATTR=TXT:TR_NN1
 WAIT SECONDS=10
