@@ -58,11 +58,7 @@ public class TradingNNprocess {
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String sym = (String) stockNameArray.get(i);
                 if (ServiceAFweb.mydebugtestNN3flag == true) {
-                    if (sym.equals("GLD")) {
-
-                    } else if (sym.equals("HOU.TO")) {
-
-                    } else {
+                    if (ServiceAFweb.checkSymbolDebugTest(sym) == false) {
                         continue;
                     }
                 }
@@ -74,10 +70,10 @@ public class TradingNNprocess {
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN2;
                     stockTRNameArray.add(symTR);
                 }
-                 if (ServiceAFweb.nn3testflag == true) {
+                if (ServiceAFweb.nn3testflag == true) {
                     String symTR = sym + "#" + ConstantKey.INT_TR_NN3;
-                    stockTRNameArray.add(symTR);                     
-                 }
+                    stockTRNameArray.add(symTR);
+                }
             }
 
             setStockNNretrainNameArray(stockTRNameArray);

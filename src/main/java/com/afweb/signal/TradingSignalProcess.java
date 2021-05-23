@@ -111,11 +111,7 @@ public class TradingSignalProcess {
                     stockSignalNameArray.remove(0);
 
                     if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (symbol.equals("GLD")) {
-
-                        } else if (symbol.equals("HOU.TO")) {
-
-                        } else {
+                        if (ServiceAFweb.checkSymbolDebugTest(symbol) == false) {
                             continue;
                         }
                     }
@@ -937,11 +933,7 @@ public class TradingSignalProcess {
                 if (trObj.getType() == ConstantKey.INT_TR_RSI) {
                     continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
-                    if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        ;
-                    } else {
-                        continue;
-                    }
+                    continue;
                 } else if (trObj.getType() == ConstantKey.INT_TR_MV) {
                     continue;
                 }

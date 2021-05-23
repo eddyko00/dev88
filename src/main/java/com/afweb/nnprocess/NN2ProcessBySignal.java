@@ -364,7 +364,6 @@ public class NN2ProcessBySignal {
         ArrayList<NNInputDataObj> inputDatalist = new ArrayList();
         if (ServiceAFweb.forceNNReadFileflag == true) {
 
-
         } else {
             /// new stock difficult to train need to remove the T.TO to see if it helps
             String subSymbol = null;
@@ -613,17 +612,13 @@ public class NN2ProcessBySignal {
             ArrayList stockTRNameArray = new ArrayList();
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String sym = (String) stockNameArray.get(i);
-                
+
                 if (ServiceAFweb.mydebugtestNN3flag == true) {
-                    if (sym.equals("GLD")) {
-
-                    } else if (sym.equals("HOU.TO")) {
-
-                    } else {
+                    if (ServiceAFweb.checkSymbolDebugTest(sym) == false) {
                         continue;
                     }
                 }
-                
+
                 String symTR = sym + "#" + ConstantKey.INT_TR_NN2;
                 stockTRNameArray.add(symTR);
             }
@@ -710,7 +705,6 @@ public class NN2ProcessBySignal {
                         continue;
                     }
                     this.TrainNN2NeuralNetBySign(serviceAFWeb, symbol, TR_NN, stockNNprocessNameArray);
-
 
                 }
             }  // end for loop
@@ -1169,7 +1163,6 @@ public class NN2ProcessBySignal {
         return inputList;
     }
 
-    
     public boolean checkNN2Ready(ServiceAFweb serviceAFWeb, String symbol, boolean CheckRefData) {
         TradingSignalProcess TSproc = new TradingSignalProcess();
         AFneuralNet nnObj0 = TSproc.testNeuralNet0Symbol(serviceAFWeb, ConstantKey.TR_NN2, symbol);
@@ -1204,6 +1197,5 @@ public class NN2ProcessBySignal {
         }
         return true;
     }
-    
-    
+
 }

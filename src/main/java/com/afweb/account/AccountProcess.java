@@ -760,11 +760,7 @@ public class AccountProcess {
                     String symbol = (String) stockNameArray.get(j);
 
                     if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (symbol.equals("GLD")) {
-
-                        } else if (symbol.equals("HOU.TO")) {
-
-                        } else {
+                        if (ServiceAFweb.checkSymbolDebugTest(symbol) == false) {
                             continue;
                         }
                     }

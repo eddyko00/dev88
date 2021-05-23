@@ -430,11 +430,7 @@ public class NN1ProcessBySignal {
 
                 String sym = (String) stockNameArray.get(i);
                 if (ServiceAFweb.mydebugtestNN3flag == true) {
-                    if (sym.equals("GLD")) {
-
-                    } else if (sym.equals("HOU.TO")) {
-
-                    } else {
+                    if (ServiceAFweb.checkSymbolDebugTest(sym) == false) {
                         continue;
                     }
                 }

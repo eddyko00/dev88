@@ -937,7 +937,6 @@ public class ServiceAFweb {
 
             }
 
-
 ////////////////////////////////////////////////////////////////////////////            
             if (processRestinputflag == true) {
                 if ((nn1testflag == true) && (nn2testflag == true)) {
@@ -1268,6 +1267,21 @@ public class ServiceAFweb {
     public static long SimDateL = 0;
 
     public static boolean forceMarketOpen = false; //forceMarketOpen;
+
+    public static boolean checkSymbolDebugTest(String symbol) {
+
+        if (ServiceAFweb.mydebugtestNN3flag == true) {
+            if (symbol.equals("GLD")) {
+
+            } else if (symbol.equals("HOU.TO")) {
+
+            } else {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 
     private void AFprocessDebug() {
         //Feb 10, 2021 db size = 5,543 InnoDB utf8_general_ci 4.7 MiB	
