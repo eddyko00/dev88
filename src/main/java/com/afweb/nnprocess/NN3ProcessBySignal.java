@@ -1100,7 +1100,7 @@ public class NN3ProcessBySignal {
                             ;
                         } else {
                             AFneuralNetData nnData = objList.get(0);
-                            serviceAFWeb.getStockImp().deleteNeuralNetDataObj(nnData.getName(), nnData.getId());
+                            serviceAFWeb.getStockImp().deleteNeuralNetDataObjById(nnData.getId());
                                     
                         }
                         serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
