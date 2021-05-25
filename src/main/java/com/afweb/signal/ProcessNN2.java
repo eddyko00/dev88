@@ -661,7 +661,7 @@ public class ProcessNN2 {
                             float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
 
                             if (delta > 0) {
-                                logger.info("> updateAdminTR NN2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
+                                logger.info("> updateAdminTR NN2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > "+NN2StopLoss+"% Delta=" + delta);
                                 stopLoss = true;
                                 nnSignal = emaSignal;
                                 confident += 15;

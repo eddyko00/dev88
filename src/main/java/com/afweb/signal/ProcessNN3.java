@@ -631,7 +631,7 @@ public class ProcessNN3 {
                             float StClose = stockinfo.getFclose();
                             float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
                             if (delta > 0) {
-                                logger.info("> updateAdminTR NN3 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > 20% Delta=" + delta);
+                                logger.info("> updateAdminTR NN3 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > "+NN3StopLoss+"% Delta=" + delta);
                                 stopLoss = true;
                                 nnSignal = macdSignal;
                                 confident += 15;
