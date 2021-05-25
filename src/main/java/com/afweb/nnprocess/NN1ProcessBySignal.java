@@ -1065,8 +1065,13 @@ public class NN1ProcessBySignal {
                             for (int m = 0; m < inputlistSym.size(); m++) {
                                 NNInputDataObj inputSymObj = inputlistSym.get(m);
                                 if (inputLObj.getUpdatedatel() == inputSymObj.getUpdatedatel()) {
-                                    inputlistSym.remove(m);
-                                    break;
+                                    if (inputLObj.getObj().getOutput1() == inputSymObj.getObj().getOutput1()) {
+                                        if (inputLObj.getObj().getOutput2() == inputSymObj.getObj().getOutput2()) {
+                                            inputlistSym.remove(m);
+                                            totalDup++;
+                                            break;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1092,18 +1097,16 @@ public class NN1ProcessBySignal {
                         NNInputDataObj objData = inputlistSym.get(i);
                         ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
-                            serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
-                            totalAdd++;
-                            writeArray.add(nameST);
-                            continue;
+                            ;
+                        } else {
+                            AFneuralNetData nnData = objList.get(0);
+                            serviceAFWeb.getStockImp().deleteNeuralNetDataObj(nnData.getName(), nnData.getId());
+                                    
                         }
-                        totalDup++;
-//                        boolean flag = false;
-//                        if (flag == true) {
-//                            if (CKey.NN_DEBUG == true) {
-//                                logger.info("> inputReTrainStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
-//                            }
-//                        }
+                        serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
+                        totalAdd++;
+                        writeArray.add(nameST);
+                        continue;
                     }
                 }
                 // redue multiple task update the same ref condition

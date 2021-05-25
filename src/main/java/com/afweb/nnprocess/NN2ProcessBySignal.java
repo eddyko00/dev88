@@ -1053,18 +1053,20 @@ public class NN2ProcessBySignal {
                 inputlistSym.addAll(inputlistSym2);
 
                 ArrayList<NNInputDataObj> inputL = new ArrayList();
-                boolean trainInFile = true;
-                if (trainInFile == true) {
-                    inputL = GetNN2InputBasefromDB(serviceAFWeb, symbol, null, nnName);
-                    if (inputL != null) {
-                        if (inputL.size() > 0) {
-                            for (int k = 0; k < inputL.size(); k++) {
-                                NNInputDataObj inputLObj = inputL.get(k);
-                                for (int m = 0; m < inputlistSym.size(); m++) {
-                                    NNInputDataObj inputSymObj = inputlistSym.get(m);
-                                    if (inputLObj.getUpdatedatel() == inputSymObj.getUpdatedatel()) {
-                                        inputlistSym.remove(m);
-                                        break;
+                inputL = GetNN2InputBasefromDB(serviceAFWeb, symbol, null, nnName);
+                if (inputL != null) {
+                    if (inputL.size() > 0) {
+                        for (int k = 0; k < inputL.size(); k++) {
+                            NNInputDataObj inputLObj = inputL.get(k);
+                            for (int m = 0; m < inputlistSym.size(); m++) {
+                                NNInputDataObj inputSymObj = inputlistSym.get(m);
+                                if (inputLObj.getUpdatedatel() == inputSymObj.getUpdatedatel()) {
+                                    if (inputLObj.getObj().getOutput1() == inputSymObj.getObj().getOutput1()) {
+                                        if (inputLObj.getObj().getOutput2() == inputSymObj.getObj().getOutput2()) {
+                                            inputlistSym.remove(m);
+                                            totalDup++;
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -1091,20 +1093,19 @@ public class NN2ProcessBySignal {
                         NNInputDataObj objData = inputlistSym.get(i);
                         ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
-                            serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
-                            totalAdd++;
-                            writeArray.add(nameST);
-                            continue;
+                            ;
+                        } else {
+                            AFneuralNetData nnData = objList.get(0);
+                            serviceAFWeb.getStockImp().deleteNeuralNetDataObj(nnData.getName(), nnData.getId());
+
                         }
-                        totalDup++;
-//                        boolean flag = false;
-//                        if (flag == true) {
-//                            if (CKey.NN_DEBUG == true) {
-//                                logger.info("> inputReTrainStockNeuralNetData duplicate " + BPnameSym + " " + symbol + " " + objData.getObj().getDateSt());
-//                            }
-//                        }
+                        serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
+                        totalAdd++;
+                        writeArray.add(nameST);
+                        continue;
                     }
                 }
+
                 // redue multiple task update the same ref condition
                 nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
                 ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
