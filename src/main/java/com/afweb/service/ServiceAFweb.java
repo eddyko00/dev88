@@ -1310,7 +1310,6 @@ public class ServiceAFweb {
 
 //            TradingNNprocess NNProcessImp = new TradingNNprocess();
 //            NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
-
 //            trNN = ConstantKey.INT_TR_NN3;
 //            TR_NN = trNN;
 //            nnName = ConstantKey.TR_NN3;
@@ -3964,6 +3963,62 @@ public class ServiceAFweb {
         return null;
     }
 
+    public ArrayList<TransationOrderObj> getFundAccountStockTRTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trName, int length) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+
+        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+        if (custObj == null) {
+            return null;
+        }
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return null;
+        }
+
+        String portfolio = custObj.getPortfolio();
+        CustPort custPortfilio = null;
+        try {
+            if ((portfolio != null) && (portfolio.length() > 0)) {
+                portfolio = portfolio.replaceAll("#", "\"");
+                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+            }
+        } catch (Exception ex) {
+        }
+        if (custPortfilio == null) {
+            return null;
+        }
+
+        ArrayList<String> featL = custPortfilio.getFeatL();
+        if (featL == null) {
+            return null;
+        }
+        int accFundId = Integer.parseInt(FundIDSt);
+        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+
+        AFstockObj stock = null;
+        if (accFundObj != null) {
+            try {
+                int stockID = Integer.parseInt(stockidsymbol);
+                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+            } catch (NumberFormatException e) {
+                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+                String NormalizeSymbol = symObj.getYahooSymbol();
+                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+            }
+            if (stock == null) {
+                return null;
+            }
+
+            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+                return getAccountImp().getAccountStockTransList(accFundObj.getId(), stock.getId(), trName.toUpperCase(), length);
+            }
+        }
+        return null;
+    }
+
     public ArrayList<PerformanceObj> getAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -4429,7 +4484,7 @@ public class ServiceAFweb {
 //////////
 
     public byte[] getFundAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol,
-            String trname, String yearSt) {
+            String trname, String monthSt) {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
 
@@ -4472,29 +4527,28 @@ public class ServiceAFweb {
         if (stock == null) {
             return null;
         }
-        int year = 0;
-        if (yearSt != null) {
+
+        int month = 6;
+        if (monthSt != null) {
             try {
-                year = Integer.parseInt(yearSt);
-                if (year > 5) {
-                    year = 5;
+                month = Integer.parseInt(monthSt);
+                if (month > 48) {
+                    month = 48;
                 }
             } catch (Exception ex) {
-
             }
         }
+
         ArrayList<TransationOrderObj> thList = getAccountImp().getAccountStockTransList(accFundObj.getId(), stock.getId(), trname.toUpperCase(), 0);
 
         if (thList == null) {
-            // still allow to display dummy graph
-//            return null;
             thList = new ArrayList();
         }
 
         int sizeLen = 20 * 10;
 
-        if (year > 0) {
-            sizeLen = 20 * 12 * year;
+        if (month > 0) {
+            sizeLen = 20 * month;
         }
 
         // recent date first
@@ -4510,30 +4564,6 @@ public class ServiceAFweb {
         Collections.reverse(thList);
 
         ArrayList<AFstockInfo> StockArrayTmp = new ArrayList();
-
-        float closeFirst = StockArray.get(StockArray.size() - 1).getFclose();
-        float closeLast = StockArray.get(0).getFclose();
-        float perC = 100 * (closeFirst - closeLast) / closeLast;
-        perC = Math.abs(perC);
-        float thold = 45; // 35;
-
-        boolean highdif = false;
-        int index = sizeLen;
-
-        if (perC > thold) { //35) {
-            for (int j = 0; j < StockArray.size(); j++) {
-                closeLast = StockArray.get(j).getFclose();
-                perC = 100 * (closeFirst - closeLast) / closeLast;
-                perC = Math.abs(perC);
-                if (perC < thold) { // 35) {
-                    highdif = true;
-                    break;
-                }
-            }
-        }
-        if (highdif == true) {
-            index = sizeLen - (sizeLen / 4);
-        }
 
         List<Date> xDate = new ArrayList<Date>();
         List<Double> yD = new ArrayList<Double>();
@@ -4551,32 +4581,16 @@ public class ServiceAFweb {
         sellD = new ArrayList<Double>();
 
         StockArrayTmp = new ArrayList();
-        for (int i = index; i < StockArray.size(); i++) {
+        for (int i = 0; i < StockArray.size(); i++) {
             StockArrayTmp.add(StockArray.get(i));
         }
         int numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
 
-        if (numBS < 5) {
-            index = sizeLen / 2;
-            xDate = new ArrayList<Date>();
-            yD = new ArrayList<Double>();
-            buyDate = new ArrayList<Date>();
-            buyD = new ArrayList<Double>();
-            sellDate = new ArrayList<Date>();
-            sellD = new ArrayList<Double>();
-
-            StockArrayTmp = new ArrayList();
-            for (int i = index; i < StockArray.size(); i++) {
-                StockArrayTmp.add(StockArray.get(i));
-            }
-            numBS = this.checkCurrentChartDisplay(StockArrayTmp, xDate, yD, buyDate, buyD, sellDate, sellD, thList);
-        }
         ChartService chart = new ChartService();
         byte[] ioStream = chart.streamChartToByte(stockidsymbol + "_" + trname,
                 xDate, yD, buyDate, buyD, sellDate, sellD);
 
         return ioStream;
-
     }
 
     public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol,

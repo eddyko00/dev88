@@ -1143,6 +1143,32 @@ public class IndexController {
         return returnObj;
     }
 
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/tran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getFundAccountStockTran(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            @PathVariable("accfundid") String accfundid,
+            @PathVariable("stockidsymbol") String stockidsymbol,
+            @PathVariable("trname") String trname,
+            @RequestParam(value = "length", required = false) String lengthSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        int length = 0; //20;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+        ArrayList returnList = afWebService.getFundAccountStockTRTranListByAccountID(username, null, accountid, accfundid, stockidsymbol, trname, length);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+
+        return returnList;
+    }
+
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     TradingRuleObj getAccountStockByTRname(
@@ -1284,7 +1310,7 @@ public class IndexController {
             @PathVariable("accfundid") String accfundid,
             @PathVariable("stockidsymbol") String stockidsymbol,
             @PathVariable("trname") String trname,
-            @RequestParam(value = "month", required = false) String monthSt,            
+            @RequestParam(value = "month", required = false) String monthSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);

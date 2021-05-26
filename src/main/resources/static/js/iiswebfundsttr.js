@@ -311,124 +311,8 @@ var app = {
             trname = $(this).attr('value');
 
             ////////////////////////////////
-            if (type === "buy") {
-                if (trname != null) {
-                    var symbol = stockObj.symbol;
-                    symbol = symbol.replace(".", "_");
-//"/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/{signal}/order
-                    var sig = S_BUY;
-                    var trObj;
-                    for (j = 0; j < trObjList.length; j++) {
-                        var trObjtmp = trObjList[j];
-                        if (trObjtmp.trname === trname) {
-                            trObj = trObjtmp;
-                            break;
-                        }
-                    }
-                    if (trObj.trsignal == sig) {
-                        window.location.href = "#page_index";
-                    }
-                    if (confirm('Do you want to Buy Transaction?')) {
-                        ;
-                    } else {
-                        window.location.href = "#page_index";
-                        return;
-                    }
-                    var urlSt = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/" + sig + "/order";
-                    console.log(urlSt);
-                    $.ajax({
-                        url: urlSt,
-                        crossDomain: true,
-                        cache: false,
-                        beforeSend: function () {
-                            $("#loader").show();
-                        },
-                        success: function (result) {
-                            console.log(result);
-                            window.location.href = "accountsttr_1.html";
-                        }
-                    });
-                }
-            }
-            if (type === "sell") {
-                if (trname !== null) {
-                    var symbol = stockObj.symbol;
-                    symbol = symbol.replace(".", "_");
-//"/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/{signal}/order                    
-                    var sig = S_SELL;
-                    var trObj;
-                    for (j = 0; j < trObjList.length; j++) {
-                        var trObjtmp = trObjList[j];
-                        if (trObjtmp.trname === trname) {
-                            trObj = trObjtmp;
-                            break;
-                        }
-                    }
-                    if (trObj.trsignal == sig) {
-                        window.location.href = "#page_index";
-                    }
-                    if (confirm('Do you want to Sell Transaction?')) {
-                        ;
-                    } else {
-                        window.location.href = "#page_index";
-                        return;
-                    }
-                    var urlSt = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/" + sig + "/order";
-                    console.log(urlSt);
-                    $.ajax({
-                        url: urlSt,
-                        crossDomain: true,
-                        cache: false,
-                        beforeSend: function () {
-                            $("#loader").show();
-                        },
-                        success: function (result) {
-                            console.log(result);
-                            window.location.href = "accountsttr_1.html";
-                        }
-                    });
-                }
-            }
 
-            if (type === "exit") {
-                if (trname != null) {
-                    var symbol = stockObj.symbol;
-                    symbol = symbol.replace(".", "_");
-//"/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/{signal}/order
-                    var sig = S_NEUTRAL;
-                    var trObj;
-                    for (j = 0; j < trObjList.length; j++) {
-                        var trObjtmp = trObjList[j];
-                        if (trObjtmp.trname === trname) {
-                            trObj = trObjtmp;
-                            break;
-                        }
-                    }
-                    if (trObj.trsignal == sig) {
-                        window.location.href = "#page_index";
-                    }
-                    if (confirm('Do you want to Exit Buy or Sell Transaction?')) {
-                        ;
-                    } else {
-                        window.location.href = "#page_index";
-                        return;
-                    }
-                    var urlSt = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/" + sig + "/order";
-                    console.log(urlSt);
-                    $.ajax({
-                        url: urlSt,
-                        crossDomain: true,
-                        cache: false,
-                        beforeSend: function () {
-                            $("#loader").show();
-                        },
-                        success: function (result) {
-                            console.log(result);
-                            window.location.href = "accountsttr_1.html";
-                        }
-                    });
-                }
-            }
+
             if (type === "graph") {
                 $("#grtxt1").show(0);
                 if (trname !== null) {
@@ -438,7 +322,7 @@ var app = {
                     var symbol = stockObj.symbol;
                     $("#graphheader1").html("Display graph - " + stockObj.symbol);
                     symbol = symbol.replace(".", "_");
-                    var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
+                    var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                     $("#spaceimage").attr("src", resultURL);
                     window.location.href = "#page_graph";
@@ -589,7 +473,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=3";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=3";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage").attr("src", resultURL);
 
@@ -607,7 +491,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader2").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage2").attr("src", resultURL);
 
@@ -626,7 +510,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader3").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=12";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=12";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage3").attr("src", resultURL);
 
@@ -645,7 +529,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=3";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=3";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage").attr("src", resultURL);
 
@@ -663,7 +547,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader2").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage2").attr("src", resultURL);
 
@@ -682,7 +566,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader3").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=12";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=12";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage3").attr("src", resultURL);
 
@@ -701,7 +585,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=3";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=3";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage").attr("src", resultURL);
 
@@ -719,7 +603,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader2").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=6";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage2").attr("src", resultURL);
 
@@ -738,7 +622,7 @@ var app = {
                 var symbol = stockObj.symbol;
                 $("#graphheader3").html("Display graph - " + stockObj.symbol);
                 symbol = symbol.replace(".", "_");
-                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=12";
+                var resultURL = iisurl + "cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st/" + symbol + "/tr/" + trname + "/tran/history/chart?month=12";
 //                resultURL = "https://iiswebsrv.herokuapp.com/cust/guest/acc/3/st/hou_to/tr/tr_macd/tran/history/chart";
                 $("#spaceimage3").attr("src", resultURL);
 
