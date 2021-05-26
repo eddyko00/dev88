@@ -444,23 +444,19 @@ var app = {
             }
 
             var trObj = null;
-            for (i = 0; i < trObjList.length; i++) {
-                var trObjTmp = trObjList[i];
-                if (trObjTmp.id == nameId) {
-                    trObj = trObjTmp;
-                    break;
-                }
-            }
+            var trObj = trAccObj;
+           
             if (trObj == null) {
                 return;
             }
             var trName = trObj.trname;
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'accId': accId, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
+                'accId': accId,
+                'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId, 'stockObjListStr': stockObjListStr, 'sockId': sockId,
                 'trObjListStr': trObjListStr, 'trName': trName};
 
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-            window.location.href = "accounttran_1.html";
+            window.location.href = "fundtran_1.html";
         });
 
         $("#y1btn").click(function () {
