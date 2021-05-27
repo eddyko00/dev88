@@ -2699,10 +2699,11 @@ public class TradingSignalProcess {
 
             if (nnError == 1) {
                 ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
-                refData.setmError(minError);
+                 double refminError = minError + 0.006; //+ 0.002;
+                refData.setmError(refminError);
 
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
-                logger.info("> TrainingNNBP override new minError " + name + " " + minError);
+                logger.info("> TrainingNNBP override higher minError " + name + " " + refminError);
 
             } else {
 
@@ -2712,9 +2713,9 @@ public class TradingSignalProcess {
                     double refminError = minError + 0.006; //+ 0.002;
                     if (refminError < refError) {
                         if (nnErrorOrg < minError) {
-                            refData.setmError(refminError);
+                            refData.setmError(minError);
                             serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
-                            logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
+                            logger.info("> TrainingNNBP override lower minError " + name + " " + minError);
                         }
                     }
                 }
