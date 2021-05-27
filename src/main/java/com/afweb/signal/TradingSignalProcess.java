@@ -2712,7 +2712,7 @@ public class TradingSignalProcess {
                     double refminError = minError + 0.006; //+ 0.002;
                     if (refminError < refError) {
                         if (nnErrorOrg < minError) {
-                            refData.setmError(minError);
+                            refData.setmError(refminError);
                             serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);
                             logger.info("> TrainingNNBP override new minError " + name + " " + refminError);
                         }
