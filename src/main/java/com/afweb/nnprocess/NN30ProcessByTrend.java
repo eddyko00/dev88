@@ -203,7 +203,7 @@ public class NN30ProcessByTrend {
     }
 
     public ArrayList<NNInputDataObj> getTrainingNNtrendProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
-        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
+//        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + symbol);
 
 //        boolean trainStock = false;
 //        for (int i = 0; i < ServiceAFweb.neuralNetTrainStock.length; i++) {
