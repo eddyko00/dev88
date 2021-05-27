@@ -2709,7 +2709,7 @@ public class TradingSignalProcess {
                 ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
                 if (refData.getmError() != 0) {
                     double refError = refData.getmError();
-                    double refminError = minError + 0.002; //+ 0.001;
+                    double refminError = minError + 0.006; //+ 0.002;
                     if (refminError < refError) {
                         if (nnErrorOrg < minError) {
                             refData.setmError(minError);

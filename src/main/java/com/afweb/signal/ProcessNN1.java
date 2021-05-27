@@ -1115,7 +1115,7 @@ public class ProcessNN1 {
         // need to check if 5 days has drop of 5%
         AFstockInfo stockinfo5 = (AFstockInfo) StockArray.get(offset + day);
         float StClose5 = stockinfo5.getFclose();
-        float delERR5 = (float) 5; //2;
+        float delERR5 = (float) 4; //2;
 
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer > DEL_ERR) {
