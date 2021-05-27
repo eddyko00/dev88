@@ -1180,14 +1180,14 @@ public class ProcessNN2 {
     }
 
     private int Rule7_CheckProfitTake(int nnSignal, ArrayList StockArray, int offset, float thClose, float StClose, int day) {
-        float DEL_ERR = (float) 7; //10;
+        float DEL_ERR = (float) 10; //7; //10;
         int currSignal = nnSignal;
 
         float delPer = 100 * (StClose - thClose) / thClose;
         // need to check if 5 days has drop of 5%
         AFstockInfo stockinfo5 = (AFstockInfo) StockArray.get(offset + day);
         float StClose5 = stockinfo5.getFclose();
-        float delERR5 = (float) 2;
+        float delERR5 = (float) 5; //2;
 
         if (currSignal == ConstantKey.S_BUY) {
             if (delPer > DEL_ERR) {
