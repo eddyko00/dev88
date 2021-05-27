@@ -1308,8 +1308,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
+            symbol = "AAPL";
+            TradingNNprocess NNProcessImp = new TradingNNprocess();
+            NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
 //            trNN = ConstantKey.INT_TR_NN3;
 //            TR_NN = trNN;
 //            nnName = ConstantKey.TR_NN3;

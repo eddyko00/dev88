@@ -1043,7 +1043,7 @@ public class NN1ProcessBySignal {
                     return 0;
                 }
 
-                logger.info("> inputReTrainStockNeuralNetData " + BPnameSym);
+                logger.info("> ReLearnNN1StockNeuralNetData " + BPnameSym);
 
                 ArrayList<NNInputOutObj> inputlist = new ArrayList();
 
@@ -1052,31 +1052,34 @@ public class NN1ProcessBySignal {
                 int size1yearAll = 20 * 12 * 5 + (50 * 3);
                 ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
                 //StockArray assume recent date to old data   
-                ArrayList<NNInputDataObj> inputlistSym1 = getReTrainingNNdataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, StockArray, 0);
+                ArrayList<NNInputDataObj> inputlistSym1 = getReTrainingNN1dataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, StockArray, 0);
                 inputlistSym.addAll(inputlistSym1);
 
-                ArrayList<NNInputDataObj> inputL = new ArrayList();
-
-                inputL = GetNN1InputBasefromDB(serviceAFWeb, symbol, null, nnName);
-                if (inputL != null) {
-                    if (inputL.size() > 0) {
-                        for (int k = 0; k < inputL.size(); k++) {
-                            NNInputDataObj inputLObj = inputL.get(k);
-                            for (int m = 0; m < inputlistSym.size(); m++) {
-                                NNInputDataObj inputSymObj = inputlistSym.get(m);
-                                if (inputLObj.getUpdatedatel() == inputSymObj.getUpdatedatel()) {
-                                    if (inputLObj.getObj().getOutput1() == inputSymObj.getObj().getOutput1()) {
-                                        if (inputLObj.getObj().getOutput2() == inputSymObj.getObj().getOutput2()) {
-                                            inputlistSym.remove(m);
-                                            totalDup++;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                // cannot change base
+//                ArrayList<NNInputDataObj> inputL = new ArrayList();
+//
+//                inputL = GetNN1InputBasefromDB(serviceAFWeb, symbol, null, nnName);
+//                if (inputL != null) {
+//                    if (inputL.size() > 0) {
+//                        for (int k = 0; k < inputL.size(); k++) {
+//                            NNInputDataObj inputLObj = inputL.get(k);
+//                            for (int m = 0; m < inputlistSym.size(); m++) {
+//                                NNInputDataObj inputSymObj = inputlistSym.get(m);
+//
+//                                String longSt = inputLObj.getUpdatedatel() + "";
+//                                if (inputLObj.getUpdatedatel() == inputSymObj.getUpdatedatel()) {
+//                                    if (inputLObj.getObj().getOutput1() == inputSymObj.getObj().getOutput1()) {
+//                                        if (inputLObj.getObj().getOutput2() == inputSymObj.getObj().getOutput2()) {
+//                                            inputlistSym.remove(m);
+//                                            totalDup++;
+//                                            break;
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
 
                 ArrayList writeArray = new ArrayList();
 
@@ -1095,13 +1098,38 @@ public class NN1ProcessBySignal {
                         // save into db
                         // save into db
                         NNInputDataObj objData = inputlistSym.get(i);
+
                         ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
                             ;
                         } else {
+
                             AFneuralNetData nnData = objList.get(0);
+                            String dataSt = nnData.getData();
+                            NNInputOutObj input;
+                            input = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
+
+                            if (input.getOutput1() == objData.getObj().getOutput1()) {
+                                if (input.getOutput2() == objData.getObj().getOutput2()) {
+                                    totalDup++;
+                                    continue;
+
+                                }
+                            }
+
                             serviceAFWeb.getStockImp().deleteNeuralNetDataObjById(nnData.getId());
-                                    
+//                            if (ServiceAFweb.mydebugtestflag == true) {
+//                                try {
+//
+//                                    String objListSt = new ObjectMapper().writeValueAsString(objList);
+//                                    System.out.println("objListSt:" + objListSt);
+//                                    String objDataSt = new ObjectMapper().writeValueAsString(objData);
+//                                    System.out.println("objDataSt:" + objDataSt);
+//                                } catch (Exception ex) {
+//
+//                                }
+//                            }
+
                         }
                         serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
                         totalAdd++;
@@ -1123,25 +1151,25 @@ public class NN1ProcessBySignal {
                 refData.setnRLearn(totalAdd);
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(BPnameSym, refData);
 
-                logger.info("> inputReTrainStockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
+                logger.info("> ReLearnNN1StockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
 
-                if (getEnv.checkLocalPC() == true) {
-                    boolean flag = false;
-                    if (flag == true) {
-                        String NN12 = "_NN1_retarin_";
-                        String filename = ServiceAFweb.FileLocalDebugPath + symbol + NN12 + ".csv";
-                        FileUtil.FileWriteTextArray(filename, writeArray);
-                    }
-                }
+//                if (getEnv.checkLocalPC() == true) {
+//                    boolean flag = false;
+//                    if (flag == true) {
+//                        String NN12 = "_NN1_retarin_";
+//                        String filename = ServiceAFweb.FileLocalDebugPath + symbol + NN12 + ".csv";
+//                        FileUtil.FileWriteTextArray(filename, writeArray);
+//                    }
+//                }
                 return 1;
             } catch (Exception e) {
-                logger.info("> inputReTrainStockNeuralNetData exception " + BPnameSym + " - " + e.getMessage());
+                logger.info("> ReLearnNN1StockNeuralNetData exception " + BPnameSym + " - " + e.getMessage());
             }
         }
         return -1;
     }
 
-    public ArrayList<NNInputDataObj> getReTrainingNNdataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, ArrayList<AFstockInfo> StockArray, int offset) {
+    public ArrayList<NNInputDataObj> getReTrainingNN1dataStockReTrain(ServiceAFweb serviceAFWeb, String symbol, int tr, ArrayList<AFstockInfo> StockArray, int offset) {
 //        logger.info("> trainingNN ");
 //        this.serviceAFWeb = serviceAFWeb;
 

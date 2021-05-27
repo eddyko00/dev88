@@ -161,9 +161,9 @@ public class TradingNNprocess {
 
         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
         long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
-//        if (ServiceAFweb.nn3testflag == true) {
-//            lockReturnStock = 1;
-//        }
+        if (ServiceAFweb.mydebugtestflag == true) {
+            lockReturnStock = 1;
+        }
 //      logger.info("ProcessReLearnInputNeuralNet " + LockStock + " LockStock " + lockReturnStock);
         if (lockReturnStock > 0) {
             try {

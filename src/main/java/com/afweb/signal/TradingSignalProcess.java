@@ -1240,11 +1240,11 @@ public class TradingSignalProcess {
 
                         if (ServiceAFweb.mydebugtestflag == true) {
 
-                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-
-                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
-                                    + " " + trObj.getComment() + " " + trHistory.getParmSt1());
+//                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+//                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+//
+//                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
+//                                    + " " + trObj.getComment() + " " + trHistory.getParmSt1());
 
                         }
                     }
