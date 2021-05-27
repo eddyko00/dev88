@@ -950,6 +950,9 @@ public class ServiceAFweb {
 
                     nnName = ConstantKey.TR_NN2;
                     removeNeuralNetDataAllNNSymbolByTR(nnName);
+                    
+                    nnName = ConstantKey.TR_NN3;
+                    removeNeuralNetDataAllNNSymbolByTR(nnName);                    
                 }
 
                 if (nn1testflag == true) {
