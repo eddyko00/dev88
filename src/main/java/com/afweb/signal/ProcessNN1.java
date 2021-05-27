@@ -897,7 +897,7 @@ public class ProcessNN1 {
         return false;
     }
 
-    public static float NN1StopLoss = 7; //5; //16;  // 20
+    public static float NN1StopLoss = 12; //7; //5; //16; 
     // check stop loss
 
     public float Rule1_StopLoss(int currSignal, float thClose, float StClose) {
