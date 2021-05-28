@@ -791,7 +791,7 @@ public class ServiceAFweb {
                 if (stock.getAfstockInfo() == null) {
                     continue;
                 }
-                String LockStock = "NN_New" + symbol; // + "_" + trNN;
+                String LockStock = "NN_New_" + symbol; // + "_" + trNN;
                 LockStock = LockStock.toUpperCase();
 
                 long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
