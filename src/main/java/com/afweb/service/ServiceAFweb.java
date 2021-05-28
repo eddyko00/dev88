@@ -791,13 +791,13 @@ public class ServiceAFweb {
                 if (stock.getAfstockInfo() == null) {
                     continue;
                 }
-                
+
                 boolean chk1 = nn1ProcBySig.checkNN1Ready(this, symbol, true);
                 boolean chk2 = nn2ProcBySig.checkNN2Ready(this, symbol, true);
                 if ((chk1 == true) && (chk2 == true)) {
                     continue;
                 }
-                
+
                 String LockStock = "NN_New_" + symbol; // + "_" + trNN;
                 LockStock = LockStock.toUpperCase();
 
@@ -1152,6 +1152,11 @@ public class ServiceAFweb {
                 ////update all stock                
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
+                String printName = "";
+                for (int i = 0; i < APIStockNameList.size(); i++) {
+                    printName += APIStockNameList.get(i) + ",";
+                }
+                logger.info("processInitLocalRemoteNN " + printName);
 ////////////////////////////////////////////////                
                 ////update remote Neural Net
                 String URL = CKey.URL_PATH_HERO;
