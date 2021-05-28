@@ -956,10 +956,10 @@ public class NN2ProcessBySignal {
                 }
                 ReferNameData refData = new ReferNameData();
                 refData = serviceAFWeb.getReferNameData(nnObj1);
-                if (refData.getmError() != 0) {
-                    errorNN = refData.getmError() + 0.0002;
-                    logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
-                }
+//                if (refData.getmError() != 0) {
+//                    errorNN = refData.getmError() + 0.0002;
+//                    logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
+//                }
 //                String refName = nnObj1.getRefname();
 //                if (refName.length() > 0) {
 //                    try {
