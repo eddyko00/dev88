@@ -1227,7 +1227,7 @@ public class ServiceAFweb {
                 if (nnObj1 != null) {
 
                     int ret = serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
-                    logger.info("> updateRESTNNWeight0 " + BPnameSym + "ret=" + ret);
+                    logger.info("> updateRESTNNWeight0 " + BPnameSym + " ret=" + ret);
                 } else {
 
                     logger.info("> updateRESTNNWeight0 not found " + BPnameSym);
