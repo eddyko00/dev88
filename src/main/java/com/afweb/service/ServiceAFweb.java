@@ -886,7 +886,7 @@ public class ServiceAFweb {
                 } else {
                     AFprocessNeuralNet();
                     num++;
-                    if (num > 6) {
+                    if (num > 2) {
                         num = 0;
                     }
                 }
