@@ -775,10 +775,10 @@ public class NN3ProcessBySignal {
 
             ReferNameData refData = new ReferNameData();
             refData = serviceAFWeb.getReferNameData(nnObj1);
-//            if (refData.getmError() != 0) {
-//                errorNN = refData.getmError() + 0.0002;
+            if (refData.getmError() != 0) {
+                errorNN = refData.getmError();
 //                logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
-//            }
+            }
 //            String refName = nnObj1.getRefname();
 //            if (refName != null) {
 //                if (refName.length() > 0) {
