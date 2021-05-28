@@ -818,11 +818,9 @@ public class ServiceAFweb {
                                 nn1ProcBySig.TrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
                                 NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
                             }
-                            logger.info("End processNewLearnNeuralNet.....NN1 " + symbol);
-                            return true;
-                        }
-
-                        if (chk2 == false) {
+//                            logger.info("End processNewLearnNeuralNet.....NN1 " + symbol);
+//                            return true;
+                        } else  if (chk2 == false) {
                             // process train symbol
                             for (int j = 0; j < 4; j++) {
                                 nn2ProcBySig.TrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
@@ -830,13 +828,14 @@ public class ServiceAFweb {
                                 NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
                             }
 
-                            logger.info("End processNewLearnNeuralNet.....NN2 " + symbol);
-                            return true;
+//                            logger.info("End processNewLearnNeuralNet.....NN2 " + symbol);
+//                            return true;
                         }
                     } catch (Exception ex) {
 
                     }
                     removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                    return true;
                 }
 
             }
