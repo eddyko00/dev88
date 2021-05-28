@@ -791,6 +791,13 @@ public class ServiceAFweb {
                 if (stock.getAfstockInfo() == null) {
                     continue;
                 }
+                
+                boolean chk1 = nn1ProcBySig.checkNN1Ready(this, symbol, true);
+                boolean chk2 = nn2ProcBySig.checkNN2Ready(this, symbol, true);
+                if ((chk1 == true) && (chk2 == true)) {
+                    continue;
+                }
+                
                 String LockStock = "NN_New_" + symbol; // + "_" + trNN;
                 LockStock = LockStock.toUpperCase();
 
@@ -804,8 +811,7 @@ public class ServiceAFweb {
                 }
                 if (lockReturnStock > 0) {
                     try {
-                        boolean chk1 = nn1ProcBySig.checkNN1Ready(this, symbol, true);
-                        boolean chk2 = nn2ProcBySig.checkNN2Ready(this, symbol, true);
+
                         if (chk1 == false) {
                             nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
                         }
@@ -820,7 +826,7 @@ public class ServiceAFweb {
                             }
 //                            logger.info("End processNewLearnNeuralNet.....NN1 " + symbol);
 //                            return true;
-                        } else  if (chk2 == false) {
+                        } else if (chk2 == false) {
                             // process train symbol
                             for (int j = 0; j < 4; j++) {
                                 nn2ProcBySig.TrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
