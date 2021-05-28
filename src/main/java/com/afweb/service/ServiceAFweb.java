@@ -767,8 +767,8 @@ public class ServiceAFweb {
         }
     }
 
-    public boolean processReLearnNewNeuralNet() {
-        ServiceAFweb.lastfun = "processReLearnNewNeuralNet";
+    public boolean processNewLearnNeuralNet() {
+        ServiceAFweb.lastfun = "processNewLearnNeuralNet";
 
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -780,7 +780,7 @@ public class ServiceAFweb {
         ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
 
         if (stockNameArray != null) {
-            logger.info("Start processReLearnNewNeuralNet.....Stock Size " + stockNameArray.size());
+            logger.info("Start processNewLearnNeuralNet.....Stock Size " + stockNameArray.size());
             for (int i = 0; i < stockNameArray.size(); i++) {
 
                 String symbol = (String) stockNameArray.get(i);
@@ -791,36 +791,57 @@ public class ServiceAFweb {
                 if (stock.getAfstockInfo() == null) {
                     continue;
                 }
-                if (nn1ProcBySig.checkNN1Ready(this, symbol, true) == false) {
-                    // process train symbol
-                    nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
+                String LockStock = "NN_New" + symbol; // + "_" + trNN;
+                LockStock = LockStock.toUpperCase();
 
-                    for (int j = 0; j < 5; j++) {
-                        nn1ProcBySig.TrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
-                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
+                long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+                long lockReturnStock = 1;
+
+                lockReturnStock = setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
+
+                if (lockReturnStock == 0) {
+                    continue;
+                }
+                if (lockReturnStock > 0) {
+                    try {
+                        boolean chk1 = nn1ProcBySig.checkNN1Ready(this, symbol, true);
+                        boolean chk2 = nn2ProcBySig.checkNN2Ready(this, symbol, true);
+                        if (chk1 == false) {
+                            nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
+                        }
+
+                        if (chk1 == false) {
+                            // process train symbol
+                            nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
+
+                            for (int j = 0; j < 4; j++) {
+                                nn1ProcBySig.TrainNN1NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN1, null);
+                                NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
+                            }
+                            logger.info("End processNewLearnNeuralNet.....NN1 " + symbol);
+                            return true;
+                        }
+
+                        if (chk2 == false) {
+                            // process train symbol
+                            for (int j = 0; j < 4; j++) {
+                                nn2ProcBySig.TrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
+
+                                NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
+                            }
+
+                            logger.info("End processNewLearnNeuralNet.....NN2 " + symbol);
+                            return true;
+                        }
+                    } catch (Exception ex) {
+
                     }
-//                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, symbol);
-                    logger.info("End processReLearnNewNeuralNet.....NN1 " + symbol);
-                    return true;
+                    removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                 }
 
-                if (nn2ProcBySig.checkNN2Ready(this, symbol, true) == false) {
-                    // process train symbol
-//                    nn2trend.TrainNN40NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN40, null);
-                    nn1trend.TrainNN30NeuralNetByTrend(this, symbol, ConstantKey.INT_TR_NN30, null);
-
-                    for (int j = 0; j < 5; j++) {
-                        nn2ProcBySig.TrainNN2NeuralNetBySign(this, symbol, ConstantKey.INT_TR_NN2, null);
-
-                        NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN2);
-                    }
-//                    NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, symbol);
-                    logger.info("End processNewNeuralNet.....NN2 " + symbol);
-                    return true;
-                }
             }
         }
-        logger.info("End processNewNeuralNet.....");
+        logger.info("End processNewLearnNeuralNet.....");
         return false;
     }
 
@@ -853,7 +874,7 @@ public class ServiceAFweb {
             int num = 0;
             while (true) {
                 if (num == 0) {
-                    boolean ret = processReLearnNewNeuralNet();
+                    boolean ret = processNewLearnNeuralNet();
                     if (ret == false) {
                         num++;
                     }
@@ -950,9 +971,9 @@ public class ServiceAFweb {
 
                     nnName = ConstantKey.TR_NN2;
                     removeNeuralNetDataAllNNSymbolByTR(nnName);
-                    
+
                     nnName = ConstantKey.TR_NN3;
-                    removeNeuralNetDataAllNNSymbolByTR(nnName);                    
+                    removeNeuralNetDataAllNNSymbolByTR(nnName);
                 }
 
                 if (nn1testflag == true) {
