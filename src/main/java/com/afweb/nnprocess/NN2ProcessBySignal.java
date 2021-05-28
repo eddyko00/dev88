@@ -1325,7 +1325,7 @@ public class NN2ProcessBySignal {
             if (numReLearn == -1) {
                 return false;
             }
-            if (numReLearn > 5) {
+            if (numReLearn > 4) {
                 return false;
             }
             if (refData.getnRLCnt() < 4) {
