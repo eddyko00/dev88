@@ -904,6 +904,9 @@ public class ServiceAFweb {
                     if (num > 2) {
                         num = 0;
                     }
+                    if (cntNN == 0) {
+                        num = 0;
+                    }
                 }
 
                 logger.info("> Waiting 30 sec cntNN " + cntNN + "........");
@@ -1240,7 +1243,7 @@ public class ServiceAFweb {
             try {
                 nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
                 if (nnObj1 != null) {
-                    
+
                     int ret = serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
                     ServiceAFweb.AFSleep1Sec(1);
                     if (ret != 1) {
