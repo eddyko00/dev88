@@ -1245,7 +1245,6 @@ public class TradingSignalProcess {
 //
 //                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
 //                                    + " " + trObj.getComment() + " " + trHistory.getParmSt1());
-
                         }
                     }
                     break;
@@ -1774,7 +1773,10 @@ public class TradingSignalProcess {
         if (stock.getStatus() != ConstantKey.OPEN) {
             return 0;
         }
-
+        // reduce server processing
+        if (getEnv.checkLocalPC() == false) {
+            return 0;
+        }
         String dataSt = stock.getData();
 
         StockData stockData = new StockData();
@@ -2699,7 +2701,7 @@ public class TradingSignalProcess {
 
             if (nnError == 1) {
                 ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
-                 double refminError = minError + 0.004; //+ 0.002;
+                double refminError = minError + 0.004; //+ 0.002;
                 refData.setmError(refminError);
 
                 serviceAFWeb.getStockImp().updateNeuralNetRef0(name, refData);

@@ -1365,9 +1365,13 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "AAPL";
-            TradingNNprocess NNProcessImp = new TradingNNprocess();
-            NNProcessImp.ReLearnInputNeuralNet(this, symbol, ConstantKey.INT_TR_NN1);
+//            symbol = "T.TO";
+//            trNN = ConstantKey.INT_TR_NN2;
+//            TR_NN = trNN;
+//            nnName = ConstantKey.TR_NN2;
+//            BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+//
+//            getStockImp().deleteNeuralNetDataByBPname(BPnameSym);
 //            trNN = ConstantKey.INT_TR_NN3;
 //            TR_NN = trNN;
 //            nnName = ConstantKey.TR_NN3;
@@ -5555,6 +5559,11 @@ public class ServiceAFweb {
     }
     // require oldest date to earliest
     // require oldest date to earliest
+
+    public int UpdateAllStock() {
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+        return TRprocessImp.UpdateAllStock(this);
+    }
 
     public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
         ServiceAFweb.lastfun = "updateStockInfoTransaction";
