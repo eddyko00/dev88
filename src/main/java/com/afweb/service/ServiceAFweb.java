@@ -757,7 +757,22 @@ public class ServiceAFweb {
                 nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
                 return;
             } else if (cntNN == 4) {
-                NNProcessImp.ProcessReLearnInputNeuralNet(this);
+                String LockStock = "NN_LEAN"; // + "_" + trNN;
+                LockStock = LockStock.toUpperCase();
+
+                long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+                long lockReturnStock = 1;
+
+                lockReturnStock = setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
+
+                if (lockReturnStock > 0) {
+                    try {
+                        NNProcessImp.ProcessReLearnInputNeuralNet(this);
+                    } catch (Exception ex) {
+
+                    }
+                }
+                removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                 cntNN = 0;
                 return;
 
