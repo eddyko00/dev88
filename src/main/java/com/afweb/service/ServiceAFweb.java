@@ -757,22 +757,24 @@ public class ServiceAFweb {
                 nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
                 return;
             } else if (cntNN == 4) {
-                String LockStock = "NN_LEARN"; // + "_" + trNN;
-                LockStock = LockStock.toUpperCase();
-
-                long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                long lockReturnStock = 1;
-
-                lockReturnStock = setLockNameProcess(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
-
-                if (lockReturnStock > 0) {
-                    try {
-                        NNProcessImp.ProcessReLearnInputNeuralNet(this);
-                    } catch (Exception ex) {
-
-                    }
-                }
-                removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+                 NNProcessImp.ProcessReLearnInputNeuralNet(this);
+                 
+//                String LockStock = "NN_LEARN"; // + "_" + trNN;
+//                LockStock = LockStock.toUpperCase();
+//
+//                long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+//                long lockReturnStock = 1;
+//
+//                lockReturnStock = setLockNameProcess(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
+//
+//                if (lockReturnStock > 0) {
+//                    try {
+//                        NNProcessImp.ProcessReLearnInputNeuralNet(this);
+//                    } catch (Exception ex) {
+//
+//                    }
+//                }
+//                removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
                 cntNN = 0;
                 return;
 

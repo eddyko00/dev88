@@ -101,7 +101,7 @@ public class TradingNNprocess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
-        LockName = "NNRE_" + ServiceAFweb.getServerObj().getServerName();
+        LockName = "NNRE_LEARN";
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
         boolean testing = false;
