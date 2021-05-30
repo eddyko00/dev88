@@ -97,7 +97,7 @@ public class CKey {
 //    public static String NN2_MV_TRN = "tr_nn2_mv";
 
     public static float SPLIT_VAL = (float) 1.5;
-    public static int MONTH_SIZE = 14;
+    public static int MONTH_SIZE = 16;
     public static int SHORT_MONTH_SIZE = 2;//3;
     public static double PREDICT_THRESHOLD = 0.6;
 //    
