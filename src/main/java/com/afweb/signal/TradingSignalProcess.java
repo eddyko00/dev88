@@ -1249,23 +1249,30 @@ public class TradingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN91: // shadow of INT_TR_NN1
+                    AccData accData = serviceAFWeb.getAccData(trObj.getComment());
+
                     ProcessNN91 nn91 = new ProcessNN91();
-                    int nn91Signal = nn91.ProcessTRHistoryOffsetNN91(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                    int nn91Signal = nn91.ProcessTRHistoryOffsetNN91(serviceAFWeb, trObj, StockArray, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData);
                     prevSignal = nn91Signal;
+
+                    trObj.setTrsignal(nn91Signal);
+                    String nameSt = serviceAFWeb.saveAccData(accData);
+                    trObj.setComment(nameSt);
+
                     break;
                 case ConstantKey.INT_TR_NN2:
 
                     boolean nn2Flag = true;
                     if (nn2Flag == true) {
-                        AccData accData = serviceAFWeb.getAccData(trObj.getComment());
+                        AccData accData2 = serviceAFWeb.getAccData(trObj.getComment());
 
                         ProcessNN2 nn2 = new ProcessNN2();
-                        int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData);
+                        int nn2Signal = nn2.ProcessTRHistoryOffsetNN2(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData2);
                         prevSignal = nn2Signal;
 
                         trObj.setTrsignal(nn2Signal);
-                        String nameSt = serviceAFWeb.saveAccData(accData);
-                        trObj.setComment(nameSt);
+                        String nameSt2 = serviceAFWeb.saveAccData(accData2);
+                        trObj.setComment(nameSt2);
 
                         if (ServiceAFweb.mydebugtestflag == true) {
 //                            if (offset < 99) {
@@ -1279,23 +1286,30 @@ public class TradingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN92: // shadow of INT_TR_NN2
+                    AccData accData92 = serviceAFWeb.getAccData(trObj.getComment());
+
                     ProcessNN92 nn92 = new ProcessNN92();
-                    int nn92Signal = nn92.ProcessTRHistoryOffsetNN92(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                    int nn92Signal = nn92.ProcessTRHistoryOffsetNN92(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData92);
                     prevSignal = nn92Signal;
+
+                    trObj.setTrsignal(nn92Signal);
+                    String nameSt92 = serviceAFWeb.saveAccData(accData92);
+                    trObj.setComment(nameSt92);
+
                     break;
                 case ConstantKey.INT_TR_NN3:
                     boolean nn3Flag = true;
                     if (nn3Flag == true) {
                         if (ServiceAFweb.nn3testflag == true) {
-                            AccData accData = serviceAFWeb.getAccData(trObj.getComment());
+                            AccData accData3 = serviceAFWeb.getAccData(trObj.getComment());
 
                             ProcessNN3 nn3 = new ProcessNN3();
-                            int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData);
+                            int nn3Signal = nn3.ProcessTRHistoryOffsetNN3(serviceAFWeb, trObj, StockArray, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData3);
                             prevSignal = nn3Signal;
 
                             trObj.setTrsignal(nn3Signal);
-                            String nameSt = serviceAFWeb.saveAccData(accData);
-                            trObj.setComment(nameSt);
+                            String nameSt3 = serviceAFWeb.saveAccData(accData3);
+                            trObj.setComment(nameSt3);
 
                             if (ServiceAFweb.mydebugtestflag == true) {
 
@@ -1310,9 +1324,16 @@ public class TradingSignalProcess {
                     }
                     break;
                 case ConstantKey.INT_TR_NN93: // shadow of INT_TR_NN3
+                    AccData accData93 = serviceAFWeb.getAccData(trObj.getComment());
+
                     ProcessNN93 nn93 = new ProcessNN93();
-                    int nn93Signal = nn93.ProcessTRHistoryOffsetNN93(serviceAFWeb, trObj, StockArray, offsetInput, monthSize, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray);
+                    int nn93Signal = nn93.ProcessTRHistoryOffsetNN93(serviceAFWeb, trObj, StockArray, prevSignal, offset, stdate, trHistory, accountObj, stock, tradingRuleList, writeArray, accData93);
                     prevSignal = nn93Signal;
+
+                    trObj.setTrsignal(nn93Signal);
+                    String nameSt93 = serviceAFWeb.saveAccData(accData93);
+                    trObj.setComment(nameSt93);
+
                     break;
                 default:
                     break;
