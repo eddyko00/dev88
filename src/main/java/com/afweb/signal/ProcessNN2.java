@@ -312,6 +312,9 @@ public class ProcessNN2 {
             trObj.setTrsignal(nnSignal);
 
         } else {
+            int tt = this.Rule0_CheckTT(serviceAFWeb, StockArray, offset);
+            accData.setTt(tt);
+
             confident += 30;
 
             accData.setNn(0);
@@ -618,6 +621,9 @@ public class ProcessNN2 {
 
                 confident += 30;
 
+                int tt = this.Rule0_CheckTT(serviceAFWeb, StockArray, offset);
+                accData.setTt(tt);
+
                 accData.setNn(0);
                 NNObj nn = new NNObj();
                 boolean nnFlag = this.Rule0_CheckNN(serviceAFWeb, nn, accountObj, StockArray, offset, stock);
@@ -661,7 +667,7 @@ public class ProcessNN2 {
                             float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
 
                             if (delta > 0) {
-                                logger.info("> updateAdminTR NN2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > "+NN2StopLoss+"% Delta=" + delta);
+                                logger.info("> updateAdminTR NN2 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > " + NN2StopLoss + "% Delta=" + delta);
                                 stopLoss = true;
                                 nnSignal = emaSignal;
                                 confident += 15;
@@ -917,6 +923,29 @@ public class ProcessNN2 {
 //        return null;
 //    }
 // 
+    public int Rule0_CheckTT(ServiceAFweb serviceAFWeb, ArrayList StockArray, int offset) {
+        EMAObj ema510 = this.getTechnicalCal(StockArray, offset);
+        int macdSignal = ema510.trsignal;
+
+        ema510 = this.getTechnicalCal(StockArray, offset + 1);
+        if (macdSignal != ema510.trsignal) {
+            return 1;
+        }
+        ema510 = this.getTechnicalCal(StockArray, offset + 2);
+        if (macdSignal != ema510.trsignal) {
+            return 2;
+        }
+        ema510 = this.getTechnicalCal(StockArray, offset + 3);
+        if (macdSignal != ema510.trsignal) {
+            return 3;
+        }
+        ema510 = this.getTechnicalCal(StockArray, offset + 4);
+        if (macdSignal != ema510.trsignal) {
+            return 4;
+        }
+        return 5;
+    }
+
     public boolean Rule0_CheckNN(ServiceAFweb serviceAFWeb, NNObj nn, AccountObj accountObj,
             ArrayList StockArray, int offset, AFstockObj stock) {
         NNObj nnTmp = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, StockArray, offset);

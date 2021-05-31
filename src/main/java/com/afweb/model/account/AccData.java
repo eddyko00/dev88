@@ -12,6 +12,20 @@ package com.afweb.model.account;
 public class AccData {
 
     /**
+     * @return the tt
+     */
+    public int getTt() {
+        return tt;
+    }
+
+    /**
+     * @param tt the tt to set
+     */
+    public void setTt(int tt) {
+        this.tt = tt;
+    }
+
+    /**
      * @return the nn
      */
     public int getNn() {
@@ -25,9 +39,9 @@ public class AccData {
         this.nn = nn;
     }
 
-
-    private String conf="";
-    private int nn=0;
+    private String conf = "";
+    private int nn = 0;
+    private int tt = 0; // tecnhical indicator error
 
     /**
      * @return the conf
@@ -42,6 +56,5 @@ public class AccData {
     public void setConf(String conf) {
         this.conf = conf;
     }
-
 
 }

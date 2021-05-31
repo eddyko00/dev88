@@ -313,6 +313,9 @@ public class ProcessNN1 {
             return nnSignal;
 
         } else {
+            int tt = this.Rule0_CheckTT(serviceAFWeb, StockArray, offset);
+            accData.setTt(tt);
+            
             confident += 30;
             NNObj nn = new NNObj();
             boolean nnFlag = this.Rule0_CheckNN(serviceAFWeb, nn, accountObj, StockArray, offset, stock);
@@ -597,6 +600,9 @@ public class ProcessNN1 {
 
                 confident += 30;
 
+                int tt = this.Rule0_CheckTT(serviceAFWeb, StockArray, offset);
+                accData.setTt(tt);
+
                 accData.setNn(0);
                 NNObj nn = new NNObj();
                 boolean nnFlag = this.Rule0_CheckNN(serviceAFWeb, nn, accountObj, StockArray, offset, stock);
@@ -629,7 +635,7 @@ public class ProcessNN1 {
                             float StClose = stockinfo.getFclose();
                             float delta = Rule1_StopLoss(prevSignal, thClose, StClose);
                             if (delta > 0) {
-                                logger.info("> updateAdminTR NN1 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > "+NN1StopLoss+"% Delta=" + delta);
+                                logger.info("> updateAdminTR NN1 " + symbol + " Override 1 signal " + stockDate.toString() + " Stop loss > " + NN1StopLoss + "% Delta=" + delta);
                                 stopLoss = true;
                                 nnSignal = macdSignal;
                                 confident += 15;
@@ -874,6 +880,30 @@ public class ProcessNN1 {
 //        return null;
 //    }
 //    
+
+    public int Rule0_CheckTT(ServiceAFweb serviceAFWeb, ArrayList StockArray, int offset) {
+
+        MACDObj macdNN0 = this.getTechnicalCal(StockArray, offset);
+        int macdSignal = macdNN0.trsignal;
+
+        MACDObj macdNN = this.getTechnicalCal(StockArray, offset + 1);
+        if (macdSignal != macdNN.trsignal) {
+            return 1;
+        }
+        macdNN = this.getTechnicalCal(StockArray, offset + 2);
+        if (macdSignal != macdNN.trsignal) {
+            return 2;
+        }
+        macdNN = this.getTechnicalCal(StockArray, offset + 3);
+        if (macdSignal != macdNN.trsignal) {
+            return 3;
+        }
+        macdNN = this.getTechnicalCal(StockArray, offset + 4);
+        if (macdSignal != macdNN.trsignal) {
+            return 4;
+        }
+        return 5;
+    }
 
     public boolean Rule0_CheckNN(ServiceAFweb serviceAFWeb, NNObj nn, AccountObj accountObj,
             ArrayList StockArray, int offset, AFstockObj stock) {
