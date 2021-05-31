@@ -367,7 +367,7 @@ public class ProcessNN1 {
         }
 
         if (nnSignal == prevSignal) {
-            if (ttCnt >= 5) {
+            if (ttCnt >= 6) {
                 nnSignal = macdSignal;
             }
         }
@@ -662,7 +662,7 @@ public class ProcessNN1 {
                 }
 
                 if (nnSignal == prevSignal) {
-                    if (ttCnt >= 5) {
+                    if (ttCnt >= 6) {
                         nnSignal = macdSignal;
                     }
                     // get the last transaction price
