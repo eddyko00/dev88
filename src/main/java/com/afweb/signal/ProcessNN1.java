@@ -296,6 +296,9 @@ public class ProcessNN1 {
 
         macdSignal = macdNN.trsignal;
 
+        int ttCnt = this.Rule0_CheckTT(serviceAFWeb, StockArray, offset);
+        accData.setTt(ttCnt);
+
         AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
         Date stockDate = new Date(stockinfoT.getEntrydatel());
         // just for testing
@@ -313,9 +316,6 @@ public class ProcessNN1 {
             return nnSignal;
 
         } else {
-            int tt = this.Rule0_CheckTT(serviceAFWeb, StockArray, offset);
-            accData.setTt(tt);
-            
             confident += 30;
             NNObj nn = new NNObj();
             boolean nnFlag = this.Rule0_CheckNN(serviceAFWeb, nn, accountObj, StockArray, offset, stock);
@@ -363,9 +363,13 @@ public class ProcessNN1 {
                         }
                     }
                 }
-
             }
+        }
 
+        if (nnSignal == prevSignal) {
+            if (ttCnt >= 5) {
+                nnSignal = macdSignal;
+            }
         }
 
         if (accData.getNn() >= 3) {
@@ -581,6 +585,10 @@ public class ProcessNN1 {
                 MACDObj macdNN = this.getTechnicalCal(StockArray, offset);
 //                MACDObj macdNN = TechnicalCal.MACD(StockArray, offset, ConstantKey.INT_MACD1_6, ConstantKey.INT_MACD1_12, ConstantKey.INT_MACD1_4);
                 int macdSignal = macdNN.trsignal;
+                
+                int ttCnt = this.Rule0_CheckTT(serviceAFWeb, StockArray, offset);
+                accData.setTt(ttCnt);
+                
                 AFstockInfo stockinfoT = (AFstockInfo) StockArray.get(offset);
                 Date stockDate = new Date(stockinfoT.getEntrydatel());
                 int prevSignal = trObj.getTrsignal();
@@ -599,9 +607,6 @@ public class ProcessNN1 {
                         accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
 
                 confident += 30;
-
-                int tt = this.Rule0_CheckTT(serviceAFWeb, StockArray, offset);
-                accData.setTt(tt);
 
                 accData.setNn(0);
                 NNObj nn = new NNObj();
@@ -657,6 +662,9 @@ public class ProcessNN1 {
                 }
 
                 if (nnSignal == prevSignal) {
+                    if (ttCnt >= 5) {
+                        nnSignal = macdSignal;
+                    }
                     // get the last transaction price
                     if (thList != null) {
                         if (thList.size() > 0) {
@@ -883,10 +891,10 @@ public class ProcessNN1 {
 
     public int Rule0_CheckTT(ServiceAFweb serviceAFWeb, ArrayList StockArray, int offset) {
 
-        MACDObj macdNN0 = this.getTechnicalCal(StockArray, offset);
-        int macdSignal = macdNN0.trsignal;
+        MACDObj macdNN = this.getTechnicalCal(StockArray, offset);
+        int macdSignal = macdNN.trsignal;
 
-        MACDObj macdNN = this.getTechnicalCal(StockArray, offset + 1);
+        macdNN = this.getTechnicalCal(StockArray, offset + 1);
         if (macdSignal != macdNN.trsignal) {
             return 1;
         }
@@ -902,7 +910,11 @@ public class ProcessNN1 {
         if (macdSignal != macdNN.trsignal) {
             return 4;
         }
-        return 5;
+        macdNN = this.getTechnicalCal(StockArray, offset + 5);
+        if (macdSignal != macdNN.trsignal) {
+            return 5;
+        }
+        return 6;
     }
 
     public boolean Rule0_CheckNN(ServiceAFweb serviceAFWeb, NNObj nn, AccountObj accountObj,
