@@ -757,8 +757,8 @@ public class ServiceAFweb {
                 nn30trend.ProcessTrainNeuralNetNN30ByTrend(this);
                 return;
             } else if (cntNN == 4) {
-                 NNProcessImp.ProcessReLearnInputNeuralNet(this);
-                 
+                NNProcessImp.ProcessReLearnInputNeuralNet(this);
+
 //                String LockStock = "NN_LEARN"; // + "_" + trNN;
 //                LockStock = LockStock.toUpperCase();
 //
@@ -1153,6 +1153,9 @@ public class ServiceAFweb {
                 if (result == true) {
                     for (int i = 0; i < addedList.size(); i++) {
                         String symbol = (String) addedList.get(i);
+                        if (symbol.equals("T_T")) {
+                            continue;
+                        }
                         int resultAdd = addAccountStockByCustAcc(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Add API stock " + symbol);
 
