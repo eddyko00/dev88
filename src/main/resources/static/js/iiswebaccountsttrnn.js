@@ -219,8 +219,8 @@ var app = {
             }
             var totalSt = Number(total.toFixed(0)).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
             totalSt = totalSt.replace(".00", "");
-            var totalPer = 100*total/TRADING_AMOUNT;
-            totalSt += "("+totalPer.toFixed(1)+"%)";            
+            var totalPer = 100 * total / TRADING_AMOUNT;
+            totalSt += "(" + totalPer.toFixed(1) + "%)";
             htmlName += '<div class="ui-block-c">Profit: ' + totalSt + '</div>';
             htmlName += '</div>';
 
@@ -236,7 +236,7 @@ var app = {
                         var objData = JSON.parse(objDataStr);
                         if (objData != null) {
                             if (objData.conf != "") {
-                                comment = objData.conf;
+                                comment = objData.conf + " n" + objData.nn + " t" + objData.tt;
                             }
                         }
                     } catch (err) {
@@ -246,9 +246,9 @@ var app = {
             if (trObj.trname === "TR_MACD") {
                 htmlName += 'Technical Indicator for MACD';
             } else if (trObj.trname === "TR_NN1") {
-                htmlName += '<div style="color:SteelBlue" >Auto AI (MACD) : ' + comment + '</div>';
+                comment = 'Auto AI (MACD) ' + comment;
             } else if (trObj.trname === "TR_NN2") {
-                htmlName += '<div style="color:SteelBlue" >Auto AI (EMA) -Beta : ' + comment + '</div>';
+                comment = 'Auto AI (EMA) -Beta ' + comment;
             } else if (trObj.trname === "TR_ACC") {
 
                 var link = trObj.linktradingruleid;
@@ -280,8 +280,11 @@ var app = {
 
             if ((trObj.trname === "TR_NN1") || (trObj.trname === "TR_NN2")) {
                 $("#myid").append('<li></li>');
+                $("#myid").append(comment);
+                $("#myid").append('<li></li>');
                 $("#myid").append('This is system simulated transactions with AI neural Networking.');
                 $("#myid").append('<li></li>');
+
             }
         } // end for loop
 
