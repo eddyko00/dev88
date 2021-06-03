@@ -885,6 +885,47 @@ public class TradingNNprocess {
     public static HashMap<String, ArrayList> stockInputMap = null;
     public static HashMap<String, ArrayList> stockInputMap_1 = null;
 
+    public static boolean CreateAllStockHistoryFile(ServiceAFweb serviceAFWeb, String symbolL[], String fileName) {
+        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
+
+        try {
+            ProcessAllStockHistoryCreatJava(serviceAFWeb, symbolL, stockInputMap);
+
+            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+
+            ArrayList msgWrite = new ArrayList();
+
+            int sizeline = 1000;
+            int len = inputListSt.length();
+            int beg = 0;
+            int end = sizeline;
+            while (true) {
+                String st = inputListSt.substring(beg, end);
+
+                msgWrite.add(st);
+
+                if (end >= len) {
+                    break;
+                }
+                beg = end;
+                if (end + sizeline <= len) {
+                    end += sizeline;
+                } else {
+                    end = len;
+                }
+            }
+
+            ////// end
+            String fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".txt";
+            FileUtil.FileWriteTextArray(fileN, msgWrite);
+
+            return true;
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
     public static boolean CreateAllStockHistoryJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
