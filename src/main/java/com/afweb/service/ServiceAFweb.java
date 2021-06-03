@@ -701,14 +701,13 @@ public class ServiceAFweb {
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
 //            
+        } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
             if (CKey.PROXY == false) {
                 if (ServiceAFweb.processEmailFlag == true) {
                     EmailProcess eProcess = new EmailProcess();
                     eProcess.ProcessEmailAccount(this);
                 }
             }
-        } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-
         } else {
 
         }
