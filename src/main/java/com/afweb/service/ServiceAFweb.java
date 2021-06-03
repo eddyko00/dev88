@@ -1369,6 +1369,13 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            String symbolL[] = ServiceAFweb.allStock;
+//            TradingNNprocess.CreateAllStockHistoryFile(this, symbolL, "nnAllStock");
+            ArrayList<AFstockInfo> stockInfoList = TradingNNprocess.getAllStockHistoryFile(this, "MSFT", "nnAllStock");
+            if (stockInfoList != null) {
+                logger.info("stockInfoList " + stockInfoList.size());
+            }
+
 //            symbol = "T.TO";
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;

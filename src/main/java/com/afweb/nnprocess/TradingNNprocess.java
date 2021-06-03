@@ -885,6 +885,8 @@ public class TradingNNprocess {
     public static HashMap<String, ArrayList> stockInputMap = null;
     public static HashMap<String, ArrayList> stockInputMap_1 = null;
 
+    public static HashMap<String, ArrayList> stockInputMapFile = null;
+
     public static boolean CreateAllStockHistoryFile(ServiceAFweb serviceAFWeb, String symbolL[], String fileName) {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
@@ -924,6 +926,34 @@ public class TradingNNprocess {
         } catch (Exception ex) {
         }
         return false;
+    }
+
+    public static ArrayList<AFstockInfo> getAllStockHistoryFile(ServiceAFweb serviceAFWeb, String symbol, String fileName) {
+        if (stockInputMapFile == null) {
+            try {
+
+                String fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".txt";
+                if (getEnv.checkLocalPC() == true) {
+                    fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".txt";
+                }
+                ArrayList msgRead = new ArrayList();
+                boolean ret = FileUtil.FileReadTextArray(fileN, msgRead);
+                if (ret == true) {
+                    StringBuffer msgWrite = new StringBuffer();
+                    for (int i = 0; i < msgRead.size(); i++) {
+                        msgWrite.append(msgRead.get(i));
+                    }
+                    String inputListSt = ServiceAFweb.decompress(msgWrite.toString());
+                    stockInputMapFile = new ObjectMapper().readValue(inputListSt, HashMap.class);
+                }
+            } catch (Exception ex) {
+
+            }
+
+        }
+        ArrayList<AFstockInfo> stockInfoList = ProcessAllStockHistoryfromStaticCode(symbol, stockInputMapFile);
+        return stockInfoList;
+
     }
 
     public static boolean CreateAllStockHistoryJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
