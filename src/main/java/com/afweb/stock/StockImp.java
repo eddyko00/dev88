@@ -112,7 +112,7 @@ public class StockImp {
         return stockdb.deleteStockInfoByStockId(stockObj);
     }
     public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
-        return stockdb.deleteStockInfoByStockId(stockObj);
+        return stockdb.deleteStockInfoByDate(stockObj, datel);
     }
     public int disableStock(String NormalizeSymbol) {
         return stockdb.disableStock(NormalizeSymbol);

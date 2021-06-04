@@ -1404,6 +1404,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            cleanAllStockInfo();
+            
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
 //            ArrayList<AFstockInfo> StockInfoArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);
@@ -5233,8 +5235,11 @@ public class ServiceAFweb {
         ArrayList<String> stockNameArray = SystemAccountStockNameList(accountObj.getId());
         for (int i = 0; i < stockNameArray.size(); i++) {
             String symbol = stockNameArray.get(i);
+            if (symbol.equals("T.T")) {
+                continue;
+            }
             AFstockObj stockObj = getStockRealTime(symbol);
-            if (stockObj != null) {
+            if (stockObj == null) {
                 continue;
             }
             if (CKey.CACHE_STOCKH == true) {
