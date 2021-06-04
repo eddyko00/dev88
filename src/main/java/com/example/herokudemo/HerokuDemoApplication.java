@@ -25,6 +25,7 @@ public class HerokuDemoApplication {
 
                 if (cmd.indexOf("javamain") != -1) {
                     webapp = false;
+                    ServiceAFweb.javamainflag= true;
                     Javamain.javamain(args);
                 }
                 Javamain.checkParameterFlag(cmd);

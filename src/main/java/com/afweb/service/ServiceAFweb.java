@@ -719,6 +719,7 @@ public class ServiceAFweb {
 
     public static String debugSymbol = "HOU.TO";
 
+    public static boolean javamainflag = false;
     public static boolean forceNNReadFileflag = false;
     public static boolean flagNNLearningSignal = false;
 

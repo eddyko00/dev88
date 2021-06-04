@@ -1600,7 +1600,10 @@ public class TradingSignalProcess {
     }
 
     public int UpdateAllStock(ServiceAFweb serviceAFWeb) {
-        return UpdateAllStockTrend(serviceAFWeb, true);
+        if (ServiceAFweb.javamainflag == true) {
+            return UpdateAllStockTrend(serviceAFWeb, true);
+        }
+        return UpdateAllStockTrend(serviceAFWeb, false);
     }
 
     public int UpdateAllStockTrend(ServiceAFweb serviceAFWeb, boolean updateTrend) {
