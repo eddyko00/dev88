@@ -6719,11 +6719,16 @@ public class ServiceAFweb {
     }
 
     public static boolean SystemFilePut(String fileName, ArrayList msgWrite) {
-        String fileN = ServiceAFweb.FileLocalPath + fileName + ".txt";
+        String fileN = ServiceAFweb.FileLocalPath + fileName;
         boolean  ret = FileUtil.FileWriteTextArray(fileN, msgWrite);
         return ret;
     }
-
+    public static boolean SystemFileRead(String fileName, ArrayList msgWrite) {
+        String fileN = ServiceAFweb.FileLocalPath + fileName;
+        boolean  ret = FileUtil.FileReadTextArray(fileN, msgWrite);
+        return ret;
+    }
+    
     public String SystemCleanNNonlyDBData() {
         boolean retSatus = false;
         serverObj.setSysMaintenance(true);

@@ -50,8 +50,9 @@ public class IndexController {
         ArrayList arrayString = new ArrayList();
 
         arrayString.add("/server");
-        arrayString.add("/fileput?path=&name=");
-        arrayString.add("/fileget?path=&name=");
+//        arrayString.add("/server/filepath");
+//        arrayString.add("/server/filepath/set?path=&name=&string= ");
+//        arrayString.add("/server/filepath/read?path=&name=");
 //        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
 //        arrayString.add("/server/url0/set?url=stop");
 //        arrayString.add("/server/dburl");
@@ -290,6 +291,35 @@ public class IndexController {
                 msgWrite.add(St);
                 boolean ret = ServiceAFweb.SystemFilePut(fileName, msgWrite);
                 return "done...";
+            }
+        }
+        return "";
+    }
+
+    @RequestMapping(value = "/server/filepath/read", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String readServerfileP(
+            @RequestParam(value = "path", required = false) String pathSt,
+            @RequestParam(value = "name", required = true) String nameSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+
+        if (pathSt != null) {
+            if (pathSt.length() > 0) {
+                ServiceAFweb.FileLocalPath = pathSt.trim();
+                return "done...";
+            }
+        }
+        if (nameSt != null) {
+            if (nameSt.length() > 0) {
+                ArrayList msgRead = new ArrayList();
+                boolean ret = ServiceAFweb.SystemFilePut(nameSt, msgRead);
+                StringBuffer msgWrite = new StringBuffer();
+                for (int i = 0; i < msgRead.size(); i++) {
+                    msgWrite.append(msgRead.get(i));
+                }
+
+                return msgWrite.toString();
             }
         }
         return "";

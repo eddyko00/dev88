@@ -6,7 +6,7 @@ public class CKey {
 
     //local pc
     public static String FileLocalPathTemp = "T:/Netbean/db/";
-    public static String FileServerPathTemp = "/app";
+    public static String FileServerPathTemp = "/app/";
 
     public static final String ADMIN_USERNAME = "ADMIN1";
     public static final String FUND_MANAGER_USERNAME = "FUNDMGR";
