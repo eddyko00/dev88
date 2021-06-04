@@ -215,7 +215,11 @@ public class ServiceAFweb {
         enSt = StringTag.replaceAll("abc", "", enSt);
         PROXYURL = enSt;
         if (FileLocalPath.length() == 0) {
-            FileLocalPath = CKey.FileLocalPathTemp;
+            if (getEnv.checkLocalPC() == true) {
+                FileLocalPath = CKey.FileLocalPathTemp;
+            } else {
+                FileLocalPath = CKey.FileServerPathTemp;
+            }
         }
         String paStr = CKey.PA;
         paStr = StringTag.replaceAll("abc", "", paStr);
@@ -1369,13 +1373,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            String symbolL[] = ServiceAFweb.allStock;
+//            String symbolL[] = ServiceAFweb.allStock;
 //            TradingNNprocess.CreateAllStockHistoryFile(this, symbolL, "nnAllStock");
-            ArrayList<AFstockInfo> stockInfoList = TradingNNprocess.getAllStockHistoryFile(this, "MSFT", "nnAllStock");
-            if (stockInfoList != null) {
-                logger.info("stockInfoList " + stockInfoList.size());
-            }
-
+//            ArrayList<AFstockInfo> stockInfoList = TradingNNprocess.getAllStockHistoryFile(this, "MSFT", "nnAllStock");
+//            if (stockInfoList != null) {
+//                logger.info("stockInfoList " + stockInfoList.size());
+//            }
 //            symbol = "T.TO";
 //            trNN = ConstantKey.INT_TR_NN2;
 //            TR_NN = trNN;
@@ -6713,6 +6716,12 @@ public class ServiceAFweb {
         getStockImp().deleteNeuralNet1Table();
         logger.info(">SystemDeleteNN1Table end ");
         return true;
+    }
+
+    public static boolean SystemFilePut(String fileName, ArrayList msgWrite) {
+        String fileN = ServiceAFweb.FileLocalPath + fileName + ".txt";
+        boolean  ret = FileUtil.FileWriteTextArray(fileN, msgWrite);
+        return ret;
     }
 
     public String SystemCleanNNonlyDBData() {

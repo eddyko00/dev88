@@ -50,6 +50,8 @@ public class IndexController {
         ArrayList arrayString = new ArrayList();
 
         arrayString.add("/server");
+        arrayString.add("/fileput?path=&name=");
+        arrayString.add("/fileget?path=&name=");
 //        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
 //        arrayString.add("/server/url0/set?url=stop");
 //        arrayString.add("/server/dburl");
@@ -248,25 +250,6 @@ public class IndexController {
         return afWebService.getServerList();
     }
 
-    @RequestMapping(value = "/server/mysqldb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String getServerLocalDbURL() {
-        return ServiceAFweb.URL_LOCALDB;
-    }
-
-    @RequestMapping(value = "/server/mysqldb/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String setServerLocalDbURL(
-            @RequestParam(value = "url", required = true) String urlSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-
-        ServiceAFweb.URL_LOCALDB = urlSt.trim();
-        //restart ServiceAFweb
-        afWebService.SystemStart();
-        return "done...";
-    }
-
     @RequestMapping(value = "/server/filepath", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerFileP() {
@@ -283,11 +266,51 @@ public class IndexController {
     @RequestMapping(value = "/server/filepath/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String setServerfileP(
-            @RequestParam(value = "path", required = true) String pathSt,
+            @RequestParam(value = "path", required = false) String pathSt,
+            @RequestParam(value = "name", required = false) String nameSt,
+            @RequestParam(value = "string", required = false) String St,
             HttpServletRequest request, HttpServletResponse response
     ) {
 
-        ServiceAFweb.FileLocalPath = pathSt.trim();
+        if (pathSt != null) {
+            if (pathSt.length() > 0) {
+                ServiceAFweb.FileLocalPath = pathSt.trim();
+                return "done...";
+            }
+        }
+        if (St != null) {
+            if (St.length() > 0) {
+                String fileName = "sys.txt";
+                if (nameSt != null) {
+                    if (nameSt.length() > 0) {
+                        fileName = nameSt;
+                    }
+                }
+                ArrayList msgWrite = new ArrayList();
+                msgWrite.add(St);
+                boolean ret = ServiceAFweb.SystemFilePut(fileName, msgWrite);
+                return "done...";
+            }
+        }
+        return "";
+    }
+
+    @RequestMapping(value = "/server/mysqldb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String getServerLocalDbURL() {
+        return ServiceAFweb.URL_LOCALDB;
+    }
+
+    @RequestMapping(value = "/server/mysqldb/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String setServerLocalDbURL(
+            @RequestParam(value = "url", required = true) String urlSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+
+        ServiceAFweb.URL_LOCALDB = urlSt.trim();
+        //restart ServiceAFweb
+        afWebService.SystemStart();
         return "done...";
     }
 

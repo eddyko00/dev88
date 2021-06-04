@@ -919,7 +919,7 @@ public class TradingNNprocess {
             }
 
             ////// end
-            String fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".txt";
+            String fileN = ServiceAFweb.FileLocalPath + fileName + ".txt";
             FileUtil.FileWriteTextArray(fileN, msgWrite);
 
             return true;
@@ -934,7 +934,7 @@ public class TradingNNprocess {
 
                 String fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".txt";
                 if (getEnv.checkLocalPC() == true) {
-                    fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".txt";
+                    fileN = ServiceAFweb.FileLocalPath + fileName + ".txt";
                 }
                 ArrayList msgRead = new ArrayList();
                 boolean ret = FileUtil.FileReadTextArray(fileN, msgRead);

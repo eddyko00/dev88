@@ -6,6 +6,7 @@ public class CKey {
 
     //local pc
     public static String FileLocalPathTemp = "T:/Netbean/db/";
+    public static String FileServerPathTemp = "/app";
 
     public static final String ADMIN_USERNAME = "ADMIN1";
     public static final String FUND_MANAGER_USERNAME = "FUNDMGR";
@@ -123,7 +124,7 @@ public class CKey {
     public static String NN2_WEIGHT_0 = NN2Data.TR_NN2_WEIGHT_0;
     public static String NN3_WEIGHT_0 = NN3Data.TR_NN3_WEIGHT_0;
 
-    public static String NN30_WEIGHT_0 = NN30Data.TR_NN30_WEIGHT_0; 
+    public static String NN30_WEIGHT_0 = NN30Data.TR_NN30_WEIGHT_0;
 
     //////////////////////
     public static final int MSSQL = 1;/////// do not use //jdbc:sqlserver://sql.freeasphost.net\\MSSQL2016;databaseName=eddyko00_SampleDB
