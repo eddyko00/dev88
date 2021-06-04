@@ -5619,7 +5619,7 @@ public class ServiceAFweb {
     // require oldest date to earliest
     // require oldest date to earliest
 
-    public int UpdateAllStock() {
+    public int updateStockAll() {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         return TRprocessImp.UpdateAllStock(this);
     }
