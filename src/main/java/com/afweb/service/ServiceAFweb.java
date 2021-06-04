@@ -1404,6 +1404,13 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+//            int size1yearAll = 20 * 12 * 5 + (50 * 3);
+//            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
+//            ArrayList<AFstockInfo> StockInfoArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);
+//            if (StockInfoArray == null) {
+//                ;
+//            }
+
 //            String symbolL[] = ServiceAFweb.allStock;
 //            TradingNNprocess.CreateAllStockHistoryFile(this, symbolL, "nnAllStock");
 //            ArrayList<AFstockInfo> stockInfoList = TradingNNprocess.getAllStockHistoryFile(this, "MSFT", "nnAllStock");
