@@ -882,9 +882,6 @@ public class TradingNNprocess {
     }
 
     ////////////////////////////////////////////
-    public static HashMap<String, ArrayList> stockInputMap = null;
-    public static HashMap<String, ArrayList> stockInputMap_1 = null;
-
     public static HashMap<String, ArrayList> stockInputMapFile = null;
 
     public static boolean CreateAllStockHistoryFile(ServiceAFweb serviceAFWeb, String symbolL[], String fileName) {
@@ -955,6 +952,10 @@ public class TradingNNprocess {
         return stockInfoList;
 
     }
+    
+    public static HashMap<String, ArrayList> stockInputMap = null;
+    public static HashMap<String, ArrayList> stockInputMap_1 = null;
+
 
     public static boolean CreateAllStockHistoryJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();

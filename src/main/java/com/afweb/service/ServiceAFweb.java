@@ -1051,8 +1051,38 @@ public class ServiceAFweb {
                 String symbolL[] = ServiceAFweb.primaryStock;
                 TradingNNprocess.CreateAllStockHistoryJava(this, symbolL, "nnAllStock", "NN_ST");
 
+                /////////////////////
+                ArrayList<String> APIStockNameList = new ArrayList();
+                ArrayList<AccountObj> accountAPIObjL = this.getAccountList(CKey.API_USERNAME, null);
+                if (accountAPIObjL != null) {
+                    if (accountAPIObjL.size() > 0) {
+                        AccountObj accountAPIObj = accountAPIObjL.get(0);
+                        APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
+                    }
+                }
+                String symbolPriL[] = ServiceAFweb.primaryStock;
+                if (APIStockNameList.size() > 0) {
+                    for (int i = 0; i < symbolPriL.length; i++) {
+                        String sym = symbolPriL[i];
+                        if (APIStockNameList.contains(sym)) {
+                            APIStockNameList.remove(sym);
+                        }
+                    }
+                    APIStockNameList.remove("T.T");
+                }
                 String symbolLallSt[] = ServiceAFweb.allStock;
-                TradingNNprocess.CreateAllStockHistoryJava(this, symbolLallSt, "nnAllStock_1", "NN_ST1");
+                if (APIStockNameList.size() > 0) {
+                    for (int i = 0; i < symbolLallSt.length; i++) {
+                        String sym = symbolLallSt[i];
+                        if (APIStockNameList.contains(sym)) {
+                            continue;
+                        }
+                        APIStockNameList.add(sym);
+                    }
+                }
+                /*ArrayList to Array Conversion */
+                String SymbolAllOther[] = APIStockNameList.toArray(new String[APIStockNameList.size()]);
+                TradingNNprocess.CreateAllStockHistoryJava(this, SymbolAllOther, "nnAllStock_1", "NN_ST1");
 
                 return;
             }
@@ -6720,15 +6750,16 @@ public class ServiceAFweb {
 
     public static boolean SystemFilePut(String fileName, ArrayList msgWrite) {
         String fileN = ServiceAFweb.FileLocalPath + fileName;
-        boolean  ret = FileUtil.FileWriteTextArray(fileN, msgWrite);
+        boolean ret = FileUtil.FileWriteTextArray(fileN, msgWrite);
         return ret;
     }
+
     public static boolean SystemFileRead(String fileName, ArrayList msgWrite) {
         String fileN = ServiceAFweb.FileLocalPath + fileName;
-        boolean  ret = FileUtil.FileReadTextArray(fileN, msgWrite);
+        boolean ret = FileUtil.FileReadTextArray(fileN, msgWrite);
         return ret;
     }
-    
+
     public String SystemCleanNNonlyDBData() {
         boolean retSatus = false;
         serverObj.setSysMaintenance(true);
