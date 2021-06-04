@@ -64,7 +64,7 @@ public class IndexController {
         arrayString.add("/st/add/{symbol}");
         arrayString.add("/st/remove/{symbol}");
         arrayString.add("/st/deleteinfo/{symbol}");
-        arrayString.add("/st/addfailcnt/{symbol}");
+        arrayString.add("/st/deleteallinfo");
         //
         arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
         arrayString.add("/cust/login?email={email}&pass={pass}");
@@ -1635,6 +1635,21 @@ public class IndexController {
         return result;
     }
 
+    @RequestMapping(value = "/st/deleteallinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int deleteAllStockInfo(
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+        int result = afWebService.removeAllStockInfo();
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return result;
+    }        
+    
     @RequestMapping(value = "/st/deleteinfo/{symbol}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int deleteStockInfo(

@@ -5217,6 +5217,21 @@ public class ServiceAFweb {
         return result;
     }
 
+    public int removeAllStockInfo() {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        AccountObj accountObj = getAdminObjFromCache();
+        ArrayList<String> stockNameArray = SystemAccountStockNameList(accountObj.getId());
+        for (int i = 0; i < stockNameArray.size(); i++) {
+            String symbol = stockNameArray.get(i);
+            removeStockInfo(symbol);
+        }
+
+        return 1;
+    }
+
     public int removeStockInfo(String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
