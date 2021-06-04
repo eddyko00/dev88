@@ -196,6 +196,18 @@ public class StockDB {
         return 0;
     }
 
+    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
+
+        try {
+            String deleteSQL = "delete from stockinfo where stockid="
+                    + stockObj.getId() + " and entrydatel < " + datel;
+            return processUpdateDB(deleteSQL);
+        } catch (Exception e) {
+            logger.info("> deleteStockInfoByDate exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
 //        if (CKey.SEPARATE_STOCKINFO_DB == true) {
 //            return stockinfodb.deleteStockInfoByStockId(stockObj);
@@ -335,7 +347,7 @@ public class StockDB {
         try {
             if (dateNow == null) {
                 dateNow = dateNow = TimeConvertion.getCurrentCalendar();
-            } 
+            }
             AFstockObj stock = null;
 
             String sql = stockSQL;
@@ -1488,7 +1500,7 @@ public class StockDB {
         return null;
     }
 
-    public int deleteNeuralNetDataObjById( int id) {
+    public int deleteNeuralNetDataObjById(int id) {
         String deleteSQL = "delete from neuralnetdata where id=" + id;
         try {
             return processUpdateDB(deleteSQL);

@@ -1410,7 +1410,6 @@ public class ServiceAFweb {
 //            if (StockInfoArray == null) {
 //                ;
 //            }
-
 //            String symbolL[] = ServiceAFweb.allStock;
 //            TradingNNprocess.CreateAllStockHistoryFile(this, symbolL, "nnAllStock");
 //            ArrayList<AFstockInfo> stockInfoList = TradingNNprocess.getAllStockHistoryFile(this, "MSFT", "nnAllStock");
@@ -5223,6 +5222,39 @@ public class ServiceAFweb {
             TRprocessImp.ResetStockUpdateNameArray(this);
         }
         return result;
+    }
+
+    public int cleanAllStockInfo() {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        AccountObj accountObj = getAdminObjFromCache();
+        ArrayList<String> stockNameArray = SystemAccountStockNameList(accountObj.getId());
+        for (int i = 0; i < stockNameArray.size(); i++) {
+            String symbol = stockNameArray.get(i);
+            AFstockObj stockObj = getStockRealTime(symbol);
+            if (stockObj != null) {
+                continue;
+            }
+            if (CKey.CACHE_STOCKH == true) {
+       
+                long endStaticDay = 0;
+                ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(symbol);
+                if (stockInfoArrayStatic == null) {
+                    stockInfoArrayStatic = new ArrayList();
+                }
+                if (stockInfoArrayStatic.size() > 0) {
+//                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
+                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
+                    endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
+                    endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
+                    getStockImp().deleteStockInfoByDate(stockObj, endStaticDay);
+                }
+
+            }
+        }
+        return 1;
     }
 
     public int removeAllStockInfo() {
