@@ -1209,7 +1209,7 @@ public class ServiceAFweb {
                 ////update all stock                
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-                
+
                 AccountObj accountAdminObj = getAdminObjFromCache();
                 ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
 
@@ -1239,10 +1239,9 @@ public class ServiceAFweb {
 ////////////////////////////////////////////////  
 
                 TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-                APIStockNameList = SystemAccountStockNameList(accountAPIObj.getId());
-                logger.info("> update  stock:" + APIStockNameList.size());
-                for (int i = 0; i < APIStockNameList.size(); i++) {
-                    String symbol = (String) APIStockNameList.get(i);
+                logger.info("> update  stock:" + stockNameArray.size());
+                for (int i = 0; i < stockNameArray.size(); i++) {
+                    String symbol = (String) stockNameArray.get(i);
                     if (symbol.equals("T_T")) {
                         continue;
                     }
