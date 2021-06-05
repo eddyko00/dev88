@@ -597,7 +597,7 @@ public class ProcessNN2 {
         boolean stopLoss = false;
         boolean stopReset = false;
         boolean profitTake = false;
-
+        String debugSt = "";
         try {
             if (trObj.getSubstatus() == ConstantKey.OPEN) {
 /////////////////////////////////////////////              
@@ -621,6 +621,7 @@ public class ProcessNN2 {
                     nnRet.setTrsignal(emaSignal);
                     return nnRet;
                 }
+                debugSt += "prevSig:" + prevSignal + " TechSig:" + emaSignal + " TechCnt:" + ttCnt;
 
                 // get the last transaction price for later
                 AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
@@ -649,6 +650,7 @@ public class ProcessNN2 {
                             }
                         }
                     }
+                    debugSt += " ns:" + nnSignal + " nn:" + accData.getNn();
                 } else {
 
                     // get the last transaction price
@@ -676,6 +678,8 @@ public class ProcessNN2 {
                                 stopLoss = true;
                                 nnSignal = emaSignal;
                                 confident += 15;
+                                debugSt += " SLs:" + nnSignal;
+
                             } else {
                                 int newSignal = Rule7_CheckProfitTake(nnSignal, StockArray, offset, thClose, StClose, 4);
                                 if (nnSignal == newSignal) {
@@ -686,6 +690,8 @@ public class ProcessNN2 {
                                     confident += 32;
                                     profitTake = true;
                                     nnSignal = newSignal;
+                                    debugSt += " PTs:" + nnSignal;
+
                                 }
 
                             }
@@ -697,6 +703,8 @@ public class ProcessNN2 {
                 if (nnSignal == prevSignal) {
                     if (ttCnt >= 6) {
                         nnSignal = emaSignal;
+                        debugSt += " TCs:" + nnSignal;
+
                     }
                     // get the last transaction price
 
@@ -711,6 +719,8 @@ public class ProcessNN2 {
                             nnSignal = rule5_Signal;
                             confident += 15;
                             stopReset = true;
+                            debugSt += " RTs:" + nnSignal;
+
                         }
                     }
                 }
@@ -720,6 +730,8 @@ public class ProcessNN2 {
                 } else if (nnSignal != prevSignal) {
                     // signal change double check wiht NN trend
                     int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
+                    debugSt += " Ts:" + trendSignal;
+
                     //override the previous NN1 prediction
                     if (nnSignal == trendSignal) {
                         confident += 30;
@@ -730,6 +742,8 @@ public class ProcessNN2 {
 
                 if (nnSignal != prevSignal) {
                     int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
+                    debugSt += " Ds:" + retSignal;
+
                     if (nnSignal == retSignal) {
                         confident += 10;
                     }
@@ -749,7 +763,9 @@ public class ProcessNN2 {
                     } else if (profitTake == true) {
                         confidentSt = confidentSt + " (Take Profit)";
                     }
+                    confidentSt += " - " + debugSt;
                     nnRet.setConfident(confidentSt);
+                    accData.setConf(confidentSt);                    
                 }
 
                 nnRet.setTrsignal(nnSignal);
