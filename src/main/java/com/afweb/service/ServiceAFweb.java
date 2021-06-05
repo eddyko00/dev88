@@ -1208,30 +1208,34 @@ public class ServiceAFweb {
 ////////////////////////////////////////////////                
                 ////update all stock                
                 getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+                getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+                
+                AccountObj accountAdminObj = getAdminObjFromCache();
+                ArrayList stockNameArray = SystemAccountStockNameList(accountAdminObj.getId());
 
                 String printName = "";
-                for (int i = 0; i < APIStockNameList.size(); i++) {
-                    printName += APIStockNameList.get(i) + ",";
+                for (int i = 0; i < stockNameArray.size(); i++) {
+                    printName += stockNameArray.get(i) + ",";
                 }
                 logger.info("processInitLocalRemoteNN " + printName);
 ////////////////////////////////////////////////                
                 ////update remote Neural Net
                 String URL = CKey.URL_PATH_HERO;
                 String nnName = ConstantKey.TR_NN1;
-                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                this.updateRESTNNWeight0(stockNameArray, nnName, URL);
                 nnName = ConstantKey.TR_NN2;
-                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                this.updateRESTNNWeight0(stockNameArray, nnName, URL);
                 nnName = ConstantKey.TR_NN30;
-                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                this.updateRESTNNWeight0(stockNameArray, nnName, URL);
 ////////////////
 ////////////////
                 URL = CKey.URL_PATH_OP;
                 nnName = ConstantKey.TR_NN1;
-                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                this.updateRESTNNWeight0(stockNameArray, nnName, URL);
                 nnName = ConstantKey.TR_NN2;
-                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                this.updateRESTNNWeight0(stockNameArray, nnName, URL);
                 nnName = ConstantKey.TR_NN30;
-                this.updateRESTNNWeight0(APIStockNameList, nnName, URL);
+                this.updateRESTNNWeight0(stockNameArray, nnName, URL);
 ////////////////////////////////////////////////  
 
                 TradingSignalProcess TRprocessImp = new TradingSignalProcess();
@@ -1404,8 +1408,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-
-            
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
 //            ArrayList<AFstockInfo> StockInfoArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);
@@ -5243,7 +5245,7 @@ public class ServiceAFweb {
                 continue;
             }
             if (CKey.CACHE_STOCKH == true) {
-       
+
                 long endStaticDay = 0;
                 ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(symbol);
                 if (stockInfoArrayStatic == null) {
