@@ -1648,8 +1648,8 @@ public class IndexController {
         int result = afWebService.cleanAllStockInfo();
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
-    }        
-    
+    }
+
     @RequestMapping(value = "/st/deleteinfo/{symbol}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int deleteStockInfo(
