@@ -101,6 +101,7 @@ public class AccountProcess {
         if (stockRemoveList != null) {
             if (stockRemoveList.size() >= 0) {
                 int numCnt = 0;
+                logger.info("> ProcessStockInfodeleteMaintance stockRemoveList " + stockRemoveList.size());
                 try {
                     for (int i = 0; i < stockRemoveList.size(); i++) {
                         String symbol = (String) stockRemoveList.get(i);
@@ -125,6 +126,8 @@ public class AccountProcess {
         if (stockNDisableList != null) {
             if (stockNDisableList.size() > 0) {
                 int numCnt = 0;
+                logger.info("> ProcessStockInfodeleteMaintance stockNDisableList " + stockNDisableList.size());
+
                 try {
 
                     for (int i = 0; i < stockNDisableList.size(); i++) {
