@@ -183,6 +183,17 @@ public class StockDB {
         return 0;
     }
 
+    public int deleteStock(AFstockObj stock) {
+
+        try {
+            String deleteSQL = "delete from stock where id=" + stock.getId();
+            return processUpdateDB(deleteSQL);
+        } catch (Exception e) {
+            logger.info("> deleteStock exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int deleteStockInfo(AFstockInfo stockInfo) {
 //        if (CKey.SEPARATE_STOCKINFO_DB == true) {
 //            return stockinfodb.deleteStockInfo(stockInfo);
@@ -243,10 +254,6 @@ public class StockDB {
         return 0;
     }
 
-//    public ArrayList getAllDisableStock() {
-//        String sql = "select * from stock where status=" + ConstantKey.DISABLE + " order by updatedatel asc";
-//        return getStockListSQL(sql);
-//    }
     public ArrayList getAllOpenStock() {
         String sql = "select * from stock where status=" + ConstantKey.OPEN + " order by updatedatel asc";
         return getStockListSQL(sql);

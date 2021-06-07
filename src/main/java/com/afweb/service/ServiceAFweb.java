@@ -1407,6 +1407,8 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
+            this.getAccountProcessImp().ProcessStockInfodeleteMaintance(this);
+
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
 //            ArrayList<AFstockInfo> StockInfoArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);
@@ -2574,7 +2576,7 @@ public class ServiceAFweb {
         return result;
     }
 
-    public ArrayList getExpiredStockNameList(int length) {
+    public ArrayList getDisableStockNameList(int length) {
         ArrayList result = null;
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2889,7 +2891,7 @@ public class ServiceAFweb {
                 logger.info("> SystemAccountStockIDByTRname exception " + ex.getMessage());
             }
         }
-        return getAccountImp().getAccountStockIDByTRname(accountID, stockID, trName);
+        return getAccountImp().getAccountStockIDByTRStockID(accountID, stockID, trName);
     }
 
     public int SystemAccountStockClrTranByAccountID(AccountObj accountObj, int stockId, String trName) {
@@ -4190,7 +4192,7 @@ public class ServiceAFweb {
                 return 0;
             }
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
-                TradingRuleObj tr = getAccountImp().getAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
+                TradingRuleObj tr = getAccountImp().getAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
                 if (tr == null) {
                     return 0;
                 }
@@ -4495,7 +4497,7 @@ public class ServiceAFweb {
             return null;
         }
         stockID = stock.getId();
-        return getAccountImp().getAccountStockIDByTRname(accFundObj.getId(), stockID, trname);
+        return getAccountImp().getAccountStockIDByTRStockID(accFundObj.getId(), stockID, trname);
 
     }
 
@@ -4521,7 +4523,7 @@ public class ServiceAFweb {
                 return null;
             }
             stockID = stock.getId();
-            return getAccountImp().getAccountStockIDByTRname(accountObj.getId(), stockID, trname);
+            return getAccountImp().getAccountStockIDByTRStockID(accountObj.getId(), stockID, trname);
         }
         return null;
     }
@@ -5278,6 +5280,13 @@ public class ServiceAFweb {
         return 1;
     }
 
+    public boolean checkTRListByStockID(String StockID) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return true;
+        }
+        return getAccountImp().checkTRListByStockID(StockID);
+    }
+
     public int removeStockInfo(String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5290,6 +5299,13 @@ public class ServiceAFweb {
             return getStockImp().deleteStockInfoByStockId(stockObj);
         }
         return 0;
+    }
+
+    public int deleteStock(AFstockObj stock) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        return getStockImp().deleteStock(stock);
     }
 
     public int disableStock(String symbol) {
@@ -6618,7 +6634,7 @@ public class ServiceAFweb {
 
                         accountId = Integer.parseInt(accountID);
                         int stockId = Integer.parseInt(stockID);
-                        TradingRuleObj trObj = getAccountImp().getAccountStockIDByTRname(accountId, stockId, trName);
+                        TradingRuleObj trObj = getAccountImp().getAccountStockIDByTRStockID(accountId, stockId, trName);
                         nameST = new ObjectMapper().writeValueAsString(trObj);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {

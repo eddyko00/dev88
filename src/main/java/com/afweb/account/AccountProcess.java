@@ -96,39 +96,60 @@ public class AccountProcess {
 
     public void ProcessStockInfodeleteMaintance(ServiceAFweb serviceAFWeb) {
 //        logger.info(">>>>>>>>>>>>>> ProcessStockInfodeleteMaintance ");
-        ArrayList stockRemoveList = serviceAFWeb.getRemoveStockNameList(20);
+        ArrayList stockRemoveList = serviceAFWeb.getRemoveStockNameList(20);  // status = ConstantKey.COMPLETED      
         //delete stock if disable
-
-        ArrayList stockNameList = serviceAFWeb.getExpiredStockNameList(20);
-        // delete stock info if disable
-        if (stockNameList == null) {
-            return;
-        }
-        if (stockNameList.size() == 0) {
-            return;
-        }
-        int numCnt = 0;
-        try {
-
-            for (int i = 0; i < stockNameList.size(); i++) {
-                String symbol = (String) stockNameList.get(i);
-                serviceAFWeb.removeStockInfo(symbol);
-
-                AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
-                stock.setStatus(ConstantKey.COMPLETED);
-                //send SQL update
-                String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
-                ArrayList sqlList = new ArrayList();
-                sqlList.add(sockUpdateSQL);
-                serviceAFWeb.SystemUpdateSQLList(sqlList);
-
-                numCnt++;
-                if (numCnt > 10) {
-                    break;
+        if (stockRemoveList != null) {
+            if (stockRemoveList.size() >= 0) {
+                int numCnt = 0;
+                try {
+                    for (int i = 0; i < stockRemoveList.size(); i++) {
+                        String symbol = (String) stockRemoveList.get(i);
+                        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+                        // check transaction
+                        boolean hasTran = serviceAFWeb.checkTRListByStockID(stock.getId() + "");
+                        if (hasTran == false) {
+                            serviceAFWeb.deleteStock(stock);
+                        }
+                        numCnt++;
+                        if (numCnt > 10) {
+                            break;
+                        }
+                    }
+                } catch (Exception ex) {
                 }
             }
-        } catch (Exception ex) {
         }
+
+        ArrayList stockNDisableList = serviceAFWeb.getDisableStockNameList(20);
+        // delete stock info if disable
+        if (stockNDisableList != null) {
+            if (stockNDisableList.size() > 0) {
+                int numCnt = 0;
+                try {
+
+                    for (int i = 0; i < stockNDisableList.size(); i++) {
+                        String symbol = (String) stockNDisableList.get(i);
+                        serviceAFWeb.removeStockInfo(symbol);
+
+                        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+                        stock.setStatus(ConstantKey.COMPLETED);
+                        //send SQL update
+                        String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
+                        ArrayList sqlList = new ArrayList();
+                        sqlList.add(sockUpdateSQL);
+                        serviceAFWeb.SystemUpdateSQLList(sqlList);
+
+                        numCnt++;
+                        if (numCnt > 10) {
+                            break;
+                        }
+                    }
+                } catch (Exception ex) {
+                }
+
+            }
+        }
+
     }
 
     public void ProcessCustomerRemoveMaintance(ServiceAFweb serviceAFWeb) {
@@ -387,7 +408,7 @@ public class AccountProcess {
                         continue;
                     }
                     float curPrice = stock.getAfstockInfo().getFclose();
-                    TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+                    TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
                     if (trObj == null) {
                         continue;
                     }
@@ -473,7 +494,7 @@ public class AccountProcess {
 
                             //////calcuate performance
                             float curPrice = stock.getAfstockInfo().getFclose();
-                            TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+                            TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
 
                             float sharebalance = 0;
                             if (trObj.getTrsignal() == ConstantKey.S_BUY) {

@@ -2442,7 +2442,7 @@ public class IndexController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ArrayList stNameList = afWebService.getExpiredStockNameList(length);
+                ArrayList stNameList = afWebService.getDisableStockNameList(length);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return stNameList;
             }

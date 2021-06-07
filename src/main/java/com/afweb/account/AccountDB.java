@@ -810,7 +810,7 @@ public class AccountDB {
         return null;
     }
 
-    public TradingRuleObj getAccountStockByStockID(String AccountID, String StockID, String trName) {
+    public TradingRuleObj getAccountStockByTRStockID(String AccountID, String StockID, String trName) {
         ArrayList TradingRuleList = getAccountStockTRListByStockIDTRname(AccountID, StockID, trName, 1);
         if (TradingRuleList != null) {
             if (TradingRuleList.size() == 1) {
@@ -1122,6 +1122,21 @@ public class AccountDB {
         return null;
     }
 
+    public boolean checkTRListByStockID(String StockID) {
+        String sql = ""
+                + "select tradingrule.*, stock.symbol as symbol from tradingrule inner join stock on "
+                + "tradingrule.stockid = stock.id where stockid=" + StockID;
+
+        sql = ServiceAFweb.getSQLLengh(sql, 1);
+        ArrayList<TradingRuleObj> entries = getAccountStockList(sql);
+        if (entries != null) {
+            if (entries.size() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public ArrayList<TradingRuleObj> getAccountStockTRListByStockIDTRname(String AccountID, String StockID, String trName, int length) {
 
         String sql = ""
@@ -1363,7 +1378,7 @@ public class AccountDB {
             return 0;
         }
         try {
-            TradingRuleObj tradingRuleObj = getAccountStockByStockID("" + AccountID, "" + StockID, tr.getTrname());
+            TradingRuleObj tradingRuleObj = getAccountStockByTRStockID("" + AccountID, "" + StockID, tr.getTrname());
             if (tradingRuleObj != null) {
 
                 if (tradingRuleObj.getStatus() == ConstantKey.CLOSE) {

@@ -737,7 +737,7 @@ public class AccountImp {
     }
 
     public int clearAccountStockTranByAccountID(AccountObj accountObj, int stockID, String trName) {
-        TradingRuleObj tr = getAccountStockIDByTRname(accountObj.getId(), stockID, trName);
+        TradingRuleObj tr = getAccountStockIDByTRStockID(accountObj.getId(), stockID, trName);
         if (tr == null) {
             return 0;
         }
@@ -760,7 +760,7 @@ public class AccountImp {
     }
 
     public ArrayList<PerformanceObj> getAccountStockPerfList(int accountID, int stockID, String trName, int length) {
-        TradingRuleObj tr = getAccountStockIDByTRname(accountID, stockID, trName);
+        TradingRuleObj tr = getAccountStockIDByTRStockID(accountID, stockID, trName);
         if (tr == null) {
             return null;
         }
@@ -769,20 +769,24 @@ public class AccountImp {
 
     public ArrayList<TransationOrderObj> getAccountStockTransList(int accountID, int stockID, String trName, int length) {
 
-        TradingRuleObj tr = getAccountStockIDByTRname(accountID, stockID, trName);
+        TradingRuleObj tr = getAccountStockIDByTRStockID(accountID, stockID, trName);
         if (tr == null) {
             return null;
         }
         return accountdb.getAccountStockTransList(accountID + "", stockID + "", tr.getId() + "", length);
     }
 
+    public boolean checkTRListByStockID(String StockID) {
+        return accountdb.checkTRListByStockID(StockID);
+    }
+
     public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(int accountId, int stockId) {
         return accountdb.getAccountStockTRListByStockIDTRname(accountId + "", stockId + "", null, 0);
     }
 
-    public TradingRuleObj getAccountStockIDByTRname(int accountID, int stockID, String trName) {
+    public TradingRuleObj getAccountStockIDByTRStockID(int accountID, int stockID, String trName) {
         // not sure why it does not work in Open shift but work local
-        return accountdb.getAccountStockByStockID(accountID + "", stockID + "", trName);
+        return accountdb.getAccountStockByTRStockID(accountID + "", stockID + "", trName);
     }
 
     public ArrayList getAllAccountStockNameListExceptionAdmin(int accountId) {
@@ -973,7 +977,7 @@ public class AccountImp {
             if (tranSiganl0 != ConstantKey.S_NEUTRAL) {
                 //process buysell
                 if (trObj == null) {
-                    trObj = getAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
+                    trObj = getAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
                 }
                 int signal = tranSiganl0;
                 Calendar dateOffset = daOffset0;
@@ -1002,7 +1006,7 @@ public class AccountImp {
             if (tranSiganl != ConstantKey.S_NEUTRAL) {
                 //process buysell
                 if (trObj == null) {
-                    trObj = getAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
+                    trObj = getAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
                 }
                 int signal = tranSiganl;
                 Calendar dateOffset = daOffset;

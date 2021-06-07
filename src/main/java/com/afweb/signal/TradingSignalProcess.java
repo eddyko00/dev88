@@ -858,7 +858,7 @@ public class TradingSignalProcess {
         try {
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
             serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
-            TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), trName);
+            TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), trName);
             // get 2 year
             /// thObjList old first - recent last
             ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.SHORT_MONTH_SIZE);

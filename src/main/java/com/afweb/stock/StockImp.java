@@ -108,12 +108,27 @@ public class StockImp {
         return stockdb.addStock(NormalizeSymbol);
     }
 
+    public int deleteStock(AFstockObj stockObj) {
+        if (stockObj == null) {
+            return 0;
+        }
+        return stockdb.deleteStock(stockObj);
+    }
+
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
+        if (stockObj == null) {
+            return 0;
+        }
         return stockdb.deleteStockInfoByStockId(stockObj);
     }
+
     public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
+        if (stockObj == null) {
+            return 0;
+        }
         return stockdb.deleteStockInfoByDate(stockObj, datel);
     }
+
     public int disableStock(String NormalizeSymbol) {
         return stockdb.disableStock(NormalizeSymbol);
     }
@@ -386,6 +401,7 @@ public class StockImp {
     public int deleteNeuralNetDataObjById(int id) {
         return stockdb.deleteNeuralNetDataObjById(id);
     }
+
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int stockId, long updatedatel) {
         return stockdb.getNeuralNetDataObj(name, stockId, updatedatel);
     }
