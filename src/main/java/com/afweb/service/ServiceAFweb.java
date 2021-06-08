@@ -6954,9 +6954,9 @@ public class ServiceAFweb {
     public int InitDBData() {
         logger.info(">InitDBData ");
         // 0 - new db, 1 - db already exist, -1 db error
-        int retSatus = getStockImp().initStockDB();
+        int retStatus = getStockImp().initStockDB();
 
-        if (retSatus >= 0) {
+        if (retStatus >= 0) {
             logger.info(">InitDB Customer account ");
             CustomerObj newCustomer = new CustomerObj();
             newCustomer.setUsername(CKey.ADMIN_USERNAME);
@@ -6972,7 +6972,7 @@ public class ServiceAFweb {
             newCustomer.setType(CustomerObj.INT_API_USER);
             getAccountImp().addCustomer(newCustomer, -1);
 
-            if (retSatus == 0) {
+            if (retStatus == 0) {
 
                 newCustomer.setUsername(CKey.G_USERNAME);
                 newCustomer.setPassword("guest");
@@ -7012,7 +7012,7 @@ public class ServiceAFweb {
             newCustomer.setType(CustomerObj.INT_CLIENT_BASIC_USER);
             getAccountImp().addCustomer(newCustomer, -1);
         }
-        return retSatus;
+        return retStatus;
 
     }
 
