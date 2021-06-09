@@ -8,6 +8,7 @@ package com.afweb.service;
 import com.afweb.nnprocess.*;
 import com.afweb.model.*;
 import com.afweb.account.*;
+import com.afweb.accountapi.accAPI;
 import com.afweb.chart.ChartService;
 import com.afweb.mail.*;
 import com.afweb.model.account.*;
@@ -57,6 +58,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceAFweb {
 
+    /**
+     * @return the accountingImp
+     */
+    public accAPI getAccountingImp() {
+        return accountingImp;
+    }
+
+    /**
+     * @param accountingImp the accountingImp to set
+     */
+    public void setAccountingImp(accAPI accountingImp) {
+        this.accountingImp = accountingImp;
+    }
+
     public static Logger logger = Logger.getLogger("AFwebService");
 
     private static ServerObj serverObj = new ServerObj();
@@ -73,6 +88,7 @@ public class ServiceAFweb {
     private StockImp stockImp = new StockImp();
     private AccountImp accountImp = new AccountImp();
     private AccountProcess accountProcessImp = new AccountProcess();
+    private accAPI accountingImp = new accAPI();
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
 
     public static String PROXYURL = "";
@@ -211,6 +227,15 @@ public class ServiceAFweb {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.dataSource = dataSource;
 
+        // work around. must initialize for remote MYSQL
+        // work around. must initialize for remote MYSQL
+        ServiceRemoteDB.setServiceAFWeb(this);
+        getStockImp().setDataSource(jdbcTemplate, dataSource);
+        getAccountImp().setDataSource(jdbcTemplate, dataSource);
+        getAccountingImp().setDataSource(jdbcTemplate, dataSource);
+        // work around. must initialize for remote MYSQL
+        // work around. must initialize for remote MYSQL
+
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);
         PROXYURL = enSt;
@@ -317,11 +342,7 @@ public class ServiceAFweb {
                 /////////////
                 initDataSource();
                 InitStaticData();   // init TR data
-                // work around. must initialize for remote MYSQL
-                ServiceRemoteDB.setServiceAFWeb(this);
-                getStockImp().setDataSource(jdbcTemplate, dataSource);
-                getAccountImp().setDataSource(jdbcTemplate, dataSource);
-                // work around. must initialize for remote MYSQL
+
                 serverObj.setTimerInit(true);
                 getServerObj().setProcessTimerCnt(0);
 
@@ -420,9 +441,9 @@ public class ServiceAFweb {
                     logger.info(">>>>>>> InitDBData started.........");
                     // 0 - new db, 1 - db already exist, -1 db error
                     int ret = InitDBData();  // init DB Adding customer account
-//                        sysPortfolio = CKey.FUND_PORTFOLIO;
-                    if (ret != -1) {
 
+                    if (ret != -1) {
+                        InitAccountingDBData();
                         InitSystemData();   // Add Stock 
                         InitSystemFund(sysPortfolio);
                         initProcessTimer = false;
@@ -450,6 +471,7 @@ public class ServiceAFweb {
 
                 }
                 // final initialization
+                
             } else {
                 if (timerThreadMsg != null) {
                     if (timerThreadMsg.indexOf("adminsignal") != -1) {
@@ -1407,7 +1429,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            this.getAccountProcessImp().ProcessStockInfodeleteMaintance(this);
+            this.InitAccountingDBData();
+//
+            long curDatel = TimeConvertion.currentTimeMillis();
+            String ref = ""+curDatel;
+            this.getAccountingImp().addTransferRevenue(ref, "Billing", 10, "testing...");
+            accAPI.getLedger().printHistoryLog();
 
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
@@ -6949,6 +6976,21 @@ public class ServiceAFweb {
         logger.info(">testDBData ");
         int retSatus = getStockImp().testStockDB();
         return retSatus;
+    }
+
+    public int InitAccountingDBData() {
+        logger.info(">InitAccountingDBData ");
+        // 0 - new db, 1 - db already exist, -1 db error
+
+        int retStatus = getAccountingImp().initAccAPI_DB();
+
+        if (retStatus >= 0) {
+            logger.info(">create accounting ");
+            getAccountingImp().createAccountEntry(true);
+
+        }
+        return retStatus;
+
     }
 
     public int InitDBData() {
