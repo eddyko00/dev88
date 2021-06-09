@@ -1433,7 +1433,7 @@ public class ServiceAFweb {
 //
             long curDatel = TimeConvertion.currentTimeMillis();
             String ref = ""+curDatel;
-            this.getAccountingImp().addTransferRevenue(ref, "Billing", 10, "testing...");
+            this.getAccountingImp().addTransferRevenueTax(ref, "Billing", 10, "testing...");
             accAPI.getLedger().printHistoryLog();
 
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);

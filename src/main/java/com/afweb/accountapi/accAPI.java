@@ -112,11 +112,12 @@ public class accAPI {
     public static String A_ACC_RECEIVABLE = "acc_receivable";
     public static String A_EQUIPMENT = "equipment";
     public static String L_ACC_PAYABLE = "acc_payable";
+    public static String L_TAX_PAYABLE = "sale_tax_payable";
     public static String E_RET_EARNING = "retained_earnings";
     public static String B_BUSINESS = "profit_loss_acc";
 
     public static String Asset_accounts[] = {A_CASH, A_ACC_RECEIVABLE, A_EQUIPMENT};
-    public static String Liability_accounts[] = {L_ACC_PAYABLE};
+    public static String Liability_accounts[] = {L_ACC_PAYABLE, L_TAX_PAYABLE};
     public static String Equity_accounts[] = {E_RET_EARNING};
 
     public static String Business_accounts[] = {B_BUSINESS};
@@ -134,9 +135,12 @@ public class accAPI {
     public static String Revenue_accounts[] = {R_REVENUE, R_F_INCOME, R_SRV_REVENUE};
     public static String Expense_accounts[] = {EX_EXPENSE, EX_DEPRECIATION, EX_WAGES};
 
+    public static double GST = 0.13;
 //////////////////////////////////////////////////
 //https://www.double-entry-bookkeeping.com/retained-earnings/retained-earnings-statement/   
 //http://www.accounting-basics-for-students.com/-recording-retained-earnings-in-the-journal-.html    
+
+//Ending balance = Beginning balance + Retained for the year
 //If you made a profit for the year, the profit and loss account would have a credit balance   
     public int addRetainEarningProfit(String ref, String type, double amount, String comment) {
         try {
@@ -183,12 +187,16 @@ public class accAPI {
 
 //https://accounting-simplified.com/financial/double-entry-accounting/    
 //////////////////////////////////////////////////////////////////
-    public int addTransferRevenue(String ref, String type, double amount, String comment) {
+    public int addTransferRevenueTax(String ref, String type, double amount, String comment) {
         try {
             Ledger ledgerTr = accAPI.getLedger();
             if (ledgerTr == null) {
                 return 0;
             }
+            double tax = amount * GST;
+            double totalTax = Math.round(tax * 100);
+            totalTax = totalTax / 100;
+            amount = amount - tax;
             TransferRequest transferRequest1 = ledgerTr.createTransferRequest()
                     .reference(ref)
                     .type(type)
@@ -198,8 +206,41 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+
+            TransferRequest transferRequest2 = ledgerTr.createTransferRequest()
+                    .reference("T" + ref)
+                    .type(type)
+                    .account(A_CASH).debit("" + totalTax, "CAD")
+                    .account(L_TAX_PAYABLE).credit("" + totalTax, "CAD")
+                    .build();
+
+            transferRequest2.setComment(comment);
+            ledgerTr.commit(transferRequest2);
+            return 1;
         } catch (Exception ex) {
-            logger.info("> addTransferRevenue exception " + ex);
+            logger.info("> addTransferRevenueTax exception " + ex);
+        }
+        return 0;
+    }
+
+    public int addTransferPayTax(String ref, String type, double amount, String comment) {
+        try {
+            Ledger ledgerTr = accAPI.getLedger();
+            if (ledgerTr == null) {
+                return 0;
+            }
+            TransferRequest transferRequest1 = ledgerTr.createTransferRequest()
+                    .reference("T" + ref)
+                    .type(type)
+                    .account(L_TAX_PAYABLE).debit("" + amount, "CAD")
+                    .account(A_CASH).credit("" + amount, "CAD")
+                    .build();
+
+            transferRequest1.setComment(comment);
+            ledgerTr.commit(transferRequest1);
+            return 1;
+        } catch (Exception ex) {
+            logger.info("> addTransferPayTax exception " + ex);
         }
         return 0;
     }
@@ -220,6 +261,7 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addTransferIncome exception " + ex);
         }
@@ -245,6 +287,7 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addAccReceivableSale exception " + ex);
         }
@@ -266,6 +309,7 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addAccReceivableSale exception " + ex);
         }
@@ -291,6 +335,7 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addTransferPayroll exception " + ex);
         }
@@ -315,6 +360,7 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addTransferExpense exception " + ex);
         }
@@ -326,7 +372,7 @@ public class accAPI {
     public static String TYPE_EQUIPMENT_30 = "equipment30";
     public static String TYPE_EQUIPMENT_50 = "equipment50";
     public static String TYPE_EQUIPMENT_100 = "equipment100";
-
+////////////////////////////////////////////////////////////////////
     // Purchase of Equipment by cash
     public int addTransferEquipment(String ref, String type, double amount, String comment) {
         try {
@@ -345,6 +391,7 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addTransferEquipment exception " + ex);
         }
@@ -369,11 +416,13 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addTransferDepreciation exception " + ex);
         }
         return 0;
     }
+////////////////////////////////////////////////////////////////////
 
 //    List<Transaction> cashAccountTransactionList = ledger.findTransactions("CASH_ACCOUNT_1");
 //    List<Transaction> revenueAccountTransactionList = ledger.findTransactions("REVENUE_ACCOUNT_1");
