@@ -396,22 +396,39 @@ public class accAPI {
         }
         return 0;
     }
-
-    public static String TYPE_EQUIPMENT_10 = "equipment10";
-    public static String TYPE_EQUIPMENT_20 = "equipment20";
-    public static String TYPE_EQUIPMENT_30 = "equipment30";
-    public static String TYPE_EQUIPMENT_50 = "equipment50";
-    public static String TYPE_EQUIPMENT_100 = "equipment100";
 ////////////////////////////////////////////////////////////////////
-    // Purchase of Equipment by cash
+////////////////////////////////////////////////////////////////////
 
+    public static String TYPE_DEPRECIATION_10 = "depreciation10";
+    public static String TYPE_DEPRECIATION_20 = "depreciation20";
+    public static String TYPE_DEPRECIATION_30 = "depreciation30";
+    public static String TYPE_DEPRECIATION_50 = "depreciation50";
+    public static String TYPE_DEPRECIATION_100 = "depreciation100";
+
+    public float getDepreciationRate(String depreciationType) {
+        if (depreciationType.equals(TYPE_DEPRECIATION_10)) {
+            return 10;
+        } else if (depreciationType.equals(TYPE_DEPRECIATION_20)) {
+            return 20;
+        } else if (depreciationType.equals(TYPE_DEPRECIATION_30)) {
+            return 30;
+        } else if (depreciationType.equals(TYPE_DEPRECIATION_50)) {
+            return 50;
+        } else if (depreciationType.equals(TYPE_DEPRECIATION_100)) {
+            return 100;
+        }
+        return 100;
+    }
+
+    // Purchase of Equipment by cash
+    // same for Depreciation
     public int addTransferEquipment(String ref, String type, double amount, String comment) {
         try {
             Ledger ledgerTr = accAPI.getLedger();
             if (ledgerTr == null) {
                 return 0;
             }
-            // Debit Utility Expense
+            // 100% equipment Expense for de
 
             TransferRequest transferRequest1 = ledgerTr.createTransferRequest()
                     .reference(ref)
@@ -422,6 +439,7 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+
             return 1;
         } catch (Exception ex) {
             logger.info("> addTransferEquipment exception " + ex);
@@ -430,7 +448,7 @@ public class accAPI {
     }
 
     // search equipment to find if it still has value for Depreciation 
-    public int addTransferDepreciation(String ref, String type, double amount, String comment) {
+    public int addTransferDepreciationNextYear(String ref, String type, double amount, String comment) {
         try {
             Ledger ledgerTr = accAPI.getLedger();
             if (ledgerTr == null) {
@@ -449,10 +467,11 @@ public class accAPI {
             ledgerTr.commit(transferRequest1);
             return 1;
         } catch (Exception ex) {
-            logger.info("> addTransferDepreciation exception " + ex);
+            logger.info("> addTransferDepreciationNextYear exception " + ex);
         }
         return 0;
     }
+////////////////////////////////////////////////////////////////////   
 ////////////////////////////////////////////////////////////////////
 
 //    List<Transaction> cashAccountTransactionList = ledger.findTransactions("CASH_ACCOUNT_1");
