@@ -129,11 +129,12 @@ public class accAPI {
     public static String R_F_INCOME = "finance_income";
     public static String R_SRV_REVENUE = "service_Revenues";
     public static String EX_EXPENSE = "expense";
+    public static String EX_T50EXPENSE = "tax_expense";// 50% on claim on meals and entertainment
     public static String EX_DEPRECIATION = "depreciation";
     public static String EX_WAGES = "Wages_expense";
 
     public static String Revenue_accounts[] = {R_REVENUE, R_F_INCOME, R_SRV_REVENUE};
-    public static String Expense_accounts[] = {EX_EXPENSE, EX_DEPRECIATION, EX_WAGES};
+    public static String Expense_accounts[] = {EX_EXPENSE, EX_T50EXPENSE, EX_DEPRECIATION, EX_WAGES};
 
     public static double GST = 0.13;
 //////////////////////////////////////////////////
@@ -367,6 +368,30 @@ public class accAPI {
         return 0;
     }
 
+    public int addTransfer50PercentExpense(String ref, String type, double amount, String comment) {
+        try {
+            Ledger ledgerTr = accAPI.getLedger();
+            if (ledgerTr == null) {
+                return 0;
+            }
+            // Debit Utility Expense
+
+            TransferRequest transferRequest1 = ledgerTr.createTransferRequest()
+                    .reference(ref)
+                    .type(type)
+                    .account(EX_T50EXPENSE).debit("" + amount, "CAD")
+                    .account(A_CASH).credit("" + amount, "CAD")
+                    .build();
+
+            transferRequest1.setComment(comment);
+            ledgerTr.commit(transferRequest1);
+            return 1;
+        } catch (Exception ex) {
+            logger.info("> addTransferExpense exception " + ex);
+        }
+        return 0;
+    }
+
     public static String TYPE_EQUIPMENT_10 = "equipment10";
     public static String TYPE_EQUIPMENT_20 = "equipment20";
     public static String TYPE_EQUIPMENT_30 = "equipment30";
@@ -374,6 +399,7 @@ public class accAPI {
     public static String TYPE_EQUIPMENT_100 = "equipment100";
 ////////////////////////////////////////////////////////////////////
     // Purchase of Equipment by cash
+
     public int addTransferEquipment(String ref, String type, double amount, String comment) {
         try {
             Ledger ledgerTr = accAPI.getLedger();
