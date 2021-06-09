@@ -737,21 +737,18 @@ public class BillingProcess {
     public static int allEntryId[] = {INT_SYS_CASH, INT_SYS_REVENUE, INT_SYS_EXPENSE, INT_R_USER_PAYMENT,
         INT_E_COST_SERVICE, INT_E_USER_WITHDRAWAL, INT_E_DEPRECATE, INT_E_TAX};
 
-    public int insertAccountTAX(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+    public int insertAccountPayTAX(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, String data) {
         if (name.length() == 0) {
             name = E_TAX;
         }
-
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data, 0);
-
+        long curDatel = TimeConvertion.currentTimeMillis();
+        String ref = "" + curDatel;
+        
+        int result = serviceAFWeb.getAccountingImp().addTransferPayTax(ref, name, expense, data);
         return result;
-
     }
 
     public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, float rate, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (name.length() == 0) {
             name = SYS_EXPENSE;
         }

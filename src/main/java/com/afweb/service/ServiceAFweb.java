@@ -5761,7 +5761,7 @@ public class ServiceAFweb {
                         commSt = comment;
                     }
 
-                    BP.insertAccountTAX(this, customer, entryName, payment, commSt);
+                    BP.insertAccountPayTAX(this, customer, entryName, payment, commSt);
                     ret = 1;
                 }
             }

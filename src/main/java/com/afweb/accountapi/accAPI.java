@@ -138,6 +138,7 @@ public class accAPI {
 
     public static double GST = 0.13;
 //////////////////////////////////////////////////
+//////////////////////////////////////////////////
 //https://www.double-entry-bookkeeping.com/retained-earnings/retained-earnings-statement/   
 //http://www.accounting-basics-for-students.com/-recording-retained-earnings-in-the-journal-.html    
 
@@ -158,6 +159,7 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addTransferRevenue exception " + ex);
         }
@@ -180,11 +182,14 @@ public class accAPI {
 
             transferRequest1.setComment(comment);
             ledgerTr.commit(transferRequest1);
+            return 1;
         } catch (Exception ex) {
             logger.info("> addTransferRevenue exception " + ex);
         }
         return 0;
     }
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
 
 //https://accounting-simplified.com/financial/double-entry-accounting/    
 //////////////////////////////////////////////////////////////////
