@@ -57,6 +57,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceAFweb {
 
+    /**
+     * @return the accouting
+     */
+    public AccountingImp getAccouting() {
+        return accouting;
+    }
+
+    /**
+     * @param accouting the accouting to set
+     */
+    public void setAccouting(AccountingImp accouting) {
+        this.accouting = accouting;
+    }
+
     public static Logger logger = Logger.getLogger("AFwebService");
 
     private static ServerObj serverObj = new ServerObj();
@@ -74,6 +88,7 @@ public class ServiceAFweb {
     private AccountImp accountImp = new AccountImp();
     private AccountProcess accountProcessImp = new AccountProcess();
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
+    private AccountingImp accouting = new AccountingImp();
 
     public static String PROXYURL = "";
     public static String URL_LOCALDB = "";
@@ -1406,7 +1421,6 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-
 
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
@@ -5723,17 +5737,15 @@ public class ServiceAFweb {
                     String currency = formatter.format(payment);
                     commSt += "System TAX change " + currency;
 
-                    String entryName = BillingProcess.E_TAX;
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
+//                    if (reasonSt != null) {
+//                        if (reasonSt.length() > 0) {
+//
+//                        }
+//                    }
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-
-                    BP.insertAccountTAX(this, customer, entryName, payment, commSt);
+                    this.getAccouting().addTransferPayTax(this, customer, payment, commSt);
                     ret = 1;
                 }
             }
