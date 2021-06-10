@@ -57,19 +57,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceAFweb {
 
-    /**
-     * @return the accouting
-     */
-    public AccountingImp getAccouting() {
-        return accouting;
-    }
 
-    /**
-     * @param accouting the accouting to set
-     */
-    public void setAccouting(AccountingImp accouting) {
-        this.accouting = accouting;
-    }
 
     public static Logger logger = Logger.getLogger("AFwebService");
 
@@ -88,7 +76,7 @@ public class ServiceAFweb {
     private AccountImp accountImp = new AccountImp();
     private AccountProcess accountProcessImp = new AccountProcess();
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
-    private AccountingImp accouting = new AccountingImp();
+    private AccountingImp accounting = new AccountingImp();
 
     public static String PROXYURL = "";
     public static String URL_LOCALDB = "";
@@ -3512,8 +3500,8 @@ public class ServiceAFweb {
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
                     int id = Integer.parseInt(idSt);
-                    BillingProcess BP = new BillingProcess();
-                    AccEntryObj accEntry = BP.getAccountingEntryById(this, id);
+                    
+                    AccEntryObj accEntry = getAccounting().getAccountingEntryById(this, id);
                     return accEntry;
                 }
             }
@@ -3534,8 +3522,8 @@ public class ServiceAFweb {
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
                     int id = Integer.parseInt(idSt);
-                    BillingProcess BP = new BillingProcess();
-                    return BP.removeAccountingEntryById(this, id);
+                    return getAccounting().removeAccountingEntryById(this, id);
+
                 }
             }
         } catch (Exception e) {
@@ -3554,14 +3542,14 @@ public class ServiceAFweb {
             CustomerObj customer = getCustomerPassword(UserName, Password);
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-                    BillingProcess BP = new BillingProcess();
+
                     if (name != null) {
                         if (name.length() > 0) {
-                            AccReportObj accReport = BP.getAccountReportYearByName(this, name, year);
+                            AccReportObj accReport = getAccounting().getAccountReportYearByName(this, name, year);
                             return accReport;
                         }
                     }
-                    AccReportObj accReport = BP.getAccountReportYear(this, year);
+                    AccReportObj accReport = getAccounting().getAccountReportYear(this, year);
                     return accReport;
                 }
 
@@ -5745,7 +5733,7 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    ret = getAccouting().addTransferPayTax(this, customer, payment, commSt);
+                    ret = getAccounting().addTransferPayTax(this, customer, payment, commSt);
 
                 }
             }
@@ -5819,7 +5807,7 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    ret = getAccouting().addTransferDepreciation(this, customer, payment, rate, commSt);
+                    ret = getAccounting().addTransferDepreciation(this, customer, payment, rate, commSt);
                     ret = 1;
                 }
             }
@@ -5893,7 +5881,7 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    ret = getAccouting().addTransferExpenseTax(this, customer, payment, rate, commSt);
+                    ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, commSt);
                 }
             }
             float balance = 0;
@@ -5915,7 +5903,7 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    ret = getAccouting().addTransferRevenueTax(this, customer, payment, commSt);
+                    ret = getAccounting().addTransferRevenueTax(this, customer, payment, commSt);
                 }
             }
             if (ret == 1) {
@@ -6015,9 +6003,9 @@ public class ServiceAFweb {
                         if (byPassPayment == false) {
 
                             if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                                int ret = getAccouting().addTransferExpense(this, customer, balance, entryName + " " + emailSt);
+                                int ret = getAccounting().addTransferExpense(this, customer, balance, entryName + " " + emailSt);
                             } else {
-                                int ret = getAccouting().addTransferRevenueTax(this, customer, balance, emailSt);
+                                int ret = getAccounting().addTransferRevenueTax(this, customer, balance, emailSt);
 
                             }
                         }
@@ -7157,6 +7145,20 @@ public class ServiceAFweb {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * @return the accounting
+     */
+    public AccountingImp getAccounting() {
+        return accounting;
+    }
+
+    /**
+     * @param accounting the accounting to set
+     */
+    public void setAccounting(AccountingImp accounting) {
+        this.accounting = accounting;
     }
 
 }
