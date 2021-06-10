@@ -121,7 +121,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");        
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment=");
 
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
@@ -2204,7 +2205,6 @@ public class IndexController {
         return 0;
     }
 
-
     //"/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment="
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/deprecation", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -2223,6 +2223,32 @@ public class IndexController {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
                     int result = afWebService.updateAccountingExDeprecation(username, paymentSt, rateSt, reasonSt, commentSt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return 0;
+    }
+
+    //"/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment="
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/utility", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateAccoundingEntryUtility(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "payment", required = false) String paymentSt,
+            @RequestParam(value = "year", required = false) String yearSt,
+            @RequestParam(value = "reason", required = false) String reasonSt,
+            @RequestParam(value = "comment", required = false) String commentSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.updateAccountingExUtility(username, paymentSt, yearSt, reasonSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }

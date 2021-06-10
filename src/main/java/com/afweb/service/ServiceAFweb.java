@@ -57,8 +57,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceAFweb {
 
-
-
     public static Logger logger = Logger.getLogger("AFwebService");
 
     private static ServerObj serverObj = new ServerObj();
@@ -3500,7 +3498,7 @@ public class ServiceAFweb {
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
                     int id = Integer.parseInt(idSt);
-                    
+
                     AccEntryObj accEntry = getAccounting().getAccountingEntryById(this, id);
                     return accEntry;
                 }
@@ -5735,6 +5733,81 @@ public class ServiceAFweb {
                     }
                     ret = getAccounting().addTransferPayTax(this, customer, payment, commSt);
 
+                }
+            }
+
+            if (ret == 1) {
+                String tzid = "America/New_York"; //EDT
+                TimeZone tz = TimeZone.getTimeZone(tzid);
+                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                DateFormat format = new SimpleDateFormat(" hh:mm a");
+                format.setTimeZone(tz);
+                String ESTtime = format.format(d);
+
+                String msg = ESTtime + " " + commSt;
+
+                AccountObj accountAdminObj = getAdminObjFromCache();
+                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+
+            }
+            return ret;
+
+        } catch (Exception e) {
+
+        }
+        return 0;
+    }
+
+    public int updateAccountingExUtility(String customername, String paymentSt, String yearSt, String reasonSt, String commentSt) {
+        ServiceAFweb.lastfun = "updateAccountingExUtility";
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        customername = customername.toUpperCase();
+        NameObj nameObj = new NameObj(customername);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+            if (customer == null) {
+                return 0;
+            }
+            String comment = "";
+            if (commentSt != null) {
+                comment = commentSt;
+            }
+
+            float payment = 0;
+            String commSt = "";
+            int ret = 0;
+            if (paymentSt != null) {
+                if (!paymentSt.equals("")) {
+                    payment = Float.parseFloat(paymentSt);
+                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+                    String currency = formatter.format(payment);
+                    commSt += "System expense change " + currency;
+
+//                    if (reasonSt != null) {
+//                        if (reasonSt.length() > 0) {
+//
+//                        }
+//                    }
+                    if (comment.length() > 0) {
+                        commSt = comment;
+                    }
+                    int year = 0;
+                    if (yearSt != null) {
+                        if (yearSt.length() > 0) {
+                            try {
+                                year = Integer.parseInt(yearSt);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+                    ret = getAccounting().addTransferUtilityExpense(this, customer, payment, year, commSt);
+
+                    ret = 1;
                 }
             }
 

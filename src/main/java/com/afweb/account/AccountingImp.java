@@ -448,7 +448,7 @@ public class AccountingImp {
         String ExSt = "Expense: " + amount + " for rate " + rate + "%. ";
         data = ExSt + data;
 
-        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_EXPENSE, A_CASH, accountAdminObj, (float) amount, data, trantime);
+        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_EXPENSE, A_CASH, accountAdminObj, (float) accExpense, data, trantime);
 
         // meals and entertaining 50% for tax
         double amountLeft = amount - accExpense;
@@ -467,7 +467,7 @@ public class AccountingImp {
         long trantime = System.currentTimeMillis();
 
         Date dateSt = new Date(trantime);
-        String DepSt = "Deprecation: " + amount + " for rate" + rate + "Yr from " + dateSt.toString() + ". ";
+        String DepSt = "Deprecation: " + amount + " for rate" + rate + "% from " + dateSt.toString() + ". ";
         data = DepSt + data;
         int iRate = (int) rate;
         if ((rate == 100) || (rate == 0)) {
