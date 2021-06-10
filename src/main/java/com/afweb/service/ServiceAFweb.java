@@ -8,7 +8,6 @@ package com.afweb.service;
 import com.afweb.nnprocess.*;
 import com.afweb.model.*;
 import com.afweb.account.*;
-import com.afweb.accountapi.accAPI;
 import com.afweb.chart.ChartService;
 import com.afweb.mail.*;
 import com.afweb.model.account.*;
@@ -58,20 +57,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceAFweb {
 
-    /**
-     * @return the accountingImp
-     */
-    public accAPI getAccountingImp() {
-        return accountingImp;
-    }
-
-    /**
-     * @param accountingImp the accountingImp to set
-     */
-    public void setAccountingImp(accAPI accountingImp) {
-        this.accountingImp = accountingImp;
-    }
-
     public static Logger logger = Logger.getLogger("AFwebService");
 
     private static ServerObj serverObj = new ServerObj();
@@ -88,7 +73,6 @@ public class ServiceAFweb {
     private StockImp stockImp = new StockImp();
     private AccountImp accountImp = new AccountImp();
     private AccountProcess accountProcessImp = new AccountProcess();
-    private accAPI accountingImp = new accAPI();
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
 
     public static String PROXYURL = "";
@@ -227,15 +211,6 @@ public class ServiceAFweb {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.dataSource = dataSource;
 
-        // work around. must initialize for remote MYSQL
-        // work around. must initialize for remote MYSQL
-        ServiceRemoteDB.setServiceAFWeb(this);
-        getStockImp().setDataSource(jdbcTemplate, dataSource);
-        getAccountImp().setDataSource(jdbcTemplate, dataSource);
-        getAccountingImp().setDataSource(jdbcTemplate, dataSource);
-        // work around. must initialize for remote MYSQL
-        // work around. must initialize for remote MYSQL
-
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);
         PROXYURL = enSt;
@@ -342,7 +317,11 @@ public class ServiceAFweb {
                 /////////////
                 initDataSource();
                 InitStaticData();   // init TR data
-
+                // work around. must initialize for remote MYSQL
+                ServiceRemoteDB.setServiceAFWeb(this);
+                getStockImp().setDataSource(jdbcTemplate, dataSource);
+                getAccountImp().setDataSource(jdbcTemplate, dataSource);
+                // work around. must initialize for remote MYSQL
                 serverObj.setTimerInit(true);
                 getServerObj().setProcessTimerCnt(0);
 
@@ -441,9 +420,9 @@ public class ServiceAFweb {
                     logger.info(">>>>>>> InitDBData started.........");
                     // 0 - new db, 1 - db already exist, -1 db error
                     int ret = InitDBData();  // init DB Adding customer account
-
+//                        sysPortfolio = CKey.FUND_PORTFOLIO;
                     if (ret != -1) {
-                        InitAccountingDBData();
+
                         InitSystemData();   // Add Stock 
                         InitSystemFund(sysPortfolio);
                         initProcessTimer = false;
@@ -471,7 +450,6 @@ public class ServiceAFweb {
 
                 }
                 // final initialization
-                
             } else {
                 if (timerThreadMsg != null) {
                     if (timerThreadMsg.indexOf("adminsignal") != -1) {
@@ -1429,12 +1407,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            this.InitAccountingDBData();
-//
-            long curDatel = TimeConvertion.currentTimeMillis();
-            String ref = ""+curDatel;
-            this.getAccountingImp().addTransferRevenueTax(ref, "Billing", 10, "testing...");
-            accAPI.getLedger().printHistoryLog();
 
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
@@ -5761,7 +5733,83 @@ public class ServiceAFweb {
                         commSt = comment;
                     }
 
-                    BP.insertAccountPayTAX(this, customer, entryName, payment, commSt);
+                    BP.insertAccountTAX(this, customer, entryName, payment, commSt);
+                    ret = 1;
+                }
+            }
+
+            if (ret == 1) {
+                String tzid = "America/New_York"; //EDT
+                TimeZone tz = TimeZone.getTimeZone(tzid);
+                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                DateFormat format = new SimpleDateFormat(" hh:mm a");
+                format.setTimeZone(tz);
+                String ESTtime = format.format(d);
+
+                String msg = ESTtime + " " + commSt;
+
+                AccountObj accountAdminObj = getAdminObjFromCache();
+                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+
+            }
+            return ret;
+
+        } catch (Exception e) {
+
+        }
+        return 0;
+    }
+
+    public int updateAccountingExCostofGS(String customername, String paymentSt, String curYearSt, String reasonSt, String commentSt) {
+        ServiceAFweb.lastfun = "updateAccountingExCostofGS";
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        customername = customername.toUpperCase();
+        NameObj nameObj = new NameObj(customername);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+            if (customer == null) {
+                return 0;
+            }
+            String comment = "";
+            if (commentSt != null) {
+                comment = commentSt;
+            }
+            BillingProcess BP = new BillingProcess();
+            float payment = 0;
+            String commSt = "";
+            int ret = 0;
+            if (paymentSt != null) {
+                if (!paymentSt.equals("")) {
+                    payment = Float.parseFloat(paymentSt);
+                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+                    String currency = formatter.format(payment);
+                    commSt += "System expense change " + currency;
+
+                    String entryName = BillingProcess.E_COST_SERVICE;
+                    if (reasonSt != null) {
+                        if (reasonSt.length() > 0) {
+                            entryName = reasonSt;
+                        }
+                    }
+                    if (comment.length() > 0) {
+                        commSt = comment;
+                    }
+                    int curYear = 0;
+                    if (curYearSt != null) {
+                        if (curYearSt.length() > 0) {
+                            try {
+                                curYear = Integer.parseInt(curYearSt);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+
+                    BP.insertAccountingExCostofGS(this, customer, entryName, payment, curYear, commSt);
                     ret = 1;
                 }
             }
@@ -6900,21 +6948,6 @@ public class ServiceAFweb {
         logger.info(">testDBData ");
         int retSatus = getStockImp().testStockDB();
         return retSatus;
-    }
-
-    public int InitAccountingDBData() {
-        logger.info(">InitAccountingDBData ");
-        // 0 - new db, 1 - db already exist, -1 db error
-
-        int retStatus = getAccountingImp().initAccAPI_DB();
-
-        if (retStatus >= 0) {
-            logger.info(">create accounting ");
-            getAccountingImp().createAccountEntry(true);
-
-        }
-        return retStatus;
-
     }
 
     public int InitDBData() {
