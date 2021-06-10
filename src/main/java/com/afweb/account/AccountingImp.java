@@ -82,7 +82,7 @@ public class AccountingImp {
     public static int INT_R_SRV_REVENUE = 52;
     public static String EX_EXPENSE = "expense";
     public static int INT_EX_EXPENSE = 53;
-    public static String EX_T50EXPENSE = "tax_expense";// 50% on claim on meals and entertainment
+    public static String EX_T50EXPENSE = "nontaxable_ex";// 50% on claim on meals and entertainment
     public static int INT_EX_T50EXPENSE = 54;
     public static String EX_DEPRECIATION = "depreciation";
     public static int INT_EX_DEPRECIATION = 55;

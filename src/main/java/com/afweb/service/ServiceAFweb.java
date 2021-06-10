@@ -5937,11 +5937,13 @@ public class ServiceAFweb {
                     String currency = formatter.format(payment);
                     commSt += "System expense change " + currency;
 
-//                    if (reasonSt != null) {
-//                        if (reasonSt.length() > 0) {
-//             
-//                        }
-//                    }
+                    ////////update accounting entry
+                    String entryName = "";
+                    if (reasonSt != null) {
+                        if (reasonSt.length() > 0) {
+                            entryName = reasonSt;
+                        }
+                    }
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
@@ -5954,7 +5956,11 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, commSt);
+                    if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
+                        ret = getAccounting().addTransferExpense(this, customer, payment, entryName + " " + commSt);
+                    } else {
+                        ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, commSt);
+                    }
                 }
             }
             float balance = 0;
@@ -5968,15 +5974,19 @@ public class ServiceAFweb {
                     commSt += "System revenue change " + currency;
 
                     ////////update accounting entry
-//                    if (reasonSt != null) {
-//                        if (reasonSt.length() > 0) {
-//             
-//                        }
-//                    }
+                    String entryName = "";
+                    if (reasonSt != null) {
+                        if (reasonSt.length() > 0) {
+                            entryName = reasonSt;
+                        }
+                    }
+
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
+
                     ret = getAccounting().addTransferRevenueTax(this, customer, balance, commSt);
+
                 }
             }
             if (ret == 1) {
