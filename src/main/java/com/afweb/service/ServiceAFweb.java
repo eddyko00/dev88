@@ -5819,7 +5819,7 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    ret = getAccouting().addTransferEquipment(this, customer, payment, rate, commSt);
+                    ret = getAccouting().addTransferDepreciation(this, customer, payment, rate, commSt);
                     ret = 1;
                 }
             }
