@@ -5903,7 +5903,7 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    ret = getAccounting().addTransferRevenueTax(this, customer, payment, commSt);
+                    ret = getAccounting().addTransferRevenueTax(this, customer, balance, commSt);
                 }
             }
             if (ret == 1) {

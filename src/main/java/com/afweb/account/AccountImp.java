@@ -1458,6 +1458,16 @@ public class AccountImp {
     }
 
 ///////
+    public int addAccountingDoubleEntry(String accDebit, String accCredit, AccountObj accountObj, float amount, String data, long trantime ) {
+
+        String tranData = " debit " + accDebit + " :" + amount + "  credit " + accCredit + ":" + amount + " ";
+        data = tranData + data;
+
+        int result = addAccountingEntry(accDebit, accountObj, (float) amount, 0, data, trantime);
+        result = addAccountingEntry(accCredit, accountObj, 0, (float) amount, data, trantime);
+        return result;
+    }
+
     public int addAccountingEntry(String name, AccountObj accountObj, float debit, float credit, String data, long entryDatel) {
         if (accountObj == null) {
             return -1;
@@ -1480,13 +1490,13 @@ public class AccountImp {
         billObj.setPayment(debit);
         billObj.setBalance(credit);
 
-        data = "Amt debit:" + debit + " credit:" + credit + " " + data;
         data = StringTag.replaceAll("\"", "#", data);
         data = StringTag.replaceAll("'", "|", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
         billObj.setData(data);
         return accountdb.insertAccountBillingData(billObj);
     }
+
     public int addAccountingEntryRate(String name, AccountObj accountObj, float debit, float credit, int rate, String data, long entryDatel) {
         if (accountObj == null) {
             return -1;
@@ -1510,13 +1520,13 @@ public class AccountImp {
         billObj.setPayment(debit);
         billObj.setBalance(credit);
 
-        data = "Amt debit:" + debit + " credit:" + credit + " " + data;
         data = StringTag.replaceAll("\"", "#", data);
         data = StringTag.replaceAll("'", "|", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
         billObj.setData(data);
         return accountdb.insertAccountBillingData(billObj);
     }
+
     public int addAccountingEntryYear(String name, AccountObj accountObj, float debit, float credit, int year, String data, long entryDatel) {
         if (accountObj == null) {
             return -1;
@@ -1540,13 +1550,12 @@ public class AccountImp {
         billObj.setPayment(debit);
         billObj.setBalance(credit);
 
-        data = "Amt debit:" + debit + " credit:" + credit + " " + data;
         data = StringTag.replaceAll("\"", "#", data);
         data = StringTag.replaceAll("'", "|", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
         billObj.setData(data);
         return accountdb.insertAccountBillingData(billObj);
     }
-     
+
     ///////////////
 }
