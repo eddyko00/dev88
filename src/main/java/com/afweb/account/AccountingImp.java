@@ -198,6 +198,7 @@ public class AccountingImp {
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
     // Examples of Payroll Journal Entries For Wages
+
     public int addTransferPayroll(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
@@ -210,11 +211,27 @@ public class AccountingImp {
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////    
     // Payment of utility bills
-    public int addTransferExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    public int addTransferExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, 0);
+        double accExpense = amount;
+        if ((rate == 100) || (rate == 0)) {
+            int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) accExpense, 0, data, 0);
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) accExpense, data, 0);
+            return result;
+        }
+
+        accExpense = amount * rate / 100;
+
+        String ExSt = "Expense: " + amount + " for rate " + rate + "%. ";
+        data = ExSt + data;
+
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) accExpense, 0, data, 0);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) accExpense, data, 0);
+
+        double amountLeft = amount - accExpense;
+        result = this.addTransfer50PercentTaxExpense(serviceAFWeb, customer, amountLeft, data);
+
         return result;
 
     }

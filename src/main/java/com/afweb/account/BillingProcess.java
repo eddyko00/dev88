@@ -738,71 +738,6 @@ public class BillingProcess {
         INT_E_COST_SERVICE, INT_E_USER_WITHDRAWAL, INT_E_DEPRECATE, INT_E_TAX};
 
 
-    public int insertAccountExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, float rate, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        if (name.length() == 0) {
-            name = SYS_EXPENSE;
-        }
-//        billObj.setPayment(debit);
-//        billObj.setBalance(credit);
-
-        float accExpense = expense;
-        if (rate > 0) {
-            accExpense = expense * rate / 100;
-        }
-        String ExSt = "Expense: " + expense + " for rate " + rate + "%. ";
-        data = ExSt + data;
-
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, accExpense, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data, 0);
-
-        return result;
-
-    }
-
-    public int insertAccountingExCostofGS(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, int curYear, String data) {
-
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        if (name.length() == 0) {
-            name = SYS_EXPENSE;
-        }
-//        billObj.setPayment(debit);
-//        billObj.setBalance(credit);
-
-        // Cach is one time only
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data, 0);
-
-        /////////////////////////
-        // need to create multiple entry for cur year and next year
-        ////////////////////////        
-        if (curYear == 0) {
-            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
-            return result;
-        }
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long entrytime = dateNow.getTimeInMillis();
-        float remainExpense = expense;
-        Date dateSt = new Date(entrytime);
-        String DepSt = "CostofGoodSold: " + expense + " for 1 year from " + dateSt.toString() + ". ";
-        data = DepSt + data;
-
-        // 0- 11
-        int monNum = TimeConvertion.getMonthNum(entrytime);
-        monNum += 1; // start 1 - 12
-        int remMonNum = (12 - monNum) + 1;
-        float curExpense = (expense / 12) * remMonNum;
-        curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
-        if (curExpense > 0) {
-            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, curExpense, 0, data, entrytime);
-        }
-        remainExpense = expense - curExpense;
-        if (remainExpense > 0) {
-            entrytime = TimeConvertion.addMonths(entrytime, 12);
-            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, remainExpense, 0, data, entrytime);
-        }
-        return result;
-    }
-
     public int insertAccountExDeprecation(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, float rate, String data) {
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
@@ -873,25 +808,6 @@ public class BillingProcess {
 
     }
 
-    public int insertAccountRevenue(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float revenue, String data) {
-//        if (customer != null) {
-//            boolean byPassPayment = BillingProcess.isSystemAccount(customer);
-//            if (byPassPayment == true) {
-//                return 0;
-//            }
-//        }
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        if (name.length() == 0) {
-            name = SYS_REVENUE;
-        }
-//        billObj.setPayment(debit);
-//        billObj.setBalance(credit);        
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, 0, revenue, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, 0, revenue, data, 0);
-
-        return result;
-
-    }
 
     public int removeAccountingEntryById(ServiceAFweb serviceAFWeb, int id) {
         return serviceAFWeb.getAccountImp().removeAccountingByTypeId(ConstantKey.INT_ACC_TRAN, id);

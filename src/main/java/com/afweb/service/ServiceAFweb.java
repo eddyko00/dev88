@@ -5745,84 +5745,8 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    this.getAccouting().addTransferPayTax(this, customer, payment, commSt);
-                    ret = 1;
-                }
-            }
+                    ret = getAccouting().addTransferPayTax(this, customer, payment, commSt);
 
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
-
-                String msg = ESTtime + " " + commSt;
-
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-
-            }
-            return ret;
-
-        } catch (Exception e) {
-
-        }
-        return 0;
-    }
-
-    public int updateAccountingExCostofGS(String customername, String paymentSt, String curYearSt, String reasonSt, String commentSt) {
-        ServiceAFweb.lastfun = "updateAccountingExCostofGS";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            String comment = "";
-            if (commentSt != null) {
-                comment = commentSt;
-            }
-            BillingProcess BP = new BillingProcess();
-            float payment = 0;
-            String commSt = "";
-            int ret = 0;
-            if (paymentSt != null) {
-                if (!paymentSt.equals("")) {
-                    payment = Float.parseFloat(paymentSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    commSt += "System expense change " + currency;
-
-                    String entryName = BillingProcess.E_COST_SERVICE;
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
-                    if (comment.length() > 0) {
-                        commSt = comment;
-                    }
-                    int curYear = 0;
-                    if (curYearSt != null) {
-                        if (curYearSt.length() > 0) {
-                            try {
-                                curYear = Integer.parseInt(curYearSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-
-                    BP.insertAccountingExCostofGS(this, customer, entryName, payment, curYear, commSt);
-                    ret = 1;
                 }
             }
 
@@ -5943,7 +5867,7 @@ public class ServiceAFweb {
             if (commentSt != null) {
                 comment = commentSt;
             }
-            BillingProcess BP = new BillingProcess();
+
             float payment = 0;
             String commSt = "";
             int ret = 0;
@@ -5954,12 +5878,11 @@ public class ServiceAFweb {
                     String currency = formatter.format(payment);
                     commSt += "System expense change " + currency;
 
-                    String entryName = BillingProcess.SYS_EXPENSE;
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
+//                    if (reasonSt != null) {
+//                        if (reasonSt.length() > 0) {
+//             
+//                        }
+//                    }
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
@@ -5972,8 +5895,7 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    BP.insertAccountExpense(this, customer, entryName, payment, rate, commSt);
-                    ret = 1;
+                    ret = getAccouting().addTransferExpense(this, customer, payment, rate, commSt);
                 }
             }
             float balance = 0;
@@ -5987,18 +5909,15 @@ public class ServiceAFweb {
                     commSt += "System revenue change " + currency;
 
                     ////////update accounting entry
-                    String entryName = BillingProcess.SYS_REVENUE;
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
+//                    if (reasonSt != null) {
+//                        if (reasonSt.length() > 0) {
+//             
+//                        }
+//                    }
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    BP.insertAccountRevenue(this, customer, entryName, balance, commSt);
-                    ret = 1;
-
+                    ret = getAccouting().addTransferRevenueTax(this, customer, payment, commSt);
                 }
             }
             if (ret == 1) {
@@ -6096,11 +6015,12 @@ public class ServiceAFweb {
                     if (customer != null) {
                         boolean byPassPayment = BillingProcess.isSystemAccount(customer);
                         if (byPassPayment == false) {
-                            BillingProcess BP = new BillingProcess();
+
                             if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                                BP.insertAccountExpense(this, customer, entryName, -balance, 100, emailSt);
+                                int ret = getAccouting().addTransferExpense(this, customer, balance, 0, entryName + " " + emailSt);
                             } else {
-                                BP.insertAccountRevenue(this, customer, entryName, balance, emailSt);
+                                int ret  = getAccouting().addTransferRevenueTax(this, customer, balance, emailSt);
+
                             }
                         }
                     }

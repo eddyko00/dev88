@@ -120,8 +120,8 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/costofgoodsold?payment=&curyear=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");        
 
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
