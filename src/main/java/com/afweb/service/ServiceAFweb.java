@@ -5791,7 +5791,7 @@ public class ServiceAFweb {
             if (commentSt != null) {
                 comment = commentSt;
             }
-            BillingProcess BP = new BillingProcess();
+
             float payment = 0;
             String commSt = "";
             int ret = 0;
@@ -5802,12 +5802,11 @@ public class ServiceAFweb {
                     String currency = formatter.format(payment);
                     commSt += "System expense change " + currency;
 
-                    String entryName = BillingProcess.E_DEPRECATE;
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
+//                    if (reasonSt != null) {
+//                        if (reasonSt.length() > 0) {
+//
+//                        }
+//                    }
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
@@ -5820,8 +5819,7 @@ public class ServiceAFweb {
                             }
                         }
                     }
-
-                    BP.insertAccountExDeprecation(this, customer, entryName, payment, rate, commSt);
+                    ret = getAccouting().addTransferEquipment(this, customer, payment, rate, commSt);
                     ret = 1;
                 }
             }
@@ -5895,7 +5893,7 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    ret = getAccouting().addTransferExpense(this, customer, payment, rate, commSt);
+                    ret = getAccouting().addTransferExpenseTax(this, customer, payment, rate, commSt);
                 }
             }
             float balance = 0;
@@ -6017,9 +6015,9 @@ public class ServiceAFweb {
                         if (byPassPayment == false) {
 
                             if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                                int ret = getAccouting().addTransferExpense(this, customer, balance, 0, entryName + " " + emailSt);
+                                int ret = getAccouting().addTransferExpense(this, customer, balance, entryName + " " + emailSt);
                             } else {
-                                int ret  = getAccouting().addTransferRevenueTax(this, customer, balance, emailSt);
+                                int ret = getAccouting().addTransferRevenueTax(this, customer, balance, emailSt);
 
                             }
                         }

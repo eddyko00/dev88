@@ -38,37 +38,6 @@ import org.springframework.jdbc.core.RowMapper;
 public class AccountingImp {
 
     protected static Logger logger = Logger.getLogger("accAPI");
-    private static JdbcTemplate jdbcTemplate;
-    private static DataSource dataSource;
-    private ServiceRemoteDB remoteDB = new ServiceRemoteDB();
-
-    /**
-     * @return the dataSource
-     */
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    /**
-     * @return the jdbcTemplate
-     */
-    public JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
-    }
-
-    /**
-     * @param jdbcTemplate the jdbcTemplate to set
-     */
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    /**
-     * @param dataSource the dataSource to set
-     */
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
 //https://www.accountingcoach.com/accounting-basics/explanation/5
 //Balance Sheet accounts:
@@ -82,14 +51,13 @@ public class AccountingImp {
     public static String L_ACC_PAYABLE = "acc_payable";
     public static String L_TAX_PAYABLE = "sale_tax_payable";
     public static String E_RET_EARNING = "retained_earnings";
-    public static String B_BUSINESS = "profit_loss_acc";
+//    public static String B_BUSINESS = "profit_loss_acc";
 
     public static String Asset_accounts[] = {A_CASH, A_ACC_RECEIVABLE, A_EQUIPMENT};
     public static String Liability_accounts[] = {L_ACC_PAYABLE, L_TAX_PAYABLE};
     public static String Equity_accounts[] = {E_RET_EARNING};
 
-    public static String Business_accounts[] = {B_BUSINESS};
-
+//    public static String Business_accounts[] = {B_BUSINESS};
     //
     //Revenue accounts (Examples: Service Revenues, Investment Revenues)
     //Expense accounts (Examples: Wages Expense, Rent Expense, Depreciation Expense)
@@ -103,6 +71,10 @@ public class AccountingImp {
 
     public static String Revenue_accounts[] = {R_REVENUE, R_F_INCOME, R_SRV_REVENUE};
     public static String Expense_accounts[] = {EX_EXPENSE, EX_T50EXPENSE, EX_DEPRECIATION, EX_WAGES};
+
+    public static String YEAR_DEPRECIATION = "yearly_depreciation";
+    public static String YEAR_EXPENSE = "yearly_expense";
+    public static String depreciation_accounts[] = {YEAR_DEPRECIATION, YEAR_EXPENSE};
 
     public static double GST = 0.13;
 //////////////////////////////////////////////////
@@ -120,11 +92,13 @@ public class AccountingImp {
 
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(R_REVENUE, accountAdminObj, 0, (float) amount, data, 0);
+        long trantime = System.currentTimeMillis();
 
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(L_TAX_PAYABLE, accountAdminObj, 0, (float) amount, data, 0);
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(R_REVENUE, accountAdminObj, 0, (float) amount, data, trantime);
+
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(L_TAX_PAYABLE, accountAdminObj, 0, (float) amount, data, trantime);
 
         return result;
 
@@ -133,8 +107,9 @@ public class AccountingImp {
     public int addTransferPayTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(L_TAX_PAYABLE, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, 0);
+        long trantime = System.currentTimeMillis();
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(L_TAX_PAYABLE, accountAdminObj, (float) amount, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, trantime);
         return result;
 
     }
@@ -143,8 +118,9 @@ public class AccountingImp {
     public int addTransferIncome(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(R_F_INCOME, accountAdminObj, 0, (float) amount, data, 0);
+        long trantime = System.currentTimeMillis();
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(R_F_INCOME, accountAdminObj, 0, (float) amount, data, trantime);
         return result;
 
     }
@@ -158,8 +134,9 @@ public class AccountingImp {
     public int addRetainEarningProfit(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(B_BUSINESS, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(E_RET_EARNING, accountAdminObj, 0, (float) amount, data, 0);
+        long trantime = System.currentTimeMillis();
+
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(E_RET_EARNING, accountAdminObj, 0, (float) amount, data, trantime);
         return result;
 
     }
@@ -168,8 +145,9 @@ public class AccountingImp {
     public int addRetainEarningLoss(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(E_RET_EARNING, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(B_BUSINESS, accountAdminObj, 0, (float) amount, data, 0);
+        long trantime = System.currentTimeMillis();
+
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(E_RET_EARNING, accountAdminObj, (float) amount, 0, data, trantime);
         return result;
 
     }
@@ -181,8 +159,10 @@ public class AccountingImp {
     public int addAccReceivableRecordSale(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_ACC_RECEIVABLE, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(R_REVENUE, accountAdminObj, 0, (float) amount, data, 0);
+        long trantime = System.currentTimeMillis();
+
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_ACC_RECEIVABLE, accountAdminObj, (float) amount, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(R_REVENUE, accountAdminObj, 0, (float) amount, data, trantime);
         return result;
 
     }
@@ -190,8 +170,10 @@ public class AccountingImp {
     public int addAccReceivableCashPayment(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_ACC_RECEIVABLE, accountAdminObj, 0, (float) amount, data, 0);
+        long trantime = System.currentTimeMillis();
+
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_ACC_RECEIVABLE, accountAdminObj, 0, (float) amount, data, trantime);
         return result;
 
     }
@@ -202,8 +184,10 @@ public class AccountingImp {
     public int addTransferPayroll(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_WAGES, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, 0);
+        long trantime = System.currentTimeMillis();
+
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_WAGES, accountAdminObj, (float) amount, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, trantime);
         return result;
 
     }
@@ -211,41 +195,82 @@ public class AccountingImp {
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////    
     // Payment of utility bills
-    public int addTransferExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, String data) {
+    public int addTransferUtilityExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
+        long trantime = System.currentTimeMillis();
+
         double accExpense = amount;
-        if ((rate == 100) || (rate == 0)) {
-            int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) accExpense, 0, data, 0);
-            result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) accExpense, data, 0);
+        if (year == 0) {
+            // expense in currently
+            int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) accExpense, 0, data, trantime);
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) accExpense, data, trantime);
             return result;
         }
 
+//        accExpense = amount * rate / 100;
+        int monNum = TimeConvertion.getMonthNum(trantime);
+        monNum += 1; // start 1 - 12
+        int remMonNum = (12 - monNum) + 1;
+        double curExpense = (amount / 12) * remMonNum;
+        curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
+
+        String ExSt = "Expense: " + amount + " for year " + year + ". ";
+        data = ExSt + data;
+
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) curExpense, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) curExpense, data, trantime);
+        
+
+       result = serviceAFWeb.getAccountImp().addAccountingEntry(YEAR_EXPENSE, accountAdminObj, 0, (float) curExpense, data, trantime);
+                
+                
+        return result;
+
+    }
+    // meals and entertaining 50% for tax
+    public int addTransferExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+        return this.addTransferExpenseTax(serviceAFWeb, customer, amount, 0, data);
+    }
+    
+    // meals and entertaining 50% for tax
+    public int addTransferExpenseTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, String data) {
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+
+        long trantime = System.currentTimeMillis();
+
+        double accExpense = amount;
+        if ((rate == 100) || (rate == 0)) {
+            int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) accExpense, 0, data, trantime);
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) accExpense, data, trantime);
+            return result;
+        }
         accExpense = amount * rate / 100;
 
         String ExSt = "Expense: " + amount + " for rate " + rate + "%. ";
         data = ExSt + data;
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) accExpense, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) accExpense, data, 0);
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_EXPENSE, accountAdminObj, (float) accExpense, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) accExpense, data, trantime);
 
+        // meals and entertaining 50% for tax
         double amountLeft = amount - accExpense;
-        result = this.addTransfer50PercentTaxExpense(serviceAFWeb, customer, amountLeft, data);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_T50EXPENSE, accountAdminObj, (float) amountLeft, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amountLeft, data, trantime);
 
         return result;
 
     }
 
-    // meals and entertaining 50% for tax
-    public int addTransfer50PercentTaxExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_T50EXPENSE, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, 0);
-        return result;
-
-    }
-
+//    // meals and entertaining 50% for tax
+//    public int addTransfer50PercentTaxExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+//        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+//
+//        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_T50EXPENSE, accountAdminObj, (float) amount, 0, data, 0);
+//        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, 0);
+//        return result;
+//
+//    }
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////    
     public static String TYPE_DEPRECIATION_10 = "depreciation10";
@@ -271,21 +296,51 @@ public class AccountingImp {
 
     // Purchase of Equipment by cash
     // same for Depreciation
-    public int addTransferEquipment(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    public int addTransferEquipment(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        long trantime = System.currentTimeMillis();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_EQUIPMENT, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, 0);
+        Date dateSt = new Date(trantime);
+        String DepSt = "Deprecation: " + amount + " for rate" + rate + "Yr from " + dateSt.toString() + ". ";
+        data = DepSt + data;
+        int iRate = (int) rate;
+        if ((rate == 100) || (rate == 0)) {
+            int result = serviceAFWeb.getAccountImp().addAccountingEntryRate(A_EQUIPMENT, accountAdminObj, (float) amount, 0, iRate, data, trantime);
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, trantime);
+            return result;
+        }
+
+        double exDeplication = amount * rate / 100;
+        exDeplication = (Math.round(exDeplication * 100.0) / 100.0);
+        int monNum = TimeConvertion.getMonthNum(trantime);
+        monNum += 1; // start 1 - 12
+
+        ////force 50% rule for first year depreciation
+        monNum = 7;
+        ////force 50% rule for first year depreciation
+
+        int remMonNum = (12 - monNum) + 1;
+        double curExpense = (exDeplication / 12) * remMonNum;
+        curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
+
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_DEPRECIATION, accountAdminObj, (float) curExpense, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_EQUIPMENT, accountAdminObj, 0, (float) curExpense, data, trantime);
+
+        double remain = amount - curExpense;
+        result = serviceAFWeb.getAccountImp().addAccountingEntryRate(YEAR_DEPRECIATION, accountAdminObj, (float) remain, (float) amount, iRate, data, trantime);
+
         return result;
 
     }
     // search equipment to find if it still has value for Depreciation 
 
-    public int addTransferDepreciationNextYear(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    public int addTransferDepreciationNextYear(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int iRate, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        long trantime = System.currentTimeMillis();
 
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_DEPRECIATION, accountAdminObj, (float) amount, 0, data, 0);
-        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_EQUIPMENT, accountAdminObj, 0, (float) amount, data, 0);
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(EX_DEPRECIATION, accountAdminObj, (float) amount, 0, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntry(A_EQUIPMENT, accountAdminObj, 0, (float) amount, data, trantime);
+
         return result;
 
     }

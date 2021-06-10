@@ -1487,5 +1487,66 @@ public class AccountImp {
         billObj.setData(data);
         return accountdb.insertAccountBillingData(billObj);
     }
+    public int addAccountingEntryRate(String name, AccountObj accountObj, float debit, float credit, int rate, String data, long entryDatel) {
+        if (accountObj == null) {
+            return -1;
+        }
+        BillingObj billObj = new BillingObj();
+        billObj.setCustomerid(accountObj.getCustomerid());
+        billObj.setAccountid(accountObj.getId());
+        billObj.setName(name);
+        billObj.setType(ConstantKey.INT_ACC_TRAN);
+        billObj.setStatus(ConstantKey.INITIAL);
+        billObj.setSubstatus(rate);
+
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long entrytime = dateNow.getTimeInMillis();
+        if (entryDatel > 0) {
+            entrytime = entryDatel;
+        }
+        billObj.setUpdatedatel(entrytime);
+        billObj.setUpdatedatedisplay(new java.sql.Date(entrytime));
+
+        billObj.setPayment(debit);
+        billObj.setBalance(credit);
+
+        data = "Amt debit:" + debit + " credit:" + credit + " " + data;
+        data = StringTag.replaceAll("\"", "#", data);
+        data = StringTag.replaceAll("'", "|", data);
+        data = StringTag.replaceAll("\\n\\r", "", data);
+        billObj.setData(data);
+        return accountdb.insertAccountBillingData(billObj);
+    }
+    public int addAccountingEntryYear(String name, AccountObj accountObj, float debit, float credit, int year, String data, long entryDatel) {
+        if (accountObj == null) {
+            return -1;
+        }
+        BillingObj billObj = new BillingObj();
+        billObj.setCustomerid(accountObj.getCustomerid());
+        billObj.setAccountid(accountObj.getId());
+        billObj.setName(name);
+        billObj.setType(ConstantKey.INT_ACC_TRAN);
+        billObj.setStatus(ConstantKey.INITIAL);
+        billObj.setSubstatus(year);
+
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long entrytime = dateNow.getTimeInMillis();
+        if (entryDatel > 0) {
+            entrytime = entryDatel;
+        }
+        billObj.setUpdatedatel(entrytime);
+        billObj.setUpdatedatedisplay(new java.sql.Date(entrytime));
+
+        billObj.setPayment(debit);
+        billObj.setBalance(credit);
+
+        data = "Amt debit:" + debit + " credit:" + credit + " " + data;
+        data = StringTag.replaceAll("\"", "#", data);
+        data = StringTag.replaceAll("'", "|", data);
+        data = StringTag.replaceAll("\\n\\r", "", data);
+        billObj.setData(data);
+        return accountdb.insertAccountBillingData(billObj);
+    }
+     
     ///////////////
 }
