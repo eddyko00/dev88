@@ -2238,7 +2238,7 @@ public class IndexController {
             @PathVariable("username") String username,
             @PathVariable("custid") String custidSt,
             @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "year", required = false) String yearSt,
+            @RequestParam(value = "curyear", required = false) String yearSt,
             @RequestParam(value = "reason", required = false) String reasonSt,
             @RequestParam(value = "comment", required = false) String commentSt
     ) {

@@ -69,8 +69,8 @@ var app = {
             htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
             htmlhead += '<div class="ui-block-b" style="text-align: center;width:10%">Id</div>';
             htmlhead += '<div class="ui-block-c" style="text-align: left;width:30%">Name</div>';
-            htmlhead += '<div class="ui-block-d" style="text-align: right">Expense</div>';
-            htmlhead += '<div class="ui-block-e" style="text-align: right">Income</div>';
+            htmlhead += '<div class="ui-block-d" style="text-align: right">Income</div>';
+            htmlhead += '<div class="ui-block-e" style="text-align: right">Expense</div>';
             htmlhead += '</div>';
 
             $("#myid").append('<li id="0" >' + htmlhead + '</li>');
@@ -196,16 +196,13 @@ var app = {
                 return;
             }
             var costyr = document.getElementById("costyr").value;
-            if (costyr === "") {
-                window.location.href = "accountadmrp.html";
-                return;
-            }
+
             var comment = document.getElementById("costcomm").value;
             var payment = costamount;
-            ///cust/{username}/uisys/{custid}/accounting/costofgoodsold?payment=&curyear=&reason=&comment=
+            ///cust/{username}/uisys/{custid}/accounting/utility?payment=&curyear=&reason=&comment=
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/costofgoodsold?payment=" + payment + "&curyear=" + costyr + "&comment=" + comment,
+                        + "/accounting/utility?payment=" + payment + "&curyear=" + costyr + "&comment=" + comment,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
@@ -240,7 +237,14 @@ var app = {
             }
             var comment = document.getElementById("excomm").value;
             var rate = document.getElementById("exrate").value;
-
+            if ((rate === "") || (rate === "50")|| (rate === "100")) {
+                ;
+            } else {
+                var resultmsg = "Accounting Update error: Only accept 100% or 50% ";
+                alert(resultmsg);
+                window.location.href = "accountadmrp.html";
+                return;
+            }
             var payment = examount;
             ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
             $.ajax({
