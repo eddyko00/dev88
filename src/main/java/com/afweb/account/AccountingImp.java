@@ -10,10 +10,12 @@ import com.afweb.model.account.*;
 
 import com.afweb.service.*;
 import com.afweb.util.*;
+import java.text.NumberFormat;
 
 import java.util.ArrayList;
 
 import java.util.Date;
+import java.util.Locale;
 
 import java.util.logging.Logger;
 
@@ -430,12 +432,15 @@ public class AccountingImp {
                 }
             }
         }
-
-        accTotalEntryAsset_accounts.setName("Asset accounts total=" + totalAsset_accounts);
-        accTotalEntryLiability_accounts.setName("Liability accounts total=" + totalLiability_accounts);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+        String currency = formatter.format(totalAsset_accounts);
+        accTotalEntryAsset_accounts.setName("Asset accounts total=" + currency);
+        currency = formatter.format(totalLiability_accounts);
+        accTotalEntryLiability_accounts.setName("Liability accounts total=" + currency);
 
         float equity = totalAsset_accounts - totalLiability_accounts;
-        accTotalEntryEquity.setName("Owner's Equity accounts total=" + equity);
+        currency = formatter.format(equity);
+        accTotalEntryEquity.setName("Owner's Equity accounts total=" + currency);
 
         for (int i = 0; i < billingObjList.size(); i++) {
             BillingObj accTran = billingObjList.get(i);
