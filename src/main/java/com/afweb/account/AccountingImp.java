@@ -434,7 +434,7 @@ public class AccountingImp {
         }
         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
         String currency = formatter.format(totalAsset_accounts);
-        accTotalEntryAsset_accounts.setName("Asset accounts total = "  + currency);
+        accTotalEntryAsset_accounts.setName("Asset accounts total = " + currency);
         currency = formatter.format(totalLiability_accounts);
         accTotalEntryLiability_accounts.setName("Liability accounts total = " + currency);
 
@@ -732,7 +732,7 @@ public class AccountingImp {
 
         // Keep the YEAR_DEPRECIATION for next year
         double remain = amount - curExpense;
-        result = serviceAFWeb.getAccountImp().addAccountingEntryYear(YEAR_EXPENSE, accountAdminObj, (float) remain, (float) amount, year, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntryYear(YEAR_EXPENSE, accountAdminObj, (float) amount, (float) remain, year, data, trantime);
 
         return result;
     }
@@ -815,7 +815,7 @@ public class AccountingImp {
 
         // Keep the YEAR_DEPRECIATION for next year
         double remain = amount - curExpense;
-        result = serviceAFWeb.getAccountImp().addAccountingEntryRate(YEAR_DEPRECIATION, accountAdminObj, (float) remain, (float) amount, iRate, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntryRate(YEAR_DEPRECIATION, accountAdminObj, (float) amount, (float) remain, iRate, data, trantime);
 
         return result;
 
