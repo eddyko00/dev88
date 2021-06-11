@@ -545,12 +545,12 @@ public class AccountImp {
     }
 
     ////////////////////
-    public ArrayList<BillingObj> getAccountingByNameType(String name, int type, long begin, long end) {
-        return accountdb.getAccountingByNameType(name, type, begin, end, 0);
+    public ArrayList<BillingObj> getAccountingByNameType(String name, int type, long begin, long end, int length) {
+        return accountdb.getAccountingByNameType(name, type, begin, end, length); // only limit to 100 length
     }
 
-    public ArrayList<BillingObj> getAccountingByType(int type, long begin, long end) {
-        return accountdb.getAccountingByTypeTime(type, begin, end, 0);
+    public ArrayList<BillingObj> getAccountingByType(int type, long begin, long end, int length) {
+        return accountdb.getAccountingByTypeTime(type, begin, end, length);
     }
 
     public int removeAccountingByTypeId(int type, int id) {

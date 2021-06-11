@@ -41,6 +41,7 @@ public class AccountingImp {
 
     protected static Logger logger = Logger.getLogger("accAPI");
 
+    public static int MAX_SIZE = 100;
 //https://www.accountingcoach.com/accounting-basics/explanation/5
 //Balance Sheet accounts:
 //
@@ -161,7 +162,8 @@ public class AccountingImp {
         reportObj.setEnddisplay(new java.sql.Date(EndingYear));
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByNameType(name, ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().
+                getAccountingByNameType(name, ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, 100);
         if (billingObjList == null) {
             return reportObj;
         }
@@ -212,7 +214,8 @@ public class AccountingImp {
         reportObj.setName("Income Statement");
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().
+                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, MAX_SIZE);
         if (billingObjList == null) {
             billingObjList = new ArrayList();
         }
@@ -317,7 +320,8 @@ public class AccountingImp {
         reportObj.setName("Balance Sheet Statement");
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().
+                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, MAX_SIZE);
         if (billingObjList == null) {
             billingObjList = new ArrayList();
         }
@@ -437,7 +441,8 @@ public class AccountingImp {
         reportObj.setName("Deprecation Statement");
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().
+                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, MAX_SIZE);
         if (billingObjList == null) {
             billingObjList = new ArrayList();
         }
