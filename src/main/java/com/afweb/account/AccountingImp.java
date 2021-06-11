@@ -732,6 +732,8 @@ public class AccountingImp {
 
         // Keep the YEAR_DEPRECIATION for next year
         double remain = amount - curExpense;
+        String tranData = " T1:" + L_ACC_PAYABLE + " " + A_CASH + "  T2:" + EX_EXPENSE + " " + L_ACC_PAYABLE + " ";
+        data = tranData + data;
         result = serviceAFWeb.getAccountImp().addAccountingEntryYear(YEAR_EXPENSE, accountAdminObj, (float) amount, (float) remain, year, data, trantime);
 
         return result;
@@ -815,6 +817,9 @@ public class AccountingImp {
 
         // Keep the YEAR_DEPRECIATION for next year
         double remain = amount - curExpense;
+        String tranData = " T1:" + A_EQUIPMENT + " " + A_CASH + "  T2:" + EX_DEPRECIATION + " " + L_ACC_PAYABLE + " ";
+        data = tranData + data;
+
         result = serviceAFWeb.getAccountImp().addAccountingEntryRate(YEAR_DEPRECIATION, accountAdminObj, (float) amount, (float) remain, iRate, data, trantime);
 
         return result;
