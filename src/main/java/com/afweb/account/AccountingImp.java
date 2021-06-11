@@ -404,11 +404,104 @@ public class AccountingImp {
             }
         }
 //        accTotalEntryBal.add(accTotalEntry);
-//        reportObj.setAccTotalEntryBal(accTotalEntryBal);
+        reportObj.setAccTotalEntryBal(accTotalEntryBal);
 
         return reportObj;
     }
 
+    
+    // deprecation sheet
+    public AccReportObj getAccountDeprecationReportYear(ServiceAFweb serviceAFWeb, int year, String namerptSt) {
+        int lastYear = 0;
+        if (year != 0) {
+            lastYear = year * 12;
+        }
+
+        AccReportObj reportObj = new AccReportObj();
+
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        long BeginingYear = DateUtil.getFirstDayCurrentYear();
+        long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
+
+        if (lastYear != 0) {
+            BeginingYear = TimeConvertion.addMonths(BeginingYear, lastYear);
+            EndingYear = TimeConvertion.addMonths(EndingYear, lastYear);
+        }
+
+        EndingYear = TimeConvertion.addDays(EndingYear, -1);
+
+        reportObj.setBeginl(BeginingYear);
+        reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
+        reportObj.setEndl(EndingYear);
+        reportObj.setEnddisplay(new java.sql.Date(EndingYear));
+        reportObj.setName("Deprecation Statement");
+
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
+        if (billingObjList == null) {
+            billingObjList = new ArrayList();
+        }
+        ArrayList<AccEntryObj> accTotalEntryBal = new ArrayList();
+
+        Date curDate = new java.sql.Date(TimeConvertion.currentTimeMillis());
+        String curDateSt = curDate.toString();
+
+//    public static String Revenue_accounts[] = {R_REVENUE, R_F_INCOME, R_SRV_REVENUE};
+//    public static String Expense_accounts[] = {EX_EXPENSE, EX_T50EXPENSE, EX_DEPRECIATION, EX_WAGES};
+//    
+        AccEntryObj accEntryCash = new AccEntryObj();
+        accEntryCash.setId(INT_A_CASH);
+        accEntryCash.setDateSt(curDateSt);
+        accEntryCash.setName(A_CASH);
+        accTotalEntryBal.add(accEntryCash);
+
+//    
+        AccEntryObj accEntrySpace = new AccEntryObj();
+        accEntrySpace.setId(-1);
+        accEntrySpace.setDateSt(curDateSt);
+        accEntrySpace.setName("depreciation_accounts");
+        accTotalEntryBal.add(accEntrySpace);
+
+        for (int i = 0; i < depreciation_accounts.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(depreciation_accountsId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(depreciation_accounts[i]);
+            accTotalEntryBal.add(accEntry);
+        }
+
+        AccEntryObj accTotalEntry = new AccEntryObj();
+        accTotalEntry.setId(INT_SYS_TOTAL);
+        accTotalEntry.setDateSt(curDateSt);
+        accTotalEntry.setName(SYS_TOTAL);
+
+        for (int i = 0; i < billingObjList.size(); i++) {
+            BillingObj accTran = billingObjList.get(i);
+
+            for (int j = 0; j < accTotalEntryBal.size(); j++) {
+                AccEntryObj accEntryT = accTotalEntryBal.get(j);
+                if (accEntryT.getName().equals(accTran.getName())) {
+                    //        billObj.setPayment(debit);
+                    //        billObj.setBalance(credit);
+                    accEntryT.setDebit(accEntryT.getDebit() + accTran.getPayment());
+                    accEntryT.setCredit(accEntryT.getCredit() + accTran.getBalance());
+
+                    // already included in the first line
+                    if (accEntryT.getName().equals(A_CASH)) {
+                        continue;
+                    }
+                    accTotalEntry.setDebit(accTotalEntry.getDebit() + accTran.getPayment());
+                    accTotalEntry.setCredit(accTotalEntry.getCredit() + accTran.getBalance());
+
+                }
+            }
+        }
+//        accTotalEntryBal.add(accTotalEntry);
+        reportObj.setAccTotalEntryBal(accTotalEntryBal);
+
+        return reportObj;
+    }
+   
 ////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////

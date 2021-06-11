@@ -3556,8 +3556,8 @@ public class ServiceAFweb {
                     AccReportObj accReport = null;
                     if (namerpt.equals("balance")) {
                         accReport = getAccounting().getAccountBalanceReportYear(this, year, namerptSt);
-                    } else if (namerpt.equals("income")) {
-                        accReport = getAccounting().getAccountReportYear(this, year, namerptSt);
+                    } else if (namerpt.equals("deprecation")) {
+                        accReport = getAccounting().getAccountDeprecationReportYear(this, year, namerptSt);
                     } else {
                         accReport = getAccounting().getAccountReportYear(this, year, namerptSt);
                     }

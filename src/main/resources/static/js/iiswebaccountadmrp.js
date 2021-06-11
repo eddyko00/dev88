@@ -56,10 +56,12 @@ var app = {
 
 
         var htmltrHeader = "";
-        htmltrHeader += '<button type="submit" id="prevbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>prev year</small></button>';
-        htmltrHeader += '<button type="submit" id="nextbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>next year</small></button>';
         htmltrHeader += '<button type="submit" id="incomebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Income Rpt</small></button>';
         htmltrHeader += '<button type="submit" id="balancebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Balance Rpt</small></button>';
+        htmltrHeader += '<button type="submit" id="depbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>deprecation Rpt</small></button>';
+
+        htmltrHeader += '<button type="submit" id="prevbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>prev year</small></button>';
+        htmltrHeader += '<button type="submit" id="nextbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>next year</small></button>';
 
         $("#trheader").html(htmltrHeader);
 
@@ -521,6 +523,17 @@ var app = {
 
             window.location.href = "accountadmrp_1.html";
         });
+
+        $("#depbtn").click(function () {
+            nameRpt = "deprecation";
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
+
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+            window.location.href = "accountadmrp_1.html";
+        });
+
 // example        
 //alert("AJAX request successfully completed");
 //var jsonObj = JSON.parse(jsonStr);
