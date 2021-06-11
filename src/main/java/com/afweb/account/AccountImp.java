@@ -1458,7 +1458,7 @@ public class AccountImp {
     }
 
 ///////
-    public int addAccountingDoubleEntry(String accDebit, String accCredit, AccountObj accountObj, float amount, String data, long trantime ) {
+    public int addAccountingDoubleEntry(String accDebit, String accCredit, AccountObj accountObj, float amount, String data, long trantime) {
 
         String tranData = " debit " + accDebit + " :" + amount + "  credit " + accCredit + ":" + amount + " ";
         data = tranData + data;
@@ -1520,11 +1520,40 @@ public class AccountImp {
         billObj.setPayment(debit);
         billObj.setBalance(credit);
 
-        data = StringTag.replaceAll("\"", "#", data);
-        data = StringTag.replaceAll("'", "|", data);
+        data = StringTag.replaceAll("\"", " ", data);
+        data = StringTag.replaceAll("'", " ", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
-        billObj.setData(data);
+        AccData accData = new AccData();
+        accData.setConf(data);
+        accData.setTt(0);
+        String nameSt = saveAccData(accData);
+        billObj.setData(nameSt);
         return accountdb.insertAccountBillingData(billObj);
+    }
+
+    public AccData getAccData(String accDataStr) {
+        AccData refData = new AccData();
+        try {
+            if ((accDataStr != null) && (accDataStr.length() > 0)) {
+                accDataStr = accDataStr.replaceAll("#", "\"");
+                refData = new ObjectMapper().readValue(accDataStr, AccData.class);
+                return refData;
+            }
+        } catch (Exception ex) {
+        }
+        return refData;
+    }
+
+    public String saveAccData(AccData accData) {
+
+        String nameSt = "";
+        try {
+            nameSt = new ObjectMapper().writeValueAsString(accData);
+            nameSt = nameSt.replaceAll("\"", "#");
+        } catch (Exception ex) {
+        }
+
+        return nameSt;
     }
 
     public int addAccountingEntryYear(String name, AccountObj accountObj, float debit, float credit, int year, String data, long entryDatel) {
@@ -1550,9 +1579,14 @@ public class AccountImp {
         billObj.setPayment(debit);
         billObj.setBalance(credit);
 
-        data = StringTag.replaceAll("\"", "#", data);
-        data = StringTag.replaceAll("'", "|", data);
+        data = StringTag.replaceAll("\"", " ", data);
+        data = StringTag.replaceAll("'", " ", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
+        AccData accData = new AccData();
+        accData.setConf(data);
+        accData.setTt(0);
+        String nameSt = saveAccData(accData);
+        billObj.setData(nameSt);
         billObj.setData(data);
         return accountdb.insertAccountBillingData(billObj);
     }

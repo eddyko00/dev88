@@ -523,7 +523,8 @@ public class AccountingImp {
 //https://accounting-simplified.com/financial/double-entry-accounting/    
 //////////////////////////////////////////////////////////////////
     public int addTransferRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        double tax = amount * GST;
+        double amountBeforeTax = amount * (1 - GST);
+        double tax = amountBeforeTax * GST;
         double totalTax = Math.round(tax * 100);
         totalTax = totalTax / 100;
         amount = amount - tax;
@@ -547,7 +548,25 @@ public class AccountingImp {
         return result;
     }
 
-    //Interest received on bank deposit account    
+    public int addTransferWithDrawRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+        double amountBeforeTax = amount * (1 - GST);
+        double tax = amountBeforeTax * GST;
+        double totalTax = Math.round(tax * 100);
+        totalTax = totalTax / 100;
+        amount = amount - tax;
+
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+
+        long trantime = System.currentTimeMillis();
+        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(R_REVENUE, A_CASH, accountAdminObj, (float) amount, data, trantime);
+
+        result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(L_TAX_PAYABLE, A_CASH, accountAdminObj, (float) totalTax, data, trantime);
+
+        return result;
+
+    }
+
+//Interest received on bank deposit account    
     public int addTransferIncome(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 

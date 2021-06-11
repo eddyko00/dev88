@@ -5970,7 +5970,7 @@ public class ServiceAFweb {
                         }
                     }
                     if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                        ret = getAccounting().addTransferExpense(this, customer, payment, entryName + " " + commSt);
+                        ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, payment, entryName + " " + commSt);
                     } else {
                         ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, commSt);
                     }
@@ -6713,7 +6713,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public AccData getAccData(String accDataStr) {
+    public  AccData getAccData(String accDataStr) {
         AccData refData = new AccData();
         try {
             if ((accDataStr != null) && (accDataStr.length() > 0)) {
