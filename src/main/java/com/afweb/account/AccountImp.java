@@ -1591,7 +1591,6 @@ public class AccountImp {
         accData.setTt(0);
         String nameSt = saveAccData(accData);
         billObj.setData(nameSt);
-        billObj.setData(data);
         return accountdb.insertAccountBillingData(billObj);
     }
 

@@ -121,7 +121,7 @@ var app = {
                         var tmp = totStCredit;
                         totStCredit = totStDebit;
                         totStDebit = tmp;
-                    }
+                    }                   
 
                     htmlName += '<div class="ui-block-d" style="color:SteelBlue;text-align: right">' + totStDebit + '</div>';
                     htmlName += '<div class="ui-block-e" style="color:SteelBlue;text-align: right">' + totStCredit + '</div>';
