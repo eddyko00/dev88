@@ -434,13 +434,13 @@ public class AccountingImp {
         }
         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
         String currency = formatter.format(totalAsset_accounts);
-        accTotalEntryAsset_accounts.setName("Asset accounts total=" + currency);
+        accTotalEntryAsset_accounts.setName("Asset accounts total = "  + currency);
         currency = formatter.format(totalLiability_accounts);
-        accTotalEntryLiability_accounts.setName("Liability accounts total=" + currency);
+        accTotalEntryLiability_accounts.setName("Liability accounts total = " + currency);
 
         float equity = totalAsset_accounts - totalLiability_accounts;
         currency = formatter.format(equity);
-        accTotalEntryEquity.setName("Owner's Equity accounts total=" + currency);
+        accTotalEntryEquity.setName("Owner's Equity accounts total = " + currency);
 
         for (int i = 0; i < billingObjList.size(); i++) {
             BillingObj accTran = billingObjList.get(i);
