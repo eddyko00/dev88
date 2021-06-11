@@ -247,6 +247,10 @@ public class AccountImp {
         return accountdb.removeCommSignalByAccountType(accountObj.getId(), type);
     }
 
+    public int removeAccountingAll() {
+        return accountdb.removeAccountBillingByType(ConstantKey.INT_ACC_TRAN);
+    }
+
     public int removeAccountBilling(AccountObj accountObj) {
         if (accountObj == null) {
             return 0;
@@ -263,12 +267,12 @@ public class AccountImp {
         return accountdb.DeleteCustomer(custObj);
     }
 
-    public int removeAccount(AccountObj accountObj) {
+    public int removeAccountById(AccountObj accountObj) {
         if (accountObj == null) {
             return 0;
         }
 
-        return accountdb.removeAccount(accountObj);
+        return accountdb.removeAccountById(accountObj);
     }
 
     // result 1 = success, 2 = existed,  0 = fail

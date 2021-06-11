@@ -1424,7 +1424,7 @@ public class AccountDB {
         return 0;
     }
 
-    public int removeAccount(AccountObj accountObj) {
+    public int removeAccountById(AccountObj accountObj) {
 
         try {
             String deleteSQL = "delete from account where id=" + accountObj.getId();

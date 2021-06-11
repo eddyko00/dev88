@@ -581,6 +581,13 @@ public class AccountingImp {
 //https://www.double-entry-bookkeeping.com/retained-earnings/retained-earnings-statement/   
 //http://www.accounting-basics-for-students.com/-recording-retained-earnings-in-the-journal-.html   
 //Ending balance = Beginning balance + Retained for the year
+    
+public int addTransferEarning (ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    if (amount > 0){
+        return this.addRetainEarningProfit(serviceAFWeb, customer, amount, data);
+    }
+    return this.addRetainEarningLoss(serviceAFWeb, customer, amount, data);
+}   
 //If you made a profit for the year, the profit and loss account would have a credit balance   
     public int addRetainEarningProfit(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();

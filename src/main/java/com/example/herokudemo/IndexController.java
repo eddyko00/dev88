@@ -121,6 +121,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/earning?payment=&reason=&comment=");        
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment=");
 
@@ -2179,7 +2180,6 @@ public class IndexController {
         }
         return 0;
     }
-
     //"/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/tax", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -2205,6 +2205,50 @@ public class IndexController {
         return 0;
     }
 
+    //"/cust/{username}/uisys/{custid}/accounting/earning?payment=&reason=&comment=
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/earning", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateAccoundingEntryEearning(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "payment", required = false) String paymentSt,
+            @RequestParam(value = "reason", required = false) String reasonSt,
+            @RequestParam(value = "comment", required = false) String commentSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.insertAccountEarning(username, paymentSt, reasonSt, commentSt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return 0;
+    }
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/removeall", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateAccoundingEntryRemoveAll(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.removeAccounting(username);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return 0;
+    }
     //"/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment="
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/deprecation", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

@@ -58,10 +58,11 @@ var app = {
         var htmltrHeader = "";
         htmltrHeader += '<button type="submit" id="incomebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Income Rpt</small></button>';
         htmltrHeader += '<button type="submit" id="balancebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Balance Rpt</small></button>';
-        htmltrHeader += '<button type="submit" id="depbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>deprecation Rpt</small></button>';
+        htmltrHeader += '<button type="submit" id="depbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Deprecation Rpt</small></button>';
 
         htmltrHeader += '<button type="submit" id="prevbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>prev year</small></button>';
         htmltrHeader += '<button type="submit" id="nextbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>next year</small></button>';
+        htmltrHeader += '<button type="submit" id="deletebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>*Delete All*</small></button>';
 
         $("#trheader").html(htmltrHeader);
 
@@ -462,7 +463,6 @@ var app = {
             var comment = document.getElementById("taxcomm").value;
 
             var payment = taxamount;
-            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
                         + "/accounting/tax?payment=" + payment + "&comment=" + comment,
@@ -492,6 +492,44 @@ var app = {
             }
         });
 
+        //"/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=
+        $("#earnsubmit").click(function () {
+            var taxamount = document.getElementById("earnamount").value;
+            if (taxamount === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
+            var comment = document.getElementById("earncomm").value;
+
+            var payment = taxamount;
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+                        + "/accounting/earning?payment=" + payment + "&comment=" + comment,
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Accounting Update result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
+
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmrp_1.html";
+            }
+        });
 
         $("#nextbtn").click(function () {
             yearRpt = yearRpt + 1;
@@ -545,6 +583,45 @@ var app = {
             window.location.href = "accountadmrp_1.html";
         });
 
+        $("#deletebtn").click(function () {
+            if (confirm('Do you want to delete all accounting?')) {
+                ;
+            } else {
+                return;
+            }
+            if (confirm('Are you really sure?')) {
+                ;
+            } else {
+                return;
+            }            
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+                        + "/accounting/removeall",
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Accounting delete result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
+
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmrp_1.html";
+            }
+        });
 // example        
 //alert("AJAX request successfully completed");
 //var jsonObj = JSON.parse(jsonStr);
