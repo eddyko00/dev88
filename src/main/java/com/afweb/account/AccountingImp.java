@@ -5,33 +5,19 @@
  */
 package com.afweb.account;
 
-import com.afweb.model.AccEntryObj;
-import com.afweb.model.AccReportObj;
-import com.afweb.model.ConstantKey;
+import com.afweb.model.*;
 import com.afweb.model.account.*;
 
 import com.afweb.service.*;
 import com.afweb.util.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+
 import java.util.logging.Logger;
-import javax.sql.DataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+
+
 
 /**
  *
