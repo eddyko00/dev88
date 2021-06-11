@@ -3529,7 +3529,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year) {
+    public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year, String namerptSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -3547,11 +3547,24 @@ public class ServiceAFweb {
                             return accReport;
                         }
                     }
-                    AccReportObj accReport = getAccounting().getAccountReportYear(this, year);
+                    String namerpt = "income";
+                    if (namerptSt != null) {
+                        if (namerptSt.length() > 0) {
+                            namerpt = namerptSt;
+                        }
+                    }
+                    AccReportObj accReport = null;
+                    if (namerpt.equals("balance")) {
+                        accReport = getAccounting().getAccountBalanceReportYear(this, year, namerptSt);
+                    } else if (namerpt.equals("income")) {
+                        accReport = getAccounting().getAccountReportYear(this, year, namerptSt);
+                    } else {
+                        accReport = getAccounting().getAccountReportYear(this, year, namerptSt);
+                    }
                     return accReport;
                 }
-
             }
+
         } catch (Exception e) {
         }
         return null;

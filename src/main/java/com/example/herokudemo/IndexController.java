@@ -124,7 +124,7 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment=");
 
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=&namerpt=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
 
@@ -2257,7 +2257,7 @@ public class IndexController {
         return 0;
     }
 
-    //("/cust/{username}/uisys/{custid}/accounting/report?name=&year=");
+    //("/cust/{username}/uisys/{custid}/accounting/report?name=&year=&namerpt=");
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/report", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     AccReportObj getUIAccountReport(
@@ -2265,6 +2265,7 @@ public class IndexController {
             @PathVariable("custid") String custidSt,
             @RequestParam(value = "name", required = false) String nameSt,
             @RequestParam(value = "year", required = false) String yeatSt,
+            @RequestParam(value = "namerpt", required = false) String namerptSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -2281,7 +2282,7 @@ public class IndexController {
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    AccReportObj accReportObj = afWebService.getAccountingReportByCustomerByName(username, null, nameSt, year);
+                    AccReportObj accReportObj = afWebService.getAccountingReportByCustomerByName(username, null, nameSt, year, namerptSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return accReportObj;
                 }

@@ -47,6 +47,10 @@ var app = {
         if (iisWebObj.yearRpt != null) {
             yearRpt = iisWebObj.yearRpt;
         }
+        var nameRpt = "income";
+        if (iisWebObj.nameRpt != null) {
+            nameRpt = iisWebObj.nameRpt;
+        }
 ///////////////////////////
         $("#accheader").html("Accounting Report");
 
@@ -54,6 +58,9 @@ var app = {
         var htmltrHeader = "";
         htmltrHeader += '<button type="submit" id="prevbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>prev year</small></button>';
         htmltrHeader += '<button type="submit" id="nextbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>next year</small></button>';
+        htmltrHeader += '<button type="submit" id="incomebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Income Rpt</small></button>';
+        htmltrHeader += '<button type="submit" id="balancebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Balance Rpt</small></button>';
+
         $("#trheader").html(htmltrHeader);
 
 
@@ -62,20 +69,39 @@ var app = {
             var entryList = reportObj.accTotalEntryBal;
             var beginDate = reportObj.begindisplay;
             var endDate = reportObj.enddisplay;
-            var rangeSt = 'Yr:' + yearRpt + ' Date:' + beginDate + ' - ' + ':' + endDate;
+            var rangeSt = reportObj.name + ' - Yr:' + yearRpt + ' Date:' + beginDate + ' to ' + ' ' + endDate;
             $("#myid").html('<li ">' + rangeSt + '</li>');
 
+//            var htmlhead = '<div class="ui-grid-d">';
+//            htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
+//            htmlhead += '<div class="ui-block-b" style="text-align: center;width:10%">Id</div>';
+//            htmlhead += '<div class="ui-block-c" style="text-align: left;width:30%">Name</div>';
+//            htmlhead += '<div class="ui-block-d" style="text-align: right">Income</div>';
+//            htmlhead += '<div class="ui-block-e" style="text-align: right">Expense</div>';
+//            htmlhead += '</div>';
+            // Cash account is confusing, Revert it
             var htmlhead = '<div class="ui-grid-d">';
             htmlhead += '<div class="ui-block-a" style="width:20%"><strong>Date</strong></div>';
             htmlhead += '<div class="ui-block-b" style="text-align: center;width:10%">Id</div>';
             htmlhead += '<div class="ui-block-c" style="text-align: left;width:30%">Name</div>';
-            htmlhead += '<div class="ui-block-d" style="text-align: right">Income</div>';
-            htmlhead += '<div class="ui-block-e" style="text-align: right">Expense</div>';
+            htmlhead += '<div class="ui-block-d" style="text-align: right">Expense</div>';
+            htmlhead += '<div class="ui-block-e" style="text-align: right">Income</div>';
             htmlhead += '</div>';
-
             $("#myid").append('<li id="0" >' + htmlhead + '</li>');
             for (i = 0; i < entryList.length; i++) {
                 var entryObj = entryList[i];
+
+                if (entryObj.id === -1) {
+                    var htmlhead = '<div class="ui-grid-d">';
+                    htmlhead += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.name + '</strong></div>';
+                    htmlhead += '<div class="ui-block-b" style="text-align: center;width:10%"></div>';
+                    htmlhead += '<div class="ui-block-c" style="text-align: left;width:30%"></div>';
+                    htmlhead += '<div class="ui-block-d" style="text-align: right"></div>';
+                    htmlhead += '<div class="ui-block-e" style="text-align: right"></div>';
+                    htmlhead += '</div>';
+                    $("#myid").append('<li id="0" >' + htmlhead + '</li>');
+                    continue;
+                }
                 var entryId = i + 1;
 
 
@@ -85,11 +111,17 @@ var app = {
                     htmlName += '<div class="ui-block-a" style="color:SteelBlue;width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
                     htmlName += '<div class="ui-block-b" style="color:SteelBlue;text-align: center;width:10%">' + entryObj.id + '</div>';
                     htmlName += '<div class="ui-block-c" style="color:SteelBlue;text-align: left;width:30%"><small>' + entryObj.name + '</small></div>';
+                    // Cash account is confusing, Revert it
+                    var totStDebit = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    var totStCredit = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    if (entryObj.name === "cash") {
+                        var tmp = totStCredit;
+                        totStCredit = totStDebit;
+                        totStDebit = tmp;
+                    }
 
-                    var totSt = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                    htmlName += '<div class="ui-block-d" style="color:SteelBlue;text-align: right">' + totSt + '</div>';
-                    totSt = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                    htmlName += '<div class="ui-block-e" style="color:SteelBlue;text-align: right">' + totSt + '</div>';
+                    htmlName += '<div class="ui-block-d" style="color:SteelBlue;text-align: right">' + totStDebit + '</div>';
+                    htmlName += '<div class="ui-block-e" style="color:SteelBlue;text-align: right">' + totStCredit + '</div>';
                     htmlName += '</div>';
                     $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
 
@@ -107,6 +139,9 @@ var app = {
                 if (i + 1 === entryList.length) {
 
                     $("#myid").append('<li> </li>');
+                }
+                if (entryObj.name === "cash") {
+                    continue;
                 }
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
@@ -137,10 +172,17 @@ var app = {
                 htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
                 htmlName += '<div class="ui-block-c" style="text-align: left;width:30%"><small>' + entryObj.name + '</small></div>';
 
-                var totSt = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<div class="ui-block-d" style="text-align: right">' + totSt + '</div>';
-                totSt = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<div class="ui-block-e" style="text-align: right">' + totSt + '</div>';
+
+                var totStDebit = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                var totStCredit = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                // Cash account is confusing, Revert it
+                if (entryObj.name === "cash") {
+                    var tmp = totStCredit;
+                    totStCredit = totStDebit;
+                    totStDebit = tmp;
+                }
+                htmlName += '<div class="ui-block-d" style="text-align: right">' + totStDebit + '</div>';
+                htmlName += '<div class="ui-block-e" style="text-align: right">' + totStCredit + '</div>';
                 htmlName += '</div>';
                 htmlName += '<p>' + entryObj.comment;
                 $("#entryid").append('<li id="' + entryId + ' ">' + htmlName + '</li>');
@@ -162,7 +204,7 @@ var app = {
 
             ///cust/{username}/uisys/{custid}/accounting/report?year=");
             $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?name=" + name + "&year=" + yearRpt,
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?name=" + name + "&year=" + yearRpt + "&namerpt=" + nameRpt,
                 crossDomain: true,
                 cache: false,
                 beforeSend: function () {
@@ -177,7 +219,7 @@ var app = {
 
                     var entryObjStr = JSON.stringify(resultRptObj, null, '\t');
                     var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                        'reportObjStr': reportObjStr, 'entryObjStr': entryObjStr, 'yearRpt': yearRpt};
+                        'reportObjStr': reportObjStr, 'entryObjStr': entryObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
                     window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -188,7 +230,7 @@ var app = {
         });
 
 
-
+        //utility
         $("#costsubmit").click(function () {
             var costamount = document.getElementById("costamount").value;
             if (costamount === "") {
@@ -221,7 +263,47 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
+
+                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+                window.location.href = "accountadmrp_1.html";
+            }
+        });
+
+        // customer withdraw
+        $("#withsubmit").click(function () {
+            var examount = document.getElementById("withamount").value;
+            if (examount === "") {
+                window.location.href = "accountadmrp.html";
+                return;
+            }
+            var comment = document.getElementById("withcomm").value;
+
+            var payment = examount;
+            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
+            $.ajax({
+                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+                        + "/accounting/update?payment=" + payment + "&reason=E_USER_WITHDRAWAL" + "&comment=" + comment,
+                crossDomain: true,
+                cache: false,
+                success: handleResult
+            }); // use promises
+
+            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+            function handleResult(result) {
+                console.log(result);
+                var resultmsg = "Accounting Update result: " + result;
+                if (result == '1') {
+                    resultmsg += "  - success";
+                } else {
+                    resultmsg += "  - fail";
+                }
+                alert(resultmsg);
+
+
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -237,7 +319,7 @@ var app = {
             }
             var comment = document.getElementById("excomm").value;
             var rate = document.getElementById("exrate").value;
-            if ((rate === "") || (rate === "50")|| (rate === "100")) {
+            if ((rate === "") || (rate === "50") || (rate === "100")) {
                 ;
             } else {
                 var resultmsg = "Accounting Update error: Only accept 100% or 50% ";
@@ -268,7 +350,7 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -306,14 +388,13 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
                 window.location.href = "accountadmrp_1.html";
             }
         });
-
 
         $("#depsubmit").click(function () {
             var depamount = document.getElementById("depamount").value;
@@ -350,7 +431,7 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -390,7 +471,7 @@ var app = {
 
 
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -402,7 +483,7 @@ var app = {
         $("#nextbtn").click(function () {
             yearRpt = yearRpt + 1;
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+                'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
@@ -412,13 +493,34 @@ var app = {
         $("#prevbtn").click(function () {
             yearRpt = yearRpt - 1;
             var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                'reportObjStr': reportObjStr, 'yearRpt': yearRpt};
+                'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
             window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 
             window.location.href = "accountadmrp_1.html";
         });
 
+
+        $("#incomebtn").click(function () {
+
+            nameRpt = "income";
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
+
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+            window.location.href = "accountadmrp_1.html";
+        });
+
+        $("#balancebtn").click(function () {
+            nameRpt = "balance";
+            var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+                'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
+
+            window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+
+            window.location.href = "accountadmrp_1.html";
+        });
 // example        
 //alert("AJAX request successfully completed");
 //var jsonObj = JSON.parse(jsonStr);

@@ -43,10 +43,13 @@ var app = {
         if (iisWebObj.yearRpt != null) {
             yearRpt = iisWebObj.yearRpt;
         }
-
+        var nameRpt = "income";
+        if (iisWebObj.nameRpt != null) {
+            nameRpt = iisWebObj.nameRpt;
+        }
         ///cust/{username}/uisys/{custid}/accounting/report?year=");
         $.ajax({
-            url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?year="+yearRpt,
+            url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/accounting/report?year="+yearRpt+"&namerpt="+nameRpt,
             crossDomain: true,
             cache: false,
             beforeSend: function () {
@@ -61,7 +64,7 @@ var app = {
 
                 var reportObjStr = JSON.stringify(resultRptObj, null, '\t');
                 var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr, 'entryObjStr': "", 'yearRpt': yearRpt};
+                    'reportObjStr': reportObjStr, 'entryObjStr': "", 'yearRpt': yearRpt, 'nameRpt': nameRpt};
 
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
 

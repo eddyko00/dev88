@@ -185,7 +185,8 @@ public class AccountingImp {
         return reportObj;
     }
 
-    public AccReportObj getAccountReportYear(ServiceAFweb serviceAFWeb, int year) {
+    // income statement       
+    public AccReportObj getAccountReportYear(ServiceAFweb serviceAFWeb, int year, String namerptSt) {
         int lastYear = 0;
         if (year != 0) {
             lastYear = year * 12;
@@ -208,6 +209,7 @@ public class AccountingImp {
         reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
         reportObj.setEndl(EndingYear);
         reportObj.setEnddisplay(new java.sql.Date(EndingYear));
+        reportObj.setName("Income Statement");
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
@@ -228,6 +230,12 @@ public class AccountingImp {
         accEntryCash.setName(A_CASH);
         accTotalEntryBal.add(accEntryCash);
 
+        AccEntryObj accEntrySpace = new AccEntryObj();
+        accEntrySpace.setId(-1);
+        accEntrySpace.setDateSt(curDateSt);
+        accEntrySpace.setName("Revenue_accounts");
+        accTotalEntryBal.add(accEntrySpace);
+
         for (int i = 0; i < Revenue_accounts.length; i++) {
             AccEntryObj accEntry = new AccEntryObj();
             accEntry.setId(Revenue_accountsId[i]);
@@ -236,6 +244,12 @@ public class AccountingImp {
             accTotalEntryBal.add(accEntry);
         }
 
+        AccEntryObj accEntrySpace1 = new AccEntryObj();
+        accEntrySpace1.setId(-1);
+        accEntrySpace1.setDateSt(curDateSt);
+        accEntrySpace1.setName("Expense_accounts");
+
+        accTotalEntryBal.add(accEntrySpace1);
         for (int i = 0; i < Expense_accounts.length; i++) {
             AccEntryObj accEntry = new AccEntryObj();
             accEntry.setId(Expense_accountsId[i]);
@@ -275,8 +289,127 @@ public class AccountingImp {
 
         return reportObj;
     }
-////////////////////////////////////////////////////////////////////
 
+    // balance sheet
+    public AccReportObj getAccountBalanceReportYear(ServiceAFweb serviceAFWeb, int year, String namerptSt) {
+        int lastYear = 0;
+        if (year != 0) {
+            lastYear = year * 12;
+        }
+
+        AccReportObj reportObj = new AccReportObj();
+
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        long BeginingYear = DateUtil.getFirstDayCurrentYear();
+        long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
+
+        if (lastYear != 0) {
+            BeginingYear = TimeConvertion.addMonths(BeginingYear, lastYear);
+            EndingYear = TimeConvertion.addMonths(EndingYear, lastYear);
+        }
+
+        EndingYear = TimeConvertion.addDays(EndingYear, -1);
+
+        reportObj.setBeginl(BeginingYear);
+        reportObj.setBegindisplay(new java.sql.Date(BeginingYear));
+        reportObj.setEndl(EndingYear);
+        reportObj.setEnddisplay(new java.sql.Date(EndingYear));
+        reportObj.setName("Balance Sheet Statement");
+
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
+        if (billingObjList == null) {
+            billingObjList = new ArrayList();
+        }
+        ArrayList<AccEntryObj> accTotalEntryBal = new ArrayList();
+
+        Date curDate = new java.sql.Date(TimeConvertion.currentTimeMillis());
+        String curDateSt = curDate.toString();
+
+//    public static String Revenue_accounts[] = {R_REVENUE, R_F_INCOME, R_SRV_REVENUE};
+//    public static String Expense_accounts[] = {EX_EXPENSE, EX_T50EXPENSE, EX_DEPRECIATION, EX_WAGES};
+//    
+        AccEntryObj accEntryCash = new AccEntryObj();
+        accEntryCash.setId(INT_A_CASH);
+        accEntryCash.setDateSt(curDateSt);
+        accEntryCash.setName(A_CASH);
+        accTotalEntryBal.add(accEntryCash);
+
+//    
+        AccEntryObj accEntrySpace = new AccEntryObj();
+        accEntrySpace.setId(-1);
+        accEntrySpace.setDateSt(curDateSt);
+        accEntrySpace.setName("Asset_accounts");
+        accTotalEntryBal.add(accEntrySpace);
+
+        for (int i = 0; i < Asset_accounts.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(Asset_accountsId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(Asset_accounts[i]);
+            accTotalEntryBal.add(accEntry);
+        }
+
+        AccEntryObj accEntrySpace1 = new AccEntryObj();
+        accEntrySpace1.setId(-1);
+        accEntrySpace1.setDateSt(curDateSt);
+        accEntrySpace1.setName("Liability_accounts");
+        accTotalEntryBal.add(accEntrySpace1);
+
+        for (int i = 0; i < Liability_accounts.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(Liability_accountsId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(Liability_accounts[i]);
+            accTotalEntryBal.add(accEntry);
+        }
+        AccEntryObj accEntrySpace2 = new AccEntryObj();
+        accEntrySpace2.setId(-1);
+        accEntrySpace2.setDateSt(curDateSt);
+        accEntrySpace2.setName("Equity_accounts");
+        accTotalEntryBal.add(accEntrySpace2);
+
+        for (int i = 0; i < Equity_accounts.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(Equity_accountsId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(Equity_accounts[i]);
+            accTotalEntryBal.add(accEntry);
+        }
+
+        AccEntryObj accTotalEntry = new AccEntryObj();
+        accTotalEntry.setId(INT_SYS_TOTAL);
+        accTotalEntry.setDateSt(curDateSt);
+        accTotalEntry.setName(SYS_TOTAL);
+
+        for (int i = 0; i < billingObjList.size(); i++) {
+            BillingObj accTran = billingObjList.get(i);
+
+            for (int j = 0; j < accTotalEntryBal.size(); j++) {
+                AccEntryObj accEntryT = accTotalEntryBal.get(j);
+                if (accEntryT.getName().equals(accTran.getName())) {
+                    //        billObj.setPayment(debit);
+                    //        billObj.setBalance(credit);
+                    accEntryT.setDebit(accEntryT.getDebit() + accTran.getPayment());
+                    accEntryT.setCredit(accEntryT.getCredit() + accTran.getBalance());
+
+                    // already included in the first line
+                    if (accEntryT.getName().equals(A_CASH)) {
+                        continue;
+                    }
+                    accTotalEntry.setDebit(accTotalEntry.getDebit() + accTran.getPayment());
+                    accTotalEntry.setCredit(accTotalEntry.getCredit() + accTran.getBalance());
+
+                }
+            }
+        }
+//        accTotalEntryBal.add(accTotalEntry);
+//        reportObj.setAccTotalEntryBal(accTotalEntryBal);
+
+        return reportObj;
+    }
+
+////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //https://accounting-simplified.com/financial/double-entry-accounting/    
