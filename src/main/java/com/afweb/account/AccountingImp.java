@@ -717,10 +717,12 @@ public class AccountingImp {
         }
 
 //        accExpense = amount * rate / 100;
+        int yearMonth = 12 * year;
+
         int monNum = TimeConvertion.getMonthNum(trantime);
         monNum += 1; // start 1 - 12
         int remMonNum = (12 - monNum) + 1;
-        double curExpense = (amount / 12) * remMonNum;
+        double curExpense = (amount / yearMonth) * remMonNum;
         curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
 
         String ExSt = "Expense: " + amount + " for " + year + " year. ";
