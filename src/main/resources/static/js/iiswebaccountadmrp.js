@@ -143,17 +143,28 @@ var app = {
                     $("#myid").append('<li> </li>');
                 }
                 if (entryObj.name === "cash") {
-                    continue;
+                    if (nameRpt === "balance") {
+                        ;
+                    } else {
+                        continue;
+                    }
                 }
                 htmlName += '<div class="ui-block-a" style="width:20%"><strong>' + entryObj.dateSt + '</strong></div>';
                 htmlName += '<div class="ui-block-b" style="text-align: center;width:10%">' + entryObj.id + '</div>';
                 htmlName += '<div class="ui-block-c" style="text-align: left;width:30%"><small>' + entryObj.name + '</small></div>';
 
-                var totSt = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<div class="ui-block-d" style="text-align: right">' + totSt + '</div>';
-                totSt = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-                htmlName += '<div class="ui-block-e" style="text-align: right">' + totSt + '</div>';
-                htmlName += '</div>';
+                if (nameRpt === "balance") {
+                    var totSt = Number(entryObj.total).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    htmlName += '<div class="ui-block-d" style="text-align: right"></div>';
+                    htmlName += '<div class="ui-block-e" style="text-align: right">' + totSt + '</div>';
+                    htmlName += '</div>';
+                } else {
+                    var totSt = Number(entryObj.debit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    htmlName += '<div class="ui-block-d" style="text-align: right">' + totSt + '</div>';
+                    totSt = Number(entryObj.credit).toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                    htmlName += '<div class="ui-block-e" style="text-align: right">' + totSt + '</div>';
+                    htmlName += '</div>';
+                }
                 $("#myid").append('<li id="' + entryId + ' "><a href="#">' + htmlName + '</a></li>');
             }
         }

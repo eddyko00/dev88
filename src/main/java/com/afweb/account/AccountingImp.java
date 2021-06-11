@@ -55,9 +55,9 @@ public class AccountingImp {
 
     public static String A_EQUIPMENT = "equipment";
     public static int INT_A_EQUIPMENT = 12;
-    public static String L_ACC_PAYABLE = "acc_payable";
+    public static String L_ACC_PAYABLE = "acc_payable";  // must end with _payable for blance calculation
     public static int INT_L_ACC_PAYABLE = 13;
-    public static String L_TAX_PAYABLE = "sale_tax_payable";
+    public static String L_TAX_PAYABLE = "sale_tax_payable"; // must end with _payable for blance calculation
     public static int INT_L_TAX_PAYABLE = 14;
     public static String E_RET_EARNING = "retained_earnings";
     public static int INT_E_RET_EARNING = 15;
@@ -163,7 +163,7 @@ public class AccountingImp {
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().
-                getAccountingByNameType(name, ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, 100);
+                getAccountingByNameType(name, ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, MAX_SIZE);
         if (billingObjList == null) {
             return reportObj;
         }
@@ -215,7 +215,7 @@ public class AccountingImp {
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().
-                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, MAX_SIZE);
+                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, 0);
         if (billingObjList == null) {
             billingObjList = new ArrayList();
         }
@@ -321,7 +321,7 @@ public class AccountingImp {
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().
-                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, MAX_SIZE);
+                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, 0);
         if (billingObjList == null) {
             billingObjList = new ArrayList();
         }
@@ -397,13 +397,20 @@ public class AccountingImp {
                     accEntryT.setDebit(accEntryT.getDebit() + accTran.getPayment());
                     accEntryT.setCredit(accEntryT.getCredit() + accTran.getBalance());
 
-                    // already included in the first line
-                    if (accEntryT.getName().equals(A_CASH)) {
-                        continue;
+                    if (accEntryT.getName().indexOf("_payable") != -1) {
+                        // Liability_accounts
+                        accEntryT.setTotal(accEntryT.getCredit() - accEntryT.getDebit());
+                    } else {
+                        accEntryT.setTotal(accEntryT.getDebit() - accEntryT.getCredit());
                     }
+                    // already included in the first line
+//                    if (accEntryT.getName().equals(A_CASH)) {
+//                        continue;
+//                    }
                     accTotalEntry.setDebit(accTotalEntry.getDebit() + accTran.getPayment());
                     accTotalEntry.setCredit(accTotalEntry.getCredit() + accTran.getBalance());
 
+                    accTotalEntry.setTotal(accTotalEntry.getDebit() - accTotalEntry.getCredit());
                 }
             }
         }
@@ -413,7 +420,6 @@ public class AccountingImp {
         return reportObj;
     }
 
-    
     // deprecation sheet
     public AccReportObj getAccountDeprecationReportYear(ServiceAFweb serviceAFWeb, int year, String namerptSt) {
         int lastYear = 0;
@@ -442,7 +448,7 @@ public class AccountingImp {
 
         // begin 2021 01 01  (updatedatel)  end 2021 12 31
         ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().
-                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, MAX_SIZE);
+                getAccountingByType(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, 0);
         if (billingObjList == null) {
             billingObjList = new ArrayList();
         }
@@ -491,12 +497,16 @@ public class AccountingImp {
                     accEntryT.setDebit(accEntryT.getDebit() + accTran.getPayment());
                     accEntryT.setCredit(accEntryT.getCredit() + accTran.getBalance());
 
+                    accEntryT.setTotal(accEntryT.getDebit() - accEntryT.getCredit());
+
                     // already included in the first line
-                    if (accEntryT.getName().equals(A_CASH)) {
-                        continue;
-                    }
+//                    if (accEntryT.getName().equals(A_CASH)) {
+//                        continue;
+//                    }
                     accTotalEntry.setDebit(accTotalEntry.getDebit() + accTran.getPayment());
                     accTotalEntry.setCredit(accTotalEntry.getCredit() + accTran.getBalance());
+
+                    accTotalEntry.setTotal(accTotalEntry.getDebit() - accTotalEntry.getCredit());
 
                 }
             }
@@ -506,7 +516,7 @@ public class AccountingImp {
 
         return reportObj;
     }
-   
+
 ////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////

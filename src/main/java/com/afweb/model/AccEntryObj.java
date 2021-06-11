@@ -12,6 +12,20 @@ package com.afweb.model;
 public class AccEntryObj {
 
     /**
+     * @return the total
+     */
+    public float getTotal() {
+        return total;
+    }
+
+    /**
+     * @param total the total to set
+     */
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    /**
      * @return the debit
      */
     public float getDebit() {
@@ -112,10 +126,11 @@ public class AccEntryObj {
     private String dateSt;
     private int type;
     private String name;
+    
     //        billObj.setPayment(debit);
     //        billObj.setBalance(credit);
-    
     private float debit=0;
     private float credit=0;    
+    private float total=0;    
     private String comment = "";
 }
