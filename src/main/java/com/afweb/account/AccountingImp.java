@@ -28,6 +28,9 @@ public class AccountingImp {
     protected static Logger logger = Logger.getLogger("accAPI");
 
     public static int MAX_SIZE = 100;
+// next year    
+//https://courses.lumenlearning.com/sac-finaccounting/chapter/journalizing-and-posting-closing-entries/
+//    
 //https://www.accountingcoach.com/accounting-basics/explanation/5
 //Balance Sheet accounts:
 //
