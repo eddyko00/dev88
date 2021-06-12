@@ -655,7 +655,7 @@ public class AccountingImp {
         return result;
     }
 
-    public int addTransferPayCash(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    public int addTransferCash(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();

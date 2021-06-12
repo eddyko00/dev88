@@ -5922,7 +5922,7 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    ret = getAccounting().addTransferPayCash(this, customer, payment, commSt);
+                    ret = getAccounting().addTransferCash(this, customer, payment, commSt);
 
                 }
             }
