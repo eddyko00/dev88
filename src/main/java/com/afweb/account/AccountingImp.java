@@ -655,6 +655,14 @@ public class AccountingImp {
         return result;
     }
 
+    public int addTransferPayCash(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+
+        long trantime = System.currentTimeMillis();
+        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(L_TAX_PAYABLE, A_CASH, accountAdminObj, (float) amount, data, trantime);
+        return result;
+    }
+
     public int addTransferWithDrawRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         double amountBeforeTax = amount * (1 - GST);
         double tax = amountBeforeTax * GST;
