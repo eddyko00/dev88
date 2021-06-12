@@ -5707,7 +5707,7 @@ public class ServiceAFweb {
         return getStockImp().updateStockInfoTransaction(stockInfoTran);
     }
 
-    public int removeAccounting(String customername) {
+    public int removeAccounting(String customername, String yearSt) {
         ServiceAFweb.lastfun = "insertAccountEarning";
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5721,7 +5721,35 @@ public class ServiceAFweb {
             if (customer == null) {
                 return 0;
             }
-            return getAccountImp().removeAccountingAll();
+            int year = 0;
+            if (yearSt != null) {
+                if (yearSt.length() > 0) {
+                    try {
+                        year = Integer.parseInt(yearSt);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+            if (year == -99) {
+                return getAccountImp().removeAccountingAll();
+            }
+
+            int newYear = 0;
+            if (year != 0) {
+                newYear = year * 12;
+            }
+
+            // begin 2021 01 01  (updatedatel)  end 2021 12 31
+            long BeginingYear = DateUtil.getFirstDayCurrentYear();
+            long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
+
+            if (newYear != 0) {
+                BeginingYear = TimeConvertion.addMonths(BeginingYear, newYear);
+                EndingYear = TimeConvertion.addMonths(EndingYear, newYear);
+            }
+
+            EndingYear = TimeConvertion.addDays(EndingYear, -1);
+            return getAccountImp().removeAccounting(BeginingYear, EndingYear);
         } catch (Exception e) {
         }
         return 0;

@@ -124,8 +124,11 @@ public class IndexController {
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/earning?payment=&reason=&comment=");        
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment=");
+        
 
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=&namerpt=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/removeaccounting?year=");        
+        
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
         arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
 
@@ -2229,11 +2232,12 @@ public class IndexController {
         }
         return 0;
     }
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/removeall", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/removeaccounting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateAccoundingEntryRemoveAll(
             @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "year", required = false) String yearSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
@@ -2241,7 +2245,7 @@ public class IndexController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.removeAccounting(username);
+                    int result = afWebService.removeAccounting(username, yearSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }

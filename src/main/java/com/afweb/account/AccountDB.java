@@ -1459,10 +1459,27 @@ public class AccountDB {
         return 0;
     }
 
+    public int removeAccountBillingByTypeTime(int type, long begin, long end) {
+        try {
+            String deleteSQL = "delete from billing where type=" + type;
+            if (begin != 0) {
+                deleteSQL += " and updatedatel>" + begin;
+            }
+            if (end != 0) {
+                deleteSQL += " and updatedatel<" + end;
+            }
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> removeAccountBillingByName exception " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int removeAccountBillingByType(int type) {
         try {
             String deleteSQL = "delete from billing where type=" + type;
-            deleteSQL += " order by updatedatel desc";
+            deleteSQL += " ";
 
             processExecuteDB(deleteSQL);
             return 1;

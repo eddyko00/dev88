@@ -247,6 +247,10 @@ public class AccountImp {
         return accountdb.removeCommSignalByAccountType(accountObj.getId(), type);
     }
 
+    public int removeAccounting(long BeginingYear, long EndingYear) {
+        return accountdb.removeAccountBillingByTypeTime(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear);
+    }
+
     public int removeAccountingAll() {
         return accountdb.removeAccountBillingByType(ConstantKey.INT_ACC_TRAN);
     }
@@ -553,7 +557,7 @@ public class AccountImp {
         return accountdb.getAccountingByNameType(name, type, begin, end, length); // only limit to 100 length
     }
 
-    public ArrayList<BillingObj> getAccountingByType(int type, long begin, long end, int length) {
+    public ArrayList<BillingObj> getAccountingByTypeTime(int type, long begin, long end, int length) {
         return accountdb.getAccountingByTypeTime(type, begin, end, length);
     }
 
