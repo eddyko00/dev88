@@ -546,10 +546,10 @@ public class AccountDB {
 
         String sql = "select * from billing where name='" + name + "' and type=" + type;
         if (begin != 0) {
-            sql += " and updatedatel>" + begin;
+            sql += " and updatedatel>=" + begin;
         }
         if (end != 0) {
-            sql += " and updatedatel<" + end;
+            sql += " and updatedatel<=" + end;
         }
 
         sql += " order by updatedatel desc";
@@ -562,10 +562,10 @@ public class AccountDB {
 
         String sql = "select * from billing where type=" + type;
         if (begin != 0) {
-            sql += " and updatedatel>" + begin;
+            sql += " and updatedatel>=" + begin;
         }
         if (end != 0) {
-            sql += " and updatedatel<" + end;
+            sql += " and updatedatel<=" + end;
         }
 
         sql += " order by updatedatel desc";
@@ -1463,10 +1463,10 @@ public class AccountDB {
         try {
             String deleteSQL = "delete from billing where type=" + type;
             if (begin != 0) {
-                deleteSQL += " and updatedatel>" + begin;
+                deleteSQL += " and updatedatel>=" + begin;
             }
             if (end != 0) {
-                deleteSQL += " and updatedatel<" + end;
+                deleteSQL += " and updatedatel<=" + end;
             }
             processExecuteDB(deleteSQL);
             return 1;

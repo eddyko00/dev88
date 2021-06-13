@@ -48,7 +48,7 @@ public class AccountingImp {
     public static int INT_L_ACC_PAYABLE = 13;
     public static String L_TAX_PAYABLE = "sale_tax_payable"; // must end with _payable for blance calculation
     public static int INT_L_TAX_PAYABLE = 14;
-    public static String E_RET_EARNING = "retained_earnings";
+    public static String E_RET_EARNING = "retained_earnings_lastyear";
     public static int INT_E_RET_EARNING = 15;
 //    public static String B_BUSINESS = "profit_loss_acc";
 
@@ -176,6 +176,148 @@ public class AccountingImp {
         return reportObj;
     }
 
+    public int closingYearEnd(ServiceAFweb serviceAFWeb, CustomerObj customer, int year) {
+
+        int newYear = 0;
+        if (year != 0) {
+            newYear = year * 12;
+        }
+
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        long BeginingYear = DateUtil.getFirstDayCurrentYear();
+        long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
+
+        if (newYear != 0) {
+            BeginingYear = TimeConvertion.addMonths(BeginingYear, newYear);
+            EndingYear = TimeConvertion.addMonths(EndingYear, newYear);
+        }
+        EndingYear = TimeConvertion.addDays(EndingYear, -1);
+
+        long NextYearTran = TimeConvertion.addDays(EndingYear, 1);
+
+        // get all Asset_accountsId and Liability_accountsId to next year
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getAccountingByTypeTime(ConstantKey.INT_ACC_TRAN, BeginingYear, EndingYear, 0);
+        if (billingObjList == null) {
+            billingObjList = new ArrayList();
+        }
+        ArrayList<AccEntryObj> accTotalEntryBal = new ArrayList();
+
+        Date curDate = new java.sql.Date(TimeConvertion.currentTimeMillis());
+        String curDateSt = curDate.toString();
+
+        ArrayList<AccEntryObj> Revenue_accountsList = new ArrayList();
+        for (int i = 0; i < Revenue_accounts.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(Revenue_accountsId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(Revenue_accounts[i]);
+            accTotalEntryBal.add(accEntry);
+
+            Revenue_accountsList.add(accEntry);
+        }
+
+        ArrayList<AccEntryObj> Expense_accountsList = new ArrayList();
+        for (int i = 0; i < Expense_accounts.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(Expense_accountsId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(Expense_accounts[i]);
+            accTotalEntryBal.add(accEntry);
+
+            Expense_accountsList.add(accEntry);
+        }
+
+        float totalRevenue_accounts = 0;
+        float totalExpense_accounts = 0;
+        for (int i = 0; i < billingObjList.size(); i++) {
+            BillingObj accTran = billingObjList.get(i);
+
+            for (int k = 0; k < Revenue_accountsList.size(); k++) {
+                AccEntryObj accEntryT = Revenue_accountsList.get(k);
+                if (accEntryT.getName().equals(accTran.getName())) {
+                    float debit = accEntryT.getDebit() + accTran.getPayment();
+                    float credit = accEntryT.getCredit() + accTran.getBalance();
+                    float total = 0;
+                    total = credit - debit;
+                    totalRevenue_accounts += total;
+
+                    total = 0;
+                    if (accEntryT.getName().indexOf("_receivable") != -1) {
+                        // Liability_accounts
+                        total = credit - debit;
+                        if (total != 0) {
+                            // add to next year
+                        }
+                    }
+                }
+            }
+
+            for (int m = 0; m < Expense_accountsList.size(); m++) {
+                AccEntryObj accEntryT = Expense_accountsList.get(m);
+                if (accEntryT.getName().equals(accTran.getName())) {
+                    float debit = accEntryT.getDebit() + accTran.getPayment();
+                    float credit = accEntryT.getCredit() + accTran.getBalance();
+                    float total = 0;
+                    total = debit - credit;
+                    totalExpense_accounts += total;
+
+                    total = 0;
+                    if (accEntryT.getName().indexOf("_payable") != -1) {
+                        // Liability_accounts
+                        total = debit - credit;
+                        if (total != 0) {
+                            // add to next year
+                        }
+                    }
+                }
+            }
+        }
+
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        float equity = totalRevenue_accounts - totalExpense_accounts;
+        float amount = equity;
+        long trantime = NextYearTran;
+        String data = "Year End Closing";
+
+        if (amount >= 0) {
+            String tranData = " debit " + A_CASH + " :" + amount + "  credit " + E_RET_EARNING + ":" + amount + " year=" + year + " ";
+            data = tranData + data;
+
+            int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, trantime);
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(E_RET_EARNING, accountAdminObj, 0, (float) amount, data, trantime);
+
+        } else {
+            amount = -amount;
+            String tranData = " debit " + E_RET_EARNING + " :" + amount + "  credit " + A_CASH + ":" + amount + " year=" + year + " ";
+            data = tranData + data;
+
+            int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, trantime);
+            result = serviceAFWeb.getAccountImp().addAccountingEntry(E_RET_EARNING, accountAdminObj, (float) amount, 0, data, trantime);
+        }
+        for (int i = 0; i < billingObjList.size(); i++) {
+            BillingObj accTran = billingObjList.get(i);
+
+            for (int j = 0; j < accTotalEntryBal.size(); j++) {
+                AccEntryObj accEntryT = accTotalEntryBal.get(j);
+                if (accEntryT.getName().equals(accTran.getName())) {
+                    //        billObj.setPayment(debit);
+                    //        billObj.setBalance(credit);
+                    accEntryT.setDebit(accEntryT.getDebit() + accTran.getPayment());
+                    accEntryT.setCredit(accEntryT.getCredit() + accTran.getBalance());
+
+                    // already included in the first line
+                    if (accEntryT.getName().equals(A_CASH)) {
+                        continue;
+                    }
+
+                }
+            }
+        }
+
+        return 1;
+    }
+
     // income statement       
     public AccReportObj getAccountReportYear(ServiceAFweb serviceAFWeb, int year, String namerptSt) {
         int lastYear = 0;
@@ -271,7 +413,7 @@ public class AccountingImp {
                     float debit = accEntryT.getDebit() + accTran.getPayment();
                     float credit = accEntryT.getCredit() + accTran.getBalance();
                     float total = 0;
-                    total = debit - credit;
+                    total = credit - debit;
                     totalRevenue_accounts += total;
                 }
             }
@@ -282,7 +424,7 @@ public class AccountingImp {
                     float debit = accEntryT.getDebit() + accTran.getPayment();
                     float credit = accEntryT.getCredit() + accTran.getBalance();
                     float total = 0;
-                    total = credit - debit;
+                    total = debit - credit;
                     totalExpense_accounts += total;
                 }
             }
@@ -455,12 +597,8 @@ public class AccountingImp {
                     float credit = accEntryT.getCredit() + accTran.getBalance();
 
                     float total = 0;
-                    if (accEntryT.getName().indexOf("_payable") != -1) {
-                        // Liability_accounts
-                        total = credit - debit;
-                    } else {
-                        total = debit - credit;
-                    }
+                    total = debit - credit;
+
                     totalAsset_accounts += total;
                 }
             }
@@ -939,25 +1077,5 @@ public class AccountingImp {
 
     }
 
-    public int closingYearEnd(ServiceAFweb serviceAFWeb, CustomerObj customer, int year) {
-
-        int newYear = 0;
-        if (year != 0) {
-            newYear = year * 12;
-        }
-
-        // begin 2021 01 01  (updatedatel)  end 2021 12 31
-        long BeginingYear = DateUtil.getFirstDayCurrentYear();
-        long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
-
-        if (newYear != 0) {
-            BeginingYear = TimeConvertion.addMonths(BeginingYear, newYear);
-            EndingYear = TimeConvertion.addMonths(EndingYear, newYear);
-        }
-        EndingYear = TimeConvertion.addDays(EndingYear, -1);
-        // get all Asset_accountsId and Liability_accountsId to next year
-
-        return 1;
-    }
 ////////////////////////////////////////////////////////////////////
 }
