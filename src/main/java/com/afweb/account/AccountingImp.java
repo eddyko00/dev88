@@ -314,7 +314,7 @@ public class AccountingImp {
                     float credit = accEntryT.getCredit() + accTran.getBalance();
 
                     float total = 0;
-                    total = debit - credit;
+                    total = credit - debit;
                     total += accEntryT.getTotal();
                     accEntryT.setTotal(total);
                 }
@@ -363,7 +363,7 @@ public class AccountingImp {
             }
 
         }
-        
+
         for (int m = 0; m < Liability_accountsList.size(); m++) {
             AccEntryObj accEntryT = Liability_accountsList.get(m);
 
