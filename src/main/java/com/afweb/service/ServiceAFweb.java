@@ -5792,7 +5792,16 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    ret = getAccounting().addTransferEarning(this, customer, payment, commSt);
+                    int year = 0;
+                    if (yearSt != null) {
+                        if (yearSt.length() > 0) {
+                            try {
+                                year = Integer.parseInt(yearSt);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }                       
+                    ret = getAccounting().addTransferEarning(this, customer, payment, year, commSt);
 
                 }
             }
@@ -5857,6 +5866,15 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
+                    int year = 0;
+                    if (yearSt != null) {
+                        if (yearSt.length() > 0) {
+                            try {
+                                year = Integer.parseInt(yearSt);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }                       
                     ret = getAccounting().addTransferPayTax(this, customer, payment, commSt);
 
                 }
@@ -5886,7 +5904,7 @@ public class ServiceAFweb {
     }
 
     public int insertAccountCash(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
-        ServiceAFweb.lastfun = "insertAccountTAX";
+        ServiceAFweb.lastfun = "insertAccountCash";
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -5912,7 +5930,7 @@ public class ServiceAFweb {
                     payment = Float.parseFloat(paymentSt);
                     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
                     String currency = formatter.format(payment);
-                    commSt += "System TAX change " + currency;
+                    commSt += "System Cash change " + currency;
 
 //                    if (reasonSt != null) {
 //                        if (reasonSt.length() > 0) {
@@ -5922,7 +5940,16 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                    ret = getAccounting().addTransferCash(this, customer, payment, commSt);
+                    int year = 0;
+                    if (yearSt != null) {
+                        if (yearSt.length() > 0) {
+                            try {
+                                year = Integer.parseInt(yearSt);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }                    
+                    ret = getAccounting().addTransferCash(this, customer, payment, year, commSt);
 
                 }
             }

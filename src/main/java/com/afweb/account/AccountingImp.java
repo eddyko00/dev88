@@ -655,14 +655,13 @@ public class AccountingImp {
         return result;
     }
 
-    public int addTransferCash(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-
-        long trantime = System.currentTimeMillis();
-        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(L_TAX_PAYABLE, A_CASH, accountAdminObj, (float) amount, data, trantime);
-        return result;
-    }
-
+//    public int addTransferCash(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+//        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+//
+//        long trantime = System.currentTimeMillis();
+//        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(L_TAX_PAYABLE, A_CASH, accountAdminObj, (float) amount, data, trantime);
+//        return result;
+//    }
     public int addTransferWithDrawRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         double amountBeforeTax = amount * (1 - GST);
         double tax = amountBeforeTax * GST;
@@ -692,24 +691,66 @@ public class AccountingImp {
     }
 
 //////////////////////////////////////////////////
+    public int addTransferCash(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
+        if (amount >= 0) {
+            return this.addCashProfit(serviceAFWeb, customer, amount, year, data);
+        }
+        return this.addCashLoss(serviceAFWeb, customer, -amount, year, data);
+    }
+//If you made a profit for the year, the profit and loss account would have a credit balance   
+
+    public int addCashLoss(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+
+        long trantime = System.currentTimeMillis();
+        String tranData = " debit " + A_CASH + " :" + 0 + "  credit " + A_CASH + ":" + amount + " year=" + year + " ";
+        data = tranData + data;
+
+        if (year != 0) {
+            trantime = TimeConvertion.addMonths(trantime, year * 12);
+        }
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, trantime);
+        return result;
+
+    }
+
+//If, however, the business made a loss for the year, the profit and loss account would have a debit balance.       
+    public int addCashProfit(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+
+        long trantime = System.currentTimeMillis();
+        String tranData = " debit " + A_CASH + " :" + amount + "  credit " + A_CASH + ":" + 0 + " year=" + year + " ";
+        data = tranData + data;
+
+        if (year != 0) {
+            trantime = TimeConvertion.addMonths(trantime, year * 12);
+        }
+        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, trantime);
+        return result;
+
+    }
+
 //////////////////////////////////////////////////
 //https://www.double-entry-bookkeeping.com/retained-earnings/retained-earnings-statement/   
 //http://www.accounting-basics-for-students.com/-recording-retained-earnings-in-the-journal-.html   
 //Ending balance = Beginning balance + Retained for the year
-    public int addTransferEarning(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        if (amount > 0) {
-            return this.addRetainEarningProfit(serviceAFWeb, customer, amount, data);
+    public int addTransferEarning(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
+        if (amount >= 0) {
+            return this.addRetainEarningProfit(serviceAFWeb, customer, amount, year, data);
         }
-        return this.addRetainEarningLoss(serviceAFWeb, customer, amount, data);
+        return this.addRetainEarningLoss(serviceAFWeb, customer, -amount, year, data);
     }
 //If you made a profit for the year, the profit and loss account would have a credit balance   
 
-    public int addRetainEarningProfit(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    public int addRetainEarningProfit(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
-        String tranData = " debit " + E_RET_EARNING + " :" + 0 + "  credit " + E_RET_EARNING + ":" + amount + " ";
+        String tranData = " debit " + E_RET_EARNING + " :" + 0 + "  credit " + E_RET_EARNING + ":" + amount + " year=" + year + " ";
         data = tranData + data;
+        if (year != 0) {
+            trantime = TimeConvertion.addMonths(trantime, year * 12);
+        }
 
         int result = serviceAFWeb.getAccountImp().addAccountingEntry(E_RET_EARNING, accountAdminObj, 0, (float) amount, data, trantime);
         return result;
@@ -717,12 +758,16 @@ public class AccountingImp {
     }
 
 //If, however, the business made a loss for the year, the profit and loss account would have a debit balance.       
-    public int addRetainEarningLoss(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    public int addRetainEarningLoss(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
-        String tranData = " debit " + E_RET_EARNING + " :" + amount + "  credit " + E_RET_EARNING + ":" + 0 + " ";
+        String tranData = " debit " + E_RET_EARNING + " :" + amount + "  credit " + E_RET_EARNING + ":" + 0 + " year=" + year + " ";
         data = tranData + data;
+        if (year != 0) {
+            trantime = TimeConvertion.addMonths(trantime, year * 12);
+        }
+
         int result = serviceAFWeb.getAccountImp().addAccountingEntry(E_RET_EARNING, accountAdminObj, (float) amount, 0, data, trantime);
         return result;
 
