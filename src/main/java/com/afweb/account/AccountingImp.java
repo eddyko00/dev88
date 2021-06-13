@@ -458,8 +458,6 @@ public class AccountingImp {
                     if (accEntryT.getName().indexOf("_payable") != -1) {
                         // Liability_accounts
                         total = credit - debit;
-                    } else if (accEntryT.getName().equals(E_RET_EARNING)) {
-                        total = credit - debit;
                     } else {
                         total = debit - credit;
                     }
@@ -475,8 +473,6 @@ public class AccountingImp {
                     float total = 0;
                     if (accEntryT.getName().indexOf("_payable") != -1) {
                         // Liability_accounts
-                        total = credit - debit;
-                    } else if (accEntryT.getName().equals(E_RET_EARNING)) {
                         total = credit - debit;
                     } else {
                         total = debit - credit;
@@ -508,8 +504,6 @@ public class AccountingImp {
 
                     if (accEntryT.getName().indexOf("_payable") != -1) {
                         // Liability_accounts
-                        accEntryT.setTotal(accEntryT.getCredit() - accEntryT.getDebit());
-                    } else if (accEntryT.getName().equals(E_RET_EARNING)) {
                         accEntryT.setTotal(accEntryT.getCredit() - accEntryT.getDebit());
                     } else {
                         accEntryT.setTotal(accEntryT.getDebit() - accEntryT.getCredit());
