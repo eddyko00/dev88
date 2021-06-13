@@ -5707,6 +5707,37 @@ public class ServiceAFweb {
         return getStockImp().updateStockInfoTransaction(stockInfoTran);
     }
 
+    public int AccountingYearEnd(String customername, String yearSt) {
+        ServiceAFweb.lastfun = "insertAccountEarning";
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        customername = customername.toUpperCase();
+        NameObj nameObj = new NameObj(customername);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+            if (customer == null) {
+                return 0;
+            }
+            int year = 0;
+            if (yearSt != null) {
+                if (yearSt.length() > 0) {
+                    try {
+                        year = Integer.parseInt(yearSt);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+
+            return getAccounting().closingYearEnd(this, customer, year);
+
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     public int removeAccounting(String customername, String yearSt) {
         ServiceAFweb.lastfun = "insertAccountEarning";
         if (getServerObj().isSysMaintenance() == true) {
@@ -5800,7 +5831,7 @@ public class ServiceAFweb {
                             } catch (Exception e) {
                             }
                         }
-                    }                       
+                    }
                     ret = getAccounting().addTransferEarning(this, customer, payment, year, commSt);
 
                 }
@@ -5874,7 +5905,7 @@ public class ServiceAFweb {
                             } catch (Exception e) {
                             }
                         }
-                    }                       
+                    }
                     ret = getAccounting().addTransferPayTax(this, customer, payment, commSt);
 
                 }
@@ -5948,7 +5979,7 @@ public class ServiceAFweb {
                             } catch (Exception e) {
                             }
                         }
-                    }                    
+                    }
                     ret = getAccounting().addTransferCash(this, customer, payment, year, commSt);
 
                 }

@@ -939,5 +939,25 @@ public class AccountingImp {
 
     }
 
+    public int closingYearEnd(ServiceAFweb serviceAFWeb, CustomerObj customer, int year) {
+
+        int newYear = 0;
+        if (year != 0) {
+            newYear = year * 12;
+        }
+
+        // begin 2021 01 01  (updatedatel)  end 2021 12 31
+        long BeginingYear = DateUtil.getFirstDayCurrentYear();
+        long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
+
+        if (newYear != 0) {
+            BeginingYear = TimeConvertion.addMonths(BeginingYear, newYear);
+            EndingYear = TimeConvertion.addMonths(EndingYear, newYear);
+        }
+        EndingYear = TimeConvertion.addDays(EndingYear, -1);
+        // get all Asset_accountsId and Liability_accountsId to next year
+
+        return 1;
+    }
 ////////////////////////////////////////////////////////////////////
 }

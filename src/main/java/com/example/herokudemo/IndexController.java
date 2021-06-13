@@ -2259,7 +2259,6 @@ public class IndexController {
         }
         return 0;
     }
-
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/removeaccounting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateAccoundingEntryRemoveAll(
@@ -2274,6 +2273,29 @@ public class IndexController {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
                     int result = afWebService.removeAccounting(username, yearSt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return 0;
+    }
+
+    
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/yearend", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateAccoundingEntryYearEnd(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "year", required = false) String yearSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.AccountingYearEnd(username, yearSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
