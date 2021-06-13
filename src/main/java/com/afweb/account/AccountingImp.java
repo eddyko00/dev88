@@ -329,12 +329,7 @@ public class AccountingImp {
 
                     float total = 0;
                     total = credit - debit;
-//                    if (accEntryT.getName().indexOf("_payable") != -1) {
-//                        // Liability_accounts
-//                        total = credit - debit;
-//                    } else {
-//                        total = debit - credit;
-//                    }
+
                     total += accEntryT.getTotal();
                     accEntryT.setTotal(total);
                 }
@@ -386,7 +381,43 @@ public class AccountingImp {
             }
 
         }
+//////////////////
 
+        ArrayList<AccEntryObj> depreciation_accountsList = new ArrayList();
+        for (int i = 0; i < depreciation_accounts.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            if (depreciation_accounts[i].equals(E_RET_EARNING)) {
+                continue;
+            }
+            accEntry.setId(depreciation_accountsId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(depreciation_accounts[i]);
+            accTotalEntryBal.add(accEntry);
+
+            depreciation_accountsList.add(accEntry);
+        }
+        
+        for (int i = 0; i < billingObjList.size(); i++) {
+            BillingObj accTran = billingObjList.get(i);
+            for (int m = 0; m < Liability_accountsList.size(); m++) {
+                AccEntryObj accEntryT = Liability_accountsList.get(m);
+                if (accEntryT.getName().equals(accTran.getName())) {
+                    float debit = accEntryT.getDebit() + accTran.getPayment();
+                    float credit = accEntryT.getCredit() + accTran.getBalance();
+
+                    float total = 0;
+                    total = credit - debit;
+                    total += accEntryT.getTotal();
+                    accEntryT.setTotal(total);
+                    if (total == 0) {
+                        continue;
+                    }
+                    
+                    // process next year deprecation 
+                    
+                }
+            }
+        }
         return 1;
     }
 
