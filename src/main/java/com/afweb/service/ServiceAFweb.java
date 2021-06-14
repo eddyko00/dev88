@@ -6157,7 +6157,8 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt, String reasonSt, String rateSt, String commentSt) {
+    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt, 
+            String reasonSt, String rateSt, String yearSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -6263,7 +6264,7 @@ public class ServiceAFweb {
 
     //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15&?reason=
     public int updateAddCustStatusPaymentBalance(String customername,
-            String statusSt, String paymentSt, String balanceSt, String reasonSt) {
+            String statusSt, String paymentSt, String balanceSt, String yearSt, String reasonSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }

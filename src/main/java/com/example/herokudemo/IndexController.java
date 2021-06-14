@@ -2166,6 +2166,7 @@ public class IndexController {
             @RequestParam(value = "balance", required = false) String balanceSt,
             @RequestParam(value = "reason", required = false) String reasonSt,
             @RequestParam(value = "rate", required = false) String rateSt,
+            @RequestParam(value = "year", required = false) String yearSt,
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -2174,7 +2175,7 @@ public class IndexController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, rateSt, commentSt);
+                    int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, rateSt, yearSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -2233,7 +2234,7 @@ public class IndexController {
         }
         return 0;
     }
-    
+
     //"/cust/{username}/uisys/{custid}/accounting/earning?payment=&reason=&comment=
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/earning", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -2242,7 +2243,7 @@ public class IndexController {
             @PathVariable("custid") String custidSt,
             @RequestParam(value = "payment", required = false) String paymentSt,
             @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "year", required = false) String yearSt,            
+            @RequestParam(value = "year", required = false) String yearSt,
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -2259,6 +2260,7 @@ public class IndexController {
         }
         return 0;
     }
+
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/removeaccounting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateAccoundingEntryRemoveAll(
@@ -2281,7 +2283,6 @@ public class IndexController {
         return 0;
     }
 
-    
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/yearend", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateAccoundingEntryYearEnd(
@@ -2966,6 +2967,7 @@ public class IndexController {
             @RequestParam(value = "status", required = false) String statusSt,
             @RequestParam(value = "payment", required = false) String paymentSt,
             @RequestParam(value = "balance", required = false) String balanceSt,
+            @RequestParam(value = "year", required = false) String yearSt,
             @RequestParam(value = "reason", required = false) String reasonSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -2977,7 +2979,7 @@ public class IndexController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAddCustStatusPaymentBalance(customername, statusSt, paymentSt, balanceSt, reasonSt);
+                    int result = afWebService.updateAddCustStatusPaymentBalance(customername, statusSt, paymentSt, balanceSt, yearSt, reasonSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }

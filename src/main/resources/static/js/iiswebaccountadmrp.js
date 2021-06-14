@@ -343,10 +343,17 @@ var app = {
                 return;
             }
             var payment = examount;
+            if (yearRpt !== 0) {
+                if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
+                    ;
+                } else {
+                    return;
+                }
+            }
             ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/update?payment=" + payment + "&rate=" + rate + "&comment=" + comment,
+                        + "/accounting/update?payment=" + payment + "&year=" + yearRpt + "&rate=" + rate + "&comment=" + comment,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
@@ -381,10 +388,17 @@ var app = {
             }
             var comment = document.getElementById("revcomm").value;
             var balance = revamount;
+            if (yearRpt !== 0) {
+                if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
+                    ;
+                } else {
+                    return;
+                }
+            }
             ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/update?balance=" + balance + "&comment=" + comment,
+                        + "/accounting/update?balance=" + balance + "&year=" + yearRpt + "&comment=" + comment,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
@@ -464,14 +478,16 @@ var app = {
             var comment = document.getElementById("taxcomm").value;
 
             var payment = taxamount;
-            if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
-                ;
-            } else {
-                return;
+            if (yearRpt !== 0) {
+                if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
+                    ;
+                } else {
+                    return;
+                }
             }
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/tax?payment=" + payment + "&comment=" + comment,
+                        + "/accounting/tax?payment=" + payment + "&year=" + yearRpt + "&comment=" + comment,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
@@ -507,10 +523,12 @@ var app = {
             var comment = document.getElementById("cacomm").value;
 
             var payment = taxamount;
-            if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
-                ;
-            } else {
-                return;
+            if (yearRpt !== 0) {
+                if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
+                    ;
+                } else {
+                    return;
+                }
             }
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
@@ -541,49 +559,6 @@ var app = {
             }
         });
 
-        //"/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=
-        $("#earnsubmit").click(function () {
-            var taxamount = document.getElementById("earnamount").value;
-            if (taxamount === "") {
-                window.location.href = "accountadmrp.html";
-                return;
-            }
-            var comment = document.getElementById("earncomm").value;
-
-            var payment = taxamount;
-            if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
-                ;
-            } else {
-                return;
-            }
-            $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/earning?payment=" + payment + "&year=" + yearRpt + "&comment=" + comment,
-                crossDomain: true,
-                cache: false,
-                success: handleResult
-            }); // use promises
-
-            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
-            function handleResult(result) {
-                console.log(result);
-                var resultmsg = "Accounting Update result: " + result;
-                if (result == '1') {
-                    resultmsg += "  - success";
-                } else {
-                    resultmsg += "  - fail";
-                }
-                alert(resultmsg);
-
-
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
-
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-
-                window.location.href = "accountadmrp_1.html";
-            }
-        });
 
         $("#nextbtn").click(function () {
             yearRpt = yearRpt + 1;
@@ -676,7 +651,7 @@ var app = {
                 window.location.href = "accountadmrp_1.html";
             }
         });
-        
+
         $("#deletebtn").click(function () {
             if (confirm('Do you want to delete all accounting in year ' + yearRpt + '?')) {
                 ;
@@ -716,7 +691,7 @@ var app = {
                 window.location.href = "accountadmrp_1.html";
             }
         });
-        
+
 // 
 // example        
 //alert("AJAX request successfully completed");
