@@ -428,10 +428,12 @@ public class AccountingImp {
 
                         }
                         if (yearEnd > 0) {
-                            float curExpense = monthCost * 12;
+                            double curExpense = monthCost * 12;
+                            curExpense = (Math.round(curExpense * 100.0) / 100.0);
                             int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_EXPENSE, A_ACC_PREPAID, accountAdminObj, (float) curExpense, data, trantimeNextYear);
                             // Keep the YEAR_DEPRECIATION for next year
                             double remain = amount - curExpense;
+                            remain = (Math.round(remain * 100.0) / 100.0);
 //                            String tranData = " T1:" + EX_EXPENSE + " " + A_ACC_PREPAID + " ";
 //                            data = tranData + data;
                             result = serviceAFWeb.getAccountImp().addAccountingEntryYear(YEAR_EXPENSE, accountAdminObj, (float) amount, (float) remain, yearEnd, monthCost, orgAmount, data, trantimeNextYear);
@@ -463,6 +465,7 @@ public class AccountingImp {
 
                             // Keep the YEAR_DEPRECIATION for next year
                             double remain = amount - curExpense;
+                            remain = (Math.round(remain * 100.0) / 100.0);
 //                            String tranData = " T1:" + EX_DEPRECIATION + " " + L_ACC_PAYABLE + " ";
 //                            data = tranData + data;
 
@@ -1117,7 +1120,7 @@ public class AccountingImp {
         double orgAmount = amount;
         int monNum = TimeConvertion.getMonthNum(trantime);
         monNum += 1; // start 1 - 12
-        int remMonNum = (12 - monNum) + 1;
+        int remMonNum = (12 - monNum) + 1;  // include current month
         double monthCost = (amount / yearMonth);
         monthCost = (float) (Math.round(monthCost * 100.0) / 100.0);
 
@@ -1133,6 +1136,7 @@ public class AccountingImp {
 
         // Keep the YEAR_DEPRECIATION for next year
         double remain = amount - curExpense;
+        remain = (Math.round(remain * 100.0) / 100.0);
         String tranData = " T1:" + A_ACC_PREPAID + " " + A_CASH + "  T2:" + EX_EXPENSE + " " + A_ACC_PREPAID + " ";
         data = tranData + data;
 
@@ -1199,7 +1203,7 @@ public class AccountingImp {
         monNum = 7;
         ////force 50% rule for first year depreciation
 
-        int remMonNum = (12 - monNum) + 1;
+        int remMonNum = (12 - monNum) + 1;  // include current month
         double curExpense = (exDeplication / 12) * remMonNum;
         curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
 
@@ -1210,6 +1214,7 @@ public class AccountingImp {
         // Keep the YEAR_DEPRECIATION for next year
         double orgAmount = amount;
         double remain = amount - curExpense;
+        remain = (Math.round(remain * 100.0) / 100.0);
         String tranData = " T1:" + A_EQUIPMENT + " " + A_CASH + "  T2:" + EX_DEPRECIATION + " " + L_ACC_PAYABLE + " ";
         data = tranData + data;
 
