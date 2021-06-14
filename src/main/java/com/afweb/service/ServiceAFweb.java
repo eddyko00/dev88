@@ -6336,7 +6336,7 @@ public class ServiceAFweb {
                         if (byPassPayment == false) {
 
                             if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                                int ret = getAccounting().addTransferExpense(this, customer, balance, entryName + " " + emailSt);
+                                int ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, balance, entryName + " " + emailSt);
                             } else {
                                 int ret = getAccounting().addTransferRevenueTax(this, customer, balance, emailSt);
 
