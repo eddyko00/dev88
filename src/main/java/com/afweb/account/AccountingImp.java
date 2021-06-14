@@ -922,7 +922,7 @@ public class AccountingImp {
 //////////////////////////////////////////////////
 //https://accounting-simplified.com/financial/double-entry-accounting/    
 //////////////////////////////////////////////////////////////////
-    public int addTransferRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    public int addTransferRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
         double amountBeforeTax = amount * (1 - GST);
         double tax = amountBeforeTax * GST;
         double totalTax = Math.round(tax * 100);
@@ -948,7 +948,7 @@ public class AccountingImp {
         return result;
     }
 
-    public int addTransferWithDrawRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
+    public int addTransferWithDrawRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
         double amountBeforeTax = amount * (1 - GST);
         double tax = amountBeforeTax * GST;
         double totalTax = Math.round(tax * 100);
@@ -1140,7 +1140,7 @@ public class AccountingImp {
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////        
     // meals and entertaining 50% for tax
-    public int addTransferExpenseTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, String data) {
+    public int addTransferExpenseTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, int year, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();

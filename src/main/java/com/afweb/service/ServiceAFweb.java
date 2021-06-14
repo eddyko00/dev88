@@ -6157,7 +6157,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt, 
+    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt,
             String reasonSt, String rateSt, String yearSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
         if (getServerObj().isSysMaintenance() == true) {
@@ -6206,10 +6206,19 @@ public class ServiceAFweb {
                             }
                         }
                     }
+                    int year = 0;
+                    if (yearSt != null) {
+                        if (yearSt.length() > 0) {
+                            try {
+                                year = Integer.parseInt(yearSt);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }                    
                     if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                        ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, payment, entryName + " " + commSt);
+                        ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, payment, year, entryName + " " + commSt);
                     } else {
-                        ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, commSt);
+                        ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, year, commSt);
                     }
                 }
             }
@@ -6234,8 +6243,16 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-
-                    ret = getAccounting().addTransferRevenueTax(this, customer, balance, commSt);
+                            int year = 0;
+                            if (yearSt != null) {
+                                if (yearSt.length() > 0) {
+                                    try {
+                                        year = Integer.parseInt(yearSt);
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }
+                    ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, commSt);
 
                 }
             }
@@ -6334,11 +6351,19 @@ public class ServiceAFweb {
                     if (customer != null) {
                         boolean byPassPayment = BillingProcess.isSystemAccount(customer);
                         if (byPassPayment == false) {
-
+                            int year = 0;
+                            if (yearSt != null) {
+                                if (yearSt.length() > 0) {
+                                    try {
+                                        year = Integer.parseInt(yearSt);
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }
                             if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                                int ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, balance, entryName + " " + emailSt);
+                                int ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, balance, year, entryName + " " + emailSt);
                             } else {
-                                int ret = getAccounting().addTransferRevenueTax(this, customer, balance, emailSt);
+                                int ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, emailSt);
 
                             }
                         }
