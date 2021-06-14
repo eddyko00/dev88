@@ -1101,7 +1101,6 @@ public class AccountingImp {
 
         long trantime = System.currentTimeMillis();
 
-        double accExpense = amount;
         if (year == 0) {
             // expense in currently
             int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_EXPENSE, A_CASH, accountAdminObj, (float) amount, data, trantime);
