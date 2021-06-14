@@ -948,7 +948,6 @@ public class AccountingImp {
         return result;
     }
 
-
     public int addTransferWithDrawRevenueTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
         double amountBeforeTax = amount * (1 - GST);
         double tax = amountBeforeTax * GST;
@@ -1141,7 +1140,6 @@ public class AccountingImp {
 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////        
-
     // meals and entertaining 50% for tax
     public int addTransferExpenseTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
