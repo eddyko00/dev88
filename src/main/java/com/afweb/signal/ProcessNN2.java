@@ -650,7 +650,7 @@ public class ProcessNN2 {
                             }
                         }
                     }
-                    debugSt += " ns:" + nnSignal + " nn:" + accData.getNn();
+                    debugSt += " nSig:" + nnSignal + " nn:" + accData.getNn();
                 } else {
 
                     // get the last transaction price
@@ -703,7 +703,7 @@ public class ProcessNN2 {
                 if (nnSignal == prevSignal) {
                     if (ttCnt >= 6) {
                         nnSignal = emaSignal;
-                        debugSt += " TCs:" + nnSignal;
+                        debugSt += " TechCntSig:" + nnSignal;
 
                     }
                     // get the last transaction price
@@ -719,7 +719,7 @@ public class ProcessNN2 {
                             nnSignal = rule5_Signal;
                             confident += 15;
                             stopReset = true;
-                            debugSt += " RTs:" + nnSignal;
+                            debugSt += " ResetTrSig:" + nnSignal;
 
                         }
                     }
@@ -730,7 +730,7 @@ public class ProcessNN2 {
                 } else if (nnSignal != prevSignal) {
                     // signal change double check wiht NN trend
                     int trendSignal = this.Rule3_CheckTrend(serviceAFWeb, accountObj, stock.getSymbol(), trObj, StockArray, offset, stock, tradingRuleList, nnSignal);
-                    debugSt += " Ts:" + trendSignal;
+                    debugSt += " TrendSig:" + trendSignal;
 
                     //override the previous NN1 prediction
                     if (nnSignal == trendSignal) {
@@ -742,7 +742,7 @@ public class ProcessNN2 {
 
                 if (nnSignal != prevSignal) {
                     int retSignal = Rule4_DayChange(nnSignal, prevSignal, StockArray, offset);
-                    debugSt += " Ds:" + retSignal;
+                    debugSt += " DaySig:" + retSignal;
 
                     if (nnSignal == retSignal) {
                         confident += 10;
