@@ -396,11 +396,11 @@ public class AccountingImp {
 
             depreciation_accountsList.add(accEntry);
         }
-        
+
         for (int i = 0; i < billingObjList.size(); i++) {
             BillingObj accTran = billingObjList.get(i);
-            for (int m = 0; m < Liability_accountsList.size(); m++) {
-                AccEntryObj accEntryT = Liability_accountsList.get(m);
+            for (int m = 0; m < depreciation_accountsList.size(); m++) {
+                AccEntryObj accEntryT = depreciation_accountsList.get(m);
                 if (accEntryT.getName().equals(accTran.getName())) {
                     float debit = accEntryT.getDebit() + accTran.getPayment();
                     float credit = accEntryT.getCredit() + accTran.getBalance();
@@ -412,9 +412,57 @@ public class AccountingImp {
                     if (total == 0) {
                         continue;
                     }
-                    
-                    // process next year deprecation 
-                    
+                    if (accEntryT.getName().equals(YEAR_EXPENSE)) {
+                        String dataSt = accTran.getData();
+                        AccDeprecateObj accData = serviceAFWeb.getAccountImp().getAccDeprecateObj(dataSt);
+                        int yearEnd = accTran.getSubstatus() - 1;
+                        float monthCost = accData.getMonCost();
+                        data = accData.getData();
+
+                        if (yearEnd == 0) {
+
+                            float remain = total; //last year remaining
+                            int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_EXPENSE, A_ACC_PREPAID, accountAdminObj, (float) remain, data, trantimeNextYear);
+
+                        }
+                        if (yearEnd > 0) {
+                            float curExpense = monthCost * 12;
+                            int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_EXPENSE, A_ACC_PREPAID, accountAdminObj, (float) curExpense, data, trantimeNextYear);
+                            // Keep the YEAR_DEPRECIATION for next year
+                            amount = total;
+                            double remain = amount - curExpense;
+                            String tranData = " T1:" + EX_EXPENSE + " " + A_ACC_PREPAID + " ";
+                            data = tranData + data;
+                            result = serviceAFWeb.getAccountImp().addAccountingEntryYear(YEAR_EXPENSE, accountAdminObj, (float) amount, (float) remain, year, (float) monthCost, data, trantimeNextYear);
+                        }
+                    }
+                    if (accEntryT.getName().equals(YEAR_DEPRECIATION)) {
+                        String dataSt = accTran.getData();
+                        AccDeprecateObj accData = serviceAFWeb.getAccountImp().getAccDeprecateObj(dataSt);
+                        int yearEnd = accTran.getSubstatus() - 1;
+                        float rate = accData.getRate();;
+                        data = accData.getData();
+
+                        if (yearEnd == 0) {
+                            float remain = total; //last year remaining
+                            int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_DEPRECIATION, A_EQUIPMENT, accountAdminObj, (float) remain, data, trantimeNextYear);
+                        }
+                        if (yearEnd > 0) {
+                            amount = total;
+                            double curExpense = amount * rate / 100;
+                            curExpense = (Math.round(curExpense * 100.0) / 100.0);
+
+                            int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_DEPRECIATION, A_EQUIPMENT, accountAdminObj, (float) curExpense, data, trantimeNextYear);
+
+                            // Keep the YEAR_DEPRECIATION for next year
+                            double remain = amount - curExpense;
+                            String tranData = " T1:" + EX_DEPRECIATION + " " + L_ACC_PAYABLE + " ";
+                            data = tranData + data;
+
+                            result = serviceAFWeb.getAccountImp().addAccountingEntryRate(YEAR_DEPRECIATION, accountAdminObj, (float) amount, (float) remain, rate, data, trantimeNextYear);
+                        }
+                    }
+
                 }
             }
         }
@@ -1063,7 +1111,10 @@ public class AccountingImp {
         int monNum = TimeConvertion.getMonthNum(trantime);
         monNum += 1; // start 1 - 12
         int remMonNum = (12 - monNum) + 1;
-        double curExpense = (amount / yearMonth) * remMonNum;
+        double monthCost = (amount / yearMonth);
+        monthCost = (float) (Math.round(monthCost * 100.0) / 100.0);
+
+        double curExpense = monthCost * remMonNum;
         curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
 
         String ExSt = "Expense: " + amount + " for " + year + " year. ";
@@ -1077,19 +1128,9 @@ public class AccountingImp {
         double remain = amount - curExpense;
         String tranData = " T1:" + A_ACC_PREPAID + " " + A_CASH + "  T2:" + EX_EXPENSE + " " + A_ACC_PREPAID + " ";
         data = tranData + data;
-        result = serviceAFWeb.getAccountImp().addAccountingEntryYear(YEAR_EXPENSE, accountAdminObj, (float) amount, (float) remain, year, data, trantime);
+        result = serviceAFWeb.getAccountImp().addAccountingEntryYear(YEAR_EXPENSE, accountAdminObj, (float) amount, (float) remain, year, (float) monthCost, data, trantime);
 
         return result;
-    }
-
-    // search equipment to find if it still has value for Depreciation 
-    public int addTransferUtilityExpenseNextYear(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        long trantime = System.currentTimeMillis();
-        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_EXPENSE, A_ACC_PREPAID, accountAdminObj, (float) amount, data, trantime);
-
-        return result;
-
     }
 
 //////////////////////////////////////////////////
@@ -1164,17 +1205,6 @@ public class AccountingImp {
         data = tranData + data;
 
         result = serviceAFWeb.getAccountImp().addAccountingEntryRate(YEAR_DEPRECIATION, accountAdminObj, (float) amount, (float) remain, iRate, data, trantime);
-
-        return result;
-
-    }
-
-    // search equipment to find if it still has value for Depreciation 
-    public int addTransferDepreciationNextYear(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        long trantime = System.currentTimeMillis();
-
-        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(EX_DEPRECIATION, A_EQUIPMENT, accountAdminObj, (float) amount, data, trantime);
 
         return result;
 

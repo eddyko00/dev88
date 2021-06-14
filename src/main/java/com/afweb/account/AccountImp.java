@@ -5,6 +5,7 @@
  */
 package com.afweb.account;
 
+import com.afweb.model.AccDeprecateObj;
 import com.afweb.model.AccEntryObj;
 import com.afweb.model.ConstantKey;
 
@@ -1505,7 +1506,7 @@ public class AccountImp {
         return accountdb.insertAccountBillingData(billObj);
     }
 
-    public int addAccountingEntryRate(String name, AccountObj accountObj, float debit, float credit, int rate, String data, long entryDatel) {
+    public int addAccountingEntryRate(String name, AccountObj accountObj, float debit, float credit, float rate, String data, long entryDatel) {
         if (accountObj == null) {
             return -1;
         }
@@ -1515,7 +1516,7 @@ public class AccountImp {
         billObj.setName(name);
         billObj.setType(ConstantKey.INT_ACC_TRAN);
         billObj.setStatus(ConstantKey.INITIAL);
-        billObj.setSubstatus(rate);
+        billObj.setSubstatus(5); // max 5 year end deprecation
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long entrytime = dateNow.getTimeInMillis();
@@ -1531,20 +1532,21 @@ public class AccountImp {
         data = StringTag.replaceAll("\"", " ", data);
         data = StringTag.replaceAll("'", " ", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
-        AccData accData = new AccData();
-        accData.setConf(data);
-        accData.setTt(0);
-        String nameSt = saveAccData(accData);
+        AccDeprecateObj accData = new AccDeprecateObj();
+        accData.setData(data);
+        accData.setMonCost(0);
+        accData.setRate(rate);
+        String nameSt = saveAccDeprecateObj(accData);
         billObj.setData(nameSt);
         return accountdb.insertAccountBillingData(billObj);
     }
 
-    public AccData getAccData(String accDataStr) {
-        AccData refData = new AccData();
+    public AccDeprecateObj getAccDeprecateObj(String accDataStr) {
+        AccDeprecateObj refData = new AccDeprecateObj();
         try {
             if ((accDataStr != null) && (accDataStr.length() > 0)) {
                 accDataStr = accDataStr.replaceAll("#", "\"");
-                refData = new ObjectMapper().readValue(accDataStr, AccData.class);
+                refData = new ObjectMapper().readValue(accDataStr, AccDeprecateObj.class);
                 return refData;
             }
         } catch (Exception ex) {
@@ -1552,7 +1554,7 @@ public class AccountImp {
         return refData;
     }
 
-    public String saveAccData(AccData accData) {
+    public String saveAccDeprecateObj(AccDeprecateObj accData) {
 
         String nameSt = "";
         try {
@@ -1564,7 +1566,7 @@ public class AccountImp {
         return nameSt;
     }
 
-    public int addAccountingEntryYear(String name, AccountObj accountObj, float debit, float credit, int year, String data, long entryDatel) {
+    public int addAccountingEntryYear(String name, AccountObj accountObj, float debit, float credit, int year, float monthCost, String data, long entryDatel) {
         if (accountObj == null) {
             return -1;
         }
@@ -1590,10 +1592,11 @@ public class AccountImp {
         data = StringTag.replaceAll("\"", " ", data);
         data = StringTag.replaceAll("'", " ", data);
         data = StringTag.replaceAll("\\n\\r", "", data);
-        AccData accData = new AccData();
-        accData.setConf(data);
-        accData.setTt(0);
-        String nameSt = saveAccData(accData);
+        AccDeprecateObj accData = new AccDeprecateObj();
+        accData.setData(data);
+        accData.setMonCost(monthCost);
+        accData.setRate(0);
+        String nameSt = saveAccDeprecateObj(accData);
         billObj.setData(nameSt);
         return accountdb.insertAccountBillingData(billObj);
     }
