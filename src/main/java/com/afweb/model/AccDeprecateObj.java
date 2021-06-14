@@ -11,8 +11,24 @@ package com.afweb.model;
  */
 public class AccDeprecateObj {
 
+    /**
+     * @return the yearCnt
+     */
+    public int getYearCnt() {
+        return yearCnt;
+    }
+
+    /**
+     * @param yearCnt the yearCnt to set
+     */
+    public void setYearCnt(int yearCnt) {
+        this.yearCnt = yearCnt;
+    }
+
+    private float orgAmount = 0;      
     private float monCost = 0;
     private float rate = 0;
+    private int yearCnt = 0;    
     private String data = "";
     /**
      * @return the rate
@@ -54,5 +70,19 @@ public class AccDeprecateObj {
      */
     public void setMonCost(float monCost) {
         this.monCost = monCost;
+    }
+
+    /**
+     * @return the orgAmount
+     */
+    public float getOrgAmount() {
+        return orgAmount;
+    }
+
+    /**
+     * @param orgAmount the orgAmount to set
+     */
+    public void setOrgAmount(float orgAmount) {
+        this.orgAmount = orgAmount;
     }
 }

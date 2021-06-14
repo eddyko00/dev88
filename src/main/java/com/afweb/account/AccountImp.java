@@ -1506,7 +1506,7 @@ public class AccountImp {
         return accountdb.insertAccountBillingData(billObj);
     }
 
-    public int addAccountingEntryRate(String name, AccountObj accountObj, float debit, float credit, float rate, String data, long entryDatel) {
+    public int addAccountingEntryRate(String name, AccountObj accountObj, float debit, float credit, int yearCnt, float rate, float orgAmount, String data, long entryDatel) {
         if (accountObj == null) {
             return -1;
         }
@@ -1536,6 +1536,8 @@ public class AccountImp {
         accData.setData(data);
         accData.setMonCost(0);
         accData.setRate(rate);
+        accData.setYearCnt(yearCnt);        
+        accData.setOrgAmount(orgAmount);
         String nameSt = saveAccDeprecateObj(accData);
         billObj.setData(nameSt);
         return accountdb.insertAccountBillingData(billObj);
@@ -1566,7 +1568,7 @@ public class AccountImp {
         return nameSt;
     }
 
-    public int addAccountingEntryYear(String name, AccountObj accountObj, float debit, float credit, int year, float monthCost, String data, long entryDatel) {
+    public int addAccountingEntryYear(String name, AccountObj accountObj, float debit, float credit, int yearCnt, float monthCost, float orgAmount, String data, long entryDatel) {
         if (accountObj == null) {
             return -1;
         }
@@ -1576,7 +1578,7 @@ public class AccountImp {
         billObj.setName(name);
         billObj.setType(ConstantKey.INT_ACC_TRAN);
         billObj.setStatus(ConstantKey.INITIAL);
-        billObj.setSubstatus(year);
+        billObj.setSubstatus(yearCnt);
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long entrytime = dateNow.getTimeInMillis();
@@ -1596,6 +1598,9 @@ public class AccountImp {
         accData.setData(data);
         accData.setMonCost(monthCost);
         accData.setRate(0);
+        accData.setYearCnt(yearCnt);            
+        accData.setOrgAmount(orgAmount);
+
         String nameSt = saveAccDeprecateObj(accData);
         billObj.setData(nameSt);
         return accountdb.insertAccountBillingData(billObj);
