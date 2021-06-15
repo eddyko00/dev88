@@ -286,52 +286,52 @@ var app = {
             }
         });
 
-        // customer withdraw
-        $("#withsubmit").click(function () {
-            var examount = document.getElementById("withamount").value;
-            if (examount === "") {
-                window.location.href = "accountadmrp.html";
-                return;
-            }
-            var comment = document.getElementById("withcomm").value;
-
-            var payment = examount;
-            if (yearRpt !== 0) {
-                if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
-                    ;
-                } else {
-                    return;
-                }
-            }
-            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
-            $.ajax({
-                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/update?payment=" + payment + "&year=" + yearRpt + "&reason=E_USER_WITHDRAWAL" + "&comment=" + comment,
-                crossDomain: true,
-                cache: false,
-                success: handleResult
-            }); // use promises
-
-            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
-            function handleResult(result) {
-                console.log(result);
-                var resultmsg = "Accounting Update result: " + result;
-                if (result == '1') {
-                    resultmsg += "  - success";
-                } else {
-                    resultmsg += "  - fail";
-                }
-                alert(resultmsg);
-
-
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
-                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
-
-                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
-
-                window.location.href = "accountadmrp_1.html";
-            }
-        });
+        // customer withdraw done in admin page
+//        $("#withsubmit").click(function () {
+//            var examount = document.getElementById("withamount").value;
+//            if (examount === "") {
+//                window.location.href = "accountadmrp.html";
+//                return;
+//            }
+//            var comment = document.getElementById("withcomm").value;
+//
+//            var payment = examount;
+//            if (yearRpt !== 0) {
+//                if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
+//                    ;
+//                } else {
+//                    return;
+//                }
+//            }
+//            ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
+//            $.ajax({
+//                url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
+//                        + "/accounting/update?payment=" + payment + "&year=" + yearRpt + "&reason=E_USER_WITHDRAWAL" + "&comment=" + comment,
+//                crossDomain: true,
+//                cache: false,
+//                success: handleResult
+//            }); // use promises
+//
+//            // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
+//            function handleResult(result) {
+//                console.log(result);
+//                var resultmsg = "Accounting Update result: " + result;
+//                if (result == '1') {
+//                    resultmsg += "  - success";
+//                } else {
+//                    resultmsg += "  - fail";
+//                }
+//                alert(resultmsg);
+//
+//
+//                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr,
+//                    'reportObjStr': reportObjStr, 'yearRpt': yearRpt, 'nameRpt': nameRpt};
+//
+//                window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
+//
+//                window.location.href = "accountadmrp_1.html";
+//            }
+//        });
 
         $("#exsubmit").click(function () {
             var examount = document.getElementById("examount").value;
