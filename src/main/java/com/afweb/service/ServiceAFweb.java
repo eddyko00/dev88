@@ -7021,7 +7021,8 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        retSatus = getAccountProcessImp().downloadDBData(this);
+        BackkupkRestoreImp backupRestore = new BackkupkRestoreImp();
+        retSatus = backupRestore.downloadDBData(this);
         if (retSatus == true) {
             serverObj.setSysMaintenance(true);
             serverObj.setTimerInit(false);
@@ -7036,7 +7037,8 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        retSatus = getAccountProcessImp().restoreNNonlyDBData(this);
+        BackkupkRestoreImp backupRestore = new BackkupkRestoreImp();
+        retSatus = backupRestore.restoreNNonlyDBData(this);
         if (retSatus == true) {
             serverObj.setSysMaintenance(true);
             serverObj.setTimerInit(false);
@@ -7056,7 +7058,8 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        retSatus = getAccountProcessImp().restoreDBData(this);
+        BackkupkRestoreImp backupRestore = new BackkupkRestoreImp();
+        retSatus = backupRestore.restoreDBData(this);
         if (retSatus == true) {
             serverObj.setSysMaintenance(true);
             serverObj.setTimerInit(false);
