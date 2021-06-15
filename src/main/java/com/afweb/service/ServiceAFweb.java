@@ -560,6 +560,7 @@ public class ServiceAFweb {
     public static String lastfun = "";
 
     private void processTimer(String cmd) {
+        StockProcess stockProcess = new StockProcess();
 
         if (getEnv.checkLocalPC() == true) {
             if (CKey.NN_DEBUG == true) {
@@ -611,7 +612,7 @@ public class ServiceAFweb {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             } else if (cmd.equals("updatestock")) {
-                TRprocessImp.UpdateAllStock(this);
+                stockProcess.UpdateAllStock(this);
             } else if (cmd.equals("debugtest")) {
                 debugtest();
             }
@@ -643,10 +644,10 @@ public class ServiceAFweb {
 //            logger.info("> processTimer " + getServerObj().getProcessTimerCnt());
             if (getEnv.checkLocalPC() == true) {
                 if (CKey.NN_DEBUG == true) {
-                    TRprocessImp.UpdateAllStock(this);
-                    TRprocessImp.ProcessAdminSignalTrading(this);
+                    stockProcess.UpdateAllStock(this);
+                    stockProcess.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                    TRprocessImp.UpdateAllStock(this);
+                    stockProcess.UpdateAllStock(this);
 
                 }
             }
@@ -663,6 +664,7 @@ public class ServiceAFweb {
 
     void AFwebExec() {
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+        StockProcess stockProcess = new StockProcess();
         ////////////
         if (((getServerObj().getProcessTimerCnt() % 29) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
             long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
@@ -678,11 +680,12 @@ public class ServiceAFweb {
             // add or remove stock in Mutual fund account based on all stocks in the system
             System.gc();
             getAccountProcessImp().ProcessAddRemoveFundAccount(this);
+
             AccountMaintProcess maintProcess = new AccountMaintProcess();
             maintProcess.ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-            TRprocessImp.UpdateAllStock(this);
+            stockProcess.UpdateAllStock(this);
             AFprocessNeuralNet();
 //            
             BillingProcess billProc = new BillingProcess();
@@ -693,16 +696,16 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
-            TRprocessImp.UpdateAllStock(this);
+            stockProcess.UpdateAllStock(this);
 
-            TRprocessImp.ProcessAdminSignalTrading(this);
+            stockProcess.ProcessAdminSignalTrading(this);
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
             //
             TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
             TRAPI.ProcessAPISignalTrading(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-            TRprocessImp.UpdateAllStock(this);
+            stockProcess.UpdateAllStock(this);
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
@@ -875,6 +878,7 @@ public class ServiceAFweb {
 
     public void processNeuralNetTrain() {
         ServiceAFweb.lastfun = "processNeuralNetTrain";
+        StockProcess stockProcess = new StockProcess();
 
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -1094,9 +1098,9 @@ public class ServiceAFweb {
             if (processNNSignalAdmin == true) {
                 exitflag = false;
                 logger.info("> processNNSignalAdmin  cycle " + k);
-                TRprocessImp.ProcessAdminSignalTrading(this);
+                stockProcess.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                TRprocessImp.UpdateAllStock(this);
+                stockProcess.UpdateAllStock(this);
                 logger.info("> processNNSignalAdmin end... cycle " + k);
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -1148,6 +1152,7 @@ public class ServiceAFweb {
 
     public void processInitLocalRemoteNN() {
         logger.info("> processInitLocalRemoteNN ");
+        StockProcess stockProcess = new StockProcess();
 
         try {
             if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
@@ -1247,7 +1252,7 @@ public class ServiceAFweb {
                     if (symbol.equals("T_T")) {
                         continue;
                     }
-                    int re = TRprocessImp.updateAllStockProcess(this, symbol, false);
+                    int re = stockProcess.updateAllStockProcess(this, symbol, false);
                     if ((i % 5) == 0) {
                         logger.info("> updated: " + i);
                     }
@@ -1684,19 +1689,6 @@ public class ServiceAFweb {
 //                    Thread.currentThread().interrupt();
 //                }
 //            }
-///////////////////////////////////////////////////// 
-//            String sym = "FAZ";
-//            sym="TMO";
-//            TRprocessImp.updateAllStockProcess(this, sym);
-//            
-//            TradingNNprocess NNProcessImp = new TradingNNprocess();
-//            int retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC, sym);
 ////////////////////////////////////////////////////////////////////
 //             AFstockObj stock = getRealTimeStockImp(symbol);
 //             int resultUpdate = TRprocessImp.updateRealTimeStock(this, stock);
@@ -5233,7 +5225,7 @@ public class ServiceAFweb {
     }
 
     public int addStock(String symbol) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+        StockProcess stockProcess = new StockProcess();
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -5242,7 +5234,7 @@ public class ServiceAFweb {
         String NormalizeSymbol = symObj.getYahooSymbol();
         int result = getStockImp().addStock(NormalizeSymbol);
         if (result == ConstantKey.NEW) {
-            TRprocessImp.ResetStockUpdateNameArray(this);
+            stockProcess.ResetStockUpdateNameArray(this);
         }
         return result;
     }
@@ -5334,6 +5326,20 @@ public class ServiceAFweb {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
         return getStockImp().disableStock(NormalizeSymbol);
+    }
+
+    public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+        AFstockObj stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
+        if (stock == null) {
+            return false;
+        }
+        if (stock.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+        if (stock.getAfstockInfo() == null) {
+            return false;
+        }
+        return true;
     }
 
     public AFstockObj getStockRealTime(String symbol) {
@@ -5700,8 +5706,9 @@ public class ServiceAFweb {
     // require oldest date to earliest
 
     public int updateStockAll() {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        return TRprocessImp.UpdateAllStock(this);
+
+        StockProcess stockProcess = new StockProcess();
+        return stockProcess.UpdateAllStock(this);
     }
 
     public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
@@ -7374,9 +7381,8 @@ public class ServiceAFweb {
 
     public void InitSystemData() {
         logger.info(">InitDB InitSystemData for Stock and account ");
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        TRprocessImp.InitSystemData();
-        getAccountProcessImp().InitSystemData();
+        StockProcess stockProcess = new StockProcess();
+        stockProcess.InitSystemData();
 
     }
 
