@@ -5,26 +5,19 @@
  */
 package com.afweb.stock;
 
-import com.afweb.account.AccountTranProcess;
-import com.afweb.account.CommMsgImp;
-import com.afweb.model.ConstantKey;
-import com.afweb.model.StockInfoTranObj;
-import com.afweb.model.account.AccountObj;
-import com.afweb.model.account.CommData;
-import com.afweb.model.account.TradingRuleObj;
-import com.afweb.model.stock.AFstockInfo;
-import com.afweb.model.stock.AFstockObj;
-import com.afweb.model.stock.StockData;
+import com.afweb.account.*;
+
+import com.afweb.model.*;
+
+import com.afweb.model.account.*;
+
+import com.afweb.model.stock.*;
+
 import com.afweb.service.ServiceAFweb;
-import com.afweb.signal.ADXObj;
-import com.afweb.signal.NNCal;
-import com.afweb.signal.NNObj;
-import com.afweb.signal.TechnicalCal;
-import com.afweb.signal.TradingSignalProcess;
-import com.afweb.util.CKey;
-import com.afweb.util.DateUtil;
-import com.afweb.util.TimeConvertion;
-import com.afweb.util.getEnv;
+import com.afweb.signal.*;
+
+import com.afweb.util.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,182 +35,10 @@ public class StockProcess {
 
     protected static Logger logger = Logger.getLogger("StockProcess");
 
-//    private ServiceAFweb serviceAFWeb = null;
-    private static int timerCnt = 0;
-    private static ArrayList stockUpdateNameArray = new ArrayList();
-    private static ArrayList stockSignalNameArray = new ArrayList();
-
-    public void InitSystemData() {
-        timerCnt = 0;
-        stockUpdateNameArray = new ArrayList();
-        stockSignalNameArray = new ArrayList();
-    }
-
-    public void ProcessAdminSignalTrading(ServiceAFweb serviceAFWeb) {
-//        logger.info("> ProcessAdminSignalTrading ");
-//        this.serviceAFWeb = serviceAFWeb;
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-        if (accountAdminObj == null) {
-            return;
-        }
-
-        UpdateStockSignalNameArray(serviceAFWeb, accountAdminObj);
-        if (stockSignalNameArray == null) {
-            return;
-        }
-        if (stockSignalNameArray.size() == 0) {
-            return;
-        }
-
-        String LockName = null;
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long lockDateValue = dateNow.getTimeInMillis();
-
-        LockName = "ADM_" + ServiceAFweb.getServerObj().getServerName();
-        LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
-
-        long lockReturn = 1;
-        lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
-
-        boolean testing = false;
-        if (testing == true) {
-            lockReturn = 1;
-        }
-        logger.info("ProcessAdminSignalTrading " + LockName + " LockName " + lockReturn);
-        if (lockReturn > 0) {
-
-            long currentTime = System.currentTimeMillis();
-            long lockDate5Min = TimeConvertion.addMinutes(currentTime, 5);
-            logger.info("ProcessAdminSignalTrading for 3 minutes stocksize=" + stockSignalNameArray.size());
-
-            for (int i = 0; i < 10; i++) {
-                currentTime = System.currentTimeMillis();
-                if (testing == true) {
-                    currentTime = 0;
-                }
-                if (lockDate5Min < currentTime) {
-                    break;
-                }
-                if (stockSignalNameArray.size() == 0) {
-                    break;
-                }
-
-                try {
-                    String symbol = (String) stockSignalNameArray.get(0);
-                    stockSignalNameArray.remove(0);
-
-                    if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (ServiceAFweb.checkSymbolDebugTest(symbol) == false) {
-                            continue;
-                        }
-                    }
-                    AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
-                    if (stock != null) {
-                        if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                            logger.info("> ProcessAdminSignalTrading return stock split " + symbol);
-                            return;
-                        }
-                    }
-                    if (stock == null) {
-                        logger.info("> ProcessAdminSignalTrading return stock null ");
-                        continue;
-                    }
-
-                    String LockStock = "ADM_" + symbol;
-                    LockStock = LockStock.toUpperCase();
-
-                    long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                    long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
-                    if (testing == true) {
-                        lockReturnStock = 1;
-                    }
-//                    logger.info("ProcessAdminSignalTrading " + LockStock + " LockStock " + lockReturnStock);
-                    if (lockReturnStock > 0) {
-
-                        boolean ret = serviceAFWeb.checkStock(serviceAFWeb, symbol);
-                        if (ret == true) {
-
-                            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
-                            if (trObj != null) {
-                                long lastUpdate = trObj.getUpdatedatel();
-                                long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);
-
-                                long curDateValue = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                                if (testing == true) {
-                                    lastUpdate5Min = 0;
-                                }
-                                if (lastUpdate5Min < curDateValue) {
-                                    // process only if within 5 minutes on the last update
-                                    // so that it will not do it so often
-                                    TradingSignalProcess TSprocess = new TradingSignalProcess();
-                                    TSprocess.updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
-                                    TSprocess.upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
-                                    TSprocess.upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
-                                    TSprocess.upateAdminTRPerf(serviceAFWeb, accountAdminObj, symbol);
-                                }
-                            }
-                        }
-
-                        serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
-//                        logger.info("ProcessAdminSignalTrading " + LockStock + " unLock LockStock ");
-                    }
-                } catch (Exception ex) {
-                    logger.info("> ProcessAdminSignalTrading Exception" + ex.getMessage());
-                }
-            }
-            serviceAFWeb.removeNameLock(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
-            logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
-        }
-    }
-
-    private ArrayList UpdateStockSignalNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
-        if (stockSignalNameArray != null && stockSignalNameArray.size() > 0) {
-            return stockSignalNameArray;
-        }
-
-        ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
-
-        if (stockNameArray != null) {
-            stockNameArray.add(0, "HOU.TO");
-            stockSignalNameArray = stockNameArray;
-        }
-//        logger.info("> UpdateStockSignalNameArray stocksize=" + stockSignalNameArray.size());
-
-        return stockSignalNameArray;
-    }
-
-    public int calculateTrend(ServiceAFweb serviceAFWeb, AFstockObj stock, long dateNowL) {
-        if (stock == null) {
-            return 0;
-        }
-        int size1year = 5 * 52;
-        ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
-        if (StockArray == null) {
-            return 0;
-        }
-        if (StockArray.size() < 10) {
-            return 0;
-        }
-        int offset = AccountTranProcess.getOffetDate(StockArray, dateNowL);
-
-        float STerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-        float LTerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-        ADXObj adx = TechnicalCal.AvgDir(StockArray, offset, 14);
-
-        int iSTerm = (int) STerm;
-        int iLTerm = (int) LTerm;
-        stock.setLongterm(iLTerm);
-        stock.setShortterm(iSTerm);
-        stock.setDirection((float) adx.trsignal);
-
-        updateStockRecommendation(serviceAFWeb, stock, StockArray);
-
-        return 1;
-    }
-
     ///////////////
     public static int stockPass = 0;
     public static int stockFail = 0;
+    private static ArrayList stockUpdateNameArray = new ArrayList();
 
     public void ResetStockUpdateNameArray(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
@@ -428,6 +249,35 @@ public class StockProcess {
         return 0;
     }
 
+    public int calculateTrend(ServiceAFweb serviceAFWeb, AFstockObj stock, long dateNowL) {
+        if (stock == null) {
+            return 0;
+        }
+        int size1year = 5 * 52;
+        ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
+        if (StockArray == null) {
+            return 0;
+        }
+        if (StockArray.size() < 10) {
+            return 0;
+        }
+        int offset = AccountTranProcess.getOffetDate(StockArray, dateNowL);
+
+        float STerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+        float LTerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+        ADXObj adx = TechnicalCal.AvgDir(StockArray, offset, 14);
+
+        int iSTerm = (int) STerm;
+        int iLTerm = (int) LTerm;
+        stock.setLongterm(iLTerm);
+        stock.setShortterm(iSTerm);
+        stock.setDirection((float) adx.trsignal);
+
+        updateStockRecommendation(serviceAFWeb, stock, StockArray);
+
+        return 1;
+    }
+
     public int updateStockRecommendation(ServiceAFweb serviceAFWeb, AFstockObj stock, ArrayList StockArray) {
         if (stock == null) {
             return 0;
@@ -549,7 +399,7 @@ public class StockProcess {
                 stock.setUpdatedatedisplay(stockRTinternet.getUpdatedatedisplay());
                 stock.setUpdatedatel(stockRTinternet.getUpdatedatel());
                 stock.setAfstockInfo(stockRTinternet.getAfstockInfo());
-                stock.setDirection(timerCnt);
+                stock.setDirection(0);
                 if (!stock.getStockname().equals(stockRTinternet.getStockname())) {
                     stock.setStockname(stockRTinternet.getStockname());
                     String sockNameSQL = StockDB.SQLupdateStockName(stock);

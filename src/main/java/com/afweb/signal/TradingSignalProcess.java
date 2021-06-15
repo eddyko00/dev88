@@ -22,7 +22,7 @@ import com.afweb.nnprocess.*;
 
 import com.afweb.stock.*;
 import com.afweb.util.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.TimeZone;
 

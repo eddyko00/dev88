@@ -605,6 +605,7 @@ public class ServiceAFweb {
             }
         }
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+        AccountTranProcess accountTranP = new AccountTranProcess();
         String LockName = null;
         //////           
         if (cmd.length() > 0) {
@@ -645,7 +646,7 @@ public class ServiceAFweb {
             if (getEnv.checkLocalPC() == true) {
                 if (CKey.NN_DEBUG == true) {
                     stockProcess.UpdateAllStock(this);
-                    stockProcess.ProcessAdminSignalTrading(this);
+                    accountTranP.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                     stockProcess.UpdateAllStock(this);
 
@@ -698,7 +699,9 @@ public class ServiceAFweb {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
             stockProcess.UpdateAllStock(this);
 
-            stockProcess.ProcessAdminSignalTrading(this);
+            AccountTranProcess accountTranP = new AccountTranProcess();
+            accountTranP.ProcessAdminSignalTrading(this);
+
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
             //
             TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
@@ -1098,7 +1101,9 @@ public class ServiceAFweb {
             if (processNNSignalAdmin == true) {
                 exitflag = false;
                 logger.info("> processNNSignalAdmin  cycle " + k);
-                stockProcess.ProcessAdminSignalTrading(this);
+                AccountTranProcess accountTranP = new AccountTranProcess();
+                accountTranP.ProcessAdminSignalTrading(this);
+
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                 stockProcess.UpdateAllStock(this);
                 logger.info("> processNNSignalAdmin end... cycle " + k);
@@ -7381,8 +7386,6 @@ public class ServiceAFweb {
 
     public void InitSystemData() {
         logger.info(">InitDB InitSystemData for Stock and account ");
-        StockProcess stockProcess = new StockProcess();
-        stockProcess.InitSystemData();
 
     }
 
