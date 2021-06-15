@@ -2201,7 +2201,8 @@ public class ServiceAFweb {
         format.setTimeZone(tz);
         String ESTdate = format.format(d);
         String msg = ESTdate + " " + custObj.getUsername() + " Cust change to Fund Manager Result:" + result;
-        this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+        CommMsgImp commMsg = new CommMsgImp();
+        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
         return result;
 
     }
@@ -2247,7 +2248,8 @@ public class ServiceAFweb {
         format.setTimeZone(tz);
         String ESTdate = format.format(d);
         String msg = ESTdate + " " + custObj.getUsername() + " Cust change to API User Result:" + result;
-        this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+        CommMsgImp commMsg = new CommMsgImp();
+        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
         return result;
     }
 
@@ -2346,7 +2348,9 @@ public class ServiceAFweb {
             format.setTimeZone(tz);
             String ESTdate = format.format(d);
             String msg = ESTdate + " " + newCustomer.getUsername() + " Cust signup Result:" + result;
-            this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+            CommMsgImp commMsg = new CommMsgImp();
+
+            commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
 //            
             webStatus.setResultID(result);
             return loginObj;
@@ -2456,7 +2460,8 @@ public class ServiceAFweb {
         format.setTimeZone(tz);
         String ESTdate = format.format(d);
         String msg = ESTdate + " " + custObj.getUsername() + " Cust update Result:" + result;
-        this.getAccountProcessImp().AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+        CommMsgImp commMsg = new CommMsgImp();
+        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
 //                            
         webStatus.setResultID(result);
 //        loginObj.setCustObj(custObj);

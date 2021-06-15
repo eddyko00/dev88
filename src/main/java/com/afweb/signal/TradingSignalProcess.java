@@ -2123,7 +2123,8 @@ public class TradingSignalProcess {
             String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
 
             commDataObj.setMsg(commMsg);
-            serviceAFWeb.getAccountProcessImp().AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_TYPE_COM_SPLIT, commDataObj);
+            CommMsgImp commMsgImp = new CommMsgImp();
+            commMsgImp.AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_TYPE_COM_SPLIT, commDataObj);
 
             return true;
         }
@@ -2924,19 +2925,19 @@ public class TradingSignalProcess {
             } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
                 sig = ConstantKey.S_SELL_ST;
             }
-
+            CommMsgImp commMsgImp = new CommMsgImp();
             CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accountObj);
             if (cust.getType() == CustomerObj.INT_API_USER) {
                 DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
                 formatD.setTimeZone(tz);
                 String ESTdateD = formatD.format(d);
 
-                serviceAFWeb.getAccountProcessImp().AddCommAPISignalMessage(serviceAFWeb, accountObj, trObj, ESTdateD, stock.getSymbol(), sig);
+                commMsgImp.AddCommAPISignalMessage(serviceAFWeb, accountObj, trObj, ESTdateD, stock.getSymbol(), sig);
 
             } else {
                 String accTxt = "acc-" + accountObj.getId();
                 String msg = ESTdate + " " + accTxt + " " + stock.getSymbol() + " Sig:" + sig;
-                serviceAFWeb.getAccountProcessImp().AddCommSignalMessage(serviceAFWeb, accountObj, trObj, msg);
+                commMsgImp.AddCommSignalMessage(serviceAFWeb, accountObj, trObj, msg);
             }
         }
         return ret;

@@ -6,12 +6,11 @@
 package com.afweb.account;
 
 import com.afweb.model.ConstantKey;
-import com.afweb.model.account.AccountObj;
-import com.afweb.model.account.CommObj;
-import com.afweb.model.account.CustomerObj;
+import com.afweb.model.account.*;
+
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.CKey;
-import com.afweb.util.StringTag;
+
 import com.afweb.util.TimeConvertion;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -103,7 +102,8 @@ public class PUBSUBprocess {
             for (int j = 0; j < accObjList.size(); j++) {
                 AccountObj accountObj = accObjList.get(j);
                 if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                    serviceAFWeb.getAccountProcessImp().AddCommMessage(serviceAFWeb, accountObj, ConstantKey.COM_FUNDMSG, comObj.getData());
+                    CommMsgImp commMsg = new CommMsgImp();
+                    commMsg.AddCommMessage(serviceAFWeb, accountObj, ConstantKey.COM_FUNDMSG, comObj.getData());
                     break;
                 }
             }
