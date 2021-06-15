@@ -1,18 +1,14 @@
 package com.afweb.stock;
 
-import com.afweb.model.ConstantKey;
-import com.afweb.model.StockInfoTranObj;
-import com.afweb.model.account.PerformData;
+import com.afweb.model.*;
 import com.afweb.model.stock.*;
-import com.afweb.nn.NNInputDataObj;
-import com.afweb.nn.NNInputOutObj;
+import com.afweb.nn.*;
 
-//import com.afweb.nn.NeuralNetwork;
 import com.afweb.nnBP.NNBPservice;
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.util.CKey;
-import com.afweb.util.TimeConvertion;
+import com.afweb.util.*;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,52 +26,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class StockImp {
 
     protected static Logger logger = Logger.getLogger("StockImp");
-//
-//    public static int NegativeSignal(int signal) {
-//        if (signal == CKey.S_LONG_BUY) {
-//            signal = (CKey.S_SHORT_SELL);
-//        } else if (signal == CKey.S_BUY) {
-//            signal = (CKey.S_SELL);
-//        } else if (signal == CKey.S_SHORT_SELL) {
-//            signal = (CKey.S_LONG_BUY);
-//        } else if (signal == CKey.S_SELL) {
-//            signal = (CKey.S_BUY);
-//        } else if (signal == CKey.S_EXIT_LONG) {
-//            signal = (CKey.S_EXIT_SHORT);
-//        } else if (signal == CKey.S_EXIT_SHORT) {
-//            signal = (CKey.S_EXIT_LONG);
-//        }
-//        return signal;
-//    }
-//
-//    public static String getSignalName(int marginType, int signal) {
-//        if (marginType == CKey.ENABLE) {
-//            switch (signal) {
-//                case S_PENDING:
-//                    return "Pending";
-//                case S_NEUTRAL:
-//                    return "Exit";
-//                case S_LONG_BUY:
-//                    return "EnterLong (Buy)";
-//                case S_SHORT_SELL:
-//                    return "ShortSell (Sell)";
-//                case S_EXIT_LONG:
-//                    return "ExitLong (Sell)";
-//                case S_EXIT_SHORT:
-//                    return "ExitShort (Sell)";
-//            }
-//        } else {
-//            switch (signal) {
-//                case S_NEUTRAL:
-//                    return "Sell";
-//                case S_BUY:
-//                    return "Buy";
-//                case S_SELL:
-//                    return "Sell";
-//            }
-//        }
-//        return "";
-//    }
+
     public static int SHORT_TERM_TREND = 16;
     public static int LONG_TERM_TREND = 50;
 
