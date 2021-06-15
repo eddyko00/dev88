@@ -647,7 +647,7 @@ public class ServiceAFweb {
                     TRprocessImp.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
                     TRprocessImp.UpdateAllStock(this);
-                    getAccountProcessImp().ProcessSystemMaintance(this);
+
                 }
             }
 
@@ -678,7 +678,8 @@ public class ServiceAFweb {
             // add or remove stock in Mutual fund account based on all stocks in the system
             System.gc();
             getAccountProcessImp().ProcessAddRemoveFundAccount(this);
-            getAccountProcessImp().ProcessSystemMaintance(this);
+            AccountMaintProcess maintProcess = new AccountMaintProcess();
+            maintProcess.ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             TRprocessImp.UpdateAllStock(this);

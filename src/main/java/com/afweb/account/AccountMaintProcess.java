@@ -5,17 +5,15 @@
  */
 package com.afweb.account;
 
-import static com.afweb.account.AccountTranProcess.compareStockList;
-import static com.afweb.account.AccountTranProcess.logger;
 import com.afweb.model.ConstantKey;
-import com.afweb.model.account.AccountObj;
-import com.afweb.model.account.CustomerObj;
-import com.afweb.model.stock.AFLockObject;
-import com.afweb.model.stock.AFstockObj;
+import com.afweb.model.account.*;
+
+import com.afweb.model.stock.*;
+
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockDB;
-import com.afweb.util.CKey;
-import com.afweb.util.TimeConvertion;
+import com.afweb.util.*;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,14 +31,14 @@ public class AccountMaintProcess {
 
     private static int acTimerCnt = 0;
 
-    private static ArrayList accountIdNameArray = new ArrayList();
-    private static ArrayList accountFundIdNameArray = new ArrayList();
+//    private static ArrayList accountIdNameArray = new ArrayList();
+//    private static ArrayList accountFundIdNameArray = new ArrayList();
 
     ///
-    public void InitSystemData() {
-        acTimerCnt = 0;
-        accountIdNameArray = new ArrayList();
-    }
+//    public void InitSystemData() {
+//        acTimerCnt = 0;
+//        accountIdNameArray = new ArrayList();
+//    }
 
     public void ProcessSystemMaintance(ServiceAFweb serviceAFWeb) {
         acTimerCnt++;
