@@ -6220,7 +6220,7 @@ public class ServiceAFweb {
                             }
                         }
                     }
-                    if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
+                    if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
                         ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, payment, year, entryName + " " + commSt);
                     } else {
                         ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, year, commSt);
@@ -6366,11 +6366,11 @@ public class ServiceAFweb {
                                 }
                             }
 
-                            if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
+                            if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
                                 // UI will set payment to negative 
                                 float withdraw = -balance;
                                 int ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, withdraw, year, entryName + " " + emailSt);
-                            } else if (entryName.equals(BillingProcess.R_USER_PAYMENT)) {
+                            } else if (entryName.equals(AccountingProcess.R_USER_PAYMENT)) {
                                 int ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, emailSt);
                             }
                         }

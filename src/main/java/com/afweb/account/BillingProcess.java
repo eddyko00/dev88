@@ -32,9 +32,6 @@ import java.util.logging.Logger;
  */
 public class BillingProcess {
 
-    public static String R_USER_PAYMENT = "R_USER_PAYMENT";
-    public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
-
     public static final int NO_PAYMENT_1 = 55;
     public static final int NO_PAYMENT_2 = 56;
 

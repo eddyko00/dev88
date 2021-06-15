@@ -24,9 +24,11 @@ import java.util.logging.Logger;
  * @author eddyko
  */
 public class AccountingProcess {
-
     protected static Logger logger = Logger.getLogger("accAPI");
 
+    public static String R_USER_PAYMENT = "R_USER_PAYMENT";
+    public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
+    
     public static int MAX_SIZE = 100;
 // next year    
 //https://courses.lumenlearning.com/sac-finaccounting/chapter/journalizing-and-posting-closing-entries/
