@@ -32,6 +32,9 @@ import java.util.logging.Logger;
  */
 public class BillingProcess {
 
+    public static String R_USER_PAYMENT = "R_USER_PAYMENT";
+    public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
+
     public static final int NO_PAYMENT_1 = 55;
     public static final int NO_PAYMENT_2 = 56;
 
@@ -711,102 +714,6 @@ public class BillingProcess {
     }
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
-
-//    public static String SYS_CASH = "CASH_ACC";  // checking cash account
-//    public static int INT_SYS_CASH = 10;
-//    public static String SYS_TOTAL = "TOTAL";
-//    public static int INT_SYS_TOTAL = 11;
-    public static String SYS_REVENUE = "R_REVENUE";
-//    public static int INT_SYS_REVENUE = 20;
-//    public static String R_USER_PAYMENT = "R_USER_PAYMENT";
-//    public static int INT_R_USER_PAYMENT = 22;
-//    public static String SYS_EXPENSE = "E_EXPENSE";
-//    public static int INT_SYS_EXPENSE = 40;
-//    public static String E_COST_SERVICE = "E_COST_SERVICE";
-//    public static int INT_E_COST_SERVICE = 42;
-    public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
-//    public static int INT_E_USER_WITHDRAWAL = 44;
-//
-//    public static String E_DEPRECATE = "E_DEPRECATE";
-//    public static int INT_E_DEPRECATE = 46;
-//    public static String E_TAX = "E_TAX";
-//    public static int INT_E_TAX = 48;
-
-//    public static String allEntry[] = {SYS_CASH, SYS_REVENUE, SYS_EXPENSE, R_USER_PAYMENT,
-//        E_COST_SERVICE, E_USER_WITHDRAWAL, E_DEPRECATE, E_TAX};
-//    public static int allEntryId[] = {INT_SYS_CASH, INT_SYS_REVENUE, INT_SYS_EXPENSE, INT_R_USER_PAYMENT,
-//        INT_E_COST_SERVICE, INT_E_USER_WITHDRAWAL, INT_E_DEPRECATE, INT_E_TAX};
-
-
-//    public int insertAccountExDeprecation(ServiceAFweb serviceAFWeb, CustomerObj customer, String name, float expense, float rate, String data) {
-//
-//        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-//        if (name.length() == 0) {
-//            name = SYS_EXPENSE;
-//        }
-////        billObj.setPayment(debit);
-////        billObj.setBalance(credit);
-//
-//        // Cach is one time only
-//        int result = serviceAFWeb.getAccountImp().addAccountingEntry(SYS_CASH, accountAdminObj, expense, 0, data, 0);
-//        /////////////////////////
-//        // need to create multiple entry for deplication
-//        ////////////////////////        
-//        if (rate == 0) {
-//            rate = 100;
-//        }
-//        if (rate == 100) {
-//            result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, expense, 0, data, 0);
-//            return result;
-//        }
-//
-//        int yearCnt = (int) (100 / rate);
-//
-//        /// Max 5 year
-//        if (yearCnt > 5) {
-//            yearCnt = 5;
-//        }
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//        long entrytime = dateNow.getTimeInMillis();
-//        float remainExpense = expense;
-//
-//        Date dateSt = new Date(entrytime);
-//        String DepSt = "Deprecation: " + expense + " for " + yearCnt + "Yr from " + dateSt.toString() + ". ";
-//        data = DepSt + data;
-//
-//        for (int i = 0; i < yearCnt; i++) {
-//            float exDeplication = expense * rate / 100;
-//            exDeplication = (float) (Math.round(exDeplication * 100.0) / 100.0);
-//            if (i > 0) {
-//                entrytime = TimeConvertion.addMonths(entrytime, 12);
-//            }
-//
-//            /// first year will prorated to the end of year
-//            if (i == 0) {
-//                int monNum = TimeConvertion.getMonthNum(entrytime);
-//                monNum += 1; // start 1 - 12
-//                int remMonNum = (12 - monNum) + 1;
-//                float curExpense = (exDeplication / 12) * remMonNum;
-//                curExpense = (float) (Math.round(curExpense * 100.0) / 100.0);
-//                exDeplication = curExpense;
-//            }
-//
-//            //////// last year will claim the rest of expense
-//            if (i == (yearCnt - 1)) {
-//                exDeplication = remainExpense;
-//            }
-//            if (exDeplication > 0) {
-//                result = serviceAFWeb.getAccountImp().addAccountingEntry(name, accountAdminObj, exDeplication, 0, data, entrytime);
-//            }
-//            remainExpense = remainExpense - exDeplication;
-//            if (remainExpense < 0) {
-//                break;
-//            }
-//        }
-//
-//        return result;
-//
-//    }
 
     //////////////////////////////
 }

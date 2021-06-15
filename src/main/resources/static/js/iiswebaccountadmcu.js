@@ -170,7 +170,7 @@ var app = {
                 window.location.href = "accountadm.html";
                 return;
             }
-
+            
             var customername = cuObj.username;
             var balance = accpaid;
             //cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance="
@@ -215,7 +215,7 @@ var app = {
             //cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance="
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id + "/cust/" + customername
-                        + "/update?balance=" + balance + "&reason=R_USER_WITHDRAWAL",
+                        + "/update?balance=" + balance + "&reason=E_USER_WITHDRAWAL",
                 crossDomain: true,
                 cache: false,
                 success: handleResult

@@ -6214,7 +6214,7 @@ public class ServiceAFweb {
                             } catch (Exception e) {
                             }
                         }
-                    }                    
+                    }
                     if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
                         ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, payment, year, entryName + " " + commSt);
                     } else {
@@ -6243,15 +6243,15 @@ public class ServiceAFweb {
                     if (comment.length() > 0) {
                         commSt = comment;
                     }
-                            int year = 0;
-                            if (yearSt != null) {
-                                if (yearSt.length() > 0) {
-                                    try {
-                                        year = Integer.parseInt(yearSt);
-                                    } catch (Exception e) {
-                                    }
-                                }
+                    int year = 0;
+                    if (yearSt != null) {
+                        if (yearSt.length() > 0) {
+                            try {
+                                year = Integer.parseInt(yearSt);
+                            } catch (Exception e) {
                             }
+                        }
+                    }
                     ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, commSt);
 
                 }
@@ -6342,7 +6342,7 @@ public class ServiceAFweb {
                     emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
 
                     ////////update accounting entry
-                    String entryName = BillingProcess.SYS_REVENUE;
+                    String entryName = "";
                     if (reasonSt != null) {
                         if (reasonSt.length() > 0) {
                             entryName = reasonSt;
@@ -6360,11 +6360,13 @@ public class ServiceAFweb {
                                     }
                                 }
                             }
-                            if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
-                                int ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, balance, year, entryName + " " + emailSt);
-                            } else {
-                                int ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, emailSt);
 
+                            if (entryName.equals(BillingProcess.E_USER_WITHDRAWAL)) {
+                                // UI will set payment to negative 
+                                float withdraw = -balance;
+                                int ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, withdraw, year, entryName + " " + emailSt);
+                            } else if (entryName.equals(BillingProcess.R_USER_PAYMENT)) {
+                                int ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, emailSt);
                             }
                         }
                     }

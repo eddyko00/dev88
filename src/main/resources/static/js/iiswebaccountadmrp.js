@@ -296,10 +296,17 @@ var app = {
             var comment = document.getElementById("withcomm").value;
 
             var payment = examount;
+            if (yearRpt !== 0) {
+                if (confirm('Do you want to add transaction in year ' + yearRpt + '?')) {
+                    ;
+                } else {
+                    return;
+                }
+            }
             ///cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&comment=
             $.ajax({
                 url: iisurl + "/cust/" + custObj.username + "/uisys/" + custObj.id
-                        + "/accounting/update?payment=" + payment + "&reason=E_USER_WITHDRAWAL" + "&comment=" + comment,
+                        + "/accounting/update?payment=" + payment + "&year=" + yearRpt + "&reason=E_USER_WITHDRAWAL" + "&comment=" + comment,
                 crossDomain: true,
                 cache: false,
                 success: handleResult
