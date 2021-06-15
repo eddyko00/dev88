@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author eddyko
  */
-public class AccountingImp {
+public class AccountingProcess {
 
     protected static Logger logger = Logger.getLogger("accAPI");
 

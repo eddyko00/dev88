@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  *
  * @author eddy
  */
-public class AccountProcess {
+public class AccountTranProcess {
 
     protected static Logger logger = Logger.getLogger("AccountProcess");
 

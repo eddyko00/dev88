@@ -72,9 +72,9 @@ public class ServiceAFweb {
 
     private StockImp stockImp = new StockImp();
     private AccountImp accountImp = new AccountImp();
-    private AccountProcess accountProcessImp = new AccountProcess();
+    private AccountTranProcess accountProcessImp = new AccountTranProcess();
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
-    private AccountingImp accounting = new AccountingImp();
+    private AccountingProcess accounting = new AccountingProcess();
 
     public static String PROXYURL = "";
     public static String URL_LOCALDB = "";
@@ -1184,7 +1184,7 @@ public class ServiceAFweb {
                 ArrayList addedList = new ArrayList();
 
                 ArrayList removeList = new ArrayList();
-                boolean result = AccountProcess.compareStockList(StockNameRemoteList, APIStockNameList, addedList, removeList);
+                boolean result = AccountTranProcess.compareStockList(StockNameRemoteList, APIStockNameList, addedList, removeList);
                 if (result == true) {
                     for (int i = 0; i < addedList.size(); i++) {
                         String symbol = (String) addedList.get(i);
@@ -7441,14 +7441,14 @@ public class ServiceAFweb {
     /**
      * @return the accountProcessImp
      */
-    public AccountProcess getAccountProcessImp() {
+    public AccountTranProcess getAccountProcessImp() {
         return accountProcessImp;
     }
 
     /**
      * @param accountProcessImp the accountProcessImp to set
      */
-    public void setAccountProcessImp(AccountProcess accountProcessImp) {
+    public void setAccountProcessImp(AccountTranProcess accountProcessImp) {
         this.accountProcessImp = accountProcessImp;
     }
 
@@ -7510,14 +7510,14 @@ public class ServiceAFweb {
     /**
      * @return the accounting
      */
-    public AccountingImp getAccounting() {
+    public AccountingProcess getAccounting() {
         return accounting;
     }
 
     /**
      * @param accounting the accounting to set
      */
-    public void setAccounting(AccountingImp accounting) {
+    public void setAccounting(AccountingProcess accounting) {
         this.accounting = accounting;
     }
 
