@@ -613,7 +613,7 @@ public class ServiceAFweb {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             } else if (cmd.equals("updatestock")) {
-                stockProcess.UpdateAllStock(this);
+                updateStockAllSrv();
             } else if (cmd.equals("debugtest")) {
                 debugtest();
             }
@@ -645,10 +645,10 @@ public class ServiceAFweb {
 //            logger.info("> processTimer " + getServerObj().getProcessTimerCnt());
             if (getEnv.checkLocalPC() == true) {
                 if (CKey.NN_DEBUG == true) {
-                    stockProcess.UpdateAllStock(this);
+                    updateStockAllSrv();
                     accountTranP.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                    stockProcess.UpdateAllStock(this);
+                    updateStockAllSrv();
 
                 }
             }
@@ -686,7 +686,7 @@ public class ServiceAFweb {
             maintProcess.ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-            stockProcess.UpdateAllStock(this);
+           updateStockAllSrv();
             AFprocessNeuralNet();
 //            
             BillingProcess billProc = new BillingProcess();
@@ -697,7 +697,7 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
-            stockProcess.UpdateAllStock(this);
+            updateStockAllSrv();
 
             AccountTranProcess accountTranP = new AccountTranProcess();
             accountTranP.ProcessAdminSignalTrading(this);
@@ -708,7 +708,7 @@ public class ServiceAFweb {
             TRAPI.ProcessAPISignalTrading(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-            stockProcess.UpdateAllStock(this);
+            updateStockAllSrv();
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
@@ -1105,7 +1105,7 @@ public class ServiceAFweb {
                 accountTranP.ProcessAdminSignalTrading(this);
 
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                stockProcess.UpdateAllStock(this);
+                updateStockAllSrv();
                 logger.info("> processNNSignalAdmin end... cycle " + k);
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -5710,10 +5710,10 @@ public class ServiceAFweb {
     // require oldest date to earliest
     // require oldest date to earliest
 
-    public int updateStockAll() {
+    public int updateStockAllSrv() {
 
         StockProcess stockProcess = new StockProcess();
-        return stockProcess.UpdateAllStock(this);
+        return stockProcess.updateAllStock(this);
     }
 
     public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
