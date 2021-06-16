@@ -14,6 +14,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.nnBP.*;
+import com.afweb.processnn.NNService;
 import com.afweb.service.*;
 import com.afweb.stock.*;
 
@@ -37,6 +38,7 @@ import java.util.logging.Logger;
 public class NN1ProcessBySignal {
 
     public static Logger logger = Logger.getLogger("NN1Process");
+    NNService nnservice = new NNService();
 
     public void processNN1InputNeuralNet(ServiceAFweb serviceAFWeb) {
         TradingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
@@ -268,7 +270,8 @@ public class NN1ProcessBySignal {
 
             boolean flagInit = true;
             if (flagInit == true) {
-                AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
+                NNService nnservice = new NNService();
+                AFneuralNet afNeuralNet = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPname, 0);
                 ////just for teting
 //                afNeuralNet = null;
                 ////just for teting                
@@ -290,7 +293,7 @@ public class NN1ProcessBySignal {
                 } else {
                     String weightSt = afNeuralNet.getWeight();
                     if ((weightSt == null) || (weightSt.length() == 0)) {
-                        AFneuralNet afNeuralNet0 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
+                        AFneuralNet afNeuralNet0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
                         if (afNeuralNet0 != null) {
                             weightSt = afNeuralNet0.getWeight();
                             afNeuralNet.setName(BPname);
@@ -585,13 +588,13 @@ public class NN1ProcessBySignal {
         // first one is initial and the second one is to execute
         this.Process1TrainNeuralNet(serviceAFWeb, TR_NN, BPnameSym, symbol);
 
-        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+        AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
         return nnObj1;
     }
 
     private void Process1TrainNeuralNet(ServiceAFweb serviceAFWeb, int TR_NN, String BPnameSym, String symbol) {
 
-        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+        AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
         if (nnObj1 == null) {
             inputStockNeuralNetBySignal(serviceAFWeb, TR_NN, symbol);
             return;
@@ -616,7 +619,7 @@ public class NN1ProcessBySignal {
             String BPnameSym = CKey.NN_version + "_" + nnNameSym;
 
             try {
-                AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+                AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
                 String status = "NA";
                 if (nnObj1 != null) {
                     if ((nnObj1.getStatus() == ConstantKey.OPEN) || (nnObj1.getStatus() == ConstantKey.COMPLETED)) {
@@ -635,7 +638,7 @@ public class NN1ProcessBySignal {
                 if (TR_Name == ConstantKey.INT_TR_NN1) {
                     /////try to use DB first
                     String BPnameBase = CKey.NN_version + "_" + nnName;
-                    AFneuralNet afNeuralNetBase = serviceAFWeb.getNeuralNetObjWeight0(BPnameBase, 0);
+                    AFneuralNet afNeuralNetBase = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPnameBase, 0);
                     if (afNeuralNetBase != null) {
                         String weigthDBbase = afNeuralNetBase.getWeight();
                         if (weigthDBbase.length() != 0) {
@@ -701,7 +704,7 @@ public class NN1ProcessBySignal {
 
                 ReferNameData refData = new ReferNameData();
 //                String refName = "";
-                AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
+                AFneuralNet nnObj0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 if (nnObj0 != null) {
                     String stWeight0 = nnObj0.getWeight();
 
@@ -768,7 +771,7 @@ public class NN1ProcessBySignal {
         String BPname = CKey.NN_version + "_" + nnNameSym;
         try {
 
-            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPname, 0);
+            AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPname, 0);
             if (nnObj1 != null) {
                 if (nnObj1.getStatus() != ConstantKey.OPEN) {
                     return -1;
@@ -866,7 +869,7 @@ public class NN1ProcessBySignal {
 
         ///NeuralNetObj1 transition
         ///NeuralNetObj0 release        
-        AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+        AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
         if (nnObj1 == null) {
             return 0;
         }
@@ -1040,7 +1043,7 @@ public class NN1ProcessBySignal {
 
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
-                AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
+                AFneuralNet nnObj0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 if (nnObj0 == null) {
                     return 0;
                 }
@@ -1082,7 +1085,6 @@ public class NN1ProcessBySignal {
 //                        }
 //                    }
 //                }
-
                 ArrayList writeArray = new ArrayList();
 
                 if (inputlistSym != null) {
@@ -1140,7 +1142,7 @@ public class NN1ProcessBySignal {
                     }
                 }
                 // redue multiple task update the same ref condition
-                nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPnameSym, 0);
+                nnObj0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
                 int cnt = refData.getnRLCnt();
                 if (cnt < 0) {

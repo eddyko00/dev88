@@ -19,6 +19,7 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 import com.afweb.nnprocess.*;
+import com.afweb.processnn.NNService;
 import com.afweb.signal.EMAObj;
 import com.afweb.signal.MACDObj;
 import com.afweb.signal.NNObj;
@@ -50,6 +51,7 @@ import java.util.logging.Logger;
 public class TradingSignalProcess {
 
     protected static Logger logger = Logger.getLogger("TrandingSignalProcess");
+    NNService nnservice = new NNService();
 //
 
     public void upateAdminPerformance(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
@@ -2026,10 +2028,11 @@ public class TradingSignalProcess {
     public void downloadNeuralNetWeight(ServiceAFweb serviceAFWeb, int nnNum) {
         String name = CKey.NN_version + "_" + ConstantKey.TR_NN1;
         AFneuralNet nnObj = null;
+        NNService nnservice = new NNService();
         if (nnNum == 0) {
-            nnObj = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+            nnObj = nnservice.getNeuralNetObjWeight0(serviceAFWeb, name, 0);
         } else if (nnNum == 1) {
-            nnObj = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
+            nnObj = nnservice.getNeuralNetObjWeight1(serviceAFWeb, name, 0);
         }
         if (nnObj != null) {
             String weightSt = nnObj.getWeight();
@@ -2044,7 +2047,7 @@ public class TradingSignalProcess {
 
     public AFneuralNet testNeuralNet0Symbol(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         String BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
-        AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
+        AFneuralNet nnObj0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
         if (nnObj0 == null) {
             return null;
         }
@@ -2343,7 +2346,7 @@ public class TradingSignalProcess {
             }
 
             if (nnObj1 == null) {
-                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
+                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
                 if (nnObj1 == null) {
                     return null;
                 }
@@ -2363,7 +2366,7 @@ public class TradingSignalProcess {
             }
 
             if (nnObj1 == null) {
-                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
+                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
                 if (nnObj1 == null) {
                     return null;
                 }
@@ -2383,7 +2386,7 @@ public class TradingSignalProcess {
             }
 
             if (nnObj1 == null) {
-                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
+                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
                 if (nnObj1 == null) {
                     return null;
                 }
@@ -2403,7 +2406,7 @@ public class TradingSignalProcess {
             }
 
             if (nnObj1 == null) {
-                nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
+                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
                 if (nnObj1 == null) {
                     return null;
                 }
@@ -2413,7 +2416,7 @@ public class TradingSignalProcess {
 
         } else {
             logger.info("> OutputNNBP exception - need to define new cache " + nnTraining.getTrname());
-            nnObj1 = serviceAFWeb.getNeuralNetObjWeight0(BPname, 0);
+            nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
             if (nnObj1 == null) {
                 return null;
             }
@@ -2482,7 +2485,7 @@ public class TradingSignalProcess {
         ///NeuralNetObj1 transition
         ///NeuralNetObj0 release
 
-        AFneuralNet afNeuralNet = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
+        AFneuralNet afNeuralNet = nnservice.getNeuralNetObjWeight1(serviceAFWeb, name, 0);
 
         if (forceToErrorNewNN == true) {
             nnError = nnError - 0.002;
@@ -2600,7 +2603,7 @@ public class TradingSignalProcess {
 
             retFlag = 1;
             //////////// training completed and release the NN
-            serviceAFWeb.releaseNeuralNetObj(name);
+            nnservice.releaseNeuralNetObj(serviceAFWeb, name);
 
             if (nnError == 1) {
                 ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
@@ -2646,7 +2649,7 @@ public class TradingSignalProcess {
             }
             if (getEnv.checkLocalPC() == true) {
 
-                AFneuralNet nnObj0 = serviceAFWeb.getNeuralNetObjWeight0(name, 0);
+                AFneuralNet nnObj0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, name, 0);
                 if (nnObj0 != null) {
                     String weightSt0 = nnObj0.getWeight();
                     if (weightSt0.length() > 0) {
@@ -2734,7 +2737,7 @@ public class TradingSignalProcess {
 
         if (getEnv.checkLocalPC() == true) {
 
-            AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(name, 0);
+            AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, name, 0);
             if (nnObj1 != null) {
                 String weightSt11 = nnObj1.getWeight();
                 if (weightSt1.length() > 0) {

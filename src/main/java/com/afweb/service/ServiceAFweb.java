@@ -21,6 +21,7 @@ import com.afweb.chart.ChartService;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.processnn.NNService;
 
 import com.afweb.signal.*;
 import com.afweb.stock.*;
@@ -1287,7 +1288,8 @@ public class ServiceAFweb {
         logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + " " + URL);
 
         String BPnameSym = CKey.NN_version + "_" + nnName;
-        AFneuralNet nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
+        NNService nnservice = new NNService();
+        AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight0(this, BPnameSym, 0);
         if (nnObj1 != null) {
             serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
         }
@@ -1303,7 +1305,7 @@ public class ServiceAFweb {
             ///*****Make sure the DB name is .
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
-                nnObj1 = this.getNeuralNetObjWeight0(BPnameSym, 0);
+                nnObj1 = nnservice.getNeuralNetObjWeight0(this, BPnameSym, 0);
                 if (nnObj1 != null) {
 
                     int ret = serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
@@ -3479,7 +3481,6 @@ public class ServiceAFweb {
 //        return null;
 //
 //    }
-
 //    public int removeBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return 0;
@@ -3496,7 +3497,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public AccEntryObj getAccountingEntryByCustomerById(String EmailUserName, String Password, String idSt) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return null;
@@ -3518,7 +3518,6 @@ public class ServiceAFweb {
 //        }
 //        return null;
 //    }
-
 //    public int removeAccountingEntryById(String EmailUserName, String Password, String idSt) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return 0;
@@ -3539,7 +3538,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year, String namerptSt) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return null;
@@ -3581,7 +3579,6 @@ public class ServiceAFweb {
 //        return null;
 //
 //    }
-
 //    public ArrayList<CommObj> getCommEmaiByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return null;
@@ -3597,7 +3594,6 @@ public class ServiceAFweb {
 //        return null;
 //
 //    }
-
     public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -3673,7 +3669,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
     public int removeAllCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5673,29 +5668,26 @@ public class ServiceAFweb {
     }
 //////////////////
 
-    public int releaseNeuralNetObj(String name) {
-        logger.info("> releaseNeuralNetObj " + name);
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-//        return getStockImp().releaseNeuralNetObj(name);
-        return getStockImp().releaseNeuralNetBPObj(name);
-    }
-
-    public AFneuralNet getNeuralNetObjWeight0(String name, int type) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        return getStockImp().getNeuralNetObjWeight0(name);
-    }
-
-    public AFneuralNet getNeuralNetObjWeight1(String name, int type) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        return getStockImp().getNeuralNetObjWeight1(name);
-    }
-
+//    public int releaseNeuralNetObj(String name) {
+//        logger.info("> releaseNeuralNetObj " + name);
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+////        return getStockImp().releaseNeuralNetObj(name);
+//        return getStockImp().releaseNeuralNetBPObj(name);
+//    }
+//    public AFneuralNet getNeuralNetObjWeight0(String name, int type) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        return getStockImp().getNeuralNetObjWeight0(name);
+//    }
+//    public AFneuralNet getNeuralNetObjWeight1(String name, int type) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        return getStockImp().getNeuralNetObjWeight1(name);
+//    }
     public int setNeuralNetObjWeight0(AFneuralNet nn) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5764,7 +5756,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public int removeAccounting(String customername, String yearSt) {
 //        ServiceAFweb.lastfun = "insertAccountEarning";
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -5812,7 +5803,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public int insertAccountEarning(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
 //        ServiceAFweb.lastfun = "insertAccountEarning";
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -5886,7 +5876,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public int insertAccountTAX(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
 //        ServiceAFweb.lastfun = "insertAccountTAX";
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -5960,7 +5949,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public int insertAccountCash(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
 //        ServiceAFweb.lastfun = "insertAccountCash";
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -6034,7 +6022,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public int updateAccountingExUtility(String customername, String paymentSt, String yearSt, String reasonSt, String commentSt) {
 //        ServiceAFweb.lastfun = "updateAccountingExUtility";
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -6109,7 +6096,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public int updateAccountingExDeprecation(String customername, String paymentSt, String rateSt, String reasonSt, String commentSt) {
 //        ServiceAFweb.lastfun = "updateAccountingExDeprecation";
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -6183,7 +6169,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //updateAccountingEntryPaymentBalance
 //    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt,
 //            String reasonSt, String rateSt, String yearSt, String commentSt) {
@@ -6306,7 +6291,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
     //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15&?reason=
     public int updateAddCustStatusPaymentBalance(String customername,
             String statusSt, String paymentSt, String balanceSt, String yearSt, String reasonSt) {
@@ -7126,13 +7110,12 @@ public class ServiceAFweb {
         return true;
     }
 
-    public boolean SystemDeleteNN1Table() {
-        logger.info(">SystemDeleteNN1Table start ");
-        getStockImp().deleteNeuralNet1Table();
-        logger.info(">SystemDeleteNN1Table end ");
-        return true;
-    }
-
+//    public boolean SystemDeleteNN1Table() {
+//        logger.info(">SystemDeleteNN1Table start ");
+//        getStockImp().deleteNeuralNet1Table();
+//        logger.info(">SystemDeleteNN1Table end ");
+//        return true;
+//    }
     public static boolean SystemFilePut(String fileName, ArrayList msgWrite) {
         String fileN = ServiceAFweb.FileLocalPath + fileName;
         boolean ret = FileUtil.FileWriteTextArray(fileN, msgWrite);
@@ -7173,16 +7156,15 @@ public class ServiceAFweb {
         return "" + retSatus;
     }
 
-    public String SystemClearNNinput() {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = 0;
-
-        retSatus = NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
-//            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
-
-        return "" + retSatus;
-    }
-
+//    public String SystemClearNNinput() {
+//        TradingNNprocess NNProcessImp = new TradingNNprocess();
+//        int retSatus = 0;
+//
+//        retSatus = NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
+////            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
+//
+//        return "" + retSatus;
+//    }
     public String SystemClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         AccountObj accountAdminObj = this.getAdminObjFromCache();
@@ -7212,37 +7194,37 @@ public class ServiceAFweb {
 
         return "" + retSatus;
     }
-
-    public String SystemClearNNtran(int tr) {
-
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = 0;
-        if (tr == ConstantKey.SIZE_TR) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
-        } else if (tr == ConstantKey.INT_TR_ACC) {
-            retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC);
-        } else if (tr == ConstantKey.INT_TR_MACD) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
-        } else if (tr == ConstantKey.INT_TR_MV) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
-        } else if (tr == ConstantKey.INT_TR_RSI) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
-        } else if (tr == ConstantKey.INT_TR_NN1) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
-        } else if (tr == ConstantKey.INT_TR_NN2) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
-        } else if (tr == ConstantKey.INT_TR_NN3) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
-        }
-
-        return "" + retSatus;
-    }
+//
+//    public String SystemClearNNtran(int tr) {
+//
+//        TradingNNprocess NNProcessImp = new TradingNNprocess();
+//        int retSatus = 0;
+//        if (tr == ConstantKey.SIZE_TR) {
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
+//        } else if (tr == ConstantKey.INT_TR_ACC) {
+//            retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC);
+//        } else if (tr == ConstantKey.INT_TR_MACD) {
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
+//        } else if (tr == ConstantKey.INT_TR_MV) {
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
+//        } else if (tr == ConstantKey.INT_TR_RSI) {
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
+//        } else if (tr == ConstantKey.INT_TR_NN1) {
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
+//        } else if (tr == ConstantKey.INT_TR_NN2) {
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
+//        } else if (tr == ConstantKey.INT_TR_NN3) {
+//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
+//        }
+//
+//        return "" + retSatus;
+//    }
 
     public String SystemStart() {
         boolean retSatus = true;

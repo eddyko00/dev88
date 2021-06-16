@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.herokudemo;
+package com.afweb.processnn;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;
@@ -11,13 +11,13 @@ import com.afweb.model.stock.AFneuralNet;
 import com.afweb.service.*;
 
 import com.afweb.util.CKey;
+import com.example.herokudemo.AFwebService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +37,10 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class AFcustaccNNController {
+public class NNController {
 
     private static AFwebService afWebService = new AFwebService();
+    private static NNService nnService = new NNService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/{username}/sys/clearnninput");
@@ -50,7 +51,7 @@ public class AFcustaccNNController {
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
         arrayString.add("/cust/{username}/sys/autonnflag/disable");
 
-        arrayString.add("/cust/{username}/sys/deletenn1table");   
+        arrayString.add("/cust/{username}/sys/deletenn1table");
 
         arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
         arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
@@ -69,9 +70,9 @@ public class AFcustaccNNController {
         WebStatus msg = new WebStatus();
         // remote is stopped
 
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+        if (afWebService.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemClearNNinput());
+                msg.setResponse(nnService.SystemClearNNinput(afWebService));
                 msg.setResult(true);
                 return msg;
             }
@@ -80,7 +81,7 @@ public class AFcustaccNNController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemClearNNinput());
+                msg.setResponse(nnService.SystemClearNNinput(afWebService));
                 msg.setResult(true);
                 return msg;
             }
@@ -95,9 +96,9 @@ public class AFcustaccNNController {
         WebStatus msg = new WebStatus();
         // remote is stopped
 
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+        if (afWebService.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse("" + afWebService.SystemDeleteNN1Table());
+                msg.setResponse("" + nnService.SystemDeleteNN1Table(afWebService));
                 msg.setResult(true);
                 return msg;
             }
@@ -105,7 +106,7 @@ public class AFcustaccNNController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemDeleteNN1Table());
+                msg.setResponse("" + nnService.SystemDeleteNN1Table(afWebService));
                 msg.setResult(true);
                 return msg;
             }
@@ -207,7 +208,7 @@ public class AFcustaccNNController {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemClearNNtran(ConstantKey.SIZE_TR));
+                msg.setResponse(nnService.SystemClearNNtran(afWebService, ConstantKey.SIZE_TR));
                 msg.setResult(true);
                 return msg;
             }
@@ -216,7 +217,7 @@ public class AFcustaccNNController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemClearNNtran(ConstantKey.SIZE_TR));
+                msg.setResponse(nnService.SystemClearNNtran(afWebService, ConstantKey.SIZE_TR));
                 msg.setResult(true);
                 return msg;
             }
@@ -243,7 +244,7 @@ public class AFcustaccNNController {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
 
-                msg.setResponse(afWebService.SystemClearNNtran(defTR));
+                msg.setResponse(nnService.SystemClearNNtran(afWebService, defTR));
                 msg.setResult(true);
                 return msg;
             }
@@ -252,7 +253,7 @@ public class AFcustaccNNController {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemClearNNtran(defTR));
+                msg.setResponse(nnService.SystemClearNNtran(afWebService, defTR));
                 msg.setResult(true);
                 return msg;
             }
@@ -272,7 +273,7 @@ public class AFcustaccNNController {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
 
-                int result = afWebService.releaseNeuralNetObj(name);
+                int result = nnService.releaseNeuralNetObj(afWebService, name);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -292,7 +293,7 @@ public class AFcustaccNNController {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int nnType = Integer.parseInt(type);
-                AFneuralNet result = afWebService.getNeuralNetObjWeight0(name, nnType);
+                AFneuralNet result = nnService.getNeuralNetObjWeight0(afWebService, name, nnType);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -312,7 +313,7 @@ public class AFcustaccNNController {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int nnType = Integer.parseInt(type);
-                AFneuralNet result = afWebService.getNeuralNetObjWeight1(name, nnType);
+                AFneuralNet result = nnService.getNeuralNetObjWeight1(afWebService, name, nnType);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }

@@ -10,6 +10,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.nn.*;
+import com.afweb.processnn.NNService;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockInternet;
 
@@ -34,6 +35,7 @@ import java.util.logging.Logger;
 public class TradingNNprocess {
 
     protected static Logger logger = Logger.getLogger("TradingNNprocess");
+    NNService nnservice = new NNService();
     // data history from  old to more recent
     // get next 5 days close price
     public static int TREND_Day = 4;
@@ -289,7 +291,7 @@ public class TradingNNprocess {
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String symbol = (String) stockNameArray.get(i);
                 String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-                AFneuralNet nnObj1 = serviceAFWeb.getNeuralNetObjWeight1(BPnameSym, 0);
+                AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
                     // clear the input Neural network
                     serviceAFWeb.getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
@@ -952,10 +954,9 @@ public class TradingNNprocess {
         return stockInfoList;
 
     }
-    
+
     public static HashMap<String, ArrayList> stockInputMap = null;
     public static HashMap<String, ArrayList> stockInputMap_1 = null;
-
 
     public static boolean CreateAllStockHistoryJava(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
