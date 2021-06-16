@@ -754,7 +754,216 @@ public class AFcustaccController {
 
         return returnList;
     }
+    ///cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
 
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custnlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getUICustNList(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "length", required = false) String lengthSt) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        int length = 0; //20;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (custidSt.equals(cust.getId() + "")) {
+                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                    ArrayList custNameList = afWebService.getCustomerNList(length);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return custNameList;
+                }
+            }
+        }
+        return null;
+
+    }
+
+    ///cust/{username}/uisys/{custid}/custlist?name&length={0 for all} - default 20");
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getUICustList(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "name", required = false) String nameSt,
+            @RequestParam(value = "length", required = false) String lengthSt) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        int length = 0; //20;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+        ArrayList custObjList = new ArrayList();
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (custidSt.equals(cust.getId() + "")) {
+                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                    if (nameSt != null) {
+                        NameObj nameObj = new NameObj(nameSt);
+                        String UserName = nameObj.getNormalizeName();
+                        CustomerObj cutObj = afWebService.getCustomerObjByName(UserName);
+                        custObjList.add(cutObj);
+                    } else {
+
+                        custObjList = afWebService.getCustomerList(length);
+                    }
+
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return custObjList;
+                }
+            }
+        }
+        return null;
+
+    }
+    @RequestMapping(value = "/cust/{username}/sys/expiredcustlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getExpiredCustList(
+            @PathVariable("username") String username,
+            @RequestParam(value = "length", required = false) String lengthSt) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        int length = 0; //20;
+        if (lengthSt != null) {
+            length = Integer.parseInt(lengthSt);
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                ArrayList custNameList = afWebService.getExpiredCustomerList(length);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return custNameList;
+            }
+        }
+        return null;
+
+    }
+   @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateCustomer(
+            @PathVariable("username") String username,
+            @PathVariable("customername") String customername,
+            @PathVariable("status") String status,
+            @PathVariable("substatus") String substatus
+    ) {
+
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (customername == null) {
+            return 0;
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int result = afWebService.updateCustStatusSubStatus(customername, status, substatus);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+
+//        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}"); 
+    @RequestMapping(value = "/cust/{username}/sys/custchangeapi", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int ChAPICustomer(
+            @PathVariable("username") String username,
+            @RequestParam(value = "email", required = true) String emailSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        if (emailSt == null) {
+            return 0;
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int result = afWebService.changeAPICustomer(emailSt);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+
+//        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");  
+    @RequestMapping(value = "/cust/{username}/sys/custchangefund", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int ChFundCustomer(
+            @PathVariable("username") String username,
+            @RequestParam(value = "email", required = true) String emailSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        if (emailSt == null) {
+            return 0;
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int result = afWebService.changeFundCustomer(emailSt);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+
+//        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");    
+    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/removecustomer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int removeCustomer(
+            @PathVariable("username") String username,
+            @PathVariable("customername") String customername
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        if (customername == null) {
+            return 0;
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int result = afWebService.removeCustomer(customername);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+
+    //"/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason="
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateCustAllStatus(
+            @PathVariable("username") String username,
+            @PathVariable("customername") String customername,
+            @PathVariable("custid") String custidSt,
+            @RequestParam(value = "status", required = false) String statusSt,
+            @RequestParam(value = "payment", required = false) String paymentSt,
+            @RequestParam(value = "balance", required = false) String balanceSt,
+            @RequestParam(value = "year", required = false) String yearSt,
+            @RequestParam(value = "reason", required = false) String reasonSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (customername == null) {
+            return 0;
+        }
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    //updating the real customer in custSt not the addmin user
+                    int result = afWebService.updateAddCustStatusPaymentBalance(customername, statusSt, paymentSt, balanceSt, yearSt, reasonSt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return 0;
+    }
+
+
+    
 ////////////////////////////////////////////////
     //            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

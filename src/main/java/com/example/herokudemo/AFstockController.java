@@ -41,7 +41,6 @@ public class AFstockController {
 //    public String index() {
 //        return "Hello there! I'm running v" + CKey.iis_ver;
 //    }
-
 //    /////////////////////////////////////////////////////////////////////////    
 //    @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -216,7 +215,6 @@ public class AFstockController {
 //        return arrayString;
 //    }
 ////////////////////////////////////////////////////////////////////////
-
 ////////////////////////////////////////////////////////////////////////
 //    @RequestMapping(value = "/cust/{username}/sys/mysql", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -422,7 +420,6 @@ public class AFstockController {
 //        msg.setResponse("timerCnt " + timerCnt);
 //        return msg;
 //    }
-
 //    ///cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=
 //    @RequestMapping(value = "/cust/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -678,7 +675,6 @@ public class AFstockController {
 //        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 //        return ret;
 //    }
-
 //    // "/cust/{username}/acc/{accountid}/billing?length="
 //    @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -725,7 +721,6 @@ public class AFstockController {
 //        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 //        return ret;
 //    }
-
 ////            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
 //    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -767,7 +762,6 @@ public class AFstockController {
 //        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 //        return commObjList;
 //    }
-
 //    //"/cust/{username}/acc/{accountid}/comm?length=" 
 //    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -793,7 +787,6 @@ public class AFstockController {
 //        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 //        return commObjList;
 //    }
-
 //    //"/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");
 //    @RequestMapping(value = "/cust/{username}/acc/{accountid}/emailcomm/removeemail", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -1149,7 +1142,6 @@ public class AFstockController {
 //        return returnList;
 //
 //    }
-
 //    // "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr}")
 //    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -1328,7 +1320,6 @@ public class AFstockController {
 //
 //        return ret;
 //    }
-
 //    //("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?month=");   
 //    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE})
 //    public @ResponseBody
@@ -1762,7 +1753,6 @@ public class AFstockController {
 //
 //        return null;
 //    }
-
 //    @RequestMapping(value = "/cust/{username}/sys/clearnninput", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
 //    WebStatus SystemClearNNinput(@PathVariable("username") String username) {
@@ -1788,7 +1778,6 @@ public class AFstockController {
 //
 //        return null;
 //    }
-
 //    @RequestMapping(value = "/cust/{username}/sys/globalfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
 //    WebStatus getSystemFundMgr(@PathVariable("username") String username) {
@@ -1866,590 +1855,586 @@ public class AFstockController {
 //
 //        return null;
 //    }
-
-    @RequestMapping(value = "/cust/{username}/sys/deletenn1table", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus getDeleteNN1(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse("" + afWebService.SystemDeleteNN1Table());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemDeleteNN1Table());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/autonnflag", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus getSystemNNFlag(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/autonnflag/enable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus setSystemNNFlag(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                ServiceAFweb.processNeuralNetFlag = true;
-
-                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ServiceAFweb.processNeuralNetFlag = true;
-
-                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/autonnflag/disable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus setdisableSystemNNFlag(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                ServiceAFweb.processNeuralNetFlag = false;
-
-                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ServiceAFweb.processNeuralNetFlag = false;
-
-                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/clearallnntran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus SystemClearAllNNtran(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemClearNNtran(ConstantKey.SIZE_TR));
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemClearNNtran(ConstantKey.SIZE_TR));
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/clearnn2tran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus SystemClearNNtran(
-            @PathVariable("username") String username,
-            @RequestParam(value = "tr", required = false) String trSt
-    ) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        int defTR = ConstantKey.INT_TR_NN2;
-
-        if (trSt != null) {
-            defTR = Integer.parseInt(trSt);
-        }
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-
-                msg.setResponse(afWebService.SystemClearNNtran(defTR));
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemClearNNtran(defTR));
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/downloaddb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus SystemDownloadDB(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remoote is stopped
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemDownloadDBData());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemDownloadDBData());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-        return null;
-
-    }
-
-    ///// Restore DB need the following
-    ////  SystemStop
-    ////  SystemCleanDBData
-    ////  SystemUploadDBData
-    ///// Restore DB need the following   
-    @RequestMapping(value = "/cust/{username}/sys/restoredb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus SystemRestoreDB(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemRestoreDBData());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemRestoreDBData());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-        return null;
-    }
-
-    ///cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custnlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getUICustNList(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "length", required = false) String lengthSt) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        int length = 0; //20;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-        }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (custidSt.equals(cust.getId() + "")) {
-                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    ArrayList custNameList = afWebService.getCustomerNList(length);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return custNameList;
-                }
-            }
-        }
-        return null;
-
-    }
-
-    //"/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment="
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntry(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "balance", required = false) String balanceSt,
-            @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "rate", required = false) String rateSt,
-            @RequestParam(value = "year", required = false) String yearSt,
-            @RequestParam(value = "comment", required = false) String commentSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, rateSt, yearSt, commentSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    //"/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/tax", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntryTAX(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "year", required = false) String yearSt,
-            @RequestParam(value = "comment", required = false) String commentSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.insertAccountTAX(username, paymentSt, reasonSt, yearSt, commentSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/cash", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntryCash(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "year", required = false) String yearSt,
-            @RequestParam(value = "comment", required = false) String commentSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.insertAccountCash(username, paymentSt, reasonSt, yearSt, commentSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    //"/cust/{username}/uisys/{custid}/accounting/earning?payment=&reason=&comment=
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/earning", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntryEearning(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "year", required = false) String yearSt,
-            @RequestParam(value = "comment", required = false) String commentSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.insertAccountEarning(username, paymentSt, reasonSt, yearSt, commentSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/removeaccounting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntryRemoveAll(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "year", required = false) String yearSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.removeAccounting(username, yearSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/yearend", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntryYearEnd(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "year", required = false) String yearSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.AccountingYearEnd(username, yearSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    //"/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment="
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/deprecation", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntryDeprecation(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "rate", required = false) String rateSt,
-            @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "comment", required = false) String commentSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingExDeprecation(username, paymentSt, rateSt, reasonSt, commentSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    //"/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment="
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/utility", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateAccoundingEntryUtility(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "curyear", required = false) String yearSt,
-            @RequestParam(value = "reason", required = false) String reasonSt,
-            @RequestParam(value = "comment", required = false) String commentSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingExUtility(username, paymentSt, yearSt, reasonSt, commentSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    //("/cust/{username}/uisys/{custid}/accounting/report?name=&year=&namerpt=");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/report", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    AccReportObj getUIAccountReport(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "name", required = false) String nameSt,
-            @RequestParam(value = "year", required = false) String yeatSt,
-            @RequestParam(value = "namerpt", required = false) String namerptSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        int year = 0;
-        if (yeatSt != null) {
-            year = Integer.parseInt(yeatSt);
-        }
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (custidSt.equals(cust.getId() + "")) {
-                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    AccReportObj accReportObj = afWebService.getAccountingReportByCustomerByName(username, null, nameSt, year, namerptSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return accReportObj;
-                }
-            }
-        }
-        return null;
-    }
-
-    //("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    AccEntryObj getUIAccountReportId(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @PathVariable("id") String idSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (custidSt.equals(cust.getId() + "")) {
-                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    AccEntryObj accEntry = afWebService.getAccountingEntryByCustomerById(username, null, idSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return accEntry;
-                }
-            }
-        }
-        return null;
-    }
-
-    //("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int removeUIAccountReportId(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @PathVariable("id") String idSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (custidSt.equals(cust.getId() + "")) {
-                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    ////////
-
-                    int ret = afWebService.removeAccountingEntryById(username, null, idSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return ret;
-                }
-            }
-        }
-        return 0;
-    }
-
-    ///cust/{username}/uisys/{custid}/custlist?name&length={0 for all} - default 20");
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getUICustList(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "name", required = false) String nameSt,
-            @RequestParam(value = "length", required = false) String lengthSt) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        int length = 0; //20;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-        }
-        ArrayList custObjList = new ArrayList();
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (custidSt.equals(cust.getId() + "")) {
-                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    if (nameSt != null) {
-                        NameObj nameObj = new NameObj(nameSt);
-                        String UserName = nameObj.getNormalizeName();
-                        CustomerObj cutObj = afWebService.getCustomerObjByName(UserName);
-                        custObjList.add(cutObj);
-                    } else {
-
-                        custObjList = afWebService.getCustomerList(length);
-                    }
-
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return custObjList;
-                }
-            }
-        }
-        return null;
-
-    }
-
+//    @RequestMapping(value = "/cust/{username}/sys/deletenn1table", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus getDeleteNN1(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remote is stopped
+//
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                msg.setResponse("" + afWebService.SystemDeleteNN1Table());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                msg.setResponse("" + afWebService.SystemDeleteNN1Table());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        return null;
+//    }
+//    @RequestMapping(value = "/cust/{username}/sys/autonnflag", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus getSystemNNFlag(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remote is stopped
+//
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/autonnflag/enable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus setSystemNNFlag(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remote is stopped
+//
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                ServiceAFweb.processNeuralNetFlag = true;
+//
+//                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                ServiceAFweb.processNeuralNetFlag = true;
+//
+//                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/autonnflag/disable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus setdisableSystemNNFlag(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remote is stopped
+//
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                ServiceAFweb.processNeuralNetFlag = false;
+//
+//                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                ServiceAFweb.processNeuralNetFlag = false;
+//
+//                msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/clearallnntran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus SystemClearAllNNtran(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remote is stopped
+//
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                msg.setResponse(afWebService.SystemClearNNtran(ConstantKey.SIZE_TR));
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                msg.setResponse(afWebService.SystemClearNNtran(ConstantKey.SIZE_TR));
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/clearnn2tran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus SystemClearNNtran(
+//            @PathVariable("username") String username,
+//            @RequestParam(value = "tr", required = false) String trSt
+//    ) {
+//        WebStatus msg = new WebStatus();
+//        // remote is stopped
+//
+//        int defTR = ConstantKey.INT_TR_NN2;
+//
+//        if (trSt != null) {
+//            defTR = Integer.parseInt(trSt);
+//        }
+//
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//
+//                msg.setResponse(afWebService.SystemClearNNtran(defTR));
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                msg.setResponse(afWebService.SystemClearNNtran(defTR));
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        return null;
+//    }
+//    @RequestMapping(value = "/cust/{username}/sys/downloaddb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus SystemDownloadDB(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remoote is stopped
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                msg.setResponse(afWebService.SystemDownloadDBData());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                msg.setResponse(afWebService.SystemDownloadDBData());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//        return null;
+//
+//    }
+//
+//    ///// Restore DB need the following
+//    ////  SystemStop
+//    ////  SystemCleanDBData
+//    ////  SystemUploadDBData
+//    ///// Restore DB need the following   
+//    @RequestMapping(value = "/cust/{username}/sys/restoredb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus SystemRestoreDB(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remote is stopped
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                msg.setResponse(afWebService.SystemRestoreDBData());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                msg.setResponse(afWebService.SystemRestoreDBData());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    ///cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custnlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList getUICustNList(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "length", required = false) String lengthSt) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        int length = 0; //20;
+//        if (lengthSt != null) {
+//            length = Integer.parseInt(lengthSt);
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (custidSt.equals(cust.getId() + "")) {
+//                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                    ArrayList custNameList = afWebService.getCustomerNList(length);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return custNameList;
+//                }
+//            }
+//        }
+//        return null;
+//
+//    }
+//    //"/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment="
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccoundingEntry(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "payment", required = false) String paymentSt,
+//            @RequestParam(value = "balance", required = false) String balanceSt,
+//            @RequestParam(value = "reason", required = false) String reasonSt,
+//            @RequestParam(value = "rate", required = false) String rateSt,
+//            @RequestParam(value = "year", required = false) String yearSt,
+//            @RequestParam(value = "comment", required = false) String commentSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, rateSt, yearSt, commentSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    //"/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/tax", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccoundingEntryTAX(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "payment", required = false) String paymentSt,
+//            @RequestParam(value = "reason", required = false) String reasonSt,
+//            @RequestParam(value = "year", required = false) String yearSt,
+//            @RequestParam(value = "comment", required = false) String commentSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.insertAccountTAX(username, paymentSt, reasonSt, yearSt, commentSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/cash", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccoundingEntryCash(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "payment", required = false) String paymentSt,
+//            @RequestParam(value = "reason", required = false) String reasonSt,
+//            @RequestParam(value = "year", required = false) String yearSt,
+//            @RequestParam(value = "comment", required = false) String commentSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.insertAccountCash(username, paymentSt, reasonSt, yearSt, commentSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    //"/cust/{username}/uisys/{custid}/accounting/earning?payment=&reason=&comment=
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/earning", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccoundingEntryEearning(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "payment", required = false) String paymentSt,
+//            @RequestParam(value = "reason", required = false) String reasonSt,
+//            @RequestParam(value = "year", required = false) String yearSt,
+//            @RequestParam(value = "comment", required = false) String commentSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.insertAccountEarning(username, paymentSt, reasonSt, yearSt, commentSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/removeaccounting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccoundingEntryRemoveAll(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "year", required = false) String yearSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.removeAccounting(username, yearSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/yearend", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccoundingEntryYearEnd(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "year", required = false) String yearSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.AccountingYearEnd(username, yearSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    //"/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment="
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/deprecation", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccoundingEntryDeprecation(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "payment", required = false) String paymentSt,
+//            @RequestParam(value = "rate", required = false) String rateSt,
+//            @RequestParam(value = "reason", required = false) String reasonSt,
+//            @RequestParam(value = "comment", required = false) String commentSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.updateAccountingExDeprecation(username, paymentSt, rateSt, reasonSt, commentSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    //"/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment="
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/utility", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateAccoundingEntryUtility(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "payment", required = false) String paymentSt,
+//            @RequestParam(value = "curyear", required = false) String yearSt,
+//            @RequestParam(value = "reason", required = false) String reasonSt,
+//            @RequestParam(value = "comment", required = false) String commentSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.updateAccountingExUtility(username, paymentSt, yearSt, reasonSt, commentSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    //("/cust/{username}/uisys/{custid}/accounting/report?name=&year=&namerpt=");
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/report", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    AccReportObj getUIAccountReport(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "name", required = false) String nameSt,
+//            @RequestParam(value = "year", required = false) String yeatSt,
+//            @RequestParam(value = "namerpt", required = false) String namerptSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return null;
+//        }
+//        int year = 0;
+//        if (yeatSt != null) {
+//            year = Integer.parseInt(yeatSt);
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (custidSt.equals(cust.getId() + "")) {
+//                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                    AccReportObj accReportObj = afWebService.getAccountingReportByCustomerByName(username, null, nameSt, year, namerptSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return accReportObj;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+//
+//    //("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    AccEntryObj getUIAccountReportId(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @PathVariable("id") String idSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return null;
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (custidSt.equals(cust.getId() + "")) {
+//                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                    AccEntryObj accEntry = afWebService.getAccountingEntryByCustomerById(username, null, idSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return accEntry;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+//
+//    //("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int removeUIAccountReportId(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @PathVariable("id") String idSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return 0;
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (custidSt.equals(cust.getId() + "")) {
+//                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                    ////////
+//
+//                    int ret = afWebService.removeAccountingEntryById(username, null, idSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return ret;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    ///cust/{username}/uisys/{custid}/custlist?name&length={0 for all} - default 20");
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList getUICustList(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "name", required = false) String nameSt,
+//            @RequestParam(value = "length", required = false) String lengthSt) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        int length = 0; //20;
+//        if (lengthSt != null) {
+//            length = Integer.parseInt(lengthSt);
+//        }
+//        ArrayList custObjList = new ArrayList();
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (custidSt.equals(cust.getId() + "")) {
+//                if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                    if (nameSt != null) {
+//                        NameObj nameObj = new NameObj(nameSt);
+//                        String UserName = nameObj.getNormalizeName();
+//                        CustomerObj cutObj = afWebService.getCustomerObjByName(UserName);
+//                        custObjList.add(cutObj);
+//                    } else {
+//
+//                        custObjList = afWebService.getCustomerList(length);
+//                    }
+//
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return custObjList;
+//                }
+//            }
+//        }
+//        return null;
+//
+//    }
+//
 //    ///cust/{username}/sys/custlist?length={0 for all} - default 20
 //    @RequestMapping(value = "/cust/{username}/sys/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody
@@ -2472,28 +2457,27 @@ public class AFstockController {
 //        return null;
 //
 //    }
-    @RequestMapping(value = "/cust/{username}/sys/expiredcustlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getExpiredCustList(
-            @PathVariable("username") String username,
-            @RequestParam(value = "length", required = false) String lengthSt) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        int length = 0; //20;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-        }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ArrayList custNameList = afWebService.getExpiredCustomerList(length);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return custNameList;
-            }
-        }
-        return null;
-
-    }
-
+//    @RequestMapping(value = "/cust/{username}/sys/expiredcustlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList getExpiredCustList(
+//            @PathVariable("username") String username,
+//            @RequestParam(value = "length", required = false) String lengthSt) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        int length = 0; //20;
+//        if (lengthSt != null) {
+//            length = Integer.parseInt(lengthSt);
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                ArrayList custNameList = afWebService.getExpiredCustomerList(length);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return custNameList;
+//            }
+//        }
+//        return null;
+//
+//    }
     @RequestMapping(value = "/cust/{username}/sys/expiredStocklist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getExpiredStocklist(
@@ -2516,467 +2500,466 @@ public class AFstockController {
 
     }
 
-    //"/cust/{username}/uisys/{custid}/timer"
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/timer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus getUITimer(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    WebStatus msg = new WebStatus();
-                    msg.setResult(true);
-                    msg.setResultID(ConstantKey.ENABLE);
-
-                    //process timer handler
-                    int timerCnt = afWebService.timerHandler("starttimer");
-
-                    msg.setResponse("timerCnt " + timerCnt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return msg;
-                }
-            }
-        }
-        return null;
-    }
-
-    //"/cust/{username}/uisys/{custid}/lock"
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getUILockAll(
-            @PathVariable("username") String username,
-            @PathVariable("custid") String custidSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    ArrayList result = afWebService.getAllLock();
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getLockAll(
-            @PathVariable("username") String username
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                ArrayList result = afWebService.getAllLock();
-                return result;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ArrayList result = afWebService.getAllLock();
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    AFLockObject getLockName(
-            @PathVariable("username") String username,
-            @PathVariable("lockname") String lockname,
-            @PathVariable("type") String type
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int locktype = Integer.parseInt(type);
-                AFLockObject result = afWebService.getLockName(lockname, locktype);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int setRenewLock(
-            @PathVariable("username") String username,
-            @PathVariable("lockname") String name,
-            @PathVariable("type") String type
-    ) {
-
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int locktype = Integer.parseInt(type);
-                int result = afWebService.setRenewLock(name, locktype);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-///////////////////////////
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/release", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int releaseNeuralNetObj(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-
-                int result = afWebService.releaseNeuralNetObj(name);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    AFneuralNet getNeuralNetObjWeight0(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name,
-            @PathVariable("type") String type
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int nnType = Integer.parseInt(type);
-                AFneuralNet result = afWebService.getNeuralNetObjWeight0(name, nnType);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    AFneuralNet getNeuralNetObjWeight1(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name,
-            @PathVariable("type") String type
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int nnType = Integer.parseInt(type);
-                AFneuralNet result = afWebService.getNeuralNetObjWeight1(name, nnType);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/updateweight0", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int setNeuralNetObjWeight0(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name,
-            @RequestBody String input
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        AFneuralNet afNeuralNet = null;
-        try {
-//            int size = input.length();
-//            input = input.substring(1, size - 1);
-            afNeuralNet = new ObjectMapper().readValue(input, AFneuralNet.class);
-        } catch (IOException ex) {
-            return 0;
-        }
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.setNeuralNetObjWeight0(afNeuralNet);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/updateweight1", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int setNeuralNetObjWeight1(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name,
-            @RequestBody String input
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        AFneuralNet afNeuralNet = null;
-        try {
-//            int size = input.length();
-//            input = input.substring(1, size - 1);
-
-            afNeuralNet = new ObjectMapper().readValue(input, AFneuralNet.class);
-        } catch (IOException ex) {
-            return 0;
-        }
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.setNeuralNetObjWeight1(afNeuralNet);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/request", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    RequestObj SystemSQLRequest(
-            @PathVariable("username") String username,
-            @RequestBody String input
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        RequestObj sqlReq = null;
-        try {
-            sqlReq = new ObjectMapper().readValue(input, RequestObj.class);
-        } catch (IOException ex) {
-            return null;
-        }
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                RequestObj sqlResp = afWebService.SystemSQLRequest(sqlReq);
-                return sqlResp;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                RequestObj sqlResp = afWebService.SystemSQLRequest(sqlReq);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return sqlResp;
-            }
-        }
-        return null;
-    }
-
+//    //"/cust/{username}/uisys/{custid}/timer"
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/timer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus getUITimer(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    WebStatus msg = new WebStatus();
+//                    msg.setResult(true);
+//                    msg.setResultID(ConstantKey.ENABLE);
+//
+//                    //process timer handler
+//                    int timerCnt = afWebService.timerHandler("starttimer");
+//
+//                    msg.setResponse("timerCnt " + timerCnt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return msg;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+//
+//    //"/cust/{username}/uisys/{custid}/lock"
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList getUILockAll(
+//            @PathVariable("username") String username,
+//            @PathVariable("custid") String custidSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    ArrayList result = afWebService.getAllLock();
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList getLockAll(
+//            @PathVariable("username") String username
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                ArrayList result = afWebService.getAllLock();
+//                return result;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                ArrayList result = afWebService.getAllLock();
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    AFLockObject getLockName(
+//            @PathVariable("username") String username,
+//            @PathVariable("lockname") String lockname,
+//            @PathVariable("type") String type
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int locktype = Integer.parseInt(type);
+//                AFLockObject result = afWebService.getLockName(lockname, locktype);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int setRenewLock(
+//            @PathVariable("username") String username,
+//            @PathVariable("lockname") String name,
+//            @PathVariable("type") String type
+//    ) {
+//
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int locktype = Integer.parseInt(type);
+//                int result = afWebService.setRenewLock(name, locktype);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+/////////////////////////////
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/release", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int releaseNeuralNetObj(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//
+//                int result = afWebService.releaseNeuralNetObj(name);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    AFneuralNet getNeuralNetObjWeight0(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name,
+//            @PathVariable("type") String type
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int nnType = Integer.parseInt(type);
+//                AFneuralNet result = afWebService.getNeuralNetObjWeight0(name, nnType);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    AFneuralNet getNeuralNetObjWeight1(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name,
+//            @PathVariable("type") String type
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int nnType = Integer.parseInt(type);
+//                AFneuralNet result = afWebService.getNeuralNetObjWeight1(name, nnType);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/updateweight0", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int setNeuralNetObjWeight0(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name,
+//            @RequestBody String input
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        AFneuralNet afNeuralNet = null;
+//        try {
+////            int size = input.length();
+////            input = input.substring(1, size - 1);
+//            afNeuralNet = new ObjectMapper().readValue(input, AFneuralNet.class);
+//        } catch (IOException ex) {
+//            return 0;
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int result = afWebService.setNeuralNetObjWeight0(afNeuralNet);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/updateweight1", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int setNeuralNetObjWeight1(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name,
+//            @RequestBody String input
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        AFneuralNet afNeuralNet = null;
+//        try {
+////            int size = input.length();
+////            input = input.substring(1, size - 1);
+//
+//            afNeuralNet = new ObjectMapper().readValue(input, AFneuralNet.class);
+//        } catch (IOException ex) {
+//            return 0;
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int result = afWebService.setNeuralNetObjWeight1(afNeuralNet);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/request", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    RequestObj SystemSQLRequest(
+//            @PathVariable("username") String username,
+//            @RequestBody String input
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        RequestObj sqlReq = null;
+//        try {
+//            sqlReq = new ObjectMapper().readValue(input, RequestObj.class);
+//        } catch (IOException ex) {
+//            return null;
+//        }
+//
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                RequestObj sqlResp = afWebService.SystemSQLRequest(sqlReq);
+//                return sqlResp;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                RequestObj sqlResp = afWebService.SystemSQLRequest(sqlReq);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return sqlResp;
+//            }
+//        }
+//        return null;
+//    }
+//
 //////////////
-    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/value/{lockdate}/comment/{comment}/setlock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int setLockName(
-            @PathVariable("username") String username,
-            @PathVariable("lockname") String name,
-            @PathVariable("type") String type,
-            @PathVariable("lockdate") String lockdate,
-            @PathVariable("comment") String comment
-    ) {
-
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int locktype = Integer.parseInt(type);
-                long lockdatel = Long.parseLong(lockdate);
-                int result = afWebService.setLockName(name, locktype, lockdatel, comment);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/removelock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getRemoveLock(
-            @PathVariable("username") String username,
-            @PathVariable("lockname") String name,
-            @PathVariable("type") String type
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int locktype = Integer.parseInt(type);
-                int result = afWebService.removeNameLock(name, locktype);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateCustomer(
-            @PathVariable("username") String username,
-            @PathVariable("customername") String customername,
-            @PathVariable("status") String status,
-            @PathVariable("substatus") String substatus
-    ) {
-
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (customername == null) {
-            return 0;
-        }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.updateCustStatusSubStatus(customername, status, substatus);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-//        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}"); 
-    @RequestMapping(value = "/cust/{username}/sys/custchangeapi", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int ChAPICustomer(
-            @PathVariable("username") String username,
-            @RequestParam(value = "email", required = true) String emailSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-
-        if (emailSt == null) {
-            return 0;
-        }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.changeAPICustomer(emailSt);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-//        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");  
-    @RequestMapping(value = "/cust/{username}/sys/custchangefund", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int ChFundCustomer(
-            @PathVariable("username") String username,
-            @RequestParam(value = "email", required = true) String emailSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-
-        if (emailSt == null) {
-            return 0;
-        }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.changeFundCustomer(emailSt);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-//        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");    
-    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/removecustomer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int removeCustomer(
-            @PathVariable("username") String username,
-            @PathVariable("customername") String customername
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-
-        if (customername == null) {
-            return 0;
-        }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.removeCustomer(customername);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-    //"/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason="
-    @RequestMapping(value = "/cust/{username}/uisys/{custid}/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int updateCustAllStatus(
-            @PathVariable("username") String username,
-            @PathVariable("customername") String customername,
-            @PathVariable("custid") String custidSt,
-            @RequestParam(value = "status", required = false) String statusSt,
-            @RequestParam(value = "payment", required = false) String paymentSt,
-            @RequestParam(value = "balance", required = false) String balanceSt,
-            @RequestParam(value = "year", required = false) String yearSt,
-            @RequestParam(value = "reason", required = false) String reasonSt
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (customername == null) {
-            return 0;
-        }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                if (custidSt.equals(cust.getId() + "")) {
-                    //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAddCustStatusPaymentBalance(customername, statusSt, paymentSt, balanceSt, yearSt, reasonSt);
-                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                    return result;
-                }
-            }
-        }
-        return 0;
-    }
-
-    /////////////////////////////////////////////////////////////////////////    
-    @RequestMapping(value = "/timer")
-    public ModelAndView timerPage() {
-        ModelAndView model = new ModelAndView("helloWorld");
-
-        model.addObject("message", AFwebService.getServerObj().getServerName() + " " + AFwebService.getServerObj().getVerString() + "</br>"
-                + AFwebService.getServerObj().getLastServUpdateESTdate() + "</br>"
-                + AFwebService.getServerObj().getTimerMsg() + "</br>" + AFwebService.getServerObj().getTimerThreadMsg());
-        return model;
-    }
-
-    @RequestMapping(value = "/timerthread", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus timerThread() {
-
-        WebStatus msg = new WebStatus();
-        msg.setResult(true);
-        msg.setResultID(ConstantKey.ENABLE);
-
-        //process timer handler
-        int timerCnt = afWebService.timerThread();
-
-        msg.setResponse("timerCnt " + timerCnt);
-
-        return msg;
-    }
-
+//    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/value/{lockdate}/comment/{comment}/setlock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int setLockName(
+//            @PathVariable("username") String username,
+//            @PathVariable("lockname") String name,
+//            @PathVariable("type") String type,
+//            @PathVariable("lockdate") String lockdate,
+//            @PathVariable("comment") String comment
+//    ) {
+//
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int locktype = Integer.parseInt(type);
+//                long lockdatel = Long.parseLong(lockdate);
+//                int result = afWebService.setLockName(name, locktype, lockdatel, comment);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/removelock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int getRemoveLock(
+//            @PathVariable("username") String username,
+//            @PathVariable("lockname") String name,
+//            @PathVariable("type") String type
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int locktype = Integer.parseInt(type);
+//                int result = afWebService.removeNameLock(name, locktype);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateCustomer(
+//            @PathVariable("username") String username,
+//            @PathVariable("customername") String customername,
+//            @PathVariable("status") String status,
+//            @PathVariable("substatus") String substatus
+//    ) {
+//
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (customername == null) {
+//            return 0;
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int result = afWebService.updateCustStatusSubStatus(customername, status, substatus);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+////        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}"); 
+//    @RequestMapping(value = "/cust/{username}/sys/custchangeapi", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int ChAPICustomer(
+//            @PathVariable("username") String username,
+//            @RequestParam(value = "email", required = true) String emailSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//
+//        if (emailSt == null) {
+//            return 0;
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int result = afWebService.changeAPICustomer(emailSt);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+////        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");  
+//    @RequestMapping(value = "/cust/{username}/sys/custchangefund", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int ChFundCustomer(
+//            @PathVariable("username") String username,
+//            @RequestParam(value = "email", required = true) String emailSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//
+//        if (emailSt == null) {
+//            return 0;
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int result = afWebService.changeFundCustomer(emailSt);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+////        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");    
+//    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/removecustomer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int removeCustomer(
+//            @PathVariable("username") String username,
+//            @PathVariable("customername") String customername
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//
+//        if (customername == null) {
+//            return 0;
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int result = afWebService.removeCustomer(customername);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    //"/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason="
+//    @RequestMapping(value = "/cust/{username}/uisys/{custid}/cust/{customername}/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int updateCustAllStatus(
+//            @PathVariable("username") String username,
+//            @PathVariable("customername") String customername,
+//            @PathVariable("custid") String custidSt,
+//            @RequestParam(value = "status", required = false) String statusSt,
+//            @RequestParam(value = "payment", required = false) String paymentSt,
+//            @RequestParam(value = "balance", required = false) String balanceSt,
+//            @RequestParam(value = "year", required = false) String yearSt,
+//            @RequestParam(value = "reason", required = false) String reasonSt
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (customername == null) {
+//            return 0;
+//        }
+//        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                if (custidSt.equals(cust.getId() + "")) {
+//                    //updating the real customer in custSt not the addmin user
+//                    int result = afWebService.updateAddCustStatusPaymentBalance(customername, statusSt, paymentSt, balanceSt, yearSt, reasonSt);
+//                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                    return result;
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    /////////////////////////////////////////////////////////////////////////    
+//    @RequestMapping(value = "/timer")
+//    public ModelAndView timerPage() {
+//        ModelAndView model = new ModelAndView("helloWorld");
+//
+//        model.addObject("message", AFwebService.getServerObj().getServerName() + " " + AFwebService.getServerObj().getVerString() + "</br>"
+//                + AFwebService.getServerObj().getLastServUpdateESTdate() + "</br>"
+//                + AFwebService.getServerObj().getTimerMsg() + "</br>" + AFwebService.getServerObj().getTimerThreadMsg());
+//        return model;
+//    }
+//
+//    @RequestMapping(value = "/timerthread", produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus timerThread() {
+//
+//        WebStatus msg = new WebStatus();
+//        msg.setResult(true);
+//        msg.setResultID(ConstantKey.ENABLE);
+//
+//        //process timer handler
+//        int timerCnt = afWebService.timerThread();
+//
+//        msg.setResponse("timerCnt " + timerCnt);
+//
+//        return msg;
+//    }
 }

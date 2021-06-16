@@ -7,6 +7,7 @@ package com.example.herokudemo;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;
+import com.afweb.model.stock.AFLockObject;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceRemoteDB;
 import com.afweb.util.CKey;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -533,8 +535,227 @@ public class AFwebController {
 
         return null;
     }
-//////////////////////////////////////////////////////
 
+    @RequestMapping(value = "/cust/{username}/sys/downloaddb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemDownloadDB(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remoote is stopped
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse(afWebService.SystemDownloadDBData());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(afWebService.SystemDownloadDBData());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        return null;
+
+    }
+
+    ///// Restore DB need the following
+    ////  SystemStop
+    ////  SystemCleanDBData
+    ////  SystemUploadDBData
+    ///// Restore DB need the following   
+    @RequestMapping(value = "/cust/{username}/sys/restoredb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemRestoreDB(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse(afWebService.SystemRestoreDBData());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(afWebService.SystemRestoreDBData());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        return null;
+    }
+
+    //"/cust/{username}/uisys/{custid}/lock"
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getUILockAll(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    ArrayList result = afWebService.getAllLock();
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return result;
+                }
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getLockAll(
+            @PathVariable("username") String username
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                ArrayList result = afWebService.getAllLock();
+                return result;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                ArrayList result = afWebService.getAllLock();
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    AFLockObject getLockName(
+            @PathVariable("username") String username,
+            @PathVariable("lockname") String lockname,
+            @PathVariable("type") String type
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int locktype = Integer.parseInt(type);
+                AFLockObject result = afWebService.getLockName(lockname, locktype);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int setRenewLock(
+            @PathVariable("username") String username,
+            @PathVariable("lockname") String name,
+            @PathVariable("type") String type
+    ) {
+
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int locktype = Integer.parseInt(type);
+                int result = afWebService.setRenewLock(name, locktype);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/value/{lockdate}/comment/{comment}/setlock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int setLockName(
+            @PathVariable("username") String username,
+            @PathVariable("lockname") String name,
+            @PathVariable("type") String type,
+            @PathVariable("lockdate") String lockdate,
+            @PathVariable("comment") String comment
+    ) {
+
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int locktype = Integer.parseInt(type);
+                long lockdatel = Long.parseLong(lockdate);
+                int result = afWebService.setLockName(name, locktype, lockdatel, comment);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/lock/{lockname}/type/{type}/removelock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int getRemoveLock(
+            @PathVariable("username") String username,
+            @PathVariable("lockname") String name,
+            @PathVariable("type") String type
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                int locktype = Integer.parseInt(type);
+                int result = afWebService.removeNameLock(name, locktype);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return result;
+            }
+        }
+        return 0;
+    }
+
+///////////////////////////
+    @RequestMapping(value = "/cust/{username}/sys/request", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    RequestObj SystemSQLRequest(
+            @PathVariable("username") String username,
+            @RequestBody String input
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        RequestObj sqlReq = null;
+        try {
+            sqlReq = new ObjectMapper().readValue(input, RequestObj.class);
+        } catch (IOException ex) {
+            return null;
+        }
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                RequestObj sqlResp = afWebService.SystemSQLRequest(sqlReq);
+                return sqlResp;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                RequestObj sqlResp = afWebService.SystemSQLRequest(sqlReq);
+                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                return sqlResp;
+            }
+        }
+        return null;
+    }
+
+//////////////////////////////////////////////////////
     @RequestMapping(value = "/timerhandler", produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus timerHandlerREST(
@@ -549,6 +770,62 @@ public class AFwebController {
         int timerCnt = afWebService.timerHandler(resttimerMsg);
 
         msg.setResponse("timerCnt " + timerCnt);
+        return msg;
+    }
+
+    //"/cust/{username}/uisys/{custid}/timer"
+    @RequestMapping(value = "/cust/{username}/uisys/{custid}/timer", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus getUITimer(
+            @PathVariable("username") String username,
+            @PathVariable("custid") String custidSt
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
+        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                if (custidSt.equals(cust.getId() + "")) {
+                    WebStatus msg = new WebStatus();
+                    msg.setResult(true);
+                    msg.setResultID(ConstantKey.ENABLE);
+
+                    //process timer handler
+                    int timerCnt = afWebService.timerHandler("starttimer");
+
+                    msg.setResponse("timerCnt " + timerCnt);
+                    ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+                    return msg;
+                }
+            }
+        }
+        return null;
+    }
+
+    /////////////////////////////////////////////////////////////////////////    
+    @RequestMapping(value = "/timer")
+    public ModelAndView timerPage() {
+        ModelAndView model = new ModelAndView("helloWorld");
+
+        model.addObject("message", AFwebService.getServerObj().getServerName() + " " + AFwebService.getServerObj().getVerString() + "</br>"
+                + AFwebService.getServerObj().getLastServUpdateESTdate() + "</br>"
+                + AFwebService.getServerObj().getTimerMsg() + "</br>" + AFwebService.getServerObj().getTimerThreadMsg());
+        return model;
+    }
+
+    @RequestMapping(value = "/timerthread", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus timerThread() {
+
+        WebStatus msg = new WebStatus();
+        msg.setResult(true);
+        msg.setResultID(ConstantKey.ENABLE);
+
+        //process timer handler
+        int timerCnt = afWebService.timerThread();
+
+        msg.setResponse("timerCnt " + timerCnt);
+
         return msg;
     }
 
