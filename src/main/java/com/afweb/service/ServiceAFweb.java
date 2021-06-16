@@ -5,8 +5,8 @@
  */
 package com.afweb.service;
 
-import com.afweb.sigprocess.TradingSignalProcess;
-import com.afweb.sigprocess.TradingAPISignalProcess;
+import com.afweb.nnsignal.TradingSignalProcess;
+import com.afweb.nnsignal.TradingAPISignalProcess;
 import com.afweb.accprocess.PUBSUBprocess;
 import com.afweb.accprocess.FundMgrProcess;
 import com.afweb.accprocess.BillingProcess;

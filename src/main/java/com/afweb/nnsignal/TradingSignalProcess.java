@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.sigprocess;
+package com.afweb.nnsignal;
 //https://tradingstrategyguides.com/bollinger-bands-bounce-trading-strategy/
 //https://www.programcreek.com/java-api-examples/?api=org.ta4j.core.indicators.EMAIndicator
 //https://jar-download.com/artifacts/eu.verdelhan/ta4j-examples/0.4/source-code/ta4jexamples/strategies/MovingMomentumStrategy.java

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.sigprocess;
+package com.afweb.nnsignal;
 
-import com.afweb.sigprocess.TradingSignalProcess;
+import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;

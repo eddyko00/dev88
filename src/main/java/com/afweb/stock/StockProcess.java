@@ -5,7 +5,7 @@
  */
 package com.afweb.stock;
 
-import com.afweb.sigprocess.NNCalProcess;
+import com.afweb.nnsignal.NNCalProcess;
 import com.afweb.account.*;
 
 import com.afweb.model.*;

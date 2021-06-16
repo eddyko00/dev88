@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.sigprocess;
+package com.afweb.nnsignal;
 
-import com.afweb.sigprocess.ProcessNN3;
-import com.afweb.sigprocess.ProcessNN2;
-import com.afweb.sigprocess.ProcessNN1;
-import com.afweb.sigprocess.ProcessNN00;
+import com.afweb.nnsignal.ProcessNN3;
+import com.afweb.nnsignal.ProcessNN2;
+import com.afweb.nnsignal.ProcessNN1;
+import com.afweb.nnsignal.ProcessNN00;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockInfo;
