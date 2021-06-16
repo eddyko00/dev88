@@ -50,13 +50,13 @@ public class AFcustaccNNController {
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
         arrayString.add("/cust/{username}/sys/autonnflag/disable");
 
-//        arrayString.add("/cust/{username}/sys/deletenn1table");   
-//
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
+        arrayString.add("/cust/{username}/sys/deletenn1table");   
+
+        arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
+        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
+        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
+        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
+        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
