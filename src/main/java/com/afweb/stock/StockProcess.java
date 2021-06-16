@@ -261,7 +261,7 @@ public class StockProcess {
         if (StockArray.size() < 10) {
             return 0;
         }
-        int offset = AccountTranProcess.getOffetDate(StockArray, dateNowL);
+        int offset = AccountTranImp.getOffetDate(StockArray, dateNowL);
 
         float STerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
         float LTerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);

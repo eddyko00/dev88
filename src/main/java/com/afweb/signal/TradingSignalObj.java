@@ -9,7 +9,7 @@ package com.afweb.signal;
  *
  * @author eddy
  */
-public class TradingSignal {
+public class TradingSignalObj {
 
     private int signal = 0;
     private float signalValue = 0;

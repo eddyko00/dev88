@@ -692,8 +692,9 @@ public class AccountTranProcess {
                     boolean ret = serviceAFWeb.checkStock(serviceAFWeb, symbol);
 
                     if (ret == true) {
-                        updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
-                        updateTradingTransaction(serviceAFWeb, accountObj, symbol);
+                        AccountTranImp tranImp = new AccountTranImp();
+                        tranImp.updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);
+                        tranImp.updateTradingTransaction(serviceAFWeb, accountObj, symbol);
                     }
                 }  // end of stockNameArray.size() for that account
             }
@@ -703,613 +704,531 @@ public class AccountTranProcess {
 
     }
 
-    public void updateTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj, AccountObj accountObj, String symbol) {
-        ServiceAFweb.lastfun = "updateTradingsignal";
-        CommMsgImp commMsg = new CommMsgImp();
-
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
-            return;
-        }
-//        logger.info("> updateTradingsignal " + symbol + " " + accountObj.getAccountname());
-        // update Trading signal
-        ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.SystemAccountStockListByAccountID(accountAdminObj.getId(), symbol);
-
-        ArrayList<TradingRuleObj> tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
-
-        if ((tradingRuleList == null) || (tradingRuleAdminList == null)) {
-            return;
-        }
-        TradingRuleObj trTradingACCObj = null;
-        // update Trading signal
-        ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
-        Calendar dateNowUpdate = TimeConvertion.getCurrentCalendar();
-
-        for (int j = 0; j < tradingRuleList.size(); j++) {
-
-            TradingRuleObj trObj = tradingRuleList.get(j);
-
-            if (trObj.getType() == ConstantKey.INT_TR_ACC) {
-                trObj.setUpdatedatedisplay(new java.sql.Date(dateNowUpdate.getTimeInMillis()));
-                trObj.setUpdatedatel(dateNowUpdate.getTimeInMillis());
-                trTradingACCObj = trObj;
-                continue;
-            }
-
-            for (int k = 0; k < tradingRuleAdminList.size(); k++) {
-                TradingRuleObj trAdminObj = tradingRuleAdminList.get(k);
-                if (trObj.getType() == trAdminObj.getType()) {
-                    trObj.setStatus(trAdminObj.getStatus());
-                    trObj.setSubstatus(trAdminObj.getSubstatus());
-                    trObj.setTrsignal(trAdminObj.getTrsignal());
-                    trObj.setUpdatedatel(trAdminObj.getUpdatedatel());
-                    trObj.setUpdatedatedisplay(new java.sql.Date(trAdminObj.getUpdatedatel()));
-
-                    trObj.setInvestment(trAdminObj.getInvestment());
-                    trObj.setBalance(trAdminObj.getBalance());
-                    trObj.setLongshare(trAdminObj.getLongshare());
-                    trObj.setLongamount(trAdminObj.getLongamount());
-                    trObj.setShortamount(trAdminObj.getShortamount());
-                    trObj.setShortshare(trAdminObj.getShortshare());
-
-                    trObj.setPerf(trAdminObj.getPerf());
-                    trObj.setComment(trAdminObj.getComment());
-
-                    UpdateTRList.add(trObj);
-                }
-            }
-        }
-        if (trTradingACCObj != null) {
-            int subStatus = trTradingACCObj.getSubstatus();
-
-            if (subStatus == ConstantKey.INITIAL) {
-                serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, trTradingACCObj.getStockid(), trTradingACCObj.getTrname());
-                // udpate tr Status to open
-                trTradingACCObj.setSubstatus(ConstantKey.OPEN);
-                String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trTradingACCObj);
-                ArrayList sqlList = new ArrayList();
-                sqlList.add(updateSQL);
-                serviceAFWeb.SystemUpdateSQLList(sqlList);
-            }
-
-/////////////////
-            if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                // get trading account. Follow the signal from the trading account
-                int ret = this.followFundSignalFromAcc(serviceAFWeb, accountObj, trTradingACCObj, UpdateTRList, symbol);
-
-            } else {
-                // get trading link id. Follow the signal from the admin account
-                int trLinkId = trTradingACCObj.getLinktradingruleid();
-                if (trLinkId != 0) {
-                    boolean readySignal = false;
-
-                    //Make sure all admin links are ready before copy the link signal
-                    //Make sure all admin links are ready before copy the link signal
-                    for (int j = 0; j < tradingRuleAdminList.size(); j++) {
-                        TradingRuleObj trAdminObj = (TradingRuleObj) tradingRuleAdminList.get(j);
-                        if (trAdminObj.getType() == ConstantKey.INT_TR_NN1) {
-                            if (trAdminObj.getSubstatus() == ConstantKey.OPEN) {
-                                readySignal = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    /////////check market open
-                    boolean mkopen = DateUtil.isMarketOpen();
-                    if (mkopen == false) {
-                        readySignal = false;
-                    }
-                    /////////check market open
-                    if (readySignal == true) {
-                        for (int j = 0; j < tradingRuleAdminList.size(); j++) {
-                            TradingRuleObj trAdminObj = (TradingRuleObj) tradingRuleAdminList.get(j);
-
-                            if (trLinkId == trAdminObj.getType()) {
-                                if (trAdminObj.getSubstatus() != ConstantKey.OPEN) {
-                                    break;
-                                }
-                                if (trTradingACCObj.getTrsignal() != trAdminObj.getTrsignal()) {
-                                    trTradingACCObj.setTrsignal(trAdminObj.getTrsignal());
-
-                                    UpdateTRList.add(trTradingACCObj);
-                                    String tzid = "America/New_York"; //EDT
-                                    TimeZone tz = TimeZone.getTimeZone(tzid);
-                                    java.sql.Date d = new java.sql.Date(trAdminObj.getUpdatedatel());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                                    DateFormat format = new SimpleDateFormat(" hh:mm a");
-                                    format.setTimeZone(tz);
-                                    String ESTtime = format.format(d);
-
-                                    String sig = "exit";
-                                    if (trAdminObj.getTrsignal() == ConstantKey.S_BUY) {
-                                        sig = ConstantKey.S_BUY_ST;
-                                    } else if (trAdminObj.getTrsignal() == ConstantKey.S_SELL) {
-                                        sig = ConstantKey.S_SELL_ST;
-                                    }
-
-                                    CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accountObj);
-                                    if (cust.getType() == CustomerObj.INT_API_USER) {
-                                        DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
-                                        formatD.setTimeZone(tz);
-                                        String ESTdateD = formatD.format(d);
-                                        commMsg.AddCommAPISignalMessage(serviceAFWeb, accountObj, trTradingACCObj, ESTdateD, symbol, sig);
-
-                                    } else {
-                                        String accTxt = "acc-" + cust.getId();
-                                        String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
-                                        commMsg.AddCommSignalMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
-
-                                        // send email
-                                        DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
-                                        formatD.setTimeZone(tz);
-                                        String ESTdateD = formatD.format(d);
-                                        String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
-                                        commMsg.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
-                                    }
-//                                logger.info("> updateTradingsignal update " + msg);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                } // copy the admin object for default TR_ACC
-            }
-        }
-        TRObj stockTRObj = new TRObj();
-        stockTRObj.setTrlist(UpdateTRList);
-        serviceAFWeb.updateAccountStockSignal(stockTRObj);
-    }
-
-    public int followFundSignalFromAcc(ServiceAFweb serviceAFWeb, AccountObj accFundObj,
-            TradingRuleObj trFundACCObj, ArrayList<TradingRuleObj> UpdateTRList, String symbol) {
-        ServiceAFweb.lastfun = "followFundSignalFromAcc";
-        CommMsgImp commMsg = new CommMsgImp();
-        boolean flag = true;
-        /////////check market open
-        boolean mkopen = DateUtil.isMarketOpen();
-        if (mkopen == false) {
-            flag = false;
-        }
-        /////////check market open
-        if (flag == true) {
-            // get trading account. Follow the signal from the trading account
-            AccountObj accTrading = null;
-            ArrayList<AccountObj> accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accFundObj.getCustomerid());
-            if (accountList != null) {
-                for (int i = 0; i < accountList.size(); i++) {
-                    AccountObj acc = accountList.get(i);
-                    if (acc.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                        accTrading = acc;
-                        break;
-                    }
-                }
-            }
-            if (accTrading != null) {
-                int stockId = trFundACCObj.getStockid();
-                TradingRuleObj trTradingA = serviceAFWeb.SystemAccountStockIDByTRname(accTrading.getId(), stockId, ConstantKey.TR_ACC);
-                int newTsSig = trTradingA.getTrsignal();
-                long newUpdatedatel = trTradingA.getUpdatedatel();
-                int tsSig = trFundACCObj.getTrsignal();
-
-                if (trFundACCObj.getStatus() == ConstantKey.PENDING) {
-                    newUpdatedatel = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                    newTsSig = ConstantKey.S_EXIT;
-                }
-                if (tsSig != newTsSig) {
-                    trFundACCObj.setTrsignal(newTsSig);
-                    UpdateTRList.add(trFundACCObj);
-
-                    String tzid = "America/New_York"; //EDT
-                    TimeZone tz = TimeZone.getTimeZone(tzid);
-                    java.sql.Date d = new java.sql.Date(newUpdatedatel);
-//                  DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                    DateFormat format = new SimpleDateFormat(" hh:mm a");
-                    format.setTimeZone(tz);
-                    String ESTtime = format.format(d);
-
-                    String sig = "exit";
-                    if (newTsSig == ConstantKey.S_BUY) {
-                        sig = ConstantKey.S_BUY_ST;
-                    } else if (newTsSig == ConstantKey.S_SELL) {
-                        sig = ConstantKey.S_SELL_ST;
-                    }
-                    CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accFundObj);
-                    String accTxt = "acc-" + cust.getId();
-                    String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
-                    // comm message is in the trading account instead of multfund account
-                    commMsg.AddCommSignalMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
-
-                    ///// broadcase PUBSUB message using account Fund object
-                    commMsg.AddCommPUBSUBMessage(serviceAFWeb, accFundObj, trFundACCObj, msg);;
-
-                    commMsg.AddCommSignalMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
-
-                    // send email
-                    DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
-                    formatD.setTimeZone(tz);
-                    String ESTdateD = formatD.format(d);
-                    String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
-                    commMsg.AddEmailCommMessage(serviceAFWeb, accTrading, trFundACCObj, msgD);
-//                  logger.info("> updateTradingsignal update " + msg);
-
-                    return 1;
-                }
-            }
-        }
-        return 0;
-    }
+//    public void updateTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj, AccountObj accountObj, String symbol) {
+//        ServiceAFweb.lastfun = "updateTradingsignal";
+//        CommMsgImp commMsg = new CommMsgImp();
 //
-//    public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type, CommData commDataObj) {
-//        try {
-//            return serviceAFWeb.getAccountImp().addAccountCommMessage(accountObj, name, type, commDataObj);
-//        } catch (Exception e) {
-//            logger.info("> AddCommMessage exception " + e.getMessage());
+//        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+//            return;
 //        }
-//        return 0;
-//    }
+////        logger.info("> updateTradingsignal " + symbol + " " + accountObj.getAccountname());
+//        // update Trading signal
+//        ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.SystemAccountStockListByAccountID(accountAdminObj.getId(), symbol);
 //
-//    public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, String messageData) {
-//        try {
-//            logger.info("> AddCommMessage  " + accountObj.getAccountname() + " " + messageData);
-//            return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, name, messageData);
+//        ArrayList<TradingRuleObj> tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
 //
-//        } catch (Exception e) {
-//            logger.info("> AddCommMessage exception " + e.getMessage());
+//        if ((tradingRuleList == null) || (tradingRuleAdminList == null)) {
+//            return;
 //        }
-//        return 0;
-//    }
+//        TradingRuleObj trTradingACCObj = null;
+//        // update Trading signal
+//        ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
+//        Calendar dateNowUpdate = TimeConvertion.getCurrentCalendar();
 //
-//    public int AddCommAPISignalMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr,
-//            String ESTtime, String symbol, String sig) {
-//        try {
-//            ArrayList<String> msgL = new ArrayList();
-//            msgL.add(ESTtime);
-//            msgL.add(symbol);
-//            msgL.add(sig);
-//            String messageData = new ObjectMapper().writeValueAsString(msgL);
-//            messageData = messageData.replaceAll("\"", "#");
-//            if (tr.getType() == ConstantKey.INT_TR_ACC) {
-//                logger.info("> AddCommMessage  " + accountObj.getAccountname() + " " + messageData);
-//                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
+//        for (int j = 0; j < tradingRuleList.size(); j++) {
+//
+//            TradingRuleObj trObj = tradingRuleList.get(j);
+//
+//            if (trObj.getType() == ConstantKey.INT_TR_ACC) {
+//                trObj.setUpdatedatedisplay(new java.sql.Date(dateNowUpdate.getTimeInMillis()));
+//                trObj.setUpdatedatel(dateNowUpdate.getTimeInMillis());
+//                trTradingACCObj = trObj;
+//                continue;
 //            }
-//        } catch (Exception e) {
-//            logger.info("> AddCommMessage exception " + e.getMessage());
+//
+//            for (int k = 0; k < tradingRuleAdminList.size(); k++) {
+//                TradingRuleObj trAdminObj = tradingRuleAdminList.get(k);
+//                if (trObj.getType() == trAdminObj.getType()) {
+//                    trObj.setStatus(trAdminObj.getStatus());
+//                    trObj.setSubstatus(trAdminObj.getSubstatus());
+//                    trObj.setTrsignal(trAdminObj.getTrsignal());
+//                    trObj.setUpdatedatel(trAdminObj.getUpdatedatel());
+//                    trObj.setUpdatedatedisplay(new java.sql.Date(trAdminObj.getUpdatedatel()));
+//
+//                    trObj.setInvestment(trAdminObj.getInvestment());
+//                    trObj.setBalance(trAdminObj.getBalance());
+//                    trObj.setLongshare(trAdminObj.getLongshare());
+//                    trObj.setLongamount(trAdminObj.getLongamount());
+//                    trObj.setShortamount(trAdminObj.getShortamount());
+//                    trObj.setShortshare(trAdminObj.getShortshare());
+//
+//                    trObj.setPerf(trAdminObj.getPerf());
+//                    trObj.setComment(trAdminObj.getComment());
+//
+//                    UpdateTRList.add(trObj);
+//                }
+//            }
 //        }
-//        return 0;
+//        if (trTradingACCObj != null) {
+//            int subStatus = trTradingACCObj.getSubstatus();
+//
+//            if (subStatus == ConstantKey.INITIAL) {
+//                serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, trTradingACCObj.getStockid(), trTradingACCObj.getTrname());
+//                // udpate tr Status to open
+//                trTradingACCObj.setSubstatus(ConstantKey.OPEN);
+//                String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trTradingACCObj);
+//                ArrayList sqlList = new ArrayList();
+//                sqlList.add(updateSQL);
+//                serviceAFWeb.SystemUpdateSQLList(sqlList);
+//            }
+//
+///////////////////
+//            if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+//                // get trading account. Follow the signal from the trading account
+//                int ret = this.followFundSignalFromAcc(serviceAFWeb, accountObj, trTradingACCObj, UpdateTRList, symbol);
+//
+//            } else {
+//                // get trading link id. Follow the signal from the admin account
+//                int trLinkId = trTradingACCObj.getLinktradingruleid();
+//                if (trLinkId != 0) {
+//                    boolean readySignal = false;
+//
+//                    //Make sure all admin links are ready before copy the link signal
+//                    //Make sure all admin links are ready before copy the link signal
+//                    for (int j = 0; j < tradingRuleAdminList.size(); j++) {
+//                        TradingRuleObj trAdminObj = (TradingRuleObj) tradingRuleAdminList.get(j);
+//                        if (trAdminObj.getType() == ConstantKey.INT_TR_NN1) {
+//                            if (trAdminObj.getSubstatus() == ConstantKey.OPEN) {
+//                                readySignal = true;
+//                                break;
+//                            }
+//                        }
+//                    }
+//
+//                    /////////check market open
+//                    boolean mkopen = DateUtil.isMarketOpen();
+//                    if (mkopen == false) {
+//                        readySignal = false;
+//                    }
+//                    /////////check market open
+//                    if (readySignal == true) {
+//                        for (int j = 0; j < tradingRuleAdminList.size(); j++) {
+//                            TradingRuleObj trAdminObj = (TradingRuleObj) tradingRuleAdminList.get(j);
+//
+//                            if (trLinkId == trAdminObj.getType()) {
+//                                if (trAdminObj.getSubstatus() != ConstantKey.OPEN) {
+//                                    break;
+//                                }
+//                                if (trTradingACCObj.getTrsignal() != trAdminObj.getTrsignal()) {
+//                                    trTradingACCObj.setTrsignal(trAdminObj.getTrsignal());
+//
+//                                    UpdateTRList.add(trTradingACCObj);
+//                                    String tzid = "America/New_York"; //EDT
+//                                    TimeZone tz = TimeZone.getTimeZone(tzid);
+//                                    java.sql.Date d = new java.sql.Date(trAdminObj.getUpdatedatel());
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                                    DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                                    format.setTimeZone(tz);
+//                                    String ESTtime = format.format(d);
+//
+//                                    String sig = "exit";
+//                                    if (trAdminObj.getTrsignal() == ConstantKey.S_BUY) {
+//                                        sig = ConstantKey.S_BUY_ST;
+//                                    } else if (trAdminObj.getTrsignal() == ConstantKey.S_SELL) {
+//                                        sig = ConstantKey.S_SELL_ST;
+//                                    }
+//
+//                                    CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accountObj);
+//                                    if (cust.getType() == CustomerObj.INT_API_USER) {
+//                                        DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+//                                        formatD.setTimeZone(tz);
+//                                        String ESTdateD = formatD.format(d);
+//                                        commMsg.AddCommAPISignalMessage(serviceAFWeb, accountObj, trTradingACCObj, ESTdateD, symbol, sig);
+//
+//                                    } else {
+//                                        String accTxt = "acc-" + cust.getId();
+//                                        String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
+//                                        commMsg.AddCommSignalMessage(serviceAFWeb, accountObj, trTradingACCObj, msg);
+//
+//                                        // send email
+//                                        DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+//                                        formatD.setTimeZone(tz);
+//                                        String ESTdateD = formatD.format(d);
+//                                        String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
+//                                        commMsg.AddEmailCommMessage(serviceAFWeb, accountObj, trTradingACCObj, msgD);
+//                                    }
+////                                logger.info("> updateTradingsignal update " + msg);
+//                                }
+//                                break;
+//                            }
+//                        }
+//                    }
+//                } // copy the admin object for default TR_ACC
+//            }
+//        }
+//        TRObj stockTRObj = new TRObj();
+//        stockTRObj.setTrlist(UpdateTRList);
+//        serviceAFWeb.updateAccountStockSignal(stockTRObj);
 //    }
 //
-//    public int AddCommSignalMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
-//        try {
-//            if (tr.getType() == ConstantKey.INT_TR_ACC) {
-//                logger.info("> AddCommMessage  " + accountObj.getAccountname() + " " + messageData);
-//                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
+//    public int followFundSignalFromAcc(ServiceAFweb serviceAFWeb, AccountObj accFundObj,
+//            TradingRuleObj trFundACCObj, ArrayList<TradingRuleObj> UpdateTRList, String symbol) {
+//        ServiceAFweb.lastfun = "followFundSignalFromAcc";
+//        CommMsgImp commMsg = new CommMsgImp();
+//        boolean flag = true;
+//        /////////check market open
+//        boolean mkopen = DateUtil.isMarketOpen();
+//        if (mkopen == false) {
+//            flag = false;
+//        }
+//        /////////check market open
+//        if (flag == true) {
+//            // get trading account. Follow the signal from the trading account
+//            AccountObj accTrading = null;
+//            ArrayList<AccountObj> accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accFundObj.getCustomerid());
+//            if (accountList != null) {
+//                for (int i = 0; i < accountList.size(); i++) {
+//                    AccountObj acc = accountList.get(i);
+//                    if (acc.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+//                        accTrading = acc;
+//                        break;
+//                    }
+//                }
 //            }
-//        } catch (Exception e) {
-//            logger.info("> AddCommMessage exception " + e.getMessage());
+//            if (accTrading != null) {
+//                int stockId = trFundACCObj.getStockid();
+//                TradingRuleObj trTradingA = serviceAFWeb.SystemAccountStockIDByTRname(accTrading.getId(), stockId, ConstantKey.TR_ACC);
+//                int newTsSig = trTradingA.getTrsignal();
+//                long newUpdatedatel = trTradingA.getUpdatedatel();
+//                int tsSig = trFundACCObj.getTrsignal();
+//
+//                if (trFundACCObj.getStatus() == ConstantKey.PENDING) {
+//                    newUpdatedatel = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+//                    newTsSig = ConstantKey.S_EXIT;
+//                }
+//                if (tsSig != newTsSig) {
+//                    trFundACCObj.setTrsignal(newTsSig);
+//                    UpdateTRList.add(trFundACCObj);
+//
+//                    String tzid = "America/New_York"; //EDT
+//                    TimeZone tz = TimeZone.getTimeZone(tzid);
+//                    java.sql.Date d = new java.sql.Date(newUpdatedatel);
+////                  DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                    DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                    format.setTimeZone(tz);
+//                    String ESTtime = format.format(d);
+//
+//                    String sig = "exit";
+//                    if (newTsSig == ConstantKey.S_BUY) {
+//                        sig = ConstantKey.S_BUY_ST;
+//                    } else if (newTsSig == ConstantKey.S_SELL) {
+//                        sig = ConstantKey.S_SELL_ST;
+//                    }
+//                    CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accFundObj);
+//                    String accTxt = "acc-" + cust.getId();
+//                    String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
+//                    // comm message is in the trading account instead of multfund account
+//                    commMsg.AddCommSignalMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
+//
+//                    ///// broadcase PUBSUB message using account Fund object
+//                    commMsg.AddCommPUBSUBMessage(serviceAFWeb, accFundObj, trFundACCObj, msg);;
+//
+//                    commMsg.AddCommSignalMessage(serviceAFWeb, accTrading, trFundACCObj, msg);
+//
+//                    // send email
+//                    DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+//                    formatD.setTimeZone(tz);
+//                    String ESTdateD = formatD.format(d);
+//                    String msgD = ESTdateD + " " + accTxt + " " + symbol + " Sig:" + sig;
+//                    commMsg.AddEmailCommMessage(serviceAFWeb, accTrading, trFundACCObj, msgD);
+////                  logger.info("> updateTradingsignal update " + msg);
+//
+//                    return 1;
+//                }
+//            }
 //        }
 //        return 0;
+//    }
+////
+//
+//
+//////////////////////////////////////////////////
+//    public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+//        ServiceAFweb.lastfun = "updateTradingTransaction";
+//        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+//            return;
+//        }
+//
+////        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//        try {
+//            AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+//            if (stock != null) {
+//                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+//                    return;
+//                }
+//            }
+//            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+//
+//            if (trObj == null) {
+//                return;
+//            }
+//            int subStatus = trObj.getSubstatus();
+//            if (subStatus == ConstantKey.INITIAL) {
+//                serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, trObj.getStockid(), trObj.getTrname());
+//            }
+//
+//            // process performance
+//            String trName = trObj.getTrname();
+//            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+//
+//            int currentTS = ConstantKey.S_NEUTRAL;
+//            currentTS = trObj.getTrsignal();
+//            if ((currentTS == ConstantKey.S_EXIT_LONG) || (currentTS == ConstantKey.S_EXIT_SHORT)) {
+//                currentTS = ConstantKey.S_NEUTRAL;
+//            }
+//
+//            int orderTS = ConstantKey.S_NEUTRAL;
+//            if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
+//                TransationOrderObj tranOrder = tranOrderList.get(0);
+//
+//                orderTS = tranOrder.getTrsignal();
+//                if ((orderTS == ConstantKey.S_EXIT_LONG) || (orderTS == ConstantKey.S_EXIT_SHORT)) {
+//                    orderTS = ConstantKey.S_NEUTRAL;
+//                }
+//            }
+//
+//            if (currentTS != orderTS) {
+//                int ret = TRprocessImp.AddTransactionOrder(serviceAFWeb, accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null, true);
+////                newTran = serviceAFWeb.SystemAddTransactionOrder(accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null);
+//            }
+//            // Get transaction again process performance
+//            //  entrydatel desc recent transaction first
+//            tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+//            if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
+//
+//                ArrayList<PerformanceObj> performanceList = TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, true); // buyOnly true for TR_ACC
+//                if (performanceList != null) {
+//                    if (performanceList.size() == 1) {
+//                        PerformanceObj pObj = performanceList.get(0);
+//                        pObj.setAccountid(accountObj.getId());
+//                        pObj.setStockid(stock.getId());
+//                        pObj.setTradingruleid(trObj.getId());
+//                        ArrayList<PerformanceObj> currentPerfList = serviceAFWeb.SystemAccountStockPerfList(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
+//                        String SQLPerf = "";
+//                        if ((currentPerfList != null) && (currentPerfList.size() > 0)) {
+//                            PerformanceObj currentpObj = currentPerfList.get(0);
+//                            pObj.setId(currentpObj.getId());
+//                            SQLPerf = AccountDB.SQLUpdateAccountStockPerformance(pObj);
+//                        } else {
+//                            SQLPerf = AccountDB.SQLaddAccountStockPerformance(pObj);
+//                        }
+//                        ArrayList sqlList = new ArrayList();
+//                        sqlList.add(SQLPerf);
+//                        serviceAFWeb.SystemUpdateSQLList(sqlList);
+//                    }
+//                }
+//
+//                if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+//                    if (trObj.getStatus() == ConstantKey.PENDING) {
+//                        // delete stock
+//                        serviceAFWeb.getAccountImp().removeAccountStock(accountObj, trObj.getStockid());
+//                    }
+//                }
+//            }
+//
+//        } catch (Exception ex) {
+//            logger.info("> updateTradingTransaction Exception" + ex.getMessage());
+//        }
 //    }
 //
-//    public int AddEmailBillingCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
-//        try {
-//            if (tr.getType() == ConstantKey.INT_TR_ACC) {
-//                return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_BILLMSG, messageData);
-//            }
-//        } catch (Exception e) {
-//            logger.info("> AddEmailBillingCommMessage exception " + e.getMessage());
+//    public static int getOffetDate(ArrayList StockArray, long offsetDate) {
+//        int offset = 0;
+//        if (StockArray == null) {
+//            return 0;
 //        }
-//        return 0;
-//    }
+//        if (offsetDate == 0) {
+//            return 0;
+//        }
+//        for (int i = 0; i < StockArray.size(); i++) {
+//            AFstockInfo stocktmp = (AFstockInfo) StockArray.get(i);
+//            if (stocktmp.getEntrydatel() <= offsetDate) {
+//                break;
+//            }
+//            offset++;
+//        }
 //
-//    public int AddEmailCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
-//        try {
-//            if (tr.getType() == ConstantKey.INT_TR_ACC) {
-//                return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAIL, messageData);
-//            }
-//        } catch (Exception e) {
-//            logger.info("> AddEmailCommMessage exception " + e.getMessage());
+//        if ((StockArray.size() - offset) < 50) {
+//            offset = 0;
 //        }
-//        return 0;
+//        return offset;
 //    }
-//
-//    public int AddCommPUBSUBMessage(ServiceAFweb serviceAFWeb, AccountObj accFundObj, TradingRuleObj tr, String messageData) {
-//        try {
-//            if (tr.getType() == ConstantKey.INT_TR_ACC) {
-//                return serviceAFWeb.getAccountImp().addAccountPUBSUBMessage(accFundObj, ConstantKey.COM_PUB, messageData);
-//            }
-//        } catch (Exception e) {
-//            logger.info("> AddCommMessage exception " + e.getMessage());
-//        }
-//        return 0;
-//    }
-
-////////////////////////////////////////////////
-    public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
-        ServiceAFweb.lastfun = "updateTradingTransaction";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
-            return;
-        }
-
-//        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        try {
-            AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
-            if (stock != null) {
-                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                    return;
-                }
-            }
-            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
-
-            if (trObj == null) {
-                return;
-            }
-            int subStatus = trObj.getSubstatus();
-            if (subStatus == ConstantKey.INITIAL) {
-                serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, trObj.getStockid(), trObj.getTrname());
-            }
-
-            // process performance
-            String trName = trObj.getTrname();
-            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-
-            int currentTS = ConstantKey.S_NEUTRAL;
-            currentTS = trObj.getTrsignal();
-            if ((currentTS == ConstantKey.S_EXIT_LONG) || (currentTS == ConstantKey.S_EXIT_SHORT)) {
-                currentTS = ConstantKey.S_NEUTRAL;
-            }
-
-            int orderTS = ConstantKey.S_NEUTRAL;
-            if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
-                TransationOrderObj tranOrder = tranOrderList.get(0);
-
-                orderTS = tranOrder.getTrsignal();
-                if ((orderTS == ConstantKey.S_EXIT_LONG) || (orderTS == ConstantKey.S_EXIT_SHORT)) {
-                    orderTS = ConstantKey.S_NEUTRAL;
-                }
-            }
-
-            if (currentTS != orderTS) {
-                int ret = TRprocessImp.AddTransactionOrder(serviceAFWeb, accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null, true);
-//                newTran = serviceAFWeb.SystemAddTransactionOrder(accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null);
-            }
-            // Get transaction again process performance
-            //  entrydatel desc recent transaction first
-            tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-            if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
-
-                ArrayList<PerformanceObj> performanceList = TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, true); // buyOnly true for TR_ACC
-                if (performanceList != null) {
-                    if (performanceList.size() == 1) {
-                        PerformanceObj pObj = performanceList.get(0);
-                        pObj.setAccountid(accountObj.getId());
-                        pObj.setStockid(stock.getId());
-                        pObj.setTradingruleid(trObj.getId());
-                        ArrayList<PerformanceObj> currentPerfList = serviceAFWeb.SystemAccountStockPerfList(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
-                        String SQLPerf = "";
-                        if ((currentPerfList != null) && (currentPerfList.size() > 0)) {
-                            PerformanceObj currentpObj = currentPerfList.get(0);
-                            pObj.setId(currentpObj.getId());
-                            SQLPerf = AccountDB.SQLUpdateAccountStockPerformance(pObj);
-                        } else {
-                            SQLPerf = AccountDB.SQLaddAccountStockPerformance(pObj);
-                        }
-                        ArrayList sqlList = new ArrayList();
-                        sqlList.add(SQLPerf);
-                        serviceAFWeb.SystemUpdateSQLList(sqlList);
-                    }
-                }
-
-                if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                    if (trObj.getStatus() == ConstantKey.PENDING) {
-                        // delete stock
-                        serviceAFWeb.getAccountImp().removeAccountStock(accountObj, trObj.getStockid());
-                    }
-                }
-            }
-
-        } catch (Exception ex) {
-            logger.info("> updateTradingTransaction Exception" + ex.getMessage());
-        }
-    }
-
-    public static int getOffetDate(ArrayList StockArray, long offsetDate) {
-        int offset = 0;
-        if (StockArray == null) {
-            return 0;
-        }
-        if (offsetDate == 0) {
-            return 0;
-        }
-        for (int i = 0; i < StockArray.size(); i++) {
-            AFstockInfo stocktmp = (AFstockInfo) StockArray.get(i);
-            if (stocktmp.getEntrydatel() <= offsetDate) {
-                break;
-            }
-            offset++;
-        }
-
-        if ((StockArray.size() - offset) < 50) {
-            offset = 0;
-        }
-        return offset;
-    }
+//    ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////
-    public static double[] daMACD = {
-        459.99,
-        448.85,
-        446.06,
-        450.81,
-        442.8,
-        448.97,
-        444.57,
-        441.4,
-        430.47,
-        420.05,
-        431.14,
-        425.66,
-        430.58,
-        431.72,
-        437.87,
-        428.43,
-        428.35,
-        432.5,
-        443.66,
-        455.72,
-        454.49,
-        452.08,
-        452.73,
-        461.91,
-        463.58,
-        461.14,
-        452.08,
-        442.66,
-        428.91,
-        429.79,
-        431.99,
-        427.72,
-        423.2,
-        426.21,
-        426.98,
-        435.69,
-        434.33,
-        429.8,
-        419.85,
-        426.24,
-        402.8,
-        392.05,
-        390.53,
-        398.67,
-        406.13,
-        405.46,
-        408.38,
-        417.2,
-        430.12,
-        442.78,
-        439.29,
-        445.52,
-        449.98,
-        460.71,
-        458.66,
-        463.84,
-        456.77,
-        452.97,
-        454.74,
-        443.86,
-        428.85,
-        434.58,
-        433.26,
-        442.93,
-        439.66,
-        441.35
-
-    };
-
-    public static double[] daRSI = {
-        45.15,
-        46.26,
-        46.5,
-        46.23,
-        46.08,
-        46.03,
-        46.83,
-        47.69,
-        47.54,
-        49.25,
-        49.23,
-        48.2,
-        47.57,
-        47.61,
-        48.08,
-        47.21,
-        46.76,
-        46.68,
-        46.21,
-        47.47,
-        47.98,
-        47.13,
-        46.58,
-        46.03,
-        46.54,
-        46.79,
-        45.83,
-        45.93,
-        45.8,
-        46.69,
-        47.05,
-        47.3,
-        48.1,
-        47.93,
-        47.03,
-        47.58,
-        47.38,
-        48.1,
-        48.47,
-        47.6,
-        47.74,
-        48.21,
-        48.56,
-        48.15,
-        47.81,
-        47.41,
-        45.66,
-        45.75,
-        45.07,
-        43.77,
-        43.25,
-        44.68,
-        45.11,
-        45.8,
-        45.74,
-        46.23,
-        46.81,
-        46.87,
-        46.04,
-        44.78,
-        44.58,
-        44.14,
-        45.66,
-        45.89,
-        46.73,
-        46.86,
-        46.95,
-        46.74,
-        46.67,
-        45.3,
-        45.4,
-        45.54,
-        44.96,
-        44.47,
-        44.68,
-        45.91,
-        46.03,
-        45.98,
-        46.32,
-        46.53,
-        46.28,
-        46.14,
-        45.92,
-        44.8,
-        44.38,
-        43.48,
-        44.28,
-        44.87,
-        44.98,
-        43.96,
-        43.58,
-        42.93,
-        42.46,
-        42.8,
-        43.27,
-        43.89,
-        45,
-        44.03,
-        44.37,
-        44.71,
-        45.38,
-        45.54
-
-    };
+//    public static double[] daMACD = {
+//        459.99,
+//        448.85,
+//        446.06,
+//        450.81,
+//        442.8,
+//        448.97,
+//        444.57,
+//        441.4,
+//        430.47,
+//        420.05,
+//        431.14,
+//        425.66,
+//        430.58,
+//        431.72,
+//        437.87,
+//        428.43,
+//        428.35,
+//        432.5,
+//        443.66,
+//        455.72,
+//        454.49,
+//        452.08,
+//        452.73,
+//        461.91,
+//        463.58,
+//        461.14,
+//        452.08,
+//        442.66,
+//        428.91,
+//        429.79,
+//        431.99,
+//        427.72,
+//        423.2,
+//        426.21,
+//        426.98,
+//        435.69,
+//        434.33,
+//        429.8,
+//        419.85,
+//        426.24,
+//        402.8,
+//        392.05,
+//        390.53,
+//        398.67,
+//        406.13,
+//        405.46,
+//        408.38,
+//        417.2,
+//        430.12,
+//        442.78,
+//        439.29,
+//        445.52,
+//        449.98,
+//        460.71,
+//        458.66,
+//        463.84,
+//        456.77,
+//        452.97,
+//        454.74,
+//        443.86,
+//        428.85,
+//        434.58,
+//        433.26,
+//        442.93,
+//        439.66,
+//        441.35
+//
+//    };
+//
+//    public static double[] daRSI = {
+//        45.15,
+//        46.26,
+//        46.5,
+//        46.23,
+//        46.08,
+//        46.03,
+//        46.83,
+//        47.69,
+//        47.54,
+//        49.25,
+//        49.23,
+//        48.2,
+//        47.57,
+//        47.61,
+//        48.08,
+//        47.21,
+//        46.76,
+//        46.68,
+//        46.21,
+//        47.47,
+//        47.98,
+//        47.13,
+//        46.58,
+//        46.03,
+//        46.54,
+//        46.79,
+//        45.83,
+//        45.93,
+//        45.8,
+//        46.69,
+//        47.05,
+//        47.3,
+//        48.1,
+//        47.93,
+//        47.03,
+//        47.58,
+//        47.38,
+//        48.1,
+//        48.47,
+//        47.6,
+//        47.74,
+//        48.21,
+//        48.56,
+//        48.15,
+//        47.81,
+//        47.41,
+//        45.66,
+//        45.75,
+//        45.07,
+//        43.77,
+//        43.25,
+//        44.68,
+//        45.11,
+//        45.8,
+//        45.74,
+//        46.23,
+//        46.81,
+//        46.87,
+//        46.04,
+//        44.78,
+//        44.58,
+//        44.14,
+//        45.66,
+//        45.89,
+//        46.73,
+//        46.86,
+//        46.95,
+//        46.74,
+//        46.67,
+//        45.3,
+//        45.4,
+//        45.54,
+//        44.96,
+//        44.47,
+//        44.68,
+//        45.91,
+//        46.03,
+//        45.98,
+//        46.32,
+//        46.53,
+//        46.28,
+//        46.14,
+//        45.92,
+//        44.8,
+//        44.38,
+//        43.48,
+//        44.28,
+//        44.87,
+//        44.98,
+//        43.96,
+//        43.58,
+//        42.93,
+//        42.46,
+//        42.8,
+//        43.27,
+//        43.89,
+//        45,
+//        44.03,
+//        44.37,
+//        44.71,
+//        45.38,
+//        45.54
+//
+//    };
 
 }

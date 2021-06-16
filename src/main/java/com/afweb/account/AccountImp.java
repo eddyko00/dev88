@@ -6,7 +6,6 @@
 package com.afweb.account;
 
 import com.afweb.model.AccDeprecateObj;
-import com.afweb.model.AccEntryObj;
 import com.afweb.model.ConstantKey;
 
 import com.afweb.model.account.*;
@@ -1375,31 +1374,12 @@ public class AccountImp {
         return accountdb.insertAccountCommData(message);
     }
 
-//    public int addCommByCustName(int custID, String name, String data) {
-//        CommObj message = new CommObj();
-//        message.setCustomerid(custID);
-//        message.setAccountid(custID);
-//        message.setName(name);
-//        message.setType(ConstantKey.INT_COM_CFG);
-//
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//        long dateNowLong = dateNow.getTimeInMillis();
-//        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
-//        message.setUpdatedatel(dateNowLong);
-//        message.setData(data);
-//        return accountdb.insertAccountCommData(message);
-//    }
+
     public int updateAccountCommSubStatusById(CommObj newA) {
         return accountdb.updateAccountCommSubStatusById(newA);
     }
 
-//    public int updateCommByCustNameById(CommObj message) {
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//        long dateNowLong = dateNow.getTimeInMillis();
-//        message.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
-//        message.setUpdatedatel(dateNowLong);
-//        return accountdb.updateAccountCommDataById(message);
-//    }
+
     public ArrayList<BillingObj> getBillingObjByName(int accountID, String name, int length) {
         return accountdb.getBillingObjByName(accountID, name, length);
     }
