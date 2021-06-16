@@ -40,8 +40,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class AFcustaccController {
 
     private static AFwebService afWebService = new AFwebService();
-    ///cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=
 
+    public static void getHelpSystem(ArrayList<String> arrayString) {
+
+    }
+
+    public static void getHelpInfo(ArrayList<String> arrayString) {
+
+        arrayString.add("/cust/{username}/login&pass={pass}");
+        arrayString.add("/cust/{username}/acc");
+        arrayString.add("/cust/{username}/acc/{accountid}");
+        
+        
+        arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
+        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
+        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");        
+    }
+
+    ///cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=
     @RequestMapping(value = "/cust/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     LoginObj addCustomerPassword(
@@ -817,6 +834,7 @@ public class AFcustaccController {
         return null;
 
     }
+
     @RequestMapping(value = "/cust/{username}/sys/expiredcustlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getExpiredCustList(
@@ -838,7 +856,8 @@ public class AFcustaccController {
         return null;
 
     }
-   @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+
+    @RequestMapping(value = "/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int updateCustomer(
             @PathVariable("username") String username,
@@ -962,8 +981,6 @@ public class AFcustaccController {
         return 0;
     }
 
-
-    
 ////////////////////////////////////////////////
     //            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

@@ -40,6 +40,25 @@ public class AFcustaccFundController {
 
     private static AFwebService afWebService = new AFwebService();
 
+    public static void getHelpSystem(ArrayList<String> arrayString) {
+        //
+
+    }
+
+    public static void getHelpInfo(ArrayList<String> arrayString) {
+
+        arrayString.add("/cust/{username}/acc/{accountid}/clearfundbalance");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundbestlist");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/add");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/remove");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year=");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/perf?length=");
+
+    }
+
     // /cust/{username}/acc/{accountid}/fundlink/{accfundid}/add
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

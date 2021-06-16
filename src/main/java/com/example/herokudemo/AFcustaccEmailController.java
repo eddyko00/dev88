@@ -39,7 +39,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class AFcustaccEmailController {
 
     private static AFwebService afWebService = new AFwebService();
-    ///cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=
+
+    public static void getHelpSystem(ArrayList<String> arrayString) {
+        //
+     
+    }
+
+    public static void getHelpInfo(ArrayList<String> arrayString) {
+        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
+        arrayString.add("/cust/login?email={email}&pass={pass}");
+        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");   
+    }
 
     //"/cust/{username}/acc/{accountid}/emailcomm?length=" 
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/emailcomm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

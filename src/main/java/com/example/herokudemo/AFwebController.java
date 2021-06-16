@@ -59,14 +59,9 @@ public class AFwebController {
         msg = afWebService.serverPing();
         return msg;
     }
+
     /////////////////////////////////////////////////////////////////////////    
-
-    @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList SystemHelpPage() {
-
-        ArrayList arrayString = new ArrayList();
-
+    public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/server");
 //        arrayString.add("/server/filepath");
 //        arrayString.add("/server/filepath/set?path=&name=&string= ");
@@ -76,40 +71,34 @@ public class AFwebController {
 //        arrayString.add("/server/dburl");
 //        arrayString.add("/server/dburl/set?url=");         
         arrayString.add("/helphelp");
-        arrayString.add("/st?length={0 for all}");
-        arrayString.add("/st/{symbol}");
-        arrayString.add("/st/{symbol}/history?length={0 for all}");
-        arrayString.add("/st/add/{symbol}");
-        arrayString.add("/st/remove/{symbol}");
-        arrayString.add("/st/deleteinfo/{symbol}");
-        arrayString.add("/st/cleanallinfo");
-        //
-        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
-        arrayString.add("/cust/login?email={email}&pass={pass}");
-//        arrayString.add("/cust/{username}/login&pass={pass}");
+    }
 
-        arrayString.add("/cust/{username}/acc");
-        arrayString.add("/cust/{username}/acc/{accountid}");
+    public static void getHelpInfo(ArrayList<String> arrayString) {
 
-        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
+    }
 
-        arrayString.add("/cust/{username}/acc/{accountid}/clearfundbalance");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundbestlist");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/add");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/remove");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year=");
-        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/perf?length=");
+    @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList SystemHelpPage() {
 
-        arrayString.add("/cust/{username}/acc/{accountid}/billing?length= (default/Max 12)");
-        arrayString.add("/cust/{username}/acc/{accountid}/billing/{billid}/remove");
+        ArrayList arrayString = new ArrayList();
+
+        getHelpSystem(arrayString);
+        getHelpInfo(arrayString);
+
+        AFcustaccController.getHelpSystem(arrayString);
+        AFcustaccController.getHelpInfo(arrayString);
+
+        AFcustaccFundController.getHelpSystem(arrayString);
+        AFcustaccFundController.getHelpInfo(arrayString);
+
+        AFcustaccEmailController.getHelpSystem(arrayString);
+        AFcustaccEmailController.getHelpInfo(arrayString);
+
+        AFstockController.getHelpSystem(arrayString);
+        AFstockController.getHelpInfo(arrayString);
+
+
         arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
         arrayString.add("/cust/{username}/acc/{accountid}/custacc");
         arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
