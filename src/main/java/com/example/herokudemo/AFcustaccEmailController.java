@@ -46,8 +46,7 @@ public class AFcustaccEmailController {
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
-        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
-        arrayString.add("/cust/login?email={email}&pass={pass}");
+
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");   
     }

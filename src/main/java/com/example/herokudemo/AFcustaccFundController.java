@@ -11,9 +11,6 @@ import com.afweb.service.*;
 
 import com.afweb.util.CKey;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +40,7 @@ public class AFcustaccFundController {
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/{username}/sys/globalfundmgr");
         arrayString.add("/cust/{username}/sys/performfundmgr");
-        arrayString.add("/cust/{username}/sys/processfundmgr");        
+        arrayString.add("/cust/{username}/sys/processfundmgr");
 
     }
 
@@ -56,9 +53,65 @@ public class AFcustaccFundController {
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/remove");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr");
+        arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?year=");
         arrayString.add("/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr/{trname}/perf?length=");
 
+    }
+
+    //"/cust/{username}/acc/{accountid}/clearfundbalance");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/clearfundbalance", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int getAccountfundbalance(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+
+        int ret = afWebService.SystemFundClearfundbalance(username, null, accountid);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return ret;
+    }
+
+    //("/cust/{username}/acc/{accountid}/fundbestlist");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundbestlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList<AccountObj> getAccountBestFundList(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        ArrayList<AccountObj> accList = afWebService.getFundAccounBestFundList(username, null);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return accList;
+    }
+
+    //"/cust/{username}/acc/{accountid}/fundlink");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList<AccountObj> getAccountFundList(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        ArrayList<AccountObj> accList = afWebService.getFundAccountByCustomerAccountID(username, null, accountid);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return accList;
     }
 
     // /cust/{username}/acc/{accountid}/fundlink/{accfundid}/add
@@ -128,8 +181,8 @@ public class AFcustaccFundController {
 
         return returnList;
     }
-    // "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr}")
 
+    // "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockid or symbol}/tr}")
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     TradingRuleObj getAccountFundStockByTRname(
@@ -150,6 +203,7 @@ public class AFcustaccFundController {
         return returnObj;
     }
 
+    // "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/tran"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/st/{stockidsymbol}/tr/{trname}/tran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getFundAccountStockTran(
@@ -224,6 +278,7 @@ public class AFcustaccFundController {
         return returnList;
     }
 
+    // /cust/{username}/sys/globalfundmgr
     @RequestMapping(value = "/cust/{username}/sys/globalfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemFundMgr(@PathVariable("username") String username) {
@@ -250,6 +305,7 @@ public class AFcustaccFundController {
         return null;
     }
 
+    // "/cust/{username}/sys/performfundmgr"
     @RequestMapping(value = "/cust/{username}/sys/performfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getSystemPerfFundMgr(@PathVariable("username") String username) {
@@ -276,6 +332,7 @@ public class AFcustaccFundController {
         return null;
     }
 
+    //"/cust/{username}/sys/processfundmgr"
     @RequestMapping(value = "/cust/{username}/sys/processfundmgr", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus getProcessFundMgr(@PathVariable("username") String username) {

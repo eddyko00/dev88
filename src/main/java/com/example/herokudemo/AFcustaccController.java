@@ -52,10 +52,13 @@ public class AFcustaccController {
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
+        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
+        arrayString.add("/cust/login?email={email}&pass={pass}");
 
         arrayString.add("/cust/{username}/login&pass={pass}");
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
+        arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
@@ -64,7 +67,6 @@ public class AFcustaccController {
 
         arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
         arrayString.add("/cust/{username}/acc/{accountid}/custacc");
-        arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
         arrayString.add("/cust/{username}/acc/{accountid}/stname");
         arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
@@ -93,7 +95,7 @@ public class AFcustaccController {
 
     }
 
-    ///cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=
+//  arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
     @RequestMapping(value = "/cust/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     LoginObj addCustomerPassword(
@@ -120,6 +122,7 @@ public class AFcustaccController {
         return loginObj;
     }
 
+//  arrayString.add("/cust/login?email={email}&pass={pass}");
     @RequestMapping(value = "/cust/login", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     LoginObj getCustObjLogin(
@@ -179,7 +182,48 @@ public class AFcustaccController {
         return loginObj;
     }
 
-    //"/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan="
+    // arrayString.add("/cust/{username}/acc");
+    @RequestMapping(value = "/cust/{username}/acc", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList getAccountList(
+            @PathVariable("username") String username,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        }
+        ArrayList accountList = afWebService.getAccountList(username, null);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return accountList;
+    }
+
+    // arrayString.add("/cust/{username}/acc/{accountid}/custacc");
+    @RequestMapping(value = "/cust/{username}/acc/{accountid}/custacc", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    LoginObj getCustomerAcc(
+            @PathVariable("username") String username,
+            @PathVariable("accountid") String accountid,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            LoginObj loginObj = new LoginObj();
+            loginObj.setCustObj(null);
+            WebStatus webStatus = new WebStatus();
+            webStatus.setResultID(100);
+            loginObj.setWebMsg(webStatus);
+            return loginObj;
+        }
+//       SUCC = 1;  EXISTED = 2; FAIL =0;
+        LoginObj loginObj = afWebService.getCustomerAccLogin(username, accountid);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return loginObj;
+    }
+
+//  arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/custupdate", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     LoginObj updateCustomerPassword(
@@ -206,82 +250,6 @@ public class AFcustaccController {
         LoginObj loginObj = afWebService.updateCustomerPassword(username, accountid, emailSt, passSt, firstNameSt, lastNameSt, planSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
-    }
-
-    //"/cust/{username}/acc/{accountid}/custacc"
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/custacc", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    LoginObj getCustomerAcc(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            LoginObj loginObj = new LoginObj();
-            loginObj.setCustObj(null);
-            WebStatus webStatus = new WebStatus();
-            webStatus.setResultID(100);
-            loginObj.setWebMsg(webStatus);
-            return loginObj;
-        }
-//       SUCC = 1;  EXISTED = 2; FAIL =0;
-        LoginObj loginObj = afWebService.getCustomerAccLogin(username, accountid);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return loginObj;
-    }
-
-    @RequestMapping(value = "/cust/{username}/acc", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getAccountList(
-            @PathVariable("username") String username,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        ArrayList accountList = afWebService.getAccountList(username, null);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return accountList;
-    }
-
-    //("/cust/{username}/acc/{accountid}/fundbestlist");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundbestlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList<AccountObj> getAccountBestFundList(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        ArrayList<AccountObj> accList = afWebService.getFundAccounBestFundList(username, null);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return accList;
-    }
-
-    //"/cust/{username}/acc/{accountid}/fundlink");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList<AccountObj> getAccountFundList(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        ArrayList<AccountObj> accList = afWebService.getFundAccountByCustomerAccountID(username, null, accountid);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return accList;
     }
 
     @RequestMapping(value = "/cust/{username}/acc/{accountid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -330,24 +298,6 @@ public class AFcustaccController {
         return messageList;
     }
 
-    //"/cust/{username}/acc/{accountid}/clearfundbalance");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/clearfundbalance", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountfundbalance(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-
-        int ret = afWebService.SystemFundClearfundbalance(username, null, accountid);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
 
     // "/cust/{username}/acc/{accountid}/stname"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/stname", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

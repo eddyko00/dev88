@@ -61,15 +61,26 @@ public class AFwebController {
     }
 
     /////////////////////////////////////////////////////////////////////////    
+    public static void getHelpInternal(ArrayList<String> arrayString) {
+        arrayString.add("/server/filepath");
+        arrayString.add("/server/filepath/set?path=&name=&string= ");
+        arrayString.add("/server/filepath/read?path=&name=");
+        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
+        arrayString.add("/server/url0/set?url=stop");
+        arrayString.add("/server/dburl");
+        arrayString.add("/server/dburl/set?url=");
+        arrayString.add("/server/mysqldb");
+        arrayString.add("/server/mysqldb/set");
+        //DB Backup
+        arrayString.add("/cust/{username}/sys/downloaddb");
+        //DB restore
+        arrayString.add("/cust/{username}/sys/cleandb");
+        arrayString.add("/cust/{username}/sys/restoredb");
+        arrayString.add("/cust/{username}/sys/request");
+    }
+
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/server");
-//        arrayString.add("/server/filepath");
-//        arrayString.add("/server/filepath/set?path=&name=&string= ");
-//        arrayString.add("/server/filepath/read?path=&name=");
-//        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
-//        arrayString.add("/server/url0/set?url=stop");
-//        arrayString.add("/server/dburl");
-//        arrayString.add("/server/dburl/set?url=");         
         arrayString.add("/helphelp");
 
         arrayString.add("/cust/{username}/sys/stop");
@@ -81,12 +92,6 @@ public class AFwebController {
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
 //        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
 
-        //DB Backup
-//        arrayString.add("/cust/{username}/sys/downloaddb");
-        //DB restore
-//        arrayString.add("/cust/{username}/sys/cleandb");
-//        arrayString.add("/cust/{username}/sys/restoredb");
-//        arrayString.add("/cust/{username}/sys/request");
         arrayString.add("/cust/{username}/sys/lock");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}");
         arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock");
@@ -99,18 +104,18 @@ public class AFwebController {
 
     }
 
-    @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList SystemHelpPage() {
-
-        ArrayList arrayString = new ArrayList();
-
+    public static void getHelpHelp(ArrayList<String> arrayString) {
+        arrayString.add("--System DevOp--");
         getHelpSystem(arrayString);
         getHelpInfo(arrayString);
 
         AFstockController.getHelpSystem(arrayString);
         AFstockController.getHelpInfo(arrayString);
 
+        AFcustaccNNController.getHelpSystem(arrayString);
+        AFcustaccNNController.getHelpInfo(arrayString);
+
+        arrayString.add("--User Interface--");
         AFcustaccController.getHelpSystem(arrayString);
         AFcustaccController.getHelpInfo(arrayString);
 
@@ -126,45 +131,55 @@ public class AFwebController {
         AFcustaccEmailController.getHelpSystem(arrayString);
         AFcustaccEmailController.getHelpInfo(arrayString);
 
-        AFcustaccNNController.getHelpSystem(arrayString);
-        AFcustaccNNController.getHelpInfo(arrayString);
+    }
 
+    public static void getHelpAPI(ArrayList<String> arrayString) {
+
+        arrayString.add("--User Interface--");
+
+        AFcustaccController.getHelpInfo(arrayString);
+
+        AFcustaccFundController.getHelpInfo(arrayString);
+
+        AFcustaccAccountingController.getHelpInfo(arrayString);
+
+        AFcustaccBillingController.getHelpInfo(arrayString);
+
+        AFcustaccEmailController.getHelpInfo(arrayString);
+
+    }
+
+    public static void getHelpHelpAll(ArrayList<String> arrayString) {
+        getHelpInternal(arrayString);
+
+        getHelpHelp(arrayString);
+    }
+
+    @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList SystemHelpPage() {
+
+        ArrayList arrayString = new ArrayList();
+        getHelpHelp(arrayString);
+        return arrayString;
+    }
+
+    @RequestMapping(value = "helphelpall", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    ArrayList SystemHelpAllPage() {
+
+        ArrayList arrayString = new ArrayList();
+        getHelpHelpAll(arrayString);
 
         return arrayString;
     }
 
-    @RequestMapping(value = "/api/help", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/helpapi", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList SystemAPIHelpPage() {
 
         ArrayList arrayString = new ArrayList();
-        //
-        arrayString.add("/api/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}");
-        arrayString.add("/api/cust/login?email={email}&pass={pass}");
-
-        arrayString.add("/api/cust/{username}/acc");
-        arrayString.add("/api/cust/{username}/acc/{accountid}");
-
-        arrayString.add("/api/cust/{username}/acc/{accountid}/comm?length= (default/Max 20)");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/comm/remove?idlist= (-1 delete all)");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/comm/remove/{id}");
-
-        arrayString.add("/api/cust/{username}/acc/{accountid}/billing?length= (default/Max 12)");
-
-        arrayString.add("/api/cust/{username}/acc/{accountid}/stname");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/add/{symbol}");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/remove/{symbol}");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/removesymbol?symbol={symbol}");
-
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
-
-        arrayString.add("/api/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf");
-
+        getHelpAPI(arrayString);
         return arrayString;
     }
 //////////////////////////////////////////////////////////////////////
@@ -280,6 +295,8 @@ public class AFwebController {
         return "";
     }
 
+    //"/server/mysqldb"
+    //"/server/mysqldb/set"
     @RequestMapping(value = "/server/mysqldb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerLocalDbURL() {
