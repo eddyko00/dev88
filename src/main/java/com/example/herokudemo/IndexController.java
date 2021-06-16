@@ -679,220 +679,220 @@ public class IndexController {
 //        return ret;
 //    }
 
-    // "/cust/{username}/acc/{accountid}/billing?length="
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList<BillingObj> getAccountBillingList(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "length", required = false) String lengthSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        int length = 12;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-            if (length > 12) {
-                length = 12;
-            }
-        }
+//    // "/cust/{username}/acc/{accountid}/billing?length="
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList<BillingObj> getAccountBillingList(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @RequestParam(value = "length", required = false) String lengthSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return null;
+//        }
+//        int length = 12;
+//        if (lengthSt != null) {
+//            length = Integer.parseInt(lengthSt);
+//            if (length > 12) {
+//                length = 12;
+//            }
+//        }
+//
+//        ArrayList<BillingObj> billingObjList = afWebService.getBillingByCustomerAccountID(username, null, accountid, length);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return billingObjList;
+//    }
+//
+//    // "/cust/{username}/acc/{accountid}/billing/{billid}/remove"
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing/{billid}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int getAccountBillingDel(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @PathVariable("billid") String billid,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return 0;
+//        }
+//
+//        int ret = afWebService.removeBillingByCustomerAccountID(username, null, accountid, billid);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return ret;
+//    }
 
-        ArrayList<BillingObj> billingObjList = afWebService.getBillingByCustomerAccountID(username, null, accountid, length);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return billingObjList;
-    }
+////            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int getAccountCommAdd(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @RequestParam(value = "data", required = false) String dataSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return -1;
+//        }
+//        int ret = afWebService.addCommByCustAccountID(username, null, accountid, dataSt);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return ret;
+//    }
+//
+//    //"/cust/{username}/acc/{accountid}/emailcomm?length=" 
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/emailcomm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList<CommObj> getAccountEmailCommList(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @RequestParam(value = "length", required = false) String lengthSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return null;
+//        }
+//        int length = 20;
+//        if (lengthSt != null) {
+//            length = Integer.parseInt(lengthSt);
+//        }
+//        ArrayList<CommObj> commObjList = afWebService.getCommEmaiByCustomerAccountID(username, null, accountid, length);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return commObjList;
+//    }
 
-    // "/cust/{username}/acc/{accountid}/billing/{billid}/remove"
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/billing/{billid}/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountBillingDel(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @PathVariable("billid") String billid,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
+//    //"/cust/{username}/acc/{accountid}/comm?length=" 
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    ArrayList<CommObj> getAccountCommList(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @RequestParam(value = "length", required = false) String lengthSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return null;
+//        }
+//        int length = 20;
+//        if (lengthSt != null) {
+//            length = Integer.parseInt(lengthSt);
+//            if (length > 20) {
+//                length = 20;
+//            }
+//        }
+//        ArrayList<CommObj> commObjList = afWebService.getCommByCustomerAccountID(username, null, accountid, length);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return commObjList;
+//    }
 
-        int ret = afWebService.removeBillingByCustomerAccountID(username, null, accountid, billid);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
-
-//            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountCommAdd(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "data", required = false) String dataSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return -1;
-        }
-        int ret = afWebService.addCommByCustAccountID(username, null, accountid, dataSt);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
-
-    //"/cust/{username}/acc/{accountid}/emailcomm?length=" 
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/emailcomm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList<CommObj> getAccountEmailCommList(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "length", required = false) String lengthSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        int length = 20;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-        }
-        ArrayList<CommObj> commObjList = afWebService.getCommEmaiByCustomerAccountID(username, null, accountid, length);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return commObjList;
-    }
-
-    //"/cust/{username}/acc/{accountid}/comm?length=" 
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList<CommObj> getAccountCommList(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "length", required = false) String lengthSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        int length = 20;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-            if (length > 20) {
-                length = 20;
-            }
-        }
-        ArrayList<CommObj> commObjList = afWebService.getCommByCustomerAccountID(username, null, accountid, length);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return commObjList;
-    }
-
-    //"/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/emailcomm/removeemail", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountCommListRemoveemail(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "idlist", required = true) String idlist,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-        if (idlist == null) {
-            return 0;
-        }
-        if (idlist.length() == 0) {
-            return 0;
-        }
-        int ret = 1;
-        try {
-            String[] idlistArray = idlist.split(",");
-            for (int i = 0; i < idlistArray.length; i++) {
-                String idSt = idlistArray[i];
-                int comid = Integer.parseInt(idSt);
-                if (comid == -1) {
-                    ret = afWebService.removeAllEmailByCustomerAccountID(username, null, accountid);
-                } else {
-                    ret = afWebService.removeCommByID(username, null, accountid, comid + "");
-                }
-            }
-        } catch (Exception ex) {
-            ret = 0;
-        }
-
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
-
-    //"/cust/{username}/acc/{accountid}/comm/remove?idlist=");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountCommListRemove(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "idlist", required = true) String idlist,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-        if (idlist == null) {
-            return 0;
-        }
-        if (idlist.length() == 0) {
-            return 0;
-        }
-        int ret = 1;
-        try {
-            String[] idlistArray = idlist.split(",");
-            for (int i = 0; i < idlistArray.length; i++) {
-                String idSt = idlistArray[i];
-                int comid = Integer.parseInt(idSt);
-                if (comid == -1) {
-                    ret = afWebService.removeAllCommByCustomerAccountID(username, null, accountid);
-                } else {
-                    ret = afWebService.removeCommByID(username, null, accountid, comid + "");
-                }
-            }
-        } catch (Exception ex) {
-            ret = 0;
-        }
-
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
-
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove/{comid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountCommListRemoveID(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @PathVariable("comid") String comid,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-        int ret = afWebService.removeCommByID(username, null, accountid, comid);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
-
-    ///////////////////////////////////////
+//    //"/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/emailcomm/removeemail", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int getAccountCommListRemoveemail(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @RequestParam(value = "idlist", required = true) String idlist,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return 0;
+//        }
+//        if (idlist == null) {
+//            return 0;
+//        }
+//        if (idlist.length() == 0) {
+//            return 0;
+//        }
+//        int ret = 1;
+//        try {
+//            String[] idlistArray = idlist.split(",");
+//            for (int i = 0; i < idlistArray.length; i++) {
+//                String idSt = idlistArray[i];
+//                int comid = Integer.parseInt(idSt);
+//                if (comid == -1) {
+//                    ret = afWebService.removeAllEmailByCustomerAccountID(username, null, accountid);
+//                } else {
+//                    ret = afWebService.removeCommByID(username, null, accountid, comid + "");
+//                }
+//            }
+//        } catch (Exception ex) {
+//            ret = 0;
+//        }
+//
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return ret;
+//    }
+//
+//    //"/cust/{username}/acc/{accountid}/comm/remove?idlist=");
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int getAccountCommListRemove(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @RequestParam(value = "idlist", required = true) String idlist,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return 0;
+//        }
+//        if (idlist == null) {
+//            return 0;
+//        }
+//        if (idlist.length() == 0) {
+//            return 0;
+//        }
+//        int ret = 1;
+//        try {
+//            String[] idlistArray = idlist.split(",");
+//            for (int i = 0; i < idlistArray.length; i++) {
+//                String idSt = idlistArray[i];
+//                int comid = Integer.parseInt(idSt);
+//                if (comid == -1) {
+//                    ret = afWebService.removeAllCommByCustomerAccountID(username, null, accountid);
+//                } else {
+//                    ret = afWebService.removeCommByID(username, null, accountid, comid + "");
+//                }
+//            }
+//        } catch (Exception ex) {
+//            ret = 0;
+//        }
+//
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return ret;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove/{comid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int getAccountCommListRemoveID(
+//            @PathVariable("username") String username,
+//            @PathVariable("accountid") String accountid,
+//            @PathVariable("comid") String comid,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+//            return 0;
+//        }
+//        int ret = afWebService.removeCommByID(username, null, accountid, comid);
+//        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//        return ret;
+//    }
+//
+//    ///////////////////////////////////////
     // /cust/{username}/acc/{accountid}/fundlink/{accfundid}/add
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/fundlink/{accfundid}/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
