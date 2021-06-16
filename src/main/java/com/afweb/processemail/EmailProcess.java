@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.mail;
+package com.afweb.processemail;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;
@@ -122,7 +122,7 @@ public class EmailProcess {
                         try {
                             if (ServiceAFweb.processEmailFlag == true) {
                                 if ((emailAddr != null) && (emailAddr.length() > 0)) {
-                                    GmailSender sender = new GmailSender();
+                                    GmailSenderDao sender = new GmailSenderDao();
                                     sender.setSender(ServiceAFweb.UA_Str, ServiceAFweb.PA_Str);
                                     sender.addRecipient(emailAddr);
                                     sender.setSubject("IISWeb - " + comObj.getName());

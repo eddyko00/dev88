@@ -5,6 +5,7 @@
  */
 package com.afweb.service;
 
+import com.afweb.processemail.EmailProcess;
 import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.nnsignal.TradingAPISignalProcess;
 import com.afweb.accprocess.PUBSUBprocess;
@@ -17,7 +18,6 @@ import com.afweb.nnprocess.*;
 import com.afweb.model.*;
 import com.afweb.account.*;
 import com.afweb.chart.ChartService;
-import com.afweb.mail.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
@@ -3582,21 +3582,21 @@ public class ServiceAFweb {
 
     }
 
-    public ArrayList<CommObj> getCommEmaiByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().getCommEmailByCustomerAccountID(UserName, Password, accountid, length);
-        } catch (Exception e) {
-        }
-        return null;
-
-    }
+//    public ArrayList<CommObj> getCommEmaiByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            return getAccountImp().getCommEmailByCustomerAccountID(UserName, Password, accountid, length);
+//        } catch (Exception e) {
+//        }
+//        return null;
+//
+//    }
 
     public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -3657,22 +3657,22 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int removeAllEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            if (UserName.equals(CKey.ADMIN_USERNAME)) {
-                int accountid = Integer.parseInt(AccountIDSt);
-                return getAccountImp().removeAllCommByType(ConstantKey.INT_TYPE_COM_EMAIL);
-            }
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+//    public int removeAllEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            if (UserName.equals(CKey.ADMIN_USERNAME)) {
+//                int accountid = Integer.parseInt(AccountIDSt);
+//                return getAccountImp().removeAllCommByType(ConstantKey.INT_TYPE_COM_EMAIL);
+//            }
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
 
     public int removeAllCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {

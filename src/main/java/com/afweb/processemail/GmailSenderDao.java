@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.mail;
+package com.afweb.processemail;
 
 /**
  *
@@ -13,7 +13,7 @@ package com.afweb.mail;
 // login issue
 //https://gist.github.com/darwin/ee9e7855882b6f6b450fe45e9a5aa0b0
 //https://stackoverflow.com/questions/16512592/login-credentials-not-working-with-gmail-smtp
-import com.afweb.service.ServiceAFweb;
+
 import com.afweb.util.CKey;
 import java.util.Properties;
 
@@ -33,7 +33,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class GmailSender {
+public class GmailSenderDao {
 
     private static String protocol = "smtp";
 
@@ -47,7 +47,7 @@ public class GmailSender {
     public void GmailMain() {
         // Google Security Turn on Less secure app access
         try {
-            GmailSender sender = new GmailSender();
+            GmailSenderDao sender = new GmailSenderDao();
             sender.setSender("myEmailName", "mypassword");
             sender.addRecipient("recipient@somehost.com");
             sender.setSubject("The subject");
@@ -59,7 +59,7 @@ public class GmailSender {
         }
     }
 
-    public GmailSender() {
+    public GmailSenderDao() {
         this.multipart = new MimeMultipart();
     }
 

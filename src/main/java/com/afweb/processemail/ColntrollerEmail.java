@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.herokudemo;
-
+package com.afweb.processemail;
 
 import com.afweb.model.account.*;
 import com.afweb.service.*;
-
+import com.example.herokudemo.AFwebService;
 
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -32,19 +31,20 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class AFcustaccEmailController {
+public class ColntrollerEmail {
 
     private static AFwebService afWebService = new AFwebService();
+    private static ServiceEmail emailService = new ServiceEmail();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         //
-     
+
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
 
         arrayString.add("/cust/{username}/acc/{accountid}/emailcomm?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");   
+        arrayString.add("/cust/{username}/acc/{accountid}/emailcomm/removeemail?idlist=");
     }
 
     //"/cust/{username}/acc/{accountid}/emailcomm?length=" 
@@ -65,7 +65,7 @@ public class AFcustaccEmailController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        ArrayList<CommObj> commObjList = afWebService.getCommEmaiByCustomerAccountID(username, null, accountid, length);
+        ArrayList<CommObj> commObjList = emailService.getCommEmaiByCustomerAccountID(afWebService, username, null, accountid, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return commObjList;
     }
@@ -97,9 +97,9 @@ public class AFcustaccEmailController {
                 String idSt = idlistArray[i];
                 int comid = Integer.parseInt(idSt);
                 if (comid == -1) {
-                    ret = afWebService.removeAllEmailByCustomerAccountID(username, null, accountid);
+                    ret = emailService.removeAllEmailByCustomerAccountID(afWebService, username, null, accountid);
                 } else {
-                    ret = afWebService.removeCommByID(username, null, accountid, comid + "");
+                    ret = emailService.removeAllEmailByID(afWebService, username, null, accountid, comid + "");
                 }
             }
         } catch (Exception ex) {
