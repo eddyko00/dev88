@@ -5,6 +5,7 @@
  */
 package com.afweb.nnprocess;
 
+import com.afweb.sigprocess.TradingSignalProcess;
 import com.afweb.util.CKey;
 import com.afweb.model.*;
 import com.afweb.model.account.*;

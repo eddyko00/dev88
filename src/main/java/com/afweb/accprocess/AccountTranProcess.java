@@ -5,6 +5,7 @@
  */
 package com.afweb.accprocess;
 
+import com.afweb.sigprocess.TradingSignalProcess;
 import com.afweb.account.AccountDB;
 import com.afweb.account.AccountTranImp;
 import com.afweb.model.*;

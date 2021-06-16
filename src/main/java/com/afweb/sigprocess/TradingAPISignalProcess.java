@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.signal;
+package com.afweb.sigprocess;
 
 import com.afweb.account.*;
 import com.afweb.model.*;

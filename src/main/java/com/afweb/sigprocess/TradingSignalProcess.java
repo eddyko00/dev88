@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.signal;
+package com.afweb.sigprocess;
 //https://tradingstrategyguides.com/bollinger-bands-bounce-trading-strategy/
 //https://www.programcreek.com/java-api-examples/?api=org.ta4j.core.indicators.EMAIndicator
 //https://jar-download.com/artifacts/eu.verdelhan/ta4j-examples/0.4/source-code/ta4jexamples/strategies/MovingMomentumStrategy.java
@@ -19,6 +19,18 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 import com.afweb.nnprocess.*;
+import com.afweb.signal.EMAObj;
+import com.afweb.signal.MACDObj;
+import com.afweb.signal.NNObj;
+import com.afweb.signal.ProcessNN1;
+import com.afweb.signal.ProcessNN2;
+import com.afweb.signal.ProcessNN3;
+import com.afweb.signal.ProcessNN91;
+import com.afweb.signal.ProcessNN92;
+import com.afweb.signal.ProcessNN93;
+import com.afweb.signal.RSIObj;
+import com.afweb.signal.SMAObj;
+import com.afweb.signal.TechnicalCal;
 
 import com.afweb.stock.*;
 import com.afweb.util.*;

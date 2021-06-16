@@ -5,6 +5,7 @@
  */
 package com.afweb.signal;
 
+import com.afweb.sigprocess.TradingSignalProcess;
 import com.afweb.nnprocess.TradingNNprocess;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
@@ -285,7 +286,7 @@ public class ProcessNN92 {
         return inputDatalist;
     }
 
-    int ProcessTRHistoryOffsetNN92(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize, int prevSignal,
+    public int ProcessTRHistoryOffsetNN92(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, ArrayList<AFstockInfo> StockArray, int offsetInput, int monthSize, int prevSignal,
             int offset, String stdate, StockTRHistoryObj trHistory, AccountObj accountObj, AFstockObj stock, ArrayList<TradingRuleObj> tradingRuleList, ArrayList<StockTRHistoryObj> writeArray, AccData accData) {
         int confident = 0;
         boolean stopLoss = false;

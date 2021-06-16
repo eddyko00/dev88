@@ -5,6 +5,7 @@
  */
 package com.afweb.signal;
 
+import com.afweb.sigprocess.TradingSignalProcess;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
