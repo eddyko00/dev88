@@ -115,15 +115,15 @@ public class AFwebController {
         AFcustaccNNController.getHelpSystem(arrayString);
         AFcustaccNNController.getHelpInfo(arrayString);
 
+        AFcustaccAccountingController.getHelpSystem(arrayString);
+        AFcustaccAccountingController.getHelpInfo(arrayString);
+
         arrayString.add("--User Interface--");
         AFcustaccController.getHelpSystem(arrayString);
         AFcustaccController.getHelpInfo(arrayString);
 
         AFcustaccFundController.getHelpSystem(arrayString);
         AFcustaccFundController.getHelpInfo(arrayString);
-
-        AFcustaccAccountingController.getHelpSystem(arrayString);
-        AFcustaccAccountingController.getHelpInfo(arrayString);
 
         AFcustaccBillingController.getHelpSystem(arrayString);
         AFcustaccBillingController.getHelpInfo(arrayString);
@@ -140,8 +140,6 @@ public class AFwebController {
         AFcustaccController.getHelpInfo(arrayString);
 
         AFcustaccFundController.getHelpInfo(arrayString);
-
-        AFcustaccAccountingController.getHelpInfo(arrayString);
 
         AFcustaccBillingController.getHelpInfo(arrayString);
 

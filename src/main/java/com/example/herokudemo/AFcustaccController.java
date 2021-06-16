@@ -42,6 +42,11 @@ public class AFcustaccController {
     private static AFwebService afWebService = new AFwebService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
+        arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
+        arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
+
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
         arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
 
@@ -49,6 +54,7 @@ public class AFcustaccController {
 
         arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
         arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
+
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
@@ -87,11 +93,6 @@ public class AFcustaccController {
         arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history");
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history/display");
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
-
-        arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
-        arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
 
     }
 
@@ -297,7 +298,6 @@ public class AFcustaccController {
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return messageList;
     }
-
 
     // "/cust/{username}/acc/{accountid}/stname"
     @RequestMapping(value = "/cust/{username}/acc/{accountid}/stname", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
