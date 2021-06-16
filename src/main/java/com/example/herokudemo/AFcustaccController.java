@@ -44,9 +44,9 @@ public class AFcustaccController {
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
         arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
-        
+
         arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
-     
+
         arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
         arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
     }
@@ -89,6 +89,7 @@ public class AFcustaccController {
         arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
         arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
 
     }
 

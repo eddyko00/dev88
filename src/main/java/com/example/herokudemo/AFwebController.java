@@ -71,7 +71,7 @@ public class AFwebController {
 //        arrayString.add("/server/dburl");
 //        arrayString.add("/server/dburl/set?url=");         
         arrayString.add("/helphelp");
-        
+
         arrayString.add("/cust/{username}/sys/stop");
         arrayString.add("/cust/{username}/sys/clearlock");
         arrayString.add("/cust/{username}/sys/start");
@@ -80,6 +80,18 @@ public class AFwebController {
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
 //        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
+
+        //DB Backup
+//        arrayString.add("/cust/{username}/sys/downloaddb");
+        //DB restore
+//        arrayString.add("/cust/{username}/sys/cleandb");
+//        arrayString.add("/cust/{username}/sys/restoredb");
+//        arrayString.add("/cust/{username}/sys/request");
+        arrayString.add("/cust/{username}/sys/lock");
+        arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}");
+        arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock");
+        arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/value/{lockdate}/comment/{comment}/setlock");
+        arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/removelock");
 
     }
 
@@ -96,6 +108,9 @@ public class AFwebController {
         getHelpSystem(arrayString);
         getHelpInfo(arrayString);
 
+        AFstockController.getHelpSystem(arrayString);
+        AFstockController.getHelpInfo(arrayString);
+
         AFcustaccController.getHelpSystem(arrayString);
         AFcustaccController.getHelpInfo(arrayString);
 
@@ -105,52 +120,16 @@ public class AFwebController {
         AFcustaccAccountingController.getHelpSystem(arrayString);
         AFcustaccAccountingController.getHelpInfo(arrayString);
 
+        AFcustaccBillingController.getHelpSystem(arrayString);
+        AFcustaccBillingController.getHelpInfo(arrayString);
+
         AFcustaccEmailController.getHelpSystem(arrayString);
         AFcustaccEmailController.getHelpInfo(arrayString);
 
-        AFstockController.getHelpSystem(arrayString);
-        AFstockController.getHelpInfo(arrayString);
+        AFcustaccNNController.getHelpSystem(arrayString);
+        AFcustaccNNController.getHelpInfo(arrayString);
 
-//        arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
-//        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
-//        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
-//        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
-//        arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
-//        arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
-//        arrayString.add("/cust/{username}/sys/stop");
-//        arrayString.add("/cust/{username}/sys/clearlock");
-//        arrayString.add("/cust/{username}/sys/start");
-//        arrayString.add("/cust/{username}/sys/resetdb");
-        arrayString.add("/cust/{username}/sys/clearnninput");
-        arrayString.add("/cust/{username}/sys/clearallnntran");
-        arrayString.add("/cust/{username}/sys/clearnn2tran?tr=");
 
-        arrayString.add("/cust/{username}/sys/autonnflag");
-        arrayString.add("/cust/{username}/sys/autonnflag/enable");
-        arrayString.add("/cust/{username}/sys/autonnflag/disable");
-
-        arrayString.add("/cust/{username}/sys/globalfundmgr");
-        arrayString.add("/cust/{username}/sys/performfundmgr");
-        arrayString.add("/cust/{username}/sys/processfundmgr");
-
-//        arrayString.add("/cust/{username}/sys/deletenn1table");
-        //DB Backup
-//        arrayString.add("/cust/{username}/sys/downloaddb");
-        //DB restore
-//        arrayString.add("/cust/{username}/sys/cleandb");
-//        arrayString.add("/cust/{username}/sys/restoredb");
-//        arrayString.add("/cust/{username}/sys/request");
-        arrayString.add("/cust/{username}/sys/lock");
-        arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}");
-        arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/renewlock");
-        arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/value/{lockdate}/comment/{comment}/setlock");
-        arrayString.add("/cust/{username}/sys/lock/{lockname}/type/{type}/removelock");
-
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
-//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
         return arrayString;
     }
 

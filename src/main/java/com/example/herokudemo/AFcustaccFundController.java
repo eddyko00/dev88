@@ -41,7 +41,9 @@ public class AFcustaccFundController {
     private static AFwebService afWebService = new AFwebService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
-        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
+        arrayString.add("/cust/{username}/sys/globalfundmgr");
+        arrayString.add("/cust/{username}/sys/performfundmgr");
+        arrayString.add("/cust/{username}/sys/processfundmgr");        
 
     }
 

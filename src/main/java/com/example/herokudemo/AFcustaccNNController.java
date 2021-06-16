@@ -41,6 +41,28 @@ public class AFcustaccNNController {
 
     private static AFwebService afWebService = new AFwebService();
 
+    public static void getHelpSystem(ArrayList<String> arrayString) {
+        arrayString.add("/cust/{username}/sys/clearnninput");
+        arrayString.add("/cust/{username}/sys/clearallnntran");
+        arrayString.add("/cust/{username}/sys/clearnn2tran?tr=");
+
+        arrayString.add("/cust/{username}/sys/autonnflag");
+        arrayString.add("/cust/{username}/sys/autonnflag/enable");
+        arrayString.add("/cust/{username}/sys/autonnflag/disable");
+
+//        arrayString.add("/cust/{username}/sys/deletenn1table");   
+//
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
+    }
+
+    public static void getHelpInfo(ArrayList<String> arrayString) {
+
+    }
+
     @RequestMapping(value = "/cust/{username}/sys/clearnninput", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     WebStatus SystemClearNNinput(@PathVariable("username") String username) {

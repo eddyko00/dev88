@@ -42,7 +42,7 @@ public class AFcustaccAccountingController {
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         //
-
+ 
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
