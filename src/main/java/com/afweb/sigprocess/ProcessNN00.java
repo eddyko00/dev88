@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.signal;
+package com.afweb.sigprocess;
 
 import com.afweb.sigprocess.TradingSignalProcess;
 import com.afweb.model.*;
@@ -13,6 +13,7 @@ import com.afweb.nn.*;
 import com.afweb.nnprocess.*;
 
 import com.afweb.service.ServiceAFweb;
+import com.afweb.signal.NNObj;
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;

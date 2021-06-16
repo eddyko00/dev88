@@ -5,6 +5,7 @@
  */
 package com.afweb.nnprocess;
 
+import com.afweb.sigprocess.ProcessNN3;
 import com.afweb.sigprocess.TradingSignalProcess;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.SymbolNameObj;

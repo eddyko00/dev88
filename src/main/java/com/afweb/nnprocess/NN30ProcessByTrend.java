@@ -5,6 +5,8 @@
  */
 package com.afweb.nnprocess;
 
+import com.afweb.sigprocess.ProcessNN1;
+import com.afweb.sigprocess.ProcessNN00;
 import com.afweb.sigprocess.TradingSignalProcess;
 import com.afweb.util.CKey;
 import com.afweb.model.*;

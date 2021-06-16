@@ -5,6 +5,10 @@
  */
 package com.afweb.signal;
 
+import com.afweb.sigprocess.ProcessNN3;
+import com.afweb.sigprocess.ProcessNN2;
+import com.afweb.sigprocess.ProcessNN1;
+import com.afweb.sigprocess.ProcessNN00;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockInfo;
