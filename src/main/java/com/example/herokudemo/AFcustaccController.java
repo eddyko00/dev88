@@ -42,7 +42,10 @@ public class AFcustaccController {
     private static AFwebService afWebService = new AFwebService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
-
+        arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
+        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
+        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
+        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
@@ -50,12 +53,40 @@ public class AFcustaccController {
         arrayString.add("/cust/{username}/login&pass={pass}");
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
-        
-        
+
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/remove?idlist=");
-        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");        
+        arrayString.add("/cust/{username}/acc/{accountid}/comm/remove/{id}");
+
+        arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
+        arrayString.add("/cust/{username}/acc/{accountid}/custacc");
+        arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
+
+        arrayString.add("/cust/{username}/acc/{accountid}/stname");
+        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/remove/{symbol}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/removesymbol?symbol={symbol}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?month=");
+//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chartfile");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/clear");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/{signal}/order");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf");
+        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history");
+//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history/display");
+//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
+
+        arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
+        arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
+
     }
 
     ///cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=

@@ -71,6 +71,11 @@ public class AFwebController {
 //        arrayString.add("/server/dburl");
 //        arrayString.add("/server/dburl/set?url=");         
         arrayString.add("/helphelp");
+        
+        arrayString.add("/cust/{username}/uisys/{custid}/lock");
+        arrayString.add("/cust/{username}/uisys/{custid}/timer");
+//        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
+        
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
@@ -92,6 +97,9 @@ public class AFwebController {
         AFcustaccFundController.getHelpSystem(arrayString);
         AFcustaccFundController.getHelpInfo(arrayString);
 
+        AFcustaccAccountingController.getHelpSystem(arrayString);
+        AFcustaccAccountingController.getHelpInfo(arrayString);
+        
         AFcustaccEmailController.getHelpSystem(arrayString);
         AFcustaccEmailController.getHelpInfo(arrayString);
 
@@ -99,53 +107,10 @@ public class AFwebController {
         AFstockController.getHelpInfo(arrayString);
 
 
-        arrayString.add("/cust/{username}/acc/{accountid}/banner?ver=");
-        arrayString.add("/cust/{username}/acc/{accountid}/custacc");
-        arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
-
-        arrayString.add("/cust/{username}/acc/{accountid}/stname");
-        arrayString.add("/cust/{username}/acc/{accountid}/st?trname=&filter= (Max 50)&length= (default 20 Max 50)");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/add/{symbol}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/remove/{symbol}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/addsymbol?symbol={symbol}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/removesymbol?symbol={symbol}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/linktr/{linkopt or trname}");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chart?month=");
-//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/history/chartfile");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/clear");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/tran/{signal}/order");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf");
-        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history");
-//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockid or symbol}/tr/{trname}/perf/history/display");
-//        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
-
-        arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
-        arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/earning?payment=&reason=&comment=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment=");
-
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=&namerpt=");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/removeaccounting?year=");
-
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
-        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
-
-        arrayString.add("/cust/{username}/uisys/{custid}/lock");
-        arrayString.add("/cust/{username}/uisys/{custid}/timer");
-        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
-
-        arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
-        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
-        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
-        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
+//        arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
+//        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
+//        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
+//        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
 
         arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
         arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");

@@ -39,7 +39,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class AFcustaccAccountingController {
 
     private static AFwebService afWebService = new AFwebService();
-    //"/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment="
+
+    public static void getHelpSystem(ArrayList<String> arrayString) {
+        //
+
+    }
+
+    public static void getHelpInfo(ArrayList<String> arrayString) {
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/update?payment=&balance=&reason=&rate=&comment=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/tax?payment=&reason=&comment=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/earning?payment=&reason=&comment=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/utility?payment=&year=&reason=&comment=");
+
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/report?name=&year=&namerpt=");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/removeaccounting?year=");
+
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}");
+        arrayString.add("/cust/{username}/uisys/{custid}/accounting/entry/{id}/remove");
+    }
 
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/accounting/update", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
