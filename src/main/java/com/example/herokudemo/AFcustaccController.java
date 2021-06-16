@@ -9,12 +9,9 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockObj;
 import com.afweb.service.ServiceAFweb;
-import com.afweb.service.ServiceRemoteDB;
 import com.afweb.util.CKey;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,9 +39,13 @@ public class AFcustaccController {
     private static AFwebService afWebService = new AFwebService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
+        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
+        arrayString.add("/cust/login?email={email}&pass={pass}");
+
+        arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
+
         arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
-        arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=");
-        arrayString.add("/cust/{username}/uisys/{custid}/custlist?length={0 for all} - default 20");
+        arrayString.add("/cust/{username}/uisys/{custid}/custlist?name=&length={0 for all} - default 20");
         arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
 
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
@@ -58,13 +59,10 @@ public class AFcustaccController {
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
-        arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
-        arrayString.add("/cust/login?email={email}&pass={pass}");
 
         arrayString.add("/cust/{username}/login&pass={pass}");
         arrayString.add("/cust/{username}/acc");
         arrayString.add("/cust/{username}/acc/{accountid}");
-        arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
         arrayString.add("/cust/{username}/acc/{accountid}/comm?length={0 for all} - default 20");
         arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");
@@ -783,7 +781,7 @@ public class AFcustaccController {
 
     }
 
-    ///cust/{username}/uisys/{custid}/custlist?name&length={0 for all} - default 20");
+    // "/cust/{username}/uisys/{custid}/custlist?name=&length={0 for all} - default 20"
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/custlist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList getUICustList(
