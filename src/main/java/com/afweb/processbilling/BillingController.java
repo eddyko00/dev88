@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.herokudemo;
+package com.afweb.processbilling;
 
 import com.afweb.model.account.*;
 import com.afweb.service.*;
+import com.example.herokudemo.AFwebService;
 
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class AFcustaccBillingController {
+public class BillingController {
 
     private static AFwebService afWebService = new AFwebService();
+
+    private static BillingService billingSrv = new BillingService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         //
@@ -54,7 +57,7 @@ public class AFcustaccBillingController {
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+        if (afWebService.getServerObj().isSysMaintenance() == true) {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
@@ -66,7 +69,7 @@ public class AFcustaccBillingController {
             }
         }
 
-        ArrayList<BillingObj> billingObjList = afWebService.getBillingByCustomerAccountID(username, null, accountid, length);
+        ArrayList<BillingObj> billingObjList = billingSrv.getBillingByCustomerAccountID(afWebService, username, null, accountid, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return billingObjList;
     }
@@ -81,12 +84,12 @@ public class AFcustaccBillingController {
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+        if (afWebService.getServerObj().isSysMaintenance() == true) {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
 
-        int ret = afWebService.removeBillingByCustomerAccountID(username, null, accountid, billid);
+        int ret = billingSrv.removeBillingByCustomerAccountID(afWebService, username, null, accountid, billid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }

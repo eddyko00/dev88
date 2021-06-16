@@ -5,6 +5,7 @@
  */
 package com.example.herokudemo;
 
+import com.afweb.processbilling.BillingController;
 import com.afweb.processaccounting.AccountingController;
 import com.afweb.processemail.EmailController;
 import com.afweb.model.*;
@@ -127,8 +128,8 @@ public class AFwebController {
         AFcustaccFundController.getHelpSystem(arrayString);
         AFcustaccFundController.getHelpInfo(arrayString);
 
-        AFcustaccBillingController.getHelpSystem(arrayString);
-        AFcustaccBillingController.getHelpInfo(arrayString);
+        BillingController.getHelpSystem(arrayString);
+        BillingController.getHelpInfo(arrayString);
 
         EmailController.getHelpSystem(arrayString);
         EmailController.getHelpInfo(arrayString);
@@ -143,7 +144,7 @@ public class AFwebController {
 
         AFcustaccFundController.getHelpInfo(arrayString);
 
-        AFcustaccBillingController.getHelpInfo(arrayString);
+        BillingController.getHelpInfo(arrayString);
 
         EmailController.getHelpInfo(arrayString);
 

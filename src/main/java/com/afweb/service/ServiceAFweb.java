@@ -10,7 +10,7 @@ import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.nnsignal.TradingAPISignalProcess;
 import com.afweb.accprocess.PUBSUBprocess;
 import com.afweb.accprocess.FundMgrProcess;
-import com.afweb.accprocess.BillingProcess;
+import com.afweb.processbilling.BillingProcess;
 import com.afweb.processaccounting.AccountingProcess;
 import com.afweb.accprocess.AccountTranProcess;
 import com.afweb.accprocess.AccountMaintProcess;
@@ -3463,39 +3463,39 @@ public class ServiceAFweb {
 
     }
 
-    public ArrayList<BillingObj> getBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
+//    public ArrayList<BillingObj> getBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(UserName, Password, accountid, length);
+//            return billingObjList;
+//        } catch (Exception e) {
+//        }
+//        return null;
+//
+//    }
 
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(UserName, Password, accountid, length);
-            return billingObjList;
-        } catch (Exception e) {
-        }
-        return null;
-
-    }
-
-    public int removeBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            int billid = Integer.parseInt(BillIDSt);
-            int ret = getAccountImp().removeBillingByCustomerAccountID(UserName, Password, accountid, billid);
-            return ret;
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+//    public int removeBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            int billid = Integer.parseInt(BillIDSt);
+//            int ret = getAccountImp().removeBillingByCustomerAccountID(UserName, Password, accountid, billid);
+//            return ret;
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
 
 //    public AccEntryObj getAccountingEntryByCustomerById(String EmailUserName, String Password, String idSt) {
 //        if (getServerObj().isSysMaintenance() == true) {

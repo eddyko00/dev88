@@ -5,7 +5,7 @@
  */
 package com.afweb.processaccounting;
 
-import com.afweb.accprocess.*;
+
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 
@@ -168,7 +168,7 @@ public class AccountingService {
             if (commentSt != null) {
                 comment = commentSt;
             }
-            BillingProcess BP = new BillingProcess();
+
             float payment = 0;
             String commSt = "";
             int ret = 0;
@@ -242,7 +242,7 @@ public class AccountingService {
             if (commentSt != null) {
                 comment = commentSt;
             }
-            BillingProcess BP = new BillingProcess();
+
             float payment = 0;
             String commSt = "";
             int ret = 0;
@@ -316,7 +316,7 @@ public class AccountingService {
             if (commentSt != null) {
                 comment = commentSt;
             }
-            BillingProcess BP = new BillingProcess();
+
             float payment = 0;
             String commSt = "";
             int ret = 0;
