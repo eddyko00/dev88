@@ -3497,90 +3497,90 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public AccEntryObj getAccountingEntryByCustomerById(String EmailUserName, String Password, String idSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
+//    public AccEntryObj getAccountingEntryByCustomerById(String EmailUserName, String Password, String idSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = getCustomerPassword(UserName, Password);
+//            if (customer != null) {
+//                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
+//                    int id = Integer.parseInt(idSt);
+//
+//                    AccEntryObj accEntry = getAccounting().getAccountingEntryById(this, id);
+//                    return accEntry;
+//                }
+//            }
+//        } catch (Exception e) {
+//        }
+//        return null;
+//    }
 
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = getCustomerPassword(UserName, Password);
-            if (customer != null) {
-                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-                    int id = Integer.parseInt(idSt);
+//    public int removeAccountingEntryById(String EmailUserName, String Password, String idSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = getCustomerPassword(UserName, Password);
+//            if (customer != null) {
+//                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
+//                    int id = Integer.parseInt(idSt);
+//                    return getAccounting().removeAccountingEntryById(this, id);
+//
+//                }
+//            }
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
 
-                    AccEntryObj accEntry = getAccounting().getAccountingEntryById(this, id);
-                    return accEntry;
-                }
-            }
-        } catch (Exception e) {
-        }
-        return null;
-    }
-
-    public int removeAccountingEntryById(String EmailUserName, String Password, String idSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = getCustomerPassword(UserName, Password);
-            if (customer != null) {
-                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-                    int id = Integer.parseInt(idSt);
-                    return getAccounting().removeAccountingEntryById(this, id);
-
-                }
-            }
-        } catch (Exception e) {
-        }
-        return 0;
-    }
-
-    public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year, String namerptSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = getCustomerPassword(UserName, Password);
-            if (customer != null) {
-                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-
-                    if (name != null) {
-                        if (name.length() > 0) {
-                            AccReportObj accReport = getAccounting().getAccountReportYearByName(this, name, year);
-                            return accReport;
-                        }
-                    }
-                    String namerpt = "income";
-                    if (namerptSt != null) {
-                        if (namerptSt.length() > 0) {
-                            namerpt = namerptSt;
-                        }
-                    }
-                    AccReportObj accReport = null;
-                    if (namerpt.equals("balance")) {
-                        accReport = getAccounting().getAccountBalanceReportYear(this, year, namerptSt);
-                    } else if (namerpt.equals("deprecation")) {
-                        accReport = getAccounting().getAccountDeprecationReportYear(this, year, namerptSt);
-                    } else {
-                        accReport = getAccounting().getAccountReportYear(this, year, namerptSt);
-                    }
-                    return accReport;
-                }
-            }
-
-        } catch (Exception e) {
-        }
-        return null;
-
-    }
+//    public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year, String namerptSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = getCustomerPassword(UserName, Password);
+//            if (customer != null) {
+//                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
+//
+//                    if (name != null) {
+//                        if (name.length() > 0) {
+//                            AccReportObj accReport = getAccounting().getAccountReportYearByName(this, name, year);
+//                            return accReport;
+//                        }
+//                    }
+//                    String namerpt = "income";
+//                    if (namerptSt != null) {
+//                        if (namerptSt.length() > 0) {
+//                            namerpt = namerptSt;
+//                        }
+//                    }
+//                    AccReportObj accReport = null;
+//                    if (namerpt.equals("balance")) {
+//                        accReport = getAccounting().getAccountBalanceReportYear(this, year, namerptSt);
+//                    } else if (namerpt.equals("deprecation")) {
+//                        accReport = getAccounting().getAccountDeprecationReportYear(this, year, namerptSt);
+//                    } else {
+//                        accReport = getAccounting().getAccountReportYear(this, year, namerptSt);
+//                    }
+//                    return accReport;
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//        }
+//        return null;
+//
+//    }
 
 //    public ArrayList<CommObj> getCommEmaiByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -5734,455 +5734,456 @@ public class ServiceAFweb {
         return getStockImp().updateStockInfoTransaction(stockInfoTran);
     }
 
-    public int AccountingYearEnd(String customername, String yearSt) {
-        ServiceAFweb.lastfun = "insertAccountEarning";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            int year = 0;
-            if (yearSt != null) {
-                if (yearSt.length() > 0) {
-                    try {
-                        year = Integer.parseInt(yearSt);
-                    } catch (Exception e) {
-                    }
-                }
-            }
-
-            return getAccounting().closingYearEnd(this, customer, year);
-
-        } catch (Exception e) {
-        }
-        return 0;
-    }
-
-    public int removeAccounting(String customername, String yearSt) {
-        ServiceAFweb.lastfun = "insertAccountEarning";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            int year = 0;
-            if (yearSt != null) {
-                if (yearSt.length() > 0) {
-                    try {
-                        year = Integer.parseInt(yearSt);
-                    } catch (Exception e) {
-                    }
-                }
-            }
-            if (year == -99) {
-                return getAccountImp().removeAccountingAll();
-            }
-
-            int newYear = 0;
-            if (year != 0) {
-                newYear = year * 12;
-            }
-
-            // begin 2021 01 01  (updatedatel)  end 2021 12 31
-            long BeginingYear = DateUtil.getFirstDayCurrentYear();
-            long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
-
-            if (newYear != 0) {
-                BeginingYear = TimeConvertion.addMonths(BeginingYear, newYear);
-                EndingYear = TimeConvertion.addMonths(EndingYear, newYear);
-            }
-
-            EndingYear = TimeConvertion.addDays(EndingYear, -1);
-            return getAccountImp().removeAccounting(BeginingYear, EndingYear);
-        } catch (Exception e) {
-        }
-        return 0;
-    }
-
-    public int insertAccountEarning(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
-        ServiceAFweb.lastfun = "insertAccountEarning";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            String comment = "";
-            if (commentSt != null) {
-                comment = commentSt;
-            }
-            BillingProcess BP = new BillingProcess();
-            float payment = 0;
-            String commSt = "";
-            int ret = 0;
-            if (paymentSt != null) {
-                if (!paymentSt.equals("")) {
-                    payment = Float.parseFloat(paymentSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    commSt += "System Retained Earning change " + currency;
-
-//                    if (reasonSt != null) {
-//                        if (reasonSt.length() > 0) {
+//    public int AccountingYearEnd(String customername, String yearSt) {
+//        ServiceAFweb.lastfun = "insertAccountEarning";
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
 //
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            int year = 0;
+//            if (yearSt != null) {
+//                if (yearSt.length() > 0) {
+//                    try {
+//                        year = Integer.parseInt(yearSt);
+//                    } catch (Exception e) {
+//                    }
+//                }
+//            }
+//
+//            return getAccounting().closingYearEnd(this, customer, year);
+//
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
+
+//    public int removeAccounting(String customername, String yearSt) {
+//        ServiceAFweb.lastfun = "insertAccountEarning";
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            int year = 0;
+//            if (yearSt != null) {
+//                if (yearSt.length() > 0) {
+//                    try {
+//                        year = Integer.parseInt(yearSt);
+//                    } catch (Exception e) {
+//                    }
+//                }
+//            }
+//            if (year == -99) {
+//                return getAccountImp().removeAccountingAll();
+//            }
+//
+//            int newYear = 0;
+//            if (year != 0) {
+//                newYear = year * 12;
+//            }
+//
+//            // begin 2021 01 01  (updatedatel)  end 2021 12 31
+//            long BeginingYear = DateUtil.getFirstDayCurrentYear();
+//            long EndingYear = TimeConvertion.addMonths(BeginingYear, 12);
+//
+//            if (newYear != 0) {
+//                BeginingYear = TimeConvertion.addMonths(BeginingYear, newYear);
+//                EndingYear = TimeConvertion.addMonths(EndingYear, newYear);
+//            }
+//
+//            EndingYear = TimeConvertion.addDays(EndingYear, -1);
+//            return getAccountImp().removeAccounting(BeginingYear, EndingYear);
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
+
+//    public int insertAccountEarning(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
+//        ServiceAFweb.lastfun = "insertAccountEarning";
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            String comment = "";
+//            if (commentSt != null) {
+//                comment = commentSt;
+//            }
+//            BillingProcess BP = new BillingProcess();
+//            float payment = 0;
+//            String commSt = "";
+//            int ret = 0;
+//            if (paymentSt != null) {
+//                if (!paymentSt.equals("")) {
+//                    payment = Float.parseFloat(paymentSt);
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(payment);
+//                    commSt += "System Retained Earning change " + currency;
+//
+////                    if (reasonSt != null) {
+////                        if (reasonSt.length() > 0) {
+////
+////                        }
+////                    }
+//                    if (comment.length() > 0) {
+//                        commSt = comment;
+//                    }
+//                    int year = 0;
+//                    if (yearSt != null) {
+//                        if (yearSt.length() > 0) {
+//                            try {
+//                                year = Integer.parseInt(yearSt);
+//                            } catch (Exception e) {
+//                            }
 //                        }
 //                    }
-                    if (comment.length() > 0) {
-                        commSt = comment;
-                    }
-                    int year = 0;
-                    if (yearSt != null) {
-                        if (yearSt.length() > 0) {
-                            try {
-                                year = Integer.parseInt(yearSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    ret = getAccounting().addTransferEarning(this, customer, payment, year, commSt);
-
-                }
-            }
-
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
-
-                String msg = ESTtime + " " + commSt;
-
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-
-            }
-            return ret;
-
-        } catch (Exception e) {
-
-        }
-        return 0;
-    }
-
-    public int insertAccountTAX(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
-        ServiceAFweb.lastfun = "insertAccountTAX";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            String comment = "";
-            if (commentSt != null) {
-                comment = commentSt;
-            }
-            BillingProcess BP = new BillingProcess();
-            float payment = 0;
-            String commSt = "";
-            int ret = 0;
-            if (paymentSt != null) {
-                if (!paymentSt.equals("")) {
-                    payment = Float.parseFloat(paymentSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    commSt += "System TAX change " + currency;
-
-//                    if (reasonSt != null) {
-//                        if (reasonSt.length() > 0) {
+//                    ret = getAccounting().addTransferEarning(this, customer, payment, year, commSt);
 //
+//                }
+//            }
+//
+//            if (ret == 1) {
+//                String tzid = "America/New_York"; //EDT
+//                TimeZone tz = TimeZone.getTimeZone(tzid);
+//                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                format.setTimeZone(tz);
+//                String ESTtime = format.format(d);
+//
+//                String msg = ESTtime + " " + commSt;
+//
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+//
+//            }
+//            return ret;
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return 0;
+//    }
+
+//    public int insertAccountTAX(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
+//        ServiceAFweb.lastfun = "insertAccountTAX";
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            String comment = "";
+//            if (commentSt != null) {
+//                comment = commentSt;
+//            }
+//            BillingProcess BP = new BillingProcess();
+//            float payment = 0;
+//            String commSt = "";
+//            int ret = 0;
+//            if (paymentSt != null) {
+//                if (!paymentSt.equals("")) {
+//                    payment = Float.parseFloat(paymentSt);
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(payment);
+//                    commSt += "System TAX change " + currency;
+//
+////                    if (reasonSt != null) {
+////                        if (reasonSt.length() > 0) {
+////
+////                        }
+////                    }
+//                    if (comment.length() > 0) {
+//                        commSt = comment;
+//                    }
+//                    int year = 0;
+//                    if (yearSt != null) {
+//                        if (yearSt.length() > 0) {
+//                            try {
+//                                year = Integer.parseInt(yearSt);
+//                            } catch (Exception e) {
+//                            }
 //                        }
 //                    }
-                    if (comment.length() > 0) {
-                        commSt = comment;
-                    }
-                    int year = 0;
-                    if (yearSt != null) {
-                        if (yearSt.length() > 0) {
-                            try {
-                                year = Integer.parseInt(yearSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    ret = getAccounting().addTransferPayTax(this, customer, payment, commSt);
-
-                }
-            }
-
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
-
-                String msg = ESTtime + " " + commSt;
-
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-
-            }
-            return ret;
-
-        } catch (Exception e) {
-
-        }
-        return 0;
-    }
-
-    public int insertAccountCash(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
-        ServiceAFweb.lastfun = "insertAccountCash";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            String comment = "";
-            if (commentSt != null) {
-                comment = commentSt;
-            }
-            BillingProcess BP = new BillingProcess();
-            float payment = 0;
-            String commSt = "";
-            int ret = 0;
-            if (paymentSt != null) {
-                if (!paymentSt.equals("")) {
-                    payment = Float.parseFloat(paymentSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    commSt += "System Cash change " + currency;
-
-//                    if (reasonSt != null) {
-//                        if (reasonSt.length() > 0) {
+//                    ret = getAccounting().addTransferPayTax(this, customer, payment, commSt);
 //
+//                }
+//            }
+//
+//            if (ret == 1) {
+//                String tzid = "America/New_York"; //EDT
+//                TimeZone tz = TimeZone.getTimeZone(tzid);
+//                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                format.setTimeZone(tz);
+//                String ESTtime = format.format(d);
+//
+//                String msg = ESTtime + " " + commSt;
+//
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+//
+//            }
+//            return ret;
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return 0;
+//    }
+
+//    public int insertAccountCash(String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
+//        ServiceAFweb.lastfun = "insertAccountCash";
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            String comment = "";
+//            if (commentSt != null) {
+//                comment = commentSt;
+//            }
+//            BillingProcess BP = new BillingProcess();
+//            float payment = 0;
+//            String commSt = "";
+//            int ret = 0;
+//            if (paymentSt != null) {
+//                if (!paymentSt.equals("")) {
+//                    payment = Float.parseFloat(paymentSt);
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(payment);
+//                    commSt += "System Cash change " + currency;
+//
+////                    if (reasonSt != null) {
+////                        if (reasonSt.length() > 0) {
+////
+////                        }
+////                    }
+//                    if (comment.length() > 0) {
+//                        commSt = comment;
+//                    }
+//                    int year = 0;
+//                    if (yearSt != null) {
+//                        if (yearSt.length() > 0) {
+//                            try {
+//                                year = Integer.parseInt(yearSt);
+//                            } catch (Exception e) {
+//                            }
 //                        }
 //                    }
-                    if (comment.length() > 0) {
-                        commSt = comment;
-                    }
-                    int year = 0;
-                    if (yearSt != null) {
-                        if (yearSt.length() > 0) {
-                            try {
-                                year = Integer.parseInt(yearSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    ret = getAccounting().addTransferCash(this, customer, payment, year, commSt);
-
-                }
-            }
-
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
-
-                String msg = ESTtime + " " + commSt;
-
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-
-            }
-            return ret;
-
-        } catch (Exception e) {
-
-        }
-        return 0;
-    }
-
-    public int updateAccountingExUtility(String customername, String paymentSt, String yearSt, String reasonSt, String commentSt) {
-        ServiceAFweb.lastfun = "updateAccountingExUtility";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            String comment = "";
-            if (commentSt != null) {
-                comment = commentSt;
-            }
-
-            float payment = 0;
-            String commSt = "";
-            int ret = 0;
-            if (paymentSt != null) {
-                if (!paymentSt.equals("")) {
-                    payment = Float.parseFloat(paymentSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    commSt += "System expense change " + currency;
-
-//                    if (reasonSt != null) {
-//                        if (reasonSt.length() > 0) {
+//                    ret = getAccounting().addTransferCash(this, customer, payment, year, commSt);
 //
+//                }
+//            }
+//
+//            if (ret == 1) {
+//                String tzid = "America/New_York"; //EDT
+//                TimeZone tz = TimeZone.getTimeZone(tzid);
+//                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                format.setTimeZone(tz);
+//                String ESTtime = format.format(d);
+//
+//                String msg = ESTtime + " " + commSt;
+//
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+//
+//            }
+//            return ret;
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return 0;
+//    }
+
+//    public int updateAccountingExUtility(String customername, String paymentSt, String yearSt, String reasonSt, String commentSt) {
+//        ServiceAFweb.lastfun = "updateAccountingExUtility";
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            String comment = "";
+//            if (commentSt != null) {
+//                comment = commentSt;
+//            }
+//
+//            float payment = 0;
+//            String commSt = "";
+//            int ret = 0;
+//            if (paymentSt != null) {
+//                if (!paymentSt.equals("")) {
+//                    payment = Float.parseFloat(paymentSt);
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(payment);
+//                    commSt += "System expense change " + currency;
+//
+////                    if (reasonSt != null) {
+////                        if (reasonSt.length() > 0) {
+////
+////                        }
+////                    }
+//                    if (comment.length() > 0) {
+//                        commSt = comment;
+//                    }
+//                    int year = 0;
+//                    if (yearSt != null) {
+//                        if (yearSt.length() > 0) {
+//                            try {
+//                                year = Integer.parseInt(yearSt);
+//                            } catch (Exception e) {
+//                            }
 //                        }
 //                    }
-                    if (comment.length() > 0) {
-                        commSt = comment;
-                    }
-                    int year = 0;
-                    if (yearSt != null) {
-                        if (yearSt.length() > 0) {
-                            try {
-                                year = Integer.parseInt(yearSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    ret = getAccounting().addTransferUtilityExpense(this, customer, payment, year, commSt);
-
-                    ret = 1;
-                }
-            }
-
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
-
-                String msg = ESTtime + " " + commSt;
-
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-
-            }
-            return ret;
-
-        } catch (Exception e) {
-
-        }
-        return 0;
-    }
-
-    public int updateAccountingExDeprecation(String customername, String paymentSt, String rateSt, String reasonSt, String commentSt) {
-        ServiceAFweb.lastfun = "updateAccountingExDeprecation";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            String comment = "";
-            if (commentSt != null) {
-                comment = commentSt;
-            }
-
-            float payment = 0;
-            String commSt = "";
-            int ret = 0;
-            if (paymentSt != null) {
-                if (!paymentSt.equals("")) {
-                    payment = Float.parseFloat(paymentSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    commSt += "System expense change " + currency;
-
-//                    if (reasonSt != null) {
-//                        if (reasonSt.length() > 0) {
+//                    ret = getAccounting().addTransferUtilityExpense(this, customer, payment, year, commSt);
 //
+//                    ret = 1;
+//                }
+//            }
+//
+//            if (ret == 1) {
+//                String tzid = "America/New_York"; //EDT
+//                TimeZone tz = TimeZone.getTimeZone(tzid);
+//                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                format.setTimeZone(tz);
+//                String ESTtime = format.format(d);
+//
+//                String msg = ESTtime + " " + commSt;
+//
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+//
+//            }
+//            return ret;
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return 0;
+//    }
+
+//    public int updateAccountingExDeprecation(String customername, String paymentSt, String rateSt, String reasonSt, String commentSt) {
+//        ServiceAFweb.lastfun = "updateAccountingExDeprecation";
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            String comment = "";
+//            if (commentSt != null) {
+//                comment = commentSt;
+//            }
+//
+//            float payment = 0;
+//            String commSt = "";
+//            int ret = 0;
+//            if (paymentSt != null) {
+//                if (!paymentSt.equals("")) {
+//                    payment = Float.parseFloat(paymentSt);
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(payment);
+//                    commSt += "System expense change " + currency;
+//
+////                    if (reasonSt != null) {
+////                        if (reasonSt.length() > 0) {
+////
+////                        }
+////                    }
+//                    if (comment.length() > 0) {
+//                        commSt = comment;
+//                    }
+//                    float rate = 100;
+//                    if (rateSt != null) {
+//                        if (rateSt.length() > 0) {
+//                            try {
+//                                rate = Float.parseFloat(rateSt);
+//                            } catch (Exception e) {
+//                            }
 //                        }
 //                    }
-                    if (comment.length() > 0) {
-                        commSt = comment;
-                    }
-                    float rate = 100;
-                    if (rateSt != null) {
-                        if (rateSt.length() > 0) {
-                            try {
-                                rate = Float.parseFloat(rateSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    ret = getAccounting().addTransferDepreciation(this, customer, payment, rate, commSt);
-                    ret = 1;
-                }
-            }
+//                    ret = getAccounting().addTransferDepreciation(this, customer, payment, rate, commSt);
+//                    ret = 1;
+//                }
+//            }
+//
+//            if (ret == 1) {
+//                String tzid = "America/New_York"; //EDT
+//                TimeZone tz = TimeZone.getTimeZone(tzid);
+//                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                format.setTimeZone(tz);
+//                String ESTtime = format.format(d);
+//
+//                String msg = ESTtime + " " + commSt;
+//
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+//
+//            }
+//            return ret;
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return 0;
+//    }
 
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
-
-                String msg = ESTtime + " " + commSt;
-
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-
-            }
-            return ret;
-
-        } catch (Exception e) {
-
-        }
-        return 0;
-    }
 //updateAccountingEntryPaymentBalance
 //    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt,
 //            String reasonSt, String rateSt, String yearSt, String commentSt) {

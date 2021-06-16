@@ -100,7 +100,7 @@ public class AccountingController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.insertAccountTAX(username, paymentSt, reasonSt, yearSt, commentSt);
+                    int result = accountingService.insertAccountTAX(afWebService, username, paymentSt, reasonSt, yearSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -125,7 +125,7 @@ public class AccountingController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.insertAccountCash(username, paymentSt, reasonSt, yearSt, commentSt);
+                    int result = accountingService.insertAccountCash(afWebService, username, paymentSt, reasonSt, yearSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -151,7 +151,7 @@ public class AccountingController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.insertAccountEarning(username, paymentSt, reasonSt, yearSt, commentSt);
+                    int result = accountingService.insertAccountEarning(afWebService, username, paymentSt, reasonSt, yearSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -173,7 +173,7 @@ public class AccountingController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.removeAccounting(username, yearSt);
+                    int result = accountingService.removeAccounting(afWebService, username, yearSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -195,7 +195,7 @@ public class AccountingController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.AccountingYearEnd(username, yearSt);
+                    int result = accountingService.AccountingYearEnd(afWebService, username, yearSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -221,7 +221,7 @@ public class AccountingController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingExDeprecation(username, paymentSt, rateSt, reasonSt, commentSt);
+                    int result = accountingService.updateAccountingExDeprecation(afWebService, username, paymentSt, rateSt, reasonSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -247,7 +247,7 @@ public class AccountingController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingExUtility(username, paymentSt, yearSt, reasonSt, commentSt);
+                    int result = accountingService.updateAccountingExUtility(afWebService, username, paymentSt, yearSt, reasonSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -281,7 +281,7 @@ public class AccountingController {
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    AccReportObj accReportObj = afWebService.getAccountingReportByCustomerByName(username, null, nameSt, year, namerptSt);
+                    AccReportObj accReportObj = accountingService.getAccountingReportByCustomerByName(afWebService, username, null, nameSt, year, namerptSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return accReportObj;
                 }
@@ -309,7 +309,7 @@ public class AccountingController {
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    AccEntryObj accEntry = afWebService.getAccountingEntryByCustomerById(username, null, idSt);
+                    AccEntryObj accEntry = accountingService.getAccountingEntryByCustomerById(afWebService, username, null, idSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return accEntry;
                 }
@@ -339,7 +339,7 @@ public class AccountingController {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                     ////////
 
-                    int ret = afWebService.removeAccountingEntryById(username, null, idSt);
+                    int ret = accountingService.removeAccountingEntryById(afWebService, username, null, idSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return ret;
                 }
