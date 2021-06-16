@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.herokudemo;
+package com.afweb.processaccounting;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.service.*;
-
+import com.example.herokudemo.AFwebService;
 
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -32,13 +32,14 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class AFcustaccAccountingController {
+public class AccountingController {
 
     private static AFwebService afWebService = new AFwebService();
+    private static AccountingService accountingService = new AccountingService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         //
- 
+
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
@@ -73,7 +74,7 @@ public class AFcustaccAccountingController {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAccountingEntryPaymentBalance(username, paymentSt, balanceSt, reasonSt, rateSt, yearSt, commentSt);
+                    int result = accountingService.updateAccountingEntryPaymentBalance(afWebService, username, paymentSt, balanceSt, reasonSt, rateSt, yearSt, commentSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }

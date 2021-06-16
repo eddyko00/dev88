@@ -11,7 +11,7 @@ import com.afweb.nnsignal.TradingAPISignalProcess;
 import com.afweb.accprocess.PUBSUBprocess;
 import com.afweb.accprocess.FundMgrProcess;
 import com.afweb.accprocess.BillingProcess;
-import com.afweb.accprocess.AccountingProcess;
+import com.afweb.processaccounting.AccountingProcess;
 import com.afweb.accprocess.AccountTranProcess;
 import com.afweb.accprocess.AccountMaintProcess;
 import com.afweb.nnprocess.*;
@@ -6183,128 +6183,128 @@ public class ServiceAFweb {
         }
         return 0;
     }
-
-    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt,
-            String reasonSt, String rateSt, String yearSt, String commentSt) {
-        ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            String comment = "";
-            if (commentSt != null) {
-                comment = commentSt;
-            }
-
-            float payment = 0;
-            String commSt = "";
-            int ret = 0;
-            if (paymentSt != null) {
-                if (!paymentSt.equals("")) {
-                    payment = Float.parseFloat(paymentSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    commSt += "System expense change " + currency;
-
-                    ////////update accounting entry
-                    String entryName = "";
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
-                    if (comment.length() > 0) {
-                        commSt = comment;
-                    }
-                    float rate = 100;
-                    if (rateSt != null) {
-                        if (rateSt.length() > 0) {
-                            try {
-                                rate = Float.parseFloat(rateSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    int year = 0;
-                    if (yearSt != null) {
-                        if (yearSt.length() > 0) {
-                            try {
-                                year = Integer.parseInt(yearSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
-                        ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, payment, year, entryName + " " + commSt);
-                    } else {
-                        ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, year, commSt);
-                    }
-                }
-            }
-            float balance = 0;
-            if (balanceSt != null) {
-                if (!balanceSt.equals("")) {
-                    balance = Float.parseFloat(balanceSt);
-
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(balance);
-
-                    commSt += "System revenue change " + currency;
-
-                    ////////update accounting entry
-                    String entryName = "";
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
-
-                    if (comment.length() > 0) {
-                        commSt = comment;
-                    }
-                    int year = 0;
-                    if (yearSt != null) {
-                        if (yearSt.length() > 0) {
-                            try {
-                                year = Integer.parseInt(yearSt);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, commSt);
-
-                }
-            }
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
-
-                String msg = ESTtime + " " + commSt;
-
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-
-            }
-            return ret;
-
-        } catch (Exception e) {
-
-        }
-        return 0;
-    }
+//updateAccountingEntryPaymentBalance
+//    public int updateAccountingEntryPaymentBalance(String customername, String paymentSt, String balanceSt,
+//            String reasonSt, String rateSt, String yearSt, String commentSt) {
+//        ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            String comment = "";
+//            if (commentSt != null) {
+//                comment = commentSt;
+//            }
+//
+//            float payment = 0;
+//            String commSt = "";
+//            int ret = 0;
+//            if (paymentSt != null) {
+//                if (!paymentSt.equals("")) {
+//                    payment = Float.parseFloat(paymentSt);
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(payment);
+//                    commSt += "System expense change " + currency;
+//
+//                    ////////update accounting entry
+//                    String entryName = "";
+//                    if (reasonSt != null) {
+//                        if (reasonSt.length() > 0) {
+//                            entryName = reasonSt;
+//                        }
+//                    }
+//                    if (comment.length() > 0) {
+//                        commSt = comment;
+//                    }
+//                    float rate = 100;
+//                    if (rateSt != null) {
+//                        if (rateSt.length() > 0) {
+//                            try {
+//                                rate = Float.parseFloat(rateSt);
+//                            } catch (Exception e) {
+//                            }
+//                        }
+//                    }
+//                    int year = 0;
+//                    if (yearSt != null) {
+//                        if (yearSt.length() > 0) {
+//                            try {
+//                                year = Integer.parseInt(yearSt);
+//                            } catch (Exception e) {
+//                            }
+//                        }
+//                    }
+//                    if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
+//                        ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, payment, year, entryName + " " + commSt);
+//                    } else {
+//                        ret = getAccounting().addTransferExpenseTax(this, customer, payment, rate, year, commSt);
+//                    }
+//                }
+//            }
+//            float balance = 0;
+//            if (balanceSt != null) {
+//                if (!balanceSt.equals("")) {
+//                    balance = Float.parseFloat(balanceSt);
+//
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(balance);
+//
+//                    commSt += "System revenue change " + currency;
+//
+//                    ////////update accounting entry
+//                    String entryName = "";
+//                    if (reasonSt != null) {
+//                        if (reasonSt.length() > 0) {
+//                            entryName = reasonSt;
+//                        }
+//                    }
+//
+//                    if (comment.length() > 0) {
+//                        commSt = comment;
+//                    }
+//                    int year = 0;
+//                    if (yearSt != null) {
+//                        if (yearSt.length() > 0) {
+//                            try {
+//                                year = Integer.parseInt(yearSt);
+//                            } catch (Exception e) {
+//                            }
+//                        }
+//                    }
+//                    ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, commSt);
+//
+//                }
+//            }
+//            if (ret == 1) {
+//                String tzid = "America/New_York"; //EDT
+//                TimeZone tz = TimeZone.getTimeZone(tzid);
+//                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                format.setTimeZone(tz);
+//                String ESTtime = format.format(d);
+//
+//                String msg = ESTtime + " " + commSt;
+//
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+//
+//            }
+//            return ret;
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return 0;
+//    }
 
     //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15&?reason=
     public int updateAddCustStatusPaymentBalance(String customername,

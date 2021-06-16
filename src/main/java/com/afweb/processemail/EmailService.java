@@ -12,13 +12,15 @@ import com.afweb.service.ServiceAFweb;
 
 import com.afweb.util.CKey;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  *
  * @author koed
  */
-public class ServiceEmail {
-
+public class EmailService {
+    protected static Logger logger = Logger.getLogger("EmailService");
+    
     public ArrayList<CommObj> getCommEmaiByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, int length) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return null;

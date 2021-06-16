@@ -5,7 +5,8 @@
  */
 package com.example.herokudemo;
 
-import com.afweb.processemail.ColntrollerEmail;
+import com.afweb.processaccounting.AccountingController;
+import com.afweb.processemail.EmailController;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFLockObject;
@@ -116,8 +117,8 @@ public class AFwebController {
         AFcustaccNNController.getHelpSystem(arrayString);
         AFcustaccNNController.getHelpInfo(arrayString);
 
-        AFcustaccAccountingController.getHelpSystem(arrayString);
-        AFcustaccAccountingController.getHelpInfo(arrayString);
+        AccountingController.getHelpSystem(arrayString);
+        AccountingController.getHelpInfo(arrayString);
 
         arrayString.add("--User Interface--");
         AFcustaccController.getHelpSystem(arrayString);
@@ -129,8 +130,8 @@ public class AFwebController {
         AFcustaccBillingController.getHelpSystem(arrayString);
         AFcustaccBillingController.getHelpInfo(arrayString);
 
-        ColntrollerEmail.getHelpSystem(arrayString);
-        ColntrollerEmail.getHelpInfo(arrayString);
+        EmailController.getHelpSystem(arrayString);
+        EmailController.getHelpInfo(arrayString);
 
     }
 
@@ -144,7 +145,7 @@ public class AFwebController {
 
         AFcustaccBillingController.getHelpInfo(arrayString);
 
-        ColntrollerEmail.getHelpInfo(arrayString);
+        EmailController.getHelpInfo(arrayString);
 
     }
 

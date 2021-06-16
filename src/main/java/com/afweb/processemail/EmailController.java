@@ -31,10 +31,10 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class ColntrollerEmail {
+public class EmailController {
 
     private static AFwebService afWebService = new AFwebService();
-    private static ServiceEmail emailService = new ServiceEmail();
+    private static EmailService emailService = new EmailService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         //
