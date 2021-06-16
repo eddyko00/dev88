@@ -23,7 +23,6 @@ import com.afweb.nnprocess.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.Timestamp;
@@ -46,7 +45,6 @@ public class TradingSignalProcess {
 
     protected static Logger logger = Logger.getLogger("TrandingSignalProcess");
 //
-
 
     public void upateAdminPerformance(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         // update Trading signal
@@ -87,7 +85,8 @@ public class TradingSignalProcess {
                     tranDate = Calendar.getInstance();
                     tranDate.setTimeInMillis(lastStockinfo.getEntrydatel());
                 }
-                ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, trObj, accountObj, stock, trName, tranSignal, tranDate, true);
+                AccountTranImp accountTran = new AccountTranImp();
+                ArrayList transObjList = accountTran.AddTransactionOrderProcess(currTranOrderList, trObj, accountObj, stock, trName, tranSignal, tranDate, true);
 
                 if ((transObjList != null) && (transObjList.size() > 0)) {
                     TransationOrderObj trOrder = null;
@@ -760,6 +759,7 @@ public class TradingSignalProcess {
                     return;
                 }
             }
+            AccountTranImp accountTran = new AccountTranImp();
 //            logger.info("> upateAdminTransaction " + stock.getSymbol());
             ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -812,7 +812,7 @@ public class TradingSignalProcess {
                 }
 //                
                 if (subStatus == ConstantKey.OPEN) {
-                    int ret = AddTransactionOrder(serviceAFWeb, accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null, true);
+                    int ret = accountTran.AddTransactionOrder(serviceAFWeb, accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null, true);
 //                    int ret = serviceAFWeb.SystemAddTransactionOrder(accountObj, stock, trObj.getTrname(), trObj.getTrsignal(), null);
                     continue;
                 }
@@ -890,7 +890,7 @@ public class TradingSignalProcess {
                             //Override the stockinfo for the price
                             AFstockInfo afstockInfo = trHistory.getAfstockInfo();
                             stock.setAfstockInfo(afstockInfo);
-                            int ret = AddTransactionOrder(serviceAFWeb, accountObj, stock, trObj.getTrname(), signal, dateOffet, true);
+                            int ret = accountTran.AddTransactionOrder(serviceAFWeb, accountObj, stock, trObj.getTrname(), signal, dateOffet, true);
 //                               
 //                            int ret = serviceAFWeb.SystemAddTransactionOrder(accountObj, stock, trObj.getTrname(), signal, dateOffet);
                         }
@@ -2003,7 +2003,6 @@ public class TradingSignalProcess {
 //        }
 //        return false;
 //    }
-
     ///////////////////////
     // Need to change for multiple Neural Net weight
     public void uploadNeuralNetWeight(ServiceAFweb serviceAFWeb, int nnNum) {
@@ -2776,450 +2775,4 @@ public class TradingSignalProcess {
 
     }
 
-    //////////////////////////////////////// transaction order
-    // user add buy or sell transaction manually
-    public int AddTransactionOrderWithComm(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        int ret = TRprocessImp.AddTransactionOrder(serviceAFWeb, accountObj, stock, trName, tranSignal, null, false);
-        if (ret == 1) {
-            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
-
-            String tzid = "America/New_York"; //EDT
-            TimeZone tz = TimeZone.getTimeZone(tzid);
-            java.sql.Date d = new java.sql.Date(trObj.getUpdatedatel());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-            DateFormat format = new SimpleDateFormat(" hh:mm a");
-            format.setTimeZone(tz);
-            String ESTdate = format.format(d);
-
-            String sig = "exit";
-            if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-                sig = ConstantKey.S_BUY_ST;
-            } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                sig = ConstantKey.S_SELL_ST;
-            }
-            CommMsgImp commMsgImp = new CommMsgImp();
-            CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accountObj);
-            if (cust.getType() == CustomerObj.INT_API_USER) {
-                DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
-                formatD.setTimeZone(tz);
-                String ESTdateD = formatD.format(d);
-
-                commMsgImp.AddCommAPISignalMessage(serviceAFWeb, accountObj, trObj, ESTdateD, stock.getSymbol(), sig);
-
-            } else {
-                String accTxt = "acc-" + accountObj.getId();
-                String msg = ESTdate + " " + accTxt + " " + stock.getSymbol() + " Sig:" + sig;
-                commMsgImp.AddCommSignalMessage(serviceAFWeb, accountObj, trObj, msg);
-            }
-        }
-        return ret;
-
-    }
-
-    public int AddTransactionOrder(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate, boolean fromSystem) {
-        try {
-
-//            if (ServiceAFweb.mydebugSim == true) {
-//                if (ServiceAFweb.SimDateTranL != 0) {
-//                    Calendar cDate = Calendar.getInstance();
-//                    cDate.setTimeInMillis(ServiceAFweb.SimDateTranL);
-//                    tranDate = cDate;
-//                }
-//            }
-            ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
-            TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stock.getId(), trName);
-
-            ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, tradingRuleObj, accountObj, stock, trName, tranSignal, tranDate, fromSystem);
-
-            if ((transObjList != null) && (transObjList.size() > 0)) {
-                ArrayList<String> transSQL = new ArrayList();
-                for (int i = 0; i < transObjList.size(); i += 2) {
-                    TransationOrderObj trOrder = (TransationOrderObj) transObjList.get(i);
-                    TradingRuleObj trObj = (TradingRuleObj) transObjList.get(i + 1);
-
-                    String trOrderSql = AccountDB.SQLaddAccountStockTransaction(trOrder);
-
-                    transSQL.add(trOrderSql);
-                    String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
-                    transSQL.add(trSql);
-                }
-                return serviceAFWeb.SystemuUpdateTransactionOrder(transSQL);
-            }
-        } catch (Exception e) {
-            logger.info("> AddTransactionOrder exception " + e.getMessage());
-        }
-        return 0;
-    }
-
-    public ArrayList AddTransactionOrderProcess(ArrayList<TransationOrderObj> currTranOrderList, TradingRuleObj trObj, AccountObj accountObj, AFstockObj stock, String trName, int currentSignal, Calendar tranDate, boolean fromSystem) {
-        ServiceAFweb.lastfun = "AddTransactionOrderProcess";
-
-        ArrayList transSQL = new ArrayList();
-        Calendar daOffset0 = tranDate;
-        Calendar daOffset = tranDate;
-        try {
-            if (stock.getAfstockInfo() == null) {
-                return null;
-            }
-            if (tranDate == null) {
-                Calendar cDate = Calendar.getInstance();
-                cDate.setTimeInMillis(stock.getUpdatedatel());
-
-                daOffset0 = cDate;
-                daOffset = cDate;
-//                daOffset0 = TimeConvertion.getCurrentCalendar();
-//                daOffset = TimeConvertion.getCurrentCalendar();
-            }
-            boolean buyOnly = false;
-            if (trObj.getType() == ConstantKey.INT_TR_ACC) {
-                buyOnly = true;
-            }
-            //get the current transaction order to see the last transaction
-            int currentTranOrderSiganl = ConstantKey.S_NEUTRAL;
-            if (currTranOrderList != null) {
-                if (currTranOrderList.size() > 0) {
-                    TransationOrderObj tranOrder = currTranOrderList.get(0);
-                    currentTranOrderSiganl = tranOrder.getTrsignal();
-                    if ((currentTranOrderSiganl == ConstantKey.S_EXIT_LONG) || (currentTranOrderSiganl == ConstantKey.S_EXIT_SHORT)) {
-                        currentTranOrderSiganl = ConstantKey.S_NEUTRAL;
-                    }
-                }
-            }
-            int tranSiganl_0 = ConstantKey.S_NEUTRAL;
-            int tranSiganl_1 = ConstantKey.S_NEUTRAL;
-
-            switch (currentSignal) {
-                case ConstantKey.S_LONG_BUY:
-                    if (currentTranOrderSiganl == ConstantKey.S_LONG_BUY) {
-                        return null;
-                    }
-                    if (currentTranOrderSiganl == ConstantKey.S_SHORT_SELL) {
-                        tranSiganl_0 = ConstantKey.S_EXIT_SHORT;
-                        tranSiganl_1 = ConstantKey.S_LONG_BUY;
-                    }
-                    if (currentTranOrderSiganl == ConstantKey.S_NEUTRAL) {
-                        tranSiganl_0 = ConstantKey.S_LONG_BUY;
-                    }
-                    break;
-                case ConstantKey.S_SHORT_SELL:
-                    if (currentTranOrderSiganl == ConstantKey.S_SHORT_SELL) {
-                        return null;
-                    }
-                    if (currentTranOrderSiganl == ConstantKey.S_LONG_BUY) {
-                        tranSiganl_0 = ConstantKey.S_EXIT_LONG;
-                        tranSiganl_1 = ConstantKey.S_SHORT_SELL;
-                    }
-                    if (currentTranOrderSiganl == ConstantKey.S_NEUTRAL) {
-                        tranSiganl_0 = ConstantKey.S_SHORT_SELL;
-                    }
-                    break;
-                case ConstantKey.S_NEUTRAL:
-                    if (currentTranOrderSiganl == ConstantKey.S_LONG_BUY) {
-                        tranSiganl_0 = ConstantKey.S_EXIT_LONG;
-                        tranSiganl_1 = ConstantKey.S_NEUTRAL;
-                    }
-                    if (currentTranOrderSiganl == ConstantKey.S_SHORT_SELL) {
-                        tranSiganl_0 = ConstantKey.S_EXIT_SHORT;
-                        tranSiganl_1 = ConstantKey.S_NEUTRAL;
-                    }
-                    break;
-            }
-
-            if (tranSiganl_1 != ConstantKey.S_NEUTRAL) {
-                long newDaL = TimeConvertion.addMiniSeconds(daOffset0.getTimeInMillis(), -10);
-                daOffset0 = TimeConvertion.getCurrentCalendar(newDaL);
-            }
-
-            int retTrans = 1;
-            if (tranSiganl_0 != ConstantKey.S_NEUTRAL) {
-                //process buysell
-
-                int signal = tranSiganl_0;
-                Calendar dateOffset = daOffset0;
-                switch (signal) {
-                    case ConstantKey.S_LONG_BUY:
-                        retTrans = TransactionOrderLONG_BUY(trObj, stock, signal, dateOffset, transSQL);
-                        break;
-                    case ConstantKey.S_EXIT_LONG:
-                        retTrans = TransactionOrderEXIT_LONG(trObj, stock, signal, dateOffset, transSQL);
-                        break;
-                    case ConstantKey.S_SHORT_SELL:
-                        retTrans = TransactionOrderSHORT_SELL(trObj, stock, signal, dateOffset, transSQL, buyOnly);
-                        break;
-                    case ConstantKey.S_EXIT_SHORT:
-                        retTrans = TransactionOrderEXIT_SHORT(trObj, stock, signal, dateOffset, transSQL, buyOnly);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            // exit if error
-            if (retTrans == 0) {
-                return null;
-            }
-            retTrans = 1;
-            if (tranSiganl_1 != ConstantKey.S_NEUTRAL) {
-                //process buysell
-                int signal = tranSiganl_1;
-                Calendar dateOffset = daOffset;
-                switch (signal) {
-                    case ConstantKey.S_LONG_BUY:
-                        retTrans = TransactionOrderLONG_BUY(trObj, stock, signal, dateOffset, transSQL);
-                        break;
-                    case ConstantKey.S_EXIT_LONG:
-                        retTrans = TransactionOrderEXIT_LONG(trObj, stock, signal, dateOffset, transSQL);
-                        break;
-                    case ConstantKey.S_SHORT_SELL:
-                        retTrans = TransactionOrderSHORT_SELL(trObj, stock, signal, dateOffset, transSQL, buyOnly);
-                        break;
-                    case ConstantKey.S_EXIT_SHORT:
-                        retTrans = TransactionOrderEXIT_SHORT(trObj, stock, signal, dateOffset, transSQL, buyOnly);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            // exit if error
-            if (retTrans == 0) {
-                return null;
-            }
-            if (fromSystem == false) {
-                if (trObj.getType() == ConstantKey.INT_TR_ACC) {
-                    if (trObj.getLinktradingruleid() != 0) {
-                        logger.info("> transactionOrder not allow when linking other TS");
-                        return null;
-                    }
-                }
-            }
-            if (transSQL.size() > 0) {
-//                int ret = updateTransactionOrder(transSQL);
-                return transSQL;
-            }
-
-        } catch (Exception e) {
-            logger.info("> transactionOrder exception " + e.getMessage());
-        }
-        return null;
-    }
-
-    static TradingRuleObj duplicateTRObj(TradingRuleObj trObj) {
-        TradingRuleObj dupObj = null;
-        String st;
-        try {
-            st = new ObjectMapper().writeValueAsString(trObj);
-            dupObj
-                    = new ObjectMapper().readValue(st, TradingRuleObj.class
-                    );
-            dupObj.setUpdatedatedisplay(new java.sql.Date(dupObj.getUpdatedatel()));
-            return dupObj;
-        } catch (Exception ex) {
-            logger.info("> duplicateTRObj Exception" + ex.getMessage());
-        }
-        return null;
-    }
-
-    private int TransactionOrderEXIT_SHORT(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL, boolean buyOnly) {
-        float curPrice = stock.getAfstockInfo().getFclose();
-
-        float originalPrice = trObj.getShortamount() / trObj.getShortshare();
-        float deltaPrice = curPrice - originalPrice; //final price - original price
-        deltaPrice = -deltaPrice; // negative for exit short
-        float netPrice = originalPrice + deltaPrice;
-
-        float amount = trObj.getShortshare() * netPrice;
-
-        if (buyOnly == true) {
-            // TR ACC can only support BUY transaction
-        } else {
-            trObj.setBalance(trObj.getBalance() + amount);
-        }
-        // add trading order
-        TransationOrderObj trOrder = new TransationOrderObj();
-        trOrder.setAccountid(trObj.getAccountid());
-        trOrder.setAvgprice(curPrice);
-        trOrder.setEntrydatedisplay(new java.sql.Date(dateOffset.getTimeInMillis()));
-        trOrder.setEntrydatel(dateOffset.getTimeInMillis());
-        trOrder.setShare(trObj.getShortshare());
-        trOrder.setStatus(ConstantKey.OPEN);
-        trOrder.setStockid(stock.getId());
-        trOrder.setSymbol(stock.getSymbol());
-        trOrder.setTradingruleid(trObj.getId());
-        trOrder.setTrname(trObj.getTrname());
-        trOrder.setTrsignal(siganl);  //EXIT_SHORT
-        trOrder.setType(ConstantKey.INITIAL);
-        trOrder.setComment("");
-        transSQL.add(trOrder);
-
-//        String trOrderSql = AccountDB.SQLaddAccountStockTransaction(trOrder);
-//        transSQL.add(trOrderSql);
-        // add trading order                                                
-        trObj.setTrsignal(trOrder.getTrsignal());
-        trObj.setUpdatedatedisplay(trOrder.getEntrydatedisplay());
-        trObj.setUpdatedatel(trOrder.getEntrydatel());
-        trObj.setShortshare(0);
-        trObj.setShortamount(0);
-        //update trObj
-
-        TradingRuleObj trandingRuleObj = duplicateTRObj(trObj);
-        transSQL.add(trandingRuleObj);
-
-//        String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
-//        transSQL.add(trSql);
-        //update trObj       
-        return 1;
-    }
-
-    private int TransactionOrderSHORT_SELL(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL, boolean buyOnly) {
-        float curPrice = stock.getAfstockInfo().getFclose();
-        float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
-        shareTmp += 0.5;
-        if (shareTmp == 0) {
-            shareTmp = 1;
-        }
-        int shareInt = (int) shareTmp;
-        float amount = curPrice * shareInt;
-
-        if (buyOnly == true) {
-            // TR ACC can only support BUY transaction
-            shareInt = 0;
-            amount = 0;
-        } else {
-
-            if (trObj.getBalance() < amount) {
-                trObj.setInvestment(trObj.getInvestment() + amount);
-
-            } else {
-                trObj.setBalance(trObj.getBalance() - amount);
-            }
-        }
-        // add trading order
-        TransationOrderObj trOrder = new TransationOrderObj();
-        trOrder.setAccountid(trObj.getAccountid());
-        trOrder.setAvgprice(curPrice);
-        trOrder.setEntrydatedisplay(new java.sql.Date(dateOffset.getTimeInMillis()));
-        trOrder.setEntrydatel(dateOffset.getTimeInMillis());
-        trOrder.setShare(shareInt);
-        trOrder.setStatus(ConstantKey.OPEN);
-        trOrder.setStockid(stock.getId());
-        trOrder.setSymbol(stock.getSymbol());
-        trOrder.setTradingruleid(trObj.getId());
-        trOrder.setTrname(trObj.getTrname());
-        trOrder.setTrsignal(siganl);  //SHORT_SELL
-        trOrder.setType(ConstantKey.INITIAL);
-        trOrder.setComment("");
-        transSQL.add(trOrder);
-
-//        String trOrderSql = AccountDB.SQLaddAccountStockTransaction(trOrder);
-//        transSQL.add(trOrderSql);
-        // add trading order                                                
-        trObj.setTrsignal(trOrder.getTrsignal());
-        trObj.setUpdatedatedisplay(trOrder.getEntrydatedisplay());
-        trObj.setUpdatedatel(trOrder.getEntrydatel());
-        trObj.setShortshare(shareInt);
-        trObj.setShortamount(amount);
-        //update trObj
-        TradingRuleObj trandingRuleObj = duplicateTRObj(trObj);
-        transSQL.add(trandingRuleObj);
-//        String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
-//        transSQL.add(trSql);
-        //update trObj       
-
-        return 1;
-    }
-
-    private int TransactionOrderEXIT_LONG(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
-        float curPrice = stock.getAfstockInfo().getFclose();
-        float amount = curPrice * trObj.getLongshare();
-
-        trObj.setBalance(trObj.getBalance() + amount);
-
-        // add trading order
-        TransationOrderObj trOrder = new TransationOrderObj();
-        trOrder.setAccountid(trObj.getAccountid());
-        trOrder.setAvgprice(curPrice);
-        trOrder.setEntrydatedisplay(new java.sql.Date(dateOffset.getTimeInMillis()));
-        trOrder.setEntrydatel(dateOffset.getTimeInMillis());
-        trOrder.setShare(trObj.getLongshare());
-        trOrder.setStatus(ConstantKey.OPEN);
-        trOrder.setStockid(stock.getId());
-        trOrder.setSymbol(stock.getSymbol());
-        trOrder.setTradingruleid(trObj.getId());
-        trOrder.setTrname(trObj.getTrname());
-        trOrder.setTrsignal(siganl);  //EXIT_LONG
-        trOrder.setType(ConstantKey.INITIAL);
-        trOrder.setComment("");
-        transSQL.add(trOrder);
-
-//        String trOrderSql = AccountDB.SQLaddAccountStockTransaction(trOrder);
-//        transSQL.add(trOrderSql);
-        // add trading order                                                
-        trObj.setTrsignal(trOrder.getTrsignal());
-        trObj.setUpdatedatedisplay(trOrder.getEntrydatedisplay());
-        trObj.setUpdatedatel(trOrder.getEntrydatel());
-        trObj.setLongshare(0);
-        trObj.setLongamount(0);
-        //update trObj
-        TradingRuleObj trandingRuleObj = duplicateTRObj(trObj);
-        transSQL.add(trandingRuleObj);
-//        String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
-//        transSQL.add(trSql);
-        //update trObj       
-
-        return 1;
-    }
-
-    private int TransactionOrderLONG_BUY(TradingRuleObj trObj, AFstockObj stock, int siganl, Calendar dateOffset, ArrayList transSQL) {
-        float curPrice = stock.getAfstockInfo().getFclose();
-        float shareTmp = CKey.TRADING_AMOUNT / curPrice;  //$6000
-        shareTmp += 0.5;
-        if (shareTmp == 0) {
-            shareTmp = 1;
-        }
-        int shareInt = (int) shareTmp;
-        float amount = curPrice * shareInt;
-
-        if (trObj.getBalance() < amount) {
-            trObj.setInvestment(trObj.getInvestment() + amount);
-
-        } else {
-            trObj.setBalance(trObj.getBalance() - amount);
-        }
-        // add trading order
-        TransationOrderObj trOrder = new TransationOrderObj();
-        trOrder.setAccountid(trObj.getAccountid());
-        trOrder.setAvgprice(curPrice);
-        trOrder.setEntrydatedisplay(new java.sql.Date(dateOffset.getTimeInMillis()));
-        trOrder.setEntrydatel(dateOffset.getTimeInMillis());
-        trOrder.setShare(shareInt);
-        trOrder.setStatus(ConstantKey.OPEN);
-        trOrder.setStockid(stock.getId());
-        trOrder.setSymbol(stock.getSymbol());
-        trOrder.setTradingruleid(trObj.getId());
-        trOrder.setTrname(trObj.getTrname());
-        trOrder.setTrsignal(siganl);  //LONG_BUY
-        trOrder.setType(ConstantKey.INITIAL);
-        trOrder.setComment("");
-        transSQL.add(trOrder);
-
-//        String trOrderSql = AccountDB.SQLaddAccountStockTransaction(trOrder);
-//        transSQL.add(trOrderSql);
-        // add trading order                                                
-        trObj.setTrsignal(trOrder.getTrsignal());
-        trObj.setUpdatedatedisplay(trOrder.getEntrydatedisplay());
-        trObj.setUpdatedatel(trOrder.getEntrydatel());
-        trObj.setLongshare(shareInt);
-        trObj.setLongamount(amount);
-        //update trObj
-        TradingRuleObj trandingRuleObj = duplicateTRObj(trObj);
-        transSQL.add(trandingRuleObj);
-//        String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
-//        transSQL.add(trSql);
-        //update trObj       
-
-        return 1;
-    }
-
-    ////////////////////////////////////////
 }

@@ -686,7 +686,7 @@ public class ServiceAFweb {
             maintProcess.ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-           updateStockAllSrv();
+            updateStockAllSrv();
             AFprocessNeuralNet();
 //            
             BillingProcess billProc = new BillingProcess();
@@ -3207,8 +3207,8 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        return TRprocessImp.AddTransactionOrder(this, accountObj, stock, trName, tranSignal, tranDate, true);
+        AccountTranImp accountTran = new AccountTranImp();
+        return accountTran.AddTransactionOrder(this, accountObj, stock, trName, tranSignal, tranDate, true);
     }
 
     public int SystemuUpdateTransactionOrder(ArrayList<String> transSQL) {
@@ -3968,8 +3968,8 @@ public class ServiceAFweb {
                 return 0;
             }
 
-            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-            int ret = TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stock, trName, signal);
+            AccountTranImp accountTran = new AccountTranImp();
+            int ret = accountTran.AddTransactionOrderWithComm(this, accountObj, stock, trName, signal);
 
             return ret;
         }
@@ -5220,7 +5220,8 @@ public class ServiceAFweb {
                 UpdateTRList.add(tradingRuleObj);
                 getAccountImp().updateAccountStockSignal(UpdateTRList);
 
-                TRprocessImp.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal);
+                AccountTranImp accountTran = new AccountTranImp();
+                accountTran.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal);
             }
 
             return getAccountImp().removeAccountStock(accountObj, stockObj.getId());

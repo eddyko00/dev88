@@ -413,8 +413,8 @@ public class AccountTranProcess {
                             float total = sharebalance;
 //                                logger.info("> ProcessFundAccount " + accObj.getAccountname() + " " + symbol + " stockProfit " + total);
                             totalBal += total;
-
-                            TRprocessImp.AddTransactionOrderWithComm(serviceAFWeb, accObj, stock, trName, signal);
+                            AccountTranImp accountTran = new AccountTranImp();
+                            accountTran.AddTransactionOrderWithComm(serviceAFWeb, accObj, stock, trName, signal);
 
                         }
 //            
