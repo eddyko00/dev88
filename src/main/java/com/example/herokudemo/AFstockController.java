@@ -33,7 +33,7 @@ public class AFstockController {
 
     private static AFwebService afWebService = new AFwebService();
     public static void getHelpSystem(ArrayList<String> arrayString) {
-
+        arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");   
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {

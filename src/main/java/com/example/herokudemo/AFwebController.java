@@ -72,10 +72,15 @@ public class AFwebController {
 //        arrayString.add("/server/dburl/set?url=");         
         arrayString.add("/helphelp");
         
+        arrayString.add("/cust/{username}/sys/stop");
+        arrayString.add("/cust/{username}/sys/clearlock");
+        arrayString.add("/cust/{username}/sys/start");
+        arrayString.add("/cust/{username}/sys/resetdb");
+
         arrayString.add("/cust/{username}/uisys/{custid}/lock");
         arrayString.add("/cust/{username}/uisys/{custid}/timer");
 //        arrayString.add("/cust/{username}/uisys/{custid}/cust/{customername}/update?status=&payment=&balance=&reason=");
-        
+
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
@@ -99,27 +104,23 @@ public class AFwebController {
 
         AFcustaccAccountingController.getHelpSystem(arrayString);
         AFcustaccAccountingController.getHelpInfo(arrayString);
-        
+
         AFcustaccEmailController.getHelpSystem(arrayString);
         AFcustaccEmailController.getHelpInfo(arrayString);
 
         AFstockController.getHelpSystem(arrayString);
         AFstockController.getHelpInfo(arrayString);
 
-
 //        arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
 //        arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
 //        arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
 //        arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
-
-        arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
-        arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
-
-        arrayString.add("/cust/{username}/sys/stop");
-        arrayString.add("/cust/{username}/sys/clearlock");
-        arrayString.add("/cust/{username}/sys/start");
-        arrayString.add("/cust/{username}/sys/resetdb");
-
+//        arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
+//        arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");
+//        arrayString.add("/cust/{username}/sys/stop");
+//        arrayString.add("/cust/{username}/sys/clearlock");
+//        arrayString.add("/cust/{username}/sys/start");
+//        arrayString.add("/cust/{username}/sys/resetdb");
         arrayString.add("/cust/{username}/sys/clearnninput");
         arrayString.add("/cust/{username}/sys/clearallnntran");
         arrayString.add("/cust/{username}/sys/clearnn2tran?tr=");

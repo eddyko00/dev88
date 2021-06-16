@@ -44,6 +44,9 @@ public class AFcustaccController {
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/{username}/sys/cust/{customername}/status/{status}/substatus/{substatus}");
         arrayString.add("/cust/{username}/sys/cust/{customername}/removecustomer");
+        
+        arrayString.add("/cust/{username}/sys/expiredcustlist?length={0 for all}");
+     
         arrayString.add("/cust/{username}/sys/custchangeapi?email={email}");
         arrayString.add("/cust/{username}/sys/custchangefund?email={email}");
     }
