@@ -13,7 +13,6 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.EMAObj;
-import com.afweb.signal.NNCal;
 import com.afweb.signal.NNObj;
 import com.afweb.signal.TechnicalCal;
 import com.afweb.util.*;
@@ -981,7 +980,7 @@ public class ProcessNN2 {
 
     public boolean Rule0_CheckNN(ServiceAFweb serviceAFWeb, NNObj nn, AccountObj accountObj,
             ArrayList StockArray, int offset, AFstockObj stock) {
-        NNObj nnTmp = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, StockArray, offset);
+        NNObj nnTmp = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN2, accountObj, stock, StockArray, offset);
 
         if (nnTmp != null) {
             nn.setComment(nnTmp.getComment());
@@ -1095,7 +1094,7 @@ public class ProcessNN2 {
 //        return nnSignal;  //////disable must return the original signal
 ////////        
 //        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN40, accountObj, stock, tradingRuleList, StockArray, offset);
-        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset);
+        NNObj nn = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset);
         if (nn != null) {
 
             float output1 = nn.getOutput1();
@@ -1106,7 +1105,7 @@ public class ProcessNN2 {
                 for (int i = 0; i < 5; i++) {
                     //StockArray recent to old date
 //                    NNObj nn1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN40, accountObj, stock, tradingRuleList, StockArray, offset + 1 + i);
-                    NNObj nn1 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset + 1 + i);
+                    NNObj nn1 = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset + 1 + i);
                     if (nn1 != null) {
                         output1 = nn1.getOutput1();
                         output2 = nn1.getOutput2();

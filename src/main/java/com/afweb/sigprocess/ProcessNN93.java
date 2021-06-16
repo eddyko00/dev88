@@ -14,7 +14,6 @@ import com.afweb.nn.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.MACDObj;
-import com.afweb.signal.NNCal;
 import com.afweb.signal.NNObj;
 import com.afweb.signal.TechnicalCal;
 import com.afweb.util.*;
@@ -883,7 +882,7 @@ public class ProcessNN93 {
 
     public boolean Rule0_CheckNN(ServiceAFweb serviceAFWeb, NNObj nn, AccountObj accountObj,
             ArrayList StockArray, int offset, AFstockObj stock) {
-        NNObj nnTmp = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN93, accountObj, stock, StockArray, offset);
+        NNObj nnTmp = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN93, accountObj, stock, StockArray, offset);
 
         if (nnTmp != null) {
             nn.setComment(nnTmp.getComment());
@@ -992,7 +991,7 @@ public class ProcessNN93 {
 
     // check current trend change
     public int Rule3_CheckTrend(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
-        NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN93, accountObj, stock, StockArray, offset);
+        NNObj nn = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN93, accountObj, stock, StockArray, offset);
         if (nn != null) {
 
             float output1 = nn.getOutput1();
@@ -1002,7 +1001,7 @@ public class ProcessNN93 {
 
                 for (int i = 0; i < 5; i++) {
                     //StockArray recent to old date
-                    NNObj NN93 = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN93, accountObj, stock, StockArray, offset + 1 + i);
+                    NNObj NN93 = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN93, accountObj, stock, StockArray, offset + 1 + i);
                     if (NN93 != null) {
                         output1 = NN93.getOutput1();
                         output2 = NN93.getOutput2();

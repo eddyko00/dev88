@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.signal;
+package com.afweb.sigprocess;
 
 import com.afweb.sigprocess.ProcessNN3;
 import com.afweb.sigprocess.ProcessNN2;
@@ -15,6 +15,7 @@ import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
 
 import com.afweb.service.ServiceAFweb;
+import com.afweb.signal.NNObj;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ import java.util.logging.Logger;
  *
  * @author eddy
  */
-public class NNCal {
+public class NNCalProcess {
 
     protected static Logger logger = Logger.getLogger("NNCal");
 

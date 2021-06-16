@@ -5,6 +5,7 @@
  */
 package com.afweb.stock;
 
+import com.afweb.sigprocess.NNCalProcess;
 import com.afweb.account.*;
 
 import com.afweb.model.*;
@@ -341,7 +342,7 @@ public class StockProcess {
                 }
 
                 stockData.setpCl(0);
-                NNObj nn = NNCal.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountAdminObj, stock, StockArray, 0);
+                NNObj nn = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountAdminObj, stock, StockArray, 0);
                 if (nn != null) {
 
                     float output1 = nn.getOutput1();
