@@ -49,7 +49,16 @@ public class AFwebController {
         return "Hello there! I'm running v" + CKey.iis_ver;
     }
 
-        /////////////////////////////////////////////////////////////////////////    
+    @RequestMapping(value = "/ping", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus serverPing() {
+        WebStatus msg = new WebStatus();
+
+        msg = afWebService.serverPing();
+        return msg;
+    }
+    /////////////////////////////////////////////////////////////////////////    
+
     @RequestMapping(value = "helphelp", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList SystemHelpPage() {
@@ -224,6 +233,7 @@ public class AFwebController {
     }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+
     @RequestMapping(value = "/cust/{username}/sys/mysql", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getmysql(
@@ -359,7 +369,6 @@ public class AFwebController {
         return ServiceRemoteDB.getURL_PATH();
     }
 
-
     @RequestMapping(value = "/server/dburl/setherodb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerDBURLOPHERDB() {
@@ -411,6 +420,120 @@ public class AFwebController {
         RESTtimer.serverURL_0 = urlSt.trim();
         return "done...";
     }
+
+    //////////////
+    @RequestMapping(value = "/cust/{username}/sys/stop", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemStop(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+
+        if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+            msg.setResponse(afWebService.SystemStop());
+            msg.setResult(true);
+            return msg;
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/start", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemStart(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse(afWebService.SystemStart());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(afWebService.SystemStart());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/cleandb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemCleanDB(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        if (CKey.UI_ONLY == true) {
+            return null;
+        }
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse(afWebService.SystemCleanDBData());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(afWebService.SystemCleanDBData());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/resetdb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemResetDB(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+        if (CKey.UI_ONLY == true) {
+            return null;
+        }
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse(afWebService.SystemRestDBData());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(afWebService.SystemRestDBData());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/clearlock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemClearLock(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse(afWebService.SystemClearLock());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(afWebService.SystemClearLock());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+//////////////////////////////////////////////////////
 
     @RequestMapping(value = "/timerhandler", produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
