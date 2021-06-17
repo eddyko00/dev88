@@ -5688,26 +5688,26 @@ public class ServiceAFweb {
 //        }
 //        return getStockImp().getNeuralNetObjWeight1(name);
 //    }
-    public int setNeuralNetObjWeight0(AFneuralNet nn) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        // assume only 1 of the weight is set and the other are empty
-        // assume only 1 of the weight is set and the other are empty
-
-        int ret = getStockImp().setCreateNeuralNetObjRef0(nn.getName(), nn.getWeight(), nn.getRefname());
-        return ret;
-    }
-
-    public int setNeuralNetObjWeight1(AFneuralNet nn) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        // assume only 1 of the weight is set and the other are empty
-        // assume only 1 of the weight is set and the other are empty
-        return getStockImp().setCreateNeuralNetObj1(nn.getName(), nn.getWeight());
-    }
+//    public int setNeuralNetObjWeight0(AFneuralNet nn) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//        // assume only 1 of the weight is set and the other are empty
+//        // assume only 1 of the weight is set and the other are empty
+//
+//        int ret = getStockImp().setCreateNeuralNetObjRef0(nn.getName(), nn.getWeight(), nn.getRefname());
+//        return ret;
+//    }
+//
+//    public int setNeuralNetObjWeight1(AFneuralNet nn) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        // assume only 1 of the weight is set and the other are empty
+//        // assume only 1 of the weight is set and the other are empty
+//        return getStockImp().setCreateNeuralNetObj1(nn.getName(), nn.getWeight());
+//    }
     // require oldest date to earliest
     // require oldest date to earliest
 

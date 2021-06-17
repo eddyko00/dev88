@@ -97,4 +97,25 @@ public class NNService {
         return serviceAFWeb.getStockImp().getNeuralNetObjWeight1(name);
     }
 
+    public int setNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, AFneuralNet nn) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        // assume only 1 of the weight is set and the other are empty
+        // assume only 1 of the weight is set and the other are empty
+
+        int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjRef0(nn.getName(), nn.getWeight(), nn.getRefname());
+        return ret;
+    }
+
+    public int setNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, AFneuralNet nn) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        // assume only 1 of the weight is set and the other are empty
+        // assume only 1 of the weight is set and the other are empty
+        return serviceAFWeb.getStockImp().setCreateNeuralNetObj1(nn.getName(), nn.getWeight());
+    }
+
 }

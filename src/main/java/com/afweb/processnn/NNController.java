@@ -308,7 +308,7 @@ public class NNController {
             @PathVariable("name") String name,
             @PathVariable("type") String type
     ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
@@ -328,7 +328,7 @@ public class NNController {
             @PathVariable("name") String name,
             @RequestBody String input
     ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         AFneuralNet afNeuralNet = null;
         try {
 //            int size = input.length();
@@ -341,7 +341,7 @@ public class NNController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.setNeuralNetObjWeight0(afNeuralNet);
+                int result = nnService.setNeuralNetObjWeight0(afWebService, afNeuralNet);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -356,7 +356,7 @@ public class NNController {
             @PathVariable("name") String name,
             @RequestBody String input
     ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
         AFneuralNet afNeuralNet = null;
         try {
 //            int size = input.length();
@@ -370,7 +370,7 @@ public class NNController {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.setNeuralNetObjWeight1(afNeuralNet);
+                int result = nnService.setNeuralNetObjWeight1(afWebService, afNeuralNet);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }

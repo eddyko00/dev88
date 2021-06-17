@@ -2526,7 +2526,7 @@ public class TradingSignalProcess {
             afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
             String weightSt = "";
             afNeuralNet.setWeight(weightSt);
-            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+            nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
         }
         if (nn == null) {
             nn = new NNBPservice();
@@ -2584,7 +2584,7 @@ public class TradingSignalProcess {
         //Weight too large when save. So, alway empty  
 
         afNeuralNet.setType(afNeuralNet.getType() + 1);
-        serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+        nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
         serviceAFWeb.getStockImp().updateNeuralNetStatus1(name, ConstantKey.OPEN, afNeuralNet.getType());
 
 //        if (getEnv.checkLocalPC() == true) {

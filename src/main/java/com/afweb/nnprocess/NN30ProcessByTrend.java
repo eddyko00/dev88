@@ -123,7 +123,7 @@ public class NN30ProcessByTrend {
 
 //                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
 //                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
-                    serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+                    nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
 
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN30_WEIGHT_0");
                 } else {
@@ -142,7 +142,7 @@ public class NN30ProcessByTrend {
 //
 //                            String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
 //                            serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
-                            serviceAFWeb.setNeuralNetObjWeight1(afNeuralNet);
+                            nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
                         }
                     }
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using DB");
