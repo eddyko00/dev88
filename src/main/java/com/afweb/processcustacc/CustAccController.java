@@ -366,7 +366,7 @@ public class CustAccController {
             return 0;
         }
         //MAX_ALLOW_STOCK_ERROR = 100 ; NEW = 1; EXISTED = 2
-        int result = afWebService.addAccountStockByCustAcc(username, null, accountid, symbol);
+        int result = custaccService.addAccountStockByCustAcc(afWebService, username, null, accountid, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }
@@ -384,7 +384,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = afWebService.addAccountStockByCustAcc(username, null, accountid, symbol);
+        int result = custaccService.addAccountStockByCustAcc(afWebService, username, null, accountid, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }

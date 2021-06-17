@@ -97,7 +97,7 @@ public class ServiceAFweb {
     public static String PA_Str = "";
     public static String UU_Str = "";
 
-    private static ArrayList TRList = new ArrayList();
+    public static ArrayList TRList = new ArrayList();
 
     private static AccountObj cacheAccountAdminObj = null;
     private static long cacheAccountAdminObjDL = 0;
@@ -1212,7 +1212,7 @@ public class ServiceAFweb {
                         if (symbol.equals("T_T")) {
                             continue;
                         }
-                        int resultAdd = addAccountStockByCustAcc(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
+                        int resultAdd = addAccountStockByCustAccServ(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Add API stock " + symbol);
 
                         ServiceAFweb.AFSleep();
@@ -2660,6 +2660,13 @@ public class ServiceAFweb {
             return custAccSrv.getAccountStockRealTimeBalance(this, trObj);
         }
         return -9999;
+    }
+
+    public int addAccountStockByCustAccServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+        if (true) {
+            return custAccSrv.addAccountStockByCustAcc(this, EmailUserName, Password, AccountIDSt, symbol);
+        }
+        return 0;
     }
 
     //////////////////////////////////////////////////
@@ -4951,39 +4958,38 @@ public class ServiceAFweb {
 
     }
 
-    public int addAccountStockByCustAcc(String EmailUserName, String Password, String AccountIDSt, String symbol) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-        if (stockObj == null) {
-            int result = addStockServ(NormalizeSymbol);
-            if (result == 0) {
-                return 0;
-            }
-            //  get the stock object after added into the stockDB
-            stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-            if (stockObj == null) {
-                return 0;
-            }
-        }
-        if (stockObj.getStatus() != ConstantKey.OPEN) {
-            // set to open
-            int result = addStockServ(NormalizeSymbol);
-            if (result == 0) {
-                return 0;
-            }
-        }
-        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        if (accountObj != null) {
-            return getAccountImp().addAccountStockId(accountObj, stockObj.getId(), TRList);
-        }
-        return 0;
-    }
-
+//    public int addAccountStockByCustAcc(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        SymbolNameObj symObj = new SymbolNameObj(symbol);
+//        String NormalizeSymbol = symObj.getYahooSymbol();
+//        AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//        if (stockObj == null) {
+//            int result = addStockServ(NormalizeSymbol);
+//            if (result == 0) {
+//                return 0;
+//            }
+//            //  get the stock object after added into the stockDB
+//            stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//            if (stockObj == null) {
+//                return 0;
+//            }
+//        }
+//        if (stockObj.getStatus() != ConstantKey.OPEN) {
+//            // set to open
+//            int result = addStockServ(NormalizeSymbol);
+//            if (result == 0) {
+//                return 0;
+//            }
+//        }
+//        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
+//        if (accountObj != null) {
+//            return getAccountImp().addAccountStockId(accountObj, stockObj.getId(), TRList);
+//        }
+//        return 0;
+//    }
     public int addAccountStockByAccount(AccountObj accountObj, String symbol) {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();

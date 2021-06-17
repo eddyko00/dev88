@@ -432,5 +432,38 @@ public class CustAccService {
         return totalPercent;
     }
     
+    public int addAccountStockByCustAcc(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String symbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        if (stockObj == null) {
+            int result = serviceAFWeb.addStockServ(NormalizeSymbol);
+            if (result == 0) {
+                return 0;
+            }
+            //  get the stock object after added into the stockDB
+            stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            if (stockObj == null) {
+                return 0;
+            }
+        }
+        if (stockObj.getStatus() != ConstantKey.OPEN) {
+            // set to open
+            int result = serviceAFWeb.addStockServ(NormalizeSymbol);
+            if (result == 0) {
+                return 0;
+            }
+        }
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb,EmailUserName, Password, AccountIDSt);
+        if (accountObj != null) {
+            return serviceAFWeb.getAccountImp().addAccountStockId(accountObj, stockObj.getId(), serviceAFWeb.TRList);
+        }
+        return 0;
+    }
+    
     
 }
