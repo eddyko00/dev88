@@ -346,7 +346,7 @@ public class CustAccController {
         if (trnameSt != null) {
             trname = trnameSt;
         }
-        ArrayList returnList = afWebService.getStockListByAccountIDTRname(username, null, accountid, trname, filterSt, length);
+        ArrayList returnList = custaccService.getStockListByAccountIDTRname(afWebService, username, null, accountid, trname, filterSt, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;

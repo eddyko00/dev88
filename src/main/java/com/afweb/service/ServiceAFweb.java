@@ -2655,6 +2655,13 @@ public class ServiceAFweb {
         return null;
     }
 
+    public float getAccountStockBalanceServ(TradingRuleObj trObj) {
+        if (true) {
+            return custAccSrv.getAccountStockRealTimeBalance(this, trObj);
+        }
+        return -9999;
+    }
+
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
     public ArrayList SystemUserNamebyAccountID(int accountID) {
@@ -3600,7 +3607,7 @@ public class ServiceAFweb {
                             if (trname.equals(ConstantKey.TR_ACC)) {
                                 stock.setTRsignal(trObj.getTrsignal());
 
-                                float total = getAccountStockRealTimeBalance(trObj);
+                                float total = getAccountStockBalanceServ(trObj);
                                 stock.setPerform(total);
 
                                 break;
@@ -3629,133 +3636,130 @@ public class ServiceAFweb {
 //        }
 //        return null;
 //    }
-
-    public ArrayList<AFstockObj> getStockListByAccountIDTRname(String EmailUserName, String Password, String AccountIDSt, String trname, String filterSt, int lenght) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        if (accountObj != null) {
-
-            ArrayList stockNameList = null;
-
-            ArrayList<String> filterArray = new ArrayList();
-            if (filterSt != null) {
-                if (filterSt.length() > 0) {
-                    String[] filterList = filterSt.split(",");
-                    int len = filterList.length;
-                    if (len > 50) {
-                        len = 50;
-                    }
-                    for (int i = 0; i < len; i++) {
-                        String sym = filterList[i];
-                        if (sym.length() > 0) {
-                            filterArray.add(sym);
-                        }
-                    }
-                }
-            }
-
-            if (filterArray.size() > 0) {
-                stockNameList = filterArray;
-            } else {
-                stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
-            }
-
-            if (stockNameList != null) {
-                if (lenght == 0) {
-                    lenght = stockNameList.size();
-                } else if (lenght > stockNameList.size()) {
-                    lenght = stockNameList.size();
-                }
-
-                ArrayList<AFstockObj> returnStockList = new ArrayList();
-                for (int i = 0; i < lenght; i++) {
-                    String NormalizeSymbol = (String) stockNameList.get(i);
-                    AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-                    if (stock != null) {
-                        stock.setTrname(trname);
-
-                        ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stock.getId());
-                        if (trObjList != null) {
-                            if (trObjList.size() == 0) {
-                                continue;
-                            }
-                            for (int j = 0; j < trObjList.size(); j++) {
-                                TradingRuleObj trObj = trObjList.get(j);
-                                if (trname.equals(trObj.getTrname())) {
-
-                                    stock.setTRsignal(trObj.getTrsignal());
-                                    float total = getAccountStockRealTimeBalance(trObj);
-                                    stock.setPerform(total);
-                                    break;
-                                }
-
-                            }
-                        }
-
-                        returnStockList.add(stock);
-                    }
-                }
-                return returnStockList;
-            }
-        }
-        return null;
-    }
-
-    // returen percent
-    public float getAccountStockRealTimeBalance(TradingRuleObj trObj) {
-
-        float totalPercent = 0;
-        float deltaTotal = 0;
-        float sharebalance = 0;
-        try {
-            if (trObj == null) {
-                return 0;
-            }
-
-            AFstockObj stock = this.getStockRealTimeServ(trObj.getSymbol());
-//            int stockId = trObj.getStockid();            
-//            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
-            if (stock == null) {
-                return 0;
-            }
-            if (stock.getAfstockInfo() == null) {
-                return 0;
-            }
-
-            float close = stock.getAfstockInfo().getFclose();
-            if (trObj.getTrsignal() == ConstantKey.S_BUY) {
-                sharebalance = trObj.getLongamount();
-                if (trObj.getLongshare() > 0) {
-                    if (close > 0) {
-                        deltaTotal = (close - (trObj.getLongamount() / trObj.getLongshare())) * trObj.getLongshare();
-                    }
-                }
-            } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
-                sharebalance = trObj.getShortamount();
-                if (trObj.getShortshare() > 0) {
-                    if (close > 0) {
-                        deltaTotal = ((trObj.getShortamount() / trObj.getShortshare()) - close) * trObj.getShortshare();
-                    }
-                }
-            }
-            totalPercent = trObj.getBalance() + sharebalance;
-            totalPercent = totalPercent - trObj.getInvestment();
-
-            if (stock.getSubstatus() == 0) {
-                totalPercent = totalPercent + deltaTotal;
-            }
-            totalPercent = (totalPercent / CKey.TRADING_AMOUNT) * 100;
-            // rounding 2 decimal round off
-            totalPercent = (float) (Math.round(totalPercent * 100.0) / 100.0);
-        } catch (Exception ex) {
-            logger.info("> getAccountStockRealTimeBalance exception " + ex.getMessage());
-        }
-        return totalPercent;
-    }
-
+//    public ArrayList<AFstockObj> getStockListByAccountIDTRname(String EmailUserName, String Password, String AccountIDSt, String trname, String filterSt, int lenght) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
+//        if (accountObj != null) {
+//
+//            ArrayList stockNameList = null;
+//
+//            ArrayList<String> filterArray = new ArrayList();
+//            if (filterSt != null) {
+//                if (filterSt.length() > 0) {
+//                    String[] filterList = filterSt.split(",");
+//                    int len = filterList.length;
+//                    if (len > 50) {
+//                        len = 50;
+//                    }
+//                    for (int i = 0; i < len; i++) {
+//                        String sym = filterList[i];
+//                        if (sym.length() > 0) {
+//                            filterArray.add(sym);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if (filterArray.size() > 0) {
+//                stockNameList = filterArray;
+//            } else {
+//                stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
+//            }
+//
+//            if (stockNameList != null) {
+//                if (lenght == 0) {
+//                    lenght = stockNameList.size();
+//                } else if (lenght > stockNameList.size()) {
+//                    lenght = stockNameList.size();
+//                }
+//
+//                ArrayList<AFstockObj> returnStockList = new ArrayList();
+//                for (int i = 0; i < lenght; i++) {
+//                    String NormalizeSymbol = (String) stockNameList.get(i);
+//                    AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//                    if (stock != null) {
+//                        stock.setTrname(trname);
+//
+//                        ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stock.getId());
+//                        if (trObjList != null) {
+//                            if (trObjList.size() == 0) {
+//                                continue;
+//                            }
+//                            for (int j = 0; j < trObjList.size(); j++) {
+//                                TradingRuleObj trObj = trObjList.get(j);
+//                                if (trname.equals(trObj.getTrname())) {
+//
+//                                    stock.setTRsignal(trObj.getTrsignal());
+//                                    float total = getAccountStockRealTimeBalance(trObj);
+//                                    stock.setPerform(total);
+//                                    break;
+//                                }
+//
+//                            }
+//                        }
+//
+//                        returnStockList.add(stock);
+//                    }
+//                }
+//                return returnStockList;
+//            }
+//        }
+//        return null;
+//    }
+//    // returen percent
+//    public float getAccountStockRealTimeBalance(TradingRuleObj trObj) {
+//
+//        float totalPercent = 0;
+//        float deltaTotal = 0;
+//        float sharebalance = 0;
+//        try {
+//            if (trObj == null) {
+//                return 0;
+//            }
+//
+//            AFstockObj stock = this.getStockRealTimeServ(trObj.getSymbol());
+////            int stockId = trObj.getStockid();            
+////            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
+//            if (stock == null) {
+//                return 0;
+//            }
+//            if (stock.getAfstockInfo() == null) {
+//                return 0;
+//            }
+//
+//            float close = stock.getAfstockInfo().getFclose();
+//            if (trObj.getTrsignal() == ConstantKey.S_BUY) {
+//                sharebalance = trObj.getLongamount();
+//                if (trObj.getLongshare() > 0) {
+//                    if (close > 0) {
+//                        deltaTotal = (close - (trObj.getLongamount() / trObj.getLongshare())) * trObj.getLongshare();
+//                    }
+//                }
+//            } else if (trObj.getTrsignal() == ConstantKey.S_SELL) {
+//                sharebalance = trObj.getShortamount();
+//                if (trObj.getShortshare() > 0) {
+//                    if (close > 0) {
+//                        deltaTotal = ((trObj.getShortamount() / trObj.getShortshare()) - close) * trObj.getShortshare();
+//                    }
+//                }
+//            }
+//            totalPercent = trObj.getBalance() + sharebalance;
+//            totalPercent = totalPercent - trObj.getInvestment();
+//
+//            if (stock.getSubstatus() == 0) {
+//                totalPercent = totalPercent + deltaTotal;
+//            }
+//            totalPercent = (totalPercent / CKey.TRADING_AMOUNT) * 100;
+//            // rounding 2 decimal round off
+//            totalPercent = (float) (Math.round(totalPercent * 100.0) / 100.0);
+//        } catch (Exception ex) {
+//            logger.info("> getAccountStockRealTimeBalance exception " + ex.getMessage());
+//        }
+//        return totalPercent;
+//    }
     public AFstockObj getStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

@@ -320,8 +320,12 @@ public class StockProcess {
                             if (trname.equals(trObj.getTrname())) {
 
                                 stock.setTRsignal(trObj.getTrsignal());
-                                float totalPercent = serviceAFWeb.getAccountStockRealTimeBalance(trObj);
-                                stock.setPerform(totalPercent);
+                                float totalPercent = serviceAFWeb.getAccountStockBalanceServ(trObj);
+                                if (totalPercent == -9999) {
+                                    ;
+                                } else {
+                                    stock.setPerform(totalPercent);
+                                }
                                 break;
                             }
                         }

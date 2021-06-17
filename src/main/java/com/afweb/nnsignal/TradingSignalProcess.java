@@ -26,7 +26,6 @@ import com.afweb.processnn.NNService;
 
 import com.afweb.signal.*;
 
-
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
@@ -155,9 +154,12 @@ public class TradingSignalProcess {
             if ((tranOrderList == null) || (tranOrderList.size() == 0)) {
                 continue;
             }
-            float perf = serviceAFWeb.getAccountStockRealTimeBalance(trObj);
-            trObj.setPerf(perf);
-
+            float perf = serviceAFWeb.getAccountStockBalanceServ(trObj);
+            if (perf == -9999) {
+                ;
+            } else {
+                trObj.setPerf(perf);
+            }
             serviceAFWeb.getAccountImp().updateAccounStockPref(trObj, perf);
 
         }  // loop
