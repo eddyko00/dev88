@@ -1979,7 +1979,7 @@ public class ServiceAFweb {
         }
 
         int size1yearAll = 20 * 12 * 5 + (50 * 3);
-        ArrayList<AFstockInfo> StockInfoArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);
+        ArrayList<AFstockInfo> StockInfoArray = this.getStockHistoricalServ(stock.getSymbol(), size1yearAll);
         if (StockInfoArray == null) {
             return 0;
         }
@@ -4543,7 +4543,7 @@ public class ServiceAFweb {
         }
 
         // recent date first
-        ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
+        ArrayList<AFstockInfo> StockArray = this.getStockHistoricalServ(stock.getSymbol(), sizeLen);
         if (StockArray == null) {
             return null;
         }
@@ -4614,7 +4614,7 @@ public class ServiceAFweb {
         }
 
         // recent date first
-        ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), sizeLen);
+        ArrayList<AFstockInfo> StockArray = this.getStockHistoricalServ(stock.getSymbol(), sizeLen);
         if (StockArray == null) {
             return null;
         }
@@ -4735,7 +4735,7 @@ public class ServiceAFweb {
             AFstockObj stock = this.getStockRealTimeServ(symbol);
 
             int size1year = 20 * 10;
-            ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1year);
+            ArrayList<AFstockInfo> StockArray = this.getStockHistoricalServ(stock.getSymbol(), size1year);
             if (StockArray == null) {
                 return null;
             }
@@ -5201,178 +5201,28 @@ public class ServiceAFweb {
         return stockSrv.getRealTimeStockInternet(NormalizeSymbol);
     }
 
-    public ArrayList<AFstockInfo> getStockHistoricalRange(String symbol, long start, long end) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            return SystemStockHistoricalRange(symbol, start, end);
-        }
-
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-        ArrayList<AFstockInfo> stockInfoArray = getStockImp().getStockHistoricalRange(NormalizeSymbol, start, end);
-
-        return stockInfoArray;
-    }
-
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
-    public ArrayList<AFstockInfo> getStockHistorical(String symbol, int length) {
-        ServiceAFweb.lastfun = "getStockHistorical";
-
-        if (length == 0) {
-            return null;
-        }
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-//        if (checkCallRemoveMysql() == true) {
-//            return getServiceAFwebREST().getStockHistorical(symbol, length);
-//        }
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-
-        List<AFstockInfo> mergedList = new ArrayList();
-
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        //////some bug in Heroku to get the current day actually missing the first date
-        ///// may be the server time - 2hr when try to do end of day not working in this case.
-        ///// so, need work around to move to next begining of day
-        long endDay = TimeConvertion.workaround_nextday_endOfDayInMillis(dateNow.getTimeInMillis());
-        long start = endDay;
-        float len = (float) (1.5 * length);  // add sat sun in to the length
-        length = (int) (len);
-        long end = TimeConvertion.addDays(start, -length);
-
-        if (CKey.CACHE_STOCKH == true) {
-            start = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
-            end = TimeConvertion.addDays(start, -length);
-
-            long endStaticDay = 0;
-            ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(NormalizeSymbol);
-            if (stockInfoArrayStatic == null) {
-                stockInfoArrayStatic = new ArrayList();
-            }
-            if (stockInfoArrayStatic.size() > 0) {
-//                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
-                AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
-                endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
-                end = TimeConvertion.addDays(endStaticDay, 1);
-
-            }
-
-            long startLoop = start;
-            long endLoop = 0;
-            while (true) {
-                long endDay100 = TimeConvertion.addDays(startLoop, -100);
-                endLoop = TimeConvertion.endOfDayInMillis(endDay100);
-                if (endLoop <= end) {
-                    endLoop = end;
-                }
-                ArrayList<AFstockInfo> stockInfoArray = getStockHistoricalRange(NormalizeSymbol, startLoop, endLoop);
-                if (stockInfoArray == null) {
-                    break;
-                }
-                if (stockInfoArray.size() == 0) {
-                    break;
-                }
-                mergedList.addAll(stockInfoArray);
-                startLoop = TimeConvertion.addMiniSeconds(endLoop, -10);
-                if (endLoop == end) {
-                    break;
-                }
-            }
-            mergedList.addAll(stockInfoArrayStatic);
-
-        } else {
-            long startLoop = start;
-            long endLoop = 0;
-            while (true) {
-                long endDay100 = TimeConvertion.addDays(startLoop, -100);
-                endLoop = TimeConvertion.endOfDayInMillis(endDay100);
-                if (endLoop <= end) {
-                    endLoop = end;
-                }
-                ArrayList<AFstockInfo> stockInfoArray = getStockHistoricalRange(NormalizeSymbol, startLoop, endLoop);
-                if (stockInfoArray == null) {
-                    break;
-                }
-                if (stockInfoArray.size() == 0) {
-                    break;
-                }
-                mergedList.addAll(stockInfoArray);
-                startLoop = TimeConvertion.addMiniSeconds(endLoop, -10);
-                if (endLoop == end) {
-                    break;
-                }
-            }
-        }
-        if (mergedList.size() == 0) {
-            return (ArrayList) mergedList;
-        }
-//        if (length < 50) {
-//            ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
-//            ArrayList<AFstockInfo> retArray = new ArrayList();
-//            for (int i = 0; i < sockInfoArray.size(); i++) {
-//                AFstockInfo sInfo = sockInfoArray.get(i);
-//                retArray.add(sInfo);
-//                if (i > length) {
-//                    break;
-//                }
-//            }
-//            return retArray;
-//        }
-
-        ////////////////error in HEROKU and Local not sure why?????? //////////////
-        ////////////////error in HEROKU and Local not sure why?????? //////////////
-        ////////////////error in HEROKU and Local not sure why?????? //////////////
-        // TZ problem make sure it is set to TZ Canada/Eastern
-        if (mergedList.size() > 1) {
-
-//           AFstockInfo first = mergedList.get(0);
-//           AFstockInfo first1 = mergedList.get(1);
-//           logger.info(symbol + "getStockHistorical first " + first.getEntrydatel() + " first-1 " + first1.getEntrydatel());
-            AFstockInfo last = mergedList.get(mergedList.size() - 1);
-            AFstockInfo last1 = mergedList.get(mergedList.size() - 2);
-
-            if (last.getEntrydatel() > last1.getEntrydatel()) {
-//                logger.info(symbol + " getStockHistorical last " + last.getEntrydatel() + " last-1 " + last1.getEntrydatel());
-                //drop the last become only the last one become the current day (not happen in local) 
-                mergedList.remove(last);
-
-            }
-        }
-//        return (ArrayList) mergedList;
-        ArrayList<AFstockInfo> sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
-        ArrayList<AFstockInfo> retArray = new ArrayList();
-        for (int i = 0; i < sockInfoArray.size(); i++) {
-            AFstockInfo sInfo = sockInfoArray.get(i);
-            retArray.add(sInfo);
-            if (i > length) {
-                break;
-            }
-        }
-
-        if (mydebugSim == true) {
-            sockInfoArray = new ArrayList<AFstockInfo>(mergedList);
-            retArray = new ArrayList();
-            for (int i = 0; i < sockInfoArray.size(); i++) {
-                AFstockInfo sInfo = sockInfoArray.get(i);
-                if (sInfo.getEntrydatel() > SimDateL) {
-                    continue;
-                }
-                retArray.add(sInfo);
-                if (i > length) {
-                    break;
-                }
-            }
-        }
-
-        return retArray;
+    public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
+        StockService stockSrv = new StockService();
+        return stockSrv.getStockHistorical(this, symbol, length);
 
     }
 
+//    public ArrayList<AFstockInfo> getStockHistoricalRange(String symbol, long start, long end) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            return SystemStockHistoricalRange(symbol, start, end);
+//        }
+//
+//        SymbolNameObj symObj = new SymbolNameObj(symbol);
+//        String NormalizeSymbol = symObj.getYahooSymbol();
+//        ArrayList<AFstockInfo> stockInfoArray = getStockImp().getStockHistoricalRange(NormalizeSymbol, start, end);
+//
+//        return stockInfoArray;
+//    }
     public ArrayList getAllOpenStockNameArray() {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

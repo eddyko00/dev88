@@ -184,7 +184,7 @@ public class TradingSignalProcess {
         int lengthYr = 2;
         int size1year = 20 * 12 * lengthYr + (20 * 3);
         int offset = 0;
-        ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
+        ArrayList StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year);
         return ProcessTranPerfHistoryOffset(serviceAFWeb, tranOrderList, StockArray, offset, length, true, buyOnly); // reinvest = true
     }
 
@@ -192,7 +192,7 @@ public class TradingSignalProcess {
         int lengthYr = 2;
         int size1year = 20 * 12 * lengthYr + (20 * 3);
         int offset = 0;
-        ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
+        ArrayList StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year);
         return ProcessTranPerfHistoryOffset(serviceAFWeb, tranOrderList, StockArray, offset, length, false, buyOnly); // reinvest = false
     }
 
@@ -925,7 +925,7 @@ public class TradingSignalProcess {
         int size1year = 20 * 12 * lengthYr + (50 * 3);
         String symbol = trObj.getSymbol();
         AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year);
         int offset = 0;
         ///asc thObjList old first - recent last
         ArrayList<StockTRHistoryObj> thObjList = ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, month);
@@ -1245,7 +1245,7 @@ public class TradingSignalProcess {
         }
 
         int size1year = 5 * 52;
-        ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year * 4);
+        ArrayList StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year * 4);
         if (StockArray == null) {
             return;
         }

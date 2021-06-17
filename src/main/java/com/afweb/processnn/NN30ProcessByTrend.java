@@ -232,7 +232,7 @@ public class NN30ProcessByTrend {
             size1yearAll = size1yearAll / 2;
         }
 
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
         ProcessNN00 nn00 = new ProcessNN00();
 
@@ -845,7 +845,7 @@ public class NN30ProcessByTrend {
         int size1yearAll = 20 * 12 * 2 + (50 * 3);
 
 //        logger.info("> trainingNN " + symbol);
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
         if (tr == ConstantKey.INT_TR_NN30) {

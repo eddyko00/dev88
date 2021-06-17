@@ -257,7 +257,7 @@ public class StockProcess {
             return 0;
         }
         int size1year = 5 * 52;
-        ArrayList StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
+        ArrayList StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year);
         if (StockArray == null) {
             return 0;
         }
@@ -413,7 +413,7 @@ public class StockProcess {
                 int internetHistoryLen = 0;
 
                 int size1yearAll = 20;
-                ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistorical(NormalizeSymbol, size1yearAll);
+                ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistoricalServ(NormalizeSymbol, size1yearAll);
                 if ((StockArrayHistory == null) || (StockArrayHistory.size() == 0)) {
                     ;
                 } else {

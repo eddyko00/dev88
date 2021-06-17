@@ -21,7 +21,7 @@ public class stock_analysis {
         String symbol = "HOU.TO";
         AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
         int size1yearAll = 20 * 12 * 1 + (50 * 3);
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(symbol, size1yearAll);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(symbol, size1yearAll);
         ArrayList<BBObj> BBArray = new ArrayList();
         for (int i = 0; i < StockArray.size(); i++) {
             BBObj bbObj = TechnicalCal.BBSignal(StockArray, i, ConstantKey.INT_BB_M_20, ConstantKey.INT_BB_SD_2, ConstantKey.INT_RSI_14);

@@ -107,7 +107,7 @@ public class StockController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        ArrayList stockInfoList = afWebService.getStockHistorical(symbol, length);
+        ArrayList stockInfoList = afWebService.getStockHistoricalServ(symbol, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return stockInfoList;
     }
