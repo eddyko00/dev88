@@ -131,7 +131,7 @@ public class AccountTranProcess {
 //                    logger.info("ProcessAdminSignalTrading " + LockStock + " LockStock " + lockReturnStock);
                     if (lockReturnStock > 0) {
 
-                        boolean ret = serviceAFWeb.checkStock(serviceAFWeb, symbol);
+                        boolean ret = serviceAFWeb.checkStockServ(serviceAFWeb, symbol);
                         if (ret == true) {
 
                             TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
@@ -696,7 +696,7 @@ public class AccountTranProcess {
                         }
                     }
 
-                    boolean ret = serviceAFWeb.checkStock(serviceAFWeb, symbol);
+                    boolean ret = serviceAFWeb.checkStockServ(serviceAFWeb, symbol);
 
                     if (ret == true) {
                         AccountTranImp tranImp = new AccountTranImp();

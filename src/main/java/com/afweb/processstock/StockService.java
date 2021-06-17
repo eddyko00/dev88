@@ -5,7 +5,6 @@
  */
 package com.afweb.processstock;
 
-import com.afweb.stock.StockInternetImpDao;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
@@ -333,6 +332,20 @@ public class StockService {
         ArrayList<AFstockInfo> stockInfoArray = serviceAFWeb.getStockImp().getStockHistoricalRange(NormalizeSymbol, start, end);
 
         return stockInfoArray;
+    }
+
+    public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+        AFstockObj stock = getStockRealTime(serviceAFWeb, NormalizeSymbol);
+        if (stock == null) {
+            return false;
+        }
+        if (stock.getStatus() != ConstantKey.OPEN) {
+            return false;
+        }
+        if (stock.getAfstockInfo() == null) {
+            return false;
+        }
+        return true;
     }
 
 }

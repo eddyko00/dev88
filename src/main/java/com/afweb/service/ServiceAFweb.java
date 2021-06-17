@@ -5145,19 +5145,7 @@ public class ServiceAFweb {
     }
 
 //
-    public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-        if (stock == null) {
-            return false;
-        }
-        if (stock.getStatus() != ConstantKey.OPEN) {
-            return false;
-        }
-        if (stock.getAfstockInfo() == null) {
-            return false;
-        }
-        return true;
-    }
+
 //////////////////////////////////////////
     // StockService
 //////////////////////////////////////////
@@ -5166,7 +5154,11 @@ public class ServiceAFweb {
         return stockSrv.getStockRealTime(this, symbol);
 
     }
-
+    public boolean checkStockServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+        StockService stockSrv = new StockService();
+        return stockSrv.checkStock(serviceAFWeb, NormalizeSymbol);
+    }
+    
     public int addStockServ(String symbol) {
         StockService stockSrv = new StockService();
         return stockSrv.addStock(this, symbol);
@@ -5215,15 +5207,6 @@ public class ServiceAFweb {
 
         ArrayList stockNameList = getStockImp().getOpenStockNameArray();
         return stockNameList;
-    }
-
-    public ArrayList getStockArray(int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        ArrayList stockList = getStockImp().getStockArray(length);
-        return stockList;
     }
 
     ////////////////////////
