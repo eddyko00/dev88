@@ -5,6 +5,8 @@
  */
 package com.example.herokudemo;
 
+import com.afweb.processcustacc.AccFundController;
+import com.afweb.processcustacc.CustAccController;
 import com.afweb.processstock.StockController;
 import com.afweb.processnn.NNController;
 import com.afweb.processbilling.BillingController;
@@ -124,11 +126,11 @@ public class AFwebController {
         AccountingController.getHelpInfo(arrayString);
 
         arrayString.add("--User Interface--");
-        AFcustaccController.getHelpSystem(arrayString);
-        AFcustaccController.getHelpInfo(arrayString);
+        CustAccController.getHelpSystem(arrayString);
+        CustAccController.getHelpInfo(arrayString);
 
-        AFcustaccFundController.getHelpSystem(arrayString);
-        AFcustaccFundController.getHelpInfo(arrayString);
+        AccFundController.getHelpSystem(arrayString);
+        AccFundController.getHelpInfo(arrayString);
 
         BillingController.getHelpSystem(arrayString);
         BillingController.getHelpInfo(arrayString);
@@ -142,9 +144,9 @@ public class AFwebController {
 
         arrayString.add("--User Interface--");
 
-        AFcustaccController.getHelpInfo(arrayString);
+        CustAccController.getHelpInfo(arrayString);
 
-        AFcustaccFundController.getHelpInfo(arrayString);
+        AccFundController.getHelpInfo(arrayString);
 
         BillingController.getHelpInfo(arrayString);
 

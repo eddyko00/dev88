@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.herokudemo;
+package com.afweb.processcustacc;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.service.*;
 
 import com.afweb.util.CKey;
+import com.example.herokudemo.AFwebService;
 
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class AFcustaccFundController {
+public class AccFundController {
 
     private static AFwebService afWebService = new AFwebService();
 
