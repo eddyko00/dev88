@@ -177,7 +177,7 @@ public class CustAccController {
             }
         }
 
-        LoginObj loginObj = afWebService.getCustomerEmailLogin(emailSt, passSt);
+        LoginObj loginObj = custaccService.getCustomerEmailLogin(afWebService, emailSt, passSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
     }
@@ -194,7 +194,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        ArrayList accountList = afWebService.getAccountList(username, null);
+        ArrayList accountList = custaccService.getAccountList(afWebService, username, null);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return accountList;
     }
@@ -218,7 +218,7 @@ public class CustAccController {
             return loginObj;
         }
 //       SUCC = 1;  EXISTED = 2; FAIL =0;
-        LoginObj loginObj = afWebService.getCustomerAccLogin(username, accountid);
+        LoginObj loginObj = custaccService.getCustomerAccLogin(afWebService, username, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
     }
@@ -247,7 +247,7 @@ public class CustAccController {
             return loginObj;
         }
 //       SUCC = 1;  EXISTED = 2; FAIL =0;
-        LoginObj loginObj = afWebService.updateCustomerPassword(username, accountid, emailSt, passSt, firstNameSt, lastNameSt, planSt);
+        LoginObj loginObj = custaccService.updateCustomerPassword(afWebService, username, accountid, emailSt, passSt, firstNameSt, lastNameSt, planSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
     }
@@ -264,7 +264,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        AccountObj account = afWebService.getAccountByCustomerAccountID(username, null, accountid);
+        AccountObj account = custaccService.getAccountByCustomerAccountID(afWebService, username, null, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return account;
     }
@@ -313,7 +313,7 @@ public class CustAccController {
             return null;
         }
 
-        ArrayList returnList = afWebService.getStockNameListByAccountID(username, null, accountid);
+        ArrayList returnList = custaccService.getStockNameListByAccountID(afWebService, username, null, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;

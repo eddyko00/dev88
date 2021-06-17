@@ -24,6 +24,7 @@ import com.afweb.chart.ChartService;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.processcustacc.CustAccService;
 import com.afweb.processnn.NNService;
 import com.afweb.processstock.StockService;
 
@@ -141,7 +142,7 @@ public class ServiceAFweb {
         try {
             AccountObj accountAdminObj = ServiceAFweb.getCacheAccountAdminObj();
             if (accountAdminObj == null) {
-                ArrayList accountList = getAccountList(CKey.ADMIN_USERNAME, null);
+                ArrayList accountList = getAccountListServ(CKey.ADMIN_USERNAME, null);
                 // do not clear the lock so that it not run by other tast immediately
                 if (accountList == null) {
                     return null;
@@ -1072,7 +1073,7 @@ public class ServiceAFweb {
 
                 /////////////////////
                 ArrayList<String> APIStockNameList = new ArrayList();
-                ArrayList<AccountObj> accountAPIObjL = this.getAccountList(CKey.API_USERNAME, null);
+                ArrayList<AccountObj> accountAPIObjL = this.getAccountListServ(CKey.API_USERNAME, null);
                 if (accountAPIObjL != null) {
                     if (accountAPIObjL.size() > 0) {
                         AccountObj accountAPIObj = accountAPIObjL.get(0);
@@ -1186,7 +1187,7 @@ public class ServiceAFweb {
                 logger.info("> remote dB1 stock:" + stockNameArray2.size());
                 StockNameRemoteList.addAll(stockNameArray2);
 
-                ArrayList<AccountObj> accountAPIObjL = this.getAccountList(CKey.API_USERNAME, null);
+                ArrayList<AccountObj> accountAPIObjL = this.getAccountListServ(CKey.API_USERNAME, null);
                 if (accountAPIObjL == null) {
                     return;
                 }
@@ -2367,117 +2368,116 @@ public class ServiceAFweb {
 //        return loginObj;
 //    }
 
-    // result 1 = success, 2 = existed,  0 = fail
-    public LoginObj updateCustomerPassword(String EmailUserName, String AccountID, String Email, String Password, String FirstName, String LastName, String Plan) {
-
-        CustomerObj custObj = null;
-        LoginObj loginObj = new LoginObj();
-        loginObj.setCustObj(null);
-        WebStatus webStatus = new WebStatus();
-        webStatus.setResultID(0);
-        loginObj.setWebMsg(webStatus);
-        if (getServerObj().isSysMaintenance() == true) {
-            return loginObj;
-        }
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-
-        custObj = getAccountImp().getCustomerPassword(UserName, null);
-        if (custObj == null) {
-            return loginObj;
-        }
-        if (custObj.getStatus() != ConstantKey.OPEN) {
-            return loginObj;
-        }
-
-        String portfolio = custObj.getPortfolio();
-        CustPort custPortfilio = new CustPort();
-        if ((portfolio != null) && (portfolio.length() > 0)) {
-            try {
-                portfolio = portfolio.replaceAll("#", "\"");
-                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-            } catch (Exception ex) {
-            }
-        }
-
-        if ((Email != null) && (Email.length() > 0)) {
-            boolean validEmail = NameObj.isEmailValid(Email);
-            if (validEmail == true) {
-                custObj.setEmail(Email);
-            } else {
-                // error code 2 for invalid email address
-                webStatus.setResultID(2);
-                return loginObj;
-            }
-        }
-        if ((Password != null) && (Password.length() > 0)) {
-            // ignore "***"
-            if (!Password.equals(CKey.MASK_PASS)) {
-                custObj.setPassword(Password);
-            }
-            // error code 3 for invalid password
-        }
-        if ((FirstName != null) && (FirstName.length() > 0)) {
-            custObj.setFirstname(FirstName);
-        }
-        if ((LastName != null) && (LastName.length() > 0)) {
-            custObj.setLastname(LastName);
-        }
-        if ((Plan != null) && (Plan.length() > 0)) {
-            try {
-
-                int planid = Integer.parseInt(Plan);
-                // update pending plan
-                // -1 no change, 0, 10, 20
-                if (planid == -1) {
-                    // no change
-                } else {
-                    if (custObj.getType() == CustomerObj.INT_API_USER) {
-                        ;
-                    } else {
-                        if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_STANDARD)
-                                || (planid == ConstantKey.INT_PP_PEMIUM) || (planid == ConstantKey.INT_PP_DELUXEX2)) {
-                            custPortfilio.setnPlan(planid);
-                        } else {
-                            // error
-                            return loginObj;
-                        }
-                    }
-                }
-            } catch (Exception e) {
-            }
-        }
-        int result = 0;
-        try {
-            int accountid = Integer.parseInt(AccountID);
-            result = getAccountImp().updateCustomer(custObj, accountid);
-
-            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-            result = getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
-        } catch (Exception ex) {
-            logger.info("> updateCustomerPassword exception " + ex.getMessage());
-        }
-
-        String tzid = "America/New_York"; //EDT
-        TimeZone tz = TimeZone.getTimeZone(tzid);
-        AccountObj accountAdminObj = getAdminObjFromCache();
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long dateNowLong = dateNow.getTimeInMillis();
-        java.sql.Date d = new java.sql.Date(dateNowLong);
-        DateFormat format = new SimpleDateFormat(" hh:mm a");
-        format.setTimeZone(tz);
-        String ESTdate = format.format(d);
-        String msg = ESTdate + " " + custObj.getUsername() + " Cust update Result:" + result;
-        CommMsgImp commMsg = new CommMsgImp();
-        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-//                            
-        webStatus.setResultID(result);
-//        loginObj.setCustObj(custObj);
-        loginObj.setWebMsg(webStatus);
-        return loginObj;
-
-    }
-
+//    // result 1 = success, 2 = existed,  0 = fail
+//    public LoginObj updateCustomerPassword(String EmailUserName, String AccountID, String Email, String Password, String FirstName, String LastName, String Plan) {
+//
+//        CustomerObj custObj = null;
+//        LoginObj loginObj = new LoginObj();
+//        loginObj.setCustObj(null);
+//        WebStatus webStatus = new WebStatus();
+//        webStatus.setResultID(0);
+//        loginObj.setWebMsg(webStatus);
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return loginObj;
+//        }
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//
+//        custObj = getAccountImp().getCustomerPassword(UserName, null);
+//        if (custObj == null) {
+//            return loginObj;
+//        }
+//        if (custObj.getStatus() != ConstantKey.OPEN) {
+//            return loginObj;
+//        }
+//
+//        String portfolio = custObj.getPortfolio();
+//        CustPort custPortfilio = new CustPort();
+//        if ((portfolio != null) && (portfolio.length() > 0)) {
+//            try {
+//                portfolio = portfolio.replaceAll("#", "\"");
+//                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+//            } catch (Exception ex) {
+//            }
+//        }
+//
+//        if ((Email != null) && (Email.length() > 0)) {
+//            boolean validEmail = NameObj.isEmailValid(Email);
+//            if (validEmail == true) {
+//                custObj.setEmail(Email);
+//            } else {
+//                // error code 2 for invalid email address
+//                webStatus.setResultID(2);
+//                return loginObj;
+//            }
+//        }
+//        if ((Password != null) && (Password.length() > 0)) {
+//            // ignore "***"
+//            if (!Password.equals(CKey.MASK_PASS)) {
+//                custObj.setPassword(Password);
+//            }
+//            // error code 3 for invalid password
+//        }
+//        if ((FirstName != null) && (FirstName.length() > 0)) {
+//            custObj.setFirstname(FirstName);
+//        }
+//        if ((LastName != null) && (LastName.length() > 0)) {
+//            custObj.setLastname(LastName);
+//        }
+//        if ((Plan != null) && (Plan.length() > 0)) {
+//            try {
+//
+//                int planid = Integer.parseInt(Plan);
+//                // update pending plan
+//                // -1 no change, 0, 10, 20
+//                if (planid == -1) {
+//                    // no change
+//                } else {
+//                    if (custObj.getType() == CustomerObj.INT_API_USER) {
+//                        ;
+//                    } else {
+//                        if ((planid == ConstantKey.INT_PP_BASIC) || (planid == ConstantKey.INT_PP_STANDARD)
+//                                || (planid == ConstantKey.INT_PP_PEMIUM) || (planid == ConstantKey.INT_PP_DELUXEX2)) {
+//                            custPortfilio.setnPlan(planid);
+//                        } else {
+//                            // error
+//                            return loginObj;
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//            }
+//        }
+//        int result = 0;
+//        try {
+//            int accountid = Integer.parseInt(AccountID);
+//            result = getAccountImp().updateCustomer(custObj, accountid);
+//
+//            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+//            result = getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
+//        } catch (Exception ex) {
+//            logger.info("> updateCustomerPassword exception " + ex.getMessage());
+//        }
+//
+//        String tzid = "America/New_York"; //EDT
+//        TimeZone tz = TimeZone.getTimeZone(tzid);
+//        AccountObj accountAdminObj = getAdminObjFromCache();
+//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//        long dateNowLong = dateNow.getTimeInMillis();
+//        java.sql.Date d = new java.sql.Date(dateNowLong);
+//        DateFormat format = new SimpleDateFormat(" hh:mm a");
+//        format.setTimeZone(tz);
+//        String ESTdate = format.format(d);
+//        String msg = ESTdate + " " + custObj.getUsername() + " Cust update Result:" + result;
+//        CommMsgImp commMsg = new CommMsgImp();
+//        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+////                            
+//        webStatus.setResultID(result);
+////        loginObj.setCustObj(custObj);
+//        loginObj.setWebMsg(webStatus);
+//        return loginObj;
+//
+//    }
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
 
         NameObj nameObj = new NameObj(EmailUserName);
@@ -2501,33 +2501,33 @@ public class ServiceAFweb {
         }
         return custObj;
     }
-
-    public LoginObj getCustomerEmailLogin(String EmailUserName, String Password) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        CustomerObj custObj = null;
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        WebStatus webStatus = new WebStatus();
-        webStatus.setResultID(-1);
-
-        custObj = getAccountImp().getCustomerPassword(UserName, Password);
-        if (custObj != null) {
-            webStatus.setResultID(custObj.getStatus());
-            if (custObj.getStatus() != ConstantKey.OPEN) {
-                custObj = null;
-            }
-        }
-        LoginObj loginObj = new LoginObj();
-        if (custObj != null) {
-            custObj.setPassword(CKey.MASK_PASS);
-        }
-        loginObj.setCustObj(custObj);
-        loginObj.setWebMsg(webStatus);
-        return loginObj;
-    }
+//
+//    public LoginObj getCustomerEmailLogin(String EmailUserName, String Password) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        CustomerObj custObj = null;
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        WebStatus webStatus = new WebStatus();
+//        webStatus.setResultID(-1);
+//
+//        custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//        if (custObj != null) {
+//            webStatus.setResultID(custObj.getStatus());
+//            if (custObj.getStatus() != ConstantKey.OPEN) {
+//                custObj = null;
+//            }
+//        }
+//        LoginObj loginObj = new LoginObj();
+//        if (custObj != null) {
+//            custObj.setPassword(CKey.MASK_PASS);
+//        }
+//        loginObj.setCustObj(custObj);
+//        loginObj.setWebMsg(webStatus);
+//        return loginObj;
+//    }
 
 //    public LoginObj getCustomerLogin(String EmailUserName, String Password) {
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -2550,33 +2550,6 @@ public class ServiceAFweb {
 //        return loginObj;
 //
 //    }
-    public LoginObj getCustomerAccLogin(String EmailUserName, String AccountIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        CustomerObj custObj = null;
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, null, AccountIDSt);
-        if (accountObj != null) {
-            custObj = getAccountImp().getCustomerPassword(UserName, null);
-        }
-        LoginObj loginObj = new LoginObj();
-        if (custObj != null) {
-            custObj.setPassword(CKey.MASK_PASS);
-        }
-        loginObj.setCustObj(custObj);
-        WebStatus webStatus = new WebStatus();
-        webStatus.setResultID(1);
-        if (custObj == null) {
-            webStatus.setResultID(0);
-        }
-        loginObj.setWebMsg(webStatus);
-        return loginObj;
-
-    }
-
     ////////////////////////////
     public ArrayList getRemoveStockNameList(int length) {
         ArrayList result = null;
@@ -2663,18 +2636,27 @@ public class ServiceAFweb {
 
     }
 
-    public ArrayList getAccountList(String EmailUserName, String Password) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
+    //////////////////////////////////////////////////
+    // CustAccService
+    CustAccService custAccSrv = new CustAccService();
+
+    //////////////////////////////////////////////////
+    public ArrayList getAccountListServ(String EmailUserName, String Password) {
+        if (true) {
+            return custAccSrv.getAccountList(this, EmailUserName, Password);
         }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-
-        return getAccountImp().getAccountList(UserName, Password);
-
+        return null;
     }
 
+    public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+        if (true) {
+            return custAccSrv.getAccountByCustomerAccountID(this, EmailUserName, Password, AccountIDSt);
+        }
+        return null;
+    }
+
+    //////////////////////////////////////////////////
+    //////////////////////////////////////////////////
     public ArrayList SystemUserNamebyAccountID(int accountID) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -3449,22 +3431,21 @@ public class ServiceAFweb {
 
     }
 
-    public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().getAccountByCustomerAccountID(UserName, Password, accountid);
-        } catch (Exception e) {
-        }
-        return null;
-
-    }
-
+//    public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            return getAccountImp().getAccountByCustomerAccountID(UserName, Password, accountid);
+//        } catch (Exception e) {
+//        }
+//        return null;
+//
+//    }
     public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -3636,18 +3617,18 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList<AFstockObj> getStockNameListByAccountID(String EmailUserName, String Password, String AccountIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        if (accountObj != null) {
-
-            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
-            return stockNameList;
-        }
-        return null;
-    }
+//    public ArrayList<AFstockObj> getStockNameListByAccountID(String EmailUserName, String Password, String AccountIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
+//        if (accountObj != null) {
+//
+//            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
+//            return stockNameList;
+//        }
+//        return null;
+//    }
 
     public ArrayList<AFstockObj> getStockListByAccountIDTRname(String EmailUserName, String Password, String AccountIDSt, String trname, String filterSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -5098,65 +5079,89 @@ public class ServiceAFweb {
 //
 //////////////////////////////////////////
     // StockService
+    StockService stockSrv = new StockService();
 //////////////////////////////////////////
+
     public AFstockObj getStockRealTimeServ(String symbol) {
-        StockService stockSrv = new StockService();
-        return stockSrv.getStockRealTime(this, symbol);
+        if (true) {
+            return stockSrv.getStockRealTime(this, symbol);
+        }
+        return null;
 
     }
 
     public boolean checkStockServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        StockService stockSrv = new StockService();
-        return stockSrv.checkStock(serviceAFWeb, NormalizeSymbol);
+        if (true) {
+            return stockSrv.checkStock(serviceAFWeb, NormalizeSymbol);
+        }
+        return false;
     }
 
     public int addStockServ(String symbol) {
-        StockService stockSrv = new StockService();
-        return stockSrv.addStock(this, symbol);
+        if (true) {
+            return stockSrv.addStock(this, symbol);
+        }
+        return 0;
 
     }
 
     public int disableStockServ(String symbol) {
-        StockService stockSrv = new StockService();
-        return stockSrv.disableStock(this, symbol);
-
+        if (true) {
+            return stockSrv.disableStock(this, symbol);
+        }
+        return 0;
     }
 
     public int deleteStockServ(AFstockObj stock) {
-        StockService stockSrv = new StockService();
-        return stockSrv.deleteStock(this, stock);
+        if (true) {
+            return stockSrv.deleteStock(this, stock);
+        }
+        return 0;
     }
 
     public int removeStockInfoServ(String symbol) {
-        StockService stockSrv = new StockService();
-        return stockSrv.removeStockInfo(this, symbol);
+        if (true) {
+            return stockSrv.removeStockInfo(this, symbol);
+        }
+        return 0;
     }
 
     public StringBuffer getInternetScreenPageServ(String url) {
-        return this.getStockImp().getInternetScreenPage(url);
+        if (true) {
+            return this.getStockImp().getInternetScreenPage(url);
+        }
+        return null;
     }
 
     public AFstockObj getRealTimeStockInternetServ(String NormalizeSymbol) {
-        return this.getStockImp().getRealTimeStockInternet(NormalizeSymbol);
+        if (true) {
+            return this.getStockImp().getRealTimeStockInternet(NormalizeSymbol);
+        }
+        return null;
     }
 
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
-        StockService stockSrv = new StockService();
-        return stockSrv.getStockHistorical(this, symbol, length);
+        if (true) {
+            return stockSrv.getStockHistorical(this, symbol, length);
+        }
+        return null;
 
     }
 
     public int updateStockAllSrv() {
-        StockService stockSrv = new StockService();
-        return stockSrv.updateAllStock(this);
+        if (true) {
+            return stockSrv.updateAllStock(this);
+        }
+        return 0;
     }
 
     public int updateStockInfoTransactionServ(StockInfoTranObj stockInfoTran) {
-        StockService stockSrv = new StockService();
-        return stockSrv.updateStockInfoTransaction(this, stockInfoTran);
-
+        if (true) {
+            return stockSrv.updateStockInfoTransaction(this, stockInfoTran);
+        }
+        return 0;
     }
 //////////////////////////////////////////
 //////////////////////////////////////////
@@ -5272,7 +5277,7 @@ public class ServiceAFweb {
             if (customer == null) {
                 return 0;
             }
-            ArrayList accountList = getAccountList(UserName, null);
+            ArrayList accountList = getAccountListServ(UserName, null);
 
             if (accountList == null) {
                 return 0;
@@ -5396,7 +5401,7 @@ public class ServiceAFweb {
             if (customer == null) {
                 return 0;
             }
-            ArrayList accountList = getAccountList(UserName, null);
+            ArrayList accountList = getAccountListServ(UserName, null);
 
             if (accountList == null) {
                 return 0;
