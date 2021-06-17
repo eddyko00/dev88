@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 public class StockService {
 
     protected static Logger logger = Logger.getLogger("StockService");
+    StockProcess stockProcess = new StockProcess();
 
     public ArrayList getStockArray(ServiceAFweb serviceAFWeb, int length) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
@@ -348,4 +349,16 @@ public class StockService {
         return true;
     }
 
+    public int updateAllStock(ServiceAFweb serviceAFWeb) {
+        return stockProcess.updateAllStock(serviceAFWeb);
+    }
+
+    public int updateStockInfoTransaction(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
+        ServiceAFweb.lastfun = "updateStockInfoTransaction";
+
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        return serviceAFWeb.getStockImp().updateStockInfoTransaction(stockInfoTran);
+    }      
 }

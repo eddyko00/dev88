@@ -499,7 +499,7 @@ public class StockInternetImpDao {
                     stockInfoTran.setStockInfoList(StockSendArray);
                     // require oldest date to earliest
                     // require oldest date to earliest
-                    int retTran = serviceAFWeb.updateStockInfoTransaction(stockInfoTran);
+                    int retTran = serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
                     if (retTran == 0) {
                         return false;
                     }
@@ -515,7 +515,7 @@ public class StockInternetImpDao {
 
             // require oldest date to earliest
             // require oldest date to earliest
-            serviceAFWeb.updateStockInfoTransaction(stockInfoTran);
+            serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
         }
         return true;
     }
