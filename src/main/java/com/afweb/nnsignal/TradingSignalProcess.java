@@ -9,15 +9,10 @@ package com.afweb.nnsignal;
 //https://jar-download.com/artifacts/eu.verdelhan/ta4j-examples/0.4/source-code/ta4jexamples/strategies/MovingMomentumStrategy.java
 
 //https://stackoverflow.com/questions/8587047/support-resistance-algorithm-technical-analysis/8590007
-import com.afweb.processnn.signal.ProcessNN92;
-import com.afweb.processnn.signal.ProcessNN2;
-import com.afweb.processnn.signal.ProcessNN1;
-import com.afweb.processnn.signal.ProcessNN91;
-import com.afweb.processnn.signal.ProcessNN3;
-import com.afweb.processnn.signal.ProcessNN93;
-import com.afweb.processnn.NN3ProcessBySignal;
-import com.afweb.processnn.NN2ProcessBySignal;
-import com.afweb.processnn.NN1ProcessBySignal;
+import com.afweb.processnn.signal.*;
+
+import com.afweb.processnn.*;
+
 import com.afweb.account.*;
 import com.afweb.model.*;
 
@@ -28,12 +23,9 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 import com.afweb.processnn.NNService;
-import com.afweb.signal.EMAObj;
-import com.afweb.signal.MACDObj;
-import com.afweb.signal.NNObj;
-import com.afweb.signal.RSIObj;
-import com.afweb.signal.SMAObj;
-import com.afweb.signal.TechnicalCal;
+
+import com.afweb.signal.*;
+
 
 import com.afweb.stock.*;
 import com.afweb.util.*;

@@ -11,6 +11,7 @@ import com.afweb.account.AccountTranImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
+import com.afweb.nnsignal.TradingAPISignalProcess;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -48,7 +49,10 @@ public class AccountTranProcess {
 //    }
     public void ProcessAdminSignalTrading(ServiceAFweb serviceAFWeb) {
 //        logger.info("> ProcessAdminSignalTrading ");
-//        this.serviceAFWeb = serviceAFWeb;
+        ///////////
+        TradingAPISignalProcess TradingSignalAPI = new TradingAPISignalProcess();
+        TradingSignalAPI.ProcessAPISignalTrading(serviceAFWeb);
+        //////////
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
@@ -1233,5 +1237,4 @@ public class AccountTranProcess {
 //        45.54
 //
 //    };
-
 }

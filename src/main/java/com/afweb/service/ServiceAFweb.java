@@ -716,9 +716,7 @@ public class ServiceAFweb {
             accountTranP.ProcessAdminSignalTrading(this);
 
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-            //
-            TradingAPISignalProcess TRAPI = new TradingAPISignalProcess();
-            TRAPI.ProcessAPISignalTrading(this);
+
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             updateStockAllSrv();
