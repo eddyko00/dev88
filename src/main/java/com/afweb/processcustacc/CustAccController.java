@@ -402,7 +402,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = afWebService.removeAccountStockByUserNameAccId(username, null, accountid, symbol);
+        int result = custaccService.removeAccountStockByUserNameAccId(afWebService, username, null, accountid, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }
@@ -420,7 +420,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = afWebService.removeAccountStockByUserNameAccId(username, null, accountid, symbol);
+        int result = custaccService.removeAccountStockByUserNameAccId(afWebService, username, null, accountid, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }

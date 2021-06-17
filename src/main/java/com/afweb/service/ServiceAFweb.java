@@ -1220,7 +1220,7 @@ public class ServiceAFweb {
                     }
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
-                        int resultRemove = removeAccountStockByUserNameAccId(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
+                        int resultRemove = removeAccountStockByUserNameAccIdServ(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Remove API stock " + symbol);
 
                         ServiceAFweb.AFSleep();
@@ -2665,6 +2665,21 @@ public class ServiceAFweb {
     public int addAccountStockByCustAccServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (true) {
             return custAccSrv.addAccountStockByCustAcc(this, EmailUserName, Password, AccountIDSt, symbol);
+        }
+        return 0;
+    }
+
+    public int removeAccountStockByUserNameAccIdServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+        if (true) {
+            return custAccSrv.removeAccountStockByUserNameAccId(this, EmailUserName, Password, AccountIDSt, symbol);
+        }
+        return 0;
+    }
+//    //ConstantKey.NOTEXISTED
+
+    public int removeAccountStockSymbolServ(AccountObj accountObj, String symbol) {
+        if (true) {
+            return custAccSrv.removeAccountStockSymbol(this, accountObj, symbol);
         }
         return 0;
     }
@@ -5020,65 +5035,63 @@ public class ServiceAFweb {
         return 1;
     }
 
-    public int removeAccountStockByUserNameAccId(String EmailUserName, String Password, String AccountIDSt, String symbol) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-        if (stockObj != null) {
-            AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-            if (accountObj != null) {
-                return removeAccountStockSymbol(accountObj, stockObj.getSymbol());
-            }
-        }
-        return 0;
-    }
-
-    //ConstantKey.NOTEXISTED
-    public int removeAccountStockSymbol(AccountObj accountObj, String symbol) {
-
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-        if (stockObj != null) {
-
-            int signal = ConstantKey.S_NEUTRAL;
-            String trName = ConstantKey.TR_ACC;
-            TradingRuleObj tradingRuleObj = SystemAccountStockIDByTRname(accountObj.getId(), stockObj.getId(), trName);
-            if (tradingRuleObj == null) {
-                return ConstantKey.NOTEXISTED;
-            }
-            int curSignal = tradingRuleObj.getTrsignal();
-
-            boolean updateTran = true;
-            if (curSignal == ConstantKey.S_BUY) {
-                ;
-            } else if (curSignal == ConstantKey.S_SELL) {
-                ;
-            } else {
-                updateTran = false;
-            }
-            if (updateTran == true) {
-                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-                tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
-
-                ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
-                UpdateTRList.add(tradingRuleObj);
-                getAccountImp().updateAccountStockSignal(UpdateTRList);
-
-                AccountTranImp accountTran = new AccountTranImp();
-                accountTran.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal);
-            }
-
-            return getAccountImp().removeAccountStock(accountObj, stockObj.getId());
-        }
-
-        return 0;
-    }
-
+//    public int removeAccountStockByUserNameAccId(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        SymbolNameObj symObj = new SymbolNameObj(symbol);
+//        String NormalizeSymbol = symObj.getYahooSymbol();
+//        AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//        if (stockObj != null) {
+//            AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
+//            if (accountObj != null) {
+//                return removeAccountStockSymbol(accountObj, stockObj.getSymbol());
+//            }
+//        }
+//        return 0;
+//    }
+//    //ConstantKey.NOTEXISTED
+//    public int removeAccountStockSymbol(AccountObj accountObj, String symbol) {
+//
+//        SymbolNameObj symObj = new SymbolNameObj(symbol);
+//        String NormalizeSymbol = symObj.getYahooSymbol();
+//        AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//        if (stockObj != null) {
+//
+//            int signal = ConstantKey.S_NEUTRAL;
+//            String trName = ConstantKey.TR_ACC;
+//            TradingRuleObj tradingRuleObj = SystemAccountStockIDByTRname(accountObj.getId(), stockObj.getId(), trName);
+//            if (tradingRuleObj == null) {
+//                return ConstantKey.NOTEXISTED;
+//            }
+//            int curSignal = tradingRuleObj.getTrsignal();
+//
+//            boolean updateTran = true;
+//            if (curSignal == ConstantKey.S_BUY) {
+//                ;
+//            } else if (curSignal == ConstantKey.S_SELL) {
+//                ;
+//            } else {
+//                updateTran = false;
+//            }
+//            if (updateTran == true) {
+//                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//                tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
+//
+//                ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
+//                UpdateTRList.add(tradingRuleObj);
+//                getAccountImp().updateAccountStockSignal(UpdateTRList);
+//
+//                AccountTranImp accountTran = new AccountTranImp();
+//                accountTran.AddTransactionOrderWithComm(this, accountObj, stockObj, trName, signal);
+//            }
+//
+//            return getAccountImp().removeAccountStock(accountObj, stockObj.getId());
+//        }
+//
+//        return 0;
+//    }
     public boolean checkTRListByStockID(String StockID) {
         if (getServerObj().isSysMaintenance() == true) {
             return true;

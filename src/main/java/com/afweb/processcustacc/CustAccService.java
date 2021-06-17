@@ -5,10 +5,12 @@
  */
 package com.afweb.processcustacc;
 
+import com.afweb.account.AccountTranImp;
 import com.afweb.account.CommMsgImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockObj;
+import com.afweb.nnsignal.TradingSignalProcess;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
@@ -465,5 +467,63 @@ public class CustAccService {
         return 0;
     }
     
+    public int removeAccountStockByUserNameAccId(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String symbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        if (stockObj != null) {
+            AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb,EmailUserName, Password, AccountIDSt);
+            if (accountObj != null) {
+                return removeAccountStockSymbol(serviceAFWeb, accountObj, stockObj.getSymbol());
+            }
+        }
+        return 0;
+    }
+    
+    //ConstantKey.NOTEXISTED
+    public int removeAccountStockSymbol(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        if (stockObj != null) {
+
+            int signal = ConstantKey.S_NEUTRAL;
+            String trName = ConstantKey.TR_ACC;
+            TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stockObj.getId(), trName);
+            if (tradingRuleObj == null) {
+                return ConstantKey.NOTEXISTED;
+            }
+            int curSignal = tradingRuleObj.getTrsignal();
+
+            boolean updateTran = true;
+            if (curSignal == ConstantKey.S_BUY) {
+                ;
+            } else if (curSignal == ConstantKey.S_SELL) {
+                ;
+            } else {
+                updateTran = false;
+            }
+            if (updateTran == true) {
+                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+                tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
+
+                ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
+                UpdateTRList.add(tradingRuleObj);
+                serviceAFWeb.getAccountImp().updateAccountStockSignal(UpdateTRList);
+
+                AccountTranImp accountTran = new AccountTranImp();
+                accountTran.AddTransactionOrderWithComm(serviceAFWeb, accountObj, stockObj, trName, signal);
+            }
+
+            return serviceAFWeb.getAccountImp().removeAccountStock(accountObj, stockObj.getId());
+        }
+
+        return 0;
+    }
     
 }
