@@ -5,6 +5,7 @@
  */
 package com.afweb.processstock;
 
+import com.afweb.stock.StockInternetImpDao;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
@@ -88,7 +89,7 @@ public class StockService {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
-        AFstockObj stockRT = getRealTimeStockInternet(NormalizeSymbol);
+        AFstockObj stockRT = serviceAFWeb.getRealTimeStockInternetServ(NormalizeSymbol);
         if (stockRT == null) {
             return 0;
         }
@@ -158,16 +159,6 @@ public class StockService {
             return serviceAFWeb.getStockImp().deleteStockInfoByStockId(stockObj);
         }
         return 0;
-    }
-
-    public StringBuffer getInternetScreenPage(String url) {
-        StockInternetDao internet = new StockInternetDao();
-        return internet.getInternetYahooScreenPage(url);
-    }
-
-    public AFstockObj getRealTimeStockInternet(String NormalizeSymbol) {
-        StockInternetDao internet = new StockInternetDao();
-        return internet.GetRealTimeStockInternet(NormalizeSymbol);
     }
 
     /////recent day first and the old data last////////////

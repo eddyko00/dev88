@@ -5,7 +5,7 @@
  */
 package com.afweb.service;
 
-import com.afweb.processstock.StockInternetDao;
+import com.afweb.stock.StockInternetImpDao;
 import com.afweb.processstock.StockProcess;
 import com.afweb.processnn.*;
 
@@ -452,7 +452,7 @@ public class ServiceAFweb {
                     }
 
                     serverObj.setTimerInit(true);
-                    String servIP = StockInternetDao.getServerIP();
+                    String servIP = StockInternetImpDao.getServerIP();
                     serverObj.setServip(servIP);
 
                     setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
@@ -1913,7 +1913,7 @@ public class ServiceAFweb {
 
                     getStockImp().deleteStockInfoByStockId(stock);
                     // update file
-                    retBoolean = StockInternetDao.updateStockFile(this, sym);
+                    retBoolean = StockInternetImpDao.updateStockFile(this, sym);
 
                     if (retBoolean == true) {
                         processStockSplit(commData.getSymbol(), commData.getSplit());
@@ -5192,13 +5192,11 @@ public class ServiceAFweb {
     }
 
     public StringBuffer getInternetScreenPageServ(String url) {
-        StockService stockSrv = new StockService();
-        return stockSrv.getInternetScreenPage(url);
+        return this.getStockImp().getInternetScreenPage(url);
     }
 
     public AFstockObj getRealTimeStockInternetServ(String NormalizeSymbol) {
-        StockService stockSrv = new StockService();
-        return stockSrv.getRealTimeStockInternet(NormalizeSymbol);
+        return this.getStockImp().getRealTimeStockInternet(NormalizeSymbol);
     }
 
     /////recent day first and the old data last////////////

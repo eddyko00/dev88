@@ -514,4 +514,17 @@ public class StockImp {
         }
     }
 
+///////////////////////////////////////////////    
+
+    public StringBuffer getInternetScreenPage(String url) {
+        StockInternetImpDao internet = new StockInternetImpDao();
+        return internet.getInternetYahooScreenPage(url);
+    }
+
+    public AFstockObj getRealTimeStockInternet(String NormalizeSymbol) {
+        StockInternetImpDao internet = new StockInternetImpDao();
+        return internet.GetRealTimeStockInternet(NormalizeSymbol);
+    }
+    
+    
 }

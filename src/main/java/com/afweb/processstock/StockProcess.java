@@ -5,6 +5,7 @@
  */
 package com.afweb.processstock;
 
+import com.afweb.stock.StockInternetImpDao;
 import com.afweb.nnsignal.NNCalProcess;
 import com.afweb.account.*;
 
@@ -393,7 +394,7 @@ public class StockProcess {
             return 0;
         }
         String NormalizeSymbol = stock.getSymbol();
-        StockInternetDao stockInternet = new StockInternetDao();
+        StockInternetImpDao stockInternet = new StockInternetImpDao();
 //        logger.warning("> updateRealTimeStock " + NormalizeSymbol);
         try {
             // get realtime from internet
