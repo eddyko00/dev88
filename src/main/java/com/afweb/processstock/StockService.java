@@ -8,10 +8,12 @@ package com.afweb.processstock;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
+import com.afweb.processnn.TradingNNprocess;
 
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.util.CKey;
+import com.afweb.util.*;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,6 +91,52 @@ public class StockService {
             stockProcess.ResetStockUpdateNameArray(serviceAFWeb);
         }
         return result;
+    }
+
+    public int disableStock(ServiceAFweb serviceAFWeb, String symbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        return serviceAFWeb.getStockImp().disableStock(NormalizeSymbol);
+    }
+
+    public int cleanAllStockInfo(ServiceAFweb serviceAFWeb) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        logger.info("> cleanAllStockInfo");
+        AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
+        ArrayList<String> stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
+        for (int i = 0; i < stockNameArray.size(); i++) {
+            String symbol = stockNameArray.get(i);
+            if (symbol.equals("T.T")) {
+                continue;
+            }
+            AFstockObj stockObj = getStockRealTime(serviceAFWeb, symbol);
+            if (stockObj == null) {
+                continue;
+            }
+            if (CKey.CACHE_STOCKH == true) {
+
+                long endStaticDay = 0;
+                ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(symbol);
+                if (stockInfoArrayStatic == null) {
+                    stockInfoArrayStatic = new ArrayList();
+                }
+                if (stockInfoArrayStatic.size() > 0) {
+//                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
+                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
+                    endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
+                    endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
+                    serviceAFWeb.getStockImp().deleteStockInfoByDate(stockObj, endStaticDay);
+                }
+
+            }
+        }
+        return 1;
     }
 
 }

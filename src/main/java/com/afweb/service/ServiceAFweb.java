@@ -5087,41 +5087,41 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int cleanAllStockInfo() {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        logger.info("> cleanAllStockInfo");
-        AccountObj accountObj = getAdminObjFromCache();
-        ArrayList<String> stockNameArray = SystemAccountStockNameList(accountObj.getId());
-        for (int i = 0; i < stockNameArray.size(); i++) {
-            String symbol = stockNameArray.get(i);
-            if (symbol.equals("T.T")) {
-                continue;
-            }
-            AFstockObj stockObj = getStockRealTimeServ(symbol);
-            if (stockObj == null) {
-                continue;
-            }
-            if (CKey.CACHE_STOCKH == true) {
-
-                long endStaticDay = 0;
-                ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(symbol);
-                if (stockInfoArrayStatic == null) {
-                    stockInfoArrayStatic = new ArrayList();
-                }
-                if (stockInfoArrayStatic.size() > 0) {
-//                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
-                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
-                    endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
-                    endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
-                    getStockImp().deleteStockInfoByDate(stockObj, endStaticDay);
-                }
-
-            }
-        }
-        return 1;
-    }
+//    public int cleanAllStockInfo() {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//        logger.info("> cleanAllStockInfo");
+//        AccountObj accountObj = getAdminObjFromCache();
+//        ArrayList<String> stockNameArray = SystemAccountStockNameList(accountObj.getId());
+//        for (int i = 0; i < stockNameArray.size(); i++) {
+//            String symbol = stockNameArray.get(i);
+//            if (symbol.equals("T.T")) {
+//                continue;
+//            }
+//            AFstockObj stockObj = getStockRealTimeServ(symbol);
+//            if (stockObj == null) {
+//                continue;
+//            }
+//            if (CKey.CACHE_STOCKH == true) {
+//
+//                long endStaticDay = 0;
+//                ArrayList<AFstockInfo> stockInfoArrayStatic = TradingNNprocess.getAllStockHistory(symbol);
+//                if (stockInfoArrayStatic == null) {
+//                    stockInfoArrayStatic = new ArrayList();
+//                }
+//                if (stockInfoArrayStatic.size() > 0) {
+////                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
+//                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
+//                    endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
+//                    endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
+//                    getStockImp().deleteStockInfoByDate(stockObj, endStaticDay);
+//                }
+//
+//            }
+//        }
+//        return 1;
+//    }
 
     public int removeAllStockInfo() {
         if (getServerObj().isSysMaintenance() == true) {
@@ -5166,16 +5166,6 @@ public class ServiceAFweb {
         return getStockImp().deleteStock(stock);
     }
 
-    public int disableStock(String symbol) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-        return getStockImp().disableStock(NormalizeSymbol);
-    }
-
     public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if (stock == null) {
@@ -5189,7 +5179,8 @@ public class ServiceAFweb {
         }
         return true;
     }
-
+//////////////////////////////////////////
+    
     public AFstockObj getStockRealTimeServ(String symbol) {
         StockService stockSrv = new StockService();
         return stockSrv.getStockRealTime(this, symbol);
@@ -5199,6 +5190,12 @@ public class ServiceAFweb {
     public int addStockServ(String symbol) {
         StockService stockSrv = new StockService();
         return stockSrv.addStock(this, symbol);
+
+    }
+
+    public int disableStock(String symbol) {
+        StockService stockSrv = new StockService();
+        return stockSrv.disableStock(this, symbol);
 
     }
 
