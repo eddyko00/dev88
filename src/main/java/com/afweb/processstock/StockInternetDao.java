@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.stock;
+package com.afweb.processstock;
 
 import com.afweb.model.StockInfoTranObj;
 import com.afweb.yahoo.GetYahooQuotes;
 import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
+import com.afweb.stock.StockInfoUtils;
 import com.afweb.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -47,7 +48,7 @@ import yahoofinance.util.RedirectableRequest;
  *
  * @author eddy
  */
-public class StockInternet {
+public class StockInternetDao {
 
     public static Logger logger = Logger.getLogger("StockInternet");
 

@@ -5,6 +5,7 @@
  */
 package com.afweb.service;
 
+import com.afweb.processstock.StockInternetDao;
 import com.afweb.processstock.StockProcess;
 import com.afweb.processnn.*;
 
@@ -451,7 +452,7 @@ public class ServiceAFweb {
                     }
 
                     serverObj.setTimerInit(true);
-                    String servIP = StockInternet.getServerIP();
+                    String servIP = StockInternetDao.getServerIP();
                     serverObj.setServip(servIP);
 
                     setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
@@ -1912,7 +1913,7 @@ public class ServiceAFweb {
 
                     getStockImp().deleteStockInfoByStockId(stock);
                     // update file
-                    retBoolean = StockInternet.updateStockFile(this, sym);
+                    retBoolean = StockInternetDao.updateStockFile(this, sym);
 
                     if (retBoolean == true) {
                         processStockSplit(commData.getSymbol(), commData.getSplit());
@@ -5122,7 +5123,6 @@ public class ServiceAFweb {
 //        }
 //        return 1;
 //    }
-
     public int removeAllStockInfo() {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5167,7 +5167,7 @@ public class ServiceAFweb {
         return true;
     }
 //////////////////////////////////////////
-    
+
     public AFstockObj getStockRealTimeServ(String symbol) {
         StockService stockSrv = new StockService();
         return stockSrv.getStockRealTime(this, symbol);
@@ -5185,12 +5185,21 @@ public class ServiceAFweb {
         return stockSrv.disableStock(this, symbol);
 
     }
-    
+
     public int removeStockInfoServ(String symbol) {
         StockService stockSrv = new StockService();
         return stockSrv.removeStockInfo(this, symbol);
     }
-    
+
+    public StringBuffer getInternetScreenPageServ(String url) {
+        StockService stockSrv = new StockService();
+        return stockSrv.getInternetScreenPage(url);
+    }
+
+    public AFstockObj getRealTimeStockInternetServ(String NormalizeSymbol) {
+        StockService stockSrv = new StockService();
+        return stockSrv.getRealTimeStockInternet(NormalizeSymbol);
+    }
 
     public ArrayList<AFstockInfo> getStockHistoricalRange(String symbol, long start, long end) {
         if (getServerObj().isSysMaintenance() == true) {

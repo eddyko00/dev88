@@ -10,7 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockObj;
 import com.afweb.service.*;
-import com.afweb.stock.StockInternet;
+
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,7 +74,7 @@ public class FundMgrProcess {
     ArrayList stockArrayTDScienceTechnology = new ArrayList();
 
     public void ProcessGetGlobalFundMgr(ServiceAFweb serviceAFWeb) {
-        ServiceAFweb.lastfun="ProcessGetGlobalFundMgr";
+        ServiceAFweb.lastfun = "ProcessGetGlobalFundMgr";
         logger.info("> ProcessIISWebGlobalFundMgr ");
 
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -86,7 +86,7 @@ public class FundMgrProcess {
         }
         if (lockReturn > 0) {
             try {
-                updateMutualFundAll();
+                updateMutualFundAll(serviceAFWeb);
                 updateIndexMutualFundAll();
 
             } catch (Exception e) {
@@ -101,7 +101,7 @@ public class FundMgrProcess {
     private static ArrayList accountFundIdNameArray = new ArrayList();
 
     public void ProcessSelectBestFundMgrAccount(ServiceAFweb serviceAFWeb) {
-        ServiceAFweb.lastfun="ProcessSelectBestFundMgrAccount";
+        ServiceAFweb.lastfun = "ProcessSelectBestFundMgrAccount";
 //        logger.info("> ProcessSelectBestFundMgrAccount ");
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
         if (accountAdminObj == null) {
@@ -159,7 +159,7 @@ public class FundMgrProcess {
 
     // will execuate once per month
     public int updateMutualFundBestStock(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
-        ServiceAFweb.lastfun="updateMutualFundBestStock";        
+        ServiceAFweb.lastfun = "updateMutualFundBestStock";
         String portfolio = accountObj.getPortfolio();
         FundM fundMgr = null;
         try {
@@ -311,7 +311,7 @@ public class FundMgrProcess {
 
     ////////// update FUND_MANAGER_USERNAME account
     public boolean updateIndexMutualFundAll() {
-        ServiceAFweb.lastfun = "updateIndexMutualFundAll";    
+        ServiceAFweb.lastfun = "updateIndexMutualFundAll";
         logger.info("updateIndexMutualFundAll");
 
         CustomerObj custObj = getAccountImp().getCustomerBySystem(CKey.INDEXFUND_MANAGER_USERNAME, null);
@@ -338,11 +338,11 @@ public class FundMgrProcess {
                         }
                     }
                     ArrayList portfolioArray = new ArrayList();
-                    
+
                     //etfStock[] = {"SPY", "DIA", "QQQ", "XIU.TO", "GLD", "FAS", "HOU.TO", "IWM", "IYR"};
-                    for (int j=0; j<ServiceAFweb.etfStock.length; j++) {
+                    for (int j = 0; j < ServiceAFweb.etfStock.length; j++) {
                         String etf = ServiceAFweb.etfStock[j];
-                        portfolioArray.add(etf);                        
+                        portfolioArray.add(etf);
                     }
 
                     fundMgr.setFunL(portfolioArray);
@@ -359,12 +359,12 @@ public class FundMgrProcess {
         return true;
     }
 
-    public boolean updateMutualFundAll() {
+    public boolean updateMutualFundAll(ServiceAFweb serviceAFWeb) {
 
         logger.info("updateMutualFundAll");
 
         ArrayList stockArray = new ArrayList();
-        boolean ret = getGlobeFundStockList(stockArray);
+        boolean ret = getGlobeFundStockList(serviceAFWeb, stockArray);
         if (ret == false) {
             return ret;
         }
@@ -419,54 +419,54 @@ public class FundMgrProcess {
         return true;
     }
 
-    public boolean getGlobeFundStockList(ArrayList stockArray) {
+    public boolean getGlobeFundStockList(ServiceAFweb serviceAFWeb, ArrayList stockArray) {
         int nStock = 1; //2; //3;
 
 //        this.getGlobeFundStockList(TDMonthlyIncome, stockArrayTDMonthlyIncome, nStock);
         String fundURL = FidelityGlobalHealthCare;
-        boolean ret = this.getGlobeFundStockList(fundURL, stockArrayFidelityGlobalHealthCare, nStock);
+        boolean ret = this.getGlobeFundStockList(serviceAFWeb, fundURL, stockArrayFidelityGlobalHealthCare, nStock);
         stockArray.addAll(stockArrayFidelityGlobalHealthCare);
         if (ret == false) {
             return false;
         }
         fundURL = FidelityTechnologyInnovators;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayFidelityTechnologyInnovators, nStock);
+        ret = this.getGlobeFundStockList(serviceAFWeb, fundURL, stockArrayFidelityTechnologyInnovators, nStock);
         if (ret == false) {
             return false;
         }
         stockArray.addAll(stockArrayFidelityTechnologyInnovators);
         fundURL = TDBlueChipEquity;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDBlueChipEquity, nStock + 1);
+        ret = this.getGlobeFundStockList(serviceAFWeb, fundURL, stockArrayTDBlueChipEquity, nStock + 1);
         if (ret == false) {
             return false;
         }
         stockArray.addAll(stockArrayTDBlueChipEquity);
         fundURL = TDDividendGrowth;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDDividendGrowth, nStock + 1);
+        ret = this.getGlobeFundStockList(serviceAFWeb, fundURL, stockArrayTDDividendGrowth, nStock + 1);
         if (ret == false) {
             return false;
         }
         stockArray.addAll(stockArrayTDDividendGrowth);
         fundURL = TDMonthlyIncome;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDMonthlyIncome, nStock + 1);
+        ret = this.getGlobeFundStockList(serviceAFWeb, fundURL, stockArrayTDMonthlyIncome, nStock + 1);
         if (ret == false) {
             return false;
         }
         stockArray.addAll(stockArrayTDMonthlyIncome);
         fundURL = TDPreciousMetals;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDPreciousMetals, nStock);
+        ret = this.getGlobeFundStockList(serviceAFWeb, fundURL, stockArrayTDPreciousMetals, nStock);
         if (ret == false) {
             return false;
         }
         stockArray.addAll(stockArrayTDPreciousMetals);
         fundURL = TDGlobalEntertainment;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDGlobalEntertainment, nStock);
+        ret = this.getGlobeFundStockList(serviceAFWeb, fundURL, stockArrayTDGlobalEntertainment, nStock);
         if (ret == false) {
             return false;
         }
         stockArray.addAll(stockArrayTDGlobalEntertainment);
         fundURL = TDScienceTechnology;
-        ret = this.getGlobeFundStockList(fundURL, stockArrayTDScienceTechnology, nStock);
+        ret = this.getGlobeFundStockList(serviceAFWeb, fundURL, stockArrayTDScienceTechnology, nStock);
         if (ret == false) {
             return false;
         }
@@ -479,10 +479,9 @@ public class FundMgrProcess {
         return true;
     }
 
-    public boolean getGlobeFundStockList(String fundURL, ArrayList stockArray, int maxStock) {
+    public boolean getGlobeFundStockList(ServiceAFweb serviceAFWeb, String fundURL, ArrayList stockArray, int maxStock) {
 
-        StockInternet internet = new StockInternet();
-        StringBuffer strBuilderFund = internet.getInternetYahooScreenPage(fundURL);
+        StringBuffer strBuilderFund = serviceAFWeb.getInternetScreenPageServ(fundURL);
 
         String str1 = strBuilderFund.toString();
         String str2 = StringTag.replaceAll("&quot;", "", str1);
@@ -502,32 +501,32 @@ public class FundMgrProcess {
                     }
                     String stockNameSt = stockL[i];
                     String[] stockNameL = stockNameSt.split(",");
-                    String stock = stockNameL[0];
+                    String stockN = stockNameL[0];
                     String stockName = stockNameL[1];
-                    if (stock.equals("-")) {
+                    if (stockN.equals("-")) {
                         continue;
-                    } else if (stock.equals("")) {
+                    } else if (stockN.equals("")) {
                         continue;
-                    } else if (stock.indexOf("$") != -1) {
+                    } else if (stockN.indexOf("$") != -1) {
                         continue;
-                    } else if (stock.indexOf("0") != -1) {
+                    } else if (stockN.indexOf("0") != -1) {
                         continue;
-                    } else if (stock.indexOf(".") != -1) {
-                        if (stock.indexOf(".T") != -1) {
-                            stock = stock.replace(".T", ".TO");
+                    } else if (stockN.indexOf(".") != -1) {
+                        if (stockN.indexOf(".T") != -1) {
+                            stockN = stockN.replace(".T", ".TO");
                         } else {
-                            logger.info("getGlobeFundStockList unknown market " + stock);
+                            logger.info("getGlobeFundStockList unknown market " + stockN);
                             continue;
                         }
                     }
                     stockName = stockName.replace("symbolName:", "");
 
-                    AFstockObj stockObj = internet.GetRealTimeStockInternet(stock);
+                    AFstockObj stockObj = serviceAFWeb.getRealTimeStockInternetServ(stockN);
                     if (stockObj == null) {
                         continue;
                     }
-                    if (set.add(stock)) {
-                        stockArray.add(stock);
+                    if (set.add(stockN)) {
+                        stockArray.add(stockN);
                     }
                     if (maxStock != 0) {
                         if (stockArray.size() >= maxStock) {

@@ -86,6 +86,12 @@ public class StockService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
+
+        AFstockObj stockRT = getRealTimeStockInternet(NormalizeSymbol);
+        if (stockRT == null) {
+            return 0;
+        }
+
         int result = serviceAFWeb.getStockImp().addStock(NormalizeSymbol);
         if (result == ConstantKey.NEW) {
             stockProcess.ResetStockUpdateNameArray(serviceAFWeb);
@@ -146,12 +152,20 @@ public class StockService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = getStockRealTime(serviceAFWeb,NormalizeSymbol);
+        AFstockObj stockObj = getStockRealTime(serviceAFWeb, NormalizeSymbol);
         if (stockObj != null) {
             return serviceAFWeb.getStockImp().deleteStockInfoByStockId(stockObj);
         }
         return 0;
     }
+
+    public StringBuffer getInternetScreenPage(String url) {
+        StockInternetDao internet = new StockInternetDao();
+        return internet.getInternetYahooScreenPage(url);
+    }
     
-    
+     public AFstockObj getRealTimeStockInternet(String NormalizeSymbol) {
+         StockInternetDao internet = new StockInternetDao();
+         return internet.GetRealTimeStockInternet(NormalizeSymbol);
+     }
 }

@@ -15,7 +15,7 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.processnn.NNService;
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockInternet;
+import com.afweb.processstock.StockInternetDao;
 
 import com.afweb.util.*;
 
@@ -1081,7 +1081,7 @@ public class TradingNNprocess {
         boolean saveStockDBFlag = true;
         if (saveStockDBFlag == true) {
 
-            StockInternet internet = new StockInternet();
+            StockInternetDao internet = new StockInternetDao();
             ArrayList stockNameArray = new ArrayList();
 
             if (symbolL == null) {

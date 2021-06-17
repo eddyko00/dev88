@@ -18,7 +18,6 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
 import com.afweb.stock.StockDB;
 import com.afweb.stock.StockImp;
-import com.afweb.stock.StockInternet;
 
 import com.afweb.util.*;
 
@@ -394,7 +393,7 @@ public class StockProcess {
             return 0;
         }
         String NormalizeSymbol = stock.getSymbol();
-        StockInternet stockInternet = new StockInternet();
+        StockInternetDao stockInternet = new StockInternetDao();
 //        logger.warning("> updateRealTimeStock " + NormalizeSymbol);
         try {
             // get realtime from internet

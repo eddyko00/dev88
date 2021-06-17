@@ -51,11 +51,11 @@ public class StockImp {
     }
 
     public int addStock(String NormalizeSymbol) {
-        StockInternet stockInternet = new StockInternet();
-        AFstockObj stockRT = stockInternet.GetRealTimeStockInternet(NormalizeSymbol);
-        if (stockRT == null) {
-            return 0;
-        }
+//        StockInternetDao stockInternet = new StockInternetDao();
+//        AFstockObj stockRT = stockInternet.GetRealTimeStockInternet(NormalizeSymbol);
+//        if (stockRT == null) {
+//            return 0;
+//        }
         return stockdb.addStock(NormalizeSymbol);
     }
 
