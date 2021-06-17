@@ -5123,21 +5123,20 @@ public class ServiceAFweb {
 //        }
 //        return 1;
 //    }
-    public int removeAllStockInfo() {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        AccountObj accountObj = getAdminObjFromCache();
-        ArrayList<String> stockNameArray = SystemAccountStockNameList(accountObj.getId());
-        for (int i = 0; i < stockNameArray.size(); i++) {
-            String symbol = stockNameArray.get(i);
-            removeStockInfoServ(symbol);
-        }
-
-        return 1;
-    }
-
+//    public int removeAllStockInfo() {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        AccountObj accountObj = getAdminObjFromCache();
+//        ArrayList<String> stockNameArray = SystemAccountStockNameList(accountObj.getId());
+//        for (int i = 0; i < stockNameArray.size(); i++) {
+//            String symbol = stockNameArray.get(i);
+//            removeStockInfoServ(symbol);
+//        }
+//
+//        return 1;
+//    }
     public boolean checkTRListByStockID(String StockID) {
         if (getServerObj().isSysMaintenance() == true) {
             return true;
@@ -5146,13 +5145,6 @@ public class ServiceAFweb {
     }
 
 //
-    public int deleteStock(AFstockObj stock) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        return getStockImp().deleteStock(stock);
-    }
-
     public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if (stock == null) {
@@ -5167,7 +5159,8 @@ public class ServiceAFweb {
         return true;
     }
 //////////////////////////////////////////
-
+    // StockService
+//////////////////////////////////////////
     public AFstockObj getStockRealTimeServ(String symbol) {
         StockService stockSrv = new StockService();
         return stockSrv.getStockRealTime(this, symbol);
@@ -5184,6 +5177,11 @@ public class ServiceAFweb {
         StockService stockSrv = new StockService();
         return stockSrv.disableStock(this, symbol);
 
+    }
+
+    public int deleteStockServ(AFstockObj stock) {
+        StockService stockSrv = new StockService();
+        return stockSrv.deleteStock(this, stock);
     }
 
     public int removeStockInfoServ(String symbol) {
@@ -5206,21 +5204,10 @@ public class ServiceAFweb {
         return stockSrv.getStockHistorical(this, symbol, length);
 
     }
+//////////////////////////////////////////
+//////////////////////////////////////////
 
-//    public ArrayList<AFstockInfo> getStockHistoricalRange(String symbol, long start, long end) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return null;
-//        }
-//        if (checkCallRemoteMysql() == true) {
-//            return SystemStockHistoricalRange(symbol, start, end);
-//        }
-//
-//        SymbolNameObj symObj = new SymbolNameObj(symbol);
-//        String NormalizeSymbol = symObj.getYahooSymbol();
-//        ArrayList<AFstockInfo> stockInfoArray = getStockImp().getStockHistoricalRange(NormalizeSymbol, start, end);
-//
-//        return stockInfoArray;
-//    }
+
     public ArrayList getAllOpenStockNameArray() {
         if (getServerObj().isSysMaintenance() == true) {
             return null;

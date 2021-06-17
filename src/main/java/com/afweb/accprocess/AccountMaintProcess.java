@@ -100,7 +100,7 @@ public class AccountMaintProcess {
                         // check transaction
                         boolean hasTran = serviceAFWeb.checkTRListByStockID(stock.getId() + "");
                         if (hasTran == false) {
-                            serviceAFWeb.deleteStock(stock);
+                            serviceAFWeb.deleteStockServ(stock);
                         }
                         numCnt++;
                         if (numCnt > 10) {

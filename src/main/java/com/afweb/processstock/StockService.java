@@ -101,6 +101,13 @@ public class StockService {
         return result;
     }
 
+    public int deleteStock(ServiceAFweb serviceAFWeb, AFstockObj stock) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        return serviceAFWeb.getStockImp().deleteStock(stock);
+    }
+
     public int disableStock(ServiceAFweb serviceAFWeb, String symbol) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return 0;
