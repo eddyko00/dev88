@@ -36,7 +36,7 @@ public class StockService {
         ArrayList stockList = serviceAFWeb.getStockImp().getStockArray(length);
         return stockList;
     }
-    
+
     public AFstockObj getStockRealTime(ServiceAFweb serviceAFWeb, String symbol) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -73,8 +73,22 @@ public class StockService {
                 }
             }
         }
-
         return stock;
+    }
+
+    public int addStock(ServiceAFweb serviceAFWeb, String symbol) {
+        StockProcess stockProcess = new StockProcess();
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        int result = serviceAFWeb.getStockImp().addStock(NormalizeSymbol);
+        if (result == ConstantKey.NEW) {
+            stockProcess.ResetStockUpdateNameArray(serviceAFWeb);
+        }
+        return result;
     }
 
 }

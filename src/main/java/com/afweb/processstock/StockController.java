@@ -123,7 +123,7 @@ public class StockController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = afWebService.addStock(symbol);
+        int result = stockService.addStock(afWebService, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }

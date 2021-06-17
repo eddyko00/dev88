@@ -5,11 +5,12 @@
  */
 package com.afweb.service;
 
+import com.afweb.processstock.StockProcess;
 import com.afweb.processnn.*;
 
 import com.afweb.processemail.EmailProcess;
 import com.afweb.nnsignal.TradingSignalProcess;
-import com.afweb.nnsignal.TradingAPISignalProcess;
+
 import com.afweb.accprocess.PUBSUBprocess;
 import com.afweb.accprocess.FundMgrProcess;
 import com.afweb.processbilling.BillingProcess;
@@ -4973,7 +4974,7 @@ public class ServiceAFweb {
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
         if (stockObj == null) {
-            int result = addStock(NormalizeSymbol);
+            int result = addStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
@@ -4985,7 +4986,7 @@ public class ServiceAFweb {
         }
         if (stockObj.getStatus() != ConstantKey.OPEN) {
             // set to open
-            int result = addStock(NormalizeSymbol);
+            int result = addStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
@@ -5002,7 +5003,7 @@ public class ServiceAFweb {
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
         if (stockObj == null) {
-            int result = addStock(NormalizeSymbol);
+            int result = addStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
@@ -5014,7 +5015,7 @@ public class ServiceAFweb {
         }
         if (stockObj.getStatus() != ConstantKey.OPEN) {
             // set to open
-            int result = addStock(NormalizeSymbol);
+            int result = addStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
@@ -5084,21 +5085,6 @@ public class ServiceAFweb {
         }
 
         return 0;
-    }
-
-    public int addStock(String symbol) {
-        StockProcess stockProcess = new StockProcess();
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-        int result = getStockImp().addStock(NormalizeSymbol);
-        if (result == ConstantKey.NEW) {
-            stockProcess.ResetStockUpdateNameArray(this);
-        }
-        return result;
     }
 
     public int cleanAllStockInfo() {
@@ -5207,6 +5193,12 @@ public class ServiceAFweb {
     public AFstockObj getStockRealTimeServ(String symbol) {
         StockService stockSrv = new StockService();
         return stockSrv.getStockRealTime(this, symbol);
+
+    }
+
+    public int addStockServ(String symbol) {
+        StockService stockSrv = new StockService();
+        return stockSrv.addStock(this, symbol);
 
     }
 

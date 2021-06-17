@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.stock;
+package com.afweb.processstock;
 
 import com.afweb.nnsignal.NNCalProcess;
 import com.afweb.account.*;
@@ -16,6 +16,9 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
+import com.afweb.stock.StockDB;
+import com.afweb.stock.StockImp;
+import com.afweb.stock.StockInternet;
 
 import com.afweb.util.*;
 
