@@ -12,7 +12,6 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.util.CKey;
 import com.example.herokudemo.AFwebService;
 
-
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustAccController {
 
     private static AFwebService afWebService = new AFwebService();
+    private static CustAccService custaccService = new CustAccService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
@@ -117,7 +117,7 @@ public class CustAccController {
             return loginObj;
         }
 //       SUCC = 1;  EXISTED = 2; FAIL =0;
-        LoginObj loginObj = afWebService.addCustomerPassword(emailSt, passSt, firstNameSt, lastNameSt, planSt);
+        LoginObj loginObj = custaccService.addCustomerPassword(afWebService, emailSt, passSt, firstNameSt, lastNameSt, planSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return loginObj;
     }
