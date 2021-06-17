@@ -139,4 +139,19 @@ public class StockService {
         return 1;
     }
 
+    public int removeStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stockObj = getStockRealTime(serviceAFWeb,NormalizeSymbol);
+        if (stockObj != null) {
+            return serviceAFWeb.getStockImp().deleteStockInfoByStockId(stockObj);
+        }
+        return 0;
+    }
+    
+    
 }

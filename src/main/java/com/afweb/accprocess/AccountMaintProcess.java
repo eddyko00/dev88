@@ -123,7 +123,7 @@ public class AccountMaintProcess {
 
                     for (int i = 0; i < stockNDisableList.size(); i++) {
                         String symbol = (String) stockNDisableList.get(i);
-                        serviceAFWeb.removeStockInfo(symbol);
+                        serviceAFWeb.removeStockInfoServ(symbol);
 
                         AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
                         stock.setStatus(ConstantKey.COMPLETED);
@@ -256,7 +256,7 @@ public class AccountMaintProcess {
             for (int i = 0; i < removeList.size(); i++) {
                 String NormalizeSymbol = (String) removeList.get(i);
                 logger.info("> ProcessStockkMaintance remove stock " + NormalizeSymbol);
-                serviceAFWeb.disableStock(NormalizeSymbol);
+                serviceAFWeb.disableStockServ(NormalizeSymbol);
                 numCnt++;
                 if (numCnt > 10) {
                     break;
