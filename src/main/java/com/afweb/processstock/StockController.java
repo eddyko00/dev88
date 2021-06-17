@@ -1,14 +1,13 @@
-package com.example.herokudemo;
+package com.afweb.processstock;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.util.*;
 import com.afweb.service.*;
+import com.example.herokudemo.AFwebService;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,9 +28,12 @@ import org.springframework.web.servlet.ModelAndView;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class AFstockController {
+public class StockController {
 
     private static AFwebService afWebService = new AFwebService();
+    private static StockService stockService = new StockService();
+    
+    
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/{username}/sys/expiredStocklist?length={0 for all}");   
     }
@@ -55,7 +57,7 @@ public class AFstockController {
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
 
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+        if (afWebService.getServerObj().isSysMaintenance() == true) {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
@@ -63,7 +65,7 @@ public class AFstockController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        ArrayList stockNameList = afWebService.getStockArray(length);
+        ArrayList stockNameList = stockService.getStockArray(afWebService, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return stockNameList;
     }
@@ -84,7 +86,7 @@ public class AFstockController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        AFstockObj stock = afWebService.getStockRealTime(symbol);
+        AFstockObj stock = stockService.getStockRealTime(afWebService, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return stock;
     }

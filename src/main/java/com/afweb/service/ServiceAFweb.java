@@ -5,11 +5,8 @@
  */
 package com.afweb.service;
 
-import com.afweb.processnn.TradingNNprocess;
-import com.afweb.processnn.NN2ProcessBySignal;
-import com.afweb.processnn.NN1ProcessBySignal;
-import com.afweb.processnn.NN3ProcessBySignal;
-import com.afweb.processnn.NN30ProcessByTrend;
+import com.afweb.processnn.*;
+
 import com.afweb.processemail.EmailProcess;
 import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.nnsignal.TradingAPISignalProcess;
@@ -26,8 +23,8 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.processnn.NNService;
+import com.afweb.processstock.StockService;
 
-import com.afweb.signal.*;
 import com.afweb.stock.*;
 import com.afweb.util.*;
 
@@ -717,7 +714,6 @@ public class ServiceAFweb {
 
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
-
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             updateStockAllSrv();
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
@@ -824,7 +820,7 @@ public class ServiceAFweb {
             for (int i = 0; i < stockNameArray.size(); i++) {
 
                 String symbol = (String) stockNameArray.get(i);
-                AFstockObj stock = getStockRealTime(symbol);
+                AFstockObj stock = getStockRealTimeServ(symbol);
                 if (stock == null) {
                     continue;
                 }
@@ -2287,7 +2283,7 @@ public class ServiceAFweb {
                 if (stockNameList != null) {
                     for (int j = 0; j < stockNameList.size(); j++) {
                         String symbol = (String) stockNameList.get(j);
-                        AFstockObj stock = getStockRealTime(symbol);
+                        AFstockObj stock = getStockRealTimeServ(symbol);
                         if (stock != null) {
                             getAccountImp().removeAccountStock(accountObj, stock.getId());
                         }
@@ -3467,135 +3463,6 @@ public class ServiceAFweb {
 
     }
 
-//    public ArrayList<BillingObj> getBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return null;
-//        }
-//
-//        NameObj nameObj = new NameObj(EmailUserName);
-//        String UserName = nameObj.getNormalizeName();
-//        try {
-//            int accountid = Integer.parseInt(AccountIDSt);
-//            ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(UserName, Password, accountid, length);
-//            return billingObjList;
-//        } catch (Exception e) {
-//        }
-//        return null;
-//
-//    }
-//    public int removeBillingByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return 0;
-//        }
-//
-//        NameObj nameObj = new NameObj(EmailUserName);
-//        String UserName = nameObj.getNormalizeName();
-//        try {
-//            int accountid = Integer.parseInt(AccountIDSt);
-//            int billid = Integer.parseInt(BillIDSt);
-//            int ret = getAccountImp().removeBillingByCustomerAccountID(UserName, Password, accountid, billid);
-//            return ret;
-//        } catch (Exception e) {
-//        }
-//        return 0;
-//    }
-//    public AccEntryObj getAccountingEntryByCustomerById(String EmailUserName, String Password, String idSt) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return null;
-//        }
-//
-//        NameObj nameObj = new NameObj(EmailUserName);
-//        String UserName = nameObj.getNormalizeName();
-//        try {
-//            CustomerObj customer = getCustomerPassword(UserName, Password);
-//            if (customer != null) {
-//                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-//                    int id = Integer.parseInt(idSt);
-//
-//                    AccEntryObj accEntry = getAccounting().getAccountingEntryById(this, id);
-//                    return accEntry;
-//                }
-//            }
-//        } catch (Exception e) {
-//        }
-//        return null;
-//    }
-//    public int removeAccountingEntryById(String EmailUserName, String Password, String idSt) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return 0;
-//        }
-//
-//        NameObj nameObj = new NameObj(EmailUserName);
-//        String UserName = nameObj.getNormalizeName();
-//        try {
-//            CustomerObj customer = getCustomerPassword(UserName, Password);
-//            if (customer != null) {
-//                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-//                    int id = Integer.parseInt(idSt);
-//                    return getAccounting().removeAccountingEntryById(this, id);
-//
-//                }
-//            }
-//        } catch (Exception e) {
-//        }
-//        return 0;
-//    }
-//    public AccReportObj getAccountingReportByCustomerByName(String EmailUserName, String Password, String name, int year, String namerptSt) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return null;
-//        }
-//
-//        NameObj nameObj = new NameObj(EmailUserName);
-//        String UserName = nameObj.getNormalizeName();
-//        try {
-//            CustomerObj customer = getCustomerPassword(UserName, Password);
-//            if (customer != null) {
-//                if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
-//
-//                    if (name != null) {
-//                        if (name.length() > 0) {
-//                            AccReportObj accReport = getAccounting().getAccountReportYearByName(this, name, year);
-//                            return accReport;
-//                        }
-//                    }
-//                    String namerpt = "income";
-//                    if (namerptSt != null) {
-//                        if (namerptSt.length() > 0) {
-//                            namerpt = namerptSt;
-//                        }
-//                    }
-//                    AccReportObj accReport = null;
-//                    if (namerpt.equals("balance")) {
-//                        accReport = getAccounting().getAccountBalanceReportYear(this, year, namerptSt);
-//                    } else if (namerpt.equals("deprecation")) {
-//                        accReport = getAccounting().getAccountDeprecationReportYear(this, year, namerptSt);
-//                    } else {
-//                        accReport = getAccounting().getAccountReportYear(this, year, namerptSt);
-//                    }
-//                    return accReport;
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//        }
-//        return null;
-//
-//    }
-//    public ArrayList<CommObj> getCommEmaiByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return null;
-//        }
-//
-//        NameObj nameObj = new NameObj(EmailUserName);
-//        String UserName = nameObj.getNormalizeName();
-//        try {
-//            int accountid = Integer.parseInt(AccountIDSt);
-//            return getAccountImp().getCommEmailByCustomerAccountID(UserName, Password, accountid, length);
-//        } catch (Exception e) {
-//        }
-//        return null;
-//
-//    }
     public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -3655,22 +3522,6 @@ public class ServiceAFweb {
         return 0;
     }
 
-//    public int removeAllEmailByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return 0;
-//        }
-//
-//        NameObj nameObj = new NameObj(EmailUserName);
-//        String UserName = nameObj.getNormalizeName();
-//        try {
-//            if (UserName.equals(CKey.ADMIN_USERNAME)) {
-//                int accountid = Integer.parseInt(AccountIDSt);
-//                return getAccountImp().removeAllCommByType(ConstantKey.INT_TYPE_COM_EMAIL);
-//            }
-//        } catch (Exception e) {
-//        }
-//        return 0;
-//    }
     public int removeAllCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -3881,7 +3732,7 @@ public class ServiceAFweb {
                 return 0;
             }
 
-            AFstockObj stock = this.getStockRealTime(trObj.getSymbol());
+            AFstockObj stock = this.getStockRealTimeServ(trObj.getSymbol());
 //            int stockId = trObj.getStockid();            
 //            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
             if (stock == null) {
@@ -4750,7 +4601,7 @@ public class ServiceAFweb {
             thList = new ArrayList();
         }
         String symbol = stockidsymbol;
-        AFstockObj stock = this.getStockRealTime(symbol);
+        AFstockObj stock = this.getStockRealTimeServ(symbol);
         if (stock == null) {
             return null;
         }
@@ -4879,7 +4730,7 @@ public class ServiceAFweb {
 
             trname = trname.toUpperCase();
             String symbol = stockidsymbol;
-            AFstockObj stock = this.getStockRealTime(symbol);
+            AFstockObj stock = this.getStockRealTimeServ(symbol);
 
             int size1year = 20 * 10;
             ArrayList<AFstockInfo> StockArray = this.getStockHistorical(stock.getSymbol(), size1year);
@@ -5262,7 +5113,7 @@ public class ServiceAFweb {
             if (symbol.equals("T.T")) {
                 continue;
             }
-            AFstockObj stockObj = getStockRealTime(symbol);
+            AFstockObj stockObj = getStockRealTimeServ(symbol);
             if (stockObj == null) {
                 continue;
             }
@@ -5315,7 +5166,7 @@ public class ServiceAFweb {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = getStockRealTime(NormalizeSymbol);
+        AFstockObj stockObj = getStockRealTimeServ(NormalizeSymbol);
         if (stockObj != null) {
             return getStockImp().deleteStockInfoByStockId(stockObj);
         }
@@ -5340,7 +5191,7 @@ public class ServiceAFweb {
     }
 
     public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        AFstockObj stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if (stock == null) {
             return false;
         }
@@ -5353,44 +5204,10 @@ public class ServiceAFweb {
         return true;
     }
 
-    public AFstockObj getStockRealTime(String symbol) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
+    public AFstockObj getStockRealTimeServ(String symbol) {
+        StockService stockSrv = new StockService();
+        return stockSrv.getStockRealTime(this, symbol);
 
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-
-        AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-
-        if (mydebugSim == true) {
-            Calendar cDate = null;
-            cDate = Calendar.getInstance();
-            cDate.setTimeInMillis(ServiceAFweb.SimDateL);
-            ArrayList<AFstockInfo> stockInfolist = getStockHistorical(NormalizeSymbol, 80);
-            if (stockInfolist != null) {
-                if (stockInfolist.size() > 0) {
-                    AFstockInfo stockinfo = stockInfolist.get(0);
-
-                    stock.setAfstockInfo(stockinfo);
-                    stock.setUpdatedatel(SimDateL);
-                    stock.setUpdatedatedisplay(new java.sql.Date(SimDateL));
-                    stock.setPrevClose(stockinfo.getFopen());
-
-                    String tzid = "America/New_York"; //EDT
-                    TimeZone tz = TimeZone.getTimeZone(tzid);
-                    Date d = new Date(stock.getUpdatedatel());
-                    DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                    format.setTimeZone(tz);
-                    String ESTdate = format.format(d);
-                    stock.setUpdateDateD(ESTdate);
-
-                    return stock;
-                }
-            }
-        }
-
-        return stock;
     }
 
     public ArrayList<AFstockInfo> getStockHistoricalRange(String symbol, long start, long end) {
@@ -5712,7 +5529,6 @@ public class ServiceAFweb {
 //    }
     // require oldest date to earliest
     // require oldest date to earliest
-
     public int updateStockAllSrv() {
 
         StockProcess stockProcess = new StockProcess();

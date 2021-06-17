@@ -123,7 +123,7 @@ public class TradingAPISignalProcess {
                     int accId = Integer.parseInt(accIdSt);
                     AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountByAccountID(accId);
 
-                    AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                             logger.info("> ProcessAPISignalTrading return stock split " + symbol);
@@ -171,7 +171,7 @@ public class TradingAPISignalProcess {
     }
 
     public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        AFstockObj stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if (stock == null) {
             return false;
         }

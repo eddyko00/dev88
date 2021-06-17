@@ -161,7 +161,7 @@ public class NN3ProcessBySignal {
         if (len <= 2) {
             return null;
         }
-        AFstockObj stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if (stock == null) {
             return inputList;
         }
@@ -515,7 +515,7 @@ public class NN3ProcessBySignal {
 //                    symbol = "BABA";
 
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN3
-                    AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
 
                     if (stock == null) {
                         stockNNprocessNameArray.remove(0);

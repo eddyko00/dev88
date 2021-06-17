@@ -5,6 +5,7 @@
  */
 package com.example.herokudemo;
 
+import com.afweb.processstock.StockController;
 import com.afweb.processnn.NNController;
 import com.afweb.processbilling.BillingController;
 import com.afweb.processaccounting.AccountingController;
@@ -113,8 +114,8 @@ public class AFwebController {
         getHelpSystem(arrayString);
         getHelpInfo(arrayString);
 
-        AFstockController.getHelpSystem(arrayString);
-        AFstockController.getHelpInfo(arrayString);
+        StockController.getHelpSystem(arrayString);
+        StockController.getHelpInfo(arrayString);
 
         NNController.getHelpSystem(arrayString);
         NNController.getHelpInfo(arrayString);

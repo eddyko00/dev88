@@ -444,7 +444,7 @@ public class StockInternet {
             return false;
         }
 
-        AFstockObj stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         serviceAFWeb.getStockImp().deleteStockInfoByStockId(stock);
 
         ArrayList<AFstockInfo> StockArray = new ArrayList();

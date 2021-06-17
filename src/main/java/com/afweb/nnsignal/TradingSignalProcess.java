@@ -62,7 +62,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
         ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
 
         for (int j = 0; j < tradingRuleList.size(); j++) {
@@ -141,7 +141,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
         ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
 
         for (int j = 0; j < tradingRuleList.size(); j++) {
@@ -761,7 +761,7 @@ public class TradingSignalProcess {
             if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
                 return;
             }
-            AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+            AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
             if (stock != null) {
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                     return;
@@ -924,7 +924,7 @@ public class TradingSignalProcess {
 
         int size1year = 20 * 12 * lengthYr + (50 * 3);
         String symbol = trObj.getSymbol();
-        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistorical(stock.getSymbol(), size1year);
         int offset = 0;
         ///asc thObjList old first - recent last
@@ -1236,7 +1236,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
 
         if (stock != null) {
             if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {

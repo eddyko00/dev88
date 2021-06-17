@@ -108,7 +108,7 @@ public class AccountTranProcess {
                             continue;
                         }
                     }
-                    AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                             logger.info("> ProcessAdminSignalTrading return stock split " + symbol);

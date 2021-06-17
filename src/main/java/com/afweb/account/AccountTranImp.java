@@ -279,7 +279,7 @@ public class AccountTranImp {
 //        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         try {
-            AFstockObj stock = serviceAFWeb.getStockRealTime(symbol);
+            AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
             if (stock != null) {
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                     return;
