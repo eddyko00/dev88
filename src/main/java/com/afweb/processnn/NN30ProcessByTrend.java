@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.nnprocess;
+package com.afweb.processnn;
 
-import com.afweb.nnsignal.ProcessNN1;
-import com.afweb.nnsignal.ProcessNN00;
+import com.afweb.processnn.signal.ProcessNN1;
+import com.afweb.processnn.signal.ProcessNN00;
 import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.util.CKey;
 import com.afweb.model.*;

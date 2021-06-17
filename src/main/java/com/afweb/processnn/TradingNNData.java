@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.nnprocess;
+package com.afweb.processnn;
 
 import com.afweb.model.stock.AFneuralNetData;
 

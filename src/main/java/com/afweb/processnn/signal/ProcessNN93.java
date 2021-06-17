@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.nnsignal;
+package com.afweb.processnn.signal;
 
 import com.afweb.nnsignal.TradingSignalProcess;
-import com.afweb.nnprocess.TradingNNprocess;
+import com.afweb.processnn.TradingNNprocess;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.nnsignal.NNCalProcess;
+import com.afweb.nnsignal.TradingSignalProcess;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.MACDObj;

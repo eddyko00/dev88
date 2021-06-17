@@ -5,6 +5,11 @@
  */
 package com.afweb.service;
 
+import com.afweb.processnn.TradingNNprocess;
+import com.afweb.processnn.NN2ProcessBySignal;
+import com.afweb.processnn.NN1ProcessBySignal;
+import com.afweb.processnn.NN3ProcessBySignal;
+import com.afweb.processnn.NN30ProcessByTrend;
 import com.afweb.processemail.EmailProcess;
 import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.nnsignal.TradingAPISignalProcess;
@@ -14,7 +19,6 @@ import com.afweb.processbilling.BillingProcess;
 import com.afweb.processaccounting.AccountingProcess;
 import com.afweb.accprocess.AccountTranProcess;
 import com.afweb.accprocess.AccountMaintProcess;
-import com.afweb.nnprocess.*;
 import com.afweb.model.*;
 import com.afweb.account.*;
 import com.afweb.chart.ChartService;

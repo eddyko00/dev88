@@ -7,8 +7,8 @@ package com.afweb.stock;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
-import com.afweb.nnprocess.NN1ProcessBySignal;
-import com.afweb.nnprocess.TradingNNprocess;
+import com.afweb.processnn.NN1ProcessBySignal;
+import com.afweb.processnn.TradingNNprocess;
 
 import com.afweb.service.ServiceAFweb;
 

@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.nnprocess;
+package com.afweb.processnn;
 
+import com.afweb.processnn.NN3ProcessBySignal;
+import com.afweb.processnn.NN2ProcessBySignal;
+import com.afweb.processnn.NN1ProcessBySignal;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;

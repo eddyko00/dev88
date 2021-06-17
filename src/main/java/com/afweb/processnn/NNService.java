@@ -8,7 +8,6 @@ package com.afweb.processnn;
 import com.afweb.model.*;
 
 import com.afweb.model.stock.AFneuralNet;
-import com.afweb.nnprocess.TradingNNprocess;
 
 import com.afweb.service.ServiceAFweb;
 
