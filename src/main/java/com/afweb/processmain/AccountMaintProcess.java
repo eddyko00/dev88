@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.processafweb;
+package com.afweb.processmain;
 
 import com.afweb.account.CommMsgImp;
 import com.afweb.model.ConstantKey;
