@@ -570,7 +570,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        ArrayList returnList = afWebService.getAccountStockTRListHistory(username, null, accountid, stockidsymbol, trname);
+        ArrayList returnList = custaccService.getAccountStockTRListHistory(afWebService, username, null, accountid, stockidsymbol, trname);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -590,7 +590,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        ArrayList returnList = afWebService.getAccountStockTRListHistoryDisplay(username, null, accountid, stockidsymbol, trname);
+        ArrayList returnList = custaccService.getAccountStockTRListHistoryDisplay(afWebService, username, null, accountid, stockidsymbol, trname);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -704,7 +704,7 @@ public class CustAccController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        ArrayList returnList = afWebService.getAccountStockTRPerfHistory(username, null, accountid, stockidsymbol, trname, length);
+        ArrayList returnList = custaccService.getAccountStockTRPerfHistory(afWebService, username, null, accountid, stockidsymbol, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -729,7 +729,7 @@ public class CustAccController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        ArrayList returnList = afWebService.getAccountStockTRPerfHistoryReinvest(username, null, accountid, stockidsymbol, trname, length);
+        ArrayList returnList = custaccService.getAccountStockTRPerfHistoryReinvest(afWebService, username, null, accountid, stockidsymbol, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -750,7 +750,7 @@ public class CustAccController {
             return null;
         }
 
-        ArrayList returnList = afWebService.getAccountStockTRPerfHistoryDisplay(username, null, accountid, stockidsymbol, trname);
+        ArrayList returnList = custaccService.getAccountStockTRPerfHistoryDisplay(afWebService, username, null, accountid, stockidsymbol, trname);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;

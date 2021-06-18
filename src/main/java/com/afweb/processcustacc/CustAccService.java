@@ -536,14 +536,7 @@ public class CustAccService {
         int stockID = 0;
         AFstockObj stock = null;
         if (accountObj != null) {
-            try {
-                stockID = Integer.parseInt(stockidsymbol);
-                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-            }
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
             if (stock == null) {
                 return null;
             }
@@ -563,16 +556,9 @@ public class CustAccService {
 
         AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
-        int stockID = 0;
+
         if (accountObj != null) {
-            try {
-                stockID = Integer.parseInt(stockidsymbol);
-                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-            }
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
             if (stock == null) {
                 return 0;
             }
@@ -594,14 +580,7 @@ public class CustAccService {
         AFstockObj stock = null;
         int stockID = 0;
         if (accountObj != null) {
-            try {
-                stockID = Integer.parseInt(stockidsymbol);
-                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-            }
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
             if (stock == null) {
                 return null;
             }
@@ -621,14 +600,7 @@ public class CustAccService {
         AFstockObj stock = null;
         int stockID = 0;
         if (accountObj != null) {
-            try {
-                stockID = Integer.parseInt(stockidsymbol);
-                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-            }
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
             if (stock == null) {
                 return null;
             }
@@ -645,16 +617,9 @@ public class CustAccService {
 
         AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
-        int stockID = 0;
+
         if (accountObj != null) {
-            try {
-                stockID = Integer.parseInt(stockidsymbol);
-                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-            }
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
             if (stock == null) {
                 return 0;
             }
@@ -692,16 +657,9 @@ public class CustAccService {
 
         AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
         AFstockObj stock = null;
-        int stockID = 0;
+
         if (accountObj != null) {
-            try {
-                stockID = Integer.parseInt(stockidsymbol);
-                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-            }
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
             if (stock == null) {
                 return null;
             }
@@ -718,7 +676,266 @@ public class CustAccService {
         }
         return null;
     }
-    
-    
-    
+
+    public ArrayList<StockTRHistoryObj> getAccountStockTRListHistory(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        ArrayList<TradingRuleObj> trObjList = getAccountStockTRListByAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt, stockidsymbol);
+        trname = trname.toUpperCase();
+        if (trObjList != null) {
+            for (int i = 0; i < trObjList.size(); i++) {
+                TradingRuleObj trObj = trObjList.get(i);
+                if (trname.equals(trObj.getTrname())) {
+                    ArrayList<StockTRHistoryObj> thObjList = TRprocessImp.ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.MONTH_SIZE);
+                    return thObjList;
+                }
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAccountStockTRListHistoryDisplay(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+
+        ArrayList<StockTRHistoryObj> thObjList = getAccountStockTRListHistory(serviceAFWeb, EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
+
+        ArrayList<String> writeArray = new ArrayList();
+        ArrayList<String> displayArray = new ArrayList();
+        int ret = getAccountStockTRListHistoryDisplayProcess(thObjList, writeArray, displayArray);
+        if (ret == 1) {
+            if (getEnv.checkLocalPC() == true) {
+                FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + stockidsymbol + "_" + trname + "_tran.csv", writeArray);
+            }
+        }
+        return displayArray;
+    }
+
+    public int getAccountStockTRListHistoryDisplayProcess(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
+
+        if (trObjList == null) {
+            return 0;
+        }
+        for (int i = 0; i < trObjList.size(); i++) {
+            StockTRHistoryObj trObj = trObjList.get(i);
+            String st = "";
+            String stDispaly = "";
+            if (writeArray.size() == 0) {
+                st = "\"symbol" + "\",\"trname" + "\",\"type";
+                /////
+                if (trObj.getType() == ConstantKey.INT_TR_MV) {
+                    st += "\",\"ema2050" + "\",\"last ema2050" + "\",\"LTerm" + "\",\"STerm" + "\",\"-";
+
+                } else if (trObj.getType() == ConstantKey.INT_TR_MACD) {
+                    st += "\",\"macd 12 26" + "\",\"signal 9" + "\",\"diff" + "\",\"-" + "\",\"-";
+
+                } else if (trObj.getType() == ConstantKey.INT_TR_RSI) {
+                    st += "\",\"rsi 14" + "\",\"last rsi 14" + "\",\"-" + "\",\"-" + "\",\"-";
+
+                } else {
+                    st += "\",\"parm1" + "\",\"parm2" + "\",\"parm3" + "\",\"parm4" + "\",\"name";
+                }
+                ////
+                st += "\",\"close" + "\",\"trsignal" + "\",\"updateDateD" + "\"";
+                writeArray.add(st);
+                stDispaly = st.replaceAll("\"", "");
+                displayArray.add(stDispaly);
+            }
+            st = "\"" + trObj.getSymbol() + "\",\"" + trObj.getTrname() + "\",\"" + trObj.getType();
+            st += "\",\"" + trObj.getParm1() + "\",\"" + trObj.getParm2() + "\",\"" + trObj.getParm3() + "\",\"" + trObj.getParm4() + "\",\"" + trObj.getParmSt1();
+            st += "\",\"" + trObj.getClose() + "\",\"" + trObj.getTrsignal() + "\",\"" + trObj.getUpdateDateD() + "\"";
+
+            writeArray.add(st);
+            stDispaly = st.replaceAll("\"", "");
+            displayArray.add(stDispaly);
+
+        }
+
+        return 1;
+    }
+
+    public ArrayList<String> getAccountStockTRPerfHistoryDisplay(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+
+        ArrayList<StockTRHistoryObj> trObjList = getAccountStockTRListHistory(serviceAFWeb, EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
+        ArrayList<String> writeTranArray = new ArrayList();
+        ArrayList<String> displayArray = new ArrayList();
+        int ret = getAccountStockTRListHistoryDisplayProcess(trObjList, writeTranArray, displayArray);
+
+        ArrayList<PerformanceObj> perfObjList = getAccountStockTRPerfHistory(serviceAFWeb, EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
+        ArrayList<String> writePerfArray = new ArrayList();
+        ArrayList<String> perfList = new ArrayList();
+        ret = getAccountStockTRPerfHistoryDisplayProcess(perfObjList, writePerfArray, perfList);
+
+        ArrayList<String> writeAllArray = new ArrayList();
+        if (ret == 1) {
+            if (getEnv.checkLocalPC() == true) {
+                int j = 0;
+                for (int i = 0; i < writeTranArray.size(); i++) {
+                    if (i == 0) {
+                        String st = writeTranArray.get(i);
+                        st += "," + writePerfArray.get(j);
+                        j++;
+                        writeAllArray.add(st);
+                        continue;
+                    }
+                    StockTRHistoryObj tran = trObjList.get(i - 1);
+
+                    if (j >= perfObjList.size()) {
+                        j = perfObjList.size() - 1;
+                    }
+                    PerformanceObj perf = perfObjList.get(j - 1);
+
+                    if (tran.getUpdateDateD().equals(perf.getUpdateDateD())) {
+                        String st = writeTranArray.get(i);
+                        st += "," + writePerfArray.get(j);
+                        writeAllArray.add(st);
+                        j++;
+                        if (j >= perfObjList.size()) {
+                            j = perfObjList.size() - 1;
+                        } else {
+                            while (true) {
+                                perf = perfObjList.get(j - 1);
+                                if (tran.getUpdateDateD().equals(perf.getUpdateDateD())) {
+                                    st = writeTranArray.get(i);
+                                    st += "," + writePerfArray.get(j);
+                                    j++;
+                                    if (j >= perfObjList.size()) {
+                                        break;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                        continue;
+                    }
+                    String st = writeTranArray.get(i);
+                    writeAllArray.add(st);
+                }
+                if (getEnv.checkLocalPC() == true) {
+                    FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + stockidsymbol + "_" + trname + "_perf.csv", writeAllArray);
+                }
+            }
+
+        }
+        return perfList;
+
+    }
+
+    public int getAccountStockTRPerfHistoryDisplayProcess(ArrayList<PerformanceObj> perfObjList, ArrayList<String> writePerfArray, ArrayList<String> perfList) {
+
+        if (perfObjList == null) {
+            return 0;
+        }
+
+        for (int i = 0; i < perfObjList.size(); i++) {
+            PerformanceObj trObj = perfObjList.get(i);
+            String st = "";
+            String stDispaly = "";
+            if (writePerfArray.size() == 0) {
+                st = "\"Investment" + "\",\"Balance" + "\",\"Grossprofit"
+                        + "\",\"Netprofit" + "\",\"Numtrade" + "\",\"Rating"
+                        + "\",\"Close" + "\",\"Trsignal" + "\",\"Numwin" + "\",\"Numloss"
+                        + "\",\"Avgwin" + "\",\"Avgloss" + "\",\"Maxwin" + "\",\"Maxloss"
+                        + "\",\"Maxholdtime" + "\",\"Minholdtime" + "\",\"updateDateD" + "\"";
+                writePerfArray.add(st);
+                stDispaly = st.replaceAll("\"", "");
+                perfList.add(stDispaly);
+            }
+            st = "\"" + trObj.getInvestment() + "\",\"" + trObj.getBalance() + "\",\"" + trObj.getGrossprofit()
+                    + "\",\"" + trObj.getNetprofit() + "\",\"" + trObj.getNumtrade() + "\",\"" + trObj.getRating()
+                    + "\",\"" + trObj.getPerformData().getClose() + "\",\"" + trObj.getPerformData().getTrsignal()
+                    + "\",\"" + trObj.getPerformData().getNumwin() + "\",\"" + trObj.getPerformData().getNumloss()
+                    + "\",\"" + trObj.getPerformData().getAvgwin() + "\",\"" + trObj.getPerformData().getAvgloss()
+                    + "\",\"" + trObj.getPerformData().getMaxwin() + "\",\"" + trObj.getPerformData().getMaxloss()
+                    + "\",\"" + trObj.getPerformData().getMaxholdtime() + "\",\"" + trObj.getPerformData().getMinholdtime()
+                    + "\",\"" + trObj.getUpdateDateD() + "\"";
+
+            writePerfArray.add(st);
+            stDispaly = st.replaceAll("\"", "");
+            perfList.add(stDispaly);
+
+        }
+
+        return 1;
+    }
+
+    private AFstockObj getStockIdSymbol(ServiceAFweb serviceAFWeb, String stockidsymbol) {
+        AFstockObj stock = null;
+        try {
+            int stockID = Integer.parseInt(stockidsymbol);
+            stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
+        } catch (NumberFormatException e) {
+            SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+            String NormalizeSymbol = symObj.getYahooSymbol();
+            stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        }
+        return stock;
+    }
+
+    public ArrayList<PerformanceObj> getAccountStockTRPerfHistory(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        if (accountObj != null) {
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
+
+            if (stock == null) {
+                return null;
+            }
+            ArrayList<TransationOrderObj> tranOrderList = null;
+            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+                tranOrderList = serviceAFWeb.getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+                return TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, true);  // buyOnly = true
+            }
+
+            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            if (accountAdminObj == null) {
+                return null;
+            }
+            tranOrderList = serviceAFWeb.getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+            return TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, false);  // buyOnly = false
+        }
+        return null;
+    }
+
+    public ArrayList<PerformanceObj> getAccountStockTRPerfHistoryReinvest(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        if (accountObj != null) {
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
+
+            if (stock == null) {
+                return null;
+            }
+            ArrayList<TransationOrderObj> tranOrderList = null;
+            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+                tranOrderList = serviceAFWeb.getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+                return TRprocessImp.ProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, true);  // buyOnly = true
+
+            }
+            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            if (accountAdminObj == null) {
+                return null;
+            }
+            tranOrderList = serviceAFWeb.getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+
+            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+            return TRprocessImp.ProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, false); //buyOnly = false
+        }
+        return null;
+    }
+
 }

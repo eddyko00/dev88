@@ -161,7 +161,7 @@ public class ProcessNN93 {
 
         String TRname = ConstantKey.TR_NN93;
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, TRname);
+        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, TRname);
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         trObjMACD1.setTrname(ConstantKey.TR_MACD1);
@@ -189,10 +189,10 @@ public class ProcessNN93 {
             }
         }
 
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
+        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MV);
         ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
 
-        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
+        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
         ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryMACDNN93(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
@@ -214,7 +214,7 @@ public class ProcessNN93 {
 //        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
         String TRname = ConstantKey.TR_NN93;
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, TRname);
+        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, TRname);
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         trObjMACD1.setTrname(ConstantKey.TR_MACD);
@@ -242,10 +242,10 @@ public class ProcessNN93 {
             }
         }
 
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
+        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MV);
         ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
 
-        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
+        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
         ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryMACDNN93(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
@@ -266,7 +266,7 @@ public class ProcessNN93 {
 //        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
 
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_NN93);
+        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_NN93);
 
         TradingRuleObj trObjMACD1 = new TradingRuleObj();
         trObjMACD1.setTrname(ConstantKey.TR_NN93);
@@ -277,10 +277,10 @@ public class ProcessNN93 {
 
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD1, StockArray, offset, monthSize);
 
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
+        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MV);
         ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
 
-        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_RSI);
+        TradingRuleObj trObjRSI = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_RSI);
         ArrayList<StockTRHistoryObj> thObjListRSI = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjRSI, StockArray, offset, monthSize);
 
         ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryMACDNN93(thObjListMACD, thObjListMV, thObjListRSI, symbol, nnTrSym, true);
@@ -599,7 +599,7 @@ public class ProcessNN93 {
 
                 // get the last transaction price for later
                 AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
-                ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
+                ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountIDServ(CKey.ADMIN_USERNAME, null,
                         accObj.getId() + "", symbol, ConstantKey.TR_NN93, 0);
 
                 confident += 30;
@@ -1098,7 +1098,7 @@ public class ProcessNN93 {
         try {
             // get the last transaction price
             AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
-            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
+            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountIDServ(CKey.ADMIN_USERNAME, null,
                     accObj.getId() + "", symbol, ConstantKey.TR_NN93, 0);
             if (thList != null) {
                 TransationOrderObj lastTH = thList.get(0);
