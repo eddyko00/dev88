@@ -299,7 +299,7 @@ public class ControllerCustAccFund {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemFundResetGlobal());
+                msg.setResponse("" + custaccService.SystemFundResetGlobal(afWebService));
                 msg.setResult(true);
                 return msg;
             }

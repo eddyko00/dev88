@@ -2130,4 +2130,12 @@ public class CustAccService {
         return null;
     }
 
+    public boolean SystemFundResetGlobal(ServiceAFweb serviceAFWeb) {
+        FundMgrProcess fundmgr = new FundMgrProcess();
+        logger.info(">ProcessGetGlobalFundMgr start ");
+        fundmgr.ProcessGetGlobalFundMgr(serviceAFWeb);
+//        fundmgr.ProcessFundMgrAccount(this);
+        return true;
+    }    
+    
 }

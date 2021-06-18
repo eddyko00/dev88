@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.accprocess;
+package com.afweb.processcustacc;
 
 import com.afweb.account.AccountImp;
 import com.afweb.model.*;

@@ -13,7 +13,7 @@ import com.afweb.processemail.EmailProcess;
 import com.afweb.nnsignal.TradingSignalProcess;
 
 import com.afweb.accprocess.PUBSUBprocess;
-import com.afweb.accprocess.FundMgrProcess;
+import com.afweb.processcustacc.FundMgrProcess;
 import com.afweb.processbilling.BillingProcess;
 import com.afweb.processaccounting.AccountingProcess;
 import com.afweb.accprocess.AccountTranProcess;
@@ -589,7 +589,7 @@ public class ServiceAFweb {
 
                     boolean fundMgrFlag = false;
                     if (fundMgrFlag == true) {
-                        SystemFundResetGlobal();
+                        SystemFundResetGlobalServ();
                     }
 // use /cust/{username}/sys/processfundmgr                    }
 // Fund Manger only do once a month   
@@ -2716,6 +2716,13 @@ public class ServiceAFweb {
         return 0;
     }
 
+    
+    public boolean SystemFundResetGlobalServ() {
+        if (true) {
+            return custAccSrv.SystemFundResetGlobal(this);
+        }
+        return false;        
+    }    
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
     public ArrayList SystemUserNamebyAccountID(int accountID) {
@@ -6086,13 +6093,13 @@ public class ServiceAFweb {
         return "sysMaintenance " + retSatus;
     }
 
-    public boolean SystemFundResetGlobal() {
-        FundMgrProcess fundmgr = new FundMgrProcess();
-        logger.info(">ProcessGetGlobalFundMgr start ");
-        fundmgr.ProcessGetGlobalFundMgr(this);
-//        fundmgr.ProcessFundMgrAccount(this);
-        return true;
-    }
+//    public boolean SystemFundResetGlobal() {
+//        FundMgrProcess fundmgr = new FundMgrProcess();
+//        logger.info(">ProcessGetGlobalFundMgr start ");
+//        fundmgr.ProcessGetGlobalFundMgr(this);
+////        fundmgr.ProcessFundMgrAccount(this);
+//        return true;
+//    }
 
     public boolean SystemFundSelectBest() {
         FundMgrProcess fundmgr = new FundMgrProcess();
