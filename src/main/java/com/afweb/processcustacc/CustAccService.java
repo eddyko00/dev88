@@ -49,7 +49,7 @@ public class CustAccService {
         webStatus.setResultID(0);
         loginObj.setWebMsg(webStatus);
         loginObj.setWebMsg(webStatus);
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return loginObj;
         }
 
@@ -109,7 +109,7 @@ public class CustAccService {
     }
 
     public LoginObj getCustomerEmailLogin(ServiceAFweb serviceAFWeb, String EmailUserName, String Password) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
         CustomerObj custObj = null;
@@ -136,7 +136,7 @@ public class CustAccService {
     }
 
     public ArrayList getAccountList(ServiceAFweb serviceAFWeb, String EmailUserName, String Password) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -148,7 +148,7 @@ public class CustAccService {
     }
 
     public LoginObj getCustomerAccLogin(ServiceAFweb serviceAFWeb, String EmailUserName, String AccountIDSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
         CustomerObj custObj = null;
@@ -183,7 +183,7 @@ public class CustAccService {
         WebStatus webStatus = new WebStatus();
         webStatus.setResultID(0);
         loginObj.setWebMsg(webStatus);
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return loginObj;
         }
         NameObj nameObj = new NameObj(EmailUserName);
@@ -286,7 +286,7 @@ public class CustAccService {
     }
 
     public AccountObj getAccountByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -302,7 +302,7 @@ public class CustAccService {
     }
 
     public ArrayList<AFstockObj> getStockNameListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
         AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
@@ -315,7 +315,7 @@ public class CustAccService {
     }
 
     public ArrayList<AFstockObj> getStockListByAccountIDTRname(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String trname, String filterSt, int lenght) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -442,7 +442,7 @@ public class CustAccService {
     }
 
     public int addAccountStockByCustAcc(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String symbol) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -475,7 +475,7 @@ public class CustAccService {
     }
 
     public int removeAccountStockByUserNameAccId(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String symbol) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -534,7 +534,7 @@ public class CustAccService {
     }
 
     public AFstockObj getStockByAccountIDStockID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -557,7 +557,7 @@ public class CustAccService {
     }
 
     public int addAccountStockTran(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int signal) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -579,7 +579,7 @@ public class CustAccService {
     }
 
     public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -598,7 +598,7 @@ public class CustAccService {
     }
 
     public TradingRuleObj getAccountStockTRByTRname(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -618,7 +618,7 @@ public class CustAccService {
     }
 
     public int setAccountStockTRoption(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, String TROptType) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -658,7 +658,7 @@ public class CustAccService {
     }
 
     public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -882,7 +882,7 @@ public class CustAccService {
     }
 
     public ArrayList<PerformanceObj> getAccountStockTRPerfHistory(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -914,7 +914,7 @@ public class CustAccService {
     }
 
     public ArrayList<PerformanceObj> getAccountStockTRPerfHistoryReinvest(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -1285,6 +1285,61 @@ public class CustAccService {
                 xDate, yD, buyDate, buyD, sellDate, sellD);
 
         return ioStream;
+    }
+
+    public int getAccountStockTRClrTranByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        if (accountObj != null) {
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
+
+            if (stock == null) {
+                return 0;
+            }
+            return serviceAFWeb.getAccountImp().clearAccountStockTranByAccountID(accountObj, stock.getId(), trName.toUpperCase());
+        }
+        return 0;
+    }
+
+    public ArrayList<PerformanceObj> getAccountStockTRPerfList(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        if (accountObj != null) {
+            stock = this.getStockIdSymbol(serviceAFWeb, stockidsymbol);
+            if (stock == null) {
+                return null;
+            }
+            ArrayList<PerformanceObj> perfList = null;
+            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+                perfList = serviceAFWeb.getAccountImp().getAccountStockPerfList(accountObj.getId(), stock.getId(), trName, length);
+            } else {
+                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                if (accountAdminObj == null) {
+                    return null;
+                }
+                perfList = serviceAFWeb.getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trName, length);
+            }
+            return perfList;
+        }
+        return null;
+    }
+
+       public ArrayList getCustomerNList(ServiceAFweb serviceAFWeb, int length) {
+        ArrayList result = null;
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        result = serviceAFWeb.getAccountImp().getCustomerNList(length);
+        return result;
     }
 
 }

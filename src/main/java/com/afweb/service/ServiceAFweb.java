@@ -3861,29 +3861,29 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-    public int getAccountStockTRClrTranByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        AFstockObj stock = null;
-        if (accountObj != null) {
-            try {
-                int stockID = Integer.parseInt(stockidsymbol);
-                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-            }
-            if (stock == null) {
-                return 0;
-            }
-            return getAccountImp().clearAccountStockTranByAccountID(accountObj, stock.getId(), trName.toUpperCase());
-        }
-        return 0;
-    }
+//    public int getAccountStockTRClrTranByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
+//        AFstockObj stock = null;
+//        if (accountObj != null) {
+//            try {
+//                int stockID = Integer.parseInt(stockidsymbol);
+//                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+//            } catch (NumberFormatException e) {
+//                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+//                String NormalizeSymbol = symObj.getYahooSymbol();
+//                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//            }
+//            if (stock == null) {
+//                return 0;
+//            }
+//            return getAccountImp().clearAccountStockTranByAccountID(accountObj, stock.getId(), trName.toUpperCase());
+//        }
+//        return 0;
+//    }
 
 //    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -4035,40 +4035,40 @@ public class ServiceAFweb {
         }
         return null;
     }
-
-    public ArrayList<PerformanceObj> getAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-        AFstockObj stock = null;
-        if (accountObj != null) {
-            try {
-                int stockID = Integer.parseInt(stockidsymbol);
-                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-            }
-            if (stock == null) {
-                return null;
-            }
-            ArrayList<PerformanceObj> perfList = null;
-            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
-                perfList = getAccountImp().getAccountStockPerfList(accountObj.getId(), stock.getId(), trName, length);
-            } else {
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                if (accountAdminObj == null) {
-                    return null;
-                }
-                perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trName, length);
-            }
-            return perfList;
-        }
-        return null;
-    }
+//
+//    public ArrayList<PerformanceObj> getAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
+//        AFstockObj stock = null;
+//        if (accountObj != null) {
+//            try {
+//                int stockID = Integer.parseInt(stockidsymbol);
+//                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+//            } catch (NumberFormatException e) {
+//                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+//                String NormalizeSymbol = symObj.getYahooSymbol();
+//                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//            }
+//            if (stock == null) {
+//                return null;
+//            }
+//            ArrayList<PerformanceObj> perfList = null;
+//            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+//                perfList = getAccountImp().getAccountStockPerfList(accountObj.getId(), stock.getId(), trName, length);
+//            } else {
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                if (accountAdminObj == null) {
+//                    return null;
+//                }
+//                perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trName, length);
+//            }
+//            return perfList;
+//        }
+//        return null;
+//    }
 
 //    public int setAccountStockTRoption(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, String TROptType) {
 //        if (getServerObj().isSysMaintenance() == true) {

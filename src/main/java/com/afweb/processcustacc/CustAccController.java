@@ -655,7 +655,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int ret = afWebService.getAccountStockTRClrTranByAccountID(username, null, accountid, stockidsymbol, trname);
+        int ret = custaccService.getAccountStockTRClrTranByAccountID(afWebService, username, null, accountid, stockidsymbol, trname);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
@@ -677,7 +677,7 @@ public class CustAccController {
             return null;
         }
         int length = 0;
-        ArrayList returnList = afWebService.getAccountStockTRPerfList(username, null, accountid, stockidsymbol, trname, length);
+        ArrayList returnList = custaccService.getAccountStockTRPerfList(afWebService, username, null, accountid, stockidsymbol, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
