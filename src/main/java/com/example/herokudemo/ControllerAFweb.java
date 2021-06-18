@@ -9,6 +9,7 @@ import com.afweb.processnn.NNController;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFLockObject;
+import com.afweb.processcustacc.CustAccService;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceRemoteDB;
 import com.afweb.util.CKey;
@@ -42,11 +43,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControllerAFweb {
 
     private static AFwebService afWebService = new AFwebService();
+    private static CustAccService custaccService = new CustAccService();
 
-    //    @RequestMapping("/index")
-//    public String indexMessage() {
-//        return "index";
-//    }
     @GetMapping("/")
     public String index() {
         return "Hello there! I'm running v" + CKey.iis_ver;

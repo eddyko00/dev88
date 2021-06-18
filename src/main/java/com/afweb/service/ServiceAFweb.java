@@ -2619,17 +2619,17 @@ public class ServiceAFweb {
 //
 //        return result;
 //    }
-    public ArrayList getFundAccounBestFundList(String EmailUserName, String Password) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-
-        return getAccountImp().getAccounBestFundList(UserName, Password);
-
-    }
+//    public ArrayList getFundAccounBestFundList(String EmailUserName, String Password) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//
+//        return getAccountImp().getAccounBestFundList(UserName, Password);
+//
+//    }
 
     //////////////////////////////////////////////////
     // CustAccService
@@ -3292,205 +3292,205 @@ public class ServiceAFweb {
         return getAccountImp().updateTransactionOrder(transSQL);
     }
 
-    public int SystemFundClearfundbalance(String EmailUserName, String Password, String AccountIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
+//    public int SystemFundClearfundbalance(String EmailUserName, String Password, String AccountIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            AccountObj accObj = getAccountImp().getAccountByCustomerAccountID(UserName, Password, accountid);
+//            if (accObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+//                int substatus = accObj.getSubstatus();
+//                float investment = 0;
+//                float balance = 0;
+//                float servicefee = 0;
+//                getAccountImp().updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
+//
+//                return 1;
+//            }
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
 
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            AccountObj accObj = getAccountImp().getAccountByCustomerAccountID(UserName, Password, accountid);
-            if (accObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                int substatus = accObj.getSubstatus();
-                float investment = 0;
-                float balance = 0;
-                float servicefee = 0;
-                getAccountImp().updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
+//    public int getFundAccountAddAccundFund(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//            if (custObj == null) {
+//                return 0;
+//            }
+//            if (custObj.getStatus() != ConstantKey.OPEN) {
+//                return 0;
+//            }
+//
+//            String portfolio = custObj.getPortfolio();
+//            CustPort custPortfilio = null;
+//            try {
+//                if ((portfolio != null) && (portfolio.length() > 0)) {
+//                    portfolio = portfolio.replaceAll("#", "\"");
+//                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+//                } else {
+//                    custPortfilio = new CustPort();
+//                    String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+//                    getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
+//                }
+//            } catch (Exception ex) {
+//            }
+//            if (custPortfilio == null) {
+//                return 0;
+//            }
+//            ArrayList<String> featL = custPortfilio.getFeatL();
+//            if (featL == null) {
+//                return 0;
+//            }
+//            String fundFeat = "fund" + FundIDSt;
+//            for (int i = 0; i < featL.size(); i++) {
+//                String feat = featL.get(i);
+//                if (fundFeat.equals(feat)) {
+//                    return 0;
+//                }
+//            }
+//
+//            int accFundId = Integer.parseInt(FundIDSt);
+//            AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+//            if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+//                featL.add(fundFeat);
+//                String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+//                getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
+//
+//                // update billing
+//                BillingProcess BP = new BillingProcess();
+//                BP.updateFundFeat(this, custObj, accFundObj);
+//                return 1;
+//            }
+//
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
+//
+//    public int getFundAccountRemoveAcocuntFund(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//
+//        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//        if (custObj == null) {
+//            return 0;
+//        }
+//        if (custObj.getStatus() != ConstantKey.OPEN) {
+//            return 0;
+//        }
+//
+//        String portfolio = custObj.getPortfolio();
+//        CustPort custPortfilio = null;
+//        try {
+//            if ((portfolio != null) && (portfolio.length() > 0)) {
+//                portfolio = portfolio.replaceAll("#", "\"");
+//                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+//            }
+//        } catch (Exception ex) {
+//        }
+//        if (custPortfilio == null) {
+//            return 0;
+//        }
+//        ArrayList<String> featL = custPortfilio.getFeatL();
+//        if (featL == null) {
+//            return 0;
+//        }
+//
+//        String delFundFeat = "delfund" + FundIDSt;
+//
+//        for (int i = 0; i < featL.size(); i++) {
+//            String feat = featL.get(i);
+//            if (delFundFeat.equals(feat)) {
+////                alreadyDel = true;
+//                return 0;
+//            }
+//        }
+//        try {
+//            featL.add(delFundFeat);
+//            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
+//            getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
+//            return 1;
+//        } catch (Exception ex) {
+//        }
+//        return 0;
+//
+//    }
 
-                return 1;
-            }
-        } catch (Exception e) {
-        }
-        return 0;
-    }
-
-    public int getFundAccountAddAccundFund(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-            if (custObj == null) {
-                return 0;
-            }
-            if (custObj.getStatus() != ConstantKey.OPEN) {
-                return 0;
-            }
-
-            String portfolio = custObj.getPortfolio();
-            CustPort custPortfilio = null;
-            try {
-                if ((portfolio != null) && (portfolio.length() > 0)) {
-                    portfolio = portfolio.replaceAll("#", "\"");
-                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-                } else {
-                    custPortfilio = new CustPort();
-                    String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                    getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
-                }
-            } catch (Exception ex) {
-            }
-            if (custPortfilio == null) {
-                return 0;
-            }
-            ArrayList<String> featL = custPortfilio.getFeatL();
-            if (featL == null) {
-                return 0;
-            }
-            String fundFeat = "fund" + FundIDSt;
-            for (int i = 0; i < featL.size(); i++) {
-                String feat = featL.get(i);
-                if (fundFeat.equals(feat)) {
-                    return 0;
-                }
-            }
-
-            int accFundId = Integer.parseInt(FundIDSt);
-            AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
-            if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                featL.add(fundFeat);
-                String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
-
-                // update billing
-                BillingProcess BP = new BillingProcess();
-                BP.updateFundFeat(this, custObj, accFundObj);
-                return 1;
-            }
-
-        } catch (Exception e) {
-        }
-        return 0;
-    }
-
-    public int getFundAccountRemoveAcocuntFund(String EmailUserName, String Password, String AccountIDSt, String FundIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-
-        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-        if (custObj == null) {
-            return 0;
-        }
-        if (custObj.getStatus() != ConstantKey.OPEN) {
-            return 0;
-        }
-
-        String portfolio = custObj.getPortfolio();
-        CustPort custPortfilio = null;
-        try {
-            if ((portfolio != null) && (portfolio.length() > 0)) {
-                portfolio = portfolio.replaceAll("#", "\"");
-                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-            }
-        } catch (Exception ex) {
-        }
-        if (custPortfilio == null) {
-            return 0;
-        }
-        ArrayList<String> featL = custPortfilio.getFeatL();
-        if (featL == null) {
-            return 0;
-        }
-
-        String delFundFeat = "delfund" + FundIDSt;
-
-        for (int i = 0; i < featL.size(); i++) {
-            String feat = featL.get(i);
-            if (delFundFeat.equals(feat)) {
-//                alreadyDel = true;
-                return 0;
-            }
-        }
-        try {
-            featL.add(delFundFeat);
-            String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-            getAccountImp().updateCustomerPortfolio(custObj.getUsername(), portfStr);
-            return 1;
-        } catch (Exception ex) {
-        }
-        return 0;
-
-    }
-
-    public ArrayList<AccountObj> getFundAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        ArrayList<AccountObj> accountObjList = new ArrayList();
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-            if (custObj == null) {
-                return null;
-            }
-            if (custObj.getStatus() != ConstantKey.OPEN) {
-                return null;
-            }
-
-            String portfolio = custObj.getPortfolio();
-            CustPort custPortfilio = null;
-            try {
-                if ((portfolio != null) && (portfolio.length() > 0)) {
-                    portfolio = portfolio.replaceAll("#", "\"");
-                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-                }
-            } catch (Exception ex) {
-            }
-            if (custPortfilio == null) {
-                return null;
-            }
-            ArrayList<String> featL = custPortfilio.getFeatL();
-            if (featL == null) {
-                return null;
-            }
-
-            for (int i = 0; i < featL.size(); i++) {
-                String feat = featL.get(i);
-                try {
-                    feat = feat.replace("fund", "");
-                    int accFundId = Integer.parseInt(feat);
-                    AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
-                    if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                        accFundObj.setSubstatus(ConstantKey.OPEN);
-                        String delFundFeat = "delfund" + accFundId;
-                        for (int j = 0; j < featL.size(); j++) {
-                            if (delFundFeat.equals(featL.get(j))) {
-                                accFundObj.setSubstatus(ConstantKey.PENDING);
-                            }
-                        }
-                        accountObjList.add(accFundObj);
-                    }
-                } catch (Exception e) {
-                }
-            }
-            return accountObjList;
-        } catch (Exception e) {
-        }
-        return null;
-
-    }
+//    public ArrayList<AccountObj> getFundAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        ArrayList<AccountObj> accountObjList = new ArrayList();
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//            if (custObj == null) {
+//                return null;
+//            }
+//            if (custObj.getStatus() != ConstantKey.OPEN) {
+//                return null;
+//            }
+//
+//            String portfolio = custObj.getPortfolio();
+//            CustPort custPortfilio = null;
+//            try {
+//                if ((portfolio != null) && (portfolio.length() > 0)) {
+//                    portfolio = portfolio.replaceAll("#", "\"");
+//                    custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+//                }
+//            } catch (Exception ex) {
+//            }
+//            if (custPortfilio == null) {
+//                return null;
+//            }
+//            ArrayList<String> featL = custPortfilio.getFeatL();
+//            if (featL == null) {
+//                return null;
+//            }
+//
+//            for (int i = 0; i < featL.size(); i++) {
+//                String feat = featL.get(i);
+//                try {
+//                    feat = feat.replace("fund", "");
+//                    int accFundId = Integer.parseInt(feat);
+//                    AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+//                    if (accFundObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+//                        accFundObj.setSubstatus(ConstantKey.OPEN);
+//                        String delFundFeat = "delfund" + accFundId;
+//                        for (int j = 0; j < featL.size(); j++) {
+//                            if (delFundFeat.equals(featL.get(j))) {
+//                                accFundObj.setSubstatus(ConstantKey.PENDING);
+//                            }
+//                        }
+//                        accountObjList.add(accFundObj);
+//                    }
+//                } catch (Exception e) {
+//                }
+//            }
+//            return accountObjList;
+//        } catch (Exception e) {
+//        }
+//        return null;
+//
+//    }
 
 //    public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -3581,102 +3581,102 @@ public class ServiceAFweb {
 //        return 0;
 //    }
 
-    public ArrayList<AFstockObj> getFundStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, int lenght) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-
-        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-        if (custObj == null) {
-            return null;
-        }
-        if (custObj.getStatus() != ConstantKey.OPEN) {
-            return null;
-        }
-
-        String portfolio = custObj.getPortfolio();
-        CustPort custPortfilio = null;
-        try {
-            if ((portfolio != null) && (portfolio.length() > 0)) {
-                portfolio = portfolio.replaceAll("#", "\"");
-                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-            }
-        } catch (Exception ex) {
-        }
-        if (custPortfilio == null) {
-            return null;
-        }
-
-        ArrayList<String> featL = custPortfilio.getFeatL();
-        if (featL == null) {
-            return null;
-        }
-
-        String fundFeat = "fund" + FundIDSt;
-        boolean featureExist = false;
-        for (int i = 0; i < featL.size(); i++) {
-            String feat = featL.get(i);
-            if (fundFeat.equals(feat)) {
-                featureExist = true;
-                break;
-            }
-        }
-        if (featureExist == false) {
-            return null;
-        }
-        int accFundId = Integer.parseInt(FundIDSt);
-        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
-        if (accFundObj == null) {
-            return null;
-        }
-        if (accFundObj.getType() != AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-            return null;
-        }
-
-        ArrayList stockNameList = getAccountImp().getAccountStockNameList(accFundObj.getId());
-        if (stockNameList != null) {
-            if (lenght == 0) {
-                lenght = stockNameList.size();
-            } else if (lenght > stockNameList.size()) {
-                lenght = stockNameList.size();
-            }
-            ArrayList returnStockList = new ArrayList();
-
-            /// only TR ACC allowed
-            String trname = ConstantKey.TR_ACC;
-
-            for (int i = 0; i < lenght; i++) {
-                String NormalizeSymbol = (String) stockNameList.get(i);
-                AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-                if (stock != null) {
-
-                    ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accFundObj.getId(), stock.getId());
-                    if (trObjList != null) {
-                        for (int j = 0; j < trObjList.size(); j++) {
-                            TradingRuleObj trObj = trObjList.get(j);
-
-                            if (trname.equals(ConstantKey.TR_ACC)) {
-                                stock.setTRsignal(trObj.getTrsignal());
-
-                                float total = getAccountStockBalanceServ(trObj);
-                                stock.setPerform(total);
-
-                                break;
-                            }
-
-                        }
-                    }
-
-                    returnStockList.add(stock);
-                }
-            }
-            return returnStockList;
-        }
-        return null;
-    }
+//    public ArrayList<AFstockObj> getFundStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, int lenght) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//
+//        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//        if (custObj == null) {
+//            return null;
+//        }
+//        if (custObj.getStatus() != ConstantKey.OPEN) {
+//            return null;
+//        }
+//
+//        String portfolio = custObj.getPortfolio();
+//        CustPort custPortfilio = null;
+//        try {
+//            if ((portfolio != null) && (portfolio.length() > 0)) {
+//                portfolio = portfolio.replaceAll("#", "\"");
+//                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+//            }
+//        } catch (Exception ex) {
+//        }
+//        if (custPortfilio == null) {
+//            return null;
+//        }
+//
+//        ArrayList<String> featL = custPortfilio.getFeatL();
+//        if (featL == null) {
+//            return null;
+//        }
+//
+//        String fundFeat = "fund" + FundIDSt;
+//        boolean featureExist = false;
+//        for (int i = 0; i < featL.size(); i++) {
+//            String feat = featL.get(i);
+//            if (fundFeat.equals(feat)) {
+//                featureExist = true;
+//                break;
+//            }
+//        }
+//        if (featureExist == false) {
+//            return null;
+//        }
+//        int accFundId = Integer.parseInt(FundIDSt);
+//        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+//        if (accFundObj == null) {
+//            return null;
+//        }
+//        if (accFundObj.getType() != AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+//            return null;
+//        }
+//
+//        ArrayList stockNameList = getAccountImp().getAccountStockNameList(accFundObj.getId());
+//        if (stockNameList != null) {
+//            if (lenght == 0) {
+//                lenght = stockNameList.size();
+//            } else if (lenght > stockNameList.size()) {
+//                lenght = stockNameList.size();
+//            }
+//            ArrayList returnStockList = new ArrayList();
+//
+//            /// only TR ACC allowed
+//            String trname = ConstantKey.TR_ACC;
+//
+//            for (int i = 0; i < lenght; i++) {
+//                String NormalizeSymbol = (String) stockNameList.get(i);
+//                AFstockObj stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//                if (stock != null) {
+//
+//                    ArrayList<TradingRuleObj> trObjList = getAccountImp().getAccountStockTRListByAccountID(accFundObj.getId(), stock.getId());
+//                    if (trObjList != null) {
+//                        for (int j = 0; j < trObjList.size(); j++) {
+//                            TradingRuleObj trObj = trObjList.get(j);
+//
+//                            if (trname.equals(ConstantKey.TR_ACC)) {
+//                                stock.setTRsignal(trObj.getTrsignal());
+//
+//                                float total = getAccountStockBalanceServ(trObj);
+//                                stock.setPerform(total);
+//
+//                                break;
+//                            }
+//
+//                        }
+//                    }
+//
+//                    returnStockList.add(stock);
+//                }
+//            }
+//            return returnStockList;
+//        }
+//        return null;
+//    }
 
 //    public ArrayList<AFstockObj> getStockNameListByAccountID(String EmailUserName, String Password, String AccountIDSt) {
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -3926,124 +3926,125 @@ public class ServiceAFweb {
 //        }
 //        return null;
 //    }
-    public ArrayList<PerformanceObj> getFundAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trName, int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
+//    public ArrayList<PerformanceObj> getFundAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trName, int length) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//
+//        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//        if (custObj == null) {
+//            return null;
+//        }
+//        if (custObj.getStatus() != ConstantKey.OPEN) {
+//            return null;
+//        }
+//
+//        String portfolio = custObj.getPortfolio();
+//        CustPort custPortfilio = null;
+//        try {
+//            if ((portfolio != null) && (portfolio.length() > 0)) {
+//                portfolio = portfolio.replaceAll("#", "\"");
+//                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+//            }
+//        } catch (Exception ex) {
+//        }
+//        if (custPortfilio == null) {
+//            return null;
+//        }
+//
+//        ArrayList<String> featL = custPortfilio.getFeatL();
+//        if (featL == null) {
+//            return null;
+//        }
+//        int accFundId = Integer.parseInt(FundIDSt);
+//        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+//
+//        AFstockObj stock = null;
+//        if (accFundObj != null) {
+//            try {
+//                int stockID = Integer.parseInt(stockidsymbol);
+//                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+//            } catch (NumberFormatException e) {
+//                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+//                String NormalizeSymbol = symObj.getYahooSymbol();
+//                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//            }
+//            if (stock == null) {
+//                return null;
+//            }
+//            ArrayList<PerformanceObj> perfList = null;
+//            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+//                perfList = getAccountImp().getAccountStockPerfList(accFundObj.getId(), stock.getId(), trName, length);
+//            } else {
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                if (accountAdminObj == null) {
+//                    return null;
+//                }
+//                perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trName, length);
+//            }
+//            return perfList;
+//        }
+//        return null;
+//    }
 
-        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-        if (custObj == null) {
-            return null;
-        }
-        if (custObj.getStatus() != ConstantKey.OPEN) {
-            return null;
-        }
+//    public ArrayList<TransationOrderObj> getFundAccountStockTRTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trName, int length) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//
+//        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//        if (custObj == null) {
+//            return null;
+//        }
+//        if (custObj.getStatus() != ConstantKey.OPEN) {
+//            return null;
+//        }
+//
+//        String portfolio = custObj.getPortfolio();
+//        CustPort custPortfilio = null;
+//        try {
+//            if ((portfolio != null) && (portfolio.length() > 0)) {
+//                portfolio = portfolio.replaceAll("#", "\"");
+//                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+//            }
+//        } catch (Exception ex) {
+//        }
+//        if (custPortfilio == null) {
+//            return null;
+//        }
+//
+//        ArrayList<String> featL = custPortfilio.getFeatL();
+//        if (featL == null) {
+//            return null;
+//        }
+//        int accFundId = Integer.parseInt(FundIDSt);
+//        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+//
+//        AFstockObj stock = null;
+//        if (accFundObj != null) {
+//            try {
+//                int stockID = Integer.parseInt(stockidsymbol);
+//                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+//            } catch (NumberFormatException e) {
+//                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+//                String NormalizeSymbol = symObj.getYahooSymbol();
+//                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//            }
+//            if (stock == null) {
+//                return null;
+//            }
+//
+//            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+//                return getAccountImp().getAccountStockTransList(accFundObj.getId(), stock.getId(), trName.toUpperCase(), length);
+//            }
+//        }
+//        return null;
+//    }
 
-        String portfolio = custObj.getPortfolio();
-        CustPort custPortfilio = null;
-        try {
-            if ((portfolio != null) && (portfolio.length() > 0)) {
-                portfolio = portfolio.replaceAll("#", "\"");
-                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-            }
-        } catch (Exception ex) {
-        }
-        if (custPortfilio == null) {
-            return null;
-        }
-
-        ArrayList<String> featL = custPortfilio.getFeatL();
-        if (featL == null) {
-            return null;
-        }
-        int accFundId = Integer.parseInt(FundIDSt);
-        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
-
-        AFstockObj stock = null;
-        if (accFundObj != null) {
-            try {
-                int stockID = Integer.parseInt(stockidsymbol);
-                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-            }
-            if (stock == null) {
-                return null;
-            }
-            ArrayList<PerformanceObj> perfList = null;
-            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
-                perfList = getAccountImp().getAccountStockPerfList(accFundObj.getId(), stock.getId(), trName, length);
-            } else {
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                if (accountAdminObj == null) {
-                    return null;
-                }
-                perfList = getAccountImp().getAccountStockPerfList(accountAdminObj.getId(), stock.getId(), trName, length);
-            }
-            return perfList;
-        }
-        return null;
-    }
-
-    public ArrayList<TransationOrderObj> getFundAccountStockTRTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trName, int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-
-        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-        if (custObj == null) {
-            return null;
-        }
-        if (custObj.getStatus() != ConstantKey.OPEN) {
-            return null;
-        }
-
-        String portfolio = custObj.getPortfolio();
-        CustPort custPortfilio = null;
-        try {
-            if ((portfolio != null) && (portfolio.length() > 0)) {
-                portfolio = portfolio.replaceAll("#", "\"");
-                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-            }
-        } catch (Exception ex) {
-        }
-        if (custPortfilio == null) {
-            return null;
-        }
-
-        ArrayList<String> featL = custPortfilio.getFeatL();
-        if (featL == null) {
-            return null;
-        }
-        int accFundId = Integer.parseInt(FundIDSt);
-        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
-
-        AFstockObj stock = null;
-        if (accFundObj != null) {
-            try {
-                int stockID = Integer.parseInt(stockidsymbol);
-                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-            }
-            if (stock == null) {
-                return null;
-            }
-
-            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
-                return getAccountImp().getAccountStockTransList(accFundObj.getId(), stock.getId(), trName.toUpperCase(), length);
-            }
-        }
-        return null;
-    }
 //
 //    public ArrayList<PerformanceObj> getAccountStockTRPerfList(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -4330,80 +4331,80 @@ public class ServiceAFweb {
 //        }
 //        return null;
 //    }
-    public TradingRuleObj getFundAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trname) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-
-        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
-        if (custObj == null) {
-            return null;
-        }
-        if (custObj.getStatus() != ConstantKey.OPEN) {
-            return null;
-        }
-
-        String portfolio = custObj.getPortfolio();
-        CustPort custPortfilio = null;
-        try {
-            if ((portfolio != null) && (portfolio.length() > 0)) {
-                portfolio = portfolio.replaceAll("#", "\"");
-                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
-            }
-        } catch (Exception ex) {
-        }
-        if (custPortfilio == null) {
-            return null;
-        }
-
-        ArrayList<String> featL = custPortfilio.getFeatL();
-        if (featL == null) {
-            return null;
-        }
-
-        String fundFeat = "fund" + FundIDSt;
-        boolean featureExist = false;
-        for (int i = 0; i < featL.size(); i++) {
-            String feat = featL.get(i);
-            if (fundFeat.equals(feat)) {
-                featureExist = true;
-                break;
-            }
-        }
-        if (featureExist == false) {
-            return null;
-        }
-
-        int accFundId = Integer.parseInt(FundIDSt);
-        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
-        if (accFundObj == null) {
-            return null;
-        }
-        if (accFundObj.getType() != AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-            return null;
-        }
-
-        AFstockObj stock = null;
-        int stockID = 0;
-
-        try {
-            stockID = Integer.parseInt(stockidsymbol);
-            stock = getStockImp().getRealTimeStockByStockID(stockID, null);
-        } catch (NumberFormatException e) {
-            SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-            String NormalizeSymbol = symObj.getYahooSymbol();
-            stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-        }
-        if (stock == null) {
-            return null;
-        }
-        stockID = stock.getId();
-        return getAccountImp().getAccountStockIDByTRStockID(accFundObj.getId(), stockID, trname);
-
-    }
+//    public TradingRuleObj getFundAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, String stockidsymbol, String trname) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//
+//        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+//        if (custObj == null) {
+//            return null;
+//        }
+//        if (custObj.getStatus() != ConstantKey.OPEN) {
+//            return null;
+//        }
+//
+//        String portfolio = custObj.getPortfolio();
+//        CustPort custPortfilio = null;
+//        try {
+//            if ((portfolio != null) && (portfolio.length() > 0)) {
+//                portfolio = portfolio.replaceAll("#", "\"");
+//                custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
+//            }
+//        } catch (Exception ex) {
+//        }
+//        if (custPortfilio == null) {
+//            return null;
+//        }
+//
+//        ArrayList<String> featL = custPortfilio.getFeatL();
+//        if (featL == null) {
+//            return null;
+//        }
+//
+//        String fundFeat = "fund" + FundIDSt;
+//        boolean featureExist = false;
+//        for (int i = 0; i < featL.size(); i++) {
+//            String feat = featL.get(i);
+//            if (fundFeat.equals(feat)) {
+//                featureExist = true;
+//                break;
+//            }
+//        }
+//        if (featureExist == false) {
+//            return null;
+//        }
+//
+//        int accFundId = Integer.parseInt(FundIDSt);
+//        AccountObj accFundObj = getAccountImp().getAccountObjByAccountID(accFundId);
+//        if (accFundObj == null) {
+//            return null;
+//        }
+//        if (accFundObj.getType() != AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+//            return null;
+//        }
+//
+//        AFstockObj stock = null;
+//        int stockID = 0;
+//
+//        try {
+//            stockID = Integer.parseInt(stockidsymbol);
+//            stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+//        } catch (NumberFormatException e) {
+//            SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+//            String NormalizeSymbol = symObj.getYahooSymbol();
+//            stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//        }
+//        if (stock == null) {
+//            return null;
+//        }
+//        stockID = stock.getId();
+//        return getAccountImp().getAccountStockIDByTRStockID(accFundObj.getId(), stockID, trname);
+//
+//    }
 
 //    public TradingRuleObj getAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -5131,7 +5132,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public AFstockObj getRealTimeStockByStockID(int stockID) {
+    public AFstockObj getStockRealTimeByStockIDServ(int stockID) {
         if (true) {
             return stockSrv.getStockRealTimeBySockID(this, stockID);
         }

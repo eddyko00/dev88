@@ -76,7 +76,7 @@ public class ControllerCustAccFund {
             return 0;
         }
 
-        int ret = afWebService.SystemFundClearfundbalance(username, null, accountid);
+        int ret = custaccService.SystemFundClearfundbalance(afWebService, username, null, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }
@@ -94,7 +94,7 @@ public class ControllerCustAccFund {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        ArrayList<AccountObj> accList = afWebService.getFundAccounBestFundList(username, null);
+        ArrayList<AccountObj> accList = custaccService.getFundAccounBestFundList(afWebService, username, null);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return accList;
     }
@@ -112,7 +112,7 @@ public class ControllerCustAccFund {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        ArrayList<AccountObj> accList = afWebService.getFundAccountByCustomerAccountID(username, null, accountid);
+        ArrayList<AccountObj> accList = custaccService.getFundAccountByCustomerAccountID(afWebService, username, null, accountid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return accList;
     }
@@ -132,7 +132,7 @@ public class ControllerCustAccFund {
             return 0;
         }
 
-        int ret = afWebService.getFundAccountAddAccundFund(username, null, accountid, accfundid);
+        int ret = custaccService.getFundAccountAddAccundFund(afWebService, username, null, accountid, accfundid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
@@ -153,7 +153,7 @@ public class ControllerCustAccFund {
             return 0;
         }
 
-        int ret = afWebService.getFundAccountRemoveAcocuntFund(username, null, accountid, accfundid);
+        int ret = custaccService.getFundAccountRemoveAcocuntFund(afWebService, username, null, accountid, accfundid);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
@@ -179,7 +179,7 @@ public class ControllerCustAccFund {
             length = Integer.parseInt(lengthSt);
         }
 
-        ArrayList returnList = afWebService.getFundStockListByAccountID(username, null, accountid, accfundid, length);
+        ArrayList returnList = custaccService.getFundStockListByAccountID(afWebService, username, null, accountid, accfundid, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -200,7 +200,7 @@ public class ControllerCustAccFund {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        TradingRuleObj returnObj = afWebService.getFundAccountStockTRByTRname(username, null, accountid, accfundid, stockidsymbol, "TR_ACC");
+        TradingRuleObj returnObj = custaccService.getFundAccountStockTRByTRname(afWebService, username, null, accountid, accfundid, stockidsymbol, "TR_ACC");
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnObj;
@@ -227,7 +227,7 @@ public class ControllerCustAccFund {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        ArrayList returnList = afWebService.getFundAccountStockTRTranListByAccountID(username, null, accountid, accfundid, stockidsymbol, trname, length);
+        ArrayList returnList = custaccService.getFundAccountStockTRTranListByAccountID(afWebService, username, null, accountid, accfundid, stockidsymbol, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -275,7 +275,7 @@ public class ControllerCustAccFund {
         }
         int length = 0;
 
-        ArrayList returnList = afWebService.getFundAccountStockTRPerfList(username, null, accountid, accfundid, stockidsymbol, trname, length);
+        ArrayList returnList = custaccService.getFundAccountStockTRPerfList(afWebService, username, null, accountid, accfundid, stockidsymbol, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
