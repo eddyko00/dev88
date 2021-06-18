@@ -326,7 +326,7 @@ public class ControllerCustAccFund {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemFundSelectBest());
+                msg.setResponse("" + custaccService.SystemFundSelectBest(afWebService));
                 msg.setResult(true);
                 return msg;
             }
@@ -353,7 +353,7 @@ public class ControllerCustAccFund {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse("" + afWebService.SystemFundPocessAddRemove());
+                msg.setResponse("" + custaccService.SystemFundPocessAddRemove(afWebService));
                 msg.setResult(true);
                 return msg;
             }

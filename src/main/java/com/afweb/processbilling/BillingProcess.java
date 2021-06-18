@@ -605,7 +605,7 @@ public class BillingProcess {
 
     public void processMonthEvent(ServiceAFweb serviceAFWeb) {
         // update multal fund every month
-        serviceAFWeb.SystemFundSelectBest();
+        serviceAFWeb.SystemFundSelectBestServ();
     }
 
     public static float FUND30_FeaturePrice = 30;

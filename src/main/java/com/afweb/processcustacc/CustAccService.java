@@ -2138,4 +2138,16 @@ public class CustAccService {
         return true;
     }    
     
+    public boolean SystemFundSelectBest(ServiceAFweb serviceAFWeb) {
+        FundMgrProcess fundmgr = new FundMgrProcess();
+        logger.info(">ProcessSelectBestFundMgrAccount start ");
+        fundmgr.ProcessSelectBestFundMgrAccount(serviceAFWeb);
+        return true;
+    }
+
+    public boolean SystemFundPocessAddRemove(ServiceAFweb serviceAFWeb) {
+        logger.info(">ProcessAddRemoveFundAccount start ");
+        serviceAFWeb.getAccountProcessImp().ProcessAddRemoveFundAccount(serviceAFWeb);
+        return true;
+    }    
 }
