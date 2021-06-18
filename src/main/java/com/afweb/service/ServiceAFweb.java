@@ -573,7 +573,6 @@ public class ServiceAFweb {
     public static String lastfun = "";
 
     private void processTimer(String cmd) {
-        StockProcess stockProcess = new StockProcess();
 
         if (getEnv.checkLocalPC() == true) {
             if (CKey.NN_DEBUG == true) {
@@ -595,16 +594,6 @@ public class ServiceAFweb {
 // Fund Manger only do once a month   
                     boolean fundFlag = false;
                     if (fundFlag == true) {
-
-//                        FundMgrProcess fundP = new FundMgrProcess();
-//                        fundP.updateMutualFundAll();
-//                        updateCustStatusSubStatus(CKey.FUND_MANAGER_USERNAME, ConstantKey.DISABLE + "", 0 + "");
-//                        removeCustomer(CKey.FUND_MANAGER_USERNAME);
-//                        CustomerObj newCustomer = new CustomerObj();
-//                        newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);
-//                        newCustomer.setPassword("passw0rd");
-//                        newCustomer.setType(CustomerObj.INT_FUND_USER);
-//                        getAccountImp().addCustomer(newCustomer);
                         SystemFundPocessAddRemoveServ();
                     }
 
@@ -1193,7 +1182,6 @@ public class ServiceAFweb {
             logger.info("End mydebugtestflag.....");
         }
 
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
         ///// only acc reset
 //        boolean flagTran_TR_ACC = false;

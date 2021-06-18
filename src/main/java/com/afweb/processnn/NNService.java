@@ -14,6 +14,7 @@ import com.afweb.nn.*;
 import com.afweb.nnsignal.*;
 
 import com.afweb.processstock.StockProcess;
+import com.afweb.processstock.StockService;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
@@ -424,7 +425,8 @@ public class NNService {
                 exitflag = true;
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
-                TradingNNprocess.CreateAllStockHistoryJava(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
+                StockService stockServ = new StockService();
+                stockServ.CreateAllStockHistoryJava(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
 
                 /////////////////////
                 ArrayList<String> APIStockNameList = new ArrayList();
@@ -457,7 +459,7 @@ public class NNService {
                 }
                 /*ArrayList to Array Conversion */
                 String SymbolAllOther[] = APIStockNameList.toArray(new String[APIStockNameList.size()]);
-                TradingNNprocess.CreateAllStockHistoryJava(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
+                stockServ.CreateAllStockHistoryJava(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
 
                 return;
             }
