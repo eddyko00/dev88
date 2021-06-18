@@ -97,7 +97,7 @@ public class AccountMaintProcess {
                         String symbol = (String) stockRemoveList.get(i);
                         AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
                         // check transaction
-                        boolean hasTran = serviceAFWeb.checkTRListByStockID(stock.getId() + "");
+                        boolean hasTran = serviceAFWeb.getAccountImp().checkTRListByStockID(stock.getId() + "");
                         if (hasTran == false) {
                             serviceAFWeb.deleteStockServ(stock);
                         }

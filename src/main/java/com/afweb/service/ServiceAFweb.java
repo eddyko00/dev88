@@ -1182,7 +1182,6 @@ public class ServiceAFweb {
             logger.info("End mydebugtestflag.....");
         }
 
-
         ///// only acc reset
 //        boolean flagTran_TR_ACC = false;
 //        if (flagTran_TR_ACC == true) {
@@ -1579,6 +1578,14 @@ public class ServiceAFweb {
         }
     }
 
+    public String getAccountStockTRListHistoryChartServ(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
+        if (true) {
+            ChartService chartSrv = new ChartService();
+            return chartSrv.getAccountStockTRListHistoryChartToFile(this, thObjListMain, stockidsymbol, trname, pathSt);
+        }
+        return "";
+    }
+
     //////////////////////////////////////////////////
     // CustAccService
     CustAccService custAccSrv = new CustAccService();
@@ -1591,7 +1598,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public AccountObj getAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+    public AccountObj getAccountByCustomerAccountIDServ(String EmailUserName, String Password, String AccountIDSt) {
         if (true) {
             return custAccSrv.getAccountByCustomerAccountID(this, EmailUserName, Password, AccountIDSt);
         }
@@ -2266,91 +2273,8 @@ public class ServiceAFweb {
         return getAccountImp().updateTransactionOrder(transSQL);
     }
 
-//    public int removeAllCommBy1Month() {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return 0;
-//        }
-//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//        long last1monthbefore = TimeConvertion.addMonths(dateNow.getTimeInMillis(), -1); // last 1 month before
-//
-//        getAccountImp().removeCommByTimebefore(last1monthbefore, ConstantKey.INT_TYPE_COM_SIGNAL);
-//        return 1;
-//
-//    }
 
-    public String getAccountStockTRListHistoryChartProcess(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
-        try {
-            if (thObjListMain == null) {
-                return "";
-            }
-
-            if ((pathSt == null) || (pathSt.length() == 0)) {
-                pathSt = "t:/Netbean/debug";
-            }
-            if (getEnv.checkLocalPC() == true) {
-                pathSt = "t:/Netbean/debug";
-            }
-            String filepath = pathSt + "/" + stockidsymbol + "_" + trname + "_" + initTrainNeuralNetNumber;
-
-            List<Date> xDate = new ArrayList<Date>();
-            List<Double> yD = new ArrayList<Double>();
-
-            ArrayList<StockTRHistoryObj> thObjList = new ArrayList();
-            thObjList.addAll(thObjListMain);
-
-            ArrayList closeList = new ArrayList<Float>();
-            for (int i = 0; i < thObjList.size(); i++) {
-                StockTRHistoryObj thObj = thObjList.get(i);
-                float close = thObj.getClose();
-                closeList.add(close);
-            }
-            NNormalObj normal = new NNormalObj();
-            normal.initHighLow(closeList);
-
-            List<Date> buyDate = new ArrayList<Date>();
-            List<Double> buyD = new ArrayList<Double>();
-            List<Date> sellDate = new ArrayList<Date>();
-            List<Double> sellD = new ArrayList<Double>();
-
-            StockTRHistoryObj prevThObj = null;
-
-            for (int i = 0; i < thObjList.size(); i++) {
-                StockTRHistoryObj thObj = thObjList.get(i);
-                if (i == 0) {
-                    prevThObj = thObj;
-                }
-                Date da = new Date(thObj.getUpdateDatel());
-                xDate.add(da);
-                float close = thObj.getClose();
-                double norClose = normal.getNormalizeValue(close);
-                yD.add(norClose);
-
-                int signal = thObj.getTrsignal();
-                if (signal != prevThObj.getTrsignal()) {
-
-                    if (signal == ConstantKey.S_BUY) {
-                        buyD.add(norClose);
-                        buyDate.add(da);
-                    }
-                    if (signal == ConstantKey.S_SELL) {
-                        sellD.add(norClose);
-                        sellDate.add(da);
-                    }
-                }
-                prevThObj = thObj;
-            }
-            ChartService chart = new ChartService();
-            chart.saveChartToFile(stockidsymbol + "_" + trname, filepath,
-                    xDate, yD, buyDate, buyD, sellDate, sellD);
-            return "Save in " + filepath;
-        } catch (Exception ex) {
-            logger.info("> getAccountStockTRListHistoryChartProcess exception" + ex.getMessage());
-        }
-        return "Save failed";
-
-    }
 //////////
-
     public int updateAccountStockSignal(TRObj stockTRObj) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -2359,40 +2283,9 @@ public class ServiceAFweb {
 
     }
 
-//    public int addAccountStockByAccount(AccountObj accountObj, String symbol) {
-//        SymbolNameObj symObj = new SymbolNameObj(symbol);
-//        String NormalizeSymbol = symObj.getYahooSymbol();
-//        AFstockObj stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-//        if (stockObj == null) {
-//            int result = addStockServ(NormalizeSymbol);
-//            if (result == 0) {
-//                return 0;
-//            }
-//            //  get the stock object after added into the stockDB
-//            stockObj = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-//            if (stockObj == null) {
-//                return 0;
-//            }
-//        }
-//        if (stockObj.getStatus() != ConstantKey.OPEN) {
-//            // set to open
-//            int result = addStockServ(NormalizeSymbol);
-//            if (result == 0) {
-//                return 0;
-//            }
-//        }
-//        return getAccountImp().addAccountStockId(accountObj, stockObj.getId(), TRList);
-//    }
     public int systemRemoveAllEmail() {
         getAccountImp().removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
-    }
-
-    public boolean checkTRListByStockID(String StockID) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return true;
-        }
-        return getAccountImp().checkTRListByStockID(StockID);
     }
 
 //

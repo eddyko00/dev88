@@ -5,8 +5,15 @@
  */
 package com.afweb.chart;
 
+import com.afweb.model.ConstantKey;
+import com.afweb.model.account.StockTRHistoryObj;
+import com.afweb.nn.NNormalObj;
+import com.afweb.service.ServiceAFweb;
+
+import com.afweb.util.getEnv;
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.List;
@@ -227,4 +234,77 @@ public class ChartService {
         return 0;
     }
 
+    
+    public String getAccountStockTRListHistoryChartToFile(ServiceAFweb serviceAFWeb, ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
+        try {
+            if (thObjListMain == null) {
+                return "";
+            }
+
+            if ((pathSt == null) || (pathSt.length() == 0)) {
+                pathSt = "t:/Netbean/debug";
+            }
+            if (getEnv.checkLocalPC() == true) {
+                pathSt = "t:/Netbean/debug";
+            }
+            String filepath = pathSt + "/" + stockidsymbol + "_" + trname + "_" + serviceAFWeb.initTrainNeuralNetNumber;
+
+            List<Date> xDate = new ArrayList<Date>();
+            List<Double> yD = new ArrayList<Double>();
+
+            ArrayList<StockTRHistoryObj> thObjList = new ArrayList();
+            thObjList.addAll(thObjListMain);
+
+            ArrayList closeList = new ArrayList<Float>();
+            for (int i = 0; i < thObjList.size(); i++) {
+                StockTRHistoryObj thObj = thObjList.get(i);
+                float close = thObj.getClose();
+                closeList.add(close);
+            }
+            NNormalObj normal = new NNormalObj();
+            normal.initHighLow(closeList);
+
+            List<Date> buyDate = new ArrayList<Date>();
+            List<Double> buyD = new ArrayList<Double>();
+            List<Date> sellDate = new ArrayList<Date>();
+            List<Double> sellD = new ArrayList<Double>();
+
+            StockTRHistoryObj prevThObj = null;
+
+            for (int i = 0; i < thObjList.size(); i++) {
+                StockTRHistoryObj thObj = thObjList.get(i);
+                if (i == 0) {
+                    prevThObj = thObj;
+                }
+                Date da = new Date(thObj.getUpdateDatel());
+                xDate.add(da);
+                float close = thObj.getClose();
+                double norClose = normal.getNormalizeValue(close);
+                yD.add(norClose);
+
+                int signal = thObj.getTrsignal();
+                if (signal != prevThObj.getTrsignal()) {
+
+                    if (signal == ConstantKey.S_BUY) {
+                        buyD.add(norClose);
+                        buyDate.add(da);
+                    }
+                    if (signal == ConstantKey.S_SELL) {
+                        sellD.add(norClose);
+                        sellDate.add(da);
+                    }
+                }
+                prevThObj = thObj;
+            }
+            ChartService chart = new ChartService();
+            chart.saveChartToFile(stockidsymbol + "_" + trname, filepath,
+                    xDate, yD, buyDate, buyD, sellDate, sellD);
+            return "Save in " + filepath;
+        } catch (Exception ex) {
+            logger.info("> getAccountStockTRListHistoryChartProcess exception" + ex.getMessage());
+        }
+        return "Save failed";
+
+    }
+    
 }

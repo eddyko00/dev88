@@ -5,29 +5,24 @@
  */
 package com.afweb.processnn;
 
-import com.afweb.processnn.NN3ProcessBySignal;
-import com.afweb.processnn.NN2ProcessBySignal;
-import com.afweb.processnn.NN1ProcessBySignal;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.nn.*;
-import com.afweb.processnn.NNService;
+
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockInternetImpDao;
+
 
 import com.afweb.util.*;
 
 import com.afweb.util.TimeConvertion;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
+
 
 import java.util.logging.Logger;
 

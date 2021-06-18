@@ -184,7 +184,7 @@ public class ProcessNN3 {
                     boolean flagHis = false;
                     if (flagHis == true) {
                         FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_tran.csv", writeArray);
-                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, TRname, null);
+                        serviceAFWeb.getAccountStockTRListHistoryChartServ(thObjListMACD, symbol, TRname, null);
                     }
                 }
             }
@@ -237,7 +237,7 @@ public class ProcessNN3 {
                     boolean flagHis = false;
                     if (flagHis == true) {
                         FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_" + TRname + "_tran.csv", writeArray);
-                        serviceAFWeb.getAccountStockTRListHistoryChartProcess(thObjListMACD, symbol, TRname, null);
+                        serviceAFWeb.getAccountStockTRListHistoryChartServ(thObjListMACD, symbol, TRname, null);
                     }
                 }
             }
