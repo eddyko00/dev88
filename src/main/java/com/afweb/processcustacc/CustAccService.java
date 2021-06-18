@@ -13,6 +13,7 @@ import com.afweb.model.stock.AFstockObj;
 import com.afweb.nnsignal.TradingSignalProcess;
 
 import com.afweb.service.ServiceAFweb;
+
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
 public class CustAccService {
 
     protected static Logger logger = Logger.getLogger("CustAccService");
-    
+
     // result 1 = success, 2 = existed,  0 = fail
     public LoginObj addCustomerPassword(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String FirstName, String LastName, String planSt) {
         LoginObj loginObj = new LoginObj();
@@ -138,8 +139,8 @@ public class CustAccService {
         return serviceAFWeb.getAccountImp().getAccountList(UserName, Password);
 
     }
-    
-   public LoginObj getCustomerAccLogin(ServiceAFweb serviceAFWeb, String EmailUserName, String AccountIDSt) {
+
+    public LoginObj getCustomerAccLogin(ServiceAFweb serviceAFWeb, String EmailUserName, String AccountIDSt) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -165,7 +166,7 @@ public class CustAccService {
         return loginObj;
 
     }
-    
+
     // result 1 = success, 2 = existed,  0 = fail
     public LoginObj updateCustomerPassword(ServiceAFweb serviceAFWeb, String EmailUserName, String AccountID, String Email, String Password, String FirstName, String LastName, String Plan) {
 
@@ -276,8 +277,7 @@ public class CustAccService {
         return loginObj;
 
     }
-    
-    
+
     public AccountObj getAccountByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -293,8 +293,8 @@ public class CustAccService {
         return null;
 
     }
-    
-   public ArrayList<AFstockObj> getStockNameListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
+
+    public ArrayList<AFstockObj> getStockNameListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -306,7 +306,7 @@ public class CustAccService {
         }
         return null;
     }
-    
+
     public ArrayList<AFstockObj> getStockListByAccountIDTRname(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String trname, String filterSt, int lenght) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -350,7 +350,7 @@ public class CustAccService {
                 ArrayList<AFstockObj> returnStockList = new ArrayList();
                 for (int i = 0; i < lenght; i++) {
                     String NormalizeSymbol = (String) stockNameList.get(i);
-                    
+
                     AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
                     if (stock != null) {
                         stock.setTrname(trname);
@@ -433,7 +433,7 @@ public class CustAccService {
         }
         return totalPercent;
     }
-    
+
     public int addAccountStockByCustAcc(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -460,13 +460,13 @@ public class CustAccService {
                 return 0;
             }
         }
-        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb,EmailUserName, Password, AccountIDSt);
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
         if (accountObj != null) {
             return serviceAFWeb.getAccountImp().addAccountStockId(accountObj, stockObj.getId(), serviceAFWeb.TRList);
         }
         return 0;
     }
-    
+
     public int removeAccountStockByUserNameAccId(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -476,14 +476,14 @@ public class CustAccService {
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if (stockObj != null) {
-            AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb,EmailUserName, Password, AccountIDSt);
+            AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
             if (accountObj != null) {
                 return removeAccountStockSymbol(serviceAFWeb, accountObj, stockObj.getSymbol());
             }
         }
         return 0;
     }
-    
+
     //ConstantKey.NOTEXISTED
     public int removeAccountStockSymbol(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
 
@@ -525,8 +525,8 @@ public class CustAccService {
 
         return 0;
     }
-    
-   public AFstockObj getStockByAccountIDStockID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+
+    public AFstockObj getStockByAccountIDStockID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -542,7 +542,7 @@ public class CustAccService {
             } catch (NumberFormatException e) {
                 SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
                 String NormalizeSymbol = symObj.getYahooSymbol();
-                stock =  serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
             }
             if (stock == null) {
                 return null;
@@ -555,6 +555,170 @@ public class CustAccService {
         }
         return null;
     }
+
+    public int addAccountStockTran(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int signal) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        int stockID = 0;
+        if (accountObj != null) {
+            try {
+                stockID = Integer.parseInt(stockidsymbol);
+                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
+            } catch (NumberFormatException e) {
+                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+                String NormalizeSymbol = symObj.getYahooSymbol();
+                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            }
+            if (stock == null) {
+                return 0;
+            }
+
+            AccountTranImp accountTran = new AccountTranImp();
+            int ret = accountTran.AddTransactionOrderWithComm(serviceAFWeb, accountObj, stock, trName, signal);
+
+            return ret;
+        }
+        return 0;
+    }
+
+    public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        int stockID = 0;
+        if (accountObj != null) {
+            try {
+                stockID = Integer.parseInt(stockidsymbol);
+                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
+            } catch (NumberFormatException e) {
+                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+                String NormalizeSymbol = symObj.getYahooSymbol();
+                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            }
+            if (stock == null) {
+                return null;
+            }
+            stockID = stock.getId();
+            return serviceAFWeb.getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stockID);
+        }
+        return null;
+    }
+
+    public TradingRuleObj getAccountStockTRByTRname(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        trname = trname.toUpperCase();
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        int stockID = 0;
+        if (accountObj != null) {
+            try {
+                stockID = Integer.parseInt(stockidsymbol);
+                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
+            } catch (NumberFormatException e) {
+                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+                String NormalizeSymbol = symObj.getYahooSymbol();
+                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            }
+            if (stock == null) {
+                return null;
+            }
+            stockID = stock.getId();
+            return serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accountObj.getId(), stockID, trname);
+        }
+        return null;
+    }
+
+    public int setAccountStockTRoption(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, String TROptType) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        int stockID = 0;
+        if (accountObj != null) {
+            try {
+                stockID = Integer.parseInt(stockidsymbol);
+                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
+            } catch (NumberFormatException e) {
+                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+                String NormalizeSymbol = symObj.getYahooSymbol();
+                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            }
+            if (stock == null) {
+                return 0;
+            }
+            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+                TradingRuleObj tr = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
+                if (tr == null) {
+                    return 0;
+                }
+                int opt = 0;
+                try {
+                    if (TROptType != null) {
+                        opt = Integer.parseInt(TROptType);
+                    }
+                } catch (NumberFormatException ex) {
+
+                }
+
+                if (opt < ConstantKey.SIZE_TR) {
+                    tr.setLinktradingruleid(opt);
+
+                    ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
+                    UpdateTRList.add(tr);
+                    return serviceAFWeb.getAccountImp().updateAccountStockSignal(UpdateTRList);
+                }
+            }
+        }
+        return 0;
+
+    }
+
+    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+        AFstockObj stock = null;
+        int stockID = 0;
+        if (accountObj != null) {
+            try {
+                stockID = Integer.parseInt(stockidsymbol);
+                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
+            } catch (NumberFormatException e) {
+                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+                String NormalizeSymbol = symObj.getYahooSymbol();
+                stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            }
+            if (stock == null) {
+                return null;
+            }
+
+            if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
+                return serviceAFWeb.getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), length);
+            } else {
+                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                if (accountAdminObj == null) {
+                    return null;
+                }
+                return serviceAFWeb.getAccountImp().getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), length);
+            }
+        }
+        return null;
+    }
+    
     
     
 }

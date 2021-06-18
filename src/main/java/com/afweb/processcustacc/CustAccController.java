@@ -460,7 +460,7 @@ public class CustAccController {
             return 0;
         }
         int signal = Integer.parseInt(signalSt);
-        int ret = afWebService.addAccountStockTran(username, null, accountid, stockidsymbol, trname, signal);
+        int ret = custaccService.addAccountStockTran(afWebService, username, null, accountid, stockidsymbol, trname, signal);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
@@ -480,7 +480,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        ArrayList returnList = afWebService.getAccountStockTRListByAccountID(username, null, accountid, stockidsymbol);
+        ArrayList returnList = custaccService.getAccountStockTRListByAccountID(afWebService, username, null, accountid, stockidsymbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
@@ -501,7 +501,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        TradingRuleObj returnObj = afWebService.getAccountStockTRByTRname(username, null, accountid, stockidsymbol, trname);
+        TradingRuleObj returnObj = custaccService.getAccountStockTRByTRname(afWebService, username, null, accountid, stockidsymbol, trname);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnObj;
@@ -523,7 +523,7 @@ public class CustAccController {
             return 0;
         }
         int ret = 0;
-        ret = afWebService.setAccountStockTRoption(username, null, accountid, stockidsymbol, trname, linktypeST.toUpperCase());
+        ret = custaccService.setAccountStockTRoption(afWebService, username, null, accountid, stockidsymbol, trname, linktypeST.toUpperCase());
 
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
@@ -550,7 +550,7 @@ public class CustAccController {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        ArrayList returnList = afWebService.getAccountStockTRTranListByAccountID(username, null, accountid, stockidsymbol, trname, length);
+        ArrayList returnList = custaccService.getAccountStockTRTranListByAccountID(afWebService, username, null, accountid, stockidsymbol, trname, length);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return returnList;
