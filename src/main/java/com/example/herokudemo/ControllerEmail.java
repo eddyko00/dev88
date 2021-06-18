@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.processemail;
+package com.example.herokudemo;
 
 import com.afweb.model.account.*;
+import com.afweb.processemail.EmailService;
 import com.afweb.service.*;
 import com.example.herokudemo.AFwebService;
 
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class EmailController {
+public class ControllerEmail {
 
     private static AFwebService afWebService = new AFwebService();
     private static EmailService emailService = new EmailService();

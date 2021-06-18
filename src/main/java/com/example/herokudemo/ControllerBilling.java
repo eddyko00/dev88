@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.processbilling;
+package com.example.herokudemo;
 
 import com.afweb.model.account.*;
+import com.afweb.processbilling.BillingService;
 import com.afweb.service.*;
 import com.example.herokudemo.AFwebService;
 
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class BillingController {
+public class ControllerBilling {
 
     private static AFwebService afWebService = new AFwebService();
 

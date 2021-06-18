@@ -1,8 +1,9 @@
-package com.afweb.processstock;
+package com.example.herokudemo;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
+import com.afweb.processstock.StockService;
 import com.afweb.util.*;
 import com.afweb.service.*;
 import com.example.herokudemo.AFwebService;
@@ -28,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class StockController {
+public class ControllerStock {
 
     private static AFwebService afWebService = new AFwebService();
     private static StockService stockService = new StockService();

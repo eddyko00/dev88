@@ -5,13 +5,7 @@
  */
 package com.example.herokudemo;
 
-import com.afweb.processcustacc.AccFundController;
-import com.afweb.processcustacc.CustAccController;
-import com.afweb.processstock.StockController;
 import com.afweb.processnn.NNController;
-import com.afweb.processbilling.BillingController;
-import com.afweb.processaccounting.AccountingController;
-import com.afweb.processemail.EmailController;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFLockObject;
@@ -45,7 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class AFwebController {
+public class ControllerAFweb {
 
     private static AFwebService afWebService = new AFwebService();
 
@@ -116,27 +110,27 @@ public class AFwebController {
         getHelpSystem(arrayString);
         getHelpInfo(arrayString);
 
-        StockController.getHelpSystem(arrayString);
-        StockController.getHelpInfo(arrayString);
+        ControllerStock.getHelpSystem(arrayString);
+        ControllerStock.getHelpInfo(arrayString);
 
         NNController.getHelpSystem(arrayString);
         NNController.getHelpInfo(arrayString);
 
-        AccountingController.getHelpSystem(arrayString);
-        AccountingController.getHelpInfo(arrayString);
+        ControllerAccounting.getHelpSystem(arrayString);
+        ControllerAccounting.getHelpInfo(arrayString);
 
         arrayString.add("--User Interface--");
-        CustAccController.getHelpSystem(arrayString);
-        CustAccController.getHelpInfo(arrayString);
+        ControllerCustAcc.getHelpSystem(arrayString);
+        ControllerCustAcc.getHelpInfo(arrayString);
 
-        AccFundController.getHelpSystem(arrayString);
-        AccFundController.getHelpInfo(arrayString);
+        ControllerCustAccFund.getHelpSystem(arrayString);
+        ControllerCustAccFund.getHelpInfo(arrayString);
 
-        BillingController.getHelpSystem(arrayString);
-        BillingController.getHelpInfo(arrayString);
+        ControllerBilling.getHelpSystem(arrayString);
+        ControllerBilling.getHelpInfo(arrayString);
 
-        EmailController.getHelpSystem(arrayString);
-        EmailController.getHelpInfo(arrayString);
+        ControllerEmail.getHelpSystem(arrayString);
+        ControllerEmail.getHelpInfo(arrayString);
 
     }
 
@@ -144,13 +138,13 @@ public class AFwebController {
 
         arrayString.add("--User Interface--");
 
-        CustAccController.getHelpInfo(arrayString);
+        ControllerCustAcc.getHelpInfo(arrayString);
 
-        AccFundController.getHelpInfo(arrayString);
+        ControllerCustAccFund.getHelpInfo(arrayString);
 
-        BillingController.getHelpInfo(arrayString);
+        ControllerBilling.getHelpInfo(arrayString);
 
-        EmailController.getHelpInfo(arrayString);
+        ControllerEmail.getHelpInfo(arrayString);
 
     }
 
