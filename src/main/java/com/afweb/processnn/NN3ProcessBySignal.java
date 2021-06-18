@@ -669,9 +669,9 @@ public class NN3ProcessBySignal {
                 }
                 if (serviceAFWeb.mydebugtestflag == true) {
                     String filename = ServiceAFweb.FileLocalDebugPath + symbol + "_tmp1.csv";
-                    serviceAFWeb.fileNNInputOutObjList(inputlistSym1, symbol, 0, filename);
+                    serviceAFWeb.fileNNInputOutObjListServ(inputlistSym1, symbol, 0, filename);
                     filename = ServiceAFweb.FileLocalDebugPath + symbol + "_tmp2.csv";
-                    serviceAFWeb.fileNNInputOutObjList(inputlistSym2, symbol, 0, filename);
+                    serviceAFWeb.fileNNInputOutObjListServ(inputlistSym2, symbol, 0, filename);
                 }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);

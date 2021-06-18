@@ -14,21 +14,19 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.nnBP.*;
-import com.afweb.processnn.NNService;
-import com.afweb.service.*;
-import com.afweb.stock.*;
 
-import com.afweb.signal.*;
+import com.afweb.service.*;
+
 import com.afweb.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.logging.Logger;
 
 /**
@@ -668,9 +666,9 @@ public class NN1ProcessBySignal {
                 }
                 if (serviceAFWeb.mydebugtestflag == true) {
                     String filename = ServiceAFweb.FileLocalDebugPath + symbol + "_tmp1.csv";
-                    serviceAFWeb.fileNNInputOutObjList(inputlistSym1, symbol, 0, filename);
+                    serviceAFWeb.fileNNInputOutObjListServ(inputlistSym1, symbol, 0, filename);
                     filename = ServiceAFweb.FileLocalDebugPath + symbol + "_tmp2.csv";
-                    serviceAFWeb.fileNNInputOutObjList(inputlistSym2, symbol, 0, filename);
+                    serviceAFWeb.fileNNInputOutObjListServ(inputlistSym2, symbol, 0, filename);
                 }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);
