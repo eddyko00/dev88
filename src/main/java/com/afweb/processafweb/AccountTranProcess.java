@@ -15,19 +15,14 @@ import com.afweb.nnsignal.TradingAPISignalProcess;
 
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.signal.*;
-
 import com.afweb.util.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 /**
