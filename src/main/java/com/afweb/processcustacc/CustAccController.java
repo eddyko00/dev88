@@ -438,7 +438,7 @@ public class CustAccController {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        AFstockObj retObj = afWebService.getStockByAccountIDStockID(username, null, accountid, stockidsymbol);
+        AFstockObj retObj = custaccService.getStockByAccountIDStockID(afWebService, username, null, accountid, stockidsymbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return retObj;

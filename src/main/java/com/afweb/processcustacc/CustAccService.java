@@ -526,4 +526,35 @@ public class CustAccService {
         return 0;
     }
     
+   public AFstockObj getStockByAccountIDStockID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
+
+        int stockID = 0;
+        AFstockObj stock = null;
+        if (accountObj != null) {
+            try {
+                stockID = Integer.parseInt(stockidsymbol);
+                stock = serviceAFWeb.getRealTimeStockByStockID(stockID);
+            } catch (NumberFormatException e) {
+                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+                String NormalizeSymbol = symObj.getYahooSymbol();
+                stock =  serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            }
+            if (stock == null) {
+                return null;
+            }
+            stockID = stock.getId();
+            ArrayList tradingRuleList = serviceAFWeb.getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stockID);
+            if (tradingRuleList != null) {
+                return stock;
+            }
+        }
+        return null;
+    }
+    
+    
 }

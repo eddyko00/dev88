@@ -3782,36 +3782,35 @@ public class ServiceAFweb {
 //        }
 //        return totalPercent;
 //    }
-    public AFstockObj getStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
-
-        int stockID = 0;
-        AFstockObj stock = null;
-        if (accountObj != null) {
-            try {
-                stockID = Integer.parseInt(stockidsymbol);
-                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
-            } catch (NumberFormatException e) {
-                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
-                String NormalizeSymbol = symObj.getYahooSymbol();
-                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
-            }
-            if (stock == null) {
-                return null;
-            }
-            stockID = stock.getId();
-            ArrayList tradingRuleList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stockID);
-            if (tradingRuleList != null) {
-                return stock;
-            }
-        }
-        return null;
-    }
-
+//    public AFstockObj getStockByAccountIDStockID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        AccountObj accountObj = getAccountByCustomerAccountID(EmailUserName, Password, AccountIDSt);
+//
+//        int stockID = 0;
+//        AFstockObj stock = null;
+//        if (accountObj != null) {
+//            try {
+//                stockID = Integer.parseInt(stockidsymbol);
+//                stock = getStockImp().getRealTimeStockByStockID(stockID, null);
+//            } catch (NumberFormatException e) {
+//                SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
+//                String NormalizeSymbol = symObj.getYahooSymbol();
+//                stock = getStockImp().getRealTimeStock(NormalizeSymbol, null);
+//            }
+//            if (stock == null) {
+//                return null;
+//            }
+//            stockID = stock.getId();
+//            ArrayList tradingRuleList = getAccountImp().getAccountStockTRListByAccountID(accountObj.getId(), stockID);
+//            if (tradingRuleList != null) {
+//                return stock;
+//            }
+//        }
+//        return null;
+//    }
     public int addAccountStockTran(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int signal) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -5110,7 +5109,13 @@ public class ServiceAFweb {
             return stockSrv.getStockRealTime(this, symbol);
         }
         return null;
+    }
 
+    public AFstockObj getRealTimeStockByStockID(int stockID) {
+        if (true) {
+            return stockSrv.getStockRealTimeBySockID(this, stockID);
+        }
+        return null;
     }
 
     public boolean checkStockServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {

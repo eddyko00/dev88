@@ -80,6 +80,13 @@ public class StockService {
         return stock;
     }
 
+    public AFstockObj getStockRealTimeBySockID(ServiceAFweb serviceAFWeb, int stockID) {
+        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        return serviceAFWeb.getStockImp().getRealTimeStockByStockID(stockID, null);
+    }
+
     public int addStock(ServiceAFweb serviceAFWeb, String symbol) {
         StockProcess stockProcess = new StockProcess();
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
@@ -360,5 +367,5 @@ public class StockService {
             return 0;
         }
         return serviceAFWeb.getStockImp().updateStockInfoTransaction(stockInfoTran);
-    }      
+    }
 }
