@@ -1332,13 +1332,34 @@ public class CustAccService {
         return null;
     }
 
-       public ArrayList getCustomerNList(ServiceAFweb serviceAFWeb, int length) {
+    public ArrayList getCustomerNList(ServiceAFweb serviceAFWeb, int length) {
         ArrayList result = null;
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
         result = serviceAFWeb.getAccountImp().getCustomerNList(length);
+        return result;
+    }
+
+    public ArrayList getCustomerList(ServiceAFweb serviceAFWeb, int length) {
+        ArrayList result = null;
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = serviceAFWeb.getAccountImp().getCustomerObjList(length);
+
+        return result;
+    }
+
+    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
+    public ArrayList getExpiredCustomerList(ServiceAFweb serviceAFWeb, int length) {
+        ArrayList result = null;
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        result = serviceAFWeb.getAccountImp().getExpiredCustomerList(length);
         return result;
     }
 

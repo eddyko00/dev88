@@ -2571,26 +2571,26 @@ public class ServiceAFweb {
         return result;
     }
 
-    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
-    public ArrayList getExpiredCustomerList(int length) {
-        ArrayList result = null;
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
+//    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
+//    public ArrayList getExpiredCustomerList(int length) {
+//        ArrayList result = null;
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        result = getAccountImp().getExpiredCustomerList(length);
+//        return result;
+//    }
 
-        result = getAccountImp().getExpiredCustomerList(length);
-        return result;
-    }
-
-    public ArrayList getCustomerNList(int length) {
-        ArrayList result = null;
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        result = getAccountImp().getCustomerNList(length);
-        return result;
-    }
+//    public ArrayList getCustomerNList(int length) {
+//        ArrayList result = null;
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        result = getAccountImp().getCustomerNList(length);
+//        return result;
+//    }
 
     public CustomerObj getCustomerObjByName(String name) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -2614,15 +2614,15 @@ public class ServiceAFweb {
         return result;
     }
 
-    public ArrayList getCustomerList(int length) {
-        ArrayList result = null;
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        result = getAccountImp().getCustomerObjList(length);
-
-        return result;
-    }
+//    public ArrayList getCustomerList(int length) {
+//        ArrayList result = null;
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        result = getAccountImp().getCustomerObjList(length);
+//
+//        return result;
+//    }
 
     public ArrayList getFundAccounBestFundList(String EmailUserName, String Password) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -2698,12 +2698,20 @@ public class ServiceAFweb {
         return null;
     }
 
-    public int getAccountStockTRListHistoryDisplayProcess(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
+    public int getAccountStockTRListHistoryDisplayProcessServ(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
         if (true) {
             return custAccSrv.getAccountStockTRListHistoryDisplayProcess(trObjList, writeArray, displayArray);
         }
         return 0;
     }
+    
+//    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
+    public ArrayList getExpiredCustomerListServ(int length) {
+        if (true) {
+            return custAccSrv.getExpiredCustomerList(this, length);
+        }
+        return null;        
+    }    
 
 //     
     //////////////////////////////////////////////////

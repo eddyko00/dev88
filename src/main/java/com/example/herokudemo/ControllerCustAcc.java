@@ -771,7 +771,7 @@ public class ControllerCustAcc {
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                    ArrayList custNameList = afWebService.getCustomerNList(length);
+                    ArrayList custNameList = custaccService.getCustomerNList(afWebService, length);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return custNameList;
                 }
@@ -806,7 +806,7 @@ public class ControllerCustAcc {
                         custObjList.add(cutObj);
                     } else {
 
-                        custObjList = afWebService.getCustomerList(length);
+                        custObjList = custaccService.getCustomerList(afWebService, length);
                     }
 
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
@@ -831,7 +831,7 @@ public class ControllerCustAcc {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ArrayList custNameList = afWebService.getExpiredCustomerList(length);
+                ArrayList custNameList = custaccService.getExpiredCustomerList(afWebService, length);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return custNameList;
             }

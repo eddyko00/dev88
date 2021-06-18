@@ -148,7 +148,7 @@ public class AccountMaintProcess {
         ServiceAFweb.lastfun = "ProcessCustomerRemoveMaintance";
 //        logger.info(">>>>>>>>>>>>>> ProcessCustomerRemoveMaintance " + acTimerCnt);
         // reomve customer with no activity in 4 days        
-        ArrayList custList = serviceAFWeb.getExpiredCustomerList(0);
+        ArrayList custList = serviceAFWeb.getExpiredCustomerListServ(0);
         if (custList == null) {
             return;
         }
