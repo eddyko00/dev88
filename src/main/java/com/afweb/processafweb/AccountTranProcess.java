@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.accprocess;
+package com.afweb.processafweb;
 
 import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.account.AccountDB;

@@ -5,33 +5,15 @@
  */
 package com.afweb.processcustacc;
 
-import com.afweb.account.*;
-import com.afweb.chart.*;
+
 import com.afweb.model.*;
 import com.afweb.model.account.*;
-import com.afweb.model.stock.AFstockInfo;
-import com.afweb.model.stock.AFstockObj;
-import com.afweb.nn.NNormalObj;
-import com.afweb.nnsignal.TradingSignalProcess;
-import com.afweb.processaccounting.AccountingProcess;
-import com.afweb.processbilling.BillingProcess;
-import com.afweb.processnn.TradingNNprocess;
+
 
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+
 import java.util.logging.Logger;
 
 /**

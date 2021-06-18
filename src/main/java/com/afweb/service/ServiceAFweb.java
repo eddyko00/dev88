@@ -12,12 +12,12 @@ import com.afweb.processnn.*;
 import com.afweb.processemail.EmailProcess;
 import com.afweb.nnsignal.TradingSignalProcess;
 
-import com.afweb.accprocess.PUBSUBprocess;
+import com.afweb.processcustacc.PUBSUBprocess;
 import com.afweb.processcustacc.FundMgrProcess;
 import com.afweb.processbilling.BillingProcess;
 import com.afweb.processaccounting.AccountingProcess;
-import com.afweb.accprocess.AccountTranProcess;
-import com.afweb.accprocess.AccountMaintProcess;
+import com.afweb.processafweb.AccountTranProcess;
+import com.afweb.processafweb.AccountMaintProcess;
 import com.afweb.model.*;
 import com.afweb.account.*;
 import com.afweb.chart.ChartService;
