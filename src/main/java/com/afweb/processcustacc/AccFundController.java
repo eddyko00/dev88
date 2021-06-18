@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccFundController {
 
     private static AFwebService afWebService = new AFwebService();
+    private static CustAccService custaccService = new CustAccService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/{username}/sys/globalfundmgr");
@@ -249,7 +250,7 @@ public class AccFundController {
             return null;
         }
 
-        byte[] ret = afWebService.getFundAccountStockTRLIstCurrentChartDisplay(username, null, accountid, accfundid, stockidsymbol, trname, monthSt);
+        byte[] ret = custaccService.getFundAccountStockTRLIstCurrentChartDisplay(afWebService, username, null, accountid, accfundid, stockidsymbol, trname, monthSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;

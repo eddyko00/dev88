@@ -612,8 +612,7 @@ public class CustAccController {
             return "";
         }
 
-        String ret = afWebService.getAccountStockTRLIstCurrentChartFile(username, null, accountid, stockidsymbol, trname, pathSt);
-//        String ret = afWebService.getAccountStockTRListHistoryChart(username, null, accountid, stockidsymbol, trname, pathSt);
+        String ret = custaccService.getAccountStockTRLIstCurrentChartFile(afWebService, username, null, accountid, stockidsymbol, trname, pathSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
@@ -636,8 +635,7 @@ public class CustAccController {
             return null;
         }
 
-        byte[] ret = afWebService.getAccountStockTRLIstCurrentChartDisplay(username, null, accountid, stockidsymbol, trname, monthSt);
-//        byte[] ret = afWebService.getAccountStockTRListHistoryChartDisplay(username, null, accountid, stockidsymbol, trname, pathSt);
+        byte[] ret = custaccService.getAccountStockTRLIstCurrentChartDisplay(afWebService, username, null, accountid, stockidsymbol, trname, monthSt);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
 
         return ret;
