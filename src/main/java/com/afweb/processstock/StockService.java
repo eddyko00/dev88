@@ -37,7 +37,7 @@ public class StockService {
     StockProcess stockProcess = new StockProcess();
 
     public ArrayList getStockArray(ServiceAFweb serviceAFWeb, int length) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -46,7 +46,7 @@ public class StockService {
     }
 
     public AFstockObj getStockRealTime(ServiceAFweb serviceAFWeb, String symbol) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -85,7 +85,7 @@ public class StockService {
     }
 
     public AFstockObj getStockRealTimeBySockID(ServiceAFweb serviceAFWeb, int stockID) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
         return serviceAFWeb.getStockImp().getRealTimeStockByStockID(stockID, null);
@@ -93,7 +93,7 @@ public class StockService {
 
     public int addStock(ServiceAFweb serviceAFWeb, String symbol) {
         StockProcess stockProcess = new StockProcess();
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -113,14 +113,14 @@ public class StockService {
     }
 
     public int deleteStock(ServiceAFweb serviceAFWeb, AFstockObj stock) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
         return serviceAFWeb.getStockImp().deleteStock(stock);
     }
 
     public int disableStock(ServiceAFweb serviceAFWeb, String symbol) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -130,7 +130,7 @@ public class StockService {
     }
 
     public int cleanAllStockInfo(ServiceAFweb serviceAFWeb) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
         logger.info("> cleanAllStockInfo");
@@ -166,7 +166,7 @@ public class StockService {
     }
 
     public int removeStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -187,7 +187,7 @@ public class StockService {
         if (length == 0) {
             return null;
         }
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 //        if (checkCallRemoveMysql() == true) {
@@ -335,7 +335,7 @@ public class StockService {
     }
 
     public ArrayList<AFstockInfo> getStockHistoricalRange(ServiceAFweb serviceAFWeb, String symbol, long start, long end) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -367,7 +367,7 @@ public class StockService {
     public int updateStockInfoTransaction(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
         ServiceAFweb.lastfun = "updateStockInfoTransaction";
 
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
         return serviceAFWeb.getStockImp().updateStockInfoTransaction(stockInfoTran);

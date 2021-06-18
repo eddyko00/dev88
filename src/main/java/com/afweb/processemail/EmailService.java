@@ -22,7 +22,7 @@ public class EmailService {
     protected static Logger logger = Logger.getLogger("EmailService");
     
     public ArrayList<CommObj> getCommEmaiByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, int length) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -38,7 +38,7 @@ public class EmailService {
     }
 
     public int removeAllEmailByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -55,7 +55,7 @@ public class EmailService {
     }
 
     public int removeAllEmailByID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String IDSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 

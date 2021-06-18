@@ -11,8 +11,7 @@ import com.afweb.model.account.*;
 import com.afweb.service.ServiceAFweb;
 
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.TimeZone;
+
 import java.util.logging.Logger;
 
 /**
@@ -24,7 +23,7 @@ public class BillingService {
     protected static Logger logger = Logger.getLogger("BillingService");
 
         public ArrayList<BillingObj> getBillingByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, int length) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -41,7 +40,7 @@ public class BillingService {
     }
 
     public int removeBillingByCustomerAccountID(ServiceAFweb serviceAFWeb,String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 

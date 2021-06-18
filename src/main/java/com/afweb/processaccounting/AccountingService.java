@@ -15,7 +15,7 @@ import com.afweb.util.*;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Logger;
@@ -31,7 +31,7 @@ public class AccountingService {
     public int updateAccountingEntryPaymentBalance(ServiceAFweb serviceAFWeb, String customername, String paymentSt, String balanceSt,
             String reasonSt, String rateSt, String yearSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -152,7 +152,7 @@ public class AccountingService {
 
     public int insertAccountTAX(ServiceAFweb serviceAFWeb, String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
         ServiceAFweb.lastfun = "insertAccountTAX";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -226,7 +226,7 @@ public class AccountingService {
 
     public int insertAccountCash(ServiceAFweb serviceAFWeb, String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
         ServiceAFweb.lastfun = "insertAccountCash";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -300,7 +300,7 @@ public class AccountingService {
 
     public int insertAccountEarning(ServiceAFweb serviceAFWeb, String customername, String paymentSt, String reasonSt, String yearSt, String commentSt) {
         ServiceAFweb.lastfun = "insertAccountEarning";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -374,7 +374,7 @@ public class AccountingService {
 
     public int removeAccounting(ServiceAFweb serviceAFWeb, String customername, String yearSt) {
         ServiceAFweb.lastfun = "removeAccounting";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -422,7 +422,7 @@ public class AccountingService {
 
     public int AccountingYearEnd(ServiceAFweb serviceAFWeb, String customername, String yearSt) {
         ServiceAFweb.lastfun = "insertAccountEarning";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -453,7 +453,7 @@ public class AccountingService {
 
     public int updateAccountingExDeprecation(ServiceAFweb serviceAFWeb, String customername, String paymentSt, String rateSt, String reasonSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingExDeprecation";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -527,7 +527,7 @@ public class AccountingService {
 
     public int updateAccountingExUtility(ServiceAFweb serviceAFWeb, String customername, String paymentSt, String yearSt, String reasonSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingExUtility";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
@@ -601,7 +601,7 @@ public class AccountingService {
     }
 
     public AccReportObj getAccountingReportByCustomerByName(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String name, int year, String namerptSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -643,7 +643,7 @@ public class AccountingService {
     }
 
     public AccEntryObj getAccountingEntryByCustomerById(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String idSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
@@ -665,7 +665,7 @@ public class AccountingService {
     }
 
     public int removeAccountingEntryById(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String idSt) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 

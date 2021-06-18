@@ -84,7 +84,7 @@ public class NNService {
 
     public int releaseNeuralNetObj(ServiceAFweb serviceAFWeb, String name) {
         logger.info("> releaseNeuralNetObj " + name);
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 //        return getStockImp().releaseNeuralNetObj(name);
@@ -92,21 +92,21 @@ public class NNService {
     }
 
     public AFneuralNet getNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, String name, int type) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
         return serviceAFWeb.getStockImp().getNeuralNetObjWeight0(name);
     }
 
     public AFneuralNet getNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, String name, int type) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
         return serviceAFWeb.getStockImp().getNeuralNetObjWeight1(name);
     }
 
     public int setNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, AFneuralNet nn) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
         // assume only 1 of the weight is set and the other are empty
@@ -117,7 +117,7 @@ public class NNService {
     }
 
     public int setNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, AFneuralNet nn) {
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
 
