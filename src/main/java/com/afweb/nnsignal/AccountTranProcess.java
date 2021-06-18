@@ -535,18 +535,14 @@ public class AccountTranProcess {
         if (accountAdminObj == null) {
             return;
         }
-
         ArrayList StockNameList = serviceAFWeb.getAllOpenStockNameArray();
-
         if (StockNameList == null) {
             return;
         }
-
         ArrayList AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accountAdminObj.getId());
         if (AccountStockNameList == null) {
             return;
         }
-
         ServiceAFweb.getServerObj().setTotalStock(StockNameList.size());
         ServiceAFweb.getServerObj().setTotalStockAcc(AccountStockNameList.size());
 
