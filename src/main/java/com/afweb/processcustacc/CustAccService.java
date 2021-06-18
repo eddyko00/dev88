@@ -5,8 +5,7 @@
  */
 package com.afweb.processcustacc;
 
-import com.afweb.account.AccountTranImp;
-import com.afweb.account.CommMsgImp;
+import com.afweb.account.*;
 import com.afweb.chart.*;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
@@ -14,6 +13,8 @@ import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
 import com.afweb.nn.NNormalObj;
 import com.afweb.nnsignal.TradingSignalProcess;
+import com.afweb.processaccounting.AccountingProcess;
+import com.afweb.processbilling.BillingProcess;
 import com.afweb.processnn.TradingNNprocess;
 
 import com.afweb.service.ServiceAFweb;
@@ -1363,4 +1364,286 @@ public class CustAccService {
         return result;
     }
 
+//http://localhost:8080/cust/admin1/sys/cust/eddy/status/0/substatus/0
+    public int updateCustStatusSubStatus(ServiceAFweb serviceAFWeb, String customername, String statusSt, String substatusSt) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+//
+//        if (checkCallRemoteMysql() == true) {
+//            return getServiceAFwebREST().updateCustStatusSubStatus(customername, statusSt, substatusSt);
+//        }
+
+        int status;
+        int substatus;
+        try {
+            status = Integer.parseInt(statusSt);
+            substatus = Integer.parseInt(substatusSt);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+        CustomerObj custObj = serviceAFWeb.getAccountImp().getCustomerBySystem(customername, null);
+        custObj.setStatus(status);
+        custObj.setSubstatus(substatus);
+        return serviceAFWeb.getAccountImp().updateCustStatusSubStatus(custObj, custObj.getStatus(), custObj.getSubstatus());
+    }
+    //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15&?reason=
+
+    public int updateAddCustStatusPaymentBalance(ServiceAFweb serviceAFWeb, String customername,
+            String statusSt, String paymentSt, String balanceSt, String yearSt, String reasonSt) {
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        customername = customername.toUpperCase();
+        NameObj nameObj = new NameObj(customername);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            if (customer == null) {
+                return 0;
+            }
+            ArrayList accountList = getAccountList(serviceAFWeb, UserName, null);
+
+            if (accountList == null) {
+                return 0;
+            }
+            AccountObj accountObj = null;
+            for (int i = 0; i < accountList.size(); i++) {
+                AccountObj accountTmp = (AccountObj) accountList.get(i);
+                if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+                    accountObj = accountTmp;
+                    break;
+                }
+            }
+            if (accountObj == null) {
+                return 0;
+            }
+            String emailSt = "";
+            int status = -9999;
+            if (statusSt != null) {
+                if (!statusSt.equals("")) {
+                    status = Integer.parseInt(statusSt);
+                    String st = "Disabled";
+                    if (status == ConstantKey.OPEN) {
+                        st = "Enabled";
+                    }
+                    emailSt += "\n\r " + customername + " Accout Status change to " + st;
+                }
+            }
+            float payment = -9999;
+            if (paymentSt != null) {
+                if (!paymentSt.equals("")) {
+                    payment = Float.parseFloat(paymentSt);
+                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+                    String currency = formatter.format(payment);
+                    emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
+
+                }
+            }
+            float balance = -9999;
+            if (balanceSt != null) {
+                if (!balanceSt.equals("")) {
+                    balance = Float.parseFloat(balanceSt);
+
+                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+                    String currency = formatter.format(balance);
+                    emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
+
+                    ////////update accounting entry
+                    String entryName = "";
+                    if (reasonSt != null) {
+                        if (reasonSt.length() > 0) {
+                            entryName = reasonSt;
+                        }
+                    }
+                    if (customer != null) {
+                        boolean byPassPayment = BillingProcess.isSystemAccount(customer);
+                        if (byPassPayment == false) {
+                            int year = 0;
+                            if (yearSt != null) {
+                                if (yearSt.length() > 0) {
+                                    try {
+                                        year = Integer.parseInt(yearSt);
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }
+
+                            if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
+                                // UI will set payment to negative 
+                                float withdraw = -balance;
+                                int ret = serviceAFWeb.getAccounting().addTransferWithDrawRevenueTax(serviceAFWeb, customer, withdraw, year, entryName + " " + emailSt);
+                            } else if (entryName.equals(AccountingProcess.R_USER_PAYMENT)) {
+                                int ret = serviceAFWeb.getAccounting().addTransferRevenueTax(serviceAFWeb, customer, balance, year, emailSt);
+                            }
+                        }
+                    }
+
+                }
+            }
+            int ret = serviceAFWeb.getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
+            if (ret == 1) {
+                String tzid = "America/New_York"; //EDT
+                TimeZone tz = TimeZone.getTimeZone(tzid);
+                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                DateFormat format = new SimpleDateFormat(" hh:mm a");
+                format.setTimeZone(tz);
+                String ESTtime = format.format(d);
+
+                String msg = ESTtime + " " + emailSt;
+
+                serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.ACCT_TRAN, msg);
+                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+
+                // send email
+                DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+                formatD.setTimeZone(tz);
+                String ESTdateD = formatD.format(d);
+                String msgD = ESTdateD + " " + emailSt;
+                serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.ACCT_TRAN, msgD);
+
+            }
+            return ret;
+
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public int changeFundCustomer(ServiceAFweb serviceAFWeb, String customername) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        CustomerObj custObj = serviceAFWeb.getAccountImp().getCustomerBySystem(customername, null);
+
+        if (custObj == null) {
+            return 0;
+        }
+
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return 0;
+        }
+        custObj.setType(CustomerObj.INT_FUND_USER);
+        custObj.setSubstatus(ConstantKey.INT_PP_PEMIUM);
+        custObj.setPayment(0);
+
+        int result = serviceAFWeb.getAccountImp().systemUpdateCustAllStatus(custObj);
+        if (result == 1) {
+            String accountName = "acc-" + custObj.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
+            result = serviceAFWeb.getAccountImp().addAccountTypeSubStatus(custObj, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.OPEN);
+        }
+        /// clear the last build to regenerate new bill
+        AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+        // get last bill
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), 2);
+        if (billingObjList != null) {
+            if (billingObjList.size() > 0) {
+                BillingObj billObj = billingObjList.get(0);
+                serviceAFWeb.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
+            }
+        }
+        String tzid = "America/New_York"; //EDT
+        TimeZone tz = TimeZone.getTimeZone(tzid);
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        java.sql.Date d = new java.sql.Date(dateNowLong);
+        DateFormat format = new SimpleDateFormat(" hh:mm a");
+        format.setTimeZone(tz);
+        String ESTdate = format.format(d);
+        String msg = ESTdate + " " + custObj.getUsername() + " Cust change to Fund Manager Result:" + result;
+        CommMsgImp commMsg = new CommMsgImp();
+        commMsg.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+        return result;
+
+    }
+
+    public int changeAPICustomer(ServiceAFweb serviceAFWeb, String EmailUserName) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        CustomerObj custObj = serviceAFWeb.getAccountImp().getCustomerBySystem(UserName, null);
+
+        if (custObj == null) {
+            return 0;
+        }
+
+        if (custObj.getStatus() != ConstantKey.OPEN) {
+            return 0;
+        }
+        custObj.setType(CustomerObj.INT_API_USER);
+        custObj.setSubstatus(ConstantKey.INT_PP_API);
+        custObj.setPayment(0);
+
+        int result = serviceAFWeb.getAccountImp().systemUpdateCustAllStatus(custObj);
+        /// clear the last build to regenerate new bill
+        AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+        // get last bill
+        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), 2);
+        if (billingObjList != null) {
+            if (billingObjList.size() > 0) {
+                BillingObj billObj = billingObjList.get(0);
+                serviceAFWeb.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
+            }
+        }
+
+        String tzid = "America/New_York"; //EDT
+        TimeZone tz = TimeZone.getTimeZone(tzid);
+        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        java.sql.Date d = new java.sql.Date(dateNowLong);
+        DateFormat format = new SimpleDateFormat(" hh:mm a");
+        format.setTimeZone(tz);
+        String ESTdate = format.format(d);
+        String msg = ESTdate + " " + custObj.getUsername() + " Cust change to API User Result:" + result;
+        CommMsgImp commMsg = new CommMsgImp();
+        commMsg.AddCommMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+        return result;
+    }
+
+    //////////////////////////////////////
+    // need ConstantKey.DISABLE status beofore remove customer
+    public int removeCustomer(ServiceAFweb serviceAFWeb, String EmailUserName) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        CustomerObj custObj = serviceAFWeb.getAccountImp().getCustomerBySystem(UserName, null);
+
+        if (custObj == null) {
+            return 0;
+        }
+        if (custObj.getStatus() == ConstantKey.OPEN) {
+            return 0;
+        }
+        ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerObj(custObj);
+        if (accountList != null) {
+            for (int i = 0; i < accountList.size(); i++) {
+                AccountObj accountObj = (AccountObj) accountList.get(i);
+                ArrayList stockNameList = serviceAFWeb.getAccountImp().getAccountStockNameList(accountObj.getId());
+                if (stockNameList != null) {
+                    for (int j = 0; j < stockNameList.size(); j++) {
+                        String symbol = (String) stockNameList.get(j);
+                        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+                        if (stock != null) {
+                            serviceAFWeb.getAccountImp().removeAccountStock(accountObj, stock.getId());
+                        }
+                    }
+                }
+                // remove billing
+                serviceAFWeb.getAccountImp().removeAccountBilling(accountObj);
+                serviceAFWeb.getAccountImp().removeAccountById(accountObj);
+            }
+        }
+
+        return serviceAFWeb.getAccountImp().removeCustomer(custObj);
+    }
 }

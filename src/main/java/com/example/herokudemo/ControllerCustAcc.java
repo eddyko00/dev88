@@ -11,7 +11,7 @@ import com.afweb.model.stock.AFstockObj;
 import com.afweb.processcustacc.CustAccService;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.CKey;
-import com.example.herokudemo.AFwebService;
+
 
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -856,7 +856,7 @@ public class ControllerCustAcc {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.updateCustStatusSubStatus(customername, status, substatus);
+                int result = custaccService.updateCustStatusSubStatus(afWebService, customername, status, substatus);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -879,7 +879,7 @@ public class ControllerCustAcc {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.changeAPICustomer(emailSt);
+                int result = custaccService.changeAPICustomer(afWebService, emailSt);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -902,7 +902,7 @@ public class ControllerCustAcc {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.changeFundCustomer(emailSt);
+                int result = custaccService.changeFundCustomer(afWebService, emailSt);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -925,7 +925,7 @@ public class ControllerCustAcc {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = afWebService.removeCustomer(customername);
+                int result = custaccService.removeCustomer(afWebService, customername);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -955,7 +955,7 @@ public class ControllerCustAcc {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
                     //updating the real customer in custSt not the addmin user
-                    int result = afWebService.updateAddCustStatusPaymentBalance(customername, statusSt, paymentSt, balanceSt, yearSt, reasonSt);
+                    int result = custaccService.updateAddCustStatusPaymentBalance(afWebService, customername, statusSt, paymentSt, balanceSt, yearSt, reasonSt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -965,108 +965,5 @@ public class ControllerCustAcc {
     }
 
 ////////////////////////////////////////////////
-    //            arrayString.add("/cust/{username}/acc/{accountid}/comm/add?data=");  
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountCommAdd(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "data", required = false) String dataSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return -1;
-        }
-        int ret = afWebService.addCommByCustAccountID(username, null, accountid, dataSt);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
-
-    //"/cust/{username}/acc/{accountid}/comm?length=" 
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList<CommObj> getAccountCommList(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "length", required = false) String lengthSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        int length = 20;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-            if (length > 20) {
-                length = 20;
-            }
-        }
-        ArrayList<CommObj> commObjList = afWebService.getCommByCustomerAccountID(username, null, accountid, length);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return commObjList;
-    }
-
-    //"/cust/{username}/acc/{accountid}/comm/remove?idlist=");
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountCommListRemove(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @RequestParam(value = "idlist", required = true) String idlist,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-        if (idlist == null) {
-            return 0;
-        }
-        if (idlist.length() == 0) {
-            return 0;
-        }
-        int ret = 1;
-        try {
-            String[] idlistArray = idlist.split(",");
-            for (int i = 0; i < idlistArray.length; i++) {
-                String idSt = idlistArray[i];
-                int comid = Integer.parseInt(idSt);
-                if (comid == -1) {
-                    ret = afWebService.removeAllCommByCustomerAccountID(username, null, accountid);
-                } else {
-                    ret = afWebService.removeCommByID(username, null, accountid, comid + "");
-                }
-            }
-        } catch (Exception ex) {
-            ret = 0;
-        }
-
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
-
-    @RequestMapping(value = "/cust/{username}/acc/{accountid}/comm/remove/{comid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int getAccountCommListRemoveID(
-            @PathVariable("username") String username,
-            @PathVariable("accountid") String accountid,
-            @PathVariable("comid") String comid,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-        int ret = afWebService.removeCommByID(username, null, accountid, comid);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return ret;
-    }
-
     ///////////////////////////////////////
 }

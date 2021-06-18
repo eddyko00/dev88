@@ -2168,138 +2168,137 @@ public class ServiceAFweb {
     }
 
     ///////////////////////
-    public int changeFundCustomer(String customername) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
-
-        if (custObj == null) {
-            return 0;
-        }
-
-        if (custObj.getStatus() != ConstantKey.OPEN) {
-            return 0;
-        }
-        custObj.setType(CustomerObj.INT_FUND_USER);
-        custObj.setSubstatus(ConstantKey.INT_PP_PEMIUM);
-        custObj.setPayment(0);
-
-        int result = getAccountImp().systemUpdateCustAllStatus(custObj);
-        if (result == 1) {
-            String accountName = "acc-" + custObj.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
-            result = getAccountImp().addAccountTypeSubStatus(custObj, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.OPEN);
-        }
-        /// clear the last build to regenerate new bill
-        AccountObj account = getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
-        // get last bill
-        ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), 2);
-        if (billingObjList != null) {
-            if (billingObjList.size() > 0) {
-                BillingObj billObj = billingObjList.get(0);
-                this.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
-            }
-        }
-        String tzid = "America/New_York"; //EDT
-        TimeZone tz = TimeZone.getTimeZone(tzid);
-        AccountObj accountAdminObj = getAdminObjFromCache();
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long dateNowLong = dateNow.getTimeInMillis();
-        java.sql.Date d = new java.sql.Date(dateNowLong);
-        DateFormat format = new SimpleDateFormat(" hh:mm a");
-        format.setTimeZone(tz);
-        String ESTdate = format.format(d);
-        String msg = ESTdate + " " + custObj.getUsername() + " Cust change to Fund Manager Result:" + result;
-        CommMsgImp commMsg = new CommMsgImp();
-        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-        return result;
-
-    }
-
-    public int changeAPICustomer(String EmailUserName) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);
-
-        if (custObj == null) {
-            return 0;
-        }
-
-        if (custObj.getStatus() != ConstantKey.OPEN) {
-            return 0;
-        }
-        custObj.setType(CustomerObj.INT_API_USER);
-        custObj.setSubstatus(ConstantKey.INT_PP_API);
-        custObj.setPayment(0);
-
-        int result = getAccountImp().systemUpdateCustAllStatus(custObj);
-        /// clear the last build to regenerate new bill
-        AccountObj account = getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
-        // get last bill
-        ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), 2);
-        if (billingObjList != null) {
-            if (billingObjList.size() > 0) {
-                BillingObj billObj = billingObjList.get(0);
-                this.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
-            }
-        }
-
-        String tzid = "America/New_York"; //EDT
-        TimeZone tz = TimeZone.getTimeZone(tzid);
-        AccountObj accountAdminObj = getAdminObjFromCache();
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long dateNowLong = dateNow.getTimeInMillis();
-        java.sql.Date d = new java.sql.Date(dateNowLong);
-        DateFormat format = new SimpleDateFormat(" hh:mm a");
-        format.setTimeZone(tz);
-        String ESTdate = format.format(d);
-        String msg = ESTdate + " " + custObj.getUsername() + " Cust change to API User Result:" + result;
-        CommMsgImp commMsg = new CommMsgImp();
-        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
-        return result;
-    }
-
-    //////////////////////////////////////
-    // need ConstantKey.DISABLE status beofore remove customer
-    public int removeCustomer(String EmailUserName) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);
-
-        if (custObj == null) {
-            return 0;
-        }
-        if (custObj.getStatus() == ConstantKey.OPEN) {
-            return 0;
-        }
-        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
-        if (accountList != null) {
-            for (int i = 0; i < accountList.size(); i++) {
-                AccountObj accountObj = (AccountObj) accountList.get(i);
-                ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
-                if (stockNameList != null) {
-                    for (int j = 0; j < stockNameList.size(); j++) {
-                        String symbol = (String) stockNameList.get(j);
-                        AFstockObj stock = getStockRealTimeServ(symbol);
-                        if (stock != null) {
-                            getAccountImp().removeAccountStock(accountObj, stock.getId());
-                        }
-                    }
-                }
-                // remove billing
-                getAccountImp().removeAccountBilling(accountObj);
-                getAccountImp().removeAccountById(accountObj);
-            }
-        }
-
-        return getAccountImp().removeCustomer(custObj);
-    }
+//    public int changeFundCustomer(String customername) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
+//
+//        if (custObj == null) {
+//            return 0;
+//        }
+//
+//        if (custObj.getStatus() != ConstantKey.OPEN) {
+//            return 0;
+//        }
+//        custObj.setType(CustomerObj.INT_FUND_USER);
+//        custObj.setSubstatus(ConstantKey.INT_PP_PEMIUM);
+//        custObj.setPayment(0);
+//
+//        int result = getAccountImp().systemUpdateCustAllStatus(custObj);
+//        if (result == 1) {
+//            String accountName = "acc-" + custObj.getId() + "-" + AccountObj.MUTUAL_FUND_ACCOUNT;
+//            result = getAccountImp().addAccountTypeSubStatus(custObj, accountName, AccountObj.INT_MUTUAL_FUND_ACCOUNT, ConstantKey.OPEN);
+//        }
+//        /// clear the last build to regenerate new bill
+//        AccountObj account = getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+//        // get last bill
+//        ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), 2);
+//        if (billingObjList != null) {
+//            if (billingObjList.size() > 0) {
+//                BillingObj billObj = billingObjList.get(0);
+//                this.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
+//            }
+//        }
+//        String tzid = "America/New_York"; //EDT
+//        TimeZone tz = TimeZone.getTimeZone(tzid);
+//        AccountObj accountAdminObj = getAdminObjFromCache();
+//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//        long dateNowLong = dateNow.getTimeInMillis();
+//        java.sql.Date d = new java.sql.Date(dateNowLong);
+//        DateFormat format = new SimpleDateFormat(" hh:mm a");
+//        format.setTimeZone(tz);
+//        String ESTdate = format.format(d);
+//        String msg = ESTdate + " " + custObj.getUsername() + " Cust change to Fund Manager Result:" + result;
+//        CommMsgImp commMsg = new CommMsgImp();
+//        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+//        return result;
+//
+//    }
+//
+//    public int changeAPICustomer(String EmailUserName) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);
+//
+//        if (custObj == null) {
+//            return 0;
+//        }
+//
+//        if (custObj.getStatus() != ConstantKey.OPEN) {
+//            return 0;
+//        }
+//        custObj.setType(CustomerObj.INT_API_USER);
+//        custObj.setSubstatus(ConstantKey.INT_PP_API);
+//        custObj.setPayment(0);
+//
+//        int result = getAccountImp().systemUpdateCustAllStatus(custObj);
+//        /// clear the last build to regenerate new bill
+//        AccountObj account = getAccountImp().getAccountByType(custObj.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+//        // get last bill
+//        ArrayList<BillingObj> billingObjList = getAccountImp().getBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), 2);
+//        if (billingObjList != null) {
+//            if (billingObjList.size() > 0) {
+//                BillingObj billObj = billingObjList.get(0);
+//                this.getAccountImp().removeBillingByCustomerAccountID(custObj.getUsername(), null, account.getId(), billObj.getId());
+//            }
+//        }
+//
+//        String tzid = "America/New_York"; //EDT
+//        TimeZone tz = TimeZone.getTimeZone(tzid);
+//        AccountObj accountAdminObj = getAdminObjFromCache();
+//        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//        long dateNowLong = dateNow.getTimeInMillis();
+//        java.sql.Date d = new java.sql.Date(dateNowLong);
+//        DateFormat format = new SimpleDateFormat(" hh:mm a");
+//        format.setTimeZone(tz);
+//        String ESTdate = format.format(d);
+//        String msg = ESTdate + " " + custObj.getUsername() + " Cust change to API User Result:" + result;
+//        CommMsgImp commMsg = new CommMsgImp();
+//        commMsg.AddCommMessage(this, accountAdminObj, ConstantKey.COM_SIGNAL, msg);
+//        return result;
+//    }
+//    //////////////////////////////////////
+//    // need ConstantKey.DISABLE status beofore remove customer
+//    public int removeCustomer(String EmailUserName) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        CustomerObj custObj = getAccountImp().getCustomerBySystem(UserName, null);
+//
+//        if (custObj == null) {
+//            return 0;
+//        }
+//        if (custObj.getStatus() == ConstantKey.OPEN) {
+//            return 0;
+//        }
+//        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
+//        if (accountList != null) {
+//            for (int i = 0; i < accountList.size(); i++) {
+//                AccountObj accountObj = (AccountObj) accountList.get(i);
+//                ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
+//                if (stockNameList != null) {
+//                    for (int j = 0; j < stockNameList.size(); j++) {
+//                        String symbol = (String) stockNameList.get(j);
+//                        AFstockObj stock = getStockRealTimeServ(symbol);
+//                        if (stock != null) {
+//                            getAccountImp().removeAccountStock(accountObj, stock.getId());
+//                        }
+//                    }
+//                }
+//                // remove billing
+//                getAccountImp().removeAccountBilling(accountObj);
+//                getAccountImp().removeAccountById(accountObj);
+//            }
+//        }
+//
+//        return getAccountImp().removeCustomer(custObj);
+//    }
 //
 //    // result 1 = success, 2 = existed,  0 = fail
 //    public LoginObj addCustomerPassword(String EmailUserName, String Password, String FirstName, String LastName, String planSt) {
@@ -2367,7 +2366,6 @@ public class ServiceAFweb {
 //        webStatus.setResultID(0);
 //        return loginObj;
 //    }
-
 //    // result 1 = success, 2 = existed,  0 = fail
 //    public LoginObj updateCustomerPassword(String EmailUserName, String AccountID, String Email, String Password, String FirstName, String LastName, String Plan) {
 //
@@ -2581,7 +2579,6 @@ public class ServiceAFweb {
 //        result = getAccountImp().getExpiredCustomerList(length);
 //        return result;
 //    }
-
 //    public ArrayList getCustomerNList(int length) {
 //        ArrayList result = null;
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -2591,7 +2588,6 @@ public class ServiceAFweb {
 //        result = getAccountImp().getCustomerNList(length);
 //        return result;
 //    }
-
     public CustomerObj getCustomerObjByName(String name) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2623,7 +2619,6 @@ public class ServiceAFweb {
 //
 //        return result;
 //    }
-
     public ArrayList getFundAccounBestFundList(String EmailUserName, String Password) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2704,16 +2699,23 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    
+
 //    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
     public ArrayList getExpiredCustomerListServ(int length) {
         if (true) {
             return custAccSrv.getExpiredCustomerList(this, length);
         }
-        return null;        
-    }    
+        return null;
+    }
+//    // need ConstantKey.DISABLE status beofore remove customer
 
-//     
+    public int removeCustomer(String EmailUserName) {
+        if (true) {
+            return custAccSrv.removeCustomer(this, EmailUserName);
+        }
+        return 0;
+    }
+
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
     public ArrayList SystemUserNamebyAccountID(int accountID) {
@@ -3505,36 +3507,36 @@ public class ServiceAFweb {
 //        return null;
 //
 //    }
-    public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
+//    public ArrayList<CommObj> getCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt, int length) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            return getAccountImp().getCommSignalSplitByCustomerAccountID(UserName, Password, accountid, length);
+//        } catch (Exception e) {
+//        }
+//        return null;
+//
+//    }
 
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().getCommSignalSplitByCustomerAccountID(UserName, Password, accountid, length);
-        } catch (Exception e) {
-        }
-        return null;
-
-    }
-
-    public int addCommByCustAccountID(String EmailUserName, String Password, String AccountIDSt, String data) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().addCommByCustomerAccountID(UserName, Password, accountid, data);
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+//    public int addCommByCustAccountID(String EmailUserName, String Password, String AccountIDSt, String data) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            return getAccountImp().addCommByCustomerAccountID(UserName, Password, accountid, data);
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
 
     public int removeAllCommBy1Month() {
         if (getServerObj().isSysMaintenance() == true) {
@@ -3548,36 +3550,36 @@ public class ServiceAFweb {
 
     }
 
-    public int removeCommByID(String EmailUserName, String Password, String AccountIDSt, String IDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            int id = Integer.parseInt(IDSt);
-            return getAccountImp().removeAccountCommByID(UserName, Password, accountid, id);
-        } catch (Exception e) {
-        }
-        return 0;
-    }
-
-    public int removeAllCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            int accountid = Integer.parseInt(AccountIDSt);
-            return getAccountImp().removeCommByCustomerAccountIDType(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_SIGNAL);
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+//    public int removeCommByID(String EmailUserName, String Password, String AccountIDSt, String IDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            int id = Integer.parseInt(IDSt);
+//            return getAccountImp().removeAccountCommByID(UserName, Password, accountid, id);
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
+//
+//    public int removeAllCommByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        NameObj nameObj = new NameObj(EmailUserName);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            int accountid = Integer.parseInt(AccountIDSt);
+//            return getAccountImp().removeCommByCustomerAccountIDType(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_SIGNAL);
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
 
     public ArrayList<AFstockObj> getFundStockListByAccountID(String EmailUserName, String Password, String AccountIDSt, String FundIDSt, int lenght) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -3892,7 +3894,6 @@ public class ServiceAFweb {
 //        }
 //        return 0;
 //    }
-
 //    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return null;
@@ -4612,7 +4613,6 @@ public class ServiceAFweb {
 //
 //        return ioStream;
 //    }
-
 //    public byte[] getAccountStockTRLIstCurrentChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol,
 //            String trname, String monthSt) {
 //
@@ -4685,7 +4685,6 @@ public class ServiceAFweb {
 //        return ioStream;
 //
 //    }
-
 //    private int checkCurrentChartDisplay(ArrayList<AFstockInfo> StockArray, List<Date> xDate, List<Double> yD,
 //            List<Date> buyDate, List<Double> buyD, List<Date> sellDate, List<Double> sellD,
 //            ArrayList<TransationOrderObj> thList) {
@@ -4750,7 +4749,6 @@ public class ServiceAFweb {
 //
 //        return buyD.size() + sellD.size();
 //    }
-
 //    public String getAccountStockTRLIstCurrentChartFile(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
 //        TradingNNprocess NNProcessImp = new TradingNNprocess();
 //        try {
@@ -4851,7 +4849,6 @@ public class ServiceAFweb {
 //        }
 //        return "Save failed";
 //    }
-
 //    public byte[] getAccountStockTRListHistoryChartDisplay(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
 //        ArrayList<StockTRHistoryObj> thObjList = this.getAccountStockTRListHistory(EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
 //
@@ -5313,130 +5310,130 @@ public class ServiceAFweb {
     }
 
 //////////////////
-    //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15&?reason=
-    public int updateAddCustStatusPaymentBalance(String customername,
-            String statusSt, String paymentSt, String balanceSt, String yearSt, String reasonSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            ArrayList accountList = getAccountListServ(UserName, null);
-
-            if (accountList == null) {
-                return 0;
-            }
-            AccountObj accountObj = null;
-            for (int i = 0; i < accountList.size(); i++) {
-                AccountObj accountTmp = (AccountObj) accountList.get(i);
-                if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                    accountObj = accountTmp;
-                    break;
-                }
-            }
-            if (accountObj == null) {
-                return 0;
-            }
-            String emailSt = "";
-            int status = -9999;
-            if (statusSt != null) {
-                if (!statusSt.equals("")) {
-                    status = Integer.parseInt(statusSt);
-                    String st = "Disabled";
-                    if (status == ConstantKey.OPEN) {
-                        st = "Enabled";
-                    }
-                    emailSt += "\n\r " + customername + " Accout Status change to " + st;
-                }
-            }
-            float payment = -9999;
-            if (paymentSt != null) {
-                if (!paymentSt.equals("")) {
-                    payment = Float.parseFloat(paymentSt);
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(payment);
-                    emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
-
-                }
-            }
-            float balance = -9999;
-            if (balanceSt != null) {
-                if (!balanceSt.equals("")) {
-                    balance = Float.parseFloat(balanceSt);
-
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
-                    String currency = formatter.format(balance);
-                    emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
-
-                    ////////update accounting entry
-                    String entryName = "";
-                    if (reasonSt != null) {
-                        if (reasonSt.length() > 0) {
-                            entryName = reasonSt;
-                        }
-                    }
-                    if (customer != null) {
-                        boolean byPassPayment = BillingProcess.isSystemAccount(customer);
-                        if (byPassPayment == false) {
-                            int year = 0;
-                            if (yearSt != null) {
-                                if (yearSt.length() > 0) {
-                                    try {
-                                        year = Integer.parseInt(yearSt);
-                                    } catch (Exception e) {
-                                    }
-                                }
-                            }
-
-                            if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
-                                // UI will set payment to negative 
-                                float withdraw = -balance;
-                                int ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, withdraw, year, entryName + " " + emailSt);
-                            } else if (entryName.equals(AccountingProcess.R_USER_PAYMENT)) {
-                                int ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, emailSt);
-                            }
-                        }
-                    }
-
-                }
-            }
-            int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
-            if (ret == 1) {
-                String tzid = "America/New_York"; //EDT
-                TimeZone tz = TimeZone.getTimeZone(tzid);
-                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-                DateFormat format = new SimpleDateFormat(" hh:mm a");
-                format.setTimeZone(tz);
-                String ESTtime = format.format(d);
-
-                String msg = ESTtime + " " + emailSt;
-
-                getAccountImp().addAccountMessage(accountObj, ConstantKey.ACCT_TRAN, msg);
-                AccountObj accountAdminObj = getAdminObjFromCache();
-                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
-
-                // send email
-                DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
-                formatD.setTimeZone(tz);
-                String ESTdateD = formatD.format(d);
-                String msgD = ESTdateD + " " + emailSt;
-                getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.ACCT_TRAN, msgD);
-
-            }
-            return ret;
-
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+//    //http://localhost:8080/cust/admin1/sys/cust/eddy/update?substatus=10&investment=0&balance=15&?reason=
+//    public int updateAddCustStatusPaymentBalance(String customername,
+//            String statusSt, String paymentSt, String balanceSt, String yearSt, String reasonSt) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        customername = customername.toUpperCase();
+//        NameObj nameObj = new NameObj(customername);
+//        String UserName = nameObj.getNormalizeName();
+//        try {
+//            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+//            if (customer == null) {
+//                return 0;
+//            }
+//            ArrayList accountList = getAccountListServ(UserName, null);
+//
+//            if (accountList == null) {
+//                return 0;
+//            }
+//            AccountObj accountObj = null;
+//            for (int i = 0; i < accountList.size(); i++) {
+//                AccountObj accountTmp = (AccountObj) accountList.get(i);
+//                if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+//                    accountObj = accountTmp;
+//                    break;
+//                }
+//            }
+//            if (accountObj == null) {
+//                return 0;
+//            }
+//            String emailSt = "";
+//            int status = -9999;
+//            if (statusSt != null) {
+//                if (!statusSt.equals("")) {
+//                    status = Integer.parseInt(statusSt);
+//                    String st = "Disabled";
+//                    if (status == ConstantKey.OPEN) {
+//                        st = "Enabled";
+//                    }
+//                    emailSt += "\n\r " + customername + " Accout Status change to " + st;
+//                }
+//            }
+//            float payment = -9999;
+//            if (paymentSt != null) {
+//                if (!paymentSt.equals("")) {
+//                    payment = Float.parseFloat(paymentSt);
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(payment);
+//                    emailSt += "\n\r " + customername + " Accout invoice bill adjust " + currency;
+//
+//                }
+//            }
+//            float balance = -9999;
+//            if (balanceSt != null) {
+//                if (!balanceSt.equals("")) {
+//                    balance = Float.parseFloat(balanceSt);
+//
+//                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+//                    String currency = formatter.format(balance);
+//                    emailSt += "\n\r " + customername + " Accout balance adjust " + currency;
+//
+//                    ////////update accounting entry
+//                    String entryName = "";
+//                    if (reasonSt != null) {
+//                        if (reasonSt.length() > 0) {
+//                            entryName = reasonSt;
+//                        }
+//                    }
+//                    if (customer != null) {
+//                        boolean byPassPayment = BillingProcess.isSystemAccount(customer);
+//                        if (byPassPayment == false) {
+//                            int year = 0;
+//                            if (yearSt != null) {
+//                                if (yearSt.length() > 0) {
+//                                    try {
+//                                        year = Integer.parseInt(yearSt);
+//                                    } catch (Exception e) {
+//                                    }
+//                                }
+//                            }
+//
+//                            if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
+//                                // UI will set payment to negative 
+//                                float withdraw = -balance;
+//                                int ret = getAccounting().addTransferWithDrawRevenueTax(this, customer, withdraw, year, entryName + " " + emailSt);
+//                            } else if (entryName.equals(AccountingProcess.R_USER_PAYMENT)) {
+//                                int ret = getAccounting().addTransferRevenueTax(this, customer, balance, year, emailSt);
+//                            }
+//                        }
+//                    }
+//
+//                }
+//            }
+//            int ret = getAccountImp().updateAddCustStatusPaymentBalance(UserName, status, payment, balance);
+//            if (ret == 1) {
+//                String tzid = "America/New_York"; //EDT
+//                TimeZone tz = TimeZone.getTimeZone(tzid);
+//                java.sql.Date d = new java.sql.Date(TimeConvertion.currentTimeMillis());
+////                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+//                DateFormat format = new SimpleDateFormat(" hh:mm a");
+//                format.setTimeZone(tz);
+//                String ESTtime = format.format(d);
+//
+//                String msg = ESTtime + " " + emailSt;
+//
+//                getAccountImp().addAccountMessage(accountObj, ConstantKey.ACCT_TRAN, msg);
+//                AccountObj accountAdminObj = getAdminObjFromCache();
+//                getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+//
+//                // send email
+//                DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
+//                formatD.setTimeZone(tz);
+//                String ESTdateD = formatD.format(d);
+//                String msgD = ESTdateD + " " + emailSt;
+//                getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.ACCT_TRAN, msgD);
+//
+//            }
+//            return ret;
+//
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
 
     public int systemCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
@@ -5492,30 +5489,6 @@ public class ServiceAFweb {
         } catch (Exception e) {
         }
         return 0;
-    }
-
-//http://localhost:8080/cust/admin1/sys/cust/eddy/status/0/substatus/0
-    public int updateCustStatusSubStatus(String customername, String statusSt, String substatusSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-//
-//        if (checkCallRemoteMysql() == true) {
-//            return getServiceAFwebREST().updateCustStatusSubStatus(customername, statusSt, substatusSt);
-//        }
-
-        int status;
-        int substatus;
-        try {
-            status = Integer.parseInt(statusSt);
-            substatus = Integer.parseInt(substatusSt);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-        CustomerObj custObj = getAccountImp().getCustomerBySystem(customername, null);
-        custObj.setStatus(status);
-        custObj.setSubstatus(substatus);
-        return getAccountImp().updateCustStatusSubStatus(custObj, custObj.getStatus(), custObj.getSubstatus());
     }
 
     public WebStatus serverPing() {
