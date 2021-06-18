@@ -16,7 +16,7 @@ import com.afweb.processcustacc.PUBSUBprocess;
 import com.afweb.processcustacc.FundMgrProcess;
 import com.afweb.processbilling.BillingProcess;
 import com.afweb.processaccounting.AccountingProcess;
-import com.afweb.processafweb.AccountTranProcess;
+import com.afweb.nnsignal.AccountTranProcess;
 import com.afweb.processafweb.AccountMaintProcess;
 import com.afweb.model.*;
 import com.afweb.account.*;

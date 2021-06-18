@@ -138,8 +138,28 @@ public class AccountTranImp {
                                     break;
                                 }
                                 if (trTradingACCObj.getTrsignal() != trAdminObj.getTrsignal()) {
-                                    trTradingACCObj.setTrsignal(trAdminObj.getTrsignal());
 
+                                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+                                    if (stock != null) {
+                                        AFstockInfo stockinfo = stock.getAfstockInfo();
+                                        if (stockinfo != null) {
+                                            float close = stockinfo.getFclose();
+                                            float preClose = stock.getPrevClose();
+
+                                            float delPer = 100 * (close - preClose) / preClose;
+                                            int newSignal = trAdminObj.getTrsignal();
+                                            if (newSignal == ConstantKey.S_BUY) {
+                                                if (delPer < -1.1) {
+                                                    break;
+                                                }
+                                            } else if (newSignal == ConstantKey.S_SELL) {
+                                                if (delPer > 1.1) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    trTradingACCObj.setTrsignal(trAdminObj.getTrsignal());
                                     UpdateTRList.add(trTradingACCObj);
                                     String tzid = "America/New_York"; //EDT
                                     TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -380,8 +400,9 @@ public class AccountTranImp {
         }
         return offset;
     }
+
     ///////////////////////////////////////////////////////////
-        //////////////////////////////////////// transaction order
+    //////////////////////////////////////// transaction order
     // user add buy or sell transaction manually
     public int AddTransactionOrderWithComm(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, String trName, int tranSignal) {
 
