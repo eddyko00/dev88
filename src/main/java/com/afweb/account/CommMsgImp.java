@@ -22,13 +22,6 @@ public class CommMsgImp {
 
     protected static Logger logger = Logger.getLogger("CommMsgImp");
 
-    public void ProcessAllCommCleanup(ServiceAFweb serviceAFWeb) {
-        ServiceAFweb.lastfun = "ProcessAllCommCleanup";
-
-//        logger.info(">>>>> ProcessAllCommCleanup " + acTimerCnt);
-        serviceAFWeb.removeAllCommBy1Month();
-    }
-
     public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type, CommData commDataObj) {
         try {
             return serviceAFWeb.getAccountImp().addAccountCommMessage(accountObj, name, type, commDataObj);

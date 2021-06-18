@@ -10,6 +10,7 @@ import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 
 import com.afweb.model.stock.*;
+import com.afweb.processcustacc.CommService;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockDB;
@@ -74,8 +75,8 @@ public class AccountMaintProcess {
                 // cleanup Lock entry pass 30 min
                 ProcessAllLockCleanup(serviceAFWeb);
                 // cleanup Lock entry pass 30 min
-                CommMsgImp commMsg = new CommMsgImp();
-                commMsg.ProcessAllCommCleanup(serviceAFWeb);
+                CommService commSrv = new CommService();
+                commSrv.removeAllCommBy1Month(serviceAFWeb);
             }
         }
         serviceAFWeb.removeNameLock(LockName, ConstantKey.ACC_LOCKTYPE);

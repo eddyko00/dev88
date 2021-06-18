@@ -286,7 +286,7 @@ public class AccountTranProcess {
             if (result == true) {
                 for (int i = 0; i < addedList.size(); i++) {
                     String symbol = (String) addedList.get(i);
-                    int resultAdd = serviceAFWeb.addAccountStockByAccount(accObj, symbol);
+                    int resultAdd = serviceAFWeb.addAccountStockByAccountServ(accObj, symbol);
                     if (resultAdd > 0) {
                         logger.info("> ProcessFundAccount add TR stock " + accObj.getAccountname() + " " + symbol);
                     }
@@ -489,7 +489,7 @@ public class AccountTranProcess {
                 if (result == true) {
                     for (int i = 0; i < addedList.size(); i++) {
                         String symbol = (String) addedList.get(i);
-                        int resultAdd = serviceAFWeb.addAccountStockByAccount(accObj, symbol);
+                        int resultAdd = serviceAFWeb.addAccountStockByAccountServ(accObj, symbol);
                         if (resultAdd > 0) {
                             logger.info("> ProcessTradingAccountUpdate add TR stock " + accObj.getAccountname() + " " + symbol
                             );

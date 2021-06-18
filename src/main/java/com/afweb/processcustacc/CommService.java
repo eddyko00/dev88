@@ -11,8 +11,10 @@ import com.afweb.model.account.*;
 
 
 import com.afweb.service.ServiceAFweb;
+import com.afweb.util.TimeConvertion;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import java.util.logging.Logger;
 
@@ -86,4 +88,16 @@ public class CommService {
         return 0;
     }
 
+    public int removeAllCommBy1Month(ServiceAFweb serviceAFWeb) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long last1monthbefore = TimeConvertion.addMonths(dateNow.getTimeInMillis(), -1); // last 1 month before
+
+        serviceAFWeb.getAccountImp().removeCommByTimebefore(last1monthbefore, ConstantKey.INT_TYPE_COM_SIGNAL);
+        return 1;
+
+    }
+    
 }

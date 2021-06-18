@@ -442,6 +442,31 @@ public class CustAccService {
         return totalPercent;
     }
 
+    public int addAccountStockByAccount(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSymbol, null);
+        if (stockObj == null) {
+            int result = serviceAFWeb.addStockServ(NormalizeSymbol);
+            if (result == 0) {
+                return 0;
+            }
+            //  get the stock object after added into the stockDB
+            stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSymbol, null);
+            if (stockObj == null) {
+                return 0;
+            }
+        }
+        if (stockObj.getStatus() != ConstantKey.OPEN) {
+            // set to open
+            int result = serviceAFWeb.addStockServ(NormalizeSymbol);
+            if (result == 0) {
+                return 0;
+            }
+        }
+        return serviceAFWeb.getAccountImp().addAccountStockId(accountObj, stockObj.getId(), serviceAFWeb.TRList);
+    }
+
     public int addAccountStockByCustAcc(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -2136,8 +2161,8 @@ public class CustAccService {
         fundmgr.ProcessGetGlobalFundMgr(serviceAFWeb);
 //        fundmgr.ProcessFundMgrAccount(this);
         return true;
-    }    
-    
+    }
+
     public boolean SystemFundSelectBest(ServiceAFweb serviceAFWeb) {
         FundMgrProcess fundmgr = new FundMgrProcess();
         logger.info(">ProcessSelectBestFundMgrAccount start ");
@@ -2149,5 +2174,5 @@ public class CustAccService {
         logger.info(">ProcessAddRemoveFundAccount start ");
         serviceAFWeb.getAccountProcessImp().ProcessAddRemoveFundAccount(serviceAFWeb);
         return true;
-    }    
+    }
 }
