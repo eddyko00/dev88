@@ -1280,7 +1280,8 @@ public class ServiceAFweb {
                     retBoolean = StockInternetImpDao.updateStockFile(this, sym);
 
                     if (retBoolean == true) {
-                        processStockSplit(commData.getSymbol(), commData.getSplit());
+                        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+                        TRprocessImp.processStockSplit(this, commData.getSymbol(), commData.getSplit());
                     }
                 }
             }
@@ -1297,151 +1298,6 @@ public class ServiceAFweb {
 //        int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //        ArrayList<AFstockInfo> StockArray = getStockHistorical(symbol, size1yearAll);
 
-    }
-
-    public int processStockSplit(String symbol, float split) {
-        logger.info(">processStockSplit");
-        ArrayList accountIdList = SystemAllOpenAccountIDList();
-        if (accountIdList == null) {
-            return 0;
-        }
-        AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
-
-        if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
-            return 0;
-        }
-
-        int size1yearAll = 20 * 12 * 5 + (50 * 3);
-        ArrayList<AFstockInfo> StockInfoArray = this.getStockHistoricalServ(stock.getSymbol(), size1yearAll);
-        if (StockInfoArray == null) {
-            return 0;
-        }
-        if (StockInfoArray.size() < 100) {
-            return 0;
-        }
-        for (int i = 0; i < accountIdList.size(); i++) {
-            String accountIdSt = (String) accountIdList.get(i);
-            int accountId = Integer.parseInt(accountIdSt);
-            AccountObj accountObj = SystemAccountObjByAccountID(accountId);
-            if (accountObj == null) {
-                continue;
-            }
-
-            if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
-                continue;
-            }
-            ArrayList stockNameList = getAccountImp().getAccountStockNameList(accountObj.getId());
-            if (stockNameList == null) {
-                continue;
-            }
-
-            boolean foundS = false;
-            for (int j = 0; j < stockNameList.size(); j++) {
-                String stockN = (String) stockNameList.get(j);
-                if (stockN.equals(symbol)) {
-                    foundS = true;
-                    break;
-                }
-            }
-            if (foundS == false) {
-                continue;
-            }
-
-            ArrayList<TransationOrderObj> thList = getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), "TR_ACC", 0);
-            if (thList == null) {
-                continue;
-            }
-            ArrayList transSQL = new ArrayList();
-            for (int k = 0; k < thList.size(); k++) {
-                TransationOrderObj thObj = thList.get(k);
-                float avgprice = thObj.getAvgprice();
-                float share = thObj.getShare();
-
-                long stockdatel = TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
-                AFstockInfo stockInfoMatch = null;
-                for (int j = 0; j < StockInfoArray.size(); j++) {
-                    AFstockInfo stockInfo = StockInfoArray.get(j);
-                    long stockInfodatel = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
-                    if (stockdatel == stockInfodatel) {
-                        stockInfoMatch = stockInfo;
-                        break;
-                    }
-
-                }
-                if (stockInfoMatch == null) {
-                    continue;
-                }
-                float oldClose = avgprice;
-                float newClose = stockInfoMatch.getFclose();
-                float tempSplit = 0;
-                if (oldClose > newClose) {
-                    tempSplit = oldClose / newClose;
-                } else if (newClose > oldClose) {
-                    tempSplit = newClose / oldClose;
-                }
-                if (tempSplit < CKey.SPLIT_VAL) {
-                    // This transaction already done the spliting
-                    if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                        stock.setSubstatus(ConstantKey.OPEN);
-                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-                        ArrayList sqlList = new ArrayList();
-                        sqlList.add(sockNameSQL);
-                        SystemUpdateSQLList(sqlList);
-                        logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
-                    }
-
-                    continue;
-                }
-
-                if (split > 0) {
-                    avgprice = avgprice / split;
-                    share = share * split;
-                }
-                if (split < 0) {
-                    split = -split;
-                    avgprice = avgprice * split;
-                    share = share / split;
-                }
-                thObj.setAvgprice(avgprice);
-                thObj.setShare(share);
-                String trSql = AccountDB.updateSplitTransactionSQL(thObj);
-                transSQL.add(trSql);
-
-            }
-            logger.info("> processStockSplit " + accountObj.getAccountname() + " total update:" + transSQL.size());
-
-            int ret = 0;
-            if (transSQL.size() > 0) {
-                ret = getAccountImp().updateTransactionOrder(transSQL);
-            }
-            if (ret == 1) {
-//                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-//                    stock.setSubstatus(ConstantKey.OPEN);
-//                    String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-//                    ArrayList sqlList = new ArrayList();
-//                    sqlList.add(sockNameSQL);
-//                    SystemUpdateSQLList(sqlList);
-//                    logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
-//                }
-//
-                //udpate performance logic
-                //udpate performance logic
-            }
-
-        }
-        logger.info("> processStockSplit no update " + symbol);
-        //clear stocksplit
-        stock = getStockImp().getRealTimeStock(symbol, null);
-        if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-            stock.setSubstatus(ConstantKey.OPEN);
-            String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-            ArrayList sqlList = new ArrayList();
-            sqlList.add(sockNameSQL);
-            SystemUpdateSQLList(sqlList);
-            logger.info("updateRealTimeStock " + symbol + " Stock Split cleared");
-        }
-
-        return 1;
     }
 
 //////////////////////////////////////////////////
@@ -2272,7 +2128,6 @@ public class ServiceAFweb {
         }
         return getAccountImp().updateTransactionOrder(transSQL);
     }
-
 
 //////////
     public int updateAccountStockSignal(TRObj stockTRObj) {
