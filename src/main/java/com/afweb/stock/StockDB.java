@@ -7,8 +7,6 @@ package com.afweb.stock;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
-import com.afweb.processnn.NN1ProcessBySignal;
-import com.afweb.processnn.TradingNNprocess;
 import com.afweb.processstock.StockService;
 
 import com.afweb.service.ServiceAFweb;
@@ -36,7 +34,6 @@ import java.util.Date;
 import java.util.List;
 
 import java.util.TimeZone;
-import java.util.logging.Level;
 import javax.sql.DataSource;
 import java.util.logging.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
