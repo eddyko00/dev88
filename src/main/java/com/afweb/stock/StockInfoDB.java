@@ -384,7 +384,44 @@ public class StockInfoDB {
     }
     
 /////////////////////////////////////////////////
-    
+        public boolean restStockInfoDB() {
+        boolean status = true;
+        try {
+            processExecuteDB("drop table if exists dummyinfo1");
+        } catch (Exception e) {
+            logger.info("> RestStockInfoDB Table exception " + e.getMessage());
+            status = false;
+        }
+        return status;
+    }
+
+    public boolean cleanStockInfoDB() {
+        try {
+            processExecuteDB("drop table if exists dummyinfo1");
+            int result = initStockInfoDB();
+            if (result == -1) {
+                return false;
+            }
+            processExecuteDB("drop table if exists dummyinfo1");
+            return true;
+        } catch (Exception e) {
+            logger.info("> RestStockDB Table exception " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static String createDummyInfotable() {
+        String sqlCMD = "";
+        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
+            sqlCMD = "create table dummyinfo1 (id int identity not null, primary key (id))";
+        }
+        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+            sqlCMD = "create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))";
+        }
+        return sqlCMD;
+    }
+
+  
     public int initStockInfoDB() {
 
         int total = 0;

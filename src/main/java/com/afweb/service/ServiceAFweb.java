@@ -3130,11 +3130,11 @@ public class ServiceAFweb {
         return "sysMaintenance " + retSatus;
     }
 
-    public int testDBData() {
-        logger.info(">testDBData ");
-        int retSatus = getStockImp().testStockDB();
-        return retSatus;
-    }
+//    public int testDBData() {
+//        logger.info(">testDBData ");
+//        int retSatus = getStockImp().testStockDB();
+//        return retSatus;
+//    }
 
     public int InitDBData() {
         logger.info(">InitDBData ");

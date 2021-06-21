@@ -425,6 +425,7 @@ public class StockImp {
 
     ////////////////////////////////
     public boolean restStockDB() {
+        stockInfodb.restStockInfoDB();
         return stockdb.restStockDB();
     }
 
@@ -433,6 +434,7 @@ public class StockImp {
     }
 
     public boolean cleanStockDB() {
+        stockInfodb.cleanStockInfoDB();
         return stockdb.cleanStockDB();
     }
 
@@ -440,13 +442,13 @@ public class StockImp {
         return stockdb.deleteAllLock();
     }
 
-    public int testStockDB() {
-        try {
-            int result = stockdb.testStockDB();
-        } catch (Exception ex) {
-        }
-        return -1;  // DB error
-    }
+//    public int testStockDB() {
+//        try {
+//            int result = stockdb.testStockDB();
+//        } catch (Exception ex) {
+//        }
+//        return -1;  // DB error
+//    }
 
     // 0 - new db, 1 - db already exist, -1 db error
     public int initStockInfoDB() {
