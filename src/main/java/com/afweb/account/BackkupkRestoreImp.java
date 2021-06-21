@@ -11,7 +11,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockDB;
+import com.afweb.stock.*;
 import com.afweb.util.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -269,7 +269,7 @@ public class BackkupkRestoreImp {
             for (int i = 0; i < writeArray.size(); i++) {
                 String output = writeArray.get(i);
                 AFstockInfo item = new ObjectMapper().readValue(output, AFstockInfo.class);
-                String sql = StockDB.insertStockInfo(item);
+                String sql = StockInfoDB.insertStockInfo(item);
                 writeSQLArray.add(sql);
                 index++;
                 if (index > 500) {  //500) {

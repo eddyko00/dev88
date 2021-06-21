@@ -111,6 +111,7 @@ public class StockInternetImpDao {
                 stockInfoObj.setHigh(stockInfoRT.getHigh());
                 stockInfoObj.setLow(stockInfoRT.getLow());
                 stockInfoObj.setVolume(stockInfoRT.getVolume());
+                stockInfoObj.setSym(stockInfoRT.getSym());
                 // Real time does not have adjust coset                
 //                stockInfoObj.setAdjustClose(stockInfoObj.getAdjustClose());
 
@@ -240,6 +241,7 @@ public class StockInternetImpDao {
                     stockInfoObj.setHigh(high);
                     stockInfoObj.setLow(low);
                     stockInfoObj.setVolume(volume);
+                    stockInfoObj.setSym(symbol);
                     stock.setAfstockInfo(stockInfoObj);
 
                     stock.setPrevClose(fprevClose);
@@ -405,7 +407,7 @@ public class StockInternetImpDao {
                     if (inLine.indexOf("-,-,-,-,-") != -1) {
                         continue;
                     }
-                    AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine);
+                    AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine, symbol);
                     if (StockD == null) {
                         logger.info("getInternetHistoricalScreen Exception " + symbol + " " + inLine);
                         break;
@@ -472,7 +474,7 @@ public class StockInternetImpDao {
                 if (inLine.indexOf("-,-,-,-,-") != -1) {
                     continue;
                 }
-                AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine);
+                AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine, NormalizeSymbol);
                 if (StockD == null) {
                     logger.info("updateStockFile Exception " + NormalizeSymbol + " " + inLine);
                     break;

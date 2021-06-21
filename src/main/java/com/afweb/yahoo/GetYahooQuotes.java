@@ -355,7 +355,7 @@ public class GetYahooQuotes {
                     if (inLine.indexOf("-,-,-,-,-") != -1) {
                         continue;
                     }
-                    AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine);
+                    AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine, symbol);
                     if (StockD == null) {
                         logger.info("getHistoricalScreen Exception " + symbol + " " + inLine);
                         break;
@@ -438,7 +438,7 @@ public class GetYahooQuotes {
 //                        System.out.println("Num:" + LineNum + " " + inLine);
                     continue;
                 }
-                AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine);
+                AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine, symbol);
 
                 if (StockD == null) {
                     logger.info("getHistoricalData Exception " + symbol + " " + inLine);

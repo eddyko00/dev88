@@ -2,6 +2,20 @@ package com.vpumlmodel.stock;
 
 public class stockInfo {
 
+    /**
+     * @return the sym
+     */
+    public String getSym() {
+        return sym;
+    }
+
+    /**
+     * @param sym the sym to set
+     */
+    public void setSym(String sym) {
+        this.sym = sym;
+    }
+
 	private stock stock;
 	private int id;
 	private java.sql.Date entrydatedisplay;
@@ -12,6 +26,7 @@ public class stockInfo {
 	private float low;
 	private float volume;
 	private float adjustclose;
+	private String sym="";        
 	private int stockid;
 
     /**

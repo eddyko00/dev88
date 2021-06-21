@@ -31,11 +31,14 @@ public class StockImp {
     public static int LONG_TERM_TREND = 50;
 
     private StockDB stockdb = new StockDB();
+    private StockInfoDB stockInfodb = new StockInfoDB();
 
     public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         stockdb.setJdbcTemplate(jdbcTemplate);
         stockdb.setDataSource(dataSource);
 
+        stockInfodb.setJdbcTemplate(jdbcTemplate);
+        stockInfodb.setDataSource(dataSource);
     }
 
     public ArrayList getAllRemoveStockNameList(int length) {
@@ -66,19 +69,6 @@ public class StockImp {
         return stockdb.deleteStock(stockObj);
     }
 
-    public int deleteStockInfoByStockId(AFstockObj stockObj) {
-        if (stockObj == null) {
-            return 0;
-        }
-        return stockdb.deleteStockInfoByStockId(stockObj);
-    }
-
-    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
-        if (stockObj == null) {
-            return 0;
-        }
-        return stockdb.deleteStockInfoByDate(stockObj, datel);
-    }
 
     public int disableStock(String NormalizeSymbol) {
         return stockdb.disableStock(NormalizeSymbol);
@@ -93,7 +83,7 @@ public class StockImp {
             return null;
         }
         ArrayList StockArray = null;
-        StockArray = stockdb.getStockInfo(stock, start, end);
+        StockArray = stockInfodb.getStockInfo(stock, start, end);
         return StockArray;
     }
 
@@ -104,7 +94,7 @@ public class StockImp {
             return null;
         }
         ArrayList StockArray = null;
-        StockArray = stockdb.getStockInfo_workaround(stock, length, dateNow);
+        StockArray = stockInfodb.getStockInfo_workaround(stock, length, dateNow);
         return StockArray;
     }
 
@@ -119,7 +109,7 @@ public class StockImp {
     }
 
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-        return stockdb.getStockInfo(stock, length, dateNow);
+        return stockInfodb.getStockInfo(stock, length, dateNow);
     }
 
     public ArrayList getOpenStockNameArray() {
@@ -179,7 +169,7 @@ public class StockImp {
     }
 
     public String getAllStockInfoDBSQL(String sql) {
-        return stockdb.getAllStockInfoDBSQL(sql);
+        return stockInfodb.getAllStockInfoDBSQL(sql);
     }
 
     public String getAllNeuralNetDBSQL(String sql) {
@@ -217,7 +207,7 @@ public class StockImp {
         String NormalizeSymbol = stockInfoTran.getNormalizeName();
         ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
         AFstockObj stock = stockdb.getStock(NormalizeSymbol, null);
-        int result = stockdb.updateStockInfoTransaction(stock, StockInfoArray);
+        int result = stockInfodb.updateStockInfoTransaction(stock, StockInfoArray);
         if (result > 0) {
 
             //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
@@ -459,6 +449,25 @@ public class StockImp {
     }
 
     // 0 - new db, 1 - db already exist, -1 db error
+    public int initStockInfoDB() {
+        try {
+
+            int result = stockInfodb.initStockInfoDB();
+
+            if (result >= 0) {
+                if (result == 0) {
+
+                    return 0; // new db
+                }
+                return 1; // DB already exist
+            }
+        } catch (Exception ex) {
+
+        }
+        return -1;  // DB error
+    }
+
+    // 0 - new db, 1 - db already exist, -1 db error
     public int initStockDB() {
         try {
 
@@ -515,7 +524,6 @@ public class StockImp {
     }
 
 ///////////////////////////////////////////////    
-
     public StringBuffer getInternetScreenPage(String url) {
         StockInternetImpDao internet = new StockInternetImpDao();
         return internet.getInternetYahooScreenPage(url);
@@ -525,6 +533,21 @@ public class StockImp {
         StockInternetImpDao internet = new StockInternetImpDao();
         return internet.GetRealTimeStockInternet(NormalizeSymbol);
     }
+
     
+///////////////////////////////////////////////////
+    public int deleteStockInfoByStockId(AFstockObj stockObj) {
+        if (stockObj == null) {
+            return 0;
+        }
+        return stockInfodb.deleteStockInfoByStockId(stockObj);
+    }
+
+    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
+        if (stockObj == null) {
+            return 0;
+        }
+        return stockInfodb.deleteStockInfoByDate(stockObj, datel);
+    }    
     
 }

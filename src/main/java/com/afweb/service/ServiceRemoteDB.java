@@ -413,11 +413,8 @@ public class ServiceRemoteDB {
 //            String[] dataArray = output.split("~");
             String[] dataArray = splitIncludeEmpty(output, '~');
             output = "[";
-// "create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, 
-//fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null,
-//stockid int(10) not null, primary key (id))");
 
-            int recSize = 10;
+            int recSize = 11;  // remember to add 1 more of the last dataArray
             for (int i = 0; i < dataArray.length; i += recSize) {
                 output += "{";
                 output += "\"id\":\"" + dataArray[i] + "\",";
@@ -429,7 +426,8 @@ public class ServiceRemoteDB {
                 output += "\"low\":\"" + dataArray[i + 6] + "\",";
                 output += "\"volume\":\"" + dataArray[i + 7] + "\",";
                 output += "\"adjustclose\":\"" + dataArray[i + 8] + "\",";
-                output += "\"stockid\":\"" + dataArray[i + 9] + "\"";
+                output += "\"sym\":\"" + dataArray[i + 9] + "\",";                
+                output += "\"stockid\":\"" + dataArray[i + 10] + "\"";
 
                 if (i + recSize >= dataArray.length) {
                     output += "}";
@@ -470,6 +468,7 @@ public class ServiceRemoteDB {
                 stocktmp.setLow(Float.parseFloat(rs.getLow()));
                 stocktmp.setVolume(Float.parseFloat(rs.getVolume()));
                 stocktmp.setAdjustclose(Float.parseFloat(rs.getAdjustclose()));
+                stocktmp.setSym(rs.getSym());
                 stocktmp.setStockid(Integer.parseInt(rs.getStockid()));
                 stocktmp.setId(Integer.parseInt(rs.getId()));
 

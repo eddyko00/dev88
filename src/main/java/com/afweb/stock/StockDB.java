@@ -192,44 +192,43 @@ public class StockDB {
         return 0;
     }
 
-    public int deleteStockInfo(AFstockInfo stockInfo) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.deleteStockInfo(stockInfo);
+//    public int deleteStockInfo(AFstockInfo stockInfo) {
+////        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+////            return stockinfodb.deleteStockInfo(stockInfo);
+////        }
+//        try {
+//            String deleteSQL = "delete from stockinfo where id=" + stockInfo.getId();
+//            return processUpdateDB(deleteSQL);
+//        } catch (Exception e) {
+//            logger.info("> deleteStockInfo exception " + e.getMessage());
 //        }
-        try {
-            String deleteSQL = "delete from stockinfo where id=" + stockInfo.getId();
-            return processUpdateDB(deleteSQL);
-        } catch (Exception e) {
-            logger.info("> deleteStockInfo exception " + e.getMessage());
-        }
-        return 0;
-    }
-
-    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
-
-        try {
-            String deleteSQL = "delete from stockinfo where stockid="
-                    + stockObj.getId() + " and entrydatel < " + datel;
-            return processUpdateDB(deleteSQL);
-        } catch (Exception e) {
-            logger.info("> deleteStockInfoByDate exception " + e.getMessage());
-        }
-        return 0;
-    }
-
-    public int deleteStockInfoByStockId(AFstockObj stockObj) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.deleteStockInfoByStockId(stockObj);
+//        return 0;
+//    }
+//
+//    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
+//
+//        try {
+//            String deleteSQL = "delete from stockinfo where stockid="
+//                    + stockObj.getId() + " and entrydatel < " + datel;
+//            return processUpdateDB(deleteSQL);
+//        } catch (Exception e) {
+//            logger.info("> deleteStockInfoByDate exception " + e.getMessage());
 //        }
-        try {
-            String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();
-            return processUpdateDB(deleteSQL);
-        } catch (Exception e) {
-            logger.info("> deleteStockInfoByStockId exception " + e.getMessage());
-        }
-        return 0;
-    }
-
+//        return 0;
+//    }
+//
+//    public int deleteStockInfoByStockId(AFstockObj stockObj) {
+////        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+////            return stockinfodb.deleteStockInfoByStockId(stockObj);
+////        }
+//        try {
+//            String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();
+//            return processUpdateDB(deleteSQL);
+//        } catch (Exception e) {
+//            logger.info("> deleteStockInfoByStockId exception " + e.getMessage());
+//        }
+//        return 0;
+//    }
     public int disableStock(String NormalizeSymbol) {
 
         try {
@@ -365,7 +364,12 @@ public class StockDB {
                 if (stock.getStatus() == ConstantKey.OPEN) {
                     if (stock.getSubstatus() != ConstantKey.INITIAL) {
 
-                        ArrayList StockArray = getStockInfo_workaround(stock, 2, dateNow);
+                        ////////////////////////////
+                        //Need to fix this
+                        StockInfoDB stockInfodb = new StockInfoDB();
+                        ArrayList StockArray = stockInfodb.getStockInfo_workaround(stock, 2, dateNow);
+
+//                        ArrayList StockArray = getStockInfo_workaround(stock, 2, dateNow);
                         if (StockArray != null) {
                             if (StockArray.size() >= 2) {
                                 AFstockInfo stocktmp = (AFstockInfo) StockArray.get(0);
@@ -387,268 +391,270 @@ public class StockDB {
         return null;
     }
 
-    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, long start, long end) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.getStockInfo(stock, start, end);
-//        }
-        try {
-            if (stock == null) {
-                return null;
-            }
-            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-                return null;
-            }
-
-            String sql = "select * from stockinfo where stockid = " + stock.getId();
-            sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
-
-            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
-            return (ArrayList) entries;
-        } catch (Exception e) {
-            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
-        }
-        return null;
-    }
-
-    // Heuoku cannot get the date of the first stockinfo????
-    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
-
-        try {
-            if (stock == null) {
-                return null;
-            }
-            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-                return null;
-            }
-
-            String sql = "";
-            sql = "select * from stockinfo where stockid = " + stock.getId();
-            sql += " order by entrydatel desc";
-
-            sql = ServiceAFweb.getSQLLengh(sql, length);
-
-            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
-            return (ArrayList) entries;
-        } catch (Exception e) {
-            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
-        }
-        return null;
-    }
-
-    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.getStockInfo(stock, length, dateNow);
-//        }
-        if (dateNow == null) {
-//            dateNow = TimeConvertion.getCurrentCalendar();
-            long date = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-            dateNow = TimeConvertion.workaround_nextday_endOfDate(date);
-        }
-        try {
-            if (stock == null) {
-                return null;
-            }
-            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-                return null;
-            }
-
-            long stockInfoEndday = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
-            String sql = "select * from stockinfo where stockid = " + stock.getId();
-            sql += " and entrydatel <= " + stockInfoEndday + " order by entrydatel desc";
-
-            sql = ServiceAFweb.getSQLLengh(sql, length);
-
-            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
-            return (ArrayList) entries;
-        } catch (Exception e) {
-            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
-        }
-        return null;
-    }
-
-    public String getAllStockInfoDBSQL(String sql) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.getAllStockInfoDBSQL(sql);
-//        }
-        try {
-            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
-            String nameST = new ObjectMapper().writeValueAsString(entries);
-            return nameST;
-        } catch (JsonProcessingException ex) {
-        }
-        return null;
-
-    }
-
-    private ArrayList getStockInfoListSQL(String sql) {
-        if (checkCallRemoteSQL_Mysql() == true) {
-            try {
-                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
-                return AFstockObjArry;
-            } catch (Exception ex) {
-            }
-            return null;
-        }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            try {
-                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
-                return AFstockObjArry;
-            } catch (Exception ex) {
-            }
-            return null;
-        }
-        List<AFstockInfo> entries = new ArrayList<>();
-        entries.clear();
-        entries = this.jdbcTemplate.query(sql, new RowMapper() {
-            public AFstockInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-                AFstockInfo stocktmp = new AFstockInfo();
-                stocktmp.setEntrydatel(rs.getLong("entrydatel"));
-                stocktmp.setEntrydatedisplay(new java.sql.Date(stocktmp.getEntrydatel()));
-                stocktmp.setFopen(rs.getFloat("fopen"));
-                stocktmp.setFclose(rs.getFloat("fclose"));
-                stocktmp.setHigh(rs.getFloat("high"));
-                stocktmp.setLow(rs.getFloat("low"));
-                stocktmp.setVolume(rs.getFloat("volume"));
-                stocktmp.setAdjustclose(rs.getFloat("adjustclose"));
-                stocktmp.setStockid(rs.getInt("stockid"));
-                stocktmp.setId(rs.getInt("id"));
-
-                return stocktmp;
-            }
-        });
-        return (ArrayList) entries;
-    }
-
-    public static String insertStockInfo(AFstockInfo newS) {
-        newS.setEntrydatedisplay(new java.sql.Date(newS.getEntrydatel()));
-        String sqlCMD
-                = "insert into stockinfo (entrydatedisplay, entrydatel, fopen, fclose, high, low ,volume, adjustclose, stockid, id) VALUES "
-                + "('" + newS.getEntrydatedisplay() + "'," + newS.getEntrydatel() + ","
-                + newS.getFopen() + "," + newS.getFclose() + "," + newS.getHigh() + "," + newS.getLow() + "," + newS.getVolume() + "," + newS.getAdjustclose()
-                + "," + newS.getStockid() + "," + newS.getId() + ")";
-        return sqlCMD;
-    }
-
-    public int updateStockInfoTransaction(AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
-
-//        logger.info("> addStockInfoTransaction " + stock.getSymbol() + " - " + StockArray.size());
-        try {
-            if (stock == null) {
-                return 0;
-            }
-            if (StockArray == null) {
-                return 0;
-            }
-            if (StockArray.size() == 0) {
-                return 1;
-            }
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            long stockinfoDBEndDay = 0;
-            ArrayList stockinfoDBArray = getStockInfo_workaround(stock, 1, dateNow);
-
-            if (stockinfoDBArray != null && stockinfoDBArray.size() == 1) {
-                AFstockInfo stockinfoDB = (AFstockInfo) stockinfoDBArray.get(0);
-                stockinfoDBEndDay = stockinfoDB.getEntrydatel();
-            }
-            AFstockInfo stockinfoStaticDB = null;
-            if (CKey.CACHE_STOCKH == true) {
-                if ((stockinfoDBArray == null) || (stockinfoDBArray.size() == 0)) {
-                    StockService stockServ = new StockService();
-                    ArrayList<AFstockInfo> stockInfoArrayStatic = stockServ.getAllStockHistory(stock.getSymbol());
-                    if (stockInfoArrayStatic == null) {
-                        stockInfoArrayStatic = new ArrayList();
-                    }
-                    if (stockInfoArrayStatic.size() > 0) {
-//                        logger.info("> getStockHistorical" + stock.getSymbol() + " " + stockInfoArrayStatic.size());
-                        stockinfoStaticDB = stockInfoArrayStatic.get(0);
-                        stockinfoDBEndDay = stockinfoStaticDB.getEntrydatel();
-                    }
-                }
-            }
-            // jdbc transaction
-            ArrayList sqlTranList = new ArrayList();
-
-            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-                String sqlDelete = "DELETE From stockinfo where stockid=" + stock.getId();
-                sqlTranList.add(sqlDelete);
-                stock.setSubstatus(ConstantKey.OPEN);
-
-            }
-            int resultAdd = 0;
-            for (int i = 0; i < StockArray.size(); i++) {
-                AFstockInfo stockinfoTemp = StockArray.get(i);
-                long stockinfoRTEndDay = stockinfoTemp.getEntrydatel();
-
-                stockinfoDBEndDay = TimeConvertion.endOfDayInMillis(stockinfoDBEndDay);
-                stockinfoRTEndDay = TimeConvertion.endOfDayInMillis(stockinfoRTEndDay);
-
-                if (stockinfoRTEndDay < stockinfoDBEndDay) {
-                    continue;
-                } else if (stockinfoRTEndDay == stockinfoDBEndDay) {
-                    if (CKey.CACHE_STOCKH == true) {
-                        if (stockinfoStaticDB != null) {
-                            if (stockinfoStaticDB.getEntrydatel() == stockinfoRTEndDay) {
-                                // ignore to update the static db file
-                                continue;
-                            }
-                        }
-                    }
-                    resultAdd++;
-                    String updateSQL
-                            = "update stockinfo set entrydatedisplay='" + stockinfoTemp.getEntrydatedisplay() + "', entrydatel=" + stockinfoTemp.getEntrydatel() + ", "
-                            + "fopen=" + stockinfoTemp.getFopen() + ", fclose=" + stockinfoTemp.getFclose() + ", high=" + stockinfoTemp.getHigh() + ", "
-                            + "low=" + stockinfoTemp.getLow() + ", volume=" + stockinfoTemp.getVolume() + ", adjustclose=" + stockinfoTemp.getAdjustclose()
-                            + " where entrydatel=" + stockinfoTemp.getEntrydatel() + " and stockid='" + stock.getId() + "'";
-
-                    //update current stockinfo
-                    sqlTranList.add(updateSQL);
-                    continue;
-                }
-                resultAdd++;
-                // Add stockinfo
-                String insertSQL
-                        = "insert into stockinfo (entrydatedisplay, entrydatel, fopen, fclose, high, low ,volume, adjustclose, stockid) VALUES "
-                        + "('" + new java.sql.Date(stockinfoTemp.getEntrydatel()) + "'," + stockinfoTemp.getEntrydatel() + ","
-                        + stockinfoTemp.getFopen() + "," + stockinfoTemp.getFclose() + "," + stockinfoTemp.getHigh() + "," + stockinfoTemp.getLow() + "," + stockinfoTemp.getVolume() + "," + stockinfoTemp.getAdjustclose() + "," + stock.getId() + ")";
-                sqlTranList.add(insertSQL);
-
-            }
-            //must sepalate stock and stockinfo to exec one by one for 2 db 
-            int sqlResult = 0;
-//            if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//                sqlResult = stockinfodb.updateSQLArrayList(sqlTranList);
-//            } else {
-            sqlResult = updateSQLArrayList(sqlTranList);
+//    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, long start, long end) {
+////        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+////            return stockinfodb.getStockInfo(stock, start, end);
+////        }
+//        try {
+//            if (stock == null) {
+//                return null;
 //            }
-
-//            if (getEnv.checkLocalPC() == true) {
-//                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
-//            }            
-            ArrayList sqlStockTranList = new ArrayList();
-
-            //clear Fail update count
-            long dateNowLong = dateNow.getTimeInMillis();
-            stock.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
-            stock.setUpdatedatel(dateNowLong);
-            stock.setFailedupdate(0);
-            // part of transaction
-            String sqlUpdateStockSQL
-                    = "update stock set substatus=" + stock.getSubstatus() + ", stockname='" + stock.getStockname()
-                    + "', updatedatedisplay='" + stock.getUpdatedatedisplay() + "',updatedatel=" + stock.getUpdatedatel() + ", failedupdate="
-                    + stock.getFailedupdate() + " where symbol='" + stock.getSymbol() + "'";
-            sqlStockTranList.add(sqlUpdateStockSQL);
-            // process all transaction
-            sqlResult = updateSQLArrayList(sqlStockTranList);
-            if (sqlResult == 1) {
-                return 1; //resultAdd; 
-            }
-        } catch (Exception e) {
-            logger.info("> addStockInfoTransaction exception " + stock.getSymbol() + " - " + e.getMessage());
-        }
-        return 0;
-    }
-
+//            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+//                return null;
+//            }
+//
+//            String sql = "select * from stockinfo where stockid = " + stock.getId();
+//            sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
+//
+//            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
+//            return (ArrayList) entries;
+//        } catch (Exception e) {
+//            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
+//        }
+//        return null;
+//    }
+//
+//    // Heuoku cannot get the date of the first stockinfo????
+//    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
+//
+//        try {
+//            if (stock == null) {
+//                return null;
+//            }
+//            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+//                return null;
+//            }
+//
+//            String sql = "";
+//            sql = "select * from stockinfo where stockid = " + stock.getId();
+//            sql += " order by entrydatel desc";
+//
+//            sql = ServiceAFweb.getSQLLengh(sql, length);
+//
+//            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
+//            return (ArrayList) entries;
+//        } catch (Exception e) {
+//            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
+//        }
+//        return null;
+//    }
+//
+//    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
+////        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+////            return stockinfodb.getStockInfo(stock, length, dateNow);
+////        }
+//        if (dateNow == null) {
+////            dateNow = TimeConvertion.getCurrentCalendar();
+//            long date = TimeConvertion.getCurrentCalendar().getTimeInMillis();
+//            dateNow = TimeConvertion.workaround_nextday_endOfDate(date);
+//        }
+//        try {
+//            if (stock == null) {
+//                return null;
+//            }
+//            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+//                return null;
+//            }
+//
+//            long stockInfoEndday = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
+//            String sql = "select * from stockinfo where stockid = " + stock.getId();
+//            sql += " and entrydatel <= " + stockInfoEndday + " order by entrydatel desc";
+//
+//            sql = ServiceAFweb.getSQLLengh(sql, length);
+//
+//            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
+//            return (ArrayList) entries;
+//        } catch (Exception e) {
+//            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
+//        }
+//        return null;
+//    }
+//
+//    public String getAllStockInfoDBSQL(String sql) {
+////        if (CKey.SEPARATE_STOCKINFO_DB == true) {
+////            return stockinfodb.getAllStockInfoDBSQL(sql);
+////        }
+//        try {
+//            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
+//            String nameST = new ObjectMapper().writeValueAsString(entries);
+//            return nameST;
+//        } catch (JsonProcessingException ex) {
+//        }
+//        return null;
+//
+//    }
+//
+//    private ArrayList getStockInfoListSQL(String sql) {
+//        if (checkCallRemoteSQL_Mysql() == true) {
+//            try {
+//                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
+//                return AFstockObjArry;
+//            } catch (Exception ex) {
+//            }
+//            return null;
+//        }
+//        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
+//            try {
+//                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
+//                return AFstockObjArry;
+//            } catch (Exception ex) {
+//            }
+//            return null;
+//        }
+//        List<AFstockInfo> entries = new ArrayList<>();
+//        entries.clear();
+//        entries = this.jdbcTemplate.query(sql, new RowMapper() {
+//            public AFstockInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+//
+//                AFstockInfo stocktmp = new AFstockInfo();
+//                stocktmp.setEntrydatel(rs.getLong("entrydatel"));
+//                stocktmp.setEntrydatedisplay(new java.sql.Date(stocktmp.getEntrydatel()));
+//                stocktmp.setFopen(rs.getFloat("fopen"));
+//                stocktmp.setFclose(rs.getFloat("fclose"));
+//                stocktmp.setHigh(rs.getFloat("high"));
+//                stocktmp.setLow(rs.getFloat("low"));
+//                stocktmp.setVolume(rs.getFloat("volume"));
+//                stocktmp.setAdjustclose(rs.getFloat("adjustclose"));
+//                stocktmp.setSym(rs.getString("sym"));
+//                stocktmp.setStockid(rs.getInt("stockid"));
+//                stocktmp.setId(rs.getInt("id"));
+//
+//                return stocktmp;
+//            }
+//        });
+//        return (ArrayList) entries;
+//    }
+//
+//    public static String insertStockInfo(AFstockInfo newS) {
+//        newS.setEntrydatedisplay(new java.sql.Date(newS.getEntrydatel()));
+//        String sqlCMD
+//                = "insert into stockinfo (entrydatedisplay, entrydatel, fopen, fclose, high, low ,volume, adjustclose, sym, stockid, id) VALUES "
+//                + "('" + newS.getEntrydatedisplay() + "'," + newS.getEntrydatel() + ","
+//                + newS.getFopen() + "," + newS.getFclose() + "," + newS.getHigh() + "," + newS.getLow() + "," + newS.getVolume() + "," + newS.getAdjustclose()
+//                + ",'" + newS.getSym() + "'," + newS.getStockid() + "," + newS.getId() + ")";
+//        return sqlCMD;
+//    }
+//
+//    public int updateStockInfoTransaction(AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
+//
+////        logger.info("> addStockInfoTransaction " + stock.getSymbol() + " - " + StockArray.size());
+//        try {
+//            if (stock == null) {
+//                return 0;
+//            }
+//            if (StockArray == null) {
+//                return 0;
+//            }
+//            if (StockArray.size() == 0) {
+//                return 1;
+//            }
+//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//            long stockinfoDBEndDay = 0;
+//            ArrayList stockinfoDBArray = getStockInfo_workaround(stock, 1, dateNow);
+//
+//            if (stockinfoDBArray != null && stockinfoDBArray.size() == 1) {
+//                AFstockInfo stockinfoDB = (AFstockInfo) stockinfoDBArray.get(0);
+//                stockinfoDBEndDay = stockinfoDB.getEntrydatel();
+//            }
+//            AFstockInfo stockinfoStaticDB = null;
+//            if (CKey.CACHE_STOCKH == true) {
+//                if ((stockinfoDBArray == null) || (stockinfoDBArray.size() == 0)) {
+//                    StockService stockServ = new StockService();
+//                    ArrayList<AFstockInfo> stockInfoArrayStatic = stockServ.getAllStockHistory(stock.getSymbol());
+//                    if (stockInfoArrayStatic == null) {
+//                        stockInfoArrayStatic = new ArrayList();
+//                    }
+//                    if (stockInfoArrayStatic.size() > 0) {
+////                        logger.info("> getStockHistorical" + stock.getSymbol() + " " + stockInfoArrayStatic.size());
+//                        stockinfoStaticDB = stockInfoArrayStatic.get(0);
+//                        stockinfoDBEndDay = stockinfoStaticDB.getEntrydatel();
+//                    }
+//                }
+//            }
+//            // jdbc transaction
+//            ArrayList sqlTranList = new ArrayList();
+//
+//            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+//                String sqlDelete = "DELETE From stockinfo where stockid=" + stock.getId();
+//                sqlTranList.add(sqlDelete);
+//                stock.setSubstatus(ConstantKey.OPEN);
+//
+//            }
+//            int resultAdd = 0;
+//            for (int i = 0; i < StockArray.size(); i++) {
+//                AFstockInfo stockinfoTemp = StockArray.get(i);
+//                long stockinfoRTEndDay = stockinfoTemp.getEntrydatel();
+//
+//                stockinfoDBEndDay = TimeConvertion.endOfDayInMillis(stockinfoDBEndDay);
+//                stockinfoRTEndDay = TimeConvertion.endOfDayInMillis(stockinfoRTEndDay);
+//
+//                if (stockinfoRTEndDay < stockinfoDBEndDay) {
+//                    continue;
+//                } else if (stockinfoRTEndDay == stockinfoDBEndDay) {
+//                    if (CKey.CACHE_STOCKH == true) {
+//                        if (stockinfoStaticDB != null) {
+//                            if (stockinfoStaticDB.getEntrydatel() == stockinfoRTEndDay) {
+//                                // ignore to update the static db file
+//                                continue;
+//                            }
+//                        }
+//                    }
+//                    resultAdd++;
+//                    String updateSQL
+//                            = "update stockinfo set entrydatedisplay='" + stockinfoTemp.getEntrydatedisplay() + "', entrydatel=" + stockinfoTemp.getEntrydatel() + ", "
+//                            + "fopen=" + stockinfoTemp.getFopen() + ", fclose=" + stockinfoTemp.getFclose() + ", high=" + stockinfoTemp.getHigh() + ", "
+//                            + "low=" + stockinfoTemp.getLow() + ", volume=" + stockinfoTemp.getVolume() + ", adjustclose=" + stockinfoTemp.getAdjustclose()
+//                            + ", sym='" + stockinfoTemp.getSym() + "'"
+//                            + " where entrydatel=" + stockinfoTemp.getEntrydatel() + " and stockid='" + stock.getId() + "'";
+//
+//                    //update current stockinfo
+//                    sqlTranList.add(updateSQL);
+//                    continue;
+//                }
+//                resultAdd++;
+//                // Add stockinfo
+//                String insertSQL
+//                        = "insert into stockinfo (entrydatedisplay, entrydatel, fopen, fclose, high, low ,volume, adjustclose, sym, stockid) VALUES "
+//                        + "('" + new java.sql.Date(stockinfoTemp.getEntrydatel()) + "'," + stockinfoTemp.getEntrydatel() + ","
+//                        + stockinfoTemp.getFopen() + "," + stockinfoTemp.getFclose() + "," + stockinfoTemp.getHigh() + "," + stockinfoTemp.getLow() + "," + stockinfoTemp.getVolume()
+//                        + "," + stockinfoTemp.getAdjustclose() + ",'" + stockinfoTemp.getSym() + "'," + stock.getId() + ")";
+//                sqlTranList.add(insertSQL);
+//
+//            }
+//            //must sepalate stock and stockinfo to exec one by one for 2 db 
+//            int sqlResult = 0;
+////            if (CKey.SEPARATE_STOCKINFO_DB == true) {
+////                sqlResult = stockinfodb.updateSQLArrayList(sqlTranList);
+////            } else {
+//            sqlResult = updateSQLArrayList(sqlTranList);
+////            }
+//
+////            if (getEnv.checkLocalPC() == true) {
+////                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
+////            }            
+//            ArrayList sqlStockTranList = new ArrayList();
+//
+//            //clear Fail update count
+//            long dateNowLong = dateNow.getTimeInMillis();
+//            stock.setUpdatedatedisplay(new java.sql.Date(dateNowLong));
+//            stock.setUpdatedatel(dateNowLong);
+//            stock.setFailedupdate(0);
+//            // part of transaction
+//            String sqlUpdateStockSQL
+//                    = "update stock set substatus=" + stock.getSubstatus() + ", stockname='" + stock.getStockname()
+//                    + "', updatedatedisplay='" + stock.getUpdatedatedisplay() + "',updatedatel=" + stock.getUpdatedatel() + ", failedupdate="
+//                    + stock.getFailedupdate() + " where symbol='" + stock.getSymbol() + "'";
+//            sqlStockTranList.add(sqlUpdateStockSQL);
+//            // process all transaction
+//            sqlResult = updateSQLArrayList(sqlStockTranList);
+//            if (sqlResult == 1) {
+//                return 1; //resultAdd; 
+//            }
+//        } catch (Exception e) {
+//            logger.info("> addStockInfoTransaction exception " + stock.getSymbol() + " - " + e.getMessage());
+//        }
+//        return 0;
+//    }
     private boolean ExecuteSQLArrayList(ArrayList SQLTran) {
         String SQL = "";
         try {
@@ -889,7 +895,7 @@ public class StockDB {
                 createTableList.add("create table tradingrule (id int identity not null, trname varchar(255) not null, type int not null, trsignal int not null, updatedatedisplay date null, updatedatel bigint not null, status int not null, substatus int not null, investment float(10) not null, balance float(10) not null, longshare float(10) not null, longamount float(10) not null, shortshare float(10) not null, "
                         + "shortamount float(10) not null,perf float(10) not null, linktradingruleid int not null, stockid int not null, accountid int not null, comment varchar(255) not null, primary key (id))");
                 createTableList.add("create table stock (id int identity not null, symbol varchar(255) not null unique, stockname varchar(255) not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, failedupdate int not null, longterm float(10) not null, shortterm float(10) not null, direction float(10) not null, data varchar(255) not null,primary key (id))");
-                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, stockid int not null, primary key (id))");
+                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
                 createTableList.add("create table account (id int identity not null, accountname varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, startdate date null, investment float(10) not null, balance float(10) not null, servicefee float(10) not null, portfolio varchar(255) not null, linkaccountid int not null, customerid int not null, primary key (id))");
                 createTableList.add("create table lockobject (id int identity not null, lockname varchar(255) not null unique, type int not null, lockdatedisplay date null, lockdatel bigint null, comment varchar(255) null, primary key (id))");
                 createTableList.add("create table customer (id int identity not null, username varchar(255) not null unique, password varchar(255) not null, type int not null, status int not null, substatus int not null, startdate date null, firstname varchar(255) null, lastname varchar(255) null, email varchar(255) null, payment float(10) not null, balance float(10) not null, "
@@ -917,7 +923,7 @@ public class StockDB {
                 createTableList.add("create table tradingrule (id int(10) not null auto_increment, trname varchar(255) not null, type int(10) not null, trsignal int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, status int(10) not null, substatus int(10) not null, investment float not null, balance float not null, longshare float not null, longamount float not null, shortshare float not null, "
                         + "shortamount float not null,perf float not null, linktradingruleid int(10) not null, stockid int(10) not null, accountid int(10) not null, comment varchar(255) not null, primary key (id))");
                 createTableList.add("create table stock (id int(10) not null auto_increment, symbol varchar(255) not null unique, stockname varchar(255) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, failedupdate int(10) not null, longterm float not null, shortterm float not null, direction float not null, data varchar(255) not null, primary key (id))");
-                createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, stockid int(10) not null, primary key (id))");
+                createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, sym varchar(255) not null, stockid int(10) not null, primary key (id))");
                 createTableList.add("create table account (id int(10) not null auto_increment, accountname varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, startdate date, investment float not null, balance float not null, servicefee float not null, portfolio varchar(255) not null, linkaccountid int(10) not null, customerid int(10) not null, primary key (id))");
                 createTableList.add("create table lockobject (id int(10) not null auto_increment, lockname varchar(255) not null unique, type int(10) not null, lockdatedisplay date, lockdatel bigint(20), comment varchar(255), primary key (id))");
                 createTableList.add("create table customer (id int(10) not null auto_increment, username varchar(255) not null unique, password varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, startdate date, firstname varchar(255), lastname varchar(255), email varchar(255), payment float not null, balance float not null, "

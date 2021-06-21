@@ -769,7 +769,7 @@ public class ProcessNN2 {
                     } else if (profitTake == true) {
                         confidentSt = confidentSt + " (Take Profit)";
                     }
-
+                    confidentSt = confidentSt + " - " + debugSt;
                     nnRet.setConfident(confidentSt);                    
                     accData.setConf(confidentSt);
                 }

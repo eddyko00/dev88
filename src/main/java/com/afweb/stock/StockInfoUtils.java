@@ -374,7 +374,7 @@ public class StockInfoUtils {
 
     public static final String QUOTES_CSV_DELIMITER = ",";
 
-    public static AFstockInfo parseCSVLine(String line) {
+    public static AFstockInfo parseCSVLine(String line, String sym) {
         String[] data = line.split(QUOTES_CSV_DELIMITER);
         AFstockInfo stockInfo = new AFstockInfo();
         ////Date,Open,High,Low,Close,Adj Close,Volume
@@ -408,6 +408,7 @@ public class StockInfoUtils {
             stockInfo.setHigh(high);
             stockInfo.setLow(low);
             stockInfo.setAdjustclose(adjClose);
+            stockInfo.setSym(sym);
             stockInfo.setVolume(volume);
             return stockInfo;
         } catch (Exception ex) {

@@ -10,6 +10,20 @@ package com.afweb.service.db;
  * @author eddy
  */
 public class StockInfoRDB {
+
+    /**
+     * @return the sym
+     */
+    public String getSym() {
+        return sym;
+    }
+
+    /**
+     * @param sym the sym to set
+     */
+    public void setSym(String sym) {
+        this.sym = sym;
+    }
 	private String id;
 	private String entrydatedisplay;
 	private String entrydatel;
@@ -19,6 +33,7 @@ public class StockInfoRDB {
 	private String low;
 	private String volume;
 	private String adjustclose;
+	private String sym;        
 	private String stockid;    
 
     /**

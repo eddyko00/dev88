@@ -792,10 +792,9 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            AccountObj accountAdminObj = getAdminObjFromCache();
-            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+            symbol ="TSLA";
+            
+
 
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
@@ -3143,6 +3142,9 @@ public class ServiceAFweb {
         int retStatus = getStockImp().initStockDB();
 
         if (retStatus >= 0) {
+            //// init StockInfo
+            getStockImp().initStockInfoDB();
+            
             logger.info(">InitDB Customer account ");
             CustomerObj newCustomer = new CustomerObj();
             newCustomer.setUsername(CKey.ADMIN_USERNAME);
