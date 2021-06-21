@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 //@CrossOrigin(origins = "http://localhost:8383")
 @RestController
-public class NNController {
+public class ControllerNN {
 
     private static AFwebService afWebService = new AFwebService();
     private static NNService nnService = new NNService();
