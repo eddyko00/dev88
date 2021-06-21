@@ -5,7 +5,6 @@
  */
 package com.example.herokudemo;
 
-import com.afweb.processnn.NNController;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFLockObject;
