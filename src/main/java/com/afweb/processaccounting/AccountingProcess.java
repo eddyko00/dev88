@@ -24,11 +24,12 @@ import java.util.logging.Logger;
  * @author eddyko
  */
 public class AccountingProcess {
+
     protected static Logger logger = Logger.getLogger("accAPI");
 
     public static String R_USER_PAYMENT = "R_USER_PAYMENT";
     public static String E_USER_WITHDRAWAL = "E_USER_WITHDRAWAL";
-    
+
     public static int MAX_SIZE = 100;
 // next year    
 //https://courses.lumenlearning.com/sac-finaccounting/chapter/journalizing-and-posting-closing-entries/
@@ -55,15 +56,17 @@ public class AccountingProcess {
     public static int INT_L_TAX_PAYABLE = 16;
     public static String E_RET_EARNING = "retained_earnings_lastyear";
     public static int INT_E_RET_EARNING = 17;
+    public static String E_COMMON = "common_share";
+    public static int INT_E_COMMON = 18;
 //    public static String B_BUSINESS = "profit_loss_acc";
 
     public static String Asset_accounts[] = {A_CASH, A_ACC_PREPAID, A_ACC_RECEIVABLE, A_EQUIPMENT};
     public static String Liability_accounts[] = {L_ACC_PAYABLE, L_TAX_PAYABLE};
-    public static String Equity_accounts[] = {E_RET_EARNING};
+    public static String Equity_accounts[] = {E_COMMON};
 
     public static int Asset_accountsId[] = {INT_A_CASH, INT_A_ACC_PREPAID, INT_A_ACC_RECEIVABLE, INT_A_EQUIPMENT};
     public static int Liability_accountsId[] = {INT_L_ACC_PAYABLE, INT_L_TAX_PAYABLE};
-    public static int Equity_accountsId[] = {};
+    public static int Equity_accountsId[] = {INT_E_COMMON};
 //    public static String Business_accounts[] = {B_BUSINESS};
     //
     //Revenue accounts (Examples: Service Revenues, Investment Revenues)
@@ -737,13 +740,13 @@ public class AccountingProcess {
         accEntrySpace2.setName("Equity_accounts");
         accTotalEntryBal.add(accEntrySpace2);
 
-//        for (int i = 0; i < Equity_accounts.length; i++) {
-//            AccEntryObj accEntry = new AccEntryObj();
-//            accEntry.setId(Equity_accountsId[i]);
-//            accEntry.setDateSt(curDateSt);
-//            accEntry.setName(Equity_accounts[i]);
-//            accTotalEntryBal.add(accEntry);
-//        }
+        for (int i = 0; i < Equity_accounts.length; i++) {
+            AccEntryObj accEntry = new AccEntryObj();
+            accEntry.setId(Equity_accountsId[i]);
+            accEntry.setDateSt(curDateSt);
+            accEntry.setName(Equity_accounts[i]);
+            accTotalEntryBal.add(accEntry);
+        }
         AccEntryObj accTotalEntryEquity = new AccEntryObj();
         accTotalEntryEquity.setId(-1);
         accTotalEntryEquity.setDateSt(curDateSt);
@@ -805,6 +808,8 @@ public class AccountingProcess {
 
                     if (accEntryT.getName().indexOf("_payable") != -1) {
                         // Liability_accounts
+                        accEntryT.setTotal(accEntryT.getCredit() - accEntryT.getDebit());
+                    } else if (accEntryT.getName().indexOf("common_") != -1) {
                         accEntryT.setTotal(accEntryT.getCredit() - accEntryT.getDebit());
                     } else {
                         accEntryT.setTotal(accEntryT.getDebit() - accEntryT.getCredit());
@@ -981,39 +986,39 @@ public class AccountingProcess {
 //////////////////////////////////////////////////
     public int addTransferCash(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
         if (amount >= 0) {
-            return this.addCashProfit(serviceAFWeb, customer, amount, year, data);
+            return this.addCashInvest(serviceAFWeb, customer, amount, year, data);
         }
-        return this.addCashLoss(serviceAFWeb, customer, -amount, year, data);
+        return this.addCashWithdraw(serviceAFWeb, customer, -amount, year, data);
     }
 //If you made a profit for the year, the profit and loss account would have a credit balance   
 
-    public int addCashLoss(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
+    public int addCashWithdraw(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
-        String tranData = " debit " + A_CASH + " :" + 0 + "  credit " + A_CASH + ":" + amount + " year=" + year + " ";
+        String tranData = " debit " + E_COMMON + " :" + amount + "  credit " + A_CASH + ":" + amount + " year=" + year + " ";
         data = tranData + data;
 
         if (year != 0) {
             trantime = TimeConvertion.addMonths(trantime, year * 12);
         }
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, 0, (float) amount, data, trantime);
+        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(E_COMMON, A_CASH, accountAdminObj, (float) amount, data, trantime);
         return result;
 
     }
 
 //If, however, the business made a loss for the year, the profit and loss account would have a debit balance.       
-    public int addCashProfit(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
+    public int addCashInvest(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
-        String tranData = " debit " + A_CASH + " :" + amount + "  credit " + A_CASH + ":" + 0 + " year=" + year + " ";
+        String tranData = " debit " + A_CASH + " :" + amount + "  credit " + E_COMMON + ":" + amount + " year=" + year + " ";
         data = tranData + data;
 
         if (year != 0) {
             trantime = TimeConvertion.addMonths(trantime, year * 12);
         }
-        int result = serviceAFWeb.getAccountImp().addAccountingEntry(A_CASH, accountAdminObj, (float) amount, 0, data, trantime);
+        int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(A_CASH, E_COMMON, accountAdminObj, (float) amount, data, trantime);
         return result;
 
     }
