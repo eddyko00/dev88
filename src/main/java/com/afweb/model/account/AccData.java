@@ -12,6 +12,20 @@ package com.afweb.model.account;
 public class AccData {
 
     /**
+     * @return the nnst
+     */
+    public String getNnst() {
+        return nnst;
+    }
+
+    /**
+     * @param nnst the nnst to set
+     */
+    public void setNnst(String nnst) {
+        this.nnst = nnst;
+    }
+
+    /**
      * @return the tt
      */
     public int getTt() {
@@ -42,7 +56,7 @@ public class AccData {
     private String conf = "";
     private int nn = 0;
     private int tt = 0; // tecnhical indicator error
-
+   private String nnst = "";
     /**
      * @return the conf
      */
