@@ -6,18 +6,16 @@
 package com.afweb.service;
 
 import com.afweb.stock.StockInternetImpDao;
-import com.afweb.processstock.StockProcess;
 import com.afweb.processnn.*;
+import com.afweb.nnsignal.*;
 
 import com.afweb.processemail.EmailProcess;
-import com.afweb.nnsignal.TradingSignalProcess;
-
 import com.afweb.processcustacc.PUBSUBprocess;
-import com.afweb.processcustacc.FundMgrProcess;
 import com.afweb.processbilling.BillingProcess;
 import com.afweb.processaccounting.AccountingProcess;
-import com.afweb.nnsignal.AccountTranProcess;
+
 import com.afweb.processmain.AccountMaintProcess;
+
 import com.afweb.model.*;
 import com.afweb.account.*;
 import com.afweb.chart.ChartService;
@@ -667,8 +665,7 @@ public class ServiceAFweb {
     }
 
     void AFwebExec() {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-        StockProcess stockProcess = new StockProcess();
+
         ////////////
         if (((getServerObj().getProcessTimerCnt() % 29) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
             long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
@@ -795,13 +792,11 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            
             AccountObj accountAdminObj = getAdminObjFromCache();
             TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
             TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);            
-            
-            
+            TRprocessImp.upateAdminPerformance(this, accountAdminObj, symbol);
+
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
 //            ArrayList<AFstockInfo> StockInfoArray = this.getStockHistorical(stock.getSymbol(), size1yearAll);

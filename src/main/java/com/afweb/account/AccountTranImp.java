@@ -36,7 +36,7 @@ public class AccountTranImp {
         ServiceAFweb.lastfun = "updateTradingsignal";
         CommMsgImp commMsg = new CommMsgImp();
 
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return;
         }
 //        logger.info("> updateTradingsignal " + symbol + " " + accountObj.getAccountname());
@@ -292,7 +292,7 @@ public class AccountTranImp {
 ////////////////////////////////////////////////
     public void updateTradingTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         ServiceAFweb.lastfun = "updateTradingTransaction";
-        if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return;
         }
 
