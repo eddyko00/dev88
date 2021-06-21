@@ -56,7 +56,8 @@ public class AccData {
     private String conf = "";
     private int nn = 0;
     private int tt = 0; // tecnhical indicator error
-   private String nnst = "";
+    private String nnst = "";
+
     /**
      * @return the conf
      */
