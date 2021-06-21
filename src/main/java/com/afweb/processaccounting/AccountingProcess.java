@@ -98,8 +98,8 @@ public class AccountingProcess {
     public static String YEAR_EXPENSE = "yearly_expense";
     public static int INT_YEAR_EXPENSE = 101;
 
-    public static String depreciation_accounts[] = {YEAR_DEPRECIATION, YEAR_EXPENSE, E_RET_EARNING};
-    public static int depreciation_accountsId[] = {INT_YEAR_DEPRECIATION, INT_YEAR_EXPENSE, INT_E_RET_EARNING};
+    public static String[] business_accounts = {YEAR_DEPRECIATION, YEAR_EXPENSE, E_COMMON, E_RET_EARNING};
+    public static int[] business_accountsId = {INT_YEAR_DEPRECIATION, INT_YEAR_EXPENSE, INT_E_COMMON, INT_E_RET_EARNING};
 
     public static String SYS_TOTAL = "Total";
     public static int INT_SYS_TOTAL = 11;
@@ -389,14 +389,14 @@ public class AccountingProcess {
 //////////////////
 
         ArrayList<AccEntryObj> depreciation_accountsList = new ArrayList();
-        for (int i = 0; i < depreciation_accounts.length; i++) {
+        for (int i = 0; i < business_accounts.length; i++) {
             AccEntryObj accEntry = new AccEntryObj();
-            if (depreciation_accounts[i].equals(E_RET_EARNING)) {
+            if (business_accounts[i].equals(E_RET_EARNING)) {
                 continue;
             }
-            accEntry.setId(depreciation_accountsId[i]);
+            accEntry.setId(business_accountsId[i]);
             accEntry.setDateSt(curDateSt);
-            accEntry.setName(depreciation_accounts[i]);
+            accEntry.setName(business_accounts[i]);
             accTotalEntryBal.add(accEntry);
 
             depreciation_accountsList.add(accEntry);
@@ -829,7 +829,7 @@ public class AccountingProcess {
     }
 
     // deprecation sheet
-    public AccReportObj getAccountDeprecationReportYear(ServiceAFweb serviceAFWeb, int year, String namerptSt) {
+    public AccReportObj getAccountBusinessReportYear(ServiceAFweb serviceAFWeb, int year, String namerptSt) {
         int lastYear = 0;
         if (year != 0) {
             lastYear = year * 12;
@@ -880,11 +880,11 @@ public class AccountingProcess {
         accEntrySpace.setName("depreciation_accounts");
         accTotalEntryBal.add(accEntrySpace);
 
-        for (int i = 0; i < depreciation_accounts.length; i++) {
+        for (int i = 0; i < business_accounts.length; i++) {
             AccEntryObj accEntry = new AccEntryObj();
-            accEntry.setId(depreciation_accountsId[i]);
+            accEntry.setId(business_accountsId[i]);
             accEntry.setDateSt(curDateSt);
-            accEntry.setName(depreciation_accounts[i]);
+            accEntry.setName(business_accounts[i]);
             accTotalEntryBal.add(accEntry);
         }
 
@@ -1185,8 +1185,10 @@ public class AccountingProcess {
         data = DepSt + data;
 
         if ((rate == 100) || (rate == 0)) {
-            int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(A_EQUIPMENT, A_CASH, accountAdminObj, (float) amount, data, trantime);
-            return result;
+            // must have a rate
+            return 0;
+//            int result = serviceAFWeb.getAccountImp().addAccountingDoubleEntry(A_EQUIPMENT, A_CASH, accountAdminObj, (float) amount, data, trantime);
+//            return result;
         }
 
         double exDeplication = amount * rate / 100;

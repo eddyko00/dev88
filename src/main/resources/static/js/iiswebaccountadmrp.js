@@ -58,7 +58,7 @@ var app = {
         var htmltrHeader = "";
         htmltrHeader += '<button type="submit" id="incomebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Income Rpt</small></button>';
         htmltrHeader += '<button type="submit" id="balancebtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Balance Rpt</small></button>';
-        htmltrHeader += '<button type="submit" id="depbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Deprecation Rpt</small></button>';
+        htmltrHeader += '<button type="submit" id="depbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>Business Rpt</small></button>';
 
         htmltrHeader += '<button type="submit" id="prevbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>prev year</small></button>';
         htmltrHeader += '<button type="submit" id="nextbtn" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left"><small>next year</small></button>';
@@ -439,10 +439,13 @@ var app = {
                 return;
             }
             var deprate = document.getElementById("deprate").value;
-            if (deprate === "") {
+            if ((deprate === "") || (deprate === "0") || (deprate === "100")) {
+
+                alert("Need to enter deprecation rate.");
                 window.location.href = "accountadmrp.html";
                 return;
             }
+
             var comment = document.getElementById("depcomm").value;
             var payment = depamount;
             ///cust/{username}/uisys/{custid}/accounting/deprecation?payment=&rate=&reason=&comment="

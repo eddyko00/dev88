@@ -629,7 +629,7 @@ public class AccountingService {
                     if (namerpt.equals("balance")) {
                         accReport = accProc.getAccountBalanceReportYear(serviceAFWeb, year, namerptSt);
                     } else if (namerpt.equals("deprecation")) {
-                        accReport = accProc.getAccountDeprecationReportYear(serviceAFWeb, year, namerptSt);
+                        accReport = accProc.getAccountBusinessReportYear(serviceAFWeb, year, namerptSt);
                     } else {
                         accReport = accProc.getAccountReportYear(serviceAFWeb, year, namerptSt);
                     }
