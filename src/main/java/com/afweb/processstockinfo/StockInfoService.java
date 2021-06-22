@@ -205,7 +205,7 @@ public class StockInfoService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        ArrayList<AFstockInfo> stockInfoArray = serviceAFWeb.getStockInfoImp().getStockHistoricalRange(NormalizeSymbol, start, end);
+        ArrayList<AFstockInfo> stockInfoArray = stockInfoImp.getStockHistoricalRange(NormalizeSymbol, start, end);
 
         return stockInfoArray;
     }
@@ -224,6 +224,16 @@ public class StockInfoService {
         return 0;
     }
 
+    public int updateStockInfoTransaction(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
+        ServiceAFweb.lastfun = "updateStockInfoTransaction";
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        return stockInfoImp.updateStockInfoTransaction(stockInfoTran);
+    }
+    
+    
     public int cleanAllStockInfo(ServiceAFweb serviceAFWeb) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -252,7 +262,7 @@ public class StockInfoService {
                     AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
                     endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
                     endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
-                    serviceAFWeb.getStockInfoImp().deleteStockInfoByDate(stockObj, endStaticDay);
+                    stockInfoImp.deleteStockInfoByDate(stockObj, endStaticDay);
                 }
 
             }

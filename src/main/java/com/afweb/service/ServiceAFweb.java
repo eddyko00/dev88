@@ -2149,37 +2149,9 @@ public class ServiceAFweb {
         return 1;
     }
 
+/////////////////////////////////////////        
+/////////////////////////////////////////        
 //
-//////////////////////////////////////////
-    // StockService
-    StockInfoService stockInfoSrv = new StockInfoService();
-//////////////////////////////////////////
-        public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-        return stockInfoSrv.getStockInfo(stock, length, dateNow);
-    }
-
-    // Heuoku cannot get the date of the first stockinfo????
-    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
-        return stockInfoSrv.getStockInfo_workaround(stock, length, dateNow);
-    }
-    
-    /////recent day first and the old data last////////////
-    // return stock history starting recent date to the old date
-    public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
-        if (true) {
-            return stockInfoSrv.getStockHistorical(this, symbol, length);
-        }
-        return null;
-
-    }
-
-    public int removeStockInfoServ(String symbol) {
-        if (true) {
-            return stockInfoSrv.removeStockInfo(this, symbol);
-        }
-        return 0;
-    }
-    ////////////////////////////////////////////
 //    public static HashMap<String, ArrayList> stockInputMapFile = null;
 //
 //    public static boolean CreateAllStockHistoryFile(ServiceAFweb serviceAFWeb, String symbolL[], String fileName) {
@@ -2250,7 +2222,6 @@ public class ServiceAFweb {
 //        return stockInfoList;
 //
 //    }
-
     public static HashMap<String, ArrayList> stockInputMap = null;
     public static HashMap<String, ArrayList> stockInputMap_1 = null;
 
@@ -2500,9 +2471,45 @@ public class ServiceAFweb {
     }
 
 /////////////////////////////////////////    
-    
-    
-    
+//////////////////////////////////////////
+    // StockService
+    StockInfoService stockInfoSrv = new StockInfoService();
+//////////////////////////////////////////
+
+    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
+        return stockInfoSrv.getStockInfo(stock, length, dateNow);
+    }
+
+    // Heuoku cannot get the date of the first stockinfo????
+    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
+        return stockInfoSrv.getStockInfo_workaround(stock, length, dateNow);
+    }
+
+    /////recent day first and the old data last////////////
+    // return stock history starting recent date to the old date
+    public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
+        if (true) {
+            return stockInfoSrv.getStockHistorical(this, symbol, length);
+        }
+        return null;
+
+    }
+
+    public int updateStockInfoTransactionServ(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
+        if (true) {
+            return stockInfoSrv.updateStockInfoTransaction(serviceAFWeb, stockInfoTran);
+        }
+        return 0;
+    }
+
+    public int removeStockInfoServ(String symbol) {
+        if (true) {
+            return stockInfoSrv.removeStockInfo(this, symbol);
+        }
+        return 0;
+    }
+    ////////////////////////////////////////////
+
 //////////////////////////////////////////
     // StockService
     StockService stockSrv = new StockService();
@@ -2510,14 +2517,14 @@ public class ServiceAFweb {
 
     public AFstockObj getStockRealTimeServ(String symbol) {
         if (true) {
-            return stockSrv.getStockRealTimeServ(this, symbol);
+            return stockSrv.getStockRealTime(this, symbol);
         }
         return null;
     }
 
     public AFstockObj getStockRealTimeByStockIDServ(int stockID) {
         if (true) {
-            return stockSrv.getStockRealTimeBySockIDServ(this, stockID);
+            return stockSrv.getStockRealTimeBySockID(this, stockID);
         }
         return null;
     }
@@ -2565,7 +2572,6 @@ public class ServiceAFweb {
         return null;
     }
 
-
     public int updateStockAllSrv() {
         if (true) {
             return stockSrv.updateAllStock(this);
@@ -2573,15 +2579,8 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int updateStockInfoTransactionServ(StockInfoTranObj stockInfoTran) {
-        if (true) {
-            return stockSrv.updateStockInfoTransaction(this, stockInfoTran);
-        }
-        return 0;
-    }
 //////////////////////////////////////////
 //////////////////////////////////////////
-
     public ArrayList getAllOpenStockNameArray() {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2985,10 +2984,9 @@ public class ServiceAFweb {
                 case updateStockInfoTransaction:  //updateStockInfoTransaction = "103";
                     try {
                         st = sqlObj.getReq();
-                        StockInfoTranObj stockInfoTran = new ObjectMapper()
-                                .readValue(st, StockInfoTranObj.class);
+                        StockInfoTranObj stockInfoTran = new ObjectMapper().readValue(st, StockInfoTranObj.class);
 
-                        int result = updateStockInfoTransactionServ(stockInfoTran);
+                        int result = updateStockInfoTransactionServ(this, stockInfoTran);
                         sqlObj.setResp("" + result);
 
                     } catch (Exception ex) {

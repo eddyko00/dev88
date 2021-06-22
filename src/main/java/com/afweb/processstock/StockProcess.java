@@ -515,7 +515,7 @@ public class StockProcess {
                         stockInfoTran.setNormalizeName(NormalizeSymbol);
                         stockInfoTran.setStockInfoList(StockSendArray);
 
-                        int ret = serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
+                        int ret = serviceAFWeb.updateStockInfoTransactionServ(serviceAFWeb, stockInfoTran);
                         if (ret == 0) {
                             return 0;
                         }
@@ -531,7 +531,7 @@ public class StockProcess {
                     return 1;
                 }
 //                logger.info("updateRealTimeStock send " + StockSendArray.size());
-                return serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
+                return serviceAFWeb.updateStockInfoTransactionServ(serviceAFWeb, stockInfoTran);
             }
         } catch (Exception e) {
             logger.info("> updateRealTimeStock " + NormalizeSymbol + " exception " + e.getMessage());

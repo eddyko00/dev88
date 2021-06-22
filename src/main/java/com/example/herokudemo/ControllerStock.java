@@ -87,7 +87,7 @@ public class ControllerStock {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return null;
         }
-        AFstockObj stock = stockService.getStockRealTimeServ(afWebService, symbol);
+        AFstockObj stock = stockService.getStockRealTime(afWebService, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return stock;
     }
