@@ -45,7 +45,7 @@ public class StockService {
         return stockList;
     }
 
-    public AFstockObj getStockRealTime(ServiceAFweb serviceAFWeb, String symbol) {
+    public AFstockObj getStockRealTimeServ(ServiceAFweb serviceAFWeb, String symbol) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -55,6 +55,23 @@ public class StockService {
 
         AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSymbol, null);
 
+        if (stock == null) {
+            return null;
+        }
+        if (stock.getStatus() == ConstantKey.OPEN) {
+            if (stock.getSubstatus() != ConstantKey.INITIAL) {
+                ArrayList StockArray = serviceAFWeb.getStockInfo_workaround(stock, 2, null);
+
+                if (StockArray != null) {
+                    if (StockArray.size() >= 2) {
+                        AFstockInfo stocktmp = (AFstockInfo) StockArray.get(0);
+                        stock.setAfstockInfo(stocktmp);
+                        AFstockInfo prevStocktmp = (AFstockInfo) StockArray.get(1);
+                        stock.setPrevClose(prevStocktmp.getFclose());
+                    }
+                }
+            }
+        }
         if (serviceAFWeb.mydebugSim == true) {
             Calendar cDate = null;
             cDate = Calendar.getInstance();
@@ -77,18 +94,36 @@ public class StockService {
                     String ESTdate = format.format(d);
                     stock.setUpdateDateD(ESTdate);
 
-                    return stock;
                 }
             }
         }
         return stock;
     }
 
-    public AFstockObj getStockRealTimeBySockID(ServiceAFweb serviceAFWeb, int stockID) {
+    public AFstockObj getStockRealTimeBySockIDServ(ServiceAFweb serviceAFWeb, int stockID) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        return serviceAFWeb.getStockImp().getRealTimeStockByStockID(stockID, null);
+        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStockByStockID(stockID, null);
+
+        if (stock == null) {
+            return null;
+        }
+        if (stock.getStatus() == ConstantKey.OPEN) {
+            if (stock.getSubstatus() != ConstantKey.INITIAL) {
+                ArrayList StockArray = serviceAFWeb.getStockInfo_workaround(stock, 2, null);
+
+                if (StockArray != null) {
+                    if (StockArray.size() >= 2) {
+                        AFstockInfo stocktmp = (AFstockInfo) StockArray.get(0);
+                        stock.setAfstockInfo(stocktmp);
+                        AFstockInfo prevStocktmp = (AFstockInfo) StockArray.get(1);
+                        stock.setPrevClose(prevStocktmp.getFclose());
+                    }
+                }
+            }
+        }
+        return stock;
     }
 
     public int addStock(ServiceAFweb serviceAFWeb, String symbol) {
@@ -164,7 +199,6 @@ public class StockService {
 //        }
 //        return 1;
 //    }
-
 //
 //    public int removeStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
 //        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
@@ -346,9 +380,8 @@ public class StockService {
 //
 //        return stockInfoArray;
 //    }
-
     public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        AFstockObj stock = getStockRealTime(serviceAFWeb, NormalizeSymbol);
+        AFstockObj stock = getStockRealTimeServ(serviceAFWeb, NormalizeSymbol);
         if (stock == null) {
             return false;
         }
@@ -373,7 +406,6 @@ public class StockService {
         }
         return serviceAFWeb.getStockInfoImp().updateStockInfoTransaction(stockInfoTran);
     }
-    
 
 //    ////////////////////////////////////////////
 //    public static HashMap<String, ArrayList> stockInputMapFile = null;
@@ -697,7 +729,4 @@ public class StockService {
 //    }
 //
 ///////////////////////////////////////////
-    
-    
-    
 }

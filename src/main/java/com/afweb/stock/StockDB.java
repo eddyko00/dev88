@@ -362,25 +362,25 @@ public class StockDB {
             }
             if (entries.size() != 0) {
                 stock = (AFstockObj) entries.get(0);
-                if (stock.getStatus() == ConstantKey.OPEN) {
-                    if (stock.getSubstatus() != ConstantKey.INITIAL) {
-
-                        ////////////////////////////
-                        //Need to fix this
-                        StockInfoDB stockInfodb = new StockInfoDB();
-                        ArrayList StockArray = stockInfodb.getStockInfo_workaround(stock, 2, dateNow);
-
-//                        ArrayList StockArray = getStockInfo_workaround(stock, 2, dateNow);
-                        if (StockArray != null) {
-                            if (StockArray.size() >= 2) {
-                                AFstockInfo stocktmp = (AFstockInfo) StockArray.get(0);
-                                stock.setAfstockInfo(stocktmp);
-                                AFstockInfo prevStocktmp = (AFstockInfo) StockArray.get(1);
-                                stock.setPrevClose(prevStocktmp.getFclose());
-                            }
-                        }
-                    }
-                }
+//                if (stock.getStatus() == ConstantKey.OPEN) {
+//                    if (stock.getSubstatus() != ConstantKey.INITIAL) {
+//
+//                        ////////////////////////////
+//                        //Need to fix this
+//                        StockInfoDB stockInfodb = new StockInfoDB();
+//                        ArrayList StockArray = stockInfodb.getStockInfo_workaround(stock, 2, dateNow);
+//
+////                        ArrayList StockArray = getStockInfo_workaround(stock, 2, dateNow);
+//                        if (StockArray != null) {
+//                            if (StockArray.size() >= 2) {
+//                                AFstockInfo stocktmp = (AFstockInfo) StockArray.get(0);
+//                                stock.setAfstockInfo(stocktmp);
+//                                AFstockInfo prevStocktmp = (AFstockInfo) StockArray.get(1);
+//                                stock.setPrevClose(prevStocktmp.getFclose());
+//                            }
+//                        }
+//                    }
+//                }
                 return stock;
             }
 

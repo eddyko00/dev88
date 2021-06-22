@@ -2510,14 +2510,14 @@ public class ServiceAFweb {
 
     public AFstockObj getStockRealTimeServ(String symbol) {
         if (true) {
-            return stockSrv.getStockRealTime(this, symbol);
+            return stockSrv.getStockRealTimeServ(this, symbol);
         }
         return null;
     }
 
     public AFstockObj getStockRealTimeByStockIDServ(int stockID) {
         if (true) {
-            return stockSrv.getStockRealTimeBySockID(this, stockID);
+            return stockSrv.getStockRealTimeBySockIDServ(this, stockID);
         }
         return null;
     }
