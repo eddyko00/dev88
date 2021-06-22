@@ -2154,6 +2154,14 @@ public class ServiceAFweb {
     // StockService
     StockInfoService stockInfoSrv = new StockInfoService();
 //////////////////////////////////////////
+        public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
+        return stockInfoSrv.getStockInfo(stock, length, dateNow);
+    }
+
+    // Heuoku cannot get the date of the first stockinfo????
+    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
+        return stockInfoSrv.getStockInfo_workaround(stock, length, dateNow);
+    }
     
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date

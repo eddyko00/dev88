@@ -4,17 +4,18 @@
  * and open the template in the editor.
  */
 package com.afweb.processstockinfo;
+
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.processstock.StockProcess;
 
 import com.afweb.service.ServiceAFweb;
+import com.afweb.stockinfo.StockInfoImp;
 
 import com.afweb.util.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,61 +28,21 @@ import java.util.logging.Logger;
  * @author eddy
  */
 public class StockInfoService {
-        protected static Logger logger = Logger.getLogger("StockService");
+
+    protected static Logger logger = Logger.getLogger("StockService");
     StockProcess stockProcess = new StockProcess();
+    StockInfoImp stockInfoImp = new StockInfoImp();
     
-    
-    public int removeStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-        if (stockObj != null) {
-            return serviceAFWeb.getStockInfoImp().deleteStockInfoByStockId(stockObj);
-        }
-        return 0;
+    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
+        return stockInfoImp.getStockInfo(stock, length, dateNow);
     }
 
-    public int cleanAllStockInfo(ServiceAFweb serviceAFWeb) {
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        logger.info("> cleanAllStockInfo");
-        AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
-        ArrayList<String> stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
-        for (int i = 0; i < stockNameArray.size(); i++) {
-            String symbol = stockNameArray.get(i);
-            if (symbol.equals("T.T")) {
-                continue;
-            }
-            AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(symbol);
-            if (stockObj == null) {
-                continue;
-            }
-            if (CKey.CACHE_STOCKH == true) {
-
-                long endStaticDay = 0;
-                ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.getAllStaticStockHistoryServ(symbol);
-                if (stockInfoArrayStatic == null) {
-                    stockInfoArrayStatic = new ArrayList();
-                }
-                if (stockInfoArrayStatic.size() > 0) {
-//                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
-                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
-                    endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
-                    endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
-                    serviceAFWeb.getStockInfoImp().deleteStockInfoByDate(stockObj, endStaticDay);
-                }
-
-            }
-        }
-        return 1;
+    // Heuoku cannot get the date of the first stockinfo????
+    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
+        return stockInfoImp.getStockInfo_workaround(stock, length, dateNow);
     }
     
-
+    
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(ServiceAFweb serviceAFWeb, String symbol, int length) {
@@ -248,7 +209,55 @@ public class StockInfoService {
 
         return stockInfoArray;
     }
-    
-    
-    
+
+    public int removeStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        if (stockObj != null) {
+            return serviceAFWeb.getStockInfoImp().deleteStockInfoByStockId(stockObj);
+        }
+        return 0;
+    }
+
+    public int cleanAllStockInfo(ServiceAFweb serviceAFWeb) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        logger.info("> cleanAllStockInfo");
+        AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
+        ArrayList<String> stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
+        for (int i = 0; i < stockNameArray.size(); i++) {
+            String symbol = stockNameArray.get(i);
+            if (symbol.equals("T.T")) {
+                continue;
+            }
+            AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(symbol);
+            if (stockObj == null) {
+                continue;
+            }
+            if (CKey.CACHE_STOCKH == true) {
+
+                long endStaticDay = 0;
+                ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.getAllStaticStockHistoryServ(symbol);
+                if (stockInfoArrayStatic == null) {
+                    stockInfoArrayStatic = new ArrayList();
+                }
+                if (stockInfoArrayStatic.size() > 0) {
+//                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
+                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
+                    endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
+                    endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
+                    serviceAFWeb.getStockInfoImp().deleteStockInfoByDate(stockObj, endStaticDay);
+                }
+
+            }
+        }
+        return 1;
+    }
+
 }

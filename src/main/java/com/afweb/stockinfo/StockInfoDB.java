@@ -8,7 +8,6 @@ package com.afweb.stockinfo;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
 
-
 import com.afweb.service.ServiceAFweb;
 
 import com.afweb.service.ServiceRemoteDB;
@@ -27,7 +26,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 
 import javax.sql.DataSource;
 import java.util.logging.Logger;
@@ -82,16 +80,16 @@ public class StockInfoDB {
     }
 
 ////////////////////////////    
-        public int deleteStockInfo(AFstockInfo stockInfo) {
-
-        try {
-            String deleteSQL = "delete from stockinfo where id=" + stockInfo.getId();
-            return processUpdateDB(deleteSQL);
-        } catch (Exception e) {
-            logger.info("> deleteStockInfo exception " + e.getMessage());
-        }
-        return 0;
-    }
+//    public int deleteStockInfo(AFstockInfo stockInfo) {
+//
+//        try {
+//            String deleteSQL = "delete from stockinfo where id=" + stockInfo.getId();
+//            return processUpdateDB(deleteSQL);
+//        } catch (Exception e) {
+//            logger.info("> deleteStockInfo exception " + e.getMessage());
+//        }
+//        return 0;
+//    }
 
     public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
 
@@ -344,7 +342,7 @@ public class StockInfoDB {
             int sqlResult = 0;
 
             sqlResult = updateSQLArrayList(sqlTranList);
-          
+
             ArrayList sqlStockTranList = new ArrayList();
 
             //clear Fail update count
@@ -368,9 +366,9 @@ public class StockInfoDB {
         }
         return 0;
     }
-    
+
 /////////////////////////////////////////////////
-        public boolean restStockInfoDB() {
+    public boolean restStockInfoDB() {
         boolean status = true;
         try {
             processExecuteDB("drop table if exists dummyinfo1");
@@ -407,7 +405,6 @@ public class StockInfoDB {
         return sqlCMD;
     }
 
-  
     public int initStockInfoDB() {
 
         int total = 0;

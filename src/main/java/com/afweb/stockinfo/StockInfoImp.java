@@ -46,7 +46,6 @@ public class StockInfoImp {
         return stockInfodb.getAllStockInfoDBSQL(sql);
     }
 
-    
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
         if (stockObj == null) {
             return 0;
@@ -60,7 +59,7 @@ public class StockInfoImp {
         }
         return stockInfodb.deleteStockInfoByDate(stockObj, datel);
     }
-    
+
     ///////////////
     StockImp stockImp = new StockImp();
 
@@ -88,7 +87,11 @@ public class StockInfoImp {
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
         return stockInfodb.getStockInfo(stock, length, dateNow);
     }
-    
+
+    // Heuoku cannot get the date of the first stockinfo????
+    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
+        return stockInfodb.getStockInfo_workaround(stock, length, dateNow);
+    }
 
     // require oldest date to earliest
     // require oldest date to earliest
@@ -120,6 +123,5 @@ public class StockInfoImp {
         }
         return 0;
     }
-    
-    
+
 }
