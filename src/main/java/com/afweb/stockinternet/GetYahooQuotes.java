@@ -19,11 +19,10 @@
 // https://ca.finance.yahoo.com/quote/TD.TO/history?p=TD.TO
 // Click download data
 // https://query1.finance.yahoo.com/v7/finance/download/TD.TO?period1=1552056389&period2=1583675189&interval=1d&events=history&crumb=qHB3dMXSmt6
-package com.afweb.yahoo;
+package com.afweb.stockinternet;
 
 import com.afweb.model.stock.AFstockInfo;
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockInfoUtils;
 import com.afweb.util.CKey;
 import com.afweb.util.StringTag;
 
@@ -104,7 +103,7 @@ public class GetYahooQuotes {
             HttpClientUtils.closeQuietly(response);
             return rtn;
         } catch (Exception ex) {
-            StockInfoUtils.logger.info("Exception:" + ex.getMessage());
+            StockUtils.logger.info("Exception:" + ex.getMessage());
 
         }
 //        System.out.println("returning from getPage");
@@ -313,7 +312,7 @@ public class GetYahooQuotes {
                         conFlag = false;
                         break;
                     }
-                    String stDate = StockInfoUtils.parseHistDateScreen(stDateTmp); //1995-04-14
+                    String stDate = StockUtils.parseHistDateScreen(stDateTmp); //1995-04-14
                     if (stDate == null) {
                         conFlag = false;
                         break;
@@ -355,7 +354,7 @@ public class GetYahooQuotes {
                     if (inLine.indexOf("-,-,-,-,-") != -1) {
                         continue;
                     }
-                    AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine, symbol);
+                    AFstockInfo StockD = StockUtils.parseCSVLine(inLine, symbol);
                     if (StockD == null) {
                         logger.info("getHistoricalScreen Exception " + symbol + " " + inLine);
                         break;
@@ -438,7 +437,7 @@ public class GetYahooQuotes {
 //                        System.out.println("Num:" + LineNum + " " + inLine);
                     continue;
                 }
-                AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine, symbol);
+                AFstockInfo StockD = StockUtils.parseCSVLine(inLine, symbol);
 
                 if (StockD == null) {
                     logger.info("getHistoricalData Exception " + symbol + " " + inLine);

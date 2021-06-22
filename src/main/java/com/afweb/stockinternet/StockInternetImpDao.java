@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.stock;
+package com.afweb.stockinternet;
 
 import com.afweb.model.StockInfoTranObj;
-import com.afweb.yahoo.GetYahooQuotes;
 import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
@@ -190,7 +189,7 @@ public class StockInternetImpDao {
                 stock.setSymbol(symbol);
                 if (node.has("longName")) {
                     String longname = node.get("longName").asText();
-                    longname = StockInfoUtils.RemoveASCIIChar(longname);
+                    longname = StockUtils.RemoveASCIIChar(longname);
                     stock.setStockname(longname);
                 } else {
                     stock.setStockname(symbol);
@@ -351,7 +350,7 @@ public class StockInternetImpDao {
                         conFlag = false;
                         break;
                     }
-                    String stDate = StockInfoUtils.parseHistDateScreen(stDateTmp); //1995-04-14
+                    String stDate = StockUtils.parseHistDateScreen(stDateTmp); //1995-04-14
                     if (stDate == null) {
                         conFlag = false;
                         break;
@@ -407,7 +406,7 @@ public class StockInternetImpDao {
                     if (inLine.indexOf("-,-,-,-,-") != -1) {
                         continue;
                     }
-                    AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine, symbol);
+                    AFstockInfo StockD = StockUtils.parseCSVLine(inLine, symbol);
                     if (StockD == null) {
                         logger.info("getInternetHistoricalScreen Exception " + symbol + " " + inLine);
                         break;
@@ -474,7 +473,7 @@ public class StockInternetImpDao {
                 if (inLine.indexOf("-,-,-,-,-") != -1) {
                     continue;
                 }
-                AFstockInfo StockD = StockInfoUtils.parseCSVLine(inLine, NormalizeSymbol);
+                AFstockInfo StockD = StockUtils.parseCSVLine(inLine, NormalizeSymbol);
                 if (StockD == null) {
                     logger.info("updateStockFile Exception " + NormalizeSymbol + " " + inLine);
                     break;

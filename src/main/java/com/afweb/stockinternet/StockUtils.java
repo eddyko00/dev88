@@ -1,4 +1,4 @@
-package com.afweb.stock;
+package com.afweb.stockinternet;
 
 import com.afweb.model.stock.AFstockInfo;
 import com.afweb.util.TimeConvertion;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author Stijn Strickx
  */
-public class StockInfoUtils {
+public class StockUtils {
 
     public static Logger logger = Logger.getLogger("StockInfoUtils");
 
@@ -58,7 +58,7 @@ public class StockInfoUtils {
 //            break;
 //        }
 
-        return StockInfoUtils.join(data.trim().split(","), "");
+        return StockUtils.join(data.trim().split(","), "");
     }
 
     private static boolean isParseable(String data) {
@@ -67,7 +67,7 @@ public class StockInfoUtils {
     }
 
     public static String getString(String data) {
-        if (!StockInfoUtils.isParseable(data)) {
+        if (!StockUtils.isParseable(data)) {
             return null;
         }
         return data;
@@ -75,11 +75,11 @@ public class StockInfoUtils {
 
     public static BigDecimal getBigDecimal(String data) {
         BigDecimal result = null;
-        if (!StockInfoUtils.isParseable(data)) {
+        if (!StockUtils.isParseable(data)) {
             return result;
         }
         try {
-            data = StockInfoUtils.cleanNumberString(data);
+            data = StockUtils.cleanNumberString(data);
             char lastChar = data.charAt(data.length() - 1);
             BigDecimal multiplier = BigDecimal.ONE;
             switch (lastChar) {
@@ -114,11 +114,11 @@ public class StockInfoUtils {
 
     public static double getDouble(String data) {
         double result = Double.NaN;
-        if (!StockInfoUtils.isParseable(data)) {
+        if (!StockUtils.isParseable(data)) {
             return result;
         }
         try {
-            data = StockInfoUtils.cleanNumberString(data);
+            data = StockUtils.cleanNumberString(data);
             char lastChar = data.charAt(data.length() - 1);
             int multiplier = 1;
             switch (lastChar) {
@@ -144,11 +144,11 @@ public class StockInfoUtils {
 
     public static Integer getInt(String data) {
         Integer result = null;
-        if (!StockInfoUtils.isParseable(data)) {
+        if (!StockUtils.isParseable(data)) {
             return result;
         }
         try {
-            data = StockInfoUtils.cleanNumberString(data);
+            data = StockUtils.cleanNumberString(data);
             result = Integer.parseInt(data);
         } catch (NumberFormatException e) {
             logger.info("Failed to parse: " + data + " " + e);
@@ -158,11 +158,11 @@ public class StockInfoUtils {
 
     public static Long getLong(String data) {
         Long result = null;
-        if (!StockInfoUtils.isParseable(data)) {
+        if (!StockUtils.isParseable(data)) {
             return result;
         }
         try {
-            data = StockInfoUtils.cleanNumberString(data);
+            data = StockUtils.cleanNumberString(data);
             result = Long.parseLong(data);
         } catch (NumberFormatException e) {
             logger.info("Failed to parse: " + data + " " + e);
@@ -205,11 +205,11 @@ public class StockInfoUtils {
      * @return Calendar object representing the parsed date
      */
     public static Calendar parseDividendDate(String date) {
-        if (!StockInfoUtils.isParseable(date)) {
+        if (!StockUtils.isParseable(date)) {
             return null;
         }
         date = date.trim();
-        SimpleDateFormat format = new SimpleDateFormat(StockInfoUtils.getDividendDateFormat(date), Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat(StockUtils.getDividendDateFormat(date), Locale.US);
         format.setTimeZone(TimeZone.getTimeZone(YahooFinance.TIMEZONE));
         try {
             Calendar today = Calendar.getInstance(TimeZone.getTimeZone(YahooFinance.TIMEZONE));
@@ -251,7 +251,7 @@ public class StockInfoUtils {
 
         format.setTimeZone(timeZone);
         try {
-            if (StockInfoUtils.isParseable(date) && StockInfoUtils.isParseable(time)) {
+            if (StockUtils.isParseable(date) && StockUtils.isParseable(time)) {
                 Calendar c = Calendar.getInstance();
                 c.setTime(format.parse(datetime));
                 return c;
@@ -266,7 +266,7 @@ public class StockInfoUtils {
     public static Calendar parseHistDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
-            if (StockInfoUtils.isParseable(date)) {
+            if (StockUtils.isParseable(date)) {
                 Calendar c = Calendar.getInstance();
                 c.setTime(format.parse(date));
                 return c;
@@ -282,7 +282,7 @@ public class StockInfoUtils {
     public static String parseHistDateScreen(String dateSt) {
 
         try {
-            if (StockInfoUtils.isParseable(dateSt)) {
+            if (StockUtils.isParseable(dateSt)) {
                 Calendar c = Calendar.getInstance();
                 SimpleDateFormat formatDot = new SimpleDateFormat("MMM.dd,yyyy", Locale.US);
                 SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy", Locale.US);
@@ -380,7 +380,7 @@ public class StockInfoUtils {
         ////Date,Open,High,Low,Close,Adj Close,Volume
         //1993-01-29,43.968700,43.968700,43.750000,43.937500,27.357281,1003200
         try {
-            Calendar cal = StockInfoUtils.parseHistDate(data[0]);
+            Calendar cal = StockUtils.parseHistDate(data[0]);
             if (cal == null) {
                 return null;
             }
@@ -388,17 +388,17 @@ public class StockInfoUtils {
             Date stockInfoEndday = TimeConvertion.endOfDay(new Date(entryDate.getTime()));
 
             BigDecimal bg;
-            bg = StockInfoUtils.getBigDecimal(data[1]);
+            bg = StockUtils.getBigDecimal(data[1]);
             float open = bg.floatValue();
-            bg = StockInfoUtils.getBigDecimal(data[2]);
+            bg = StockUtils.getBigDecimal(data[2]);
             float high = bg.floatValue();
-            bg = StockInfoUtils.getBigDecimal(data[3]);
+            bg = StockUtils.getBigDecimal(data[3]);
             float low = bg.floatValue();
-            bg = StockInfoUtils.getBigDecimal(data[4]);
+            bg = StockUtils.getBigDecimal(data[4]);
             float close = bg.floatValue();
-            bg = StockInfoUtils.getBigDecimal(data[5]);
+            bg = StockUtils.getBigDecimal(data[5]);
             float adjClose = bg.floatValue();
-            float volume = StockInfoUtils.getLong(data[6]);
+            float volume = StockUtils.getLong(data[6]);
 
             stockInfo.setEntrydatedisplay(new java.sql.Date(stockInfoEndday.getTime()));
             stockInfo.setEntrydatel(stockInfoEndday.getTime());
@@ -412,7 +412,7 @@ public class StockInfoUtils {
             stockInfo.setVolume(volume);
             return stockInfo;
         } catch (Exception ex) {
-            StockInfoUtils.logger.info("Exception:" + line +" "+ ex.getMessage());
+            StockUtils.logger.info("Exception:" + line +" "+ ex.getMessage());
 
         }
         return null;

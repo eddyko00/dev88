@@ -5,6 +5,7 @@
  */
 package com.afweb.stock;
 
+import com.afweb.stockinfo.StockInfoDB;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
 import com.afweb.processstock.StockService;

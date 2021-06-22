@@ -5,7 +5,8 @@
  */
 package com.afweb.service;
 
-import com.afweb.stock.StockInternetImpDao;
+import com.afweb.stockinfo.StockInfoImp;
+import com.afweb.stockinternet.StockInternetImpDao;
 import com.afweb.processnn.*;
 import com.afweb.nnsignal.*;
 

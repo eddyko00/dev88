@@ -11,7 +11,7 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockInternetImpDao;
+import com.afweb.stockinternet.StockInternetImpDao;
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;

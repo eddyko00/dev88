@@ -5,6 +5,7 @@
  */
 package com.afweb.account;
 
+import com.afweb.stockinfo.StockInfoDB;
 import com.afweb.model.RequestObj;
 import com.afweb.model.account.*;
 

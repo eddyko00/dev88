@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.stock;
+package com.afweb.stockinfo;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
-import com.afweb.processstockinfo.StockInfoService;
+
 
 import com.afweb.service.ServiceAFweb;
 
