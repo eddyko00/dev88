@@ -447,7 +447,7 @@ public class StockInternetImpDao {
         }
 
         AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-        serviceAFWeb.getStockImp().deleteStockInfoByStockId(stock);
+        serviceAFWeb.getStockInfoImp().deleteStockInfoByStockId(stock);
 
         ArrayList<AFstockInfo> StockArray = new ArrayList();
         boolean ret = FileUtil.FileReadTextArray(nnFileName, inputArray);

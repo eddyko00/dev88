@@ -157,7 +157,7 @@ public class StockService {
                     AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
                     endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
                     endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
-                    serviceAFWeb.getStockImp().deleteStockInfoByDate(stockObj, endStaticDay);
+                    serviceAFWeb.getStockInfoImp().deleteStockInfoByDate(stockObj, endStaticDay);
                 }
 
             }
@@ -174,7 +174,7 @@ public class StockService {
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = getStockRealTime(serviceAFWeb, NormalizeSymbol);
         if (stockObj != null) {
-            return serviceAFWeb.getStockImp().deleteStockInfoByStockId(stockObj);
+            return serviceAFWeb.getStockInfoImp().deleteStockInfoByStockId(stockObj);
         }
         return 0;
     }
@@ -341,7 +341,7 @@ public class StockService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        ArrayList<AFstockInfo> stockInfoArray = serviceAFWeb.getStockImp().getStockHistoricalRange(NormalizeSymbol, start, end);
+        ArrayList<AFstockInfo> stockInfoArray = serviceAFWeb.getStockInfoImp().getStockHistoricalRange(NormalizeSymbol, start, end);
 
         return stockInfoArray;
     }
@@ -370,7 +370,7 @@ public class StockService {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        return serviceAFWeb.getStockImp().updateStockInfoTransaction(stockInfoTran);
+        return serviceAFWeb.getStockInfoImp().updateStockInfoTransaction(stockInfoTran);
     }
     
 

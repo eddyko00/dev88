@@ -83,6 +83,7 @@ public class ServiceAFweb {
 
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
     private StockImp stockImp = new StockImp();
+    private StockInfoImp stockInfoImp = new StockInfoImp();
     private AccountImp accountImp = new AccountImp();
     private AccountTranProcess accountProcessImp = new AccountTranProcess();
     private AccountingProcess accounting = new AccountingProcess();
@@ -329,10 +330,13 @@ public class ServiceAFweb {
                 /////////////
                 initDataSource();
                 InitStaticData();   // init TR data
+
                 // work around. must initialize for remote MYSQL
                 ServiceRemoteDB.setServiceAFWeb(this);
                 getStockImp().setDataSource(jdbcTemplate, dataSource);
+                getStockInfoImp().setDataSource(jdbcTemplate, dataSource);
                 getAccountImp().setDataSource(jdbcTemplate, dataSource);
+
                 // work around. must initialize for remote MYSQL
                 serverObj.setTimerInit(true);
                 getServerObj().setProcessTimerCnt(0);
@@ -792,9 +796,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol ="TSLA";
-            
-
+            symbol = "TSLA";
 
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
@@ -1276,7 +1278,7 @@ public class ServiceAFweb {
                         return;
                     }
 
-                    getStockImp().deleteStockInfoByStockId(stock);
+                    getStockInfoImp().deleteStockInfoByStockId(stock);
                     // update file
                     retBoolean = StockInternetImpDao.updateStockFile(this, sym);
 
@@ -1619,7 +1621,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        return getStockImp().getStockHistoricalRange(symbol, start, end);
+        return getStockInfoImp().getStockHistoricalRange(symbol, start, end);
     }
 
     public ArrayList<String> SystemAccountStockNameList(int accountId) {
@@ -2544,7 +2546,7 @@ public class ServiceAFweb {
                     sqlObj.setResp(nameST);
                     return sqlObj;
                 case AllStockInfo:
-                    nameST = getStockImp().getAllStockInfoDBSQL(sqlObj.getReq());
+                    nameST = getStockInfoImp().getAllStockInfoDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
                 case AllNeuralNet:
@@ -2768,7 +2770,7 @@ public class ServiceAFweb {
                         long start = Long.parseLong(startSt);
                         String endSt = sqlObj.getReq2();
                         long end = Long.parseLong(endSt);
-                        ArrayList<AFstockInfo> StockArray = getStockImp().getStockHistoricalRange(symbol, start, end);
+                        ArrayList<AFstockInfo> StockArray = getStockInfoImp().getStockHistoricalRange(symbol, start, end);
                         nameST = new ObjectMapper().writeValueAsString(StockArray);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {
@@ -3030,14 +3032,6 @@ public class ServiceAFweb {
         return "" + retSatus;
     }
 
-    public String SystemCleanDBData() {
-        boolean retSatus = false;
-
-        serverObj.setSysMaintenance(true);
-        retSatus = getStockImp().cleanStockDB();
-        return "" + retSatus;
-    }
-
     public String SystemClearLock() {
         int retSatus = 0;
         retSatus = getStockImp().deleteAllLock();
@@ -3047,19 +3041,20 @@ public class ServiceAFweb {
     public String SystemRestDBData() {
         boolean retSatus = false;
         // make sure the system is stopped first
+        retSatus = getStockInfoImp().restStockInfoDB();
         retSatus = getStockImp().restStockDB();
         return "" + retSatus;
     }
 
-//    public String SystemClearNNinput() {
-//        TradingNNprocess NNProcessImp = new TradingNNprocess();
-//        int retSatus = 0;
-//
-//        retSatus = NNProcessImp.ClearStockNN_inputNameArray(this, ConstantKey.TR_NN1);
-////            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
-//
-//        return "" + retSatus;
-//    }
+    public String SystemCleanDBData() {
+        boolean retSatus = false;
+
+        serverObj.setSysMaintenance(true);
+        retSatus = getStockInfoImp().cleanStockInfoDB();
+        retSatus = getStockImp().cleanStockDB();
+        return "" + retSatus;
+    }
+
     public String SystemClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         AccountObj accountAdminObj = this.getAdminObjFromCache();
@@ -3135,7 +3130,6 @@ public class ServiceAFweb {
 //        int retSatus = getStockImp().testStockDB();
 //        return retSatus;
 //    }
-
     public int InitDBData() {
         logger.info(">InitDBData ");
         // 0 - new db, 1 - db already exist, -1 db error
@@ -3144,7 +3138,7 @@ public class ServiceAFweb {
         if (retStatus >= 0) {
             //// init StockInfo
             getStockImp().initStockInfoDB();
-            
+
             logger.info(">InitDB Customer account ");
             CustomerObj newCustomer = new CustomerObj();
             newCustomer.setUsername(CKey.ADMIN_USERNAME);
@@ -3427,6 +3421,20 @@ public class ServiceAFweb {
      */
     public void setAccounting(AccountingProcess accounting) {
         this.accounting = accounting;
+    }
+
+    /**
+     * @return the stockInfoImp
+     */
+    public StockInfoImp getStockInfoImp() {
+        return stockInfoImp;
+    }
+
+    /**
+     * @param stockInfoImp the stockInfoImp to set
+     */
+    public void setStockInfoImp(StockInfoImp stockInfoImp) {
+        this.stockInfoImp = stockInfoImp;
     }
 
 }

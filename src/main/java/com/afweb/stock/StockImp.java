@@ -37,8 +37,6 @@ public class StockImp {
         stockdb.setJdbcTemplate(jdbcTemplate);
         stockdb.setDataSource(dataSource);
 
-        stockInfodb.setJdbcTemplate(jdbcTemplate);
-        stockInfodb.setDataSource(dataSource);
     }
 
     public ArrayList getAllRemoveStockNameList(int length) {
@@ -69,35 +67,31 @@ public class StockImp {
         return stockdb.deleteStock(stockObj);
     }
 
-
     public int disableStock(String NormalizeSymbol) {
         return stockdb.disableStock(NormalizeSymbol);
     }
 
-//    public int deleteStockInfo(AFstockInfo stockInfo) {
-//        return stockdb.deleteStockInfo(stockInfo);
+//
+//    public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
+//        AFstockObj stock = getRealTimeStock(NormalizeSymbol, null);
+//        if (stock == null) {
+//            return null;
+//        }
+//        ArrayList StockArray = null;
+//        StockArray = stockInfodb.getStockInfo(stock, start, end);
+//        return StockArray;
 //    }
-    public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
-        AFstockObj stock = getRealTimeStock(NormalizeSymbol, null);
-        if (stock == null) {
-            return null;
-        }
-        ArrayList StockArray = null;
-        StockArray = stockInfodb.getStockInfo(stock, start, end);
-        return StockArray;
-    }
-
-    public ArrayList<AFstockInfo> getStockHistorical(String NormalizeSymbol, int length, Calendar dateNow) {
-
-        AFstockObj stock = getRealTimeStock(NormalizeSymbol, dateNow);
-        if (stock == null) {
-            return null;
-        }
-        ArrayList StockArray = null;
-        StockArray = stockInfodb.getStockInfo_workaround(stock, length, dateNow);
-        return StockArray;
-    }
-
+//
+//    public ArrayList<AFstockInfo> getStockHistorical(String NormalizeSymbol, int length, Calendar dateNow) {
+//
+//        AFstockObj stock = getRealTimeStock(NormalizeSymbol, dateNow);
+//        if (stock == null) {
+//            return null;
+//        }
+//        ArrayList StockArray = null;
+//        StockArray = stockInfodb.getStockInfo_workaround(stock, length, dateNow);
+//        return StockArray;
+//    }
     public AFstockObj getRealTimeStockByStockID(int StockID, Calendar dateNow) {
         return stockdb.getStockByStockID(StockID, dateNow);
     }
@@ -108,9 +102,9 @@ public class StockImp {
         return stock;
     }
 
-    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-        return stockInfodb.getStockInfo(stock, length, dateNow);
-    }
+//    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
+//        return stockInfodb.getStockInfo(stock, length, dateNow);
+//    }
 
     public ArrayList getOpenStockNameArray() {
         ArrayList stockArray = getStockArray(0);
@@ -149,13 +143,6 @@ public class StockImp {
     }
 
     public int updateSQLArrayList(ArrayList SQLTran) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            String sql = (String) SQLTran.get(0);
-//            if (sql.indexOf(" stockinfo ") != -1) {
-//                StockInfoDB stockinfodb = new StockInfoDB();
-//                return stockinfodb.updateSQLArrayList(SQLTran);
-//            }
-//        }
         return stockdb.updateSQLArrayList(SQLTran);
     }
 
@@ -166,10 +153,6 @@ public class StockImp {
 
     public String getAllStockDBSQL(String sql) {
         return stockdb.getAllStockDBSQL(sql);
-    }
-
-    public String getAllStockInfoDBSQL(String sql) {
-        return stockInfodb.getAllStockInfoDBSQL(sql);
     }
 
     public String getAllNeuralNetDBSQL(String sql) {
@@ -200,37 +183,37 @@ public class StockImp {
     public int removeLock(String name, int type) {
         return stockdb.removeLock(name, type);
     }
-
-    // require oldest date to earliest
-    // require oldest date to earliest
-    public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
-        String NormalizeSymbol = stockInfoTran.getNormalizeName();
-        ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
-        AFstockObj stock = stockdb.getStock(NormalizeSymbol, null);
-        int result = stockInfodb.updateStockInfoTransaction(stock, StockInfoArray);
-        if (result > 0) {
-
-            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
-            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
-            stock = stockdb.getStock(NormalizeSymbol, null);
-            long updateDate = stock.getUpdatedatel();
-            long updateDate5D = TimeConvertion.addDays(updateDate, 5);
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            if (updateDate5D > dateNow.getTimeInMillis()) {
-                return 1;
-            }
-            int failCnt = stock.getFailedupdate() + 1;
-            // too many failure
-            if (failCnt > CKey.FAIL_STOCK_CNT) {
-                stock.setStatus(ConstantKey.DISABLE);;
-            }
-            stock.setFailedupdate(failCnt);
-            updateStockStatusDB(stock);
-            //workaround unknown dfect- somehow cannot find the Internet from stock to add the error update
-            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update    
-        }
-        return 0;
-    }
+//
+//    // require oldest date to earliest
+//    // require oldest date to earliest
+//    public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
+//        String NormalizeSymbol = stockInfoTran.getNormalizeName();
+//        ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
+//        AFstockObj stock = stockdb.getStock(NormalizeSymbol, null);
+//        int result = stockInfodb.updateStockInfoTransaction(stock, StockInfoArray);
+//        if (result > 0) {
+//
+//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
+//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
+//            stock = stockdb.getStock(NormalizeSymbol, null);
+//            long updateDate = stock.getUpdatedatel();
+//            long updateDate5D = TimeConvertion.addDays(updateDate, 5);
+//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//            if (updateDate5D > dateNow.getTimeInMillis()) {
+//                return 1;
+//            }
+//            int failCnt = stock.getFailedupdate() + 1;
+//            // too many failure
+//            if (failCnt > CKey.FAIL_STOCK_CNT) {
+//                stock.setStatus(ConstantKey.DISABLE);;
+//            }
+//            stock.setFailedupdate(failCnt);
+//            updateStockStatusDB(stock);
+//            //workaround unknown dfect- somehow cannot find the Internet from stock to add the error update
+//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update    
+//        }
+//        return 0;
+//    }
 
     public int updateNeuralNetDataObject(String name, int stockId, NNInputDataObj objData) {
         NNInputOutObj obj = objData.getObj();
@@ -384,14 +367,7 @@ public class StockImp {
     }
 
     public int setCreateNeuralNetObj0(String name, String weight) {
-//        if (CKey.WEIGHT_COMPASS == true) {
-//            if (weight != null) {
-//                if (weight.length() > 0) {
-//                    String weightSt = ServiceAFweb.compress(weight);
-//                    weight = weightSt;
-//                }
-//            }
-//        }
+
         return stockdb.setCreateNeuralNetObj0(name, weight);
     }
 
@@ -425,7 +401,6 @@ public class StockImp {
 
     ////////////////////////////////
     public boolean restStockDB() {
-        stockInfodb.restStockInfoDB();
         return stockdb.restStockDB();
     }
 
@@ -434,21 +409,12 @@ public class StockImp {
     }
 
     public boolean cleanStockDB() {
-        stockInfodb.cleanStockInfoDB();
         return stockdb.cleanStockDB();
     }
 
     public int deleteAllLock() {
         return stockdb.deleteAllLock();
     }
-
-//    public int testStockDB() {
-//        try {
-//            int result = stockdb.testStockDB();
-//        } catch (Exception ex) {
-//        }
-//        return -1;  // DB error
-//    }
 
     // 0 - new db, 1 - db already exist, -1 db error
     public int initStockInfoDB() {
@@ -536,20 +502,19 @@ public class StockImp {
         return internet.GetRealTimeStockInternet(NormalizeSymbol);
     }
 
-    
 ///////////////////////////////////////////////////
-    public int deleteStockInfoByStockId(AFstockObj stockObj) {
-        if (stockObj == null) {
-            return 0;
-        }
-        return stockInfodb.deleteStockInfoByStockId(stockObj);
-    }
+//    public int deleteStockInfoByStockId(AFstockObj stockObj) {
+//        if (stockObj == null) {
+//            return 0;
+//        }
+//        return stockInfodb.deleteStockInfoByStockId(stockObj);
+//    }
+//
+//    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
+//        if (stockObj == null) {
+//            return 0;
+//        }
+//        return stockInfodb.deleteStockInfoByDate(stockObj, datel);
+//    }
 
-    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
-        if (stockObj == null) {
-            return 0;
-        }
-        return stockInfodb.deleteStockInfoByDate(stockObj, datel);
-    }    
-    
 }

@@ -83,9 +83,7 @@ public class StockInfoDB {
 
 ////////////////////////////    
         public int deleteStockInfo(AFstockInfo stockInfo) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.deleteStockInfo(stockInfo);
-//        }
+
         try {
             String deleteSQL = "delete from stockinfo where id=" + stockInfo.getId();
             return processUpdateDB(deleteSQL);
@@ -108,9 +106,7 @@ public class StockInfoDB {
     }
 
     public int deleteStockInfoByStockId(AFstockObj stockObj) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.deleteStockInfoByStockId(stockObj);
-//        }
+
         try {
             String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();
             return processUpdateDB(deleteSQL);
@@ -121,9 +117,7 @@ public class StockInfoDB {
     }
 
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, long start, long end) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.getStockInfo(stock, start, end);
-//        }
+
         try {
             if (stock == null) {
                 return null;
@@ -198,9 +192,7 @@ public class StockInfoDB {
     }
 
     public String getAllStockInfoDBSQL(String sql) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            return stockinfodb.getAllStockInfoDBSQL(sql);
-//        }
+
         try {
             ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
             String nameST = new ObjectMapper().writeValueAsString(entries);
@@ -350,15 +342,9 @@ public class StockInfoDB {
             }
             //must sepalate stock and stockinfo to exec one by one for 2 db 
             int sqlResult = 0;
-//            if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//                sqlResult = stockinfodb.updateSQLArrayList(sqlTranList);
-//            } else {
-            sqlResult = updateSQLArrayList(sqlTranList);
-//            }
 
-//            if (getEnv.checkLocalPC() == true) {
-//                logger.info("> addStockInfoTransaction " + stock.getSymbol() + " add " + resultAdd);
-//            }            
+            sqlResult = updateSQLArrayList(sqlTranList);
+          
             ArrayList sqlStockTranList = new ArrayList();
 
             //clear Fail update count

@@ -875,7 +875,7 @@ public class StockDB {
             dropTableList.add("drop table if exists lockobject");
             dropTableList.add("drop table if exists transationorder");
             dropTableList.add("drop table if exists tradingrule");
-            dropTableList.add("drop table if exists stockinfo");
+//            dropTableList.add("drop table if exists stockinfo");
             dropTableList.add("drop table if exists performance");
             dropTableList.add("drop table if exists neuralnet");
             dropTableList.add("drop table if exists neuralnet1");
@@ -895,7 +895,9 @@ public class StockDB {
                 createTableList.add("create table tradingrule (id int identity not null, trname varchar(255) not null, type int not null, trsignal int not null, updatedatedisplay date null, updatedatel bigint not null, status int not null, substatus int not null, investment float(10) not null, balance float(10) not null, longshare float(10) not null, longamount float(10) not null, shortshare float(10) not null, "
                         + "shortamount float(10) not null,perf float(10) not null, linktradingruleid int not null, stockid int not null, accountid int not null, comment varchar(255) not null, primary key (id))");
                 createTableList.add("create table stock (id int identity not null, symbol varchar(255) not null unique, stockname varchar(255) not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, failedupdate int not null, longterm float(10) not null, shortterm float(10) not null, direction float(10) not null, data varchar(255) not null,primary key (id))");
-                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
+//                
+//                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
+//                
                 createTableList.add("create table account (id int identity not null, accountname varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, startdate date null, investment float(10) not null, balance float(10) not null, servicefee float(10) not null, portfolio varchar(255) not null, linkaccountid int not null, customerid int not null, primary key (id))");
                 createTableList.add("create table lockobject (id int identity not null, lockname varchar(255) not null unique, type int not null, lockdatedisplay date null, lockdatel bigint null, comment varchar(255) null, primary key (id))");
                 createTableList.add("create table customer (id int identity not null, username varchar(255) not null unique, password varchar(255) not null, type int not null, status int not null, substatus int not null, startdate date null, firstname varchar(255) null, lastname varchar(255) null, email varchar(255) null, payment float(10) not null, balance float(10) not null, "
@@ -911,8 +913,6 @@ public class StockDB {
 
                 createTableList.add("create table comm (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, data text null, accountid int not null, customerid int not null, primary key (id))");
                 createTableList.add("create table billing (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, payment float(10) not null, balance float(10) not null, data text null, accountid int not null, customerid int not null, primary key (id))");
-
-//                createTableList.add("alter table stockinfo add constraint fkstockinfo189813 foreign key (stockid) references stock (id)");
                 createTableList.add("alter table tradingrule add constraint fktradingrul566192 foreign key (accountid) references account (id)");
                 createTableList.add("alter table transationorder add constraint fktransation900454 foreign key (tradingruleid) references tradingrule (id)");
                 createTableList.add("alter table account add constraint fkaccount643453 foreign key (customerid) references customer (id)");
@@ -923,7 +923,9 @@ public class StockDB {
                 createTableList.add("create table tradingrule (id int(10) not null auto_increment, trname varchar(255) not null, type int(10) not null, trsignal int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, status int(10) not null, substatus int(10) not null, investment float not null, balance float not null, longshare float not null, longamount float not null, shortshare float not null, "
                         + "shortamount float not null,perf float not null, linktradingruleid int(10) not null, stockid int(10) not null, accountid int(10) not null, comment varchar(255) not null, primary key (id))");
                 createTableList.add("create table stock (id int(10) not null auto_increment, symbol varchar(255) not null unique, stockname varchar(255) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, failedupdate int(10) not null, longterm float not null, shortterm float not null, direction float not null, data varchar(255) not null, primary key (id))");
-                createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, sym varchar(255) not null, stockid int(10) not null, primary key (id))");
+//                
+//                createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, sym varchar(255) not null, stockid int(10) not null, primary key (id))");
+//
                 createTableList.add("create table account (id int(10) not null auto_increment, accountname varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, startdate date, investment float not null, balance float not null, servicefee float not null, portfolio varchar(255) not null, linkaccountid int(10) not null, customerid int(10) not null, primary key (id))");
                 createTableList.add("create table lockobject (id int(10) not null auto_increment, lockname varchar(255) not null unique, type int(10) not null, lockdatedisplay date, lockdatel bigint(20), comment varchar(255), primary key (id))");
                 createTableList.add("create table customer (id int(10) not null auto_increment, username varchar(255) not null unique, password varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, startdate date, firstname varchar(255), lastname varchar(255), email varchar(255), payment float not null, balance float not null, "
