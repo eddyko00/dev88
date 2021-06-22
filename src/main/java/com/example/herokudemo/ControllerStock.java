@@ -1,12 +1,12 @@
 package com.example.herokudemo;
 
-import com.afweb.model.*;
+
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.processstock.StockService;
-import com.afweb.util.*;
+
 import com.afweb.service.*;
-import com.example.herokudemo.AFwebService;
+
 
 
 import java.util.ArrayList;
@@ -42,11 +42,11 @@ public class ControllerStock {
     public static void getHelpInfo(ArrayList<String> arrayString) {
         arrayString.add("/st?length={0 for all}");
         arrayString.add("/st/{symbol}");
-        arrayString.add("/st/{symbol}/history?length={0 for all}");
+//        arrayString.add("/st/{symbol}/history?length={0 for all}");
         arrayString.add("/st/add/{symbol}");
         arrayString.add("/st/remove/{symbol}");
-        arrayString.add("/st/deleteinfo/{symbol}");
-        arrayString.add("/st/cleanallinfo");
+//        arrayString.add("/st/deleteinfo/{symbol}");
+//        arrayString.add("/st/cleanallinfo");
     }
     
     ///////////////////////////////////////
@@ -92,26 +92,6 @@ public class ControllerStock {
         return stock;
     }
 
-    @RequestMapping(value = "/st/{symbol}/history", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    ArrayList getStockHistory(
-            @PathVariable("symbol") String symbol,
-            @RequestParam(value = "length", required = false) String lengthSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return null;
-        }
-        int length = 0; //20;
-        if (lengthSt != null) {
-            length = Integer.parseInt(lengthSt);
-        }
-        ArrayList stockInfoList = afWebService.getStockHistoricalServ(symbol, length);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return stockInfoList;
-    }
 
     @RequestMapping(value = "/st/add/{symbol}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -145,37 +125,6 @@ public class ControllerStock {
         return result;
     }
 
-    @RequestMapping(value = "/st/cleanallinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int cleanAllStockInfo(
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-        int result = stockService.cleanAllStockInfo(afWebService);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return result;
-    }
-
-    @RequestMapping(value = "/st/deleteinfo/{symbol}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int deleteStockInfo(
-            @PathVariable("symbol") String symbol,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-        int result = stockService.removeStockInfo(afWebService, symbol);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return result;
-    }
-//
 
     @RequestMapping(value = "/cust/{username}/sys/expiredStocklist", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

@@ -109,7 +109,10 @@ public class ControllerAFweb {
 
         ControllerStock.getHelpSystem(arrayString);
         ControllerStock.getHelpInfo(arrayString);
-
+        
+        ControllerStockInfo.getHelpSystem(arrayString);
+        ControllerStockInfo.getHelpInfo(arrayString);
+        
         ControllerNN.getHelpSystem(arrayString);
         ControllerNN.getHelpInfo(arrayString);
 

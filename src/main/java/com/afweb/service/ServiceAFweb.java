@@ -25,6 +25,7 @@ import com.afweb.nn.*;
 import com.afweb.processcustacc.CustAccService;
 import com.afweb.processnn.NNService;
 import com.afweb.processstock.StockService;
+import com.afweb.processstockinfo.StockInfoService;
 
 import com.afweb.stock.*;
 import com.afweb.util.*;
@@ -2149,6 +2150,28 @@ public class ServiceAFweb {
 //
 //////////////////////////////////////////
     // StockService
+    StockInfoService stockInfoSrv = new StockInfoService();
+//////////////////////////////////////////
+    
+    /////recent day first and the old data last////////////
+    // return stock history starting recent date to the old date
+    public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
+        if (true) {
+            return stockInfoSrv.getStockHistorical(this, symbol, length);
+        }
+        return null;
+
+    }
+
+    public int removeStockInfoServ(String symbol) {
+        if (true) {
+            return stockInfoSrv.removeStockInfo(this, symbol);
+        }
+        return 0;
+    }
+    
+//////////////////////////////////////////
+    // StockService
     StockService stockSrv = new StockService();
 //////////////////////////////////////////
 
@@ -2195,13 +2218,6 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int removeStockInfoServ(String symbol) {
-        if (true) {
-            return stockSrv.removeStockInfo(this, symbol);
-        }
-        return 0;
-    }
-
     public StringBuffer getInternetScreenPageServ(String url) {
         if (true) {
             return this.getStockImp().getInternetScreenPage(url);
@@ -2216,15 +2232,6 @@ public class ServiceAFweb {
         return null;
     }
 
-    /////recent day first and the old data last////////////
-    // return stock history starting recent date to the old date
-    public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
-        if (true) {
-            return stockSrv.getStockHistorical(this, symbol, length);
-        }
-        return null;
-
-    }
 
     public int updateStockAllSrv() {
         if (true) {

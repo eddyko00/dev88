@@ -7,7 +7,7 @@ package com.afweb.stock;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
-import com.afweb.processstock.StockService;
+import com.afweb.processstockinfo.StockInfoService;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -278,8 +278,9 @@ public class StockInfoDB {
             AFstockInfo stockinfoStaticDB = null;
             if (CKey.CACHE_STOCKH == true) {
                 if ((stockinfoDBArray == null) || (stockinfoDBArray.size() == 0)) {
-                    StockService stockServ = new StockService();
-                    ArrayList<AFstockInfo> stockInfoArrayStatic = stockServ.getAllStockHistory(stock.getSymbol());
+                    ////// Need to fix this
+                    StockInfoService stockInfoServ = new StockInfoService();
+                    ArrayList<AFstockInfo> stockInfoArrayStatic = stockInfoServ.getAllStockHistory(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
                         stockInfoArrayStatic = new ArrayList();
                     }
