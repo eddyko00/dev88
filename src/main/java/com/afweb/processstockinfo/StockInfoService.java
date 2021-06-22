@@ -7,17 +7,12 @@ package com.afweb.processstockinfo;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
-import com.afweb.nn.*;
 import com.afweb.processstock.StockProcess;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stockinternet.StockInternetImpDao;
 
 import com.afweb.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;

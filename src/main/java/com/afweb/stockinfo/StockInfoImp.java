@@ -5,20 +5,12 @@
  */
 package com.afweb.stockinfo;
 
-import com.afweb.stockinfo.StockInfoDB;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
-import com.afweb.nn.*;
 
-import com.afweb.nnBP.NNBPservice;
-import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockImp;
-import com.afweb.stockinfo.StockInfoDB;
+import com.afweb.stock.*;
 
 import com.afweb.util.*;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
