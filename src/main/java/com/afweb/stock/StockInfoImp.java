@@ -79,17 +79,17 @@ public class StockInfoImp {
         return StockArray;
     }
 
-    public ArrayList<AFstockInfo> getStockHistorical(String NormalizeSymbol, int length, Calendar dateNow) {
-
-        AFstockObj stock = stockImp.getRealTimeStock(NormalizeSymbol, dateNow);
-        if (stock == null) {
-            return null;
-        }
-        ArrayList StockArray = null;
-        StockArray = stockInfodb.getStockInfo_workaround(stock, length, dateNow);
-        return StockArray;
-    }
-    
+//    public ArrayList<AFstockInfo> getStockHistorical(String NormalizeSymbol, int length, Calendar dateNow) {
+//
+//        AFstockObj stock = stockImp.getRealTimeStock(NormalizeSymbol, dateNow);
+//        if (stock == null) {
+//            return null;
+//        }
+//        ArrayList StockArray = null;
+//        StockArray = stockInfodb.getStockInfo_workaround(stock, length, dateNow);
+//        return StockArray;
+//    }
+//    
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
         return stockInfodb.getStockInfo(stock, length, dateNow);
     }
