@@ -55,19 +55,19 @@ public class BackkupkRestoreImp {
         if (ret == 0) {
             return false;
         }
-        restoreDBstockinfo(serviceAFWeb);
 
         restoreDBaccount(serviceAFWeb);
         restoreDBstock(serviceAFWeb);
         restoreDBaccountstock_tradingrule(serviceAFWeb);
         restoreDBneuralnet(serviceAFWeb);
-
         restoreDBtransationorder(serviceAFWeb);
         restoreDBcomm(serviceAFWeb);
         restoreDBbilling(serviceAFWeb);
         restoreDBperformance(serviceAFWeb);
-
         restoreDBdummy(serviceAFWeb);
+
+        restoreDBstockinfo(serviceAFWeb);
+        restoreDBdummyInfo(serviceAFWeb);
 
         return true;
 
@@ -293,6 +293,30 @@ public class BackkupkRestoreImp {
         return 0;
     }
 
+    private int restoreDBdummyInfo(ServiceAFweb serviceAFWeb) {
+
+        logger.info("> restoreDBdummyInfo ");
+        ArrayList<String> writeSQLArray = new ArrayList();
+        String sql = StockInfoDB.createDummyInfotable();
+        writeSQLArray.add(sql);
+        try {
+            RequestObj sqlObj = new RequestObj();
+            sqlObj.setCmd(ServiceAFweb.UpdateSQLList + "");
+            String st = new ObjectMapper().writeValueAsString(writeSQLArray);
+            sqlObj.setReq(st);
+            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+            String output = sqlObjresp.getResp();
+            if (output == null) {
+                return 0;
+            }
+            return 1;
+        } catch (JsonProcessingException ex) {
+            logger.info("> sendRequestObj - exception " + ex);
+        }
+        return 0;
+    }
+    
+    
     private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
         try {
