@@ -278,9 +278,8 @@ public class StockInfoDB {
             AFstockInfo stockinfoStaticDB = null;
             if (CKey.CACHE_STOCKH == true) {
                 if ((stockinfoDBArray == null) || (stockinfoDBArray.size() == 0)) {
-                    ////// Need to fix this
-                    StockInfoService stockInfoServ = new StockInfoService();
-                    ArrayList<AFstockInfo> stockInfoArrayStatic = stockInfoServ.getAllStockHistory(stock.getSymbol());
+
+                    ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.getAllStaticStockHistoryServ(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
                         stockInfoArrayStatic = new ArrayList();
                     }

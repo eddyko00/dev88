@@ -426,8 +426,8 @@ public class NNService {
                 exitflag = true;
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
-                StockInfoService stockInfoServ = new StockInfoService();
-                stockInfoServ.CreateAllStockHistoryJava(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
+
+                ServiceAFweb.CreateStaticStockHistoryServ(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
 
                 /////////////////////
                 ArrayList<String> APIStockNameList = new ArrayList();
@@ -460,7 +460,7 @@ public class NNService {
                 }
                 /*ArrayList to Array Conversion */
                 String SymbolAllOther[] = APIStockNameList.toArray(new String[APIStockNameList.size()]);
-                stockInfoServ.CreateAllStockHistoryJava(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
+                ServiceAFweb.CreateStaticStockHistoryServ(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
 
                 return;
             }
