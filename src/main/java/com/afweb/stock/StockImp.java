@@ -109,7 +109,7 @@ public class StockImp {
 //    }
 
     public ArrayList getOpenStockNameArray() {
-        ArrayList stockArray = getStockArray(0);
+        ArrayList stockArray = getStockObjArray(0);
         if (stockArray == null) {
             return null;
         }
@@ -121,7 +121,7 @@ public class StockImp {
         return returnStocNamekArray;
     }
 
-    public ArrayList getStockArray(int length) {
+    public ArrayList getStockObjArray(int length) {
         ArrayList returnStockArray = new ArrayList();
         ArrayList stockArray = stockdb.getAllOpenStock();
         if (stockArray != null && stockArray.size() > 0) {

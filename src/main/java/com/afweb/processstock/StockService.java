@@ -34,12 +34,12 @@ public class StockService {
     StockInfoProcess stockProcess = new StockInfoProcess();
     private StockImp stockImp = new StockImp();
     
-    public ArrayList getStockArray(ServiceAFweb serviceAFWeb, int length) {
+    public ArrayList getStockObjArray(ServiceAFweb serviceAFWeb, int length) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
 
-        ArrayList stockList = serviceAFWeb.getStockImp().getStockArray(length);
+        ArrayList stockList = serviceAFWeb.getStockImp().getStockObjArray(length);
         return stockList;
     }
 
