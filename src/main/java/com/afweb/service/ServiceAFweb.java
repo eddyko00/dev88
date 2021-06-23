@@ -2600,6 +2600,15 @@ public class ServiceAFweb {
         }
         return "";
     }
+
+    public boolean restStockInfoDB() {
+        return stockInfoSrv.restStockInfoDB(this);
+    }
+
+    public boolean cleanStockInfoDB() {
+        return stockInfoSrv.cleanStockInfoDB(this);
+    }
+
     ////////////////////////////////////////////
 //////////////////////////////////////////
     // StockService

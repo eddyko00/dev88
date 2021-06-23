@@ -438,4 +438,18 @@ public class StockInfoService {
         return stockInfoImp.getAllStockInfoDBSQL(sql);
     }
 
+    public boolean restStockInfoDB(ServiceAFweb serviceAFWeb) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return false;
+        }
+        return stockInfoImp.restStockInfoDB();
+    }
+
+    public boolean cleanStockInfoDB(ServiceAFweb serviceAFWeb) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return false;
+        }
+        return stockInfoImp.cleanStockInfoDB();
+    }
+/////////////////////////    
 }
