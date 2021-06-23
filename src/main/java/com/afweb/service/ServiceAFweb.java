@@ -1574,7 +1574,8 @@ public class ServiceAFweb {
             }
             return null;
         }
-        return getStockInfoImp().getStockHistoricalRange(symbol, start, end);
+
+        return getStockHistoricalRangeServ(this, symbol, start, end);
     }
 
     public ArrayList<String> SystemAccountStockNameList(int accountId) {
@@ -2549,7 +2550,13 @@ public class ServiceAFweb {
             return stockInfoSrv.getStockHistorical(this, symbol, length);
         }
         return null;
+    }
 
+    public ArrayList<AFstockInfo> getStockHistoricalRangeServ(ServiceAFweb serviceAFWeb, String symbol, long start, long end) {
+        if (true) {
+            return stockInfoSrv.getStockHistoricalRange(serviceAFWeb, symbol, start, end);
+        }
+        return null;
     }
 
     public int updateStockInfoTransactionServ(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {

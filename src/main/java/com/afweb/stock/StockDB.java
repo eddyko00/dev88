@@ -5,10 +5,8 @@
  */
 package com.afweb.stock;
 
-import com.afweb.stockinfo.StockInfoDB;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
-import com.afweb.processstock.StockService;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -120,19 +118,19 @@ public class StockDB {
         return 0;
     }
 
-    public ArrayList getOpenStockNameArray() {
-        ArrayList stockNameArray = new ArrayList();
-        stockNameArray = getAllOpenStockName();
-//        ArrayList stockArray = getAllOpenStock();
-//        if (stockArray != null && stockArray.size() > 0) {
-//            stockNameArray.clear();
-//            for (int i = 0; i < stockArray.size(); i++) {
-//                AFstockObj stock = (AFstockObj) stockArray.get(i);
-//                stockNameArray.add(stock.getSymbol());
-//            }
-//        }
-        return stockNameArray;
-    }
+//    public ArrayList getOpenStockNameArray() {
+//        ArrayList stockNameArray = new ArrayList();
+//        stockNameArray = getAllOpenStockName();
+////        ArrayList stockArray = getAllOpenStock();
+////        if (stockArray != null && stockArray.size() > 0) {
+////            stockNameArray.clear();
+////            for (int i = 0; i < stockArray.size(); i++) {
+////                AFstockObj stock = (AFstockObj) stockArray.get(i);
+////                stockNameArray.add(stock.getSymbol());
+////            }
+////        }
+//        return stockNameArray;
+//    }
 
     public static String insertStock(AFstockObj newS) {
         newS.setUpdatedatedisplay(new java.sql.Date(newS.getUpdatedatel()));
