@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.processstock;
+package com.afweb.processstockinfo;
 
 import com.afweb.stockinternet.StockInternetImpDao;
 import com.afweb.nnsignal.NNCalProcess;
@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  *
  * @author koed
  */
-public class StockProcess {
+public class StockInfoProcess {
 
     protected static Logger logger = Logger.getLogger("StockProcess");
 
@@ -44,11 +44,11 @@ public class StockProcess {
     public static int stockFail = 0;
     private static ArrayList stockUpdateNameArray = new ArrayList();
 
-    public void ResetStockUpdateNameArray(ServiceAFweb serviceAFWeb) {
-//        this.serviceAFWeb = serviceAFWeb;
-        stockUpdateNameArray.clear();
-        updateStockUpdateNameArray(serviceAFWeb);
-    }
+//    public void ResetStockUpdateNameArray(ServiceAFweb serviceAFWeb) {
+////        this.serviceAFWeb = serviceAFWeb;
+//        stockUpdateNameArray.clear();
+//        updateStockUpdateNameArray(serviceAFWeb);
+//    }
 
     private ArrayList updateStockUpdateNameArray(ServiceAFweb serviceAFWeb) {
         if (stockUpdateNameArray != null && stockUpdateNameArray.size() > 0) {
@@ -140,19 +140,6 @@ public class StockProcess {
         return result;
     }
 
-//    public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-//        AFstockObj stock = serviceAFWeb.getStockRealTime(NormalizeSymbol);
-//        if (stock == null) {
-//            return false;
-//        }
-//        if (stock.getStatus() != ConstantKey.OPEN) {
-//            return false;
-//        }
-//        if (stock.getAfstockInfo() == null) {
-//            return false;
-//        }
-//        return true;
-//    }
     public int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol, boolean updateTrend) {
         ServiceAFweb.lastfun = "updateAllStockProcess";
 
@@ -383,10 +370,6 @@ public class StockProcess {
         return 0;
     }
 
-//    public int updateRealTimeStockTest(ServiceAFweb serviceAFWeb, AFstockObj stock) {
-////        this.serviceAFWeb = serviceAFWeb;
-//        return updateRealTimeStock(serviceAFWeb, stock);
-//    }
     public int updateRealTimeStock(ServiceAFweb serviceAFWeb, AFstockObj stock) {
         ServiceAFweb.lastfun = "updateRealTimeStock";
 

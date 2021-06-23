@@ -8,7 +8,6 @@ package com.afweb.processstockinfo;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
-import com.afweb.processstock.StockProcess;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stockinfo.StockInfoImp;
@@ -30,7 +29,7 @@ import java.util.logging.Logger;
 public class StockInfoService {
 
     protected static Logger logger = Logger.getLogger("StockService");
-    StockProcess stockProcess = new StockProcess();
+    StockInfoProcess stockProcess = new StockInfoProcess();
     StockInfoImp stockInfoImp = new StockInfoImp();
 
     public ArrayList<AFstockInfo> getStockInfo(String sym, int length, Calendar dateNow) {

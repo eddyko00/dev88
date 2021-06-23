@@ -5,6 +5,7 @@
  */
 package com.afweb.processstock;
 
+import com.afweb.processstockinfo.StockInfoProcess;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
 
@@ -30,7 +31,7 @@ import java.util.logging.Logger;
 public class StockService {
 
     protected static Logger logger = Logger.getLogger("StockService");
-    StockProcess stockProcess = new StockProcess();
+    StockInfoProcess stockProcess = new StockInfoProcess();
     private StockImp stockImp = new StockImp();
     
     public ArrayList getStockArray(ServiceAFweb serviceAFWeb, int length) {
@@ -124,7 +125,7 @@ public class StockService {
     }
 
     public int addStock(ServiceAFweb serviceAFWeb, String symbol) {
-        StockProcess stockProcess = new StockProcess();
+        StockInfoProcess stockProcess = new StockInfoProcess();
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -139,7 +140,7 @@ public class StockService {
 
         int result = stockImp.addStock(NormalizeSymbol);
         if (result == ConstantKey.NEW) {
-            stockProcess.ResetStockUpdateNameArray(serviceAFWeb);
+//            stockProcess.ResetStockUpdateNameArray(serviceAFWeb);
         }
         return result;
     }

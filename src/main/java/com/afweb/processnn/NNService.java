@@ -13,7 +13,7 @@ import com.afweb.nn.*;
 
 import com.afweb.nnsignal.*;
 
-import com.afweb.processstock.StockProcess;
+import com.afweb.processstockinfo.StockInfoProcess;
 import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.StockInfoService;
 
@@ -248,7 +248,7 @@ public class NNService {
 
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "processNeuralNetTrain";
-        StockProcess stockProcess = new StockProcess();
+        StockInfoProcess stockProcess = new StockInfoProcess();
 
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -525,7 +525,7 @@ public class NNService {
 
     public void processInitLocalRemoteNN(ServiceAFweb serviceAFWeb) {
         logger.info("> processInitLocalRemoteNN ");
-        StockProcess stockProcess = new StockProcess();
+        StockInfoProcess stockProcess = new StockInfoProcess();
 
         try {
             if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
