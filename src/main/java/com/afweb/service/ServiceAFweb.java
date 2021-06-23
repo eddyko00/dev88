@@ -3406,31 +3406,7 @@ public class ServiceAFweb {
         return "sysMaintenance " + retSatus;
     }
 
-//    public boolean SystemFundResetGlobal() {
-//        FundMgrProcess fundmgr = new FundMgrProcess();
-//        logger.info(">ProcessGetGlobalFundMgr start ");
-//        fundmgr.ProcessGetGlobalFundMgr(this);
-////        fundmgr.ProcessFundMgrAccount(this);
-//        return true;
-//    }
-//    public boolean SystemFundSelectBest() {
-//        FundMgrProcess fundmgr = new FundMgrProcess();
-//        logger.info(">ProcessSelectBestFundMgrAccount start ");
-//        fundmgr.ProcessSelectBestFundMgrAccount(this);
-//        return true;
-//    }
-//
-//    public boolean SystemFundPocessAddRemove() {
-//        logger.info(">ProcessAddRemoveFundAccount start ");
-//        getAccountProcessImp().ProcessAddRemoveFundAccount(this);
-//        return true;
-//    }
-//    public boolean SystemDeleteNN1Table() {
-//        logger.info(">SystemDeleteNN1Table start ");
-//        getStockImp().deleteNeuralNet1Table();
-//        logger.info(">SystemDeleteNN1Table end ");
-//        return true;
-//    }
+
     public static boolean SystemFilePut(String fileName, ArrayList msgWrite) {
         String fileN = ServiceAFweb.FileLocalPath + fileName;
         boolean ret = FileUtil.FileWriteTextArray(fileN, msgWrite);
