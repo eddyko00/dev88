@@ -151,18 +151,11 @@ public class StockInfoDB {
     }
 
     // Heuoku cannot get the date of the first stockinfo????
-    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
+    public ArrayList<AFstockInfo> getStockInfo_workaround(String sym, int length, Calendar dateNow) {
 
         try {
-            if (stock == null) {
-                return null;
-            }
-            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-                return null;
-            }
-
             String sql = "";
-            sql = "select * from stockinfo where stockid = " + stock.getId();
+            sql = "select * from stockinfo where sym = '" + sym + "'";
             sql += " order by entrydatel desc";
 
             sql = ServiceAFweb.getSQLLengh(sql, length);
@@ -170,7 +163,7 @@ public class StockInfoDB {
             ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
             return (ArrayList) entries;
         } catch (Exception e) {
-            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
+            logger.info("> getStockInfo exception " + sym + " - " + e.getMessage());
         }
         return null;
     }
@@ -282,7 +275,7 @@ public class StockInfoDB {
             }
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long stockinfoDBEndDay = 0;
-            ArrayList stockinfoDBArray = getStockInfo_workaround(stock, 1, dateNow);
+            ArrayList stockinfoDBArray = getStockInfo_workaround(stock.getSymbol(), 1, dateNow);
 
             if (stockinfoDBArray != null && stockinfoDBArray.size() == 1) {
                 AFstockInfo stockinfoDB = (AFstockInfo) stockinfoDBArray.get(0);

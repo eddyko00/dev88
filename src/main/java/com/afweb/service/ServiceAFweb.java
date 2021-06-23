@@ -2481,8 +2481,14 @@ public class ServiceAFweb {
     }
 
     // Heuoku cannot get the date of the first stockinfo????
-    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
-        return stockInfoSrv.getStockInfo_workaround(stock, length, dateNow);
+    public ArrayList<AFstockInfo> getStockInfo_workaroundServ(AFstockObj stock, int length, Calendar dateNow) {
+        if (stock == null) {
+            return null;
+        }
+        if (stock.getSubstatus() == ConstantKey.INITIAL) {
+            return null;
+        }
+        return stockInfoSrv.getStockInfo_workaround(stock.getSymbol(), length, dateNow);
     }
 
     /////recent day first and the old data last////////////

@@ -84,8 +84,8 @@ public class StockInfoImp {
     }
 
     // Heuoku cannot get the date of the first stockinfo????
-    public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
-        return stockInfodb.getStockInfo_workaround(stock, length, dateNow);
+    public ArrayList<AFstockInfo> getStockInfo_workaround(String sym, int length, Calendar dateNow) {
+        return stockInfodb.getStockInfo_workaround(sym, length, dateNow);
     }
 
     // require oldest date to earliest

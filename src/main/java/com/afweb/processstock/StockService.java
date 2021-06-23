@@ -57,7 +57,7 @@ public class StockService {
         }
         if (stock.getStatus() == ConstantKey.OPEN) {
             if (stock.getSubstatus() != ConstantKey.INITIAL) {
-                ArrayList StockArray = serviceAFWeb.getStockInfo_workaround(stock, 2, null);
+                ArrayList StockArray = serviceAFWeb.getStockInfo_workaroundServ(stock, 2, null);
 
                 if (StockArray != null) {
                     if (StockArray.size() >= 2) {
@@ -108,7 +108,7 @@ public class StockService {
         }
         if (stock.getStatus() == ConstantKey.OPEN) {
             if (stock.getSubstatus() != ConstantKey.INITIAL) {
-                ArrayList StockArray = serviceAFWeb.getStockInfo_workaround(stock, 2, null);
+                ArrayList StockArray = serviceAFWeb.getStockInfo_workaroundServ(stock, 2, null);
 
                 if (StockArray != null) {
                     if (StockArray.size() >= 2) {
