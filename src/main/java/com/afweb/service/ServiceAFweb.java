@@ -5,7 +5,6 @@
  */
 package com.afweb.service;
 
-import com.afweb.stockinfo.StockInfoImp;
 import com.afweb.stockinternet.StockInternetImpDao;
 import com.afweb.processnn.*;
 import com.afweb.nnsignal.*;
@@ -339,8 +338,7 @@ public class ServiceAFweb {
                 ServiceRemoteDB.setServiceAFWeb(this);
                 getStockImp().setDataSource(jdbcTemplate, dataSource);
 
-              
-            setStockInfoDataSource(jdbcTemplate, dataSource);
+                setStockInfoDataSource(jdbcTemplate, dataSource);
 
                 getAccountImp().setDataSource(jdbcTemplate, dataSource);
 
@@ -1587,7 +1585,7 @@ public class ServiceAFweb {
             return null;
         }
 
-        return getStockHistoricalRangeServ(this, symbol, start, end);
+        return getStockHistoricalRangeServ(symbol, start, end);
     }
 
     public ArrayList<String> SystemAccountStockNameList(int accountId) {
@@ -2505,7 +2503,7 @@ public class ServiceAFweb {
                     stockInfoTran.setStockInfoList(StockSendArray);
                     // require oldest date to earliest
                     // require oldest date to earliest
-                    int retTran = serviceAFWeb.updateStockInfoTransactionServ(serviceAFWeb, stockInfoTran);
+                    int retTran = serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
                     if (retTran == 0) {
                         return false;
                     }
@@ -2521,7 +2519,7 @@ public class ServiceAFweb {
 
             // require oldest date to earliest
             // require oldest date to earliest
-            serviceAFWeb.updateStockInfoTransactionServ(serviceAFWeb, stockInfoTran);
+            serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
         }
         return true;
     }
@@ -2562,16 +2560,16 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList<AFstockInfo> getStockHistoricalRangeServ(ServiceAFweb serviceAFWeb, String symbol, long start, long end) {
+    public ArrayList<AFstockInfo> getStockHistoricalRangeServ(String symbol, long start, long end) {
         if (true) {
-            return stockInfoSrv.getStockHistoricalRange(serviceAFWeb, symbol, start, end);
+            return stockInfoSrv.getStockHistoricalRange(this, symbol, start, end);
         }
         return null;
     }
 
-    public int updateStockInfoTransactionServ(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
+    public int updateStockInfoTransactionServ(StockInfoTranObj stockInfoTran) {
         if (true) {
-            return stockInfoSrv.updateStockInfoTransaction(serviceAFWeb, stockInfoTran);
+            return stockInfoSrv.updateStockInfoTransaction(this, stockInfoTran);
         }
         return 0;
     }
@@ -3101,7 +3099,7 @@ public class ServiceAFweb {
                         st = sqlObj.getReq();
                         StockInfoTranObj stockInfoTran = new ObjectMapper().readValue(st, StockInfoTranObj.class);
 
-                        int result = updateStockInfoTransactionServ(this, stockInfoTran);
+                        int result = updateStockInfoTransactionServ(stockInfoTran);
                         sqlObj.setResp("" + result);
 
                     } catch (Exception ex) {
@@ -3223,7 +3221,7 @@ public class ServiceAFweb {
                         long start = Long.parseLong(startSt);
                         String endSt = sqlObj.getReq2();
                         long end = Long.parseLong(endSt);
-                        ArrayList<AFstockInfo> StockArray = getStockHistoricalRangeServ(this, symbol, start, end);
+                        ArrayList<AFstockInfo> StockArray = getStockHistoricalRangeServ(symbol, start, end);
                         nameST = new ObjectMapper().writeValueAsString(StockArray);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {
