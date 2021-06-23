@@ -12,7 +12,6 @@ import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockImp;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class StockService {
     protected static Logger logger = Logger.getLogger("StockService");
     StockInfoProcess stockProcess = new StockInfoProcess();
     private StockImp stockImp = new StockImp();
-    
+
     public ArrayList getStockObjArray(ServiceAFweb serviceAFWeb, int length) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -176,11 +175,10 @@ public class StockService {
         return true;
     }
 
-
     public int updateStockStatusDB(AFstockObj stock) {
         return stockImp.updateStockStatusDB(stock);
-    }    
-    
+    }
+
     public ArrayList<String> getAllOpenStockNameArray(ServiceAFweb serviceAFWeb) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -188,6 +186,13 @@ public class StockService {
 
         ArrayList stockNameList = stockImp.getOpenStockNameArray();
         return stockNameList;
-    }    
+    }
+
+    public int updateSQLArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        return stockImp.updateSQLArrayList(SQLTran);
+    }
 ///////////////////////////////////////////
 }

@@ -1822,7 +1822,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        AFstockObj stock = getStockServ(symbol);
+        AFstockObj stock = getStockBySymServ(symbol);
         int stockID = stock.getId();
         return getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
     }
@@ -1890,7 +1890,7 @@ public class ServiceAFweb {
             }
             return 0;
         }
-        return getStockImp().updateSQLArrayList(SQLlist);
+        return updateSQLArrayListServ(this, SQLlist);
     }
 
     public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
@@ -2580,18 +2580,19 @@ public class ServiceAFweb {
         }
         return 0;
     }
+
     public int updateStockAllSrv() {
         if (true) {
             return stockInfoSrv.updateAllStock(this);
         }
         return 0;
     }
-    
+
     public int updateSQLStockInfoArrayList(ArrayList SQLTran) {
         if (true) {
             return stockInfoSrv.updateSQLStockInfoArrayList(this, SQLTran);
         }
-        return 0;        
+        return 0;
     }
     ////////////////////////////////////////////
 //////////////////////////////////////////
@@ -2599,7 +2600,14 @@ public class ServiceAFweb {
     StockService stockSrv = new StockService();
 //////////////////////////////////////////
 
-    public AFstockObj getStockServ(String symbol) {
+    public int updateSQLArrayListServ(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
+        if (true) {
+            return stockSrv.updateSQLArrayList(serviceAFWeb, SQLTran);
+        }
+        return 0;
+    }
+
+    public AFstockObj getStockBySymServ(String symbol) {
         if (true) {
             return stockSrv.getStockByName(this, symbol);
         }
@@ -2662,7 +2670,6 @@ public class ServiceAFweb {
         }
         return null;
     }
-
 
     public ArrayList<String> getAllOpenStockNameServ() {
         if (true) {
@@ -3045,7 +3052,7 @@ public class ServiceAFweb {
                     try {
                         SQLArray = new ObjectMapper().readValue(sqlObj.getReq(), ArrayList.class
                         );
-                        int result = getStockImp().updateSQLArrayList(SQLArray);
+                        int result = updateSQLArrayListServ(this, SQLArray);
                         sqlObj.setResp("" + result);
 
                     } catch (Exception ex) {
@@ -3122,7 +3129,7 @@ public class ServiceAFweb {
                         accIdSt = sqlObj.getReq();
                         accountId = Integer.parseInt(accIdSt);
                         String symbol = sqlObj.getReq1();
-                        AFstockObj stock = getStockServ(symbol);
+                        AFstockObj stock = getStockBySymServ(symbol);
                         int stockID = stock.getId();
                         ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
                         nameST = new ObjectMapper().writeValueAsString(trList);
@@ -3575,11 +3582,11 @@ public class ServiceAFweb {
                     int result = 0;
                     for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                         String stockN = ServiceAFweb.primaryStock[i];
-                        AFstockObj stock = getStockServ(stockN);
+                        AFstockObj stock = getStockBySymServ(stockN);
                         logger.info(">InitDBData add stock " + stock.getSymbol());
                         result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                     }
-                    AFstockObj stock = getStockServ("T.TO");
+                    AFstockObj stock = getStockBySymServ("T.TO");
                     result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                 }
             }

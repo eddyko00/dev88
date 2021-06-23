@@ -95,7 +95,7 @@ public class AccountMaintProcess {
                 try {
                     for (int i = 0; i < stockRemoveList.size(); i++) {
                         String symbol = (String) stockRemoveList.get(i);
-                        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
                         // check transaction
                         boolean hasTran = serviceAFWeb.getAccountImp().checkTRListByStockID(stock.getId() + "");
                         if (hasTran == false) {
@@ -124,7 +124,7 @@ public class AccountMaintProcess {
                         String symbol = (String) stockNDisableList.get(i);
                         serviceAFWeb.removeStockInfoServ(symbol);
 
-                        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
                         stock.setStatus(ConstantKey.COMPLETED);
                         //send SQL update
                         String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);

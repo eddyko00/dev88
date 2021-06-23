@@ -359,7 +359,7 @@ public class CustAccService {
                 for (int i = 0; i < lenght; i++) {
                     String NormalizeSymbol = (String) stockNameList.get(i);
 
-                    AFstockObj stock = serviceAFWeb.getStockServ(NormalizeSymbol);
+                    AFstockObj stock = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
                     if (stock != null) {
                         stock.setTrname(trname);
 
@@ -401,7 +401,7 @@ public class CustAccService {
                 return 0;
             }
 
-            AFstockObj stock = serviceAFWeb.getStockServ(trObj.getSymbol());
+            AFstockObj stock = serviceAFWeb.getStockBySymServ(trObj.getSymbol());
 //            int stockId = trObj.getStockid();            
 //            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
             if (stock == null) {
@@ -445,14 +445,14 @@ public class CustAccService {
     public int addAccountStockByAccount(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = serviceAFWeb.getStockServ(NormalizeSymbol);
+        AFstockObj stockObj = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
         if (stockObj == null) {
             int result = serviceAFWeb.addStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
             //  get the stock object after added into the stockDB
-            stockObj = serviceAFWeb.getStockServ(NormalizeSymbol);
+            stockObj = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
             if (stockObj == null) {
                 return 0;
             }
@@ -474,14 +474,14 @@ public class CustAccService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = serviceAFWeb.getStockServ(NormalizeSymbol);
+        AFstockObj stockObj = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
         if (stockObj == null) {
             int result = serviceAFWeb.addStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
             //  get the stock object after added into the stockDB
-            stockObj = serviceAFWeb.getStockServ(NormalizeSymbol);
+            stockObj = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
             if (stockObj == null) {
                 return 0;
             }
@@ -507,7 +507,7 @@ public class CustAccService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = serviceAFWeb.getStockServ(NormalizeSymbol);
+        AFstockObj stockObj = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
         if (stockObj != null) {
             AccountObj accountObj = getAccountByCustomerAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
             if (accountObj != null) {
@@ -522,7 +522,7 @@ public class CustAccService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = serviceAFWeb.getStockServ(NormalizeSymbol);
+        AFstockObj stockObj = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
         if (stockObj != null) {
 
             int signal = ConstantKey.S_NEUTRAL;
@@ -902,7 +902,7 @@ public class CustAccService {
         } catch (NumberFormatException e) {
             SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
             String NormalizeSymbol = symObj.getYahooSymbol();
-            stock = serviceAFWeb.getStockServ(NormalizeSymbol);
+            stock = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
         }
         return stock;
     }
@@ -983,7 +983,7 @@ public class CustAccService {
 
             trname = trname.toUpperCase();
             String symbol = stockidsymbol;
-            AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+            AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
 
             int size1year = 20 * 10;
             ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year);
@@ -1091,7 +1091,7 @@ public class CustAccService {
             thList = new ArrayList();
         }
         String symbol = stockidsymbol;
-        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
         if (stock == null) {
             return null;
         }
@@ -1657,7 +1657,7 @@ public class CustAccService {
                 if (stockNameList != null) {
                     for (int j = 0; j < stockNameList.size(); j++) {
                         String symbol = (String) stockNameList.get(j);
-                        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
                         if (stock != null) {
                             serviceAFWeb.getAccountImp().removeAccountStock(accountObj, stock.getId());
                         }
@@ -1955,7 +1955,7 @@ public class CustAccService {
 
             for (int i = 0; i < lenght; i++) {
                 String NormalizeSymbol = (String) stockNameList.get(i);
-                AFstockObj stock = serviceAFWeb.getStockServ(NormalizeSymbol);
+                AFstockObj stock = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
                 if (stock != null) {
 
                     ArrayList<TradingRuleObj> trObjList = serviceAFWeb.getAccountImp().getAccountStockTRListByAccountID(accFundObj.getId(), stock.getId());

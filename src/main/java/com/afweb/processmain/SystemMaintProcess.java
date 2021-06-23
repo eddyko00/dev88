@@ -41,7 +41,7 @@ public class SystemMaintProcess {
                 if (commData != null) {
                     String sym = commData.getSymbol();
                     boolean retBoolean = true;
-                    AFstockObj stock = serviceAFWeb.getStockServ(sym);
+                    AFstockObj stock = serviceAFWeb.getStockBySymServ(sym);
 //                    if (stock.getSubstatus() == ConstantKey.OPEN) {
 //                        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
 //                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);

@@ -61,7 +61,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
         ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
 
         for (int j = 0; j < tradingRuleList.size(); j++) {
@@ -140,7 +140,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
         ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
 
         for (int j = 0; j < tradingRuleList.size(); j++) {
@@ -763,7 +763,7 @@ public class TradingSignalProcess {
             if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
                 return;
             }
-            AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+            AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
             if (stock != null) {
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                     return;
@@ -926,7 +926,7 @@ public class TradingSignalProcess {
 
         int size1year = 20 * 12 * lengthYr + (50 * 3);
         String symbol = trObj.getSymbol();
-        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year);
         int offset = 0;
         ///asc thObjList old first - recent last
@@ -1238,7 +1238,7 @@ public class TradingSignalProcess {
         if (serviceAFWeb.getServerObj().isSysMaintenance() == true) {
             return;
         }
-        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
 
         if (stock != null) {
             if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
@@ -2794,7 +2794,7 @@ public class TradingSignalProcess {
         if (accountIdList == null) {
             return 0;
         }
-        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
+        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
 
         if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
             return 0;
@@ -2920,7 +2920,7 @@ public class TradingSignalProcess {
         }
         logger.info("> processStockSplit no update " + symbol);
         //clear stocksplit
-        stock = serviceAFWeb.getStockServ(symbol);
+        stock = serviceAFWeb.getStockBySymServ(symbol);
         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
             stock.setSubstatus(ConstantKey.OPEN);
             String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
