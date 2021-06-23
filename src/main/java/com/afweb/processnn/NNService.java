@@ -180,7 +180,7 @@ public class NNService {
             for (int i = 0; i < stockNameArray.size(); i++) {
 
                 String symbol = (String) stockNameArray.get(i);
-                AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+                AFstockObj stock = serviceAFWeb.getStockServ(symbol);
                 if (stock == null) {
                     continue;
                 }

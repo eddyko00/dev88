@@ -139,7 +139,7 @@ public class AccountTranImp {
                                 }
                                 if (trTradingACCObj.getTrsignal() != trAdminObj.getTrsignal()) {
 
-                                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+                                    AFstockObj stock = serviceAFWeb.getStockServ(symbol);
                                     if (stock != null) {
                                         AFstockInfo stockinfo = stock.getAfstockInfo();
                                         if (stockinfo != null) {
@@ -299,7 +299,7 @@ public class AccountTranImp {
 //        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         try {
-            AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+            AFstockObj stock = serviceAFWeb.getStockServ(symbol);
             if (stock != null) {
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                     return;

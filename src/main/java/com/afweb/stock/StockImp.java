@@ -94,11 +94,11 @@ public class StockImp {
 //        StockArray = stockInfodb.getStockInfo_workaround(stock, length, dateNow);
 //        return StockArray;
 //    }
-    public AFstockObj getRealTimeStockByStockID(int StockID, Calendar dateNow) {
+    public AFstockObj getStockByStockID(int StockID, Calendar dateNow) {
         return stockdb.getStockByStockID(StockID, dateNow);
     }
 
-    public AFstockObj getRealTimeStock(String NormalizeSymbol, Calendar dateNow) {
+    public AFstockObj getStockByName(String NormalizeSymbol, Calendar dateNow) {
 //        logger.info("> getRealTimeStock " + NormalizeSymbol);
         AFstockObj stock = stockdb.getStock(NormalizeSymbol, dateNow);
         return stock;

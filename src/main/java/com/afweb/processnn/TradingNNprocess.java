@@ -141,7 +141,7 @@ public class TradingNNprocess {
 
                     int trNN = Integer.parseInt(symbolArray[1]);
 
-                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+                    AFstockObj stock = serviceAFWeb.getStockServ(symbol);
                     if (stock != null) {
                         this.ReLearnInputNeuralNet(serviceAFWeb, symbol, trNN);
                     }
@@ -238,7 +238,7 @@ public class TradingNNprocess {
                                 continue;
                             }
                         }
-                        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+                        AFstockObj stock = serviceAFWeb.getStockServ(symbol);
                         serviceAFWeb.getAccountImp().clearAccountStockTranByAccountID(accObj, stock.getId(), nnName);
 
                         ServiceAFweb.AFSleep();
@@ -267,7 +267,7 @@ public class TradingNNprocess {
                         continue;
                     }
                 }
-                AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+                AFstockObj stock = serviceAFWeb.getStockServ(symbol);
                 serviceAFWeb.getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
 
                 ServiceAFweb.AFSleep();

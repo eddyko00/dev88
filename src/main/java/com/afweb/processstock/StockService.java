@@ -43,7 +43,7 @@ public class StockService {
         return stockList;
     }
 
-    public AFstockObj getStockRealTime(ServiceAFweb serviceAFWeb, String symbol) {
+    public AFstockObj getStockByName(ServiceAFweb serviceAFWeb, String symbol) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -51,7 +51,7 @@ public class StockService {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
-        AFstockObj stock = stockImp.getRealTimeStock(NormalizeSymbol, null);
+        AFstockObj stock = stockImp.getStockByName(NormalizeSymbol, null);
 
         if (stock == null) {
             return null;
@@ -98,11 +98,11 @@ public class StockService {
         return stock;
     }
 
-    public AFstockObj getStockRealTimeBySockID(ServiceAFweb serviceAFWeb, int stockID) {
+    public AFstockObj getStockBySockID(ServiceAFweb serviceAFWeb, int stockID) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        AFstockObj stock = stockImp.getRealTimeStockByStockID(stockID, null);
+        AFstockObj stock = stockImp.getStockByStockID(stockID, null);
 
         if (stock == null) {
             return null;
@@ -163,7 +163,7 @@ public class StockService {
     }
 
     public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        AFstockObj stock = getStockRealTime(serviceAFWeb, NormalizeSymbol);
+        AFstockObj stock = getStockByName(serviceAFWeb, NormalizeSymbol);
         if (stock == null) {
             return false;
         }

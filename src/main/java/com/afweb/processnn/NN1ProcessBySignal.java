@@ -124,7 +124,7 @@ public class NN1ProcessBySignal {
         if (offset == 0) {
             size1yearAll = size1yearAll / 2;
         }
-        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        AFstockObj stockObj = serviceAFWeb.getStockServ(NormalizeSymbol);
         if ((stockObj == null) || (stockObj.getAfstockInfo() == null)) {
             String msg = "> getTrainingNNdataProcess symbol " + NormalizeSymbol + " - null";
             logger.info(msg);
@@ -158,7 +158,7 @@ public class NN1ProcessBySignal {
         if (len <= 2) {
             return null;
         }
-        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockServ(NormalizeSymbol);
         if (stock == null) {
             return inputList;
         }
@@ -512,7 +512,7 @@ public class NN1ProcessBySignal {
 //                    symbol = "BABA";
 
                     int TR_NN = Integer.parseInt(symbolArray[1]);  // assume TR_NN1
-                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
+                    AFstockObj stock = serviceAFWeb.getStockServ(symbol);
 
                     if (stock == null) {
                         stockNNprocessNameArray.remove(0);

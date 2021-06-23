@@ -210,7 +210,7 @@ public class FundMgrProcess {
                     String stockidsymbol = stockN;
 
                     String trName = ConstantKey.TR_ACC;
-                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(stockN);
+                    AFstockObj stock = serviceAFWeb.getStockServ(stockN);
                     TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), trName);
 
                     float close = stock.getAfstockInfo().getFclose();

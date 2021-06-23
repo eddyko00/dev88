@@ -203,7 +203,7 @@ public class StockInfoService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockServ(NormalizeSymbol);
         if (stock == null) {
             return null;
         }
@@ -222,7 +222,7 @@ public class StockInfoService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        AFstockObj stockObj = serviceAFWeb.getStockServ(NormalizeSymbol);
         if (stockObj != null) {
             return stockInfoImp.deleteStockInfoBySym(stockObj.getSymbol());
         }
@@ -237,13 +237,13 @@ public class StockInfoService {
         }
         String NormalizeSymbol = stockInfoTran.getNormalizeName();
         ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
-        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.getStockServ(NormalizeSymbol);
         int result = updateStockInfoTransactionProcess(stock, StockInfoArray);
         if (result > 0) {
 
             //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
             //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
-            stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            stock = serviceAFWeb.getStockServ(NormalizeSymbol);
             long updateDate = stock.getUpdatedatel();
             long updateDate5D = TimeConvertion.addDays(updateDate, 5);
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -392,7 +392,7 @@ public class StockInfoService {
             if (symbol.equals("T.T")) {
                 continue;
             }
-            AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(symbol);
+            AFstockObj stockObj = serviceAFWeb.getStockServ(symbol);
             if (stockObj == null) {
                 continue;
             }

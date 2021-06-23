@@ -1691,7 +1691,7 @@ public class ServiceAFweb {
             }
             return stockObj;
         }
-        return getStockRealTimeByStockIDServ(stockId); 
+        return getStockByStockIDServ(stockId); 
       }
 
     public AccountObj SystemAccountObjByAccountID(int accountId) {
@@ -1823,7 +1823,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        AFstockObj stock = getStockRealTimeServ(symbol);
+        AFstockObj stock = getStockServ(symbol);
         int stockID = stock.getId();
         return getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
     }
@@ -2588,16 +2588,16 @@ public class ServiceAFweb {
     StockService stockSrv = new StockService();
 //////////////////////////////////////////
 
-    public AFstockObj getStockRealTimeServ(String symbol) {
+    public AFstockObj getStockServ(String symbol) {
         if (true) {
-            return stockSrv.getStockRealTime(this, symbol);
+            return stockSrv.getStockByName(this, symbol);
         }
         return null;
     }
 
-    public AFstockObj getStockRealTimeByStockIDServ(int stockID) {
+    public AFstockObj getStockByStockIDServ(int stockID) {
         if (true) {
-            return stockSrv.getStockRealTimeBySockID(this, stockID);
+            return stockSrv.getStockBySockID(this, stockID);
         }
         return null;
     }
@@ -3119,7 +3119,7 @@ public class ServiceAFweb {
                         accIdSt = sqlObj.getReq();
                         accountId = Integer.parseInt(accIdSt);
                         String symbol = sqlObj.getReq1();
-                        AFstockObj stock = getStockRealTimeServ(symbol);
+                        AFstockObj stock = getStockServ(symbol);
                         int stockID = stock.getId();
                         ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
                         nameST = new ObjectMapper().writeValueAsString(trList);
@@ -3264,7 +3264,7 @@ public class ServiceAFweb {
                 case RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
                     String stockIdSt = sqlObj.getReq();
                     int stockId = Integer.parseInt(stockIdSt);
-                    AFstockObj stockObj = getStockRealTimeByStockIDServ(stockId); 
+                    AFstockObj stockObj = getStockByStockIDServ(stockId); 
                     nameST = new ObjectMapper().writeValueAsString(stockObj);
                     sqlObj.setResp(nameST);
                     return sqlObj;
@@ -3573,11 +3573,11 @@ public class ServiceAFweb {
                     int result = 0;
                     for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                         String stockN = ServiceAFweb.primaryStock[i];
-                        AFstockObj stock = getStockRealTimeServ(stockN);
+                        AFstockObj stock = getStockServ(stockN);
                         logger.info(">InitDBData add stock " + stock.getSymbol());
                         result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                     }
-                    AFstockObj stock = getStockRealTimeServ("T.TO");
+                    AFstockObj stock = getStockServ("T.TO");
                     result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                 }
             }

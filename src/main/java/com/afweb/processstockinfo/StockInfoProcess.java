@@ -152,7 +152,7 @@ public class StockInfoProcess {
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long currentdate = dateNow.getTimeInMillis();
 
-            stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            stock = serviceAFWeb.getStockServ(NormalizeSymbol);
             if (stock == null) {
                 return 0;
             }
@@ -179,7 +179,7 @@ public class StockInfoProcess {
                     // get real time stock from internet and update shock DB
                     int resultUpdate = updateRealTimeStock(serviceAFWeb, stock);
 
-                    stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+                    stock = serviceAFWeb.getStockServ(NormalizeSymbol);
                     if (stock == null) {
                         logger.info("> updateAllStockProcess " + NormalizeSymbol + " data:" + stock.getData());
                         return 0;
