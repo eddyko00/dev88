@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.afweb.stockinfo;
+
 import com.afweb.model.stock.*;
 
 import java.util.ArrayList;
@@ -44,31 +45,21 @@ public class StockInfoImp {
         return stockInfodb.deleteStockInfoBySym(sym);
     }
 
-    public int deleteStockInfoByDate(String sym, long datel) {
-        return stockInfodb.deleteStockInfoByDate(sym, datel);
+    public int deleteStockInfoBySymDate(String sym, long datel) {
+        return stockInfodb.deleteStockInfoBySymDate(sym, datel);
     }
 
     ///////////////
 //    StockImp stockImp = new StockImp();
     public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
         ArrayList StockArray = null;
-        StockArray = stockInfodb.getStockInfo(NormalizeSymbol, start, end);
+        StockArray = stockInfodb.getStockInfoBySymRange(NormalizeSymbol, start, end);
+        
         return StockArray;
     }
 
-//    public ArrayList<AFstockInfo> getStockHistorical(String NormalizeSymbol, int length, Calendar dateNow) {
-//
-//        AFstockObj stock = stockImp.getRealTimeStock(NormalizeSymbol, dateNow);
-//        if (stock == null) {
-//            return null;
-//        }
-//        ArrayList StockArray = null;
-//        StockArray = stockInfodb.getStockInfo_workaround(stock, length, dateNow);
-//        return StockArray;
-//    }
-//    
     public ArrayList<AFstockInfo> getStockInfo(String sym, int length, Calendar dateNow) {
-        return stockInfodb.getStockInfo(sym, length, dateNow);
+        return stockInfodb.getStockInfoBySym(sym, length, dateNow);
     }
 
     // Heuoku cannot get the date of the first stockinfo????
@@ -80,32 +71,4 @@ public class StockInfoImp {
         return stockInfodb.updateSQLArrayList(SQLTran);
     }
 
-//    public int updateStockInfoTransaction(AFstockObj stock, StockInfoTranObj stockInfoTran) {
-//        String NormalizeSymbol = stockInfoTran.getNormalizeName();
-//        ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
-//        AFstockObj stock = stockImp.getRealTimeStock(NormalizeSymbol, null);
-//        int result = stockInfodb.updateStockInfoTransaction(stock, StockInfoArray);
-//        if (result > 0) {
-//
-//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
-//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
-//            stock = stockImp.getRealTimeStock(NormalizeSymbol, null);
-//            long updateDate = stock.getUpdatedatel();
-//            long updateDate5D = TimeConvertion.addDays(updateDate, 5);
-//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-//            if (updateDate5D > dateNow.getTimeInMillis()) {
-//                return 1;
-//            }
-//            int failCnt = stock.getFailedupdate() + 1;
-//            // too many failure
-//            if (failCnt > CKey.FAIL_STOCK_CNT) {
-//                stock.setStatus(ConstantKey.DISABLE);;
-//            }
-//            stock.setFailedupdate(failCnt);
-//            stockImp.updateStockStatusDB(stock);
-//            //workaround unknown dfect- somehow cannot find the Internet from stock to add the error update
-//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update    
-//        }
-//        return 0;
-//    }
 }

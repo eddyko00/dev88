@@ -83,7 +83,7 @@ public class ControllerStockInfo {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = stockInfoService.cleanAllStockInfo(afWebService);
+        int result = stockInfoService.deleteAllStockInfo(afWebService);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }

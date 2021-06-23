@@ -381,11 +381,11 @@ public class StockInfoService {
         return 0;
     }
 
-    public int cleanAllStockInfo(ServiceAFweb serviceAFWeb) {
+    public int deleteAllStockInfo(ServiceAFweb serviceAFWeb) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        logger.info("> cleanAllStockInfo");
+        logger.info("> deleteAllStockInfo");
         AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
         ArrayList<String> stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
         for (int i = 0; i < stockNameArray.size(); i++) {
@@ -409,7 +409,7 @@ public class StockInfoService {
                     AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
                     endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
                     endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
-                    stockInfoImp.deleteStockInfoByDate(stockObj.getSymbol(), endStaticDay);
+                    stockInfoImp.deleteStockInfoBySymDate(stockObj.getSymbol(), endStaticDay);
                 }
 
             }

@@ -1245,57 +1245,6 @@ public class ServiceAFweb {
 //            this.getStockImp().deleteNeuralNetDataTable();
 //        }
         ///////////////////////////////////////////////////////////////////////////////////   
-        /// update stock split process
-        ///////////////////////////////////////////////////////////////////////////////////
-        boolean stocksplitflag = false;
-        if (stocksplitflag == true) {
-            /////////need manually enter the communication id
-            /////////need manually enter the communication id
-
-            int commid = 1; // 216; // 215;
-            CommObj commObj = getAccountImp().getCommObjByID(commid);
-            logger.info("stocksplitflag process commid " + commid);
-            if (commObj != null) {
-                CommData commData = getAccountImp().getCommDataObj(commObj);
-                if (commData != null) {
-                    String sym = commData.getSymbol();
-                    boolean retBoolean = true;
-                    AFstockObj stock = getStockImp().getRealTimeStock(sym, null);
-//                    if (stock.getSubstatus() == ConstantKey.OPEN) {
-//                        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
-//                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-//                        ArrayList sqlList = new ArrayList();
-//                        sqlList.add(sockNameSQL);
-//                        SystemUpdateSQLList(sqlList);
-//                    }
-
-                    if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
-                        return;
-                    }
-                    // select 5 year and apply and download
-                    // https://ca.finance.yahoo.com/quote/AAPL/history
-                    // select 5 year and apply and download
-                    //"T:/Netbean/db/";
-                    String nnFileName = FileLocalPath + sym + ".csv";
-                    if (FileUtil.FileTest(nnFileName) == false) {
-                        logger.info("updateStockFile not found " + nnFileName);
-                        return;
-                    }
-                    removeStockInfoServ(sym);
-
-                    // update file
-                    retBoolean = updateStockFileServ(this, sym);
-
-                    if (retBoolean == true) {
-                        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-                        TRprocessImp.processStockSplit(this, commData.getSymbol(), commData.getSplit());
-                    }
-                }
-            }
-
-        }
-
-        ///////////////////////////////////////////////////////////////////////////////////   
         ///////////////////////////////////////////////////////////////////////////////////
     }
 
