@@ -191,43 +191,6 @@ public class StockDB {
         return 0;
     }
 
-//    public int deleteStockInfo(AFstockInfo stockInfo) {
-////        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-////            return stockinfodb.deleteStockInfo(stockInfo);
-////        }
-//        try {
-//            String deleteSQL = "delete from stockinfo where id=" + stockInfo.getId();
-//            return processUpdateDB(deleteSQL);
-//        } catch (Exception e) {
-//            logger.info("> deleteStockInfo exception " + e.getMessage());
-//        }
-//        return 0;
-//    }
-//
-//    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
-//
-//        try {
-//            String deleteSQL = "delete from stockinfo where stockid="
-//                    + stockObj.getId() + " and entrydatel < " + datel;
-//            return processUpdateDB(deleteSQL);
-//        } catch (Exception e) {
-//            logger.info("> deleteStockInfoByDate exception " + e.getMessage());
-//        }
-//        return 0;
-//    }
-//
-//    public int deleteStockInfoByStockId(AFstockObj stockObj) {
-////        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-////            return stockinfodb.deleteStockInfoByStockId(stockObj);
-////        }
-//        try {
-//            String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();
-//            return processUpdateDB(deleteSQL);
-//        } catch (Exception e) {
-//            logger.info("> deleteStockInfoByStockId exception " + e.getMessage());
-//        }
-//        return 0;
-//    }
     public int disableStock(String NormalizeSymbol) {
 
         try {
