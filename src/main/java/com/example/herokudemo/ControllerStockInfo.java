@@ -5,9 +5,6 @@
  */
 package com.example.herokudemo;
 
-import com.afweb.model.account.*;
-import com.afweb.model.stock.*;
-import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.StockInfoService;
 
 import com.afweb.service.*;
