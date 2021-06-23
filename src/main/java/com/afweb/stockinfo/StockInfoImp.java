@@ -88,10 +88,8 @@ public class StockInfoImp {
         return stockInfodb.getStockInfo_workaround(sym, length, dateNow);
     }
 
-    // require oldest date to earliest
-    // require oldest date to earliest
-    public int updateStockInfoTransaction(AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
-        return stockInfodb.updateStockInfoTransaction(stock, StockArray);
+    public int updateSQLArrayList(ArrayList SQLTran) {
+        return stockInfodb.updateSQLArrayList(SQLTran);
     }
 
 //    public int updateStockInfoTransaction(AFstockObj stock, StockInfoTranObj stockInfoTran) {
