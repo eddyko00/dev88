@@ -58,7 +58,6 @@ public class StockDB {
     private static DataSource dataSource;
     private ServiceRemoteDB remoteDB = new ServiceRemoteDB();
 
-//    private StockInfoDB stockinfodb = new StockInfoDB();
     /**
      * @return the dataSource
      */
@@ -77,9 +76,6 @@ public class StockDB {
      * @param jdbcTemplate the jdbcTemplate to set
      */
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            stockinfodb.setJdbcTemplate(jdbcTemplate);
-//        }
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -87,9 +83,6 @@ public class StockDB {
      * @param dataSource the dataSource to set
      */
     public void setDataSource(DataSource dataSource) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            stockinfodb.setDataSource(dataSource);
-//        }
         this.dataSource = dataSource;
     }
 
@@ -314,25 +307,6 @@ public class StockDB {
             }
             if (entries.size() != 0) {
                 stock = (AFstockObj) entries.get(0);
-//                if (stock.getStatus() == ConstantKey.OPEN) {
-//                    if (stock.getSubstatus() != ConstantKey.INITIAL) {
-//
-//                        ////////////////////////////
-//                        //Need to fix this
-//                        StockInfoDB stockInfodb = new StockInfoDB();
-//                        ArrayList StockArray = stockInfodb.getStockInfo_workaround(stock, 2, dateNow);
-//
-////                        ArrayList StockArray = getStockInfo_workaround(stock, 2, dateNow);
-//                        if (StockArray != null) {
-//                            if (StockArray.size() >= 2) {
-//                                AFstockInfo stocktmp = (AFstockInfo) StockArray.get(0);
-//                                stock.setAfstockInfo(stocktmp);
-//                                AFstockInfo prevStocktmp = (AFstockInfo) StockArray.get(1);
-//                                stock.setPrevClose(prevStocktmp.getFclose());
-//                            }
-//                        }
-//                    }
-//                }
                 return stock;
             }
 
@@ -533,7 +507,6 @@ public class StockDB {
 
             boolean initDBflag = false;
             if (initDBflag == true) {
-//             processExecuteDB("delete from stockinfo where id>0");
                 processExecuteDB("drop table if exists dummy1");
             }
             total = getCountRowsInTable(getJdbcTemplate(), "dummy1");
@@ -639,10 +612,6 @@ public class StockDB {
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultCreate = ExecuteSQLArrayList(createTableList);
 
-//            if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//                StockInfoDB stockinfodb = new StockInfoDB();
-//                stockinfodb.initStockDB();
-//            }
             logger.info("> InitStockDB Done - result " + resultCreate);
             total = getCountRowsInTable(getJdbcTemplate(), "stock");
             return 0;  // new database

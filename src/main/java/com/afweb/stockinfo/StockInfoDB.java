@@ -61,9 +61,6 @@ public class StockInfoDB {
      * @param jdbcTemplate the jdbcTemplate to set
      */
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            stockinfodb.setJdbcTemplate(jdbcTemplate);
-//        }
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -71,9 +68,6 @@ public class StockInfoDB {
      * @param dataSource the dataSource to set
      */
     public void setDataSource(DataSource dataSource) {
-//        if (CKey.SEPARATE_STOCKINFO_DB == true) {
-//            stockinfodb.setDataSource(dataSource);
-//        }
         this.dataSource = dataSource;
     }
 
@@ -109,28 +103,6 @@ public class StockInfoDB {
         }
         return 0;
     }
-//
-//    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, long start, long end) {
-//
-//        try {
-//            if (stock == null) {
-//                return null;
-//            }
-//            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-//                return null;
-//            }
-//
-//            String sql = "select * from stockinfo where stockid = " + stock.getId();
-//            sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
-//
-//            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
-//            return (ArrayList) entries;
-//        } catch (Exception e) {
-//            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
-//        }
-//        return null;
-//    }
-//    
 
     public ArrayList<AFstockInfo> getStockInfoBySymRange(String sym, long start, long end) {
 
@@ -168,17 +140,10 @@ public class StockInfoDB {
     public ArrayList<AFstockInfo> getStockInfoBySym(String sym, int length, Calendar dateNow) {
 
         if (dateNow == null) {
-//            dateNow = TimeConvertion.getCurrentCalendar();
             long date = TimeConvertion.getCurrentCalendar().getTimeInMillis();
             dateNow = TimeConvertion.workaround_nextday_endOfDate(date);
         }
         try {
-//            if (stock == null) {
-//                return null;
-//            }
-//            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-//                return null;
-//            }
 
             long stockInfoEndday = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
             String sql = "select * from stockinfo where sym = '" + sym + "'";
@@ -303,7 +268,6 @@ public class StockInfoDB {
 
             boolean initDBflag = false;
             if (initDBflag == true) {
-//             processExecuteDB("delete from stockinfo where id>0");
                 processExecuteDB("drop table if exists dummyinfo1");
             }
             total = getCountRowsInTable(getJdbcTemplate(), "dummyinfo1");
@@ -317,11 +281,11 @@ public class StockInfoDB {
 
         try {
 
-// sequency is important
+            // sequency is important
             ArrayList dropTableList = new ArrayList();
             dropTableList.add("drop table if exists dummyinfo1");
             dropTableList.add("drop table if exists stockinfo");
-//            
+
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
 
@@ -368,15 +332,6 @@ public class StockInfoDB {
     public int updateSQLArrayList(ArrayList SQLTran) {
 
         if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
-            // just for testing
-//            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-//                boolean result = ExecuteSQLArrayList(SQLTran);
-//                if (result == true) {
-//                    return 1;
-//                }
-//                return 0;
-//            }
-
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
             if (ret == 0) {
                 return 0;
