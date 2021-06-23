@@ -90,7 +90,6 @@ public class StockInfoDB {
 //        }
 //        return 0;
 //    }
-
     public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
 
         try {
@@ -113,24 +112,40 @@ public class StockInfoDB {
         }
         return 0;
     }
+//
+//    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, long start, long end) {
+//
+//        try {
+//            if (stock == null) {
+//                return null;
+//            }
+//            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+//                return null;
+//            }
+//
+//            String sql = "select * from stockinfo where stockid = " + stock.getId();
+//            sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
+//
+//            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
+//            return (ArrayList) entries;
+//        } catch (Exception e) {
+//            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
+//        }
+//        return null;
+//    }
+//    
 
-    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, long start, long end) {
+    public ArrayList<AFstockInfo> getStockInfo(String sym, long start, long end) {
 
         try {
-            if (stock == null) {
-                return null;
-            }
-            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-                return null;
-            }
 
-            String sql = "select * from stockinfo where stockid = " + stock.getId();
+            String sql = "select * from stockinfo where sym = '" + sym + "'";
             sql += " and entrydatel >= " + end + " and entrydatel <= " + start + " order by entrydatel desc";
 
             ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
             return (ArrayList) entries;
         } catch (Exception e) {
-            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
+            logger.info("> getStockInfo exception " + sym + " - " + e.getMessage());
         }
         return null;
     }

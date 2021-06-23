@@ -61,15 +61,10 @@ public class StockInfoImp {
     }
 
     ///////////////
-    StockImp stockImp = new StockImp();
-
+//    StockImp stockImp = new StockImp();
     public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
-        AFstockObj stock = stockImp.getRealTimeStock(NormalizeSymbol, null);
-        if (stock == null) {
-            return null;
-        }
         ArrayList StockArray = null;
-        StockArray = stockInfodb.getStockInfo(stock, start, end);
+        StockArray = stockInfodb.getStockInfo(NormalizeSymbol, start, end);
         return StockArray;
     }
 
@@ -95,33 +90,36 @@ public class StockInfoImp {
 
     // require oldest date to earliest
     // require oldest date to earliest
-    public int updateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
-        String NormalizeSymbol = stockInfoTran.getNormalizeName();
-        ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
-        AFstockObj stock = stockImp.getRealTimeStock(NormalizeSymbol, null);
-        int result = stockInfodb.updateStockInfoTransaction(stock, StockInfoArray);
-        if (result > 0) {
-
-            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
-            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
-            stock = stockImp.getRealTimeStock(NormalizeSymbol, null);
-            long updateDate = stock.getUpdatedatel();
-            long updateDate5D = TimeConvertion.addDays(updateDate, 5);
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            if (updateDate5D > dateNow.getTimeInMillis()) {
-                return 1;
-            }
-            int failCnt = stock.getFailedupdate() + 1;
-            // too many failure
-            if (failCnt > CKey.FAIL_STOCK_CNT) {
-                stock.setStatus(ConstantKey.DISABLE);;
-            }
-            stock.setFailedupdate(failCnt);
-            stockImp.updateStockStatusDB(stock);
-            //workaround unknown dfect- somehow cannot find the Internet from stock to add the error update
-            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update    
-        }
-        return 0;
+    public int updateStockInfoTransaction(AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
+        return stockInfodb.updateStockInfoTransaction(stock, StockArray);
     }
 
+//    public int updateStockInfoTransaction(AFstockObj stock, StockInfoTranObj stockInfoTran) {
+//        String NormalizeSymbol = stockInfoTran.getNormalizeName();
+//        ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
+//        AFstockObj stock = stockImp.getRealTimeStock(NormalizeSymbol, null);
+//        int result = stockInfodb.updateStockInfoTransaction(stock, StockInfoArray);
+//        if (result > 0) {
+//
+//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
+//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
+//            stock = stockImp.getRealTimeStock(NormalizeSymbol, null);
+//            long updateDate = stock.getUpdatedatel();
+//            long updateDate5D = TimeConvertion.addDays(updateDate, 5);
+//            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+//            if (updateDate5D > dateNow.getTimeInMillis()) {
+//                return 1;
+//            }
+//            int failCnt = stock.getFailedupdate() + 1;
+//            // too many failure
+//            if (failCnt > CKey.FAIL_STOCK_CNT) {
+//                stock.setStatus(ConstantKey.DISABLE);;
+//            }
+//            stock.setFailedupdate(failCnt);
+//            stockImp.updateStockStatusDB(stock);
+//            //workaround unknown dfect- somehow cannot find the Internet from stock to add the error update
+//            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update    
+//        }
+//        return 0;
+//    }
 }

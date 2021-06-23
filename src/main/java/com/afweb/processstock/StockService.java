@@ -179,6 +179,10 @@ public class StockService {
         return stockProcess.updateAllStock(serviceAFWeb);
     }
 
+    public int updateStockStatusDB(AFstockObj stock) {
+        return stockImp.updateStockStatusDB(stock);
+    }    
+    
 //    public int updateStockInfoTransaction(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
 //        ServiceAFweb.lastfun = "updateStockInfoTransaction";
 //

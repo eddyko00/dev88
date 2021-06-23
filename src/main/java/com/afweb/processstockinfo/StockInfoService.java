@@ -32,7 +32,7 @@ public class StockInfoService {
     protected static Logger logger = Logger.getLogger("StockService");
     StockProcess stockProcess = new StockProcess();
     StockInfoImp stockInfoImp = new StockInfoImp();
-    
+
     public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
         return stockInfoImp.getStockInfo(stock, length, dateNow);
     }
@@ -41,8 +41,7 @@ public class StockInfoService {
     public ArrayList<AFstockInfo> getStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
         return stockInfoImp.getStockInfo_workaround(stock, length, dateNow);
     }
-    
-    
+
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
     public ArrayList<AFstockInfo> getStockHistorical(ServiceAFweb serviceAFWeb, String symbol, int length) {
@@ -205,6 +204,13 @@ public class StockInfoService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        if (stock == null) {
+            return null;
+        }
+        if (stock.getSubstatus() == ConstantKey.INITIAL) {
+            return null;
+        }
         ArrayList<AFstockInfo> stockInfoArray = stockInfoImp.getStockHistoricalRange(NormalizeSymbol, start, end);
 
         return stockInfoArray;
@@ -230,10 +236,34 @@ public class StockInfoService {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        return stockInfoImp.updateStockInfoTransaction(stockInfoTran);
+        String NormalizeSymbol = stockInfoTran.getNormalizeName();
+        ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+        int result = stockInfoImp.updateStockInfoTransaction(stock, StockInfoArray);
+        if (result > 0) {
+
+            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
+            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
+            stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
+            long updateDate = stock.getUpdatedatel();
+            long updateDate5D = TimeConvertion.addDays(updateDate, 5);
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            if (updateDate5D > dateNow.getTimeInMillis()) {
+                return 1;
+            }
+            int failCnt = stock.getFailedupdate() + 1;
+            // too many failure
+            if (failCnt > CKey.FAIL_STOCK_CNT) {
+                stock.setStatus(ConstantKey.DISABLE);;
+            }
+            stock.setFailedupdate(failCnt);
+            serviceAFWeb.updateStockStatusDBServ(stock);
+            //workaround unknown dfect- somehow cannot find the Internet from stock to add the error update
+            //workaround unknown defect- somehow cannot find the Internet from stock to add the error update    
+        }
+        return 0;
     }
-    
-    
+
     public int cleanAllStockInfo(ServiceAFweb serviceAFWeb) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;

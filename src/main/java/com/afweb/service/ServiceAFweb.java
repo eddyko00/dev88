@@ -2558,6 +2558,13 @@ public class ServiceAFweb {
         return 0;
     }
 
+    public int updateStockStatusDBServ(AFstockObj stock) {
+        if (true) {
+            return stockSrv.updateStockStatusDB(stock);
+        }
+        return 0;
+    }
+
     public StringBuffer getInternetScreenPageServ(String url) {
         if (true) {
             return this.getStockImp().getInternetScreenPage(url);
