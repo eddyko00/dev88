@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
@@ -451,5 +453,17 @@ public class StockInfoService {
         }
         return stockInfoImp.cleanStockInfoDB();
     }
+
+    public int initStockInfoDB(ServiceAFweb serviceAFWeb) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return -1;
+        }
+        return stockInfoImp.initStockInfoDB();
+    }
+
+    public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        stockInfoImp.setStockInfoDataSource(jdbcTemplate, dataSource);
+    }
+
 /////////////////////////    
 }

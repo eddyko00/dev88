@@ -23,7 +23,7 @@ public class StockInfoImp {
     protected static Logger logger = Logger.getLogger("StockInfoImp");
     private StockInfoDB stockInfodb = new StockInfoDB();
 
-    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
 
         stockInfodb.setJdbcTemplate(jdbcTemplate);
         stockInfodb.setDataSource(dataSource);
@@ -54,7 +54,7 @@ public class StockInfoImp {
     public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
         ArrayList StockArray = null;
         StockArray = stockInfodb.getStockInfoBySymRange(NormalizeSymbol, start, end);
-        
+
         return StockArray;
     }
 
@@ -71,4 +71,7 @@ public class StockInfoImp {
         return stockInfodb.updateSQLInfoArrayList(SQLTran);
     }
 
+    public int initStockInfoDB() {
+        return stockInfodb.initStockInfoDB();
+    }
 }

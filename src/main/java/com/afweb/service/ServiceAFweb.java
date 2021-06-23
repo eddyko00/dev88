@@ -338,10 +338,10 @@ public class ServiceAFweb {
                 // work around. must initialize for remote MYSQL
                 ServiceRemoteDB.setServiceAFWeb(this);
                 getStockImp().setDataSource(jdbcTemplate, dataSource);
-                
-                StockInfoImp stockInfoImp = new StockInfoImp();
-                stockInfoImp.setDataSource(jdbcTemplate, dataSource);
-                
+
+              
+            setStockInfoDataSource(jdbcTemplate, dataSource);
+
                 getAccountImp().setDataSource(jdbcTemplate, dataSource);
 
                 // work around. must initialize for remote MYSQL
@@ -2612,6 +2612,13 @@ public class ServiceAFweb {
         return stockInfoSrv.cleanStockInfoDB(this);
     }
 
+    public int initStockInfoDB() {
+        return stockInfoSrv.initStockInfoDB(this);
+    }
+
+    public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        stockInfoSrv.setStockInfoDataSource(jdbcTemplate, dataSource);
+    }
     ////////////////////////////////////////////
 //////////////////////////////////////////
     // StockService
@@ -3507,7 +3514,6 @@ public class ServiceAFweb {
     }
 //
 
-
     public String SystemStart() {
         boolean retSatus = true;
         serverObj.setSysMaintenance(false);
@@ -3529,7 +3535,7 @@ public class ServiceAFweb {
 
         if (retStatus >= 0) {
             //// init StockInfo
-            getStockImp().initStockInfoDB();
+            initStockInfoDB();
 
             logger.info(">InitDB Customer account ");
             CustomerObj newCustomer = new CustomerObj();
@@ -3814,19 +3820,5 @@ public class ServiceAFweb {
     public void setAccounting(AccountingProcess accounting) {
         this.accounting = accounting;
     }
-
-//    /**
-//     * @return the stockInfoImp
-//     */
-//    public StockInfoImp getStockInfoImp() {
-//        return stockInfoImp;
-//    }
-//
-//    /**
-//     * @param stockInfoImp the stockInfoImp to set
-//     */
-//    public void setStockInfoImp(StockInfoImp stockInfoImp) {
-//        this.stockInfoImp = stockInfoImp;
-//    }
 
 }
