@@ -49,7 +49,6 @@ public class StockInfoProcess {
 //        stockUpdateNameArray.clear();
 //        updateStockUpdateNameArray(serviceAFWeb);
 //    }
-
     private ArrayList updateStockUpdateNameArray(ServiceAFweb serviceAFWeb) {
         if (stockUpdateNameArray != null && stockUpdateNameArray.size() > 0) {
             return stockUpdateNameArray;
@@ -380,6 +379,7 @@ public class StockInfoProcess {
         if (stock.getStatus() != ConstantKey.OPEN) {
             return 0;
         }
+
         String NormalizeSymbol = stock.getSymbol();
         StockInternetImpDao stockInternet = new StockInternetImpDao();
 //        logger.warning("> updateRealTimeStock " + NormalizeSymbol);
@@ -394,9 +394,10 @@ public class StockInfoProcess {
                 if (!stock.getStockname().equals(stockRTinternet.getStockname())) {
                     stock.setStockname(stockRTinternet.getStockname());
                     String sockNameSQL = StockDB.SQLupdateStockName(stock);
-                    ArrayList sqlList = new ArrayList();
-                    sqlList.add(sockNameSQL);
-                    serviceAFWeb.SystemUpdateSQLList(sqlList);
+
+                    ArrayList<String> SQLlist = new ArrayList();
+                    SQLlist.add(sockNameSQL);
+                    serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, SQLlist);
                 }
                 int internetHistoryLen = 0;
 
@@ -471,9 +472,11 @@ public class StockInfoProcess {
                     stock.setSubstatus(ConstantKey.OPEN);
 
                     String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-                    ArrayList sqlList = new ArrayList();
-                    sqlList.add(sockNameSQL);
-                    serviceAFWeb.SystemUpdateSQLList(sqlList);
+                    
+                    ArrayList<String> SQLlist = new ArrayList();
+                    SQLlist.add(sockNameSQL);
+                    serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, SQLlist);
+
                     logger.info("updateRealTimeStock " + NormalizeSymbol + " Split flag was not correct. Clear Split flag");
                     return 0;
                 }
@@ -513,6 +516,7 @@ public class StockInfoProcess {
                 if (StockSendArray.size() == 0) {
                     return 1;
                 }
+
 //                logger.info("updateRealTimeStock send " + StockSendArray.size());
                 return serviceAFWeb.updateStockInfoTransactionServ(serviceAFWeb, stockInfoTran);
             }
@@ -584,7 +588,7 @@ public class StockInfoProcess {
             String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
             ArrayList sqlList = new ArrayList();
             sqlList.add(sockNameSQL);
-            serviceAFWeb.SystemUpdateSQLList(sqlList);
+            serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
             logger.info(msg);
 
             // send admin messsage

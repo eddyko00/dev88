@@ -357,7 +357,7 @@ public class AccountTranProcess {
                                 String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);
                                 ArrayList sqlList = new ArrayList();
                                 sqlList.add(updateSQL);
-                                serviceAFWeb.SystemUpdateSQLList(sqlList);
+                                serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
                             }
                         }
 

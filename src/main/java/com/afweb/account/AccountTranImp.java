@@ -97,7 +97,8 @@ public class AccountTranImp {
                 String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trTradingACCObj);
                 ArrayList sqlList = new ArrayList();
                 sqlList.add(updateSQL);
-                serviceAFWeb.SystemUpdateSQLList(sqlList);
+                serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
+
             }
 
 /////////////////
@@ -362,7 +363,7 @@ public class AccountTranImp {
                         }
                         ArrayList sqlList = new ArrayList();
                         sqlList.add(SQLPerf);
-                        serviceAFWeb.SystemUpdateSQLList(sqlList);
+                        serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
                     }
                 }
 
