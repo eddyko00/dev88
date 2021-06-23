@@ -329,7 +329,7 @@ public class StockInfoDB {
 
     }
 
-    public int updateSQLArrayList(ArrayList SQLTran) {
+    public int updateSQLInfoArrayList(ArrayList SQLTran) {
 
         if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);

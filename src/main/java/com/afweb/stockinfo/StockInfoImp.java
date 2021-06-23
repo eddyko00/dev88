@@ -67,8 +67,8 @@ public class StockInfoImp {
         return stockInfodb.getStockInfo_workaround(sym, length, dateNow);
     }
 
-    public int updateSQLArrayList(ArrayList SQLTran) {
-        return stockInfodb.updateSQLArrayList(SQLTran);
+    public int updateSQLStockInfoArrayList(ArrayList SQLTran) {
+        return stockInfodb.updateSQLInfoArrayList(SQLTran);
     }
 
 }

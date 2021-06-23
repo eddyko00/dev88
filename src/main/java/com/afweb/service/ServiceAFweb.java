@@ -2587,7 +2587,12 @@ public class ServiceAFweb {
         return 0;
     }
     
-
+    public int updateSQLStockInfoArrayList(ArrayList SQLTran) {
+        if (true) {
+            return stockInfoSrv.updateSQLStockInfoArrayList(this, SQLTran);
+        }
+        return 0;        
+    }
     ////////////////////////////////////////////
 //////////////////////////////////////////
     // StockService

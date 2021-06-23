@@ -246,7 +246,7 @@ public class StockInfoService {
         String NormalizeSymbol = stockInfoTran.getNormalizeName();
         ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
         AFstockObj stock = serviceAFWeb.getStockServ(NormalizeSymbol);
-        int result = updateStockInfoTransactionProcess(stock, StockInfoArray);
+        int result = updateStockInfoTransactionProcess(serviceAFWeb, stock, StockInfoArray);
         if (result > 0) {
 
             //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
@@ -273,7 +273,7 @@ public class StockInfoService {
 
     // StockArray require oldest date to earliest
     // StockArray require oldest date to earliest    
-    private int updateStockInfoTransactionProcess(AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
+    private int updateStockInfoTransactionProcess(ServiceAFweb serviceAFWeb, AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
 
 //        logger.info("> addStockInfoTransaction " + stock.getSymbol() + " - " + StockArray.size());
         try {
@@ -362,7 +362,7 @@ public class StockInfoService {
             //must sepalate stock and stockinfo to exec one by one for 2 db 
             int sqlResult = 0;
 
-            sqlResult = stockInfoImp.updateSQLArrayList(sqlTranList);
+            sqlResult = updateSQLStockInfoArrayList(serviceAFWeb, sqlTranList);
 
             ArrayList sqlStockTranList = new ArrayList();
 
@@ -378,7 +378,7 @@ public class StockInfoService {
                     + stock.getFailedupdate() + " where symbol='" + stock.getSymbol() + "'";
             sqlStockTranList.add(sqlUpdateStockSQL);
             // process all transaction
-            sqlResult = stockInfoImp.updateSQLArrayList(sqlStockTranList);
+            sqlResult = updateSQLStockInfoArrayList(serviceAFWeb, sqlStockTranList);
             if (sqlResult == 1) {
                 return 1; //resultAdd; 
             }
@@ -386,6 +386,13 @@ public class StockInfoService {
             logger.info("> addStockInfoTransaction exception " + stock.getSymbol() + " - " + e.getMessage());
         }
         return 0;
+    }
+
+    public int updateSQLStockInfoArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        return stockInfoImp.updateSQLStockInfoArrayList(SQLTran);
     }
 
     public int deleteAllStockInfo(ServiceAFweb serviceAFWeb) {
