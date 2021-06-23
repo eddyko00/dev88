@@ -8,6 +8,7 @@ package com.afweb.processstockinfo;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
+import com.afweb.processstock.StockService;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stockinfo.StockInfoImp;
@@ -31,6 +32,13 @@ public class StockInfoService {
     protected static Logger logger = Logger.getLogger("StockService");
     StockInfoProcess stockProcess = new StockInfoProcess();
     StockInfoImp stockInfoImp = new StockInfoImp();
+
+    public int updateAllStock(ServiceAFweb serviceAFWeb) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        return stockProcess.updateAllStock(serviceAFWeb);
+    }
 
     public ArrayList<AFstockInfo> getStockInfo(String sym, int length, Calendar dateNow) {
         return stockInfoImp.getStockInfo(sym, length, dateNow);

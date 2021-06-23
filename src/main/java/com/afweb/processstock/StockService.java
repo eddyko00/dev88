@@ -176,9 +176,6 @@ public class StockService {
         return true;
     }
 
-    public int updateAllStock(ServiceAFweb serviceAFWeb) {
-        return stockProcess.updateAllStock(serviceAFWeb);
-    }
 
     public int updateStockStatusDB(AFstockObj stock) {
         return stockImp.updateStockStatusDB(stock);

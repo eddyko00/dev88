@@ -28,7 +28,6 @@ import com.afweb.processnn.NNService;
 import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.*;
 
-
 import com.afweb.stock.*;
 import com.afweb.stockinternet.StockUtils;
 import com.afweb.util.*;
@@ -76,8 +75,6 @@ public class ServiceAFweb {
     public static Logger logger = Logger.getLogger("AFwebService");
 
     private static ServerObj serverObj = new ServerObj();
-
-
 
     private JdbcTemplate jdbcTemplate;
     private DataSource dataSource;
@@ -1305,6 +1302,7 @@ public class ServiceAFweb {
             logger.info("> RandomDelayMilSec exception " + ex.getMessage());
         }
     }
+
     ///////////////////////////////////
     public static boolean checkCallRemoteSQL_Mysql() {
         boolean ret = false;
@@ -1313,6 +1311,7 @@ public class ServiceAFweb {
         }
         return ret;
     }
+
     public static boolean checkCallRemoteMysql() {
         boolean ret = true;
         if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
@@ -1691,8 +1690,8 @@ public class ServiceAFweb {
             }
             return stockObj;
         }
-        return getStockByStockIDServ(stockId); 
-      }
+        return getStockByStockIDServ(stockId);
+    }
 
     public AccountObj SystemAccountObjByAccountID(int accountId) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -2581,6 +2580,13 @@ public class ServiceAFweb {
         }
         return 0;
     }
+    public int updateStockAllSrv() {
+        if (true) {
+            return stockInfoSrv.updateAllStock(this);
+        }
+        return 0;
+    }
+    
 
     ////////////////////////////////////////////
 //////////////////////////////////////////
@@ -2652,12 +2658,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public int updateStockAllSrv() {
-        if (true) {
-            return stockSrv.updateAllStock(this);
-        }
-        return 0;
-    }
+
     public ArrayList<String> getAllOpenStockNameServ() {
         if (true) {
             return stockSrv.getAllOpenStockNameArray(this);
@@ -2666,7 +2667,6 @@ public class ServiceAFweb {
     }
 //////////////////////////////////////////
 //////////////////////////////////////////
-
 
     ////////////////////////
     public ArrayList getAllLock() {
@@ -3262,7 +3262,7 @@ public class ServiceAFweb {
                 case RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
                     String stockIdSt = sqlObj.getReq();
                     int stockId = Integer.parseInt(stockIdSt);
-                    AFstockObj stockObj = getStockByStockIDServ(stockId); 
+                    AFstockObj stockObj = getStockByStockIDServ(stockId);
                     nameST = new ObjectMapper().writeValueAsString(stockObj);
                     sqlObj.setResp(nameST);
                     return sqlObj;
@@ -3403,7 +3403,6 @@ public class ServiceAFweb {
 
         return "sysMaintenance " + retSatus;
     }
-
 
     public static boolean SystemFilePut(String fileName, ArrayList msgWrite) {
         String fileN = ServiceAFweb.FileLocalPath + fileName;
