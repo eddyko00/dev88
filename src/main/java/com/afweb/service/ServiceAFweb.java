@@ -87,7 +87,7 @@ public class ServiceAFweb {
 
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
     private StockImp stockImp = new StockImp();
-    private StockInfoImp stockInfoImp = new StockInfoImp();
+
     private AccountImp accountImp = new AccountImp();
     private AccountTranProcess accountProcessImp = new AccountTranProcess();
     private AccountingProcess accounting = new AccountingProcess();
@@ -338,7 +338,10 @@ public class ServiceAFweb {
                 // work around. must initialize for remote MYSQL
                 ServiceRemoteDB.setServiceAFWeb(this);
                 getStockImp().setDataSource(jdbcTemplate, dataSource);
-                getStockInfoImp().setDataSource(jdbcTemplate, dataSource);
+                
+                StockInfoImp stockInfoImp = new StockInfoImp();
+                stockInfoImp.setDataSource(jdbcTemplate, dataSource);
+                
                 getAccountImp().setDataSource(jdbcTemplate, dataSource);
 
                 // work around. must initialize for remote MYSQL
@@ -3213,7 +3216,7 @@ public class ServiceAFweb {
                         long start = Long.parseLong(startSt);
                         String endSt = sqlObj.getReq2();
                         long end = Long.parseLong(endSt);
-                        ArrayList<AFstockInfo> StockArray = getStockInfoImp().getStockHistoricalRange(symbol, start, end);
+                        ArrayList<AFstockInfo> StockArray = getStockHistoricalRangeServ(this, symbol, start, end);
                         nameST = new ObjectMapper().writeValueAsString(StockArray);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {
@@ -3459,7 +3462,7 @@ public class ServiceAFweb {
     public String SystemRestDBData() {
         boolean retSatus = false;
         // make sure the system is stopped first
-        retSatus = getStockInfoImp().restStockInfoDB();
+        retSatus = restStockInfoDB();
         retSatus = getStockImp().restStockDB();
         return "" + retSatus;
     }
@@ -3468,7 +3471,7 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        retSatus = getStockInfoImp().cleanStockInfoDB();
+        retSatus = cleanStockInfoDB();
         retSatus = getStockImp().cleanStockDB();
         return "" + retSatus;
     }
@@ -3503,36 +3506,7 @@ public class ServiceAFweb {
         return "" + retSatus;
     }
 //
-//    public String SystemClearNNtran(int tr) {
-//
-//        TradingNNprocess NNProcessImp = new TradingNNprocess();
-//        int retSatus = 0;
-//        if (tr == ConstantKey.SIZE_TR) {
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
-//        } else if (tr == ConstantKey.INT_TR_ACC) {
-//            retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_ACC);
-//        } else if (tr == ConstantKey.INT_TR_MACD) {
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD);
-//        } else if (tr == ConstantKey.INT_TR_MV) {
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV);
-//        } else if (tr == ConstantKey.INT_TR_RSI) {
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI);
-//        } else if (tr == ConstantKey.INT_TR_NN1) {
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1);
-//        } else if (tr == ConstantKey.INT_TR_NN2) {
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2);
-//        } else if (tr == ConstantKey.INT_TR_NN3) {
-//            retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3);
-//        }
-//
-//        return "" + retSatus;
-//    }
+
 
     public String SystemStart() {
         boolean retSatus = true;
@@ -3841,18 +3815,18 @@ public class ServiceAFweb {
         this.accounting = accounting;
     }
 
-    /**
-     * @return the stockInfoImp
-     */
-    public StockInfoImp getStockInfoImp() {
-        return stockInfoImp;
-    }
-
-    /**
-     * @param stockInfoImp the stockInfoImp to set
-     */
-    public void setStockInfoImp(StockInfoImp stockInfoImp) {
-        this.stockInfoImp = stockInfoImp;
-    }
+//    /**
+//     * @return the stockInfoImp
+//     */
+//    public StockInfoImp getStockInfoImp() {
+//        return stockInfoImp;
+//    }
+//
+//    /**
+//     * @param stockInfoImp the stockInfoImp to set
+//     */
+//    public void setStockInfoImp(StockInfoImp stockInfoImp) {
+//        this.stockInfoImp = stockInfoImp;
+//    }
 
 }
