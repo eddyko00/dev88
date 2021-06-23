@@ -76,6 +76,8 @@ public class ServiceAFweb {
 
     private static ServerObj serverObj = new ServerObj();
 
+
+
     private JdbcTemplate jdbcTemplate;
     private DataSource dataSource;
 
@@ -1302,7 +1304,14 @@ public class ServiceAFweb {
             logger.info("> RandomDelayMilSec exception " + ex.getMessage());
         }
     }
-
+    ///////////////////////////////////
+    public static boolean checkCallRemoteSQL_Mysql() {
+        boolean ret = false;
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            ret = true;
+        }
+        return ret;
+    }
     public static boolean checkCallRemoteMysql() {
         boolean ret = true;
         if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
@@ -1311,7 +1320,7 @@ public class ServiceAFweb {
         return ret;
     }
 
-    ///////////////////////
+    ///////////////////////////////////////
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
 
         NameObj nameObj = new NameObj(EmailUserName);
@@ -1681,8 +1690,8 @@ public class ServiceAFweb {
             }
             return stockObj;
         }
-        return getStockImp().getRealTimeStockByStockID(stockId, null);
-    }
+        return getStockRealTimeByStockIDServ(stockId); 
+      }
 
     public AccountObj SystemAccountObjByAccountID(int accountId) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -3255,7 +3264,7 @@ public class ServiceAFweb {
                 case RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
                     String stockIdSt = sqlObj.getReq();
                     int stockId = Integer.parseInt(stockIdSt);
-                    AFstockObj stockObj = getStockImp().getRealTimeStockByStockID(stockId, null);
+                    AFstockObj stockObj = getStockRealTimeByStockIDServ(stockId); 
                     nameST = new ObjectMapper().writeValueAsString(stockObj);
                     sqlObj.setResp(nameST);
                     return sqlObj;

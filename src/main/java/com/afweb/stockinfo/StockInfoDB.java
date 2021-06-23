@@ -10,7 +10,6 @@ import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
 
 import com.afweb.service.ServiceRemoteDB;
-import static com.afweb.stock.StockDB.checkCallRemoteSQL_Mysql;
 
 import com.afweb.util.CKey;
 import com.afweb.util.TimeConvertion;
@@ -208,7 +207,7 @@ public class StockInfoDB {
     }
 
     private ArrayList getStockInfoListSQL(String sql) {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             try {
                 ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
                 return AFstockObjArry;
@@ -368,7 +367,7 @@ public class StockInfoDB {
 
     public int updateSQLArrayList(ArrayList SQLTran) {
 
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             // just for testing
 //            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
 //                boolean result = ExecuteSQLArrayList(SQLTran);
@@ -410,7 +409,7 @@ public class StockInfoDB {
 
     ///////////
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
             return count;
         }
@@ -424,7 +423,7 @@ public class StockInfoDB {
     }
 
     public int processUpdateDB(String sqlCMD) throws Exception {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return ret;
         }
@@ -440,7 +439,7 @@ public class StockInfoDB {
     public void processExecuteDB(String sqlCMD) throws Exception {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return;
         }

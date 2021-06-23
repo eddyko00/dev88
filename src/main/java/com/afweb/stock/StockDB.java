@@ -239,16 +239,9 @@ public class StockDB {
 
     }
 
-    public static boolean checkCallRemoteSQL_Mysql() {
-        boolean ret = false;
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            ret = true;
-        }
-        return ret;
-    }
 
     private ArrayList getStockListSQL(String sql) {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             try {
                 ArrayList AFstockObjArry = remoteDB.getStockSqlRemoteDB_RemoteMysql(sql);
                 return AFstockObjArry;
@@ -635,7 +628,7 @@ public class StockDB {
 
     public int updateSQLArrayList(ArrayList SQLTran) {
 
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             // just for testing
 //            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
 //                boolean result = ExecuteSQLArrayList(SQLTran);
@@ -677,7 +670,7 @@ public class StockDB {
 
     ///////////
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
             return count;
         }
@@ -691,7 +684,7 @@ public class StockDB {
     }
 
     public int processUpdateDB(String sqlCMD) throws Exception {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return ret;
         }
@@ -707,7 +700,7 @@ public class StockDB {
     public void processExecuteDB(String sqlCMD) throws Exception {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return;
         }
@@ -980,7 +973,7 @@ public class StockDB {
     }
 
     private ArrayList getAllLockObjSQL(String sql) {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             ArrayList lockList;
             try {
                 lockList = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql);
@@ -1429,7 +1422,7 @@ public class StockDB {
     }
 
     private ArrayList getAllNeuralNetDataSQL(String sql) {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllNeuralNetDataSqlRemoteDB_RemoteMysql(sql);
@@ -1501,7 +1494,7 @@ public class StockDB {
     }
 
     private ArrayList getAllNeuralNetSQL(String sql) {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllNeuralNetSqlRemoteDB_RemoteMysql(sql);
@@ -1581,7 +1574,7 @@ public class StockDB {
     }
 
     public ArrayList getAllSymbolSQL(String sql) {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllSymbolSqlRemoteDB_RemoteMysql(sql);
@@ -1616,7 +1609,7 @@ public class StockDB {
     }
 
     public ArrayList getAllNameSQL(String sql) {
-        if (checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllNameSqlRemoteDB_RemoteMysql(sql);
