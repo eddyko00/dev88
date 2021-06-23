@@ -535,7 +535,7 @@ public class AccountTranProcess {
         if (accountAdminObj == null) {
             return;
         }
-        ArrayList StockNameList = serviceAFWeb.getAllOpenStockNameArray();
+        ArrayList StockNameList = serviceAFWeb.getAllOpenStockNameServ();
         if (StockNameList == null) {
             return;
         }

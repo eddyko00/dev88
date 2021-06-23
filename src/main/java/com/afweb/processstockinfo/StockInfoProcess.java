@@ -54,7 +54,7 @@ public class StockInfoProcess {
         if (stockUpdateNameArray != null && stockUpdateNameArray.size() > 0) {
             return stockUpdateNameArray;
         }
-        ArrayList stockNameArray = serviceAFWeb.getAllOpenStockNameArray();
+        ArrayList stockNameArray = serviceAFWeb.getAllOpenStockNameServ();
         if (stockNameArray != null) {
             stockUpdateNameArray = stockNameArray;
         }

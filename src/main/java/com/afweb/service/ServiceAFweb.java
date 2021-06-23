@@ -2658,17 +2658,15 @@ public class ServiceAFweb {
         }
         return 0;
     }
-
-//////////////////////////////////////////
-//////////////////////////////////////////
-    public ArrayList getAllOpenStockNameArray() {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
+    public ArrayList<String> getAllOpenStockNameServ() {
+        if (true) {
+            return stockSrv.getAllOpenStockNameArray(this);
         }
-
-        ArrayList stockNameList = getStockImp().getOpenStockNameArray();
-        return stockNameList;
+        return null;
     }
+//////////////////////////////////////////
+//////////////////////////////////////////
+
 
     ////////////////////////
     public ArrayList getAllLock() {

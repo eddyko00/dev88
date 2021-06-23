@@ -184,5 +184,13 @@ public class StockService {
         return stockImp.updateStockStatusDB(stock);
     }    
     
+    public ArrayList<String> getAllOpenStockNameArray(ServiceAFweb serviceAFWeb) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        ArrayList stockNameList = stockImp.getOpenStockNameArray();
+        return stockNameList;
+    }    
 ///////////////////////////////////////////
 }
