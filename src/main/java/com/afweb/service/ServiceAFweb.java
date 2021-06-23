@@ -1892,7 +1892,6 @@ public class ServiceAFweb {
 //        }
 //        return updateSQLArrayListServ(this, SQLlist);
 //    }
-
     public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2594,6 +2593,13 @@ public class ServiceAFweb {
         }
         return 0;
     }
+
+    public String getAllStockInfoDBSQLServ(String sql) {
+        if (true) {
+            return stockInfoSrv.getAllStockInfoDBSQL(this, sql);
+        }
+        return "";
+    }
     ////////////////////////////////////////////
 //////////////////////////////////////////
     // StockService
@@ -2975,7 +2981,7 @@ public class ServiceAFweb {
                     sqlObj.setResp(nameST);
                     return sqlObj;
                 case AllStockInfo:
-                    nameST = getStockInfoImp().getAllStockInfoDBSQL(sqlObj.getReq());
+                    nameST = getAllStockInfoDBSQLServ(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
                 case AllNeuralNet:

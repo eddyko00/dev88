@@ -431,4 +431,11 @@ public class StockInfoService {
         return 1;
     }
 
+    public String getAllStockInfoDBSQL(ServiceAFweb serviceAFWeb, String sql) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return "";
+        }
+        return stockInfoImp.getAllStockInfoDBSQL(sql);
+    }
+
 }
