@@ -445,14 +445,14 @@ public class CustAccService {
     public int addAccountStockByAccount(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSymbol, null);
+        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if (stockObj == null) {
             int result = serviceAFWeb.addStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
             //  get the stock object after added into the stockDB
-            stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSymbol, null);
+            stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
             if (stockObj == null) {
                 return 0;
             }

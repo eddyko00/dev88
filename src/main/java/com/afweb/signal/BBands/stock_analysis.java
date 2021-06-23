@@ -19,7 +19,7 @@ public class stock_analysis {
 
     public static void BBandstest(ServiceAFweb serviceAFWeb) {
         String symbol = "HOU.TO";
-        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+//        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
         int size1yearAll = 20 * 12 * 1 + (50 * 3);
         ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(symbol, size1yearAll);
         ArrayList<BBObj> BBArray = new ArrayList();

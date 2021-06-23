@@ -1822,7 +1822,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
+        AFstockObj stock = getStockRealTimeServ(symbol);
         int stockID = stock.getId();
         return getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
     }
@@ -3119,7 +3119,7 @@ public class ServiceAFweb {
                         accIdSt = sqlObj.getReq();
                         accountId = Integer.parseInt(accIdSt);
                         String symbol = sqlObj.getReq1();
-                        AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
+                        AFstockObj stock = getStockRealTimeServ(symbol);
                         int stockID = stock.getId();
                         ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
                         nameST = new ObjectMapper().writeValueAsString(trList);
@@ -3597,11 +3597,11 @@ public class ServiceAFweb {
                     int result = 0;
                     for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                         String stockN = ServiceAFweb.primaryStock[i];
-                        AFstockObj stock = getStockImp().getRealTimeStock(stockN, null);
+                        AFstockObj stock = getStockRealTimeServ(stockN);
                         logger.info(">InitDBData add stock " + stock.getSymbol());
                         result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                     }
-                    AFstockObj stock = getStockImp().getRealTimeStock("T.TO", null);
+                    AFstockObj stock = getStockRealTimeServ("T.TO");
                     result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
                 }
             }

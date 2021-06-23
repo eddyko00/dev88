@@ -2794,7 +2794,7 @@ public class TradingSignalProcess {
         if (accountIdList == null) {
             return 0;
         }
-        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
 
         if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
             return 0;
@@ -2920,7 +2920,7 @@ public class TradingSignalProcess {
         }
         logger.info("> processStockSplit no update " + symbol);
         //clear stocksplit
-        stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+        stock = serviceAFWeb.getStockRealTimeServ(symbol);
         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
             stock.setSubstatus(ConstantKey.OPEN);
             String sockNameSQL = StockDB.SQLupdateStockStatus(stock);

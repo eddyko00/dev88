@@ -305,7 +305,7 @@ public class AccountTranProcess {
                 float accountTotal = 0;
                 for (int j = 0; j < AccountStockNameList.size(); j++) {
                     String symbol = (String) AccountStockNameList.get(j);
-                    AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+                    AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
                     if (stock == null) {
                         continue;
                     }
@@ -338,7 +338,7 @@ public class AccountTranProcess {
                     for (int i = 0; i < removeList.size(); i++) {
 
                         String symbol = (String) removeList.get(i);
-                        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+                        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
                         if (stock == null) {
                             continue;
                         }
@@ -505,7 +505,7 @@ public class AccountTranProcess {
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
 
-                        AFstockObj stock = serviceAFWeb.getStockImp().getRealTimeStock(symbol, null);
+                        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(symbol);
                         if (stock == null) {
                             continue;
                         }

@@ -125,7 +125,7 @@ public class NN2ProcessBySignal {
             size1yearAll = size1yearAll / 2;
         }
 
-        AFstockObj stockObj = serviceAFWeb.getStockImp().getRealTimeStock(NormalizeSymbol, null);
+        AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if ((stockObj == null) || (stockObj.getAfstockInfo() == null)) {
             String msg = "> getTrainingNNdataProcess symbol " + NormalizeSymbol + " - null";
             logger.info(msg);
