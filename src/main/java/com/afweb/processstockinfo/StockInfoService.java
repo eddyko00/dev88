@@ -33,8 +33,8 @@ public class StockInfoService {
     StockProcess stockProcess = new StockProcess();
     StockInfoImp stockInfoImp = new StockInfoImp();
 
-    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-        return stockInfoImp.getStockInfo(stock, length, dateNow);
+    public ArrayList<AFstockInfo> getStockInfo(String sym, int length, Calendar dateNow) {
+        return stockInfoImp.getStockInfo(sym, length, dateNow);
     }
 
     // Heuoku cannot get the date of the first stockinfo????

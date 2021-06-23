@@ -168,7 +168,7 @@ public class StockInfoDB {
         return null;
     }
 
-    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
+    public ArrayList<AFstockInfo> getStockInfo(String sym, int length, Calendar dateNow) {
 
         if (dateNow == null) {
 //            dateNow = TimeConvertion.getCurrentCalendar();
@@ -176,15 +176,15 @@ public class StockInfoDB {
             dateNow = TimeConvertion.workaround_nextday_endOfDate(date);
         }
         try {
-            if (stock == null) {
-                return null;
-            }
-            if (stock.getSubstatus() == ConstantKey.INITIAL) {
-                return null;
-            }
+//            if (stock == null) {
+//                return null;
+//            }
+//            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+//                return null;
+//            }
 
             long stockInfoEndday = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
-            String sql = "select * from stockinfo where stockid = " + stock.getId();
+            String sql = "select * from stockinfo where sym = '" + sym + "'";
             sql += " and entrydatel <= " + stockInfoEndday + " order by entrydatel desc";
 
             sql = ServiceAFweb.getSQLLengh(sql, length);
@@ -192,7 +192,7 @@ public class StockInfoDB {
             ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
             return (ArrayList) entries;
         } catch (Exception e) {
-            logger.info("> getStockInfo exception " + stock.getSymbol() + " - " + e.getMessage());
+            logger.info("> getStockInfo exception " + sym + " - " + e.getMessage());
         }
         return null;
     }

@@ -2476,8 +2476,14 @@ public class ServiceAFweb {
     StockInfoService stockInfoSrv = new StockInfoService();
 //////////////////////////////////////////
 
-    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-        return stockInfoSrv.getStockInfo(stock, length, dateNow);
+    public ArrayList<AFstockInfo> getStockInfoServ(AFstockObj stock, int length, Calendar dateNow) {
+        if (stock == null) {
+            return null;
+        }
+        if (stock.getSubstatus() == ConstantKey.INITIAL) {
+            return null;
+        }
+        return stockInfoSrv.getStockInfo(stock.getSymbol(), length, dateNow);
     }
 
     // Heuoku cannot get the date of the first stockinfo????

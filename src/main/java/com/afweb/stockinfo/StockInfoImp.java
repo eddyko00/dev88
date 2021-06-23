@@ -79,8 +79,8 @@ public class StockInfoImp {
 //        return StockArray;
 //    }
 //    
-    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-        return stockInfodb.getStockInfo(stock, length, dateNow);
+    public ArrayList<AFstockInfo> getStockInfo(String sym, int length, Calendar dateNow) {
+        return stockInfodb.getStockInfo(sym, length, dateNow);
     }
 
     // Heuoku cannot get the date of the first stockinfo????
