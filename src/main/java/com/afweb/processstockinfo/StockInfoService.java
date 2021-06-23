@@ -225,7 +225,7 @@ public class StockInfoService {
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
         if (stockObj != null) {
-            return serviceAFWeb.getStockInfoImp().deleteStockInfoByStockId(stockObj);
+            return stockInfoImp.deleteStockInfoBySym(stockObj.getSymbol());
         }
         return 0;
     }
@@ -409,7 +409,7 @@ public class StockInfoService {
                     AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
                     endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
                     endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
-                    stockInfoImp.deleteStockInfoByDate(stockObj, endStaticDay);
+                    stockInfoImp.deleteStockInfoByDate(stockObj.getSymbol(), endStaticDay);
                 }
 
             }

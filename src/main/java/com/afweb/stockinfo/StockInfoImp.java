@@ -4,13 +4,7 @@
  * and open the template in the editor.
  */
 package com.afweb.stockinfo;
-
-import com.afweb.model.*;
 import com.afweb.model.stock.*;
-
-import com.afweb.stock.*;
-
-import com.afweb.util.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,18 +40,12 @@ public class StockInfoImp {
         return stockInfodb.getAllStockInfoDBSQL(sql);
     }
 
-    public int deleteStockInfoByStockId(AFstockObj stockObj) {
-        if (stockObj == null) {
-            return 0;
-        }
-        return stockInfodb.deleteStockInfoByStockId(stockObj);
+    public int deleteStockInfoBySym(String sym) {
+        return stockInfodb.deleteStockInfoBySym(sym);
     }
 
-    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
-        if (stockObj == null) {
-            return 0;
-        }
-        return stockInfodb.deleteStockInfoByDate(stockObj, datel);
+    public int deleteStockInfoByDate(String sym, long datel) {
+        return stockInfodb.deleteStockInfoByDate(sym, datel);
     }
 
     ///////////////

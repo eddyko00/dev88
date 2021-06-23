@@ -5,7 +5,6 @@
  */
 package com.afweb.stockinfo;
 
-import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
@@ -90,11 +89,10 @@ public class StockInfoDB {
 //        }
 //        return 0;
 //    }
-    public int deleteStockInfoByDate(AFstockObj stockObj, long datel) {
+    public int deleteStockInfoByDate(String sym, long datel) {
 
         try {
-            String deleteSQL = "delete from stockinfo where stockid="
-                    + stockObj.getId() + " and entrydatel < " + datel;
+            String deleteSQL = "delete from stockinfo where sym='" + sym + "' and entrydatel < " + datel;
             return processUpdateDB(deleteSQL);
         } catch (Exception e) {
             logger.info("> deleteStockInfoByDate exception " + e.getMessage());
@@ -102,10 +100,10 @@ public class StockInfoDB {
         return 0;
     }
 
-    public int deleteStockInfoByStockId(AFstockObj stockObj) {
+    public int deleteStockInfoBySym(String sym) {
 
         try {
-            String deleteSQL = "delete from stockinfo where stockid=" + stockObj.getId();
+            String deleteSQL = "delete from stockinfo where sym='" + sym + "'";
             return processUpdateDB(deleteSQL);
         } catch (Exception e) {
             logger.info("> deleteStockInfoByStockId exception " + e.getMessage());
@@ -374,7 +372,6 @@ public class StockInfoDB {
 //        }
 //        return 0;
 //    }
-
 /////////////////////////////////////////////////
     public boolean restStockInfoDB() {
         boolean status = true;

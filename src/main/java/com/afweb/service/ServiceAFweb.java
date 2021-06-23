@@ -1281,8 +1281,8 @@ public class ServiceAFweb {
                         logger.info("updateStockFile not found " + nnFileName);
                         return;
                     }
+                    removeStockInfoServ(sym);
 
-                    getStockInfoImp().deleteStockInfoByStockId(stock);
                     // update file
                     retBoolean = updateStockFileServ(this, sym);
 
@@ -2483,7 +2483,6 @@ public class ServiceAFweb {
 //        }
 //
 //    }
-
     public static boolean updateStockFileServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         ArrayList inputArray = new ArrayList();
         String nnFileName = ServiceAFweb.FileLocalPath + NormalizeSymbol + ".csv";
@@ -2492,8 +2491,7 @@ public class ServiceAFweb {
             return false;
         }
 
-        AFstockObj stock = serviceAFWeb.getStockRealTimeServ(NormalizeSymbol);
-        serviceAFWeb.getStockInfoImp().deleteStockInfoByStockId(stock);
+        serviceAFWeb.removeStockInfoServ(NormalizeSymbol);
 
         ArrayList<AFstockInfo> StockArray = new ArrayList();
         boolean ret = FileUtil.FileReadTextArray(nnFileName, inputArray);
@@ -2568,7 +2566,7 @@ public class ServiceAFweb {
         return true;
     }
 //////////////////////////////////////////    
-    
+
 //////////////////////////////////////////
     // StockService
     StockInfoService stockInfoSrv = new StockInfoService();
@@ -2618,8 +2616,8 @@ public class ServiceAFweb {
         }
         return 0;
     }
-    ////////////////////////////////////////////
 
+    ////////////////////////////////////////////
 //////////////////////////////////////////
     // StockService
     StockService stockSrv = new StockService();
