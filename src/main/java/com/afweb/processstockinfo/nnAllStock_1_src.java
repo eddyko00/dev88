@@ -1,4 +1,4 @@
-package com.afweb.nn;
+package com.afweb.processstockinfo;
 import com.afweb.service.ServiceAFweb;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
