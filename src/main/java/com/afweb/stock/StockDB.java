@@ -364,6 +364,33 @@ public class StockDB {
     }
 
     ///////////
+    public ArrayList getAllIdSQL(String sql) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+            ArrayList nnList;
+            try {
+                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql);
+                return nnList;
+            } catch (Exception ex) {
+            }
+            return null;
+        }
+
+        try {
+            List<String> entries = new ArrayList<>();
+            entries.clear();
+            entries = this.jdbcTemplate.query(sql, new RowMapper() {
+                public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    String name = rs.getString("id");
+                    return name;
+                }
+            });
+            return (ArrayList) entries;
+        } catch (Exception e) {
+            logger.info("> getAllIdSQL exception " + e.getMessage());
+        }
+        return null;
+    }
+
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);

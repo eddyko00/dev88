@@ -30,6 +30,20 @@ public class BackupRestoreInfo {
 
     protected static Logger logger = Logger.getLogger("BackupRestoreInfo");
 
+    private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
+        logger.info("> sendRequestObj " + writeSQLArray.size());
+        try {
+            if (writeSQLArray.size() == 0) {
+                return 1;
+            }
+            return serviceAFWeb.updateSQLStockInfoArrayListServ(writeSQLArray);
+
+        } catch (Exception ex) {
+            logger.info("> sendRequestObj - exception " + ex);
+        }
+        return 0;
+    }
+
     public boolean restoreDBDataInfo(ServiceAFweb serviceAFWeb) {
         logger.info(">>>>>>>> restoreDBstockinfo ");
 
@@ -99,32 +113,6 @@ public class BackupRestoreInfo {
         }
         return 0;
     }
-    
-    private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
-        logger.info("> sendRequestObj " + writeSQLArray.size());
-        try {
-            if (writeSQLArray.size() == 0) {
-                return 1;
-            }
-            return serviceAFWeb.updateSQLStockInfoArrayListServ(writeSQLArray);
-            
-//            RequestObj sqlObj = new RequestObj();
-//            sqlObj.setCmd(ServiceAFweb.UpdateSQLListInfo + "");
-//            String st = new ObjectMapper().writeValueAsString(writeSQLArray);
-//            sqlObj.setReq(st);
-//            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
-//            String output = sqlObjresp.getResp();
-//            if (output == null) {
-//                return 0;
-//            }
-//            return 1;
-        } catch (Exception ex) {
-            logger.info("> sendRequestObj - exception " + ex);
-        }
-        return 0;
-    }
-
-    
 
     private int restoreDBdummyInfo(ServiceAFweb serviceAFWeb) {
 
@@ -197,18 +185,20 @@ public class BackupRestoreInfo {
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
-
-            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return 0;
-            }
-            ArrayList<AFstockInfo> array = null;
-            AFstockInfo[] arrayItem = new ObjectMapper().readValue(output, AFstockInfo[].class);
-            List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
-            array = new ArrayList<AFstockInfo>(listItem);
-
+            ArrayList<AFstockInfo> array =  serviceAFWeb.getAllStockInfoDBSQLArrayServ(sql);
+            
+//            String output = serviceAFWeb.getAllStockInfoDBSQLServ(sql);
+//            sqlObj.setReq(sql);
+//
+//            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+//            if (output == null) {
+//                return 0;
+//            }
+//            ArrayList<AFstockInfo> array = null;
+//            AFstockInfo[] arrayItem = new ObjectMapper().readValue(output, AFstockInfo[].class);
+//            List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
+//            array = new ArrayList<AFstockInfo>(listItem);
             for (int i = 0; i < array.size(); i++) {
                 AFstockInfo obj = array.get(i);
                 String st = new ObjectMapper().writeValueAsString(obj);
@@ -227,18 +217,18 @@ public class BackupRestoreInfo {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllIdInfo + "");
             String sql = "select id from " + table + " order by id asc";
-            sqlObj.setReq(sql);
+            return serviceAFWeb.getAllIdStockInfoSQLServ(sql);
 
-            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            ArrayList<String> array = null;
-
-            String[] arrayItem = new ObjectMapper().readValue(output, String[].class);
-            List<String> listItem = Arrays.<String>asList(arrayItem);
-            array = new ArrayList<String>(listItem);
-            return array;
-
-        } catch (IOException ex) {
+//            sqlObj.setReq(sql);
+//            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+//            ArrayList<String> array = null;
+//
+//            String[] arrayItem = new ObjectMapper().readValue(output, String[].class);
+//            List<String> listItem = Arrays.<String>asList(arrayItem);
+//            array = new ArrayList<String>(listItem);
+//            return array;
+        } catch (Exception ex) {
             logger.info("> getDBDataTableId " + ex);
         }
         return null;

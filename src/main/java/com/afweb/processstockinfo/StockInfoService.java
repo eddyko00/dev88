@@ -13,6 +13,8 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.stockinfo.StockInfoImp;
 
 import com.afweb.util.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -441,11 +443,45 @@ public class StockInfoService {
         return stockInfoImp.getAllIdSQL(sql);
     }
 
+//    public String getAllStockInfoDBSQL(ServiceAFweb serviceAFWeb, String sql) {
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//         // ignore backup and resotre
+//            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
+//                ;
+//            } else {
+//                return "";
+//            }            
+//        }
+//        return stockInfoImp.getAllStockInfoDBSQL(sql);
+//    }
+    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArray(ServiceAFweb serviceAFWeb, String sql) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            // ignore backup and resotre
+            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
+                ;
+            } else {
+                return null;
+            }
+        }
+        return stockInfoImp.getAllStockInfoDBSQLArray(sql);
+    }
+
     public String getAllStockInfoDBSQL(ServiceAFweb serviceAFWeb, String sql) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            return "";
+            // ignore backup and resotre
+            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
+                ;
+            } else {
+                return "";
+            }
         }
-        return stockInfoImp.getAllStockInfoDBSQL(sql);
+        try {
+            ArrayList<AFstockInfo> entries = stockInfoImp.getAllStockInfoDBSQLArray(sql);
+            String nameST = new ObjectMapper().writeValueAsString(entries);
+            return nameST;
+        } catch (JsonProcessingException ex) {
+        }
+        return null;
     }
 
     public boolean restStockInfoDB(ServiceAFweb serviceAFWeb) {

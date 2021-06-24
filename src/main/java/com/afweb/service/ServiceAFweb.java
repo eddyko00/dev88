@@ -2573,6 +2573,13 @@ public class ServiceAFweb {
         return 0;
     }
 
+    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArrayServ(String sql) {
+        if (true) {
+            return stockInfoSrv.getAllStockInfoDBSQLArray(this, sql);
+        }
+        return null;
+    }
+
     public String getAllStockInfoDBSQLServ(String sql) {
         if (true) {
             return stockInfoSrv.getAllStockInfoDBSQL(this, sql);
@@ -2685,6 +2692,10 @@ public class ServiceAFweb {
             return stockSrv.getAllOpenStockNameArray(this);
         }
         return null;
+    }
+    
+    public ArrayList<String> getAllIdSQLServ(String sql) {
+        return stockSrv.getAllIdSQL(sql);
     }
 
 //////////////////////////////////////////
@@ -2907,10 +2918,10 @@ public class ServiceAFweb {
 
     public RequestObj SystemSQLRequest(RequestObj sqlObj) {
 
-        boolean RemoteCallflag = checkCallRemoteMysql();
-        if (RemoteCallflag == true) {
-            return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
-        }
+//        boolean RemoteCallflag = checkCallRemoteMysql();
+//        if (RemoteCallflag == true) {
+//            return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
+//        }
         String st = "";
         String nameST = "";
         int ret;

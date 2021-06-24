@@ -76,7 +76,6 @@ public class StockImp {
         return stock;
     }
 
-
     public ArrayList getOpenStockNameArray() {
         ArrayList stockArray = getStockObjArray(0);
         if (stockArray == null) {
@@ -121,8 +120,11 @@ public class StockImp {
         return stockdb.getAllStockDBSQL(sql);
     }
 
-//////////////////////////////////////    
+    public ArrayList<String> getAllIdSQL(String sql) {
+        return stockdb.getAllIdSQL(sql);
+    }
 
+//////////////////////////////////////    
     public String getAllLockDBSQL(String sql) {
         return stockdb.getAllLockDBSQL(sql);
     }

@@ -242,6 +242,10 @@ public class StockService {
         return -1;  // DB error
     }
 
+    public ArrayList<String> getAllIdSQL(String sql) {
+        return stockImp.getAllIdSQL(sql);
+    }  
+    
 ///////////////////////////////////////////
     // System
     public String getAllLockDBSQL(String sql) {

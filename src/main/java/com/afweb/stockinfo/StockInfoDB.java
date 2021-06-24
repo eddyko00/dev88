@@ -159,17 +159,21 @@ public class StockInfoDB {
         return null;
     }
 
-    public String getAllStockInfoDBSQL(String sql) {
-
-        try {
-            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
-            String nameST = new ObjectMapper().writeValueAsString(entries);
-            return nameST;
-        } catch (JsonProcessingException ex) {
-        }
-        return null;
-
+    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArray(String sql) {
+        return getStockInfoListSQL(sql);
     }
+
+//    public String getAllStockInfoDBSQL(String sql) {
+//
+//        try {
+//            ArrayList<AFstockInfo> entries = getStockInfoListSQL(sql);
+//            String nameST = new ObjectMapper().writeValueAsString(entries);
+//            return nameST;
+//        } catch (JsonProcessingException ex) {
+//        }
+//        return null;
+//
+//    }
 
     private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {

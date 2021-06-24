@@ -37,9 +37,13 @@ public class StockInfoImp {
         return stockInfodb.cleanStockInfoDB();
     }
 
-    public String getAllStockInfoDBSQL(String sql) {
-        return stockInfodb.getAllStockInfoDBSQL(sql);
+    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArray(String sql) {
+        return stockInfodb.getAllStockInfoDBSQLArray(sql);
     }
+
+//    public String getAllStockInfoDBSQL(String sql) {
+//        return stockInfodb.getAllStockInfoDBSQL(sql);
+//    }
 
     public int deleteStockInfoBySym(String sym) {
         return stockInfodb.deleteStockInfoBySym(sym);
@@ -79,4 +83,3 @@ public class StockInfoImp {
         return stockInfodb.getAllIdSQL(sql);
     }
 }
-
