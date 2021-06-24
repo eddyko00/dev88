@@ -206,11 +206,25 @@ public class BackupRestoreInfo {
     }
 
     private ArrayList<String> getDBDataTableId(ServiceAFweb serviceAFWeb, String table) {
+        try {
+            RequestObj sqlObj = new RequestObj();
+            sqlObj.setCmd(ServiceAFweb.AllIdInfo + "");
+            String sql = "select id from " + table + " order by id asc";
+            sqlObj.setReq(sql);
 
-        String sql = "select id from " + table + " order by id asc";
-        ArrayList<String> array = serviceAFWeb.getAllIdStockInfoSQLServ(sql);
+            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+            String output = sqlObjresp.getResp();
+            ArrayList<String> array = null;
 
-        return array;
+            String[] arrayItem = new ObjectMapper().readValue(output, String[].class);
+            List<String> listItem = Arrays.<String>asList(arrayItem);
+            array = new ArrayList<String>(listItem);
+            return array;
+
+        } catch (IOException ex) {
+            logger.info("> getDBDataTableId " + ex);
+        }
+        return null;
 
     }
     ///////////////////////////////////////////////////////////

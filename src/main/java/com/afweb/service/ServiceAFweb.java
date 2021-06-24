@@ -368,6 +368,8 @@ public class ServiceAFweb {
                     dbStr += "\r\n" + (">>>>> System Local DB URL:" + dsURL);
                 }
                 if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+                    // need this for SystemSQLRequest
+                    getServerObj().setLocalDBservice(false);
                     if (CKey.OTHER_PHP1_MYSQL == true) {
                         dbStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
                     } else {
@@ -2854,7 +2856,10 @@ public class ServiceAFweb {
 //    cannot autowire Could not autowire field:
     public static final int AllName = 200; //"1";
     public static final int AllSymbol = 201; //"1";
+
     public static final int AllId = 202; //"1";
+    public static final int AllIdInfo = 202; //"1";
+
     public static final int AllUserName = 203; //"1";
 
     public static final int AllLock = 2; //"2";
@@ -3327,10 +3332,10 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        
+
         BackupRestoreInfo backupRestoreInfo = new BackupRestoreInfo();
         backupRestoreInfo.downloadDBData(this);
-        
+
         BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.downloadDBData(this);
         if (retSatus == true) {
