@@ -375,7 +375,6 @@ public class StockDB {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
             return count;
         }
-   
 
         Integer result = jdbcTemplate.queryForObject("select count(0) from " + tableName, Integer.class);
         return (result != null ? result : 0);
@@ -386,7 +385,7 @@ public class StockDB {
             int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return ret;
         }
-   
+
 //        logger.info("> processUpdateDB " + sqlCMD);
         getJdbcTemplate().update(sqlCMD);
         return 1;

@@ -137,7 +137,6 @@ public class NNetDB {
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
 
             ArrayList createTableList = new ArrayList();
-   
 
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))");

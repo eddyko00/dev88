@@ -137,7 +137,6 @@ public class AccountDB {
                 return custList;
             }
 
-
             List<CustomerObj> entries = new ArrayList<>();
             entries.clear();
             entries = this.jdbcTemplate.query(sql, new RowMapper() {
@@ -479,7 +478,7 @@ public class AccountDB {
                 ArrayList accList = remoteDB.getAccountListSqlRemoteDB_RemoteMysql(sql);
                 return accList;
             }
- 
+
             List<AccountObj> entries = new ArrayList<>();
             entries.clear();
             entries = this.jdbcTemplate.query(sql, new RowMapper() {
@@ -1147,7 +1146,6 @@ public class AccountDB {
                 return retST;
             }
 
-
             retList = this.jdbcTemplate.queryForList(sql);
             String retST = new ObjectMapper().writeValueAsString(retList);
             return retST;
@@ -1215,7 +1213,6 @@ public class AccountDB {
                 ArrayList trList = remoteDB.getAccountStockListSqlRemoteDB_RemoteMysql(sql);
                 return trList;
             }
-
 
             List<TradingRuleObj> entries = new ArrayList<>();
             entries.clear();
@@ -1888,7 +1885,6 @@ public class AccountDB {
             }
             return null;
         }
-
 
         try {
             List<String> entries = new ArrayList<>();

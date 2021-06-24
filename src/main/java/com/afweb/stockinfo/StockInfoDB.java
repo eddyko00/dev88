@@ -350,8 +350,6 @@ public class StockInfoDB {
     }
 
     ///////////
-    
-
     public ArrayList getAllIdSQL(String sql) {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
             ArrayList nnList;
@@ -362,7 +360,6 @@ public class StockInfoDB {
             }
             return null;
         }
-
 
         try {
             List<String> entries = new ArrayList<>();
@@ -379,14 +376,12 @@ public class StockInfoDB {
         }
         return null;
     }
-    
-    
+
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
             return count;
         }
-
 
         Integer result = jdbcTemplate.queryForObject("select count(0) from " + tableName, Integer.class);
         return (result != null ? result : 0);
