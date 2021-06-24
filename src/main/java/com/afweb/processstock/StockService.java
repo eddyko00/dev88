@@ -11,6 +11,7 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockImp;
+import com.afweb.util.TimeConvertion;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -239,6 +240,31 @@ public class StockService {
     // System
     public String getAllLockDBSQL(String sql) {
         return stockImp.getAllLockDBSQL(sql);
+    }
+
+    public ArrayList getAllLock() {
+        return stockImp.getAllLock();
+    }
+
+    public int setRenewLock(String name, int type) {
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long lockDateValue = dateNow.getTimeInMillis();
+
+        if (type == ConstantKey.STOCK_LOCKTYPE) {
+            SymbolNameObj symObj = new SymbolNameObj(name);
+            name = symObj.getYahooSymbol();
+        }
+        return stockImp.setRenewLock(name, type, lockDateValue);
+    }
+
+    public AFLockObject getLockName(String name, int type) {
+
+        if (type == ConstantKey.STOCK_LOCKTYPE) {
+            SymbolNameObj symObj = new SymbolNameObj(name);
+            name = symObj.getYahooSymbol();
+        }
+        name = name.toUpperCase();
+        return stockImp.getLockName(name, type);
     }
 ///////////////////////////////////////////        
 }

@@ -69,7 +69,7 @@ public class AccountTranProcess {
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
 
         long lockReturn = 1;
-        lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
+        lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
 
         boolean testing = false;
         if (testing == true) {
@@ -119,7 +119,7 @@ public class AccountTranProcess {
                     LockStock = LockStock.toUpperCase();
 
                     long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                    long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
+                    long lockReturnStock = serviceAFWeb.setLockNameServ(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
                     if (testing == true) {
                         lockReturnStock = 1;
                     }
@@ -207,7 +207,7 @@ public class AccountTranProcess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ALL_FUND";
-        long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.FUND_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
+        long lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.FUND_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
         if (CKey.NN_DEBUG == true) {
             lockReturn = 1;
         }
@@ -622,7 +622,7 @@ public class AccountTranProcess {
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ALL_SIGNAL";
         long lockReturn = 1;
-        lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
+        lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
         boolean testing = false;
         if (testing == true) {
             lockReturn = 1;

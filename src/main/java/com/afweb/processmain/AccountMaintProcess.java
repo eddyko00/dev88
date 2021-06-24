@@ -49,7 +49,7 @@ public class AccountMaintProcess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ACC_" + CKey.AF_SYSTEM;
-        long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.ACC_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessSystemMaintance");
+        long lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.ACC_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessSystemMaintance");
         if (lockReturn > 0) {
 
             if ((acTimerCnt % 2) == 0) {

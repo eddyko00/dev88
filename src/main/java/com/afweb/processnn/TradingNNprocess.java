@@ -103,7 +103,7 @@ public class TradingNNprocess {
 
         LockName = "NNRE_LEARN";
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
-        long lockReturn = serviceAFWeb.setLockNameProcess(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
+        long lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
         boolean testing = false;
         if (testing == true) {
             lockReturn = 1;
@@ -160,7 +160,7 @@ public class TradingNNprocess {
         LockStock = LockStock.toUpperCase();
 
         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-        long lockReturnStock = serviceAFWeb.setLockNameProcess(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
+        long lockReturnStock = serviceAFWeb.setLockNameServ(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
         if (ServiceAFweb.mydebugtestflag == true) {
             lockReturnStock = 1;
         }

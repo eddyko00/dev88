@@ -463,7 +463,7 @@ public class ServiceAFweb {
                     String servIP = StockInternetImpDao.getServerIP();
                     serverObj.setServip(servIP);
 
-                    setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
+                    setLockNameServ(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
 
                     //try 2 times
                     getAccountProcessImp().ProcessAdminAddRemoveStock(this);
@@ -639,7 +639,7 @@ public class ServiceAFweb {
             long lockDateValue = dateNow.getTimeInMillis();
 
             LockName = "LOCK_" + ServiceAFweb.getServerObj().getServerName();
-            long lockReturn = setLockNameProcess(LockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, "ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
+            long lockReturn = setLockNameServ(LockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, "ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
 
             if (CKey.NN_DEBUG == true) {
                 lockReturn = 1;
@@ -681,7 +681,7 @@ public class ServiceAFweb {
             if (result == 0) {
                 Calendar dateNow1 = TimeConvertion.getCurrentCalendar();
                 long lockDateValue1 = dateNow1.getTimeInMillis();
-                setLockNameProcess(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue1, serverObj.getSrvProjName() + " " + serverObj.getServip());
+                setLockNameServ(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue1, serverObj.getSrvProjName() + " " + serverObj.getServip());
             }
         }
 
@@ -2719,34 +2719,17 @@ public class ServiceAFweb {
         return stockSrv.getAllLockDBSQL(sql);
     }
 
-//////////////////////////////////////////
-    ////////////////////////
     public ArrayList getAllLock() {
-
         ArrayList result = null;
-
-        result = getStockImp().getAllLock();
+        result = stockSrv.getAllLock();
         return result;
     }
 
-    public int setRenewLock(String symbol_acc, int type) {
-
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long lockDateValue = dateNow.getTimeInMillis();
-
-        String name = symbol_acc;
-        if (type == ConstantKey.STOCK_LOCKTYPE) {
-            SymbolNameObj symObj = new SymbolNameObj(symbol_acc);
-            name = symObj.getYahooSymbol();
-        }
-        return getStockImp().setRenewLock(name, type, lockDateValue);
+    public int setRenewLock(String name, int type) {
+        return stockSrv.setRenewLock(name, type);
     }
 
-    public int setLockNameProcess(String name, int type, long lockdatel, String comment) {
+    public int setLockNameServ(String name, int type, long lockdatel, String comment) {
         int resultLock = setLockName(name, type, lockdatel, comment);
         // DB will enusre the name in the lock is unique and s
         RandomDelayMilSec(200);
@@ -2756,23 +2739,11 @@ public class ServiceAFweb {
                 return 1;
             }
         }
-
         return 0;
     }
 
-    public AFLockObject getLockName(String symbol_acc, int type) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        String name = symbol_acc;
-        name = name.toUpperCase();
-        if (type == ConstantKey.STOCK_LOCKTYPE) {
-            SymbolNameObj symObj = new SymbolNameObj(symbol_acc);
-            name = symObj.getYahooSymbol();
-        }
-        name = name.toUpperCase();
-        return getStockImp().getLockName(name, type);
+    public AFLockObject getLockName(String name, int type) {
+        return stockSrv.getLockName(name, type);
     }
 
     public int setLockName(String symbol_acc, int type, long lockdatel, String comment) {
