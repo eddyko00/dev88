@@ -171,7 +171,7 @@ public class StockInfoDB {
 
     }
 
-    private ArrayList getStockInfoListSQL(String sql) {
+    private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
         if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
             try {
                 ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);

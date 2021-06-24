@@ -397,7 +397,7 @@ public class StockInfoProcess {
 
                     ArrayList<String> SQLlist = new ArrayList();
                     SQLlist.add(sockNameSQL);
-                    serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, SQLlist);
+                    serviceAFWeb.updateSQLArrayListServ( SQLlist);
                 }
                 int internetHistoryLen = 0;
 
@@ -475,7 +475,7 @@ public class StockInfoProcess {
                     
                     ArrayList<String> SQLlist = new ArrayList();
                     SQLlist.add(sockNameSQL);
-                    serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, SQLlist);
+                    serviceAFWeb.updateSQLArrayListServ( SQLlist);
 
                     logger.info("updateRealTimeStock " + NormalizeSymbol + " Split flag was not correct. Clear Split flag");
                     return 0;
@@ -588,7 +588,7 @@ public class StockInfoProcess {
             String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
             ArrayList sqlList = new ArrayList();
             sqlList.add(sockNameSQL);
-            serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
+            serviceAFWeb.updateSQLArrayListServ( sqlList);
             logger.info(msg);
 
             // send admin messsage

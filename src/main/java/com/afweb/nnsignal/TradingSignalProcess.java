@@ -125,7 +125,7 @@ public class TradingSignalProcess {
                     }
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(SQLPerf);
-                    serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
+                    serviceAFWeb.updateSQLArrayListServ(sqlList);
                 }
             }
 
@@ -913,7 +913,7 @@ public class TradingSignalProcess {
                     String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(updateSQL);
-                    serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
+                    serviceAFWeb.updateSQLArrayListServ(sqlList);
                 }
             }  // loop
         } catch (Exception ex) {
@@ -2786,8 +2786,6 @@ public class TradingSignalProcess {
 
     }
 
-    
-
     public int processStockSplit(ServiceAFweb serviceAFWeb, String symbol, float split) {
         logger.info(">processStockSplit");
         ArrayList accountIdList = serviceAFWeb.SystemAllOpenAccountIDList();
@@ -2875,7 +2873,7 @@ public class TradingSignalProcess {
                         String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
                         ArrayList sqlList = new ArrayList();
                         sqlList.add(sockNameSQL);
-                        serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
+                        serviceAFWeb.updateSQLArrayListServ(sqlList);
                         logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
                     }
 
@@ -2926,12 +2924,11 @@ public class TradingSignalProcess {
             String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
             ArrayList sqlList = new ArrayList();
             sqlList.add(sockNameSQL);
-            serviceAFWeb.updateSQLArrayListServ(serviceAFWeb, sqlList);
+            serviceAFWeb.updateSQLArrayListServ(sqlList);
             logger.info("updateRealTimeStock " + symbol + " Stock Split cleared");
         }
 
         return 1;
     }
-    
-    
+
 }

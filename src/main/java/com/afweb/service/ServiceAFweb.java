@@ -1867,33 +1867,6 @@ public class ServiceAFweb {
         return getAccountImp().getAccountStockTRListByAccountID(accountId, stockId);
     }
 
-//    public int SystemUpdateSQLList(ArrayList<String> SQLlist) {
-//        if (getServerObj().isSysMaintenance() == true) {
-//            return 0;
-//        }
-//        if (checkCallRemoteMysql() == true) {
-//            RequestObj sqlObj = new RequestObj();
-//            sqlObj.setCmd(ServiceAFweb.UpdateSQLList + "");
-//            String st;
-//            try {
-//                st = new ObjectMapper().writeValueAsString(SQLlist);
-//                sqlObj.setReq(st);
-//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-//                String output = sqlObjresp.getResp();
-//                if (output == null) {
-//                    return 0;
-//
-//                }
-//                int result = new ObjectMapper().readValue(output, Integer.class
-//                );
-//                return result;
-//            } catch (Exception ex) {
-//                logger.info("> SystemUpdateSQLList exception " + ex.getMessage());
-//            }
-//            return 0;
-//        }
-//        return updateSQLArrayListServ(this, SQLlist);
-//    }
     public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -2628,9 +2601,9 @@ public class ServiceAFweb {
     StockService stockSrv = new StockService();
 //////////////////////////////////////////
 
-    public int updateSQLArrayListServ(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
+    public int updateSQLArrayListServ(ArrayList SQLTran) {
         if (true) {
-            return stockSrv.updateSQLArrayList(serviceAFWeb, SQLTran);
+            return stockSrv.updateSQLArrayList(this, SQLTran);
         }
         return 0;
     }
@@ -3046,7 +3019,7 @@ public class ServiceAFweb {
                     try {
                         SQLArray = new ObjectMapper().readValue(sqlObj.getReq(), ArrayList.class
                         );
-                        int result = updateSQLArrayListServ(this, SQLArray);
+                        int result = updateSQLArrayListServ(SQLArray);
                         sqlObj.setResp("" + result);
 
                     } catch (Exception ex) {

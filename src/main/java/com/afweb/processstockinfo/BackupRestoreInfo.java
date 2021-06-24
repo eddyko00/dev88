@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -32,6 +33,94 @@ public class BackupRestoreInfo {
 
     protected static Logger logger = Logger.getLogger("BackupRestoreInfo");
 
+    public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
+        restoreDBstockinfo(serviceAFWeb);
+        restoreDBdummyInfo(serviceAFWeb);
+
+        return true;
+    }
+
+    private int restoreDBstockinfo(ServiceAFweb serviceAFWeb) {
+        int fileCont = 0;
+        String tableName = "stockinfo";
+        int ret = 0;
+        while (true) {
+            String fileName = ServiceAFweb.FileLocalPath + tableName + "_" + fileCont + ".txt";
+            if (FileUtil.FileTest(fileName) == false) {
+                break;
+            }
+            //////only require for VMware local
+            if (CKey.DELAY_RESTORE == true) {
+                if (fileCont > 0) {
+                    logger.info("> 60 sec delay");
+                    ServiceAFweb.AFSleep1Sec(60);
+                }
+            }
+            //////only require for VMware local
+            ret = restoreDBstockinfo_2(serviceAFWeb, fileCont);
+            fileCont++;
+
+        }
+        return ret;
+    }
+
+    private int restoreDBstockinfo_2(ServiceAFweb serviceAFWeb, int fileCont) {
+        String tableName = "stockinfo";
+        try {
+            ArrayList<String> writeArray = new ArrayList();
+            String fileName = tableName + "_" + fileCont + ".txt";
+            FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + fileName, writeArray);
+            ArrayList<String> writeSQLArray = new ArrayList();
+
+            logger.info("> restoreDBstockinfo " + writeArray.size());
+            int index = 0;
+            for (int i = 0; i < writeArray.size(); i++) {
+                String output = writeArray.get(i);
+                AFstockInfo item = new ObjectMapper().readValue(output, AFstockInfo.class);
+                String sql = StockInfoDB.insertStockInfo(item);
+                writeSQLArray.add(sql);
+                index++;
+                if (index > 500) {  //500) {
+                    index = 0;
+                    int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
+                    if (ret == 0) {
+                        return 0;
+                    }
+                    writeSQLArray.clear();
+                    logger.info("> restoreDBstockinfo " + fileName + " total=" + writeArray.size() + " index=" + i);
+
+                    ServiceAFweb.AFSleep();
+                }
+
+            }
+            return sendRequestObj(serviceAFWeb, writeSQLArray);
+
+        } catch (IOException ex) {
+            logger.info("> restoreDBaccount - exception " + ex);
+        }
+        return 0;
+    }
+
+    private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
+        logger.info("> sendRequestObj " + writeSQLArray.size());
+
+        if (writeSQLArray.size() == 0) {
+            return 1;
+        }
+        return serviceAFWeb.updateSQLStockInfoArrayList(writeSQLArray);
+    }
+
+    private int restoreDBdummyInfo(ServiceAFweb serviceAFWeb) {
+
+        logger.info("> restoreDBdummyInfo ");
+        ArrayList<String> writeSQLArray = new ArrayList();
+        String sql = StockInfoDB.createDummyInfotable();
+        writeSQLArray.add(sql);
+        return serviceAFWeb.updateSQLStockInfoArrayList(writeSQLArray);
+
+    }
+
+    //////////////////////////////////////////////////////////////////
     public boolean downloadDBData(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
 
@@ -93,10 +182,8 @@ public class BackupRestoreInfo {
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
 
-            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
+            String output = serviceAFWeb.getAllStockInfoDBSQLServ(sql);
             if (output == null) {
                 return 0;
             }
@@ -122,7 +209,9 @@ public class BackupRestoreInfo {
 
         String sql = "select id from " + table + " order by id asc";
         ArrayList<String> array = serviceAFWeb.getAllIdStockInfoSQLServ(sql);
+
         return array;
+
     }
     ///////////////////////////////////////////////////////////
 }
