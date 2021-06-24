@@ -741,7 +741,7 @@ public class ProcessNN1 {
                     accData.setConf(confidentSt);
                 }
 
-                debugSt += "nnSig:" + nnSignal;
+                debugSt += " nnSig:" + nnSignal;
                 accData.setNnst(debugSt);
 
                 nnRet.setTrsignal(nnSignal);

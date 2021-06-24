@@ -739,13 +739,14 @@ public class ProcessNN3 {
                         confidentSt = confidentSt + " (Take Profit)";
                     }
 
+                    confidentSt = confidentSt + " - " + debugSt;
                     nnRet.setConfident(confidentSt);
                     accData.setConf(confidentSt);
                 }
 
-                debugSt += "nnSig:" + nnSignal ;
-                accData.setNnst(debugSt);     
-                
+                debugSt += " nnSig:" + nnSignal;
+                accData.setNnst(debugSt);
+
                 nnRet.setTrsignal(nnSignal);
                 return nnRet;
             }
