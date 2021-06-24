@@ -52,11 +52,6 @@ public class StockImp {
     }
 
     public int addStock(String NormalizeSymbol) {
-//        StockInternetDao stockInternet = new StockInternetDao();
-//        AFstockObj stockRT = stockInternet.GetRealTimeStockInternet(NormalizeSymbol);
-//        if (stockRT == null) {
-//            return 0;
-//        }
         return stockdb.addStock(NormalizeSymbol);
     }
 
@@ -71,27 +66,6 @@ public class StockImp {
         return stockdb.disableStock(NormalizeSymbol);
     }
 
-//
-//    public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
-//        AFstockObj stock = getRealTimeStock(NormalizeSymbol, null);
-//        if (stock == null) {
-//            return null;
-//        }
-//        ArrayList StockArray = null;
-//        StockArray = stockInfodb.getStockInfo(stock, start, end);
-//        return StockArray;
-//    }
-//
-//    public ArrayList<AFstockInfo> getStockHistorical(String NormalizeSymbol, int length, Calendar dateNow) {
-//
-//        AFstockObj stock = getRealTimeStock(NormalizeSymbol, dateNow);
-//        if (stock == null) {
-//            return null;
-//        }
-//        ArrayList StockArray = null;
-//        StockArray = stockInfodb.getStockInfo_workaround(stock, length, dateNow);
-//        return StockArray;
-//    }
     public AFstockObj getStockByStockID(int StockID, Calendar dateNow) {
         return stockdb.getStockByStockID(StockID, dateNow);
     }
@@ -102,9 +76,7 @@ public class StockImp {
         return stock;
     }
 
-//    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
-//        return stockInfodb.getStockInfo(stock, length, dateNow);
-//    }
+
     public ArrayList getOpenStockNameArray() {
         ArrayList stockArray = getStockObjArray(0);
         if (stockArray == null) {
