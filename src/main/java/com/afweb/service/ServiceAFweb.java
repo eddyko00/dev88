@@ -364,18 +364,21 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
                 String dbStr = "";
                 if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
+                    getServerObj().setLocalDBservice(true);
                     String dsURL = CKey.dataSourceURL;
                     dbStr += "\r\n" + (">>>>> System Local DB URL:" + dsURL);
                 }
                 if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                     // need this for SystemSQLRequest
                     getServerObj().setLocalDBservice(false);
+                     // need this for SystemSQLRequest
                     if (CKey.OTHER_PHP1_MYSQL == true) {
                         dbStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
                     } else {
                         dbStr += "\r\n" + (">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
                     }
                 } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+                    getServerObj().setLocalDBservice(true);
                     if (dataSource != null) {
                         DriverManagerDataSource dataSourceObj = (DriverManagerDataSource) dataSource;
                         dbStr += "\r\n" + (">>>>> System LOCAL_MYSQL DB URL:" + dataSourceObj.getUrl());
