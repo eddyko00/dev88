@@ -8,7 +8,6 @@ package com.afweb.processstockinfo;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
-import com.afweb.processstock.StockService;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stockinfo.StockInfoImp;
@@ -433,6 +432,10 @@ public class StockInfoService {
         return 1;
     }
 
+    public ArrayList<String> getAllIdStockInfoSQL(String sql) {
+        return stockInfoImp.getAllIdSQL(sql);
+    }
+
     public String getAllStockInfoDBSQL(ServiceAFweb serviceAFWeb, String sql) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return "";
@@ -448,12 +451,12 @@ public class StockInfoService {
         return stockInfoImp.cleanStockInfoDB();
     }
 
-    public int initStockInfoDB(ServiceAFweb serviceAFWeb) {
-        return stockInfoImp.initStockInfoDB();
-    }
-
     public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         stockInfoImp.setStockInfoDataSource(jdbcTemplate, dataSource);
+    }
+
+    public int initStockInfoDB(ServiceAFweb serviceAFWeb) {
+        return stockInfoImp.initStockInfoDB();
     }
 
 /////////////////////////    

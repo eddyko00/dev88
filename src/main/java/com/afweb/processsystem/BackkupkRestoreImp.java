@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  */
 public class BackkupkRestoreImp {
 
-    protected static Logger logger = Logger.getLogger("AccountBackRestoreImp");
+    protected static Logger logger = Logger.getLogger("BackkupkRestoreImp");
 ////////////////////////////////////////    
 ////////////////uploadDBData////////////////////////    
 ////////////////uploadDBData////////////////////////        

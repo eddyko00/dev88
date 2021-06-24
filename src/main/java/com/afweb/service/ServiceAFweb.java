@@ -2603,6 +2603,10 @@ public class ServiceAFweb {
         return "";
     }
 
+    public ArrayList<String> getAllIdStockInfoSQLServ(String sql) {
+        return stockInfoSrv.getAllIdStockInfoSQL(sql);
+    }
+
     public boolean restStockInfoDB() {
         return stockInfoSrv.restStockInfoDB(this);
     }

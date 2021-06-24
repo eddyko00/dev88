@@ -74,4 +74,8 @@ public class StockInfoImp {
     public int initStockInfoDB() {
         return stockInfodb.initStockInfoDB();
     }
+
+    public ArrayList getAllIdSQL(String sql) {
+        return stockInfodb.getAllIdSQL(sql);
+    }
 }
