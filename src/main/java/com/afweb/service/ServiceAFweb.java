@@ -2630,6 +2630,10 @@ public class ServiceAFweb {
         return 0;
     }
 
+    public String getAllStockDBSQL(String sql) {
+        return stockSrv.getAllStockDBSQL(sql);
+    }
+
     public AFstockObj getStockBySymServ(String symbol) {
         if (true) {
             return stockSrv.getStockByName(this, symbol);
@@ -2710,8 +2714,12 @@ public class ServiceAFweb {
     public int initStockDB() {
         return stockSrv.initStockDB();
     }
-//////////////////////////////////////////
 
+    public String getAllLockDBSQL(String sql) {
+        return stockSrv.getAllLockDBSQL(sql);
+    }
+
+//////////////////////////////////////////
     ////////////////////////
     public ArrayList getAllLock() {
 
@@ -2999,11 +3007,11 @@ public class ServiceAFweb {
                     sqlObj.setResp(nameST);
                     return sqlObj;
                 case AllLock:
-                    nameST = getStockImp().getAllLockDBSQL(sqlObj.getReq());
+                    nameST = getAllLockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
                 case AllStock:
-                    nameST = getStockImp().getAllStockDBSQL(sqlObj.getReq());
+                    nameST = getAllStockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
                 case AllStockInfo:

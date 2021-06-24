@@ -35,6 +35,10 @@ public class StockService {
     StockInfoProcess stockProcess = new StockInfoProcess();
     private StockImp stockImp = new StockImp();
 
+    public String getAllStockDBSQL(String sql) {
+        return stockImp.getAllStockDBSQL(sql);
+    }
+
     public ArrayList getStockObjArray(ServiceAFweb serviceAFWeb, int length) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -230,5 +234,11 @@ public class StockService {
         }
         return -1;  // DB error
     }
+
 ///////////////////////////////////////////
+    // System
+    public String getAllLockDBSQL(String sql) {
+        return stockImp.getAllLockDBSQL(sql);
+    }
+///////////////////////////////////////////        
 }
