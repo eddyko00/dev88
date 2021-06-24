@@ -266,5 +266,25 @@ public class StockService {
         name = name.toUpperCase();
         return stockImp.getLockName(name, type);
     }
+
+    public int setLockName(String name, int type, long lockDateValue, String comment) {
+
+        if (type == ConstantKey.STOCK_LOCKTYPE) {
+            SymbolNameObj symObj = new SymbolNameObj(name);
+            name = symObj.getYahooSymbol();
+        }
+        name = name.toUpperCase();
+        return stockImp.setLockName(name, type, lockDateValue, comment);
+    }
+
+    public int removeLock(String name, int type) {
+
+        if (type == ConstantKey.STOCK_LOCKTYPE) {
+            SymbolNameObj symObj = new SymbolNameObj(name);
+            name = symObj.getYahooSymbol();
+        }
+        name = name.toUpperCase();        
+        return stockImp.removeLock(name, type);
+    }    
 ///////////////////////////////////////////        
 }

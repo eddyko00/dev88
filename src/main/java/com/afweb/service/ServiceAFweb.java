@@ -2746,38 +2746,16 @@ public class ServiceAFweb {
         return stockSrv.getLockName(name, type);
     }
 
-    public int setLockName(String symbol_acc, int type, long lockdatel, String comment) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        String name = symbol_acc;
-        name = name.toUpperCase();
-        if (type == ConstantKey.STOCK_LOCKTYPE) {
-            SymbolNameObj symObj = new SymbolNameObj(symbol_acc);
-            name = symObj.getYahooSymbol();
-        }
-        name = name.toUpperCase();
-        return getStockImp().setLockName(name, type, lockdatel, comment);
+    public int setLockName(String name, int type, long lockdatel, String comment) {
+        return stockSrv.setLockName(name, type, lockdatel, comment);
     }
 
-    public int removeNameLock(String symbol_acc, int type) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        String name = symbol_acc;
-        name = name.toUpperCase();
-        if (type == ConstantKey.STOCK_LOCKTYPE) {
-            SymbolNameObj symObj = new SymbolNameObj(symbol_acc);
-            name = symObj.getYahooSymbol();
-        }
-        name = name.toUpperCase();
+    public int removeNameLock(String name, int type) {
         return getStockImp().removeLock(name, type);
 
     }
 
-//////////////////
+///////////////////////////////////////////////////////////////////////////////////
     public int systemCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
