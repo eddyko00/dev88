@@ -106,17 +106,19 @@ public class BackupRestoreInfo {
             if (writeSQLArray.size() == 0) {
                 return 1;
             }
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.UpdateSQLListInfo + "");
-            String st = new ObjectMapper().writeValueAsString(writeSQLArray);
-            sqlObj.setReq(st);
-            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return 0;
-            }
-            return 1;
-        } catch (JsonProcessingException ex) {
+            return serviceAFWeb.updateSQLStockInfoArrayListServ(writeSQLArray);
+            
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.UpdateSQLListInfo + "");
+//            String st = new ObjectMapper().writeValueAsString(writeSQLArray);
+//            sqlObj.setReq(st);
+//            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+//            if (output == null) {
+//                return 0;
+//            }
+//            return 1;
+        } catch (Exception ex) {
             logger.info("> sendRequestObj - exception " + ex);
         }
         return 0;
@@ -130,7 +132,7 @@ public class BackupRestoreInfo {
         ArrayList<String> writeSQLArray = new ArrayList();
         String sql = StockInfoDB.createDummyInfotable();
         writeSQLArray.add(sql);
-        return serviceAFWeb.updateSQLStockInfoArrayList(writeSQLArray);
+        return serviceAFWeb.updateSQLStockInfoArrayListServ(writeSQLArray);
 
     }
 

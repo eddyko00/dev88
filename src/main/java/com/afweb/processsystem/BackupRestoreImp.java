@@ -57,6 +57,8 @@ public class BackupRestoreImp {
         if (ret == 0) {
             return false;
         }
+//        restoreDBstockinfo(serviceAFWeb);
+//        restoreDBdummyInfo(serviceAFWeb);
 
         restoreDBaccount(serviceAFWeb);
         restoreDBstock(serviceAFWeb);
@@ -325,17 +327,8 @@ public class BackupRestoreImp {
             if (writeSQLArray.size() == 0) {
                 return 1;
             }
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.UpdateSQLList + "");
-            String st = new ObjectMapper().writeValueAsString(writeSQLArray);
-            sqlObj.setReq(st);
-            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return 0;
-            }
-            return 1;
-        } catch (JsonProcessingException ex) {
+            return serviceAFWeb.updateSQLArrayListServ(writeSQLArray);
+        } catch (Exception ex) {
             logger.info("> sendRequestObj - exception " + ex);
         }
         return 0;

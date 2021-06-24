@@ -79,3 +79,4 @@ public class StockInfoImp {
         return stockInfodb.getAllIdSQL(sql);
     }
 }
+

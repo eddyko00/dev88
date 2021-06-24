@@ -345,13 +345,7 @@ public class StockDB {
             }
             return 1;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
-            if (ret == 0) {
-                return 0;
-            }
-            return 1;
-        }
+
         try {
             for (int i = 0; i < SQLTran.size(); i++) {
                 String SQL = (String) SQLTran.get(i);

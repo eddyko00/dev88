@@ -11,6 +11,7 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockImp;
+import com.afweb.util.CKey;
 import com.afweb.util.TimeConvertion;
 
 import java.text.DateFormat;
@@ -197,7 +198,12 @@ public class StockService {
 
     public int updateSQLArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            return 0;
+            // ignore backup and resotre
+            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
+                ;
+            } else {
+                return 0;
+            }
         }
         return stockImp.updateSQLArrayList(SQLTran);
     }

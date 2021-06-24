@@ -391,7 +391,12 @@ public class StockInfoService {
 
     public int updateSQLStockInfoArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            return 0;
+            // ignore backup and resotre
+            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
+                ;
+            } else {
+                return 0;
+            }
         }
         return stockInfoImp.updateSQLStockInfoArrayList(SQLTran);
     }

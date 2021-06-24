@@ -202,7 +202,7 @@ public class StockInfoProcess {
                             String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
                             ArrayList sqlList = new ArrayList();
                             sqlList.add(sockUpdateSQL);
-                            serviceAFWeb.updateSQLStockInfoArrayList(sqlList);
+                            serviceAFWeb.updateSQLStockInfoArrayListServ(sqlList);
 
                             serviceAFWeb.removeNameLock(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
                             return 1;
@@ -223,7 +223,7 @@ public class StockInfoProcess {
                     String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(sockUpdateSQL);
-                    serviceAFWeb.updateSQLStockInfoArrayList(sqlList);
+                    serviceAFWeb.updateSQLStockInfoArrayListServ(sqlList);
                 } else {
                     if (ServiceAFweb.mydebugtestflag == true) {
                         logger.info("> updateAllStock lockReturn fail " + lockDateValue + " " + NormalizeSymbol);

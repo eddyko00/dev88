@@ -1318,7 +1318,6 @@ public class ServiceAFweb {
 //        }
 //        return ret;
 //    }
-
     public static boolean checkCallRemoteMysql() {
         boolean ret = true;
         if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
@@ -2567,7 +2566,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int updateSQLStockInfoArrayList(ArrayList SQLTran) {
+    public int updateSQLStockInfoArrayListServ(ArrayList SQLTran) {
         if (true) {
             return stockInfoSrv.updateSQLStockInfoArrayList(this, SQLTran);
         }
@@ -2884,7 +2883,7 @@ public class ServiceAFweb {
     ////////
     public static final int UpdateSQLList = 101; //"101";
     public static final int UpdateSQLListInfo = 101; //"101";
-    
+
     public static final int updateAccountStockSignal = 102;// "102";
     public static final int updateStockInfoTransaction = 103; //"103";
     public static final int AllOpenAccountIDList = 104; //"104";
@@ -3384,6 +3383,7 @@ public class ServiceAFweb {
 
         BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.restoreDBData(this);
+
         if (retSatus == true) {
             serverObj.setSysMaintenance(true);
             serverObj.setTimerInit(false);
