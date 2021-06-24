@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  *
  * @author eddy
  */
-public class BackkupkRestoreImp {
+public class BackupRestoreImp {
 
     protected static Logger logger = Logger.getLogger("BackkupkRestoreImp");
 ////////////////////////////////////////    
@@ -585,16 +585,16 @@ public class BackkupkRestoreImp {
     ////////////////downloadDBData/////////////////////////////////////////// 
     ///////////////downloadDBData//////////////////////////////////////////// 
     /////////////////////////////////////////////////////////// 
-    public boolean downloadDBDataTest(ServiceAFweb serviceAFWeb) {
-//        this.serviceAFWeb = serviceAFWeb;
-        saveDBneuralnetDataPro(serviceAFWeb, "neuralnetdata");
-        return true;
-    }
+//    public boolean downloadDBDataTest(ServiceAFweb serviceAFWeb) {
+////        this.serviceAFWeb = serviceAFWeb;
+//        saveDBneuralnetDataPro(serviceAFWeb, "neuralnetdata");
+//        return true;
+//    }
 
     public boolean downloadDBData(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
 
-        saveDBstockinfo(serviceAFWeb);
+//        saveDBstockinfo(serviceAFWeb);
         saveDBcustomer(serviceAFWeb);
         saveDBaccount(serviceAFWeb);
         saveDBaccountstock_tradingrule(serviceAFWeb);
@@ -604,7 +604,6 @@ public class BackkupkRestoreImp {
         saveDBbilling(serviceAFWeb);
         saveDBperformance(serviceAFWeb);
         saveDBstock(serviceAFWeb);
-//        saveDBstockinfo();
 
         return true;
     }

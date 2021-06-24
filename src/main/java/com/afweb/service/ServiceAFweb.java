@@ -5,7 +5,7 @@
  */
 package com.afweb.service;
 
-import com.afweb.processsystem.BackkupkRestoreImp;
+import com.afweb.processsystem.BackupRestoreImp;
 import com.afweb.stockinternet.StockInternetImpDao;
 import com.afweb.processnn.*;
 import com.afweb.nnsignal.*;
@@ -3327,7 +3327,11 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        BackkupkRestoreImp backupRestore = new BackkupkRestoreImp();
+        
+        BackupRestoreInfo backupRestoreInfo = new BackupRestoreInfo();
+        backupRestoreInfo.downloadDBData(this);
+        
+        BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.downloadDBData(this);
         if (retSatus == true) {
             serverObj.setSysMaintenance(true);
@@ -3343,7 +3347,7 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        BackkupkRestoreImp backupRestore = new BackkupkRestoreImp();
+        BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.restoreNNonlyDBData(this);
         if (retSatus == true) {
             serverObj.setSysMaintenance(true);
@@ -3364,7 +3368,7 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        BackkupkRestoreImp backupRestore = new BackkupkRestoreImp();
+        BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.restoreDBData(this);
         if (retSatus == true) {
             serverObj.setSysMaintenance(true);

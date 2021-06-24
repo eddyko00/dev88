@@ -5,15 +5,13 @@
  */
 package com.afweb.processstockinfo;
 
-import com.afweb.account.AccountDB;
+
 import com.afweb.stockinfo.StockInfoDB;
 import com.afweb.model.RequestObj;
-import com.afweb.model.account.*;
 
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.*;
 import com.afweb.util.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -182,8 +180,10 @@ public class BackupRestoreInfo {
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
+            sqlObj.setReq(sql);
 
-            String output = serviceAFWeb.getAllStockInfoDBSQLServ(sql);
+            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+            String output = sqlObjresp.getResp();
             if (output == null) {
                 return 0;
             }
