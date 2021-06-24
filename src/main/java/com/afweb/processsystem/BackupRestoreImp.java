@@ -68,8 +68,8 @@ public class BackupRestoreImp {
         restoreDBperformance(serviceAFWeb);
         restoreDBdummy(serviceAFWeb);
 
-        restoreDBstockinfo(serviceAFWeb);
-        restoreDBdummyInfo(serviceAFWeb);
+//        restoreDBstockinfo(serviceAFWeb);
+//        restoreDBdummyInfo(serviceAFWeb);
 
         return true;
 

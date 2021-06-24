@@ -5,7 +5,6 @@
  */
 package com.afweb.processstockinfo;
 
-
 import com.afweb.stockinfo.StockInfoDB;
 import com.afweb.model.RequestObj;
 
@@ -31,7 +30,9 @@ public class BackupRestoreInfo {
 
     protected static Logger logger = Logger.getLogger("BackupRestoreInfo");
 
-    public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
+    public boolean restoreDBDataInfo(ServiceAFweb serviceAFWeb) {
+        logger.info(">>>>>>>> restoreDBstockinfo ");
+
         restoreDBstockinfo(serviceAFWeb);
         restoreDBdummyInfo(serviceAFWeb);
 
@@ -98,15 +99,30 @@ public class BackupRestoreInfo {
         }
         return 0;
     }
-
+    
     private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
-
-        if (writeSQLArray.size() == 0) {
+        try {
+            if (writeSQLArray.size() == 0) {
+                return 1;
+            }
+            RequestObj sqlObj = new RequestObj();
+            sqlObj.setCmd(ServiceAFweb.UpdateSQLListInfo + "");
+            String st = new ObjectMapper().writeValueAsString(writeSQLArray);
+            sqlObj.setReq(st);
+            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+            String output = sqlObjresp.getResp();
+            if (output == null) {
+                return 0;
+            }
             return 1;
+        } catch (JsonProcessingException ex) {
+            logger.info("> sendRequestObj - exception " + ex);
         }
-        return serviceAFWeb.updateSQLStockInfoArrayList(writeSQLArray);
+        return 0;
     }
+
+    
 
     private int restoreDBdummyInfo(ServiceAFweb serviceAFWeb) {
 
@@ -120,8 +136,7 @@ public class BackupRestoreInfo {
 
     //////////////////////////////////////////////////////////////////
     public boolean downloadDBData(ServiceAFweb serviceAFWeb) {
-//        this.serviceAFWeb = serviceAFWeb;
-
+        logger.info(">>>>>>>> downloadDBData ");
         saveDBstockinfo(serviceAFWeb);
 
         return true;

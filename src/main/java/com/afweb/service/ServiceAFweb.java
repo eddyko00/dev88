@@ -371,7 +371,7 @@ public class ServiceAFweb {
                 if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                     // need this for SystemSQLRequest
                     getServerObj().setLocalDBservice(false);
-                     // need this for SystemSQLRequest
+                    // need this for SystemSQLRequest
                     if (CKey.OTHER_PHP1_MYSQL == true) {
                         dbStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
                     } else {
@@ -2883,6 +2883,8 @@ public class ServiceAFweb {
     public static final int AllBilling = 17; //"17";    
     ////////
     public static final int UpdateSQLList = 101; //"101";
+    public static final int UpdateSQLListInfo = 101; //"101";
+    
     public static final int updateAccountStockSignal = 102;// "102";
     public static final int updateStockInfoTransaction = 103; //"103";
     public static final int AllOpenAccountIDList = 104; //"104";
@@ -3376,6 +3378,10 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
+
+        BackupRestoreInfo backupRestoreInfo = new BackupRestoreInfo();
+        backupRestoreInfo.restoreDBDataInfo(this);
+
         BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.restoreDBData(this);
         if (retSatus == true) {
