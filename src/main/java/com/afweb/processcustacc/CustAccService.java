@@ -42,7 +42,40 @@ public class CustAccService {
 
     protected static Logger logger = Logger.getLogger("CustAccService");
 
+    private AccountImp accountImp = new AccountImp();
+
+    public RequestObj StockInfoSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+
+        String st = "";
+        String nameST = "";
+        int ret;
+        int accountId = 0;
+        ArrayList<String> nameList = null;
+
+        try {
+            String typeCd = sqlObj.getCmd();
+            int type = Integer.parseInt(typeCd);
+
+            switch (type) {
+
+                case ServiceAFweb.AllUserName:
+                    nameList = getAllUserNameSQL(sqlObj.getReq());
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+            }
+        } catch (Exception ex) {
+            logger.info("> StockInfoSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());
+        }
+        return null;
+    }
+
+    public ArrayList getAllUserNameSQL(String sql) {
+        return accountImp.getAllUserNameSQL(sql);
+    }
+//////////////////////////////////////////////////    
     // result 1 = success, 2 = existed,  0 = fail
+
     public LoginObj addCustomerPassword(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String FirstName, String LastName, String planSt) {
         LoginObj loginObj = new LoginObj();
         loginObj.setCustObj(null);
