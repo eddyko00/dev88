@@ -172,7 +172,7 @@ public class StockInfoDB {
     }
 
     private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             try {
                 ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
                 return AFstockObjArry;
@@ -180,14 +180,7 @@ public class StockInfoDB {
             }
             return null;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            try {
-                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
-                return AFstockObjArry;
-            } catch (Exception ex) {
-            }
-            return null;
-        }
+
         List<AFstockInfo> entries = new ArrayList<>();
         entries.clear();
         entries = this.jdbcTemplate.query(sql, new RowMapper() {
@@ -331,20 +324,14 @@ public class StockInfoDB {
 
     public int updateSQLInfoArrayList(ArrayList SQLTran) {
 
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
             if (ret == 0) {
                 return 0;
             }
             return 1;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
-            if (ret == 0) {
-                return 0;
-            }
-            return 1;
-        }
+
         try {
             for (int i = 0; i < SQLTran.size(); i++) {
                 String SQL = (String) SQLTran.get(i);
@@ -366,7 +353,7 @@ public class StockInfoDB {
     
 
     public ArrayList getAllIdSQL(String sql) {
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql);
@@ -375,16 +362,7 @@ public class StockInfoDB {
             }
             return null;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            ArrayList nnList;
-            try {
-                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql);
-                return nnList;
-            } catch (Exception ex) {
 
-            }
-            return null;
-        }
 
         try {
             List<String> entries = new ArrayList<>();
@@ -404,28 +382,22 @@ public class StockInfoDB {
     
     
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
             return count;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
-            return count;
-        }
+
 
         Integer result = jdbcTemplate.queryForObject("select count(0) from " + tableName, Integer.class);
         return (result != null ? result : 0);
     }
 
     public int processUpdateDB(String sqlCMD) throws Exception {
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return ret;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
-            return ret;
-        }
+
 //        logger.info("> processUpdateDB " + sqlCMD);
         getJdbcTemplate().update(sqlCMD);
         return 1;
@@ -434,15 +406,11 @@ public class StockInfoDB {
     public void processExecuteDB(String sqlCMD) throws Exception {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-//            logger.info("> processExecuteDB " + sqlCMD);
-            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
-            return;
-        }
+
         getJdbcTemplate().execute(sqlCMD);
     }
 

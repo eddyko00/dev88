@@ -137,10 +137,6 @@ public class AccountDB {
                 return custList;
             }
 
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-                ArrayList custList = remoteDB.getCustomerListSqlRemoteDB_RemoteMysql(sql);
-                return custList;
-            }
 
             List<CustomerObj> entries = new ArrayList<>();
             entries.clear();
@@ -483,11 +479,7 @@ public class AccountDB {
                 ArrayList accList = remoteDB.getAccountListSqlRemoteDB_RemoteMysql(sql);
                 return accList;
             }
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-                ArrayList accList = remoteDB.getAccountListSqlRemoteDB_RemoteMysql(sql);
-                return accList;
-            }
-
+ 
             List<AccountObj> entries = new ArrayList<>();
             entries.clear();
             entries = this.jdbcTemplate.query(sql, new RowMapper() {
@@ -602,10 +594,6 @@ public class AccountDB {
                 ArrayList accList = remoteDB.getBillingListSqlRemoteDB_RemoteMysql(sql);
                 return accList;
             }
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-                ArrayList accList = remoteDB.getBillingListSqlRemoteDB_RemoteMysql(sql);
-                return accList;
-            }
 
             List<BillingObj> entries = new ArrayList<>();
             entries.clear();
@@ -711,10 +699,6 @@ public class AccountDB {
     private ArrayList getCommBySQL(String sql) {
         try {
             if (checkCallRemoteSQL_Mysql() == true) {
-                ArrayList accList = remoteDB.getCommListSqlRemoteDB_RemoteMysql(sql);
-                return accList;
-            }
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
                 ArrayList accList = remoteDB.getCommListSqlRemoteDB_RemoteMysql(sql);
                 return accList;
             }
@@ -949,11 +933,6 @@ public class AccountDB {
                 ArrayList trList = remoteDB.getAccountStockPerfromanceListRemoteDB_RemoteMysql(sql);
                 return trList;
             }
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-                ArrayList trList = remoteDB.getAccountStockPerfromanceListRemoteDB_RemoteMysql(sql);
-                return trList;
-            }
-
             List<PerformanceObj> entries = new ArrayList<>();
             entries.clear();
             entries = this.jdbcTemplate.query(sql, new RowMapper() {
@@ -1072,10 +1051,6 @@ public class AccountDB {
                 ArrayList trList = remoteDB.getAccountStockTransactionListRemoteDB_RemoteMysql(sql);
                 return trList;
             }
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-                ArrayList trList = remoteDB.getAccountStockTransactionListRemoteDB_RemoteMysql(sql);
-                return trList;
-            }
 
             List<TransationOrderObj> entries = new ArrayList<>();
             entries.clear();
@@ -1171,10 +1146,7 @@ public class AccountDB {
                 String retST = remoteDB.getAllSQLqueryRemoteDB_RemoteMysql(sql);
                 return retST;
             }
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-                String retST = remoteDB.getAllSQLqueryRemoteDB_RemoteMysql(sql);
-                return retST;
-            }
+
 
             retList = this.jdbcTemplate.queryForList(sql);
             String retST = new ObjectMapper().writeValueAsString(retList);
@@ -1243,10 +1215,7 @@ public class AccountDB {
                 ArrayList trList = remoteDB.getAccountStockListSqlRemoteDB_RemoteMysql(sql);
                 return trList;
             }
-            if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-                ArrayList trList = remoteDB.getAccountStockListSqlRemoteDB_RemoteMysql(sql);
-                return trList;
-            }
+
 
             List<TradingRuleObj> entries = new ArrayList<>();
             entries.clear();
@@ -1919,16 +1888,7 @@ public class AccountDB {
             }
             return null;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            ArrayList nnList;
-            try {
-                nnList = remoteDB.getAllSymbolSqlRemoteDB_RemoteMysql(sql);
-                return nnList;
-            } catch (Exception ex) {
 
-            }
-            return null;
-        }
 
         try {
             List<String> entries = new ArrayList<>();
@@ -1956,16 +1916,6 @@ public class AccountDB {
             }
             return null;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            ArrayList nnList;
-            try {
-                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql);
-                return nnList;
-            } catch (Exception ex) {
-
-            }
-            return null;
-        }
 
         try {
             List<String> entries = new ArrayList<>();
@@ -1990,16 +1940,6 @@ public class AccountDB {
                 nnList = remoteDB.getAllUserNameSqlRemoteDB_RemoteMysql(sql);
                 return nnList;
             } catch (Exception ex) {
-            }
-            return null;
-        }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            ArrayList nnList;
-            try {
-                nnList = remoteDB.getAllUserNameSqlRemoteDB_RemoteMysql(sql);
-                return nnList;
-            } catch (Exception ex) {
-
             }
             return null;
         }
@@ -2074,10 +2014,7 @@ public class AccountDB {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
-            return;
-        }
+
 //        logger.info("> processUpdateDB " + sqlCMD);
         getJdbcTemplate().update(sqlCMD);
     }
@@ -2088,11 +2025,6 @@ public class AccountDB {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
-            return;
-        }
-
         getJdbcTemplate().execute(sqlCMD);
     }
 

@@ -101,9 +101,6 @@ public class NNetDB {
 
     public static String createDummyInfotable() {
         String sqlCMD = "";
-        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-            sqlCMD = "create table dummyinfo1 (id int identity not null, primary key (id))";
-        }
         if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             sqlCMD = "create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))";
         }
@@ -140,10 +137,7 @@ public class NNetDB {
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
 
             ArrayList createTableList = new ArrayList();
-            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-                createTableList.add("create table dummyinfo1 (id int identity not null, primary key (id))");
-                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
-            }
+   
 
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))");
@@ -181,20 +175,14 @@ public class NNetDB {
 
     public int updateSQLInfoArrayList(ArrayList SQLTran) {
 
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
             if (ret == 0) {
                 return 0;
             }
             return 1;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
-            if (ret == 0) {
-                return 0;
-            }
-            return 1;
-        }
+
         try {
             for (int i = 0; i < SQLTran.size(); i++) {
                 String SQL = (String) SQLTran.get(i);
@@ -214,11 +202,7 @@ public class NNetDB {
 
     ///////////
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
-            int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
-            return count;
-        }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
             return count;
         }
@@ -228,14 +212,11 @@ public class NNetDB {
     }
 
     public int processUpdateDB(String sqlCMD) throws Exception {
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return ret;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
-            return ret;
-        }
+
 //        logger.info("> processUpdateDB " + sqlCMD);
         getJdbcTemplate().update(sqlCMD);
         return 1;
@@ -244,15 +225,11 @@ public class NNetDB {
     public void processExecuteDB(String sqlCMD) throws Exception {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
-        if (ServiceAFweb.checkCallRemoteSQL_Mysql() == true) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
             return;
         }
-        if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-//            logger.info("> processExecuteDB " + sqlCMD);
-            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
-            return;
-        }
+
         getJdbcTemplate().execute(sqlCMD);
     }
 

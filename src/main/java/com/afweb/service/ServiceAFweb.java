@@ -1311,7 +1311,7 @@ public class ServiceAFweb {
     }
 
     ///////////////////////////////////
-    public static boolean checkCallRemoteSQL_Mysql() {
+    public static boolean checkCallRemoteMysql() {
         boolean ret = false;
         if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
             ret = true;
@@ -1319,13 +1319,13 @@ public class ServiceAFweb {
         return ret;
     }
 
-    public static boolean checkCallRemoteMysql() {
-        boolean ret = true;
-        if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
-            ret = false;
-        }
-        return ret;
-    }
+//    public static boolean checkCallRemoteMysql() {
+//        boolean ret = true;
+//        if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
+//            ret = false;
+//        }
+//        return ret;
+//    }
 
     ///////////////////////////////////////
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
@@ -2908,8 +2908,8 @@ public class ServiceAFweb {
 
     public RequestObj SystemSQLRequest(RequestObj sqlObj) {
 
-        boolean RemoteCallflag = ServiceAFweb.getServerObj().isLocalDBservice();
-        if (RemoteCallflag == false) {
+        boolean RemoteCallflag = checkCallRemoteMysql();
+        if (RemoteCallflag == true) {
             return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
         }
         String st = "";
