@@ -62,7 +62,7 @@ public class StockInfoProcess {
         return stockUpdateNameArray;
     }
 
-    public int updateAllStock(ServiceAFweb serviceAFWeb) {
+    public int updateAllStockInfo(ServiceAFweb serviceAFWeb) {
         if (ServiceAFweb.javamainflag == true) {
             return UpdateAllStockTrend(serviceAFWeb, true);
         }

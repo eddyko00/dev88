@@ -34,11 +34,11 @@ public class StockInfoService {
     StockInfoProcess stockProcess = new StockInfoProcess();
     StockInfoImp stockInfoImp = new StockInfoImp();
 
-    public int updateAllStock(ServiceAFweb serviceAFWeb) {
+    public int updateAllStockInfo(ServiceAFweb serviceAFWeb) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        return stockProcess.updateAllStock(serviceAFWeb);
+        return stockProcess.updateAllStockInfo(serviceAFWeb);
     }
 
     public ArrayList<AFstockInfo> getStockInfo(String sym, int length, Calendar dateNow) {

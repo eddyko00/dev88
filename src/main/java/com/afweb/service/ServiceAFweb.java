@@ -624,7 +624,7 @@ public class ServiceAFweb {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);
                 getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             } else if (cmd.equals("updatestock")) {
-                updateStockAllSrv();
+                updateAllStockInfoSrv();
             } else if (cmd.equals("debugtest")) {
                 debugtest();
             }
@@ -656,10 +656,10 @@ public class ServiceAFweb {
 //            logger.info("> processTimer " + getServerObj().getProcessTimerCnt());
             if (getEnv.checkLocalPC() == true) {
                 if (CKey.NN_DEBUG == true) {
-                    updateStockAllSrv();
+                    updateAllStockInfoSrv();
                     accountTranP.ProcessAdminSignalTrading(this);
                     getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-                    updateStockAllSrv();
+                    updateAllStockInfoSrv();
 
                 }
             }
@@ -696,7 +696,7 @@ public class ServiceAFweb {
             maintProcess.ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-            updateStockAllSrv();
+            updateAllStockInfoSrv();
             NNService nnSrv = new NNService();
             nnSrv.AFprocessNeuralNet(this);
 //            
@@ -708,7 +708,7 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
-            updateStockAllSrv();
+            updateAllStockInfoSrv();
 
             AccountTranProcess accountTranP = new AccountTranProcess();
             accountTranP.ProcessAdminSignalTrading(this);
@@ -716,7 +716,7 @@ public class ServiceAFweb {
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-            updateStockAllSrv();
+            updateAllStockInfoSrv();
             getAccountProcessImp().ProcessAllAccountTradingSignal(this);
             getAccountProcessImp().ProcessAdminAddRemoveStock(this);
 
@@ -2582,9 +2582,9 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int updateStockAllSrv() {
+    public int updateAllStockInfoSrv() {
         if (true) {
-            return stockInfoSrv.updateAllStock(this);
+            return stockInfoSrv.updateAllStockInfo(this);
         }
         return 0;
     }

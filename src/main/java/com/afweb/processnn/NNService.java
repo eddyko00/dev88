@@ -473,7 +473,7 @@ public class NNService {
                 accountTranP.ProcessAdminSignalTrading(serviceAFWeb);
 
                 serviceAFWeb.getAccountProcessImp().ProcessAllAccountTradingSignal(serviceAFWeb);
-                serviceAFWeb.updateStockAllSrv();
+                serviceAFWeb.updateAllStockInfoSrv();
                 logger.info("> processNNSignalAdmin end... cycle " + k);
             }
 ////////////////////////////////////////////////////////////////////////////
