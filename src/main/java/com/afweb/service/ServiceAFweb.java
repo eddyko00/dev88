@@ -2012,31 +2012,30 @@ public class ServiceAFweb {
         return getAccountImp().getAccountStockPerfList(accountID, stockID, trName, length);
     }
 
-    public String SystemSQLquery(String SQL) {
-//        if (getServerObj().isSysMaintenance() == true) {
+//    public String SystemSQLquery(String SQL) {
+////        if (getServerObj().isSysMaintenance() == true) {
+////            return "";
+////        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllSQLquery + "");
+//
+//            try {
+//                sqlObj.setReq(SQL);
+//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+//                if (output == null) {
+//                    return "";
+//                }
+//
+//                return output;
+//            } catch (Exception ex) {
+//                logger.info("> SystemSQLquery exception " + ex.getMessage());
+//            }
 //            return "";
 //        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllSQLquery + "");
-
-            try {
-                sqlObj.setReq(SQL);
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return "";
-                }
-
-                return output;
-            } catch (Exception ex) {
-                logger.info("> SystemSQLquery exception " + ex.getMessage());
-            }
-            return "";
-        }
-        return getAccountImp().getAllSQLquery(SQL);
-    }
-
+//        return getAccountImp().getAllSQLquery(SQL);
+//    }
     public int SystemAddTransactionOrder(AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -2693,7 +2692,7 @@ public class ServiceAFweb {
         }
         return null;
     }
-    
+
     public ArrayList<String> getAllIdSQLServ(String sql) {
         return stockSrv.getAllIdSQL(sql);
     }
@@ -2866,56 +2865,61 @@ public class ServiceAFweb {
     }
 
 ///////////////////////////
-//    cannot autowire Could not autowire field:
+    ////////////////////////
+    // System
     public static final int AllName = 200; //"1";
     public static final int AllSymbol = 201; //"1";
-
-    public static final int AllId = 202; //"1";
-    public static final int AllIdInfo = 202; //"1";
-
-    public static final int AllUserName = 203; //"1";
-
     public static final int AllLock = 2; //"2";
-    public static final int AllStock = 3; //"3";
-    public static final int AllStockInfo = 4; //"4";
-    public static final int AllNeuralNet = 5; //"5";
-    public static final int AllCustomer = 6; //"6";
-    public static final int AllAccount = 7; //"7";
-    public static final int AllAccountStock = 8; //"8";
+
     public static final int RemoteGetMySQL = 9; //"9";
     public static final int RemoteUpdateMySQL = 10; //"10";    
     public static final int RemoteUpdateMySQLList = 11; //"11";   
-    public static final int AllTransationorder = 12; //"12";    
-    public static final int AllPerformance = 13; //"13";  
-    public static final int AllSQLquery = 14; //"14"; 
-    public static final int AllNeuralNetData = 15; //"15";
-    public static final int AllComm = 16; //"16";
-    public static final int AllBilling = 17; //"17";    
-    ////////
-    public static final int UpdateSQLList = 101; //"101";
-    public static final int UpdateSQLListInfo = 101; //"101";
 
-    public static final int updateAccountStockSignal = 102;// "102";
-    public static final int updateStockInfoTransaction = 103; //"103";
     public static final int AllOpenAccountIDList = 104; //"104";
     public static final int AccountObjByAccountID = 105; //"105";
     public static final int AccountStockNameList = 106; //"106";
     public static final int UserNamebyAccountID = 107; //"107";
     public static final int UpdateTransactionOrder = 108; //"108";
-//    public static final int ProcessTRHistory = 109; //"109";
-    public static final int AccountStockListByAccountID = 110; //"110";
     public static final int AccountStockClrTranByAccountID = 111; //"111";    
-    public static final int AllAccountStockNameListExceptionAdmin = 112; //"112";   
+    public static final int AllAccountStockNameListExceptionAdmin = 112; //"112"; 
+
+    ////////////////////////
+    // Customer Account
+    public static final int AllUserName = 203; //"1";
+    public static final int AllCustomer = 6; //"6";
+    public static final int AllAccount = 7; //"7";
+    public static final int AllAccountStock = 8; //"8";
+    public static final int AccountStockListByAccountID = 110; //"110";    
+    public static final int updateAccountStockSignal = 102;// "102";    
     public static final int AddTransactionOrder = 113; //"113"; 
     public static final int StockHistoricalRange = 114; //"114"; 
     public static final int AccountStockTransList = 115; //"115";     
     public static final int AccountStockPerfList = 116; //"116";     
     public static final int AccountStockIDByTRname = 117; //"117";   
     public static final int AccountStockListByAccountIDStockID = 118; //"118"; 
-    public static final int RealTimeStockByStockID = 119; //"119"; 
-    public static final int NeuralNetDataObj = 120; //"120";     
-    public static final int NeuralNetDataObjStockid = 121; //"120";   
+    public static final int AllPerformance = 13; //"13";  
+    public static final int AllBilling = 17; //"17";    
+    public static final int AllComm = 16; //"16";
 
+    //////////////////////////////////
+    public static final int AllId = 202; //"1";   
+    public static final int AllStock = 3; //"3";    
+    public static final int AllSQLquery = 14; //"14";  
+    public static final int UpdateSQLList = 101; //"101";
+    public static final int RealTimeStockByStockID = 119; //"119"; 
+
+    public static final int AllIdInfo = 202; //"1";
+    public static final int AllStockInfo = 4; //"4";    
+    public static final int AllTransationorder = 12; //"12";    
+    public static final int UpdateSQLListInfo = 101; //"101";
+    public static final int updateStockInfoTransaction = 103; //"103";
+
+    public static final int AllNeuralNet = 5; //"5";
+    public static final int AllNeuralNetData = 15; //"15";
+    public static final int NeuralNetDataObj = 120; //"120";     
+    public static final int NeuralNetDataObjStockid = 121; //"120";
+
+    //////////////////////////////////
     public RequestObj SystemSQLRequest(RequestObj sqlObj) {
 
 //        boolean RemoteCallflag = checkCallRemoteMysql();
@@ -2948,11 +2952,6 @@ public class ServiceAFweb {
                     nameST = new ObjectMapper().writeValueAsString(nameList);
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                case AllUserName:
-                    nameList = getAccountImp().getAllUserNameSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
                 case AllLock:
                     nameST = getAllLockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
@@ -2960,7 +2959,14 @@ public class ServiceAFweb {
                 case AllStock:
                     nameST = getAllStockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
+                    return sqlObj;                    
+//////////////////                    
+                case AllUserName:
+                    nameList = getAccountImp().getAllUserNameSQL(sqlObj.getReq());
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
                     return sqlObj;
+
                 case AllStockInfo:
                     nameST = getAllStockInfoDBSQLServ(sqlObj.getReq());
                     sqlObj.setResp(nameST);

@@ -5,6 +5,7 @@
  */
 package com.afweb.processstock;
 
+import com.afweb.account.AccountImp;
 import com.afweb.processstockinfo.StockInfoProcess;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
@@ -13,6 +14,7 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockImp;
 import com.afweb.util.CKey;
 import com.afweb.util.TimeConvertion;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,8 +39,71 @@ public class StockService {
     StockInfoProcess stockProcess = new StockInfoProcess();
     private StockImp stockImp = new StockImp();
 
+    // need to move to account service
+    private AccountImp accountImp = new AccountImp();
+
+    public RequestObj StockSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+
+        String st = "";
+        String nameST = "";
+        int ret;
+        int accountId = 0;
+        ArrayList<String> nameList = null;
+
+        try {
+            String typeCd = sqlObj.getCmd();
+            int type = Integer.parseInt(typeCd);
+
+            switch (type) {
+                case ServiceAFweb.AllName:
+                    nameList = getAllNameSQL(sqlObj.getReq());
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.AllSymbol:
+                    nameList = getAllSymbolSQL(sqlObj.getReq());
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.AllId:
+                    nameList = getAllIdSQL(sqlObj.getReq());
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.AllLock:
+                    nameST = getAllLockDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.AllStock:
+                    nameST = getAllStockDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+////////////////////////////                    
+                case ServiceAFweb.AllUserName:
+                    nameList = accountImp.getAllUserNameSQL(sqlObj.getReq());
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+            }
+        } catch (Exception ex) {
+            logger.info("> StockSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());
+        }
+        return null;
+    }
+
+//////////////////////////////////////////    
     public String getAllStockDBSQL(String sql) {
         return stockImp.getAllStockDBSQL(sql);
+    }
+
+    public ArrayList getAllNameSQL(String sql) {
+        return stockImp.getAllNameSQL(sql);
+    }
+
+    public ArrayList getAllSymbolSQL(String sql) {
+        return stockImp.getAllSymbolSQL(sql);
     }
 
     public ArrayList getStockObjArray(ServiceAFweb serviceAFWeb, int length) {
@@ -244,8 +309,8 @@ public class StockService {
 
     public ArrayList<String> getAllIdSQL(String sql) {
         return stockImp.getAllIdSQL(sql);
-    }  
-    
+    }
+
 ///////////////////////////////////////////
     // System
     public String getAllLockDBSQL(String sql) {
@@ -293,8 +358,8 @@ public class StockService {
             SymbolNameObj symObj = new SymbolNameObj(name);
             name = symObj.getYahooSymbol();
         }
-        name = name.toUpperCase();        
+        name = name.toUpperCase();
         return stockImp.removeLock(name, type);
-    }    
+    }
 ///////////////////////////////////////////        
 }

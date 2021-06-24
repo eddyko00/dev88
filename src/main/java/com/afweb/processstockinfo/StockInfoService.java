@@ -36,6 +36,31 @@ public class StockInfoService {
     StockInfoProcess stockProcess = new StockInfoProcess();
     StockInfoImp stockInfoImp = new StockInfoImp();
 
+    public RequestObj StockInfoSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+
+        String st = "";
+        String nameST = "";
+        int ret;
+        int accountId = 0;
+        ArrayList<String> nameList = null;
+
+        try {
+            String typeCd = sqlObj.getCmd();
+            int type = Integer.parseInt(typeCd);
+
+            switch (type) {
+
+                case ServiceAFweb.AllStockInfo:
+                    nameST = getAllStockInfoDBSQL(serviceAFWeb, sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+            }
+        } catch (Exception ex) {
+            logger.info("> StockInfoSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());
+        }
+        return null;
+    }
+
     public int updateAllStockInfo(ServiceAFweb serviceAFWeb) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
