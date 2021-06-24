@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
@@ -193,6 +195,40 @@ public class StockService {
             return 0;
         }
         return stockImp.updateSQLArrayList(SQLTran);
+    }
+
+    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        stockImp.setDataSource(jdbcTemplate, dataSource);
+    }
+
+    // 0 - new db, 1 - db already exist, -1 db error
+    public int initStockDB() {
+        try {
+
+            int result = stockImp.initStockDB();
+
+            if (result >= 0) {
+
+                //dummy stock
+                stockImp.addStock("T_T");
+
+                if (result == 0) {
+                    //clear lock                    
+                    stockImp.deleteAllLock();
+                    // add stocks
+                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+                        String stockN = ServiceAFweb.primaryStock[i];
+                        stockImp.addStock(stockN);
+                    }
+                    stockImp.addStock("T.TO");
+                    return 0; // new db
+                }
+                return 1; // DB already exist
+            }
+        } catch (Exception ex) {
+
+        }
+        return -1;  // DB error
     }
 ///////////////////////////////////////////
 }

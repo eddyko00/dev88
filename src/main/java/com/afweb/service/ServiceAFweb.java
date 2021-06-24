@@ -2700,7 +2700,16 @@ public class ServiceAFweb {
         }
         return null;
     }
+
 //////////////////////////////////////////
+    // System
+    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        stockSrv.setDataSource(jdbcTemplate, dataSource);
+    }
+
+    public int initStockDB() {
+        return stockSrv.initStockDB();
+    }
 //////////////////////////////////////////
 
     ////////////////////////
@@ -3529,7 +3538,7 @@ public class ServiceAFweb {
     public int InitDBData() {
         logger.info(">InitDBData ");
         // 0 - new db, 1 - db already exist, -1 db error
-        int retStatus = getStockImp().initStockDB();
+        int retStatus = initStockDB();
 
         if (retStatus >= 0) {
             //// init StockInfo

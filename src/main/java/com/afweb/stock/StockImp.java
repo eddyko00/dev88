@@ -9,8 +9,6 @@ import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.util.*;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -107,7 +105,6 @@ public class StockImp {
 //    public ArrayList<AFstockInfo> getStockInfo(AFstockObj stock, int length, Calendar dateNow) {
 //        return stockInfodb.getStockInfo(stock, length, dateNow);
 //    }
-
     public ArrayList getOpenStockNameArray() {
         ArrayList stockArray = getStockObjArray(0);
         if (stockArray == null) {
@@ -419,52 +416,8 @@ public class StockImp {
     }
 
     // 0 - new db, 1 - db already exist, -1 db error
-    public int initStockInfoDB() {
-        try {
-
-            int result = stockInfodb.initStockInfoDB();
-
-            if (result >= 0) {
-                if (result == 0) {
-
-                    return 0; // new db
-                }
-                return 1; // DB already exist
-            }
-        } catch (Exception ex) {
-
-        }
-        return -1;  // DB error
-    }
-
-    // 0 - new db, 1 - db already exist, -1 db error
     public int initStockDB() {
-        try {
-
-            int result = stockdb.initStockDB();
-
-            if (result >= 0) {
-
-                //dummy stock
-                stockdb.addStock("T_T");
-
-                if (result == 0) {
-                    //clear lock                    
-                    stockdb.deleteAllLock();
-                    // add stocks
-                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                        String stockN = ServiceAFweb.primaryStock[i];
-                        stockdb.addStock(stockN);
-                    }
-                    stockdb.addStock("T.TO");
-                    return 0; // new db
-                }
-                return 1; // DB already exist
-            }
-        } catch (Exception ex) {
-
-        }
-        return -1;  // DB error
+        return stockdb.initStockDB();
     }
 
     public ArrayList getAllNameSQL(String sql) {
@@ -518,5 +471,4 @@ public class StockImp {
 //        }
 //        return stockInfodb.deleteStockInfoByDate(stockObj, datel);
 //    }
-
 }
