@@ -1311,21 +1311,21 @@ public class ServiceAFweb {
     }
 
     ///////////////////////////////////
-    public static boolean checkCallRemoteMysql() {
-        boolean ret = false;
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            ret = true;
-        }
-        return ret;
-    }
-
 //    public static boolean checkCallRemoteMysql() {
-//        boolean ret = true;
-//        if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
-//            ret = false;
+//        boolean ret = false;
+//        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+//            ret = true;
 //        }
 //        return ret;
 //    }
+
+    public static boolean checkCallRemoteMysql() {
+        boolean ret = true;
+        if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
+            ret = false;
+        }
+        return ret;
+    }
 
     ///////////////////////////////////////
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
