@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.processmain;
+package com.afweb.processsystem;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;

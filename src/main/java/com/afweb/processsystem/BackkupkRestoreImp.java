@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.account;
+package com.afweb.processsystem;
 
+import com.afweb.account.AccountDB;
 import com.afweb.stockinfo.StockInfoDB;
 import com.afweb.model.RequestObj;
 import com.afweb.model.account.*;
