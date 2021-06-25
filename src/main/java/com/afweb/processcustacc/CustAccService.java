@@ -12,6 +12,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
 import com.afweb.nn.NNormalObj;
+import com.afweb.nnsignal.AccountTranProcess;
 import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.processaccounting.AccountingProcess;
 import com.afweb.processbilling.BillingProcess;
@@ -2419,7 +2420,9 @@ public class CustAccService {
 
     public boolean SystemFundPocessAddRemove(ServiceAFweb serviceAFWeb) {
         logger.info(">ProcessAddRemoveFundAccount start ");
-        serviceAFWeb.getAccountProcessImp().ProcessAddRemoveFundAccount(serviceAFWeb);
+        AccountTranProcess accountProcessImp = new AccountTranProcess();
+        accountProcessImp.ProcessAddRemoveFundAccount(serviceAFWeb);
+
         return true;
     }
 }

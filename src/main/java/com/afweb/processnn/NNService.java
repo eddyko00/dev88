@@ -530,7 +530,7 @@ public class NNService {
                 AccountTranProcess accountTranP = new AccountTranProcess();
                 accountTranP.ProcessAdminSignalTrading(serviceAFWeb);
 
-                serviceAFWeb.getAccountProcessImp().ProcessAllAccountTradingSignal(serviceAFWeb);
+                serviceAFWeb.ProcessAllAccountTradingSignal(serviceAFWeb);
                 serviceAFWeb.updateAllStockInfoSrv();
                 logger.info("> processNNSignalAdmin end... cycle " + k);
             }
@@ -645,8 +645,8 @@ public class NNService {
                 }
 ////////////////////////////////////////////////                
                 ////update all stock                
-                serviceAFWeb.getAccountProcessImp().ProcessAdminAddRemoveStock(serviceAFWeb);
-                serviceAFWeb.getAccountProcessImp().ProcessAdminAddRemoveStock(serviceAFWeb);
+                serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
+                serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
 
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
                 ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountAdminObj.getId());
@@ -688,7 +688,7 @@ public class NNService {
                         logger.info("> updated: " + i);
                     }
                 }
-                serviceAFWeb.getAccountProcessImp().ProcessAdminAddRemoveStock(serviceAFWeb);
+                serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
 
             }
 

@@ -90,7 +90,7 @@ public class ServiceAFweb {
     private StockImp stockImp = new StockImp();
 
     private AccountImp accountImp = new AccountImp();
-    private AccountTranProcess accountProcessImp = new AccountTranProcess();
+//    private AccountTranProcess accountProcessImp = new AccountTranProcess();
     private AccountingProcess accounting = new AccountingProcess();
 
     public static String PROXYURL = "";
@@ -473,8 +473,8 @@ public class ServiceAFweb {
                     setLockNameServ(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
 
                     //try 2 times
-                    getAccountProcessImp().ProcessAdminAddRemoveStock(this);
-                    getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+                    ProcessAdminAddRemoveStock(this);
+                    ProcessAdminAddRemoveStock(this);
 
                 }
                 // final initialization
@@ -628,7 +628,7 @@ public class ServiceAFweb {
         if (cmd.length() > 0) {
             if (cmd.equals("adminsignal")) {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);
-                getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                ProcessAllAccountTradingSignal(this);
             } else if (cmd.equals("updatestock")) {
                 updateAllStockInfoSrv();
             } else if (cmd.equals("debugtest")) {
@@ -664,7 +664,7 @@ public class ServiceAFweb {
                 if (CKey.NN_DEBUG == true) {
                     updateAllStockInfoSrv();
                     accountTranP.ProcessAdminSignalTrading(this);
-                    getAccountProcessImp().ProcessAllAccountTradingSignal(this);
+                    ProcessAllAccountTradingSignal(this);
                     updateAllStockInfoSrv();
 
                 }
@@ -696,7 +696,8 @@ public class ServiceAFweb {
         if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
             // add or remove stock in Mutual fund account based on all stocks in the system
             System.gc();
-            getAccountProcessImp().ProcessAddRemoveFundAccount(this);
+            SystemFundPocessAddRemoveServ();
+//            ProcessAddRemoveFundAccount(this);
 
             AccountMaintProcess maintProcess = new AccountMaintProcess();
             maintProcess.ProcessSystemMaintance(this);
@@ -719,12 +720,12 @@ public class ServiceAFweb {
             AccountTranProcess accountTranP = new AccountTranProcess();
             accountTranP.ProcessAdminSignalTrading(this);
 
-            getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+            ProcessAdminAddRemoveStock(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             updateAllStockInfoSrv();
-            getAccountProcessImp().ProcessAllAccountTradingSignal(this);
-            getAccountProcessImp().ProcessAdminAddRemoveStock(this);
+            ProcessAllAccountTradingSignal(this);
+            ProcessAdminAddRemoveStock(this);
 
 //            
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
@@ -1518,6 +1519,16 @@ public class ServiceAFweb {
         }
         return "";
     }
+//////////
+    private AccountTranProcess accountProcessImp = new AccountTranProcess();
+
+    public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
+        accountProcessImp.ProcessAllAccountTradingSignal(this);
+    }
+
+    public void ProcessAdminAddRemoveStock(ServiceAFweb serviceAFWeb) {
+        accountProcessImp.ProcessAdminAddRemoveStock(this);
+    }
 
     //////////////////////////////////////////////////
     //////////////////////////////////////////
@@ -1750,6 +1761,7 @@ public class ServiceAFweb {
     // NNService
     NNService nnSrv = new NNService();
     public static boolean nnFlag = true;
+
     //////////////////////////////////////////////////    
     public RequestObj SystemSQLRequestNN(RequestObj sqlObj) {
         RequestObj reqObj = nnSrv.SQLRequestNN(this, sqlObj);
@@ -2642,7 +2654,6 @@ public class ServiceAFweb {
 /////////////////////////////////////////    
 ////////////////////////////////////////////////////        
 //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
-
     public static boolean updateStockFileServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         ArrayList inputArray = new ArrayList();
         String nnFileName = ServiceAFweb.FileLocalPath + NormalizeSymbol + ".csv";
@@ -3340,20 +3351,20 @@ public class ServiceAFweb {
     public void setAccountImp(AccountImp accountImp) {
         this.accountImp = accountImp;
     }
-
-    /**
-     * @return the accountProcessImp
-     */
-    public AccountTranProcess getAccountProcessImp() {
-        return accountProcessImp;
-    }
-
-    /**
-     * @param accountProcessImp the accountProcessImp to set
-     */
-    public void setAccountProcessImp(AccountTranProcess accountProcessImp) {
-        this.accountProcessImp = accountProcessImp;
-    }
+//
+//    /**
+//     * @return the accountProcessImp
+//     */
+//    public AccountTranProcess getAccountProcessImp() {
+//        return accountProcessImp;
+//    }
+//
+//    /**
+//     * @param accountProcessImp the accountProcessImp to set
+//     */
+//    public void setAccountProcessImp(AccountTranProcess accountProcessImp) {
+//        this.accountProcessImp = accountProcessImp;
+//    }
 
     /**
      * @return the serviceAFwebREST
