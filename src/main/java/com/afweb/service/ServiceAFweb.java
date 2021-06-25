@@ -2935,32 +2935,34 @@ public class ServiceAFweb {
         int accountId = 0;
         int stockId = 0;
         String stockIdSt = "";
+        String accIdSt = "";
         ArrayList<String> nameList = null;
+        AccountObj accountObj = null;
 
         try {
             String typeCd = sqlObj.getCmd();
             int type = Integer.parseInt(typeCd);
 
             switch (type) {
-                case AllName:
-                    nameList = getStockImp().getAllNameSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case AllSymbol:
-                    nameList = getStockImp().getAllSymbolSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case AllName:
+//                    nameList = getStockImp().getAllNameSQL(sqlObj.getReq());
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case AllSymbol:
+//                    nameList = getStockImp().getAllSymbolSQL(sqlObj.getReq());
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
                 case AllId:
                     nameList = getAccountImp().getAllIdSQL(sqlObj.getReq());
                     nameST = new ObjectMapper().writeValueAsString(nameList);
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                case AllLock:
-                    nameST = getAllLockDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case AllLock:
+//                    nameST = getAllLockDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
                 case AllStock:
                     nameST = getAllStockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
@@ -3044,29 +3046,29 @@ public class ServiceAFweb {
                     }
                     return sqlObj;
 ////////////////////////////////////////////////////////                    
-                case RemoteGetMySQL:  //RemoteGetMySQL = 9; //"9"; 
-                    st = sqlObj.getReq();
-                    nameST = getStockImp().getRemoteMYSQL(st);
-                    sqlObj.setResp("" + nameST);
-
-                    return sqlObj;
-
-                case RemoteUpdateMySQL:  //RemoteUpdateMySQL = 10; //"10"; 
-                    st = sqlObj.getReq();
-                    ret = getStockImp().updateRemoteMYSQL(st);
-                    sqlObj.setResp("" + ret);
-
-                    return sqlObj;
-                case RemoteUpdateMySQLList:  //RemoteUpdateMySQLList = 11; //"11"; 
-                    st = sqlObj.getReq();
-                    String[] sqlList = st.split("~");
-                    for (int i = 0; i < sqlList.length; i++) {
-                        String sqlCmd = sqlList[i];
-                        ret = getStockImp().updateRemoteMYSQL(sqlCmd);
-                    }
-                    sqlObj.setResp("" + sqlList.length);
-
-                    return sqlObj;
+//                case RemoteGetMySQL:  //RemoteGetMySQL = 9; //"9"; 
+//                    st = sqlObj.getReq();
+//                    nameST = getStockImp().getRemoteMYSQL(st);
+//                    sqlObj.setResp("" + nameST);
+//
+//                    return sqlObj;
+//
+//                case RemoteUpdateMySQL:  //RemoteUpdateMySQL = 10; //"10"; 
+//                    st = sqlObj.getReq();
+//                    ret = getStockImp().updateRemoteMYSQL(st);
+//                    sqlObj.setResp("" + ret);
+//
+//                    return sqlObj;
+//                case RemoteUpdateMySQLList:  //RemoteUpdateMySQLList = 11; //"11"; 
+//                    st = sqlObj.getReq();
+//                    String[] sqlList = st.split("~");
+//                    for (int i = 0; i < sqlList.length; i++) {
+//                        String sqlCmd = sqlList[i];
+//                        ret = getStockImp().updateRemoteMYSQL(sqlCmd);
+//                    }
+//                    sqlObj.setResp("" + sqlList.length);
+//
+//                    return sqlObj;
                 case UpdateSQLList:  //UpdateSQLList = "101";
                     ArrayList<String> SQLArray = new ArrayList();
 
@@ -3133,20 +3135,19 @@ public class ServiceAFweb {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                case AllOpenAccountIDList:  //AllOpenAccountIDList = "104";
-                    ArrayList<String> nameId = getAccountImp().getAllOpenAccountID();
-                    nameST = new ObjectMapper().writeValueAsString(nameId);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case AllOpenAccountIDList:  //AllOpenAccountIDList = "104";
+//                    ArrayList<String> nameId = getAccountImp().getAllOpenAccountID();
+//                    nameST = new ObjectMapper().writeValueAsString(nameId);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
-                case AccountObjByAccountID:  //AccountObjByAccountID = "105";
-                    String accIdSt = sqlObj.getReq();
-                    accountId = Integer.parseInt(accIdSt);
-                    AccountObj accountObj = getAccountImp().getAccountObjByAccountID(accountId);
-                    nameST = new ObjectMapper().writeValueAsString(accountObj);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-
+//                case AccountObjByAccountID:  //AccountObjByAccountID = "105";
+//                    String accIdSt = sqlObj.getReq();
+//                    accountId = Integer.parseInt(accIdSt);
+//                    AccountObj accountObj = getAccountImp().getAccountObjByAccountID(accountId);
+//                    nameST = new ObjectMapper().writeValueAsString(accountObj);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
                 case AccountStockNameList:  //AccountStockNameList = "106";
                     accIdSt = sqlObj.getReq();
                     accountId = Integer.parseInt(accIdSt);

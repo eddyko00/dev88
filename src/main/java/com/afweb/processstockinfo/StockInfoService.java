@@ -78,7 +78,8 @@ public class StockInfoService {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-
+                default:
+                    return null;
             }
         } catch (Exception ex) {
             logger.info("> StockInfoSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());

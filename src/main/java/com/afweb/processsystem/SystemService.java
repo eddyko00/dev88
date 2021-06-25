@@ -65,7 +65,34 @@ public class SystemService {
                     nameST = getAllLockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
+
+////////////////////////////////////////////////////////                    
+                case ServiceAFweb.RemoteGetMySQL:  //RemoteGetMySQL = 9; //"9"; 
+                    st = sqlObj.getReq();
+                    nameST = stockImp.getRemoteMYSQL(st);
+                    sqlObj.setResp("" + nameST);
+
+                    return sqlObj;
+
+                case ServiceAFweb.RemoteUpdateMySQL:  //RemoteUpdateMySQL = 10; //"10"; 
+                    st = sqlObj.getReq();
+                    ret = stockImp.updateRemoteMYSQL(st);
+                    sqlObj.setResp("" + ret);
+
+                    return sqlObj;
+                case ServiceAFweb.RemoteUpdateMySQLList:  //RemoteUpdateMySQLList = 11; //"11"; 
+                    st = sqlObj.getReq();
+                    String[] sqlList = st.split("~");
+                    for (int i = 0; i < sqlList.length; i++) {
+                        String sqlCmd = sqlList[i];
+                        ret = stockImp.updateRemoteMYSQL(sqlCmd);
+                    }
+                    sqlObj.setResp("" + sqlList.length);
+
+                    return sqlObj;
 ////////////////////////////                    
+                default:
+                    return null;
 
             }
         } catch (Exception ex) {
@@ -74,7 +101,6 @@ public class SystemService {
         return null;
     }
 
-    
     public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         stockImp.setDataSource(jdbcTemplate, dataSource);
     }
@@ -109,7 +135,6 @@ public class SystemService {
         return -1;  // DB error
     }
 
-    
     public ArrayList getAllNameSQL(String sql) {
         return stockImp.getAllNameSQL(sql);
     }

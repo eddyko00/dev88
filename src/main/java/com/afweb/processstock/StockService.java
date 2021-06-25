@@ -39,8 +39,6 @@ public class StockService {
     private StockImp stockImp = new StockImp();
 
     // need to move to account service
-
-
     public RequestObj StockSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
         String st = "";
@@ -64,11 +62,10 @@ public class StockService {
                     nameST = getAllStockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                    
-
 
 ////////////////////////////                    
-
+                default:
+                    return null;
 
             }
         } catch (Exception ex) {
@@ -252,7 +249,6 @@ public class StockService {
         }
         return stockImp.updateSQLArrayList(SQLTran);
     }
-
 
 ///////////////////////////////////////////        
 }
