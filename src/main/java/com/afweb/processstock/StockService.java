@@ -41,10 +41,10 @@ public class StockService {
     // need to move to account service
     public RequestObj StockSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
-        String st = "";
         String nameST = "";
-        int ret;
-        int accountId = 0;
+        int stockId = 0;
+        String stockIdSt = "";
+
         ArrayList<String> nameList = null;
 
         try {
@@ -60,6 +60,13 @@ public class StockService {
                     return sqlObj;
                 case ServiceAFweb.AllStock:
                     nameST = getAllStockDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
+                    stockIdSt = sqlObj.getReq();
+                    stockId = Integer.parseInt(stockIdSt);
+                    AFstockObj stockObj = getStockBySockID(serviceAFWeb, stockId);
+                    nameST = new ObjectMapper().writeValueAsString(stockObj);
                     sqlObj.setResp(nameST);
                     return sqlObj;
 

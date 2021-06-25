@@ -2871,7 +2871,6 @@ public class ServiceAFweb {
     ////////////////////////
     // System
     public static final int AllName = 200; //"1";
-    public static final int AllSymbol = 201; //"1";
     public static final int AllLock = 2; //"2";
 
     public static final int RemoteGetMySQL = 9; //"9";
@@ -2903,20 +2902,21 @@ public class ServiceAFweb {
     public static final int AllPerformance = 13; //"13";  
     public static final int AllBilling = 17; //"17";    
     public static final int AllComm = 16; //"16";
-
+    public static final int AllTransationorder = 12; //"12";   
     //////////////////////////////////
     public static final int AllId = 202; //"1";   
     public static final int AllSQLquery = 14; //"14";  
-    public static final int UpdateSQLList = 101; //"101";
-    
+//    public static final int UpdateSQLList = 101; //"101";
+
     public static final int AllStock = 3; //"3";    
+    public static final int AllSymbol = 201; //"1";    
     public static final int RealTimeStockByStockID = 119; //"119"; 
 
     public static final int AllIdInfo = 202; //"1";
     public static final int AllStockInfo = 4; //"4";    
     public static final int StockHistoricalRange = 114; //"114";     
-    public static final int AllTransationorder = 12; //"12";    
-    public static final int UpdateSQLListInfo = 101; //"101";
+
+//    public static final int UpdateSQLListInfo = 101; //"101";
     public static final int updateStockInfoTransaction = 103; //"103";
 
     public static final int AllNeuralNet = 5; //"5";
@@ -2931,21 +2931,35 @@ public class ServiceAFweb {
 //        if (RemoteCallflag == true) {
 //            return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
 //        }
-        String st = "";
-        String nameST = "";
-        int ret;
-        int accountId = 0;
-        int stockId = 0;
-        String stockIdSt = "";
-        String accIdSt = "";
-        ArrayList<String> nameList = null;
-        AccountObj accountObj = null;
-
         try {
             String typeCd = sqlObj.getCmd();
             int type = Integer.parseInt(typeCd);
 
-            switch (type) {
+            RequestObj reqObj = null;
+            SystemService sysSrv = new SystemService();
+            CustAccService custSrv = new CustAccService();
+            StockService stockSrv = new StockService();
+            StockInfoService stockInfoSrv = new StockInfoService();
+            NNService nnSrv = new NNService();
+
+            reqObj = sysSrv.StockSQLRequest(this, sqlObj);
+            if (reqObj == null) {
+                reqObj = custSrv.StockInfoSQLRequest(this, sqlObj);
+            }
+            if (reqObj == null) {
+                reqObj = stockSrv.StockSQLRequest(this, sqlObj);
+            }
+            if (reqObj == null) {
+                reqObj = stockInfoSrv.StockInfoSQLRequest(this, sqlObj);
+            }
+            if (reqObj == null) {
+                reqObj = nnSrv.StockInfoSQLRequest(this, sqlObj);
+            }
+            ///////////////////////////////////////////////////////
+            if (reqObj != null) {
+                return (reqObj);
+            }
+//            switch (type) {
 //                case AllName:
 //                    nameList = getStockImp().getAllNameSQL(sqlObj.getReq());
 //                    nameST = new ObjectMapper().writeValueAsString(nameList);
@@ -2956,45 +2970,43 @@ public class ServiceAFweb {
 //                    nameST = new ObjectMapper().writeValueAsString(nameList);
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-                case AllId:
-                    nameList = getAccountImp().getAllIdSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case AllId:
+//                    nameList = getAccountImp().getAllIdSQL(sqlObj.getReq());
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 //                case AllLock:
 //                    nameST = getAllLockDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-                case AllStock:
-                    nameST = getAllStockDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case AllStock:
+//                    nameST = getAllStockDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
-                case RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
-                    stockIdSt = sqlObj.getReq();
-                    stockId = Integer.parseInt(stockIdSt);
-                    AFstockObj stockObj = getStockByStockIDServ(stockId);
-                    nameST = new ObjectMapper().writeValueAsString(stockObj);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-
+//                case RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
+//                    stockIdSt = sqlObj.getReq();
+//                    stockId = Integer.parseInt(stockIdSt);
+//                    AFstockObj stockObj = getStockByStockIDServ(stockId);
+//                    nameST = new ObjectMapper().writeValueAsString(stockObj);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 //////////////////                    
-                case AllStockInfo:
-                    nameST = getAllStockInfoDBSQLServ(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case updateStockInfoTransaction:  //updateStockInfoTransaction = "103";
-                    try {
-                        st = sqlObj.getReq();
-                        StockInfoTranObj stockInfoTran = new ObjectMapper().readValue(st, StockInfoTranObj.class);
-
-                        int result = updateStockInfoTransactionServ(stockInfoTran);
-                        sqlObj.setResp("" + result);
-
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
-
+//                case AllStockInfo:
+//                    nameST = getAllStockInfoDBSQLServ(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case updateStockInfoTransaction:  //updateStockInfoTransaction = "103";
+//                    try {
+//                        st = sqlObj.getReq();
+//                        StockInfoTranObj stockInfoTran = new ObjectMapper().readValue(st, StockInfoTranObj.class);
+//
+//                        int result = updateStockInfoTransactionServ(stockInfoTran);
+//                        sqlObj.setResp("" + result);
+//
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 //                case StockHistoricalRange: //StockHistoricalRange = 114; //"114";  
 //                    try {
 //                        String symbol = sqlObj.getReq();
@@ -3010,43 +3022,41 @@ public class ServiceAFweb {
 //                    return sqlObj;
 /////////////////////////////////////////////////                    
 /////////////////////////////////////////////////////////                    
-                case AllNeuralNet:
-                    nameST = getStockImp().getAllNeuralNetDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case AllNeuralNetData:
-                    nameST = getStockImp().getAllNeuralNetDataDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-
-                case NeuralNetDataObj: //NeuralNetDataObj = 120; //"120";      
-
-                    try {
-                        String BPname = sqlObj.getReq();
-                        ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname, 0);
-                        nameST = new ObjectMapper().writeValueAsString(retArray);
-                        sqlObj.setResp("" + nameST);
-
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
-
-                case NeuralNetDataObjStockid: //NeuralNetDataObj = 121; //"121";        
-                    try {
-                        String BPname = sqlObj.getReq();
-
-                        String stockID = sqlObj.getReq1();
-                        int stockId121 = Integer.parseInt(stockID);
-
-                        String updatedateSt = sqlObj.getReq2();
-                        long updatedatel = Long.parseLong(updatedateSt);
-
-                        ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname, stockId121, updatedatel);
-                        nameST = new ObjectMapper().writeValueAsString(retArray);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case AllNeuralNet:
+//                    nameST = getStockImp().getAllNeuralNetDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case AllNeuralNetData:
+//                    nameST = getStockImp().getAllNeuralNetDataDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case NeuralNetDataObj: //NeuralNetDataObj = 120; //"120";      
+//
+//                    try {
+//                        String BPname = sqlObj.getReq();
+//                        ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname, 0);
+//                        nameST = new ObjectMapper().writeValueAsString(retArray);
+//                        sqlObj.setResp("" + nameST);
+//
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
+//                case NeuralNetDataObjStockid: //NeuralNetDataObj = 121; //"121";        
+//                    try {
+//                        String BPname = sqlObj.getReq();
+//
+//                        String stockID = sqlObj.getReq1();
+//                        int stockId121 = Integer.parseInt(stockID);
+//
+//                        String updatedateSt = sqlObj.getReq2();
+//                        long updatedatel = Long.parseLong(updatedateSt);
+//
+//                        ArrayList<AFneuralNetData> retArray = getStockImp().getNeuralNetDataObj(BPname, stockId121, updatedatel);
+//                        nameST = new ObjectMapper().writeValueAsString(retArray);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 ////////////////////////////////////////////////////////                    
 //                case RemoteGetMySQL:  //RemoteGetMySQL = 9; //"9"; 
 //                    st = sqlObj.getReq();
@@ -3071,19 +3081,18 @@ public class ServiceAFweb {
 //                    sqlObj.setResp("" + sqlList.length);
 //
 //                    return sqlObj;
-                case UpdateSQLList:  //UpdateSQLList = "101";
-                    ArrayList<String> SQLArray = new ArrayList();
-
-                    try {
-                        SQLArray = new ObjectMapper().readValue(sqlObj.getReq(), ArrayList.class
-                        );
-                        int result = updateSQLArrayListServ(SQLArray);
-                        sqlObj.setResp("" + result);
-
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
-
+//                case UpdateSQLList:  //UpdateSQLList = "101";
+//                    ArrayList<String> SQLArray = new ArrayList();
+//
+//                    try {
+//                        SQLArray = new ObjectMapper().readValue(sqlObj.getReq(), ArrayList.class
+//                        );
+//                        int result = updateSQLArrayListServ(SQLArray);
+//                        sqlObj.setResp("" + result);
+//
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 /////////////////////////
 //                case AllUserName:
 //                    nameList = getAccountImp().getAllUserNameSQL(sqlObj.getReq());
@@ -3106,26 +3115,23 @@ public class ServiceAFweb {
 //                    nameST = getAccountImp().getAllPerformanceDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
 //                case AllTransationorder: //AllTransationorder = 12; //"12";
 //                    nameST = getAccountImp().getAllTransationOrderDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
 //                case AllSQLquery: //AllSQLreq = 14; //"14";  
 //                    nameST = getAccountImp().getAllSQLquery(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
-                case AllComm: //AllComm = 16; //"16";
-                    nameST = getAccountImp().getAllCommDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case AllBilling: // AllBilling = 17; //"17";      
-                    nameST = getAccountImp().getAllBillingDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-
+//
+//                case AllComm: //AllComm = 16; //"16";
+//                    nameST = getAccountImp().getAllCommDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case AllBilling: // AllBilling = 17; //"17";      
+//                    nameST = getAccountImp().getAllBillingDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 //                case updateAccountStockSignal:  //updateAccountStockSignal = "102";
 //                    try {
 //                        st = sqlObj.getReq();
@@ -3142,7 +3148,6 @@ public class ServiceAFweb {
 //                    nameST = new ObjectMapper().writeValueAsString(nameId);
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
 //                case AccountObjByAccountID:  //AccountObjByAccountID = "105";
 //                    String accIdSt = sqlObj.getReq();
 //                    accountId = Integer.parseInt(accIdSt);
@@ -3157,7 +3162,6 @@ public class ServiceAFweb {
 //                    nameST = new ObjectMapper().writeValueAsString(nameList);
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
 //                case UserNamebyAccountID:  //UserNamebyAccountID = "107";
 //                    accIdSt = sqlObj.getReq();
 //                    accountId = Integer.parseInt(accIdSt);
@@ -3176,7 +3180,6 @@ public class ServiceAFweb {
 //                    } catch (Exception ex) {
 //                    }
 //                    return sqlObj;
-
 //                case AccountStockListByAccountID:  //AccountStockListByAccountID = 110; //"110";  
 //                    try {
 //                        accIdSt = sqlObj.getReq();
@@ -3190,7 +3193,6 @@ public class ServiceAFweb {
 //                    } catch (Exception ex) {
 //                    }
 //                    return sqlObj;
-
 //                case AccountStockClrTranByAccountID:  //AccountStockClrTranByAccountID = 111; //"111";       
 //                    try {
 //                        st = sqlObj.getReq();
@@ -3204,7 +3206,6 @@ public class ServiceAFweb {
 //                    } catch (Exception ex) {
 //                    }
 //                    return sqlObj;
-
 //                case AllAccountStockNameListExceptionAdmin:  //AllAccountStockNameListExceptionAdmin = 112; //"112";        
 //                    try {
 //                        accIdSt = sqlObj.getReq();
@@ -3216,7 +3217,6 @@ public class ServiceAFweb {
 //                    } catch (Exception ex) {
 //                    }
 //                    return sqlObj;
-
 //                case AddTransactionOrder:  //AddTransactionOrder = 113; //"113";         
 //                    try {
 //                        st = sqlObj.getReq();
@@ -3238,76 +3238,71 @@ public class ServiceAFweb {
 //                    } catch (Exception ex) {
 //                    }
 //                    return sqlObj;
-
-                case AccountStockTransList: //AccountStockTransList = 115; //"115";    
-                    try {
-                        String accountIDSt = sqlObj.getReq();
-                        int accountID = Integer.parseInt(accountIDSt);
-                        String stockIDSt = sqlObj.getReq1();
-                        int stockID = Integer.parseInt(stockIDSt);
-                        String trName = sqlObj.getReq2();
-                        String lengthSt = sqlObj.getReq3();
-                        int length = Integer.parseInt(lengthSt);
-
-                        ArrayList<TransationOrderObj> retArray = getAccountImp().getAccountStockTransList(accountID, stockID, trName, length);
-
-                        nameST = new ObjectMapper().writeValueAsString(retArray);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
-
-                case AccountStockPerfList: //AccountStockPerfList = 116; //"116";    
-                    try {
-                        String accountIDSt = sqlObj.getReq();
-                        int accountID = Integer.parseInt(accountIDSt);
-                        String stockIDSt = sqlObj.getReq1();
-                        int stockID = Integer.parseInt(stockIDSt);
-                        String trName = sqlObj.getReq2();
-                        String lengthSt = sqlObj.getReq3();
-                        int length = Integer.parseInt(lengthSt);
-
-                        ArrayList<PerformanceObj> retArray = getAccountImp().getAccountStockPerfList(accountID, stockID, trName, length);
-
-                        nameST = new ObjectMapper().writeValueAsString(retArray);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
-
-                case AccountStockIDByTRname:  //AccountStockIDByTRname = 117; //"117";          
-                    try {
-
-                        String accountID = sqlObj.getReq();
-                        String stockID = sqlObj.getReq1();
-                        String trName = sqlObj.getReq2();
-
-                        accountId = Integer.parseInt(accountID);
-                        stockId = Integer.parseInt(stockID);
-                        TradingRuleObj trObj = getAccountImp().getAccountStockIDByTRStockID(accountId, stockId, trName);
-                        nameST = new ObjectMapper().writeValueAsString(trObj);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
-
-                case AccountStockListByAccountIDStockID:  //AccountStockListByAccountIDStockID = 118; //"118";
-                    try {
-                        accIdSt = sqlObj.getReq();
-                        accountId = Integer.parseInt(accIdSt);
-                        stockIdSt = sqlObj.getReq1();
-                        stockId = Integer.parseInt(stockIdSt);
-
-                        ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockTRListByAccountID(accountId, stockId);
-                        nameST = new ObjectMapper().writeValueAsString(trList);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case AccountStockTransList: //AccountStockTransList = 115; //"115";    
+//                    try {
+//                        String accountIDSt = sqlObj.getReq();
+//                        int accountID = Integer.parseInt(accountIDSt);
+//                        String stockIDSt = sqlObj.getReq1();
+//                        int stockID = Integer.parseInt(stockIDSt);
+//                        String trName = sqlObj.getReq2();
+//                        String lengthSt = sqlObj.getReq3();
+//                        int length = Integer.parseInt(lengthSt);
+//
+//                        ArrayList<TransationOrderObj> retArray = getAccountImp().getAccountStockTransList(accountID, stockID, trName, length);
+//
+//                        nameST = new ObjectMapper().writeValueAsString(retArray);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
+//                case AccountStockPerfList: //AccountStockPerfList = 116; //"116";    
+//                    try {
+//                        String accountIDSt = sqlObj.getReq();
+//                        int accountID = Integer.parseInt(accountIDSt);
+//                        String stockIDSt = sqlObj.getReq1();
+//                        int stockID = Integer.parseInt(stockIDSt);
+//                        String trName = sqlObj.getReq2();
+//                        String lengthSt = sqlObj.getReq3();
+//                        int length = Integer.parseInt(lengthSt);
+//
+//                        ArrayList<PerformanceObj> retArray = getAccountImp().getAccountStockPerfList(accountID, stockID, trName, length);
+//
+//                        nameST = new ObjectMapper().writeValueAsString(retArray);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
+//                case AccountStockIDByTRname:  //AccountStockIDByTRname = 117; //"117";          
+//                    try {
+//
+//                        String accountID = sqlObj.getReq();
+//                        String stockID = sqlObj.getReq1();
+//                        String trName = sqlObj.getReq2();
+//
+//                        accountId = Integer.parseInt(accountID);
+//                        stockId = Integer.parseInt(stockID);
+//                        TradingRuleObj trObj = getAccountImp().getAccountStockIDByTRStockID(accountId, stockId, trName);
+//                        nameST = new ObjectMapper().writeValueAsString(trObj);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
+//                case AccountStockListByAccountIDStockID:  //AccountStockListByAccountIDStockID = 118; //"118";
+//                    try {
+//                        accIdSt = sqlObj.getReq();
+//                        accountId = Integer.parseInt(accIdSt);
+//                        stockIdSt = sqlObj.getReq1();
+//                        stockId = Integer.parseInt(stockIdSt);
+//
+//                        ArrayList<TradingRuleObj> trList = getAccountImp().getAccountStockTRListByAccountID(accountId, stockId);
+//                        nameST = new ObjectMapper().writeValueAsString(trList);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 /////////////////////////////////////////////////////
-
-                /////
-            }
+            /////
+//            }
         } catch (Exception ex) {
             logger.info("> SystemSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());
         }

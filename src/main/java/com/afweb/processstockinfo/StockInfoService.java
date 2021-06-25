@@ -47,7 +47,11 @@ public class StockInfoService {
             int type = Integer.parseInt(typeCd);
 
             switch (type) {
-
+                case ServiceAFweb.AllIdInfo:
+                    nameList = getAllIdStockInfoSQL(sqlObj.getReq());
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
                 case ServiceAFweb.AllStockInfo:
                     nameST = getAllStockInfoDBSQL(serviceAFWeb, sqlObj.getReq());
                     sqlObj.setResp(nameST);
