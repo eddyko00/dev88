@@ -38,12 +38,12 @@ public class SystemService {
     protected static Logger logger = Logger.getLogger("SystemService");
     private StockImp stockImp = new StockImp();
 
-    public RequestObj StockSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+    public RequestObj SQLRequestSystem(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
         String st = "";
         String nameST = "";
         int ret;
-        int accountId = 0;
+
         ArrayList<String> nameList = null;
 
         try {

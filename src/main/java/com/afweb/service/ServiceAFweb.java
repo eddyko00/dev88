@@ -2870,59 +2870,58 @@ public class ServiceAFweb {
 ///////////////////////////
     ////////////////////////
     // System
-    public static final int AllName = 200; //"1";
-    public static final int AllLock = 2; //"2";
+    public static final int AllName = 10; //"1";
+    public static final int AllLock = 11; //"2";
 
-    public static final int RemoteGetMySQL = 9; //"9";
-    public static final int RemoteUpdateMySQL = 10; //"10";    
-    public static final int RemoteUpdateMySQLList = 11; //"11";   
+    public static final int RemoteGetMySQL = 12; //"9";
+    public static final int RemoteUpdateMySQL = 13; //"10";    
+    public static final int RemoteUpdateMySQLList = 14; //"11";   
 
-    public static final int AllOpenAccountIDList = 104; //"104";
-    public static final int AccountObjByAccountID = 105; //"105";
-    public static final int AccountStockNameList = 106; //"106";
-    public static final int UserNamebyAccountID = 107; //"107";
-    public static final int UpdateTransactionOrder = 108; //"108";
-    public static final int AccountStockClrTranByAccountID = 111; //"111";    
-    public static final int AllAccountStockNameListExceptionAdmin = 112; //"112"; 
+    public static final int AllOpenAccountIDList = 15; //"104";
+    public static final int AccountObjByAccountID = 16; //"105";
+    public static final int AccountStockNameList = 17; //"106";
+    public static final int UserNamebyAccountID = 18; //"107";
+    public static final int UpdateTransactionOrder = 19; //"108";
+    public static final int AccountStockClrTranByAccountID = 20; //"111";    
+    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
 
     ////////////////////////
     // Customer Account
-    public static final int AllUserName = 203; //"1";
-    public static final int AllCustomer = 6; //"6";
-    public static final int AllAccount = 7; //"7";
-    public static final int AllAccountStock = 8; //"8";
-    public static final int AccountStockListByAccountID = 110; //"110";    
-    public static final int updateAccountStockSignal = 102;// "102";    
-    public static final int AddTransactionOrder = 113; //"113"; 
+    public static final int AllUserName = 110; //"1";
+    public static final int AllCustomer = 111; //"6";
+    public static final int AllAccount = 112; //"7";
+    public static final int AllAccountStock = 113; //"8";
+    public static final int AccountStockListByAccountID = 114; //"110";    
+    public static final int updateAccountStockSignal = 115;// "102";    
+    public static final int AddTransactionOrder = 116; //"113"; 
 
-    public static final int AccountStockTransList = 115; //"115";     
-    public static final int AccountStockPerfList = 116; //"116";     
-    public static final int AccountStockIDByTRname = 117; //"117";   
-    public static final int AccountStockListByAccountIDStockID = 118; //"118"; 
-    public static final int AllPerformance = 13; //"13";  
-    public static final int AllBilling = 17; //"17";    
-    public static final int AllComm = 16; //"16";
-    public static final int AllTransationorder = 12; //"12";   
+    public static final int AccountStockTransList = 117; //"115";     
+    public static final int AccountStockPerfList = 118; //"116";     
+    public static final int AccountStockIDByTRname = 119; //"117";   
+    public static final int AccountStockListByAccountIDStockID = 120; //"118"; 
+    public static final int AllPerformance = 121; //"13";  
+    public static final int AllBilling = 122; //"17";    
+    public static final int AllComm = 123; //"16";
+    public static final int AllTransationorder = 124; //"12";   
     //////////////////////////////////
-    public static final int AllId = 202; //"1";   
-    public static final int AllSQLquery = 14; //"14";  
+    public static final int AllId = 210; //"1";   
+    public static final int AllSQLquery = 211; //"14";  
 //    public static final int UpdateSQLList = 101; //"101";
 
-    public static final int AllStock = 3; //"3";    
-    public static final int AllSymbol = 201; //"1";    
-    public static final int RealTimeStockByStockID = 119; //"119"; 
+    public static final int AllStock = 212; //"3";    
+    public static final int AllSymbol = 213; //"1";    
+    public static final int RealTimeStockByStockID = 214; //"119"; 
 
-    public static final int AllIdInfo = 202; //"1";
-    public static final int AllStockInfo = 4; //"4";    
-    public static final int StockHistoricalRange = 114; //"114";     
-
+    public static final int AllIdInfo = 250; //"1";
+    public static final int AllStockInfo = 251; //"4";    
+    public static final int StockHistoricalRange = 252; //"114";     
+    public static final int updateStockInfoTransaction = 253; //"103";
 //    public static final int UpdateSQLListInfo = 101; //"101";
-    public static final int updateStockInfoTransaction = 103; //"103";
-
-    public static final int AllNeuralNet = 5; //"5";
-    public static final int AllNeuralNetData = 15; //"15";
-    public static final int NeuralNetDataObj = 120; //"120";     
-    public static final int NeuralNetDataObjStockid = 121; //"120";
+    
+    public static final int AllNeuralNet = 310; //"5";
+    public static final int AllNeuralNetData = 311; //"15";
+    public static final int NeuralNetDataObj = 312; //"120";     
+    public static final int NeuralNetDataObjStockid = 313; //"120";
 
     //////////////////////////////////
     public RequestObj SystemSQLRequest(RequestObj sqlObj) {
@@ -2932,9 +2931,6 @@ public class ServiceAFweb {
 //            return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
 //        }
         try {
-            String typeCd = sqlObj.getCmd();
-            int type = Integer.parseInt(typeCd);
-
             RequestObj reqObj = null;
             SystemService sysSrv = new SystemService();
             CustAccService custSrv = new CustAccService();
@@ -2942,18 +2938,18 @@ public class ServiceAFweb {
             StockInfoService stockInfoSrv = new StockInfoService();
             NNService nnSrv = new NNService();
 
-            reqObj = sysSrv.StockSQLRequest(this, sqlObj);
+            reqObj = sysSrv.SQLRequestSystem(this, sqlObj);
             if (reqObj == null) {
-                reqObj = custSrv.StockInfoSQLRequest(this, sqlObj);
+                reqObj = custSrv.SQLRequestCustAcc(this, sqlObj);
             }
             if (reqObj == null) {
-                reqObj = stockSrv.StockSQLRequest(this, sqlObj);
+                reqObj = stockSrv.SQLRequestStock(this, sqlObj);
             }
             if (reqObj == null) {
-                reqObj = stockInfoSrv.StockInfoSQLRequest(this, sqlObj);
+                reqObj = stockInfoSrv.SQLRequestStockInfo(this, sqlObj);
             }
             if (reqObj == null) {
-                reqObj = nnSrv.StockInfoSQLRequest(this, sqlObj);
+                reqObj = nnSrv.SQLRequestStockInfo(this, sqlObj);
             }
             ///////////////////////////////////////////////////////
             if (reqObj != null) {

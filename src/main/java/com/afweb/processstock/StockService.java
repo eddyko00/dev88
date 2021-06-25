@@ -39,7 +39,7 @@ public class StockService {
     private StockImp stockImp = new StockImp();
 
     // need to move to account service
-    public RequestObj StockSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+    public RequestObj SQLRequestStock(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
         String nameST = "";
         int stockId = 0;

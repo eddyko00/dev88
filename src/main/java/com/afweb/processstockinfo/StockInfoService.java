@@ -34,7 +34,7 @@ public class StockInfoService {
     StockInfoProcess stockProcess = new StockInfoProcess();
     StockInfoImp stockInfoImp = new StockInfoImp();
 
-    public RequestObj StockInfoSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+    public RequestObj SQLRequestStockInfo(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
         String st = "";
         String nameST = "";

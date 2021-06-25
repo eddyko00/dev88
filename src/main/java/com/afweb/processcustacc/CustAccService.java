@@ -44,7 +44,7 @@ public class CustAccService {
 
     private AccountImp accountImp = new AccountImp();
 
-    public RequestObj StockInfoSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+    public RequestObj SQLRequestCustAcc(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
         String st = "";
         String nameST = "";

@@ -36,7 +36,7 @@ public class NNService {
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
     private StockImp stockImp = new StockImp();
 
-    public RequestObj StockInfoSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+    public RequestObj SQLRequestStockInfo(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
         String st = "";
         String nameST = "";
