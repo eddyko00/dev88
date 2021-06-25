@@ -13,7 +13,6 @@ import com.afweb.nnsignal.*;
 import com.afweb.processemail.EmailProcess;
 import com.afweb.processcustacc.PUBSUBprocess;
 import com.afweb.processbilling.BillingProcess;
-import com.afweb.processaccounting.AccountingProcess;
 
 import com.afweb.processsystem.AccountMaintProcess;
 
@@ -90,8 +89,6 @@ public class ServiceAFweb {
     private StockImp stockImp = new StockImp();
 
     private AccountImp accountImp = new AccountImp();
-//    private AccountTranProcess accountProcessImp = new AccountTranProcess();
-//    private AccountingProcess accounting = new AccountingProcess();
 
     public static String PROXYURL = "";
     public static String URL_LOCALDB = "";
@@ -3351,20 +3348,7 @@ public class ServiceAFweb {
     public void setAccountImp(AccountImp accountImp) {
         this.accountImp = accountImp;
     }
-//
-//    /**
-//     * @return the accountProcessImp
-//     */
-//    public AccountTranProcess getAccountProcessImp() {
-//        return accountProcessImp;
-//    }
-//
-//    /**
-//     * @param accountProcessImp the accountProcessImp to set
-//     */
-//    public void setAccountProcessImp(AccountTranProcess accountProcessImp) {
-//        this.accountProcessImp = accountProcessImp;
-//    }
+
 
     /**
      * @return the serviceAFwebREST
@@ -3421,18 +3405,6 @@ public class ServiceAFweb {
         return null;
     }
 
-//    /**
-//     * @return the accounting
-//     */
-//    public AccountingProcess getAccounting() {
-//        return accounting;
-//    }
-//
-//    /**
-//     * @param accounting the accounting to set
-//     */
-//    public void setAccounting(AccountingProcess accounting) {
-//        this.accounting = accounting;
-//    }
+//////////////////////////////
 
 }
