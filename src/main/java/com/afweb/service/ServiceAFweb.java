@@ -86,7 +86,7 @@ public class ServiceAFweb {
     private static long timerThreadDateValue = 0;
 
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
-    private StockImp stockImp = new StockImp();
+//    private StockImp stockImp = new StockImp();
 
     private AccountImp accountImp = new AccountImp();
 
@@ -335,7 +335,7 @@ public class ServiceAFweb {
 
                 // work around. must initialize for remote MYSQL
                 ServiceRemoteDB.setServiceAFWeb(this);
-                getStockImp().setDataSource(jdbcTemplate, dataSource);
+                setDataSource(jdbcTemplate, dataSource);
 
                 setStockInfoDataSource(jdbcTemplate, dataSource);
 
@@ -1345,6 +1345,30 @@ public class ServiceAFweb {
         return systemSrv.initStockDB();
     }
 
+    public boolean cleanStockDB() {
+        return systemSrv.cleanStockDB();
+    }
+
+    public boolean restStockDB() {
+        return systemSrv.restStockDB();
+    }
+
+    public boolean cleanNNonlyStockDB() {
+        return systemSrv.cleanNNonlyStockDB();
+    }
+
+    public int updateRemoteMYSQL(String sql) {
+        return systemSrv.updateRemoteMYSQL(sql);
+    }
+
+    public String getRemoteMYSQL(String sql) {
+        return systemSrv.getRemoteMYSQL(sql);
+    }
+
+    public int deleteAllLock() {
+        return systemSrv.deleteAllLock();
+    }
+
     public ArrayList<String> getAllIdSQLServ(String sql) {
         return systemSrv.getAllIdSQL(sql);
     }
@@ -1389,7 +1413,24 @@ public class ServiceAFweb {
         return systemSrv.removeLock(name, type);
 
     }
+/////////////////////////////
 
+    public ArrayList getAllRemoveStockNameList(int length) {
+        return systemSrv.getAllRemoveStockNameList(length);
+    }
+
+    public ArrayList getAllDisableStockNameList(int length) {
+        return systemSrv.getAllDisableStockNameList(length);
+    }
+
+    public StringBuffer getInternetScreenPageServ(String url) {
+        return systemSrv.getInternetScreenPage(url);
+    }
+
+    public AFstockObj getRealTimeStockInternetServ(String NormalizeSymbol) {
+        return systemSrv.getRealTimeStockInternet(NormalizeSymbol);
+
+    }
     //////////////////////////////////////////////////
     // CustAccService
     CustAccService custAccSrv = new CustAccService();
@@ -1603,20 +1644,6 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public StringBuffer getInternetScreenPageServ(String url) {
-        if (stockFlag == true) {
-            return this.getStockImp().getInternetScreenPage(url);
-        }
-        return null;
-    }
-
-    public AFstockObj getRealTimeStockInternetServ(String NormalizeSymbol) {
-        if (stockFlag == true) {
-            return this.getStockImp().getRealTimeStockInternet(NormalizeSymbol);
-        }
-        return null;
-    }
-
     public ArrayList<String> getAllOpenStockNameServ() {
         if (stockFlag == true) {
             return stockSrv.getAllOpenStockNameArray(this);
@@ -1765,6 +1792,44 @@ public class ServiceAFweb {
         return reqObj;
     }
 
+    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
+        return nnSrv.getNeuralNetDataObj(name, length);
+    }
+
+    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int stockId, long updatedatel) {
+        return nnSrv.getNeuralNetDataObj(name, stockId, updatedatel);
+    }
+
+    public int deleteNeuralNetDataByBPname(String name) {
+        return nnSrv.deleteNeuralNetDataByBPname(name);
+    }
+
+    public int deleteNeuralNet1(String name) {
+        return nnSrv.deleteNeuralNet1(name);
+    }
+
+    public int updateNeuralNetStatus1(String name, int status, int type) {
+        return nnSrv.updateNeuralNetStatus1(name, status, type);
+    }
+
+    public int updateNeuralNetDataObject(String name, int stockId, NNInputDataObj objData) {
+        return nnSrv.updateNeuralNetDataObject(name, stockId, objData);
+    }
+
+    public int updateNeuralNetRef0(String name, ReferNameData refnameData) {
+        return nnSrv.updateNeuralNetRef0(name, refnameData);
+    }
+
+    public int setCreateNeuralNetObj1(String name, String weight) {
+        return nnSrv.setCreateNeuralNetObj1(name, weight);
+    }
+
+    public int updateNeuralNetRef1(String name, ReferNameData refnameData) {
+        return nnSrv.updateNeuralNetRef1(name, refnameData);
+    }
+    public int deleteNeuralNetDataObjById(int id) {
+        return nnSrv.deleteNeuralNetDataObjById(id);
+    }  
     public void fileNNInputOutObjListServ(ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
         if (nnFlag == true) {
             nnSrv.fileNNInputOutObjList(this, inputList, symbol, stockId, filename);
@@ -1805,7 +1870,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = this.getStockImp().getAllRemoveStockNameList(length);
+        result = getAllRemoveStockNameList(length);
 
         return result;
     }
@@ -1815,7 +1880,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = this.getStockImp().getAllDisableStockNameList(length);
+        result = getAllDisableStockNameList(length);
 
         return result;
     }
@@ -2216,7 +2281,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        return getStockImp().getNeuralNetDataObj(BPnameTR, 0);
+        return getNeuralNetDataObj(BPnameTR, 0);
     }
 
     public ArrayList<AFneuralNetData> SystemNeuralNetDataObjStockid(String BPname, int stockId, long updatedatel) {
@@ -2251,7 +2316,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        return getStockImp().getNeuralNetDataObj(BPname, stockId, updatedatel);
+        return getNeuralNetDataObj(BPname, stockId, updatedatel);
     }
 
     //  entrydatel desc recent transaction first
@@ -2830,7 +2895,7 @@ public class ServiceAFweb {
         String[] sqlList = st.split("~");
         for (int i = 0; i < sqlList.length; i++) {
             String sqlCmd = sqlList[i];
-            int ret = getStockImp().updateRemoteMYSQL(sqlCmd);
+            int ret = updateRemoteMYSQL(sqlCmd);
         }
         return ("" + sqlList.length);
     }
@@ -2840,7 +2905,7 @@ public class ServiceAFweb {
             return "";
         }
 
-        return getStockImp().updateRemoteMYSQL(SQL) + "";
+        return updateRemoteMYSQL(SQL) + "";
     }
 
     public String SystemRemoteGetMySQL(String SQL) {
@@ -2848,7 +2913,7 @@ public class ServiceAFweb {
             return "";
         }
 
-        return getStockImp().getRemoteMYSQL(SQL);
+        return getRemoteMYSQL(SQL);
     }
 
 ///////////////////////////
@@ -3067,13 +3132,13 @@ public class ServiceAFweb {
     public String SystemCleanNNonlyDBData() {
         boolean retSatus = false;
         serverObj.setSysMaintenance(true);
-        retSatus = getStockImp().cleanNNonlyStockDB();
+        retSatus = cleanNNonlyStockDB();
         return "" + retSatus;
     }
 
     public String SystemClearLock() {
         int retSatus = 0;
-        retSatus = getStockImp().deleteAllLock();
+        retSatus = deleteAllLock();
         return "" + retSatus;
     }
 
@@ -3081,7 +3146,7 @@ public class ServiceAFweb {
         boolean retSatus = false;
         // make sure the system is stopped first
         retSatus = restStockInfoDB();
-        retSatus = getStockImp().restStockDB();
+        retSatus = restStockDB();
         return "" + retSatus;
     }
 
@@ -3090,7 +3155,7 @@ public class ServiceAFweb {
 
         serverObj.setSysMaintenance(true);
         retSatus = cleanStockInfoDB();
-        retSatus = getStockImp().cleanStockDB();
+        retSatus = cleanStockDB();
         return "" + retSatus;
     }
 
@@ -3323,18 +3388,17 @@ public class ServiceAFweb {
     /**
      * @return the stockImp
      */
-    public StockImp getStockImp() {
-//    private StockImp getStockImp() {
-        return stockImp;
-    }
-
-    /**
-     * @param stockImp the stockImp to set
-     */
-    public void setStockImp(StockImp stockImp) {
-        this.stockImp = stockImp;
-    }
-
+//    public StockImp getStockImp() {
+////    private StockImp getStockImp() {
+//        return stockImp;
+//    }
+//
+//    /**
+//     * @param stockImp the stockImp to set
+//     */
+//    public void setStockImp(StockImp stockImp) {
+//        this.stockImp = stockImp;
+//    }
     /**
      * @return the accountImp
      */
@@ -3348,7 +3412,6 @@ public class ServiceAFweb {
     public void setAccountImp(AccountImp accountImp) {
         this.accountImp = accountImp;
     }
-
 
     /**
      * @return the serviceAFwebREST
@@ -3406,5 +3469,4 @@ public class ServiceAFweb {
     }
 
 //////////////////////////////
-
 }

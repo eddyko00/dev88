@@ -179,7 +179,7 @@ public class StockImp {
         return stockdb.insertNeuralNetDataObject(neuralNetData);
     }
 
-    private int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
+    public int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
         return stockdb.insertNeuralNetDataObject(name, stockId, data, updatedatel);
     }
 
@@ -209,6 +209,10 @@ public class StockImp {
 
     public int updateNeuralNetStatus1(String name, int status, int type) {
         return stockdb.updateNeuralNetStatus1(name, status, type);
+    }
+
+    public int deleteNeuralNetData(String name) {
+        return stockdb.deleteNeuralNetData(name);
     }
 
     public int releaseNeuralNetBPObj(String name) {
@@ -265,12 +269,12 @@ public class StockImp {
         return stockdb.getNeuralNetDataObj(name, length);
     }
 
-    public int deleteNeuralNetDataObjById(int id) {
-        return stockdb.deleteNeuralNetDataObjById(id);
-    }
-
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int stockId, long updatedatel) {
         return stockdb.getNeuralNetDataObj(name, stockId, updatedatel);
+    }
+
+    public int deleteNeuralNetDataObjById(int id) {
+        return stockdb.deleteNeuralNetDataObjById(id);
     }
 
     public AFneuralNet getNeuralNetObjWeight0(String name) {
@@ -347,12 +351,12 @@ public class StockImp {
         return stockdb.restStockDB();
     }
 
-    public boolean cleanNNonlyStockDB() {
-        return stockdb.cleanNNonlyStockDB();
-    }
-
     public boolean cleanStockDB() {
         return stockdb.cleanStockDB();
+    }
+
+    public boolean cleanNNonlyStockDB() {
+        return stockdb.cleanNNonlyStockDB();
     }
 
     public int deleteAllLock() {
@@ -395,14 +399,5 @@ public class StockImp {
     }
 
 ///////////////////////////////////////////////    
-    public StringBuffer getInternetScreenPage(String url) {
-        StockInternetImpDao internet = new StockInternetImpDao();
-        return internet.getInternetYahooScreenPage(url);
-    }
-
-    public AFstockObj getRealTimeStockInternet(String NormalizeSymbol) {
-        StockInternetImpDao internet = new StockInternetImpDao();
-        return internet.GetRealTimeStockInternet(NormalizeSymbol);
-    }
 /////////////////////////////////////////////////
 }

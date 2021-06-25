@@ -13,7 +13,6 @@ import com.afweb.nn.*;
 
 import com.afweb.service.ServiceAFweb;
 
-
 import com.afweb.util.*;
 
 import com.afweb.util.TimeConvertion;
@@ -22,7 +21,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import java.util.Calendar;
-
 
 import java.util.logging.Logger;
 
@@ -206,11 +204,11 @@ public class TradingNNprocess {
 
                 String nnName = ConstantKey.TR_NN1;
                 String BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
-                serviceAFWeb.getStockImp().deleteNeuralNetDataByBPname(BPname);
+                serviceAFWeb.deleteNeuralNetDataByBPname(BPname);
 
                 nnName = ConstantKey.TR_NN2;
                 BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
-                serviceAFWeb.getStockImp().deleteNeuralNetDataByBPname(BPname);
+                serviceAFWeb.deleteNeuralNetDataByBPname(BPname);
             }
         }
         logger.info("> ClearStockNNData ..... Done");
@@ -292,7 +290,7 @@ public class TradingNNprocess {
                 AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
                     // clear the input Neural network
-                    serviceAFWeb.getStockImp().updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
+                    serviceAFWeb.updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
                 }
                 ServiceAFweb.AFSleep();
             }

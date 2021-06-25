@@ -11,8 +11,7 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockImp;
-import com.afweb.util.CKey;
-import com.afweb.util.TimeConvertion;
+import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.text.DateFormat;
@@ -95,7 +94,7 @@ public class StockService {
             return null;
         }
 
-        ArrayList stockList = serviceAFWeb.getStockImp().getStockObjArray(length);
+        ArrayList stockList = stockImp.getStockObjArray(length);
         return stockList;
     }
 

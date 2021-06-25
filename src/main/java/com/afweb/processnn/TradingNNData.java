@@ -32,7 +32,7 @@ public class TradingNNData {
         try {
             ArrayList<NNInputDataObj> inputlist = new ArrayList();
 
-            ArrayList<AFneuralNetData> objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0);
+            ArrayList<AFneuralNetData> objDataList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, 0);
             if (objDataList.size() > 300) {
                 // already saved
                 logger.info(">>>>>>>>>>>> saveNNBaseDataDB " + BPnameSym + " No Save. Already exist.");
@@ -52,7 +52,7 @@ public class TradingNNData {
 //                logger.info("> saveNNdataDB - " + sym + " " + inputlistSym.size());
                 for (int i = 0; i < inputlistSym.size(); i++) {
                     NNInputDataObj objData = inputlistSym.get(i);
-                    serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
+                    serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
                     added++;
 //                    ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
 //                    if ((objList == null) || (objList.size() == 0)) {
@@ -75,7 +75,7 @@ public class TradingNNData {
         ArrayList<AFneuralNetData> objDataList = new ArrayList();
         String BPnameSym = CKey.NN_version + "_" + nnName;
         try {
-            objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0);
+            objDataList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, 0);
             if (objDataList != null) {
                 logger.info("> getNNdataDB " + BPnameSym + " " + objDataList.size());
                 for (int i = 0; i < objDataList.size(); i++) {
@@ -118,7 +118,7 @@ public class TradingNNData {
         String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
         try {
             //order by desc 
-            objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, length);
+            objDataList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, length);
             if (objDataList != null) {
 //                logger.info("> getNNOtherDataDB " + BPnameSym + " " + objDataList.size());
                 for (int i = 0; i < objDataList.size(); i++) {

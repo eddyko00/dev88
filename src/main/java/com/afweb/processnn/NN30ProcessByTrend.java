@@ -14,10 +14,10 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
-import com.afweb.processnn.NNService;
+
 
 import com.afweb.service.*;
-import com.afweb.signal.*;
+
 import com.afweb.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -122,7 +122,7 @@ public class NN30ProcessByTrend {
                     afNeuralNet.setWeight(weightSt);
 
 //                    String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
-//                    serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
+//                    serviceAFWeb.setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
                     nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
 
                     logger.info(">>> NeuralNetProcessTesting " + BPname + " using NN30_WEIGHT_0");
@@ -141,7 +141,7 @@ public class NN30ProcessByTrend {
                             afNeuralNet.setWeight(weightSt);
 //
 //                            String refname = CKey.NN_version + "_" + ConstantKey.TR_NN200;
-//                            serviceAFWeb.getStockImp().setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
+//                            serviceAFWeb.setCreateNeuralNetObjSameObj1(BPname, refname, weightSt);
                             nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
                         }
                     }
@@ -554,13 +554,13 @@ public class NN30ProcessByTrend {
 //                            if (nnObj1 != null) {
 //                                if (nnObj1.getStatus() == ConstantKey.COMPLETED) {
 //                                    stockNNprocessNameArray.remove(0);
-//                                    serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
+//                                    serviceAFWeb.deleteNeuralNet1(BPnameSym);
 //
 ////                                    if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
 ////                                        /// need to create the table to reduce the memeory in DB
-////                                        serviceAFWeb.getStockImp().deleteNeuralNet1Table();
+////                                        serviceAFWeb.deleteNeuralNet1Table();
 ////                                    } else {
-////                                        serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
+////                                        serviceAFWeb.deleteNeuralNet1(BPnameSym);
 ////                                    }
 //                                }
 //                            }
@@ -607,13 +607,13 @@ public class NN30ProcessByTrend {
                         if (stockNNprocessNameArray != null) {
                             stockNNprocessNameArray.remove(0);
                         }
-                        serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
+                        serviceAFWeb.deleteNeuralNet1(BPnameSym);
 
 //                                    if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
 //                                        /// need to create the table to reduce the memeory in DB
-//                                        serviceAFWeb.getStockImp().deleteNeuralNet1Table();
+//                                        serviceAFWeb.deleteNeuralNet1Table();
 //                                    } else {
-//                                        serviceAFWeb.getStockImp().deleteNeuralNet1(BPnameSym);
+//                                        serviceAFWeb.deleteNeuralNet1(BPnameSym);
 //                                    }
                     }
                 }
@@ -769,9 +769,9 @@ public class NN30ProcessByTrend {
                         // save into db
                         // save into db
                         NNInputDataObj objData = inputlistSym.get(i);
-                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
+                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
-                            serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
+                            serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
                             totalAdd++;
                             continue;
                         }
@@ -817,16 +817,16 @@ public class NN30ProcessByTrend {
                 logger.info("> inputStockNeuralNetData v" + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  toAdd=" + totalAdd + " toDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();
-                int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObj1(BPnameSym, weightSt);
+                int ret = serviceAFWeb.setCreateNeuralNetObj1(BPnameSym, weightSt);
                 if (refData.getmError() != 0) {
                     logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getmError());
-                    serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refData);
+                    serviceAFWeb.updateNeuralNetRef1(BPnameSym, refData);
                 }
 //                if (refName != null) {
 //                    if (refName.length() > 0) {
 //
 //                        logger.info("> inputStockNeuralNetData  " + BPnameSym + " refError " + refName);
-//                        serviceAFWeb.getStockImp().updateNeuralNetRef1(BPnameSym, refName);
+//                        serviceAFWeb.updateNeuralNetRef1(BPnameSym, refName);
 //                    }
 //                }
 //                logger.info("> inputStockNeuralNet " + BPnameSym + " inputlist=" + inputlist.size() + " ...Done");
@@ -1066,7 +1066,7 @@ public class NN30ProcessByTrend {
             if (BPnameTR.equals(BPnameSym)) {
                 ;
             } else {
-                objDataList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0);
+                objDataList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, 0);
                 if (objDataList != null) {
                     logger.info("> TRtrainingNNNeuralNetProcess " + BPnameSym + " " + inputlist.size() + " " + objDataList.size());
                     for (int i = 0; i < objDataList.size(); i++) {

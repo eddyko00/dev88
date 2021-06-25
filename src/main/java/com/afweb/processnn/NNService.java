@@ -92,6 +92,74 @@ public class NNService {
         return null;
     }
 
+///////////////////////////    
+    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
+        return stockImp.getNeuralNetDataObj(name, length);
+    }
+
+    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int stockId, long updatedatel) {
+        return stockImp.getNeuralNetDataObj(name, stockId, updatedatel);
+    }
+
+    public int deleteNeuralNetDataByBPname(String name) {
+//        logger.info(">>>>>>>>> deleteNeuralNetDataByBPname " + name);
+//        logger.info(">>>>>>>>> deleteNeuralNetDataByBPname " + name);
+        return stockImp.deleteNeuralNetData(name);
+    }
+
+    public int insertNeuralNetDataObject(AFneuralNetData neuralNetData) {
+        return stockImp.insertNeuralNetDataObject(neuralNetData);
+    }
+
+    private int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
+        return stockImp.insertNeuralNetDataObject(name, stockId, data, updatedatel);
+    }
+
+    public int updateNeuralNetStatus0(String name, int status, int type) {
+        return stockImp.updateNeuralNetStatus0(name, status, type);
+    }
+
+    public int deleteNeuralNet0Table() {
+        return stockImp.deleteNeuralNet1Table();
+    }
+
+    public int deleteNeuralNet1Table() {
+        return stockImp.deleteNeuralNet1Table();
+    }
+
+    public int deleteNeuralNet0Rel(String name) {
+        return stockImp.deleteNeuralNet0Rel(name);
+    }
+
+    public int deleteNeuralNet1(String name) {
+        return stockImp.deleteNeuralNet1(name);
+    }
+
+    public int deleteNeuralNetDataTable() {
+        return stockImp.deleteNeuralNetDataTable();
+    }
+
+    public int updateNeuralNetStatus1(String name, int status, int type) {
+        return stockImp.updateNeuralNetStatus1(name, status, type);
+    }
+
+    public int updateNeuralNetDataObject(String name, int stockId, NNInputDataObj objData) {
+        return stockImp.updateNeuralNetDataObject(name, stockId, objData);
+    }
+
+    public int updateNeuralNetRef0(String name, ReferNameData refnameData) {
+        return stockImp.updateNeuralNetRef0(name, refnameData);
+    }
+
+    public int setCreateNeuralNetObj1(String name, String weight) {
+        return stockImp.setCreateNeuralNetObj1(name, weight);
+    }
+    public int updateNeuralNetRef1(String name, ReferNameData refnameData) {
+        return stockImp.updateNeuralNetRef1(name, refnameData);
+    }
+    public int deleteNeuralNetDataObjById(int id) {
+        return stockImp.deleteNeuralNetDataObjById(id);
+    }    
     //////////////////////////////////////////
     public String SystemClearNNinput(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -105,7 +173,7 @@ public class NNService {
 
     public boolean SystemDeleteNN1Table(ServiceAFweb serviceAFWeb) {
         logger.info(">SystemDeleteNN1Table start ");
-        serviceAFWeb.getStockImp().deleteNeuralNet1Table();
+        stockImp.deleteNeuralNet1Table();
         logger.info(">SystemDeleteNN1Table end ");
         return true;
     }
@@ -147,21 +215,21 @@ public class NNService {
             return 0;
         }
 //        return getStockImp().releaseNeuralNetObj(name);
-        return serviceAFWeb.getStockImp().releaseNeuralNetBPObj(name);
+        return stockImp.releaseNeuralNetBPObj(name);
     }
 
     public AFneuralNet getNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, String name, int type) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        return serviceAFWeb.getStockImp().getNeuralNetObjWeight0(name);
+        return stockImp.getNeuralNetObjWeight0(name);
     }
 
     public AFneuralNet getNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, String name, int type) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        return serviceAFWeb.getStockImp().getNeuralNetObjWeight1(name);
+        return stockImp.getNeuralNetObjWeight1(name);
     }
 
     public int setNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, AFneuralNet nn) {
@@ -171,7 +239,7 @@ public class NNService {
         // assume only 1 of the weight is set and the other are empty
         // assume only 1 of the weight is set and the other are empty
 
-        int ret = serviceAFWeb.getStockImp().setCreateNeuralNetObjRef0(nn.getName(), nn.getWeight(), nn.getRefname());
+        int ret = stockImp.setCreateNeuralNetObjRef0(nn.getName(), nn.getWeight(), nn.getRefname());
         return ret;
     }
 
@@ -182,7 +250,7 @@ public class NNService {
 
         // assume only 1 of the weight is set and the other are empty
         // assume only 1 of the weight is set and the other are empty
-        return serviceAFWeb.getStockImp().setCreateNeuralNetObj1(nn.getName(), nn.getWeight());
+        return stockImp.setCreateNeuralNetObj1(nn.getName(), nn.getWeight());
     }
 ////////////////////////////////////////////////////////////
     public static int cntNN = 0;
@@ -552,7 +620,7 @@ public class NNService {
         logger.info("> removeNeuralNetDataAllNNSymbolByTR Reset input.." + TRname);
 
         String BPname = CKey.NN_version + "_" + TRname;
-        serviceAFWeb.getStockImp().deleteNeuralNetDataByBPname(BPname);
+        stockImp.deleteNeuralNetDataByBPname(BPname);
 
         return removeNeuralNetDataSymbolListByTR(serviceAFWeb, TRname);
     }
@@ -572,7 +640,7 @@ public class NNService {
                 String symbol = (String) stockNameArray.get(i);
 
                 String BPnameSym = CKey.NN_version + "_" + TRname + "_" + symbol;
-                serviceAFWeb.getStockImp().deleteNeuralNetDataByBPname(BPnameSym);
+                stockImp.deleteNeuralNetDataByBPname(BPnameSym);
             }
         }
 

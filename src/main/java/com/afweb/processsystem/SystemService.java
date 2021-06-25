@@ -11,20 +11,15 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.stock.StockImp;
+import com.afweb.stockinternet.StockInternetImpDao;
 
 import com.afweb.util.CKey;
 import com.afweb.util.TimeConvertion;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -139,6 +134,30 @@ public class SystemService {
         return -1;  // DB error
     }
 
+    public boolean cleanStockDB() {
+        return stockImp.cleanStockDB();
+    }
+
+    public boolean restStockDB() {
+        return stockImp.restStockDB();
+    }
+
+    public boolean cleanNNonlyStockDB() {
+        return stockImp.cleanNNonlyStockDB();
+    }
+
+    public int deleteAllLock() {
+        return stockImp.deleteAllLock();
+    }
+
+    public int updateRemoteMYSQL(String sql) {
+        return stockImp.updateRemoteMYSQL(sql);
+    }
+
+    public String getRemoteMYSQL(String sql) {
+        return stockImp.getRemoteMYSQL(sql);
+    }
+
     public ArrayList getAllNameSQL(String sql) {
         return stockImp.getAllNameSQL(sql);
     }
@@ -198,4 +217,22 @@ public class SystemService {
         return stockImp.removeLock(name, type);
     }
 //////////////////////////////////////////    
+
+    public ArrayList getAllRemoveStockNameList(int length) {
+        return stockImp.getAllRemoveStockNameList(length);
+    }
+
+    public ArrayList getAllDisableStockNameList(int length) {
+        return stockImp.getAllDisableStockNameList(length);
+    }
+    public StringBuffer getInternetScreenPage(String url) {
+        StockInternetImpDao internet = new StockInternetImpDao();
+        return internet.getInternetYahooScreenPage(url);
+    }
+
+    public AFstockObj getRealTimeStockInternet(String NormalizeSymbol) {
+        StockInternetImpDao internet = new StockInternetImpDao();
+        return internet.GetRealTimeStockInternet(NormalizeSymbol);
+    }
+//////////////////////////////////////////////    
 }
