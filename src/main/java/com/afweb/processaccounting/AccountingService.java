@@ -5,7 +5,6 @@
  */
 package com.afweb.processaccounting;
 
-
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 
@@ -27,6 +26,7 @@ import java.util.logging.Logger;
 public class AccountingService {
 
     protected static Logger logger = Logger.getLogger("AccountingService");
+    private AccountingProcess accounting = new AccountingProcess();
 
     public int updateAccountingEntryPaymentBalance(ServiceAFweb serviceAFWeb, String customername, String paymentSt, String balanceSt,
             String reasonSt, String rateSt, String yearSt, String commentSt) {
@@ -87,9 +87,9 @@ public class AccountingService {
                         }
                     }
                     if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
-                        ret = serviceAFWeb.getAccounting().addTransferWithDrawRevenueTax(serviceAFWeb, customer, payment, year, entryName + " " + commSt);
+                        ret = accounting.addTransferWithDrawRevenueTax(serviceAFWeb, customer, payment, year, entryName + " " + commSt);
                     } else {
-                        ret = serviceAFWeb.getAccounting().addTransferExpenseTax(serviceAFWeb, customer, payment, rate, year, commSt);
+                        ret = accounting.addTransferExpenseTax(serviceAFWeb, customer, payment, rate, year, commSt);
                     }
                 }
             }
@@ -123,7 +123,7 @@ public class AccountingService {
                             }
                         }
                     }
-                    ret = serviceAFWeb.getAccounting().addTransferRevenueTax(serviceAFWeb, customer, balance, year, commSt);
+                    ret = accounting.addTransferRevenueTax(serviceAFWeb, customer, balance, year, commSt);
 
                 }
             }
@@ -196,7 +196,7 @@ public class AccountingService {
                             }
                         }
                     }
-                    ret = serviceAFWeb.getAccounting().addTransferPayTax(serviceAFWeb, customer, payment, commSt);
+                    ret = accounting.addTransferPayTax(serviceAFWeb, customer, payment, commSt);
 
                 }
             }
@@ -270,7 +270,7 @@ public class AccountingService {
                             }
                         }
                     }
-                    ret = serviceAFWeb.getAccounting().addTransferCash(serviceAFWeb, customer, payment, year, commSt);
+                    ret = accounting.addTransferCash(serviceAFWeb, customer, payment, year, commSt);
 
                 }
             }
@@ -344,7 +344,7 @@ public class AccountingService {
                             }
                         }
                     }
-                    ret = serviceAFWeb.getAccounting().addTransferEarning(serviceAFWeb, customer, payment, year, commSt);
+                    ret = accounting.addTransferEarning(serviceAFWeb, customer, payment, year, commSt);
 
                 }
             }
@@ -444,7 +444,7 @@ public class AccountingService {
                 }
             }
 
-            return serviceAFWeb.getAccounting().closingYearEnd(serviceAFWeb, customer, year);
+            return accounting.closingYearEnd(serviceAFWeb, customer, year);
 
         } catch (Exception e) {
         }
@@ -497,7 +497,7 @@ public class AccountingService {
                             }
                         }
                     }
-                    ret = serviceAFWeb.getAccounting().addTransferDepreciation(serviceAFWeb, customer, payment, rate, commSt);
+                    ret = accounting.addTransferDepreciation(serviceAFWeb, customer, payment, rate, commSt);
                     ret = 1;
                 }
             }
@@ -571,7 +571,7 @@ public class AccountingService {
                             }
                         }
                     }
-                    ret = serviceAFWeb.getAccounting().addTransferUtilityExpense(serviceAFWeb, customer, payment, year, commSt);
+                    ret = accounting.addTransferUtilityExpense(serviceAFWeb, customer, payment, year, commSt);
 
                     ret = 1;
                 }
@@ -614,7 +614,7 @@ public class AccountingService {
 
                     if (name != null) {
                         if (name.length() > 0) {
-                            AccReportObj accReport = serviceAFWeb.getAccounting().getAccountReportYearByName(serviceAFWeb, name, year);
+                            AccReportObj accReport = accounting.getAccountReportYearByName(serviceAFWeb, name, year);
                             return accReport;
                         }
                     }
@@ -655,7 +655,7 @@ public class AccountingService {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
                     int id = Integer.parseInt(idSt);
 
-                    AccEntryObj accEntry = serviceAFWeb.getAccounting().getAccountingEntryById(serviceAFWeb, id);
+                    AccEntryObj accEntry = accounting.getAccountingEntryById(serviceAFWeb, id);
                     return accEntry;
                 }
             }
@@ -676,7 +676,7 @@ public class AccountingService {
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
                     int id = Integer.parseInt(idSt);
-                    return serviceAFWeb.getAccounting().removeAccountingEntryById(serviceAFWeb, id);
+                    return accounting.removeAccountingEntryById(serviceAFWeb, id);
 
                 }
             }
@@ -684,6 +684,5 @@ public class AccountingService {
         }
         return 0;
     }
-
 
 }

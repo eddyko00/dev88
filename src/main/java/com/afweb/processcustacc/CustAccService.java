@@ -1743,13 +1743,13 @@ public class CustAccService {
                                     }
                                 }
                             }
-
+                            AccountingProcess accounting =  new AccountingProcess();
                             if (entryName.equals(AccountingProcess.E_USER_WITHDRAWAL)) {
                                 // UI will set payment to negative 
                                 float withdraw = -balance;
-                                int ret = serviceAFWeb.getAccounting().addTransferWithDrawRevenueTax(serviceAFWeb, customer, withdraw, year, entryName + " " + emailSt);
+                                int ret = accounting.addTransferWithDrawRevenueTax(serviceAFWeb, customer, withdraw, year, entryName + " " + emailSt);
                             } else if (entryName.equals(AccountingProcess.R_USER_PAYMENT)) {
-                                int ret = serviceAFWeb.getAccounting().addTransferRevenueTax(serviceAFWeb, customer, balance, year, emailSt);
+                                int ret = accounting.addTransferRevenueTax(serviceAFWeb, customer, balance, year, emailSt);
                             }
                         }
                     }

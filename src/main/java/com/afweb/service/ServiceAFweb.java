@@ -91,7 +91,7 @@ public class ServiceAFweb {
 
     private AccountImp accountImp = new AccountImp();
 //    private AccountTranProcess accountProcessImp = new AccountTranProcess();
-    private AccountingProcess accounting = new AccountingProcess();
+//    private AccountingProcess accounting = new AccountingProcess();
 
     public static String PROXYURL = "";
     public static String URL_LOCALDB = "";
@@ -3421,18 +3421,18 @@ public class ServiceAFweb {
         return null;
     }
 
-    /**
-     * @return the accounting
-     */
-    public AccountingProcess getAccounting() {
-        return accounting;
-    }
-
-    /**
-     * @param accounting the accounting to set
-     */
-    public void setAccounting(AccountingProcess accounting) {
-        this.accounting = accounting;
-    }
+//    /**
+//     * @return the accounting
+//     */
+//    public AccountingProcess getAccounting() {
+//        return accounting;
+//    }
+//
+//    /**
+//     * @param accounting the accounting to set
+//     */
+//    public void setAccounting(AccountingProcess accounting) {
+//        this.accounting = accounting;
+//    }
 
 }
