@@ -95,9 +95,6 @@ public class AccountImp {
         return accountdb.getAllPerformanceDBSQL(sql);
     }
 
-    public String getAllSQLquery(String sql) {
-        return accountdb.getAllSQLqueryDBSQL(sql);
-    }
 
     public ArrayList<String> getCustomerNList(int length) {
         return accountdb.getCustomerNList(0);

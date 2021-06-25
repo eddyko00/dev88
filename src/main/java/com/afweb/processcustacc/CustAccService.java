@@ -68,6 +68,7 @@ public class CustAccService {
                     nameST = accountImp.getAllCustomerDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
+                    
                 case ServiceAFweb.AllAccount:
                     nameST = accountImp.getAllAccountDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
@@ -83,11 +84,6 @@ public class CustAccService {
 
                 case ServiceAFweb.AllTransationorder: //AllTransationorder = 12; //"12";
                     nameST = accountImp.getAllTransationOrderDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-
-                case ServiceAFweb.AllSQLquery: //AllSQLreq = 14; //"14";  
-                    nameST = accountImp.getAllSQLquery(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
 

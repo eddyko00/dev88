@@ -1281,6 +1281,25 @@ public class StockDB {
         return null;
     }
 
+    public String getAllSQLqueryDBSQL(String sql) {
+        try {
+            List retList = null;
+            if (ServiceAFweb.checkCallRemoteMysql() == true) {
+                String retST = remoteDB.getAllSQLqueryRemoteDB_RemoteMysql(sql);
+                return retST;
+            }
+
+            retList = this.jdbcTemplate.queryForList(sql);
+            String retST = new ObjectMapper().writeValueAsString(retList);
+            return retST;
+
+        } catch (Exception e) {
+            logger.info("> getAccountStockPerfromanceList " + e.getMessage());
+
+        }
+        return null;
+    }
+
     public ArrayList getAllNameSQL(String sql) {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
             ArrayList nnList;

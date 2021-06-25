@@ -66,6 +66,10 @@ public class SystemService {
                     sqlObj.setResp(nameST);
                     return sqlObj;
 
+                case ServiceAFweb.AllSQLquery: //AllSQLreq = 14; //"14";  
+                    nameST = stockImp.getAllSQLquery(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
 ////////////////////////////////////////////////////////                    
                 case ServiceAFweb.RemoteGetMySQL:  //RemoteGetMySQL = 9; //"9"; 
                     st = sqlObj.getReq();

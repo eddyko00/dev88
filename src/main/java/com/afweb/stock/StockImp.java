@@ -364,6 +364,10 @@ public class StockImp {
         return stockdb.initStockDB();
     }
 
+    public String getAllSQLquery(String sql) {
+        return stockdb.getAllSQLqueryDBSQL(sql);
+    }
+
     public ArrayList getAllNameSQL(String sql) {
         return stockdb.getAllNameSQL(sql);
     }
