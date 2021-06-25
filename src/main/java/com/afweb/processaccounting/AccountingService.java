@@ -5,6 +5,7 @@
  */
 package com.afweb.processaccounting;
 
+import com.afweb.account.AccountImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 
@@ -27,7 +28,8 @@ public class AccountingService {
 
     protected static Logger logger = Logger.getLogger("AccountingService");
     private AccountingProcess accounting = new AccountingProcess();
-
+    AccountImp accountImp = new AccountImp();
+    
     public int updateAccountingEntryPaymentBalance(ServiceAFweb serviceAFWeb, String customername, String paymentSt, String balanceSt,
             String reasonSt, String rateSt, String yearSt, String commentSt) {
         ServiceAFweb.lastfun = "updateAccountingPaymentBalance";
@@ -39,7 +41,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = accountImp.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -139,7 +141,7 @@ public class AccountingService {
                 String msg = ESTtime + " " + commSt;
 
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-                serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+                accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
             return ret;
@@ -160,7 +162,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = accountImp.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -213,7 +215,7 @@ public class AccountingService {
                 String msg = ESTtime + " " + commSt;
 
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-                serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+                accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
             return ret;
@@ -234,7 +236,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = accountImp.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -287,7 +289,7 @@ public class AccountingService {
                 String msg = ESTtime + " " + commSt;
 
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-                serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+                accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
             return ret;
@@ -308,7 +310,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = accountImp.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -361,7 +363,7 @@ public class AccountingService {
                 String msg = ESTtime + " " + commSt;
 
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-                serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+                accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
             return ret;
@@ -382,7 +384,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = accountImp.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -396,7 +398,7 @@ public class AccountingService {
                 }
             }
             if (year == -99) {
-                return serviceAFWeb.getAccountImp().removeAccountingAll();
+                return accountImp.removeAccountingAll();
             }
 
             int newYear = 0;
@@ -414,7 +416,7 @@ public class AccountingService {
             }
 
             EndingYear = TimeConvertion.addDays(EndingYear, -1);
-            return serviceAFWeb.getAccountImp().removeAccounting(BeginingYear, EndingYear);
+            return accountImp.removeAccounting(BeginingYear, EndingYear);
         } catch (Exception e) {
         }
         return 0;
@@ -430,7 +432,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = accountImp.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -461,7 +463,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = accountImp.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -514,7 +516,7 @@ public class AccountingService {
                 String msg = ESTtime + " " + commSt;
 
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-                serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+                accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
             return ret;
@@ -535,7 +537,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = accountImp.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -589,7 +591,7 @@ public class AccountingService {
                 String msg = ESTtime + " " + commSt;
 
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-                serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
+                accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
             return ret;

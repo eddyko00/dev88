@@ -224,7 +224,7 @@ public class AccountTranImp {
         if (flag == true) {
             // get trading account. Follow the signal from the trading account
             AccountObj accTrading = null;
-            ArrayList<AccountObj> accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accFundObj.getCustomerid());
+            ArrayList<AccountObj> accountList = serviceAFWeb.getAccountListByCustomerId(accFundObj.getCustomerid());
             if (accountList != null) {
                 for (int i = 0; i < accountList.size(); i++) {
                     AccountObj acc = accountList.get(i);
@@ -370,7 +370,7 @@ public class AccountTranImp {
                 if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                     if (trObj.getStatus() == ConstantKey.PENDING) {
                         // delete stock
-                        serviceAFWeb.getAccountImp().removeAccountStock(accountObj, trObj.getStockid());
+                        serviceAFWeb.removeAccountStock(accountObj, trObj.getStockid());
                     }
                 }
             }

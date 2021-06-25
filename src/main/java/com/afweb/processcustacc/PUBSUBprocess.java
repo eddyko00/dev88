@@ -5,6 +5,7 @@
  */
 package com.afweb.processcustacc;
 
+import com.afweb.account.AccountImp;
 import com.afweb.account.CommMsgImp;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
@@ -24,7 +25,7 @@ import java.util.logging.Logger;
 public class PUBSUBprocess {
 
     protected static Logger logger = Logger.getLogger("PUBSUBprocess");
-
+    AccountImp accountImp = new AccountImp();
     private static ArrayList<CommObj> accountCommArray = new ArrayList();
 
     public void ProcessPUBSUBAccount(ServiceAFweb serviceAFWeb) {
@@ -38,7 +39,7 @@ public class PUBSUBprocess {
             accountCommArray = new ArrayList();
         }
         if (accountCommArray.size() == 0) {
-            ArrayList<CommObj> comObjList = serviceAFWeb.getAccountImp().getCommPubByCustomer(CKey.ADMIN_USERNAME, null, 50);
+            ArrayList<CommObj> comObjList = accountImp.getCommPubByCustomer(CKey.ADMIN_USERNAME, null, 50);
             if (comObjList == null) {
                 return;
             }
@@ -70,13 +71,13 @@ public class PUBSUBprocess {
                         continue;
                     }
                     int accountId = comObj.getAccountid();
-                    AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
+                    AccountObj accountObj = accountImp.getAccountObjByAccountID(accountId);
                     if (accountObj != null) {
                         if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                             int ret = SendPUBSUBTradingAccount(serviceAFWeb, accountObj, comObj);
                         }
                     }
-                    serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
+                    accountImp.removeCommByCommID(comObj.getId());
                 } catch (Exception e) {
                     logger.info("> ProcessPUBSUBAccount Exception " + e.getMessage());
                 }
@@ -90,13 +91,13 @@ public class PUBSUBprocess {
     public int SendPUBSUBTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accFundObj, CommObj comObj) {
         ServiceAFweb.lastfun = "SendPUBSUBTradingAccount";
         String fundName = "#fund" + accFundObj.getId() + "#";
-        ArrayList<CustomerObj> custObjList = serviceAFWeb.getAccountImp().getCustomerFundPortfolio(fundName, 0);
+        ArrayList<CustomerObj> custObjList = accountImp.getCustomerFundPortfolio(fundName, 0);
         if (custObjList == null) {
             return 0;
         }
         for (int i = 0; i < custObjList.size(); i++) {
             CustomerObj custObj = custObjList.get(i);
-            ArrayList<AccountObj> accObjList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(custObj.getId());
+            ArrayList<AccountObj> accObjList = accountImp.getAccountListByCustomerId(custObj.getId());
             if (accObjList == null) {
                 continue;
             }

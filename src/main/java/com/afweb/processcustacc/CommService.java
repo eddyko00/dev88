@@ -6,6 +6,7 @@
 package com.afweb.processcustacc;
 
 
+import com.afweb.account.AccountImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 
@@ -25,7 +26,8 @@ import java.util.logging.Logger;
 public class CommService {
 
     protected static Logger logger = Logger.getLogger("CommService");
-
+    AccountImp accountImp = new AccountImp();
+    
     public int addCommByCustAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String data) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -35,7 +37,7 @@ public class CommService {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return serviceAFWeb.getAccountImp().addCommByCustomerAccountID(UserName, Password, accountid, data);
+            return accountImp.addCommByCustomerAccountID(UserName, Password, accountid, data);
         } catch (Exception e) {
         }
         return 0;
@@ -50,7 +52,7 @@ public class CommService {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return serviceAFWeb.getAccountImp().getCommSignalSplitByCustomerAccountID(UserName, Password, accountid, length);
+            return accountImp.getCommSignalSplitByCustomerAccountID(UserName, Password, accountid, length);
         } catch (Exception e) {
         }
         return null;
@@ -67,7 +69,7 @@ public class CommService {
         try {
             int accountid = Integer.parseInt(AccountIDSt);
             int id = Integer.parseInt(IDSt);
-            return serviceAFWeb.getAccountImp().removeAccountCommByID(UserName, Password, accountid, id);
+            return accountImp.removeAccountCommByID(UserName, Password, accountid, id);
         } catch (Exception e) {
         }
         return 0;
@@ -82,7 +84,7 @@ public class CommService {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return serviceAFWeb.getAccountImp().removeCommByCustomerAccountIDType(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_SIGNAL);
+            return accountImp.removeCommByCustomerAccountIDType(UserName, Password, accountid, ConstantKey.INT_TYPE_COM_SIGNAL);
         } catch (Exception e) {
         }
         return 0;
@@ -95,7 +97,7 @@ public class CommService {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long last1monthbefore = TimeConvertion.addMonths(dateNow.getTimeInMillis(), -1); // last 1 month before
 
-        serviceAFWeb.getAccountImp().removeCommByTimebefore(last1monthbefore, ConstantKey.INT_TYPE_COM_SIGNAL);
+        accountImp.removeCommByTimebefore(last1monthbefore, ConstantKey.INT_TYPE_COM_SIGNAL);
         return 1;
 
     }

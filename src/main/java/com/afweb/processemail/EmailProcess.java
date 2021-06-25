@@ -5,6 +5,7 @@
  */
 package com.afweb.processemail;
 
+import com.afweb.account.AccountImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 
@@ -26,7 +27,8 @@ public class EmailProcess {
     protected static Logger logger = Logger.getLogger("EmailProcess");
 
     private static ArrayList accountNameArray = new ArrayList();
-
+    AccountImp accountImp = new AccountImp();
+    
     public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {
        ServiceAFweb.lastfun = "ProcessEmailAccount";   
         logger.info("> ProcessEmailAccount ");
@@ -68,7 +70,7 @@ public class EmailProcess {
                     String accountIdSt = (String) accountNameArray.get(0);
 
                     int accountId = Integer.parseInt(accountIdSt);
-                    AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
+                    AccountObj accountObj = accountImp.getAccountObjByAccountID(accountId);
                     if (accountObj != null) {
                         if (accountObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
                             int ret = SendEmailTradingAccount(serviceAFWeb, accountObj);
@@ -96,7 +98,7 @@ public class EmailProcess {
     public int SendEmailTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
        ServiceAFweb.lastfun = "SendEmailTradingAccount";   
         
-        CustomerObj cust = serviceAFWeb.getAccountImp().getCustomerByAccount(accObj);
+        CustomerObj cust = serviceAFWeb.getCustomerByAccount(accObj);
         String emailAddr = cust.getEmail();
         if ((emailAddr != null) && (emailAddr.length() > 0)) {
             if (validate(emailAddr) == false) {
@@ -113,7 +115,7 @@ public class EmailProcess {
         }
 
         if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-            ArrayList<CommObj> commList = serviceAFWeb.getAccountImp().getComObjByAccoutType(accObj.getId(),
+            ArrayList<CommObj> commList = accountImp.getComObjByAccoutType(accObj.getId(),
                     ConstantKey.INT_TYPE_COM_EMAIL, 0);
             if (commList != null) {
                 if (commList.size() > 0) {
@@ -134,7 +136,7 @@ public class EmailProcess {
                                     logger.info("> EmailTradingAccount Acc id:" + accObj.getId() + ", com id:" + comObj.getId() + " " + emailAddr + " size " + commList.size());
                                 }
                                 // remove comObj;
-                                serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
+                                accountImp.removeCommByCommID(comObj.getId());
                                 return 1; // successful
                             }
                             return 1;
@@ -145,11 +147,11 @@ public class EmailProcess {
                         int subSt = comObj.getSubstatus();
                         if (subSt > 4) {
                             // delete email after 4 retry
-                            serviceAFWeb.getAccountImp().removeCommByCommID(comObj.getId());
+                            accountImp.removeCommByCommID(comObj.getId());
                             return 2; // error                            
                         }
                         comObj.setSubstatus(subSt + 1);
-                        serviceAFWeb.getAccountImp().updateAccountCommSubStatusById(comObj);
+                        accountImp.updateAccountCommSubStatusById(comObj);
                         return 2;
                     }
                 }

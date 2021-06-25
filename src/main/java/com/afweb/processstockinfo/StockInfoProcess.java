@@ -297,7 +297,7 @@ public class StockInfoProcess {
             if (stock != null) {
                 stock.setTrname(trname);
                 AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-                ArrayList<TradingRuleObj> trObjList = serviceAFWeb.getAccountImp().getAccountStockTRListByAccountID(accountAdminObj.getId(), stock.getId());
+                ArrayList<TradingRuleObj> trObjList = serviceAFWeb.getAccountStockTRListByAccIdStockId(accountAdminObj.getId(), stock.getId());
                 if (trObjList != null) {
                     if (trObjList.size() != 0) {
 

@@ -104,7 +104,7 @@ public class AccountImp {
         return accountdb.getCustomerNameList(name);
     }
 
-    public CustomerObj getCustomerByAccoutObj(AccountObj accObj) {
+    public CustomerObj getCustomerByAccObj(AccountObj accObj) {
         if (accObj == null) {
             return null;
         }
@@ -168,14 +168,14 @@ public class AccountImp {
         return customerList;
     }
 
-    public CustomerObj getCustomerByAccount(AccountObj accountObj) {
-
-        CustomerObj customer = accountdb.getCustomerByAccount(accountObj);
-        if (customer != null) {
-            return customer;
-        }
-        return null;
-    }
+//    public CustomerObj getCustomerByAccount(AccountObj accountObj) {
+//
+//        CustomerObj customer = accountdb.getCustomerByAccount(accountObj);
+//        if (customer != null) {
+//            return customer;
+//        }
+//        return null;
+//    }
 
     public CustomerObj getCustomerPasswordNull(String UserName) {
 //        logger.info("> getCustomerPassword  " + UserName);
@@ -779,7 +779,7 @@ public class AccountImp {
         return accountdb.checkTRListByStockID(StockID);
     }
 
-    public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(int accountId, int stockId) {
+    public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdStockId(int accountId, int stockId) {
         return accountdb.getAccountStockTRListByStockIDTRname(accountId + "", stockId + "", null, 0);
     }
 
@@ -813,7 +813,7 @@ public class AccountImp {
     public int addAccountStockId(AccountObj accountObj, int StockID, ArrayList TRList) {
 
         if (accountObj != null) {
-            CustomerObj cust = getCustomerByAccount(accountObj);
+            CustomerObj cust = getCustomerByAccObj(accountObj);
             int cSubTypePlan = cust.getSubstatus();
 
             if (accountObj.getType() != AccountObj.INT_ADMIN_ACCOUNT) {
@@ -887,7 +887,7 @@ public class AccountImp {
 
     public int removeAccountStock(AccountObj accountObj, int StockID) {
         if (accountObj != null) {
-            ArrayList<TradingRuleObj> tradingRuleList = getAccountStockTRListByAccountID(accountObj.getId(), StockID);
+            ArrayList<TradingRuleObj> tradingRuleList = getAccountStockTRListByAccIdStockId(accountObj.getId(), StockID);
             if (tradingRuleList != null) {
                 for (int i = 0; i < tradingRuleList.size(); i++) {
                     TradingRuleObj tradingRuleObj = tradingRuleList.get(i);

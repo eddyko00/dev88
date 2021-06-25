@@ -144,7 +144,7 @@ public class FundMgrProcess {
                     String accountIdSt = (String) accountFundIdNameArray.get(0);
                     accountFundIdNameArray.remove(0);
                     int accountId = Integer.parseInt(accountIdSt);
-                    AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
+                    AccountObj accountObj = accountImp.getAccountObjByAccountID(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         updateMutualFundBestStock(serviceAFWeb, accountObj);
                         numProc++;
@@ -172,12 +172,12 @@ public class FundMgrProcess {
             fundMgr = new FundM();
             try {
                 String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
-                serviceAFWeb.getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                accountImp.updateAccountPortfolio(accountObj.getAccountname(), portfStr);
             } catch (JsonProcessingException ex) {
             }
         }
 
-        ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
+        ArrayList accountList = accountImp.getAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
             return 0;
         }
@@ -211,7 +211,7 @@ public class FundMgrProcess {
 
                     String trName = ConstantKey.TR_ACC;
                     AFstockObj stock = serviceAFWeb.getStockBySymServ(stockN);
-                    TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), trName);
+                    TradingRuleObj trObj = accountImp.getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), trName);
 
                     float close = stock.getAfstockInfo().getFclose();
                     float deltaTotal = 0;

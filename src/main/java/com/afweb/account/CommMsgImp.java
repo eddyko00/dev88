@@ -21,10 +21,11 @@ import java.util.logging.Logger;
 public class CommMsgImp {
 
     protected static Logger logger = Logger.getLogger("CommMsgImp");
-
+    AccountImp accountImp = new AccountImp();
+    
     public int AddCommObjMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, int type, CommData commDataObj) {
         try {
-            return serviceAFWeb.getAccountImp().addAccountCommMessage(accountObj, name, type, commDataObj);
+            return accountImp.addAccountCommMessage(accountObj, name, type, commDataObj);
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
         }
@@ -34,7 +35,7 @@ public class CommMsgImp {
     public int AddCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, String name, String messageData) {
         try {
             logger.info("> AddCommMessage  " + accountObj.getAccountname() + " " + messageData);
-            return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, name, messageData);
+            return accountImp.addAccountMessage(accountObj, name, messageData);
 
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
@@ -53,7 +54,7 @@ public class CommMsgImp {
             messageData = messageData.replaceAll("\"", "#");
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
                 logger.info("> AddCommMessage  " + accountObj.getAccountname() + " " + messageData);
-                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
+                return accountImp.addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
             }
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
@@ -65,7 +66,7 @@ public class CommMsgImp {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
                 logger.info("> AddCommMessage  " + accountObj.getAccountname() + " " + messageData);
-                return serviceAFWeb.getAccountImp().addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
+                return accountImp.addAccountMessage(accountObj, ConstantKey.COM_SIGNAL, messageData);
             }
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());
@@ -76,7 +77,7 @@ public class CommMsgImp {
     public int AddEmailBillingCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
-                return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_BILLMSG, messageData);
+                return accountImp.addAccountEmailMessage(accountObj, ConstantKey.COM_BILLMSG, messageData);
             }
         } catch (Exception e) {
             logger.info("> AddEmailBillingCommMessage exception " + e.getMessage());
@@ -87,7 +88,7 @@ public class CommMsgImp {
     public int AddEmailCommMessage(ServiceAFweb serviceAFWeb, AccountObj accountObj, TradingRuleObj tr, String messageData) {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
-                return serviceAFWeb.getAccountImp().addAccountEmailMessage(accountObj, ConstantKey.COM_EMAIL, messageData);
+                return accountImp.addAccountEmailMessage(accountObj, ConstantKey.COM_EMAIL, messageData);
             }
         } catch (Exception e) {
             logger.info("> AddEmailCommMessage exception " + e.getMessage());
@@ -98,7 +99,7 @@ public class CommMsgImp {
     public int AddCommPUBSUBMessage(ServiceAFweb serviceAFWeb, AccountObj accFundObj, TradingRuleObj tr, String messageData) {
         try {
             if (tr.getType() == ConstantKey.INT_TR_ACC) {
-                return serviceAFWeb.getAccountImp().addAccountPUBSUBMessage(accFundObj, ConstantKey.COM_PUB, messageData);
+                return accountImp.addAccountPUBSUBMessage(accFundObj, ConstantKey.COM_PUB, messageData);
             }
         } catch (Exception e) {
             logger.info("> AddCommMessage exception " + e.getMessage());

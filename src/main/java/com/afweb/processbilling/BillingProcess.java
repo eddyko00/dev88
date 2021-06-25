@@ -5,6 +5,7 @@
  */
 package com.afweb.processbilling;
 
+import com.afweb.account.AccountImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.service.*;
@@ -37,12 +38,13 @@ public class BillingProcess {
 
     protected static Logger logger = Logger.getLogger("BillingProcess");
     private static ArrayList custProcessNameArray = new ArrayList();
+    AccountImp accountImp = new AccountImp();
 
     private ArrayList UpdateStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
         if (custProcessNameArray != null && custProcessNameArray.size() > 0) {
             return custProcessNameArray;
         }
-        ArrayList custNameArray = serviceAFWeb.getAccountImp().getCustomerNList(0);
+        ArrayList custNameArray = accountImp.getCustomerNList(0);
         if (custNameArray != null) {
             custProcessNameArray = custNameArray;
         }
@@ -145,9 +147,9 @@ public class BillingProcess {
             return 0;
         }
 
-        AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+        AccountObj account = accountImp.getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
         // get last bill
-        ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId(), 2);
+        ArrayList<BillingObj> billingObjList = accountImp.getBillingByCustomerAccountID(customer.getUsername(), null, account.getId(), 2);
         if (billingObjList == null) {
             // create first bill 
             createUserBilling(serviceAFWeb, customer, account, null);
@@ -214,7 +216,7 @@ public class BillingProcess {
                 billing.setStatus(ConstantKey.COMPLETED);
 
                 billing.setBalance(fPayment);
-                result = serviceAFWeb.getAccountImp().updateAccountBillingStatusPaymentData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), billing.getData());
+                result = accountImp.updateAccountBillingStatusPaymentData(billing.getId(), billing.getStatus(), billing.getPayment(), billing.getBalance(), billing.getData());
                 // transaction
                 // send email disable
                 NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
@@ -242,14 +244,14 @@ public class BillingProcess {
 //                            if (fPayment < 2) {
 //                                //ignore if payment less than 4 dollor
 //                                billing.setSubstatus(NO_PAYMENT_2);
-//                                serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
+//                                accountImp.updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 //                                return 1;
 //                            }
                                 billing.setSubstatus(NO_PAYMENT_2);
 
                                 customer.setStatus(ConstantKey.DISABLE);
                                 int result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), customer.getStatus() + "", null, null);
-                                result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
+                                result = accountImp.updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                                 // send email disable
                                 msg = "The " + custN + " account had been disabled due to outstanding payment! Thank you for using IIS.";
@@ -264,7 +266,7 @@ public class BillingProcess {
                         ;
                     } else {
                         billing.setSubstatus(NO_PAYMENT_1);
-                        int result = serviceAFWeb.getAccountImp().updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
+                        int result = accountImp.updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                         // send email reminder
                         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
@@ -295,16 +297,16 @@ public class BillingProcess {
 
             String msgSt = ESTtime + " " + msg;
 
-            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_BILLMSG, msg);
+            accountImp.addAccountMessage(account, ConstantKey.COM_BILLMSG, msg);
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msg);
+            accountImp.addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msg);
 
             // send email
             DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
             formatD.setTimeZone(tz);
             String ESTdateD = formatD.format(d);
             String msgD = ESTdateD + " " + msg;
-            serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_BILLMSG, msgD);
+            accountImp.addAccountEmailMessage(account, ConstantKey.COM_BILLMSG, msgD);
         }
 //        
         if (createBillFlag == true) {
@@ -337,7 +339,7 @@ public class BillingProcess {
         try {
 
             String portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-            serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+            accountImp.updateCustomerPortfolio(customer.getUsername(), portfStr);
             return 1;
         } catch (Exception ex) {
         }
@@ -414,7 +416,7 @@ public class BillingProcess {
                     custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
                 } else {
                     portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                    serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+                    accountImp.updateCustomerPortfolio(customer.getUsername(), portfStr);
 
                 }
             } catch (Exception ex) {
@@ -429,10 +431,10 @@ public class BillingProcess {
 //                float investment = account.getInvestment();
 //                float balance = account.getBalance();
 //                float servicefee = account.getServicefee();
-//                serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(account.getId(), substatus, investment, balance, servicefee);
+//                accountImp.updateAccountStatusByAccountID(account.getId(), substatus, investment, balance, servicefee);
                 // update the plan
                 customer.setSubstatus(plan);
-                serviceAFWeb.getAccountImp().updateCustStatusSubStatus(customer, customer.getStatus(), customer.getSubstatus());
+                accountImp.updateCustStatusSubStatus(customer, customer.getStatus(), customer.getSubstatus());
 
             }
 
@@ -489,7 +491,7 @@ public class BillingProcess {
                 custPortfilio.setServ(0);
                 custPortfilio.setCred(0);
                 portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+                accountImp.updateCustomerPortfolio(customer.getUsername(), portfStr);
             } catch (JsonProcessingException ex) {
             }
 
@@ -522,7 +524,7 @@ public class BillingProcess {
             }
 
             float balance = 0;
-            result = serviceAFWeb.getAccountImp().addAccountBilling(customer.getUsername(), account, payment, balance, data, billCycleDate);
+            result = accountImp.addAccountBilling(customer.getUsername(), account, payment, balance, data, billCycleDate);
 
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -545,9 +547,9 @@ public class BillingProcess {
 
             String msgSt = ESTtime + " " + msg;
 //            String compassMsgSt = ServiceAFweb.compress(msgSt);
-            serviceAFWeb.getAccountImp().addAccountMessage(account, ConstantKey.COM_BILLMSG, msgSt);
+            accountImp.addAccountMessage(account, ConstantKey.COM_BILLMSG, msgSt);
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-            serviceAFWeb.getAccountImp().addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msgSt);
+            accountImp.addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msgSt);
 
             // send email
             DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
@@ -558,7 +560,7 @@ public class BillingProcess {
                     + "<br>The e.transfer question is the 'iisweb-' plus user login email (e.g. iisweb-email@domain.com) and the answer is the user login email.";
 
 //            compassMsgSt = ServiceAFweb.compress(msgD);
-            serviceAFWeb.getAccountImp().addAccountEmailMessage(account, ConstantKey.COM_BILLMSG, msgD);
+            accountImp.addAccountEmailMessage(account, ConstantKey.COM_BILLMSG, msgD);
 
             logger.info("Billing***create user " + custN + ", billing cycle " + billcycleESTtime + ", payment=" + payment);
 
@@ -570,7 +572,7 @@ public class BillingProcess {
                     String FundIdSt = feat.replace("fund", "");
                     try {
                         int FundId = Integer.parseInt(FundIdSt);
-                        AccountObj accFund = serviceAFWeb.getAccountImp().getAccountByAccountID(FundId);
+                        AccountObj accFund = accountImp.getAccountByAccountID(FundId);
                         CustomerObj custFund = serviceAFWeb.getCustomerByAccoutObj(accFund);
                         portfolio = custFund.getPortfolio();
                         custPortfilio = new CustPort();
@@ -579,13 +581,13 @@ public class BillingProcess {
                             custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
                         } else {
                             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                            serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
+                            accountImp.updateCustomerPortfolio(custFund.getUsername(), portfStr);
                         }
                         //////update credit to the fund mgr
                         float featureFundP = FUND30_FeaturePrice / 2;
                         custPortfilio.setCred(custPortfilio.getCred() + featureFundP);
                         portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                        serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
+                        accountImp.updateCustomerPortfolio(custFund.getUsername(), portfStr);
 
                     } catch (Exception e) {
                     }
@@ -628,7 +630,7 @@ public class BillingProcess {
                 custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
             } else {
                 portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+                accountImp.updateCustomerPortfolio(customer.getUsername(), portfStr);
             }
 
             /// adding feature
@@ -637,9 +639,9 @@ public class BillingProcess {
             Date startDate = customer.getStartdate();
             long billCycleDate = startDate.getTime();
 
-            AccountObj account = serviceAFWeb.getAccountImp().getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+            AccountObj account = accountImp.getAccountByType(customer.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
             // get last bill
-            ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(customer.getUsername(), null, account.getId(), 2);
+            ArrayList<BillingObj> billingObjList = accountImp.getBillingByCustomerAccountID(customer.getUsername(), null, account.getId(), 2);
             boolean firstBill = false;
             if (billingObjList != null) {
                 if (billingObjList.size() > 0) {
@@ -686,7 +688,7 @@ public class BillingProcess {
             // update bill payment for the customer
             custPortfilio.setServ(custPortfilio.getServ() + featureP);
             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-            serviceAFWeb.getAccountImp().updateCustomerPortfolio(customer.getUsername(), portfStr);
+            accountImp.updateCustomerPortfolio(customer.getUsername(), portfStr);
 
             CustomerObj custFund = serviceAFWeb.getCustomerByAccoutObj(accFund);
             portfolio = custFund.getPortfolio();
@@ -696,12 +698,12 @@ public class BillingProcess {
                 custPortfilio = new ObjectMapper().readValue(portfolio, CustPort.class);
             } else {
                 portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-                serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
+                accountImp.updateCustomerPortfolio(custFund.getUsername(), portfStr);
             }
             //////update credit to the fund mgr
             custPortfilio.setCred(custPortfilio.getCred() + featureFundP);
             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
-            serviceAFWeb.getAccountImp().updateCustomerPortfolio(custFund.getUsername(), portfStr);
+            accountImp.updateCustomerPortfolio(custFund.getUsername(), portfStr);
 
         } catch (Exception ex) {
             logger.info("createUserBilling exception");

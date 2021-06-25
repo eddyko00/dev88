@@ -28,7 +28,6 @@ import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.*;
 import com.afweb.processsystem.SystemService;
 
-import com.afweb.stock.*;
 import com.afweb.stockinternet.StockUtils;
 import com.afweb.util.*;
 
@@ -88,8 +87,7 @@ public class ServiceAFweb {
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
 //    private StockImp stockImp = new StockImp();
 
-    private AccountImp accountImp = new AccountImp();
-
+//    private AccountImp accountImp = new AccountImp();
     public static String PROXYURL = "";
     public static String URL_LOCALDB = "";
     public static String FileLocalPath = "";
@@ -339,7 +337,7 @@ public class ServiceAFweb {
 
                 setStockInfoDataSource(jdbcTemplate, dataSource);
 
-                getAccountImp().setDataSource(jdbcTemplate, dataSource);
+                setAccountDataSource(jdbcTemplate, dataSource);
 
                 // work around. must initialize for remote MYSQL
                 serverObj.setTimerInit(true);
@@ -1432,143 +1430,6 @@ public class ServiceAFweb {
 
     }
     //////////////////////////////////////////////////
-    // CustAccService
-    CustAccService custAccSrv = new CustAccService();
-    public static boolean custAccFlag = true;
-
-    //////////////////////////////////////////////////
-    public RequestObj SystemSQLRequestCustAcc(RequestObj sqlObj) {
-        RequestObj reqObj = custAccSrv.SQLRequestCustAcc(this, sqlObj);
-        return reqObj;
-    }
-
-    public ArrayList getAccountListServ(String EmailUserName, String Password) {
-        if (custAccFlag == true) {
-            return custAccSrv.getAccountList(this, EmailUserName, Password);
-        }
-        return null;
-    }
-
-    public AccountObj getAccountByCustomerAccountIDServ(String EmailUserName, String Password, String AccountIDSt) {
-        if (custAccFlag == true) {
-            return custAccSrv.getAccountByCustomerAccountID(this, EmailUserName, Password, AccountIDSt);
-        }
-        return null;
-    }
-
-    public float getAccountStockBalanceServ(TradingRuleObj trObj) {
-        if (custAccFlag == true) {
-            return custAccSrv.getAccountStockRealTimeBalance(this, trObj);
-        }
-        return -9999;
-    }
-
-    public int addAccountStockByAccountServ(AccountObj accountObj, String symbol) {
-        if (custAccFlag == true) {
-            return custAccSrv.addAccountStockByAccount(this, accountObj, symbol);
-        }
-        return 0;
-    }
-
-    public int addAccountStockByCustAccServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
-        if (custAccFlag == true) {
-            return custAccSrv.addAccountStockByCustAcc(this, EmailUserName, Password, AccountIDSt, symbol);
-        }
-        return 0;
-    }
-
-    public int removeAccountStockByUserNameAccIdServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
-        if (custAccFlag == true) {
-            return custAccSrv.removeAccountStockByUserNameAccId(this, EmailUserName, Password, AccountIDSt, symbol);
-        }
-        return 0;
-    }
-//    //ConstantKey.NOTEXISTED
-
-    public int removeAccountStockSymbolServ(AccountObj accountObj, String symbol) {
-        if (custAccFlag == true) {
-            return custAccSrv.removeAccountStockSymbol(this, accountObj, symbol);
-        }
-        return 0;
-    }
-
-    public TradingRuleObj getAccountStockTRByTRnameServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
-        if (custAccFlag == true) {
-            return custAccSrv.getAccountStockTRByTRname(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
-        }
-        return null;
-    }
-
-    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountIDServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
-        if (custAccFlag == true) {
-            return custAccSrv.getAccountStockTRTranListByAccountID(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
-        }
-        return null;
-    }
-
-    public int getAccountStockTRListHistoryDisplayProcessServ(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
-        if (custAccFlag == true) {
-            return custAccSrv.getAccountStockTRListHistoryDisplayProcess(trObjList, writeArray, displayArray);
-        }
-        return 0;
-    }
-
-//    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
-    public ArrayList getExpiredCustomerListServ(int length) {
-        if (custAccFlag == true) {
-            return custAccSrv.getExpiredCustomerList(this, length);
-        }
-        return null;
-    }
-//    // need ConstantKey.DISABLE status beofore remove customer
-
-    public int removeCustomerServ(String EmailUserName) {
-        if (custAccFlag == true) {
-            return custAccSrv.removeCustomer(this, EmailUserName);
-        }
-        return 0;
-    }
-
-    public boolean SystemFundResetGlobalServ() {
-        if (custAccFlag == true) {
-            return custAccSrv.SystemFundResetGlobal(this);
-        }
-        return false;
-    }
-
-    public boolean SystemFundSelectBestServ() {
-        if (custAccFlag == true) {
-            return custAccSrv.SystemFundSelectBest(this);
-        }
-        return false;
-    }
-
-    public boolean SystemFundPocessAddRemoveServ() {
-        if (custAccFlag == true) {
-            return custAccSrv.SystemFundPocessAddRemove(this);
-        }
-        return false;
-    }
-
-    public String getAccountStockTRListHistoryChartServ(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
-        if (custAccFlag == true) {
-            ChartService chartSrv = new ChartService();
-            return chartSrv.getAccountStockTRListHistoryChartToFile(this, thObjListMain, stockidsymbol, trname, pathSt);
-        }
-        return "";
-    }
-//////////
-    private AccountTranProcess accountProcessImp = new AccountTranProcess();
-
-    public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
-        accountProcessImp.ProcessAllAccountTradingSignal(this);
-    }
-
-    public void ProcessAdminAddRemoveStock(ServiceAFweb serviceAFWeb) {
-        accountProcessImp.ProcessAdminAddRemoveStock(this);
-    }
-
-    //////////////////////////////////////////////////
     //////////////////////////////////////////
     // StockService
     StockService stockSrv = new StockService();
@@ -1827,9 +1688,11 @@ public class ServiceAFweb {
     public int updateNeuralNetRef1(String name, ReferNameData refnameData) {
         return nnSrv.updateNeuralNetRef1(name, refnameData);
     }
+
     public int deleteNeuralNetDataObjById(int id) {
         return nnSrv.deleteNeuralNetDataObjById(id);
-    }  
+    }
+
     public void fileNNInputOutObjListServ(ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
         if (nnFlag == true) {
             nnSrv.fileNNInputOutObjList(this, inputList, symbol, stockId, filename);
@@ -1837,13 +1700,238 @@ public class ServiceAFweb {
     }
 
     ///////////////////////////////////////
-    ///////////////////////////////////////
+    //////////////////////////////////////////////////
+    // CustAccService
+    CustAccService custAccSrv = new CustAccService();
+    public static boolean custAccFlag = true;
+
+    //////////////////////////////////////////////////
+    public RequestObj SystemSQLRequestCustAcc(RequestObj sqlObj) {
+        RequestObj reqObj = custAccSrv.SQLRequestCustAcc(this, sqlObj);
+        return reqObj;
+    }
+
+    public void setAccountDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        custAccSrv.setAccountDataSource(jdbcTemplate, dataSource);
+    }
+
+    public int updateTransactionOrder(ArrayList transSQL) {
+        return custAccSrv.updateTransactionOrder(transSQL);
+    }
+
+    public int clearAccountStockTranByAccountID(AccountObj accountObj, int stockID, String trName) {
+        return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockID, trName);
+    }
+
+    public boolean checkTRListByStockID(String StockID) {
+        return custAccSrv.checkTRListByStockID(StockID);
+    }
+
+    public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdStockId(int accountId, int stockId) {
+        return custAccSrv.getAccountStockTRListByAccIdStockId(accountId, stockId);
+    }
+
+    public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+        return custAccSrv.getAccountStockTRListByAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt, stockidsymbol);
+    }
+
+    ////////////////////////////////
+    // Security - Do not allow outside ServiceAFweb to access this function
+    ////////////////////////////////
+    public AccountObj getAccountByAccountID(int accountID) {
+        return custAccSrv.getAccountByAccountID(accountID);
+    }
+
+    public AccountObj getAccountByType(String UserName, String Password, int accType) {
+        return custAccSrv.getAccountByType(UserName, Password, accType);
+    }
+
+    public ArrayList getAccountStockNameList(int accountId) {
+        return custAccSrv.getAccountStockNameList(accountId);
+    }
+
+    public int updateAccounStockPref(TradingRuleObj trObj, float perf) {
+        return custAccSrv.updateAccounStockPref(trObj, perf);
+    }
+
+    public int removeAccountStock(AccountObj accountObj, int StockID) {
+        return custAccSrv.removeAccountStock(accountObj, StockID);
+    }
+
+    public CustomerObj getCustomerByAccount(AccountObj accountObj) {
+        return custAccSrv.getCustomerByAccount(accountObj);
+    }
+
+    public ArrayList<CustomerObj> getCustomerByType(int type) {
+        return custAccSrv.getCustomerByType(type);
+    }
+
+    public AccountObj getAccountObjByAccountID(int accountID) {
+        return custAccSrv.getAccountObjByAccountID(accountID);
+    }
+
+    public int updateAccountPortfolio(String accountName, String portfolio) {
+        return custAccSrv.updateAccountPortfolio(accountName, portfolio);
+    }
+
+    public int updateAccountStatusByAccountID(int accountID,
+            int substatus, float investment, float balance, float servicefee) {
+        return custAccSrv.updateAccountStatusByAccountID(accountID, substatus, investment, balance, servicefee);
+    }
+
+    public ArrayList<AccountObj> getAccountListByCustomerId(int custId) {
+        return custAccSrv.getAccountListByCustomerId(custId);
+    }
+
+    public TradingRuleObj getAccountStockIDByTRStockID(int accountID, int stockID, String trName) {
+        // not sure why it does not work in Open shift but work local
+        return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
+    }
+
+    public ArrayList<TransationOrderObj> getAccountStockTransList(int accountID, int stockID, String trName, int length) {
+        return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
+    }
+
+    public ArrayList getAccountListServ(String EmailUserName, String Password) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountList(this, EmailUserName, Password);
+        }
+        return null;
+    }
+
+    public AccountObj getAccountByCustomerAccountIDServ(String EmailUserName, String Password, String AccountIDSt) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountByCustomerAccountID(this, EmailUserName, Password, AccountIDSt);
+        }
+        return null;
+    }
+
+    public float getAccountStockBalanceServ(TradingRuleObj trObj) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountStockRealTimeBalance(this, trObj);
+        }
+        return -9999;
+    }
+
+    public int addAccountStockByAccountServ(AccountObj accountObj, String symbol) {
+        if (custAccFlag == true) {
+            return custAccSrv.addAccountStockByAccount(this, accountObj, symbol);
+        }
+        return 0;
+    }
+
+    public int addAccountStockByCustAccServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+        if (custAccFlag == true) {
+            return custAccSrv.addAccountStockByCustAcc(this, EmailUserName, Password, AccountIDSt, symbol);
+        }
+        return 0;
+    }
+
+    public int removeAccountStockByUserNameAccIdServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+        if (custAccFlag == true) {
+            return custAccSrv.removeAccountStockByUserNameAccId(this, EmailUserName, Password, AccountIDSt, symbol);
+        }
+        return 0;
+    }
+//    //ConstantKey.NOTEXISTED
+
+    public int removeAccountStockSymbolServ(AccountObj accountObj, String symbol) {
+        if (custAccFlag == true) {
+            return custAccSrv.removeAccountStockSymbol(this, accountObj, symbol);
+        }
+        return 0;
+    }
+
+    public TradingRuleObj getAccountStockTRByTRnameServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountStockTRByTRname(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
+        }
+        return null;
+    }
+
+    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountIDServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountStockTRTranListByAccountID(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
+        }
+        return null;
+    }
+
+    public int getAccountStockTRListHistoryDisplayProcessServ(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountStockTRListHistoryDisplayProcess(trObjList, writeArray, displayArray);
+        }
+        return 0;
+    }
+
+//    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
+    public ArrayList getExpiredCustomerListServ(int length) {
+        if (custAccFlag == true) {
+            return custAccSrv.getExpiredCustomerList(this, length);
+        }
+        return null;
+    }
+//    // need ConstantKey.DISABLE status beofore remove customer
+
+    public int removeCustomerServ(String EmailUserName) {
+        if (custAccFlag == true) {
+            return custAccSrv.removeCustomer(this, EmailUserName);
+        }
+        return 0;
+    }
+
+    public boolean SystemFundResetGlobalServ() {
+        if (custAccFlag == true) {
+            return custAccSrv.SystemFundResetGlobal(this);
+        }
+        return false;
+    }
+
+    public boolean SystemFundSelectBestServ() {
+        if (custAccFlag == true) {
+            return custAccSrv.SystemFundSelectBest(this);
+        }
+        return false;
+    }
+
+    public boolean SystemFundPocessAddRemoveServ() {
+        if (custAccFlag == true) {
+            return custAccSrv.SystemFundPocessAddRemove(this);
+        }
+        return false;
+    }
+
+    public String getAccountStockTRListHistoryChartServ(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
+        if (custAccFlag == true) {
+            ChartService chartSrv = new ChartService();
+            return chartSrv.getAccountStockTRListHistoryChartToFile(this, thObjListMain, stockidsymbol, trname, pathSt);
+        }
+        return "";
+    }
+
+    public CommObj getCommObjByID(int commID) {
+        return custAccSrv.getCommObjByID(commID);
+    }
+
+    public CommData getCommDataObj(CommObj commObj) {
+        return custAccSrv.getCommDataObj(commObj);
+    }
+//////////
+    private AccountTranProcess accountProcessImp = new AccountTranProcess();
+
+    public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
+        accountProcessImp.ProcessAllAccountTradingSignal(this);
+    }
+
+    public void ProcessAdminAddRemoveStock(ServiceAFweb serviceAFWeb) {
+        accountProcessImp.ProcessAdminAddRemoveStock(this);
+    }
+
     ///////////////////////////////////////
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
 
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        return getAccountImp().getCustomerPassword(UserName, Password);
+        return getCustomerPassword(UserName, Password);
     }
 
     public CustomerObj getCustomerPassword(String EmailUserName, String Password) {
@@ -1853,7 +1941,7 @@ public class ServiceAFweb {
 
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
-        CustomerObj custObj = getAccountImp().getCustomerPassword(UserName, Password);
+        CustomerObj custObj = custAccSrv.getCustomerPassword(UserName, Password);
         if (custObj != null) {
             if (custObj.getStatus() != ConstantKey.OPEN) {
                 custObj.setUsername("");
@@ -1864,32 +1952,11 @@ public class ServiceAFweb {
     }
 //
 
-    ////////////////////////////
-    public ArrayList getRemoveStockNameList(int length) {
-        ArrayList result = null;
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        result = getAllRemoveStockNameList(length);
-
-        return result;
-    }
-
-    public ArrayList getDisableStockNameList(int length) {
-        ArrayList result = null;
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        result = getAllDisableStockNameList(length);
-
-        return result;
-    }
-
     public CustomerObj getCustomerObjByName(String name) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        ArrayList<CustomerObj> custList = getAccountImp().getCustomerObjByNameList(name);
+        ArrayList<CustomerObj> custList = custAccSrv.getCustomerObjByNameList(name);
         if (custList != null) {
             if (custList.size() > 0) {
                 return custList.get(0);
@@ -1903,7 +1970,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = getAccountImp().getCustomerByAccoutObj(accObj);
+        result = custAccSrv.getCustomerByAccoutObj(accObj);
         return result;
     }
 
@@ -1932,7 +1999,7 @@ public class ServiceAFweb {
             }
             return NameList;
         }
-        return getAccountImp().getUserNamebyAccountID(accountID);
+        return custAccSrv.getUserNamebyAccountID(accountID);
     }
 
     public ArrayList<AFstockInfo> SystemStockHistoricalRange(String symbol, long start, long end) {
@@ -1995,7 +2062,7 @@ public class ServiceAFweb {
             }
             return NameList;
         }
-        return getAccountImp().getAccountStockNameList(accountId);
+        return custAccSrv.getAccountStockNameList(accountId);
     }
 
     public ArrayList SystemAllOpenAccountIDList() {
@@ -2021,7 +2088,7 @@ public class ServiceAFweb {
             }
             return NameList;
         }
-        return getAccountImp().getAllOpenAccountID();
+        return custAccSrv.getAllOpenAccountID();
     }
 
     public ArrayList SystemAllAccountStockNameListExceptionAdmin(int accountId) {
@@ -2049,7 +2116,7 @@ public class ServiceAFweb {
             }
             return NameList;
         }
-        return getAccountImp().getAllAccountStockNameListExceptionAdmin(accountId);
+        return custAccSrv.getAllAccountStockNameListExceptionAdmin(accountId);
 
     }
 
@@ -2102,7 +2169,7 @@ public class ServiceAFweb {
             }
             return accountObj;
         }
-        return getAccountImp().getAccountObjByAccountID(accountId);
+        return custAccSrv.getAccountObjByAccountID(accountId);
     }
 
     public TradingRuleObj SystemAccountStockIDByTRname(int accountID, int stockID, String trName) {
@@ -2135,7 +2202,7 @@ public class ServiceAFweb {
                 logger.info("> SystemAccountStockIDByTRname exception " + ex.getMessage());
             }
         }
-        return getAccountImp().getAccountStockIDByTRStockID(accountID, stockID, trName);
+        return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
     }
 
     public int SystemAccountStockClrTranByAccountID(AccountObj accountObj, int stockId, String trName) {
@@ -2170,7 +2237,7 @@ public class ServiceAFweb {
             return 0;
         }
 
-        return getAccountImp().clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
+        return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
 
     }
 
@@ -2210,7 +2277,7 @@ public class ServiceAFweb {
         }
         AFstockObj stock = getStockBySymServ(symbol);
         int stockID = stock.getId();
-        return getAccountImp().getAccountStockTRListByAccountID(accountId, stockID);
+        return custAccSrv.getAccountStockTRListByAccountID(accountId, stockID);
     }
 
     public ArrayList<TradingRuleObj> SystemAccountStockListByAccountIDStockID(int accountId, int stockId) {
@@ -2248,7 +2315,7 @@ public class ServiceAFweb {
             return null;
         }
 
-        return getAccountImp().getAccountStockTRListByAccountID(accountId, stockId);
+        return custAccSrv.getAccountStockTRListByAccountID(accountId, stockId);
     }
 
     public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
@@ -2353,7 +2420,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        return getAccountImp().getAccountStockTransList(accountID, stockID, trName, length);
+        return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
     }
 
     public ArrayList<PerformanceObj> SystemAccountStockPerfList(int accountID, int stockID, String trName, int length) {
@@ -2389,7 +2456,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        return getAccountImp().getAccountStockPerfList(accountID, stockID, trName, length);
+        return custAccSrv.getAccountStockPerfList(accountID, stockID, trName, length);
     }
 
 //    public String SystemSQLquery(String SQL) {
@@ -2449,20 +2516,28 @@ public class ServiceAFweb {
             }
             return 0;
         }
-        return getAccountImp().updateTransactionOrder(transSQL);
+        return custAccSrv.updateTransactionOrder(transSQL);
     }
 
 //////////
+    public int updateAccountStockSignalList(ArrayList<TradingRuleObj> TRList) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        return custAccSrv.updateAccountStockSignal(TRList);
+
+    }
+
     public int updateAccountStockSignal(TRObj stockTRObj) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        return getAccountImp().updateAccountStockSignal(stockTRObj.getTrlist());
+        return custAccSrv.updateAccountStockSignal(stockTRObj.getTrlist());
 
     }
 
     public int systemRemoveAllEmail() {
-        getAccountImp().removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
+        custAccSrv.removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
 
@@ -2810,7 +2885,7 @@ public class ServiceAFweb {
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = this.getAccountImp().getCustomerPasswordNull(UserName);
+            CustomerObj customer = custAccSrv.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }
@@ -2849,7 +2924,7 @@ public class ServiceAFweb {
                     balance = Float.parseFloat(balanceSt);
                 }
             }
-            return getAccountImp().setCustStatusPaymentBalance(UserName, status, payment, balance);
+            return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);
 
         } catch (Exception e) {
         }
@@ -3220,13 +3295,13 @@ public class ServiceAFweb {
             newCustomer.setFirstname("ADM");
             newCustomer.setType(CustomerObj.INT_ADMIN_USER);
             //// result 1 = success, 2 = existed,  0 = fail
-            getAccountImp().addCustomer(newCustomer, -1);
+            custAccSrv.addCustomer(newCustomer, -1);
 
             newCustomer.setUsername(CKey.API_USERNAME);
             newCustomer.setPassword("eddy");
             newCustomer.setFirstname("APIUser");
             newCustomer.setType(CustomerObj.INT_API_USER);
-            getAccountImp().addCustomer(newCustomer, -1);
+            custAccSrv.addCustomer(newCustomer, -1);
 
             if (retStatus == 0) {
 
@@ -3234,31 +3309,31 @@ public class ServiceAFweb {
                 newCustomer.setPassword("guest");
                 newCustomer.setFirstname("G");
                 newCustomer.setType(CustomerObj.INT_GUEST_USER);
-                getAccountImp().addCustomer(newCustomer, -1);
+                custAccSrv.addCustomer(newCustomer, -1);
 
                 newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);
                 newCustomer.setPassword("passw0rd");
                 newCustomer.setFirstname("FundMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
-                getAccountImp().addCustomer(newCustomer, -1);
+                custAccSrv.addCustomer(newCustomer, -1);
 //                
                 newCustomer.setUsername(CKey.INDEXFUND_MANAGER_USERNAME);
                 newCustomer.setPassword("passw0rd");
                 newCustomer.setFirstname("IndexMgr");
                 newCustomer.setType(CustomerObj.INT_FUND_USER);
-                getAccountImp().addCustomer(newCustomer, -1);
+                custAccSrv.addCustomer(newCustomer, -1);
 
-                AccountObj account = getAccountImp().getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
+                AccountObj account = custAccSrv.getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
                 if (account != null) {
                     int result = 0;
                     for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                         String stockN = ServiceAFweb.primaryStock[i];
                         AFstockObj stock = getStockBySymServ(stockN);
                         logger.info(">InitDBData add stock " + stock.getSymbol());
-                        result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+                        result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
                     }
                     AFstockObj stock = getStockBySymServ("T.TO");
-                    result = getAccountImp().addAccountStockId(account, stock.getId(), TRList);
+                    result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
                 }
             }
 
@@ -3266,10 +3341,31 @@ public class ServiceAFweb {
             newCustomer.setPassword("pass");
             newCustomer.setFirstname("E");
             newCustomer.setType(CustomerObj.INT_CLIENT_BASIC_USER);
-            getAccountImp().addCustomer(newCustomer, -1);
+            custAccSrv.addCustomer(newCustomer, -1);
         }
         return retStatus;
 
+    }
+
+    ////////////////////////////
+    public ArrayList getRemoveStockNameList(int length) {
+        ArrayList result = null;
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = getAllRemoveStockNameList(length);
+
+        return result;
+    }
+
+    public ArrayList getDisableStockNameList(int length) {
+        ArrayList result = null;
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = getAllDisableStockNameList(length);
+
+        return result;
     }
 
     public void InitStaticData() {
@@ -3328,13 +3424,13 @@ public class ServiceAFweb {
         if (portfolio.length() == 0) {
             return;
         }
-        CustomerObj custObj = getAccountImp().getCustomerBySystem(CKey.FUND_MANAGER_USERNAME, null);
-        ArrayList accountList = getAccountImp().getAccountListByCustomerObj(custObj);
+        CustomerObj custObj = custAccSrv.getCustomerBySystem(CKey.FUND_MANAGER_USERNAME, null);
+        ArrayList accountList = custAccSrv.getAccountListByCustomerObj(custObj);
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {
                 AccountObj accountObj = (AccountObj) accountList.get(i);
                 if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                    getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfolio);
+                    custAccSrv.updateAccountPortfolio(accountObj.getAccountname(), portfolio);
                     break;
                 }
             }
@@ -3386,33 +3482,18 @@ public class ServiceAFweb {
     }
 
     /**
-     * @return the stockImp
+     * @return the accountImp
      */
-//    public StockImp getStockImp() {
-////    private StockImp getStockImp() {
-//        return stockImp;
+//    public AccountImp getAccountImp() {
+//        return accountImp;
 //    }
 //
 //    /**
-//     * @param stockImp the stockImp to set
+//     * @param accountImp the accountImp to set
 //     */
-//    public void setStockImp(StockImp stockImp) {
-//        this.stockImp = stockImp;
+//    public void setAccountImp(AccountImp accountImp) {
+//        this.accountImp = accountImp;
 //    }
-    /**
-     * @return the accountImp
-     */
-    public AccountImp getAccountImp() {
-        return accountImp;
-    }
-
-    /**
-     * @param accountImp the accountImp to set
-     */
-    public void setAccountImp(AccountImp accountImp) {
-        this.accountImp = accountImp;
-    }
-
     /**
      * @return the serviceAFwebREST
      */

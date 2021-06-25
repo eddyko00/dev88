@@ -237,7 +237,7 @@ public class TradingNNprocess {
                             }
                         }
                         AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
-                        serviceAFWeb.getAccountImp().clearAccountStockTranByAccountID(accObj, stock.getId(), nnName);
+                        serviceAFWeb.clearAccountStockTranByAccountID(accObj, stock.getId(), nnName);
 
                         ServiceAFweb.AFSleep();
                     }
@@ -266,7 +266,7 @@ public class TradingNNprocess {
                     }
                 }
                 AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
-                serviceAFWeb.getAccountImp().clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+                serviceAFWeb.clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
 
                 ServiceAFweb.AFSleep();
             }

@@ -604,11 +604,6 @@ public class NN2ProcessBySignal {
             return stockNNprocessNameArray;
         }
 
-        boolean guestFlag = false;
-        if (guestFlag == true) {
-            AccountObj account = serviceAFWeb.getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
-            accountObj = account;
-        }
         ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
 
         if (stockNameArray != null) {

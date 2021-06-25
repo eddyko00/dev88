@@ -5,6 +5,7 @@
  */
 package com.afweb.processbilling;
 
+import com.afweb.account.AccountImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 
@@ -21,8 +22,9 @@ import java.util.logging.Logger;
 public class BillingService {
 
     protected static Logger logger = Logger.getLogger("BillingService");
+    AccountImp accountImp = new AccountImp();
 
-        public ArrayList<BillingObj> getBillingByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, int length) {
+    public ArrayList<BillingObj> getBillingByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, int length) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -31,7 +33,7 @@ public class BillingService {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            ArrayList<BillingObj> billingObjList = serviceAFWeb.getAccountImp().getBillingByCustomerAccountID(UserName, Password, accountid, length);
+            ArrayList<BillingObj> billingObjList = accountImp.getBillingByCustomerAccountID(UserName, Password, accountid, length);
             return billingObjList;
         } catch (Exception e) {
         }
@@ -39,7 +41,7 @@ public class BillingService {
 
     }
 
-    public int removeBillingByCustomerAccountID(ServiceAFweb serviceAFWeb,String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
+    public int removeBillingByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String BillIDSt) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -49,12 +51,11 @@ public class BillingService {
         try {
             int accountid = Integer.parseInt(AccountIDSt);
             int billid = Integer.parseInt(BillIDSt);
-            int ret = serviceAFWeb.getAccountImp().removeBillingByCustomerAccountID(UserName, Password, accountid, billid);
+            int ret = accountImp.removeBillingByCustomerAccountID(UserName, Password, accountid, billid);
             return ret;
         } catch (Exception e) {
         }
         return 0;
     }
-    
-    
+
 }

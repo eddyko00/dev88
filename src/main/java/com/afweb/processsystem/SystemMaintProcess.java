@@ -34,10 +34,10 @@ public class SystemMaintProcess {
             /////////need manually enter the communication id
 
             int commid = 1; // 216; // 215;
-            CommObj commObj = serviceAFWeb.getAccountImp().getCommObjByID(commid);
+            CommObj commObj = serviceAFWeb.getCommObjByID(commid);
             logger.info("stocksplitflag process commid " + commid);
             if (commObj != null) {
-                CommData commData = serviceAFWeb.getAccountImp().getCommDataObj(commObj);
+                CommData commData = serviceAFWeb.getCommDataObj(commObj);
                 if (commData != null) {
                     String sym = commData.getSymbol();
                     boolean retBoolean = true;
@@ -76,6 +76,6 @@ public class SystemMaintProcess {
 
         }
     }
-    
+
     ///////////////////////////
 }

@@ -5,6 +5,7 @@
  */
 package com.afweb.processemail;
 
+import com.afweb.account.AccountImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 
@@ -19,8 +20,10 @@ import java.util.logging.Logger;
  * @author koed
  */
 public class EmailService {
+
     protected static Logger logger = Logger.getLogger("EmailService");
-    
+    AccountImp accountImp = new AccountImp();
+
     public ArrayList<CommObj> getCommEmaiByCustomerAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, int length) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -30,7 +33,7 @@ public class EmailService {
         String UserName = nameObj.getNormalizeName();
         try {
             int accountid = Integer.parseInt(AccountIDSt);
-            return serviceAFWeb.getAccountImp().getCommEmailByCustomerAccountID(UserName, Password, accountid, length);
+            return accountImp.getCommEmailByCustomerAccountID(UserName, Password, accountid, length);
         } catch (Exception e) {
         }
         return null;
@@ -47,7 +50,7 @@ public class EmailService {
         try {
             if (UserName.equals(CKey.ADMIN_USERNAME)) {
                 int accountid = Integer.parseInt(AccountIDSt);
-                return serviceAFWeb.getAccountImp().removeAllCommByType(ConstantKey.INT_TYPE_COM_EMAIL);
+                return accountImp.removeAllCommByType(ConstantKey.INT_TYPE_COM_EMAIL);
             }
         } catch (Exception e) {
         }
@@ -64,10 +67,10 @@ public class EmailService {
         try {
             int accountid = Integer.parseInt(AccountIDSt);
             int id = Integer.parseInt(IDSt);
-            return serviceAFWeb.getAccountImp().removeAccountCommByID(UserName, Password, accountid, id);
+            return accountImp.removeAccountCommByID(UserName, Password, accountid, id);
         } catch (Exception e) {
         }
         return 0;
     }
-    
+
 }

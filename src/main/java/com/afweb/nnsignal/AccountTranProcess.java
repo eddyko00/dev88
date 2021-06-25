@@ -5,13 +5,11 @@
  */
 package com.afweb.nnsignal;
 
-import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.account.AccountDB;
 import com.afweb.account.AccountTranImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
-import com.afweb.nnsignal.TradingAPISignalProcess;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -228,7 +226,7 @@ public class AccountTranProcess {
                     String accountIdSt = (String) accountFundIdNameArray.get(0);
                     accountFundIdNameArray.remove(0);
                     int accountId = Integer.parseInt(accountIdSt);
-                    AccountObj accountObj = serviceAFWeb.getAccountImp().getAccountObjByAccountID(accountId);
+                    AccountObj accountObj = serviceAFWeb.getAccountObjByAccountID(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         ProcessTradingAccountUpdate(serviceAFWeb, accountObj);
                         ProcessFundAccountUpdate(serviceAFWeb, accountObj, true);
@@ -257,14 +255,14 @@ public class AccountTranProcess {
             fundMgr = new FundM();
             try {
                 String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
-                serviceAFWeb.getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                serviceAFWeb.updateAccountPortfolio(accountObj.getAccountname(), portfStr);
             } catch (JsonProcessingException ex) {
             }
         }
 
         ArrayList portAccArray = fundMgr.getAccL();
 
-        ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
+        ArrayList accountList = serviceAFWeb.getAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
             return 0;
         }
@@ -313,7 +311,7 @@ public class AccountTranProcess {
                         continue;
                     }
                     float curPrice = stock.getAfstockInfo().getFclose();
-                    TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+                    TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
                     if (trObj == null) {
                         continue;
                     }
@@ -361,7 +359,7 @@ public class AccountTranProcess {
                             }
                         }
 
-                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
+                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
                         if (thList != null) {
                             if (thList.size() != 0) {
                                 TransationOrderObj thObj = thList.get(0);
@@ -395,11 +393,11 @@ public class AccountTranProcess {
                             tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
                             ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
                             UpdateTRList.add(tradingRuleObj);
-                            serviceAFWeb.getAccountImp().updateAccountStockSignal(UpdateTRList);
+                            serviceAFWeb.updateAccountStockSignalList(UpdateTRList);
 
                             //////calcuate performance
                             float curPrice = stock.getAfstockInfo().getFclose();
-                            TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+                            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
 
                             float sharebalance = 0;
                             if (trObj.getTrsignal() == ConstantKey.S_BUY) {
@@ -438,7 +436,7 @@ public class AccountTranProcess {
                     float investment = accObj.getInvestment();
                     float balance = accObj.getBalance();
                     float servicefee = investment + balance;
-                    serviceAFWeb.getAccountImp().updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
+                    serviceAFWeb.updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
                 } catch (Exception e) {
                 }
             }
@@ -463,14 +461,14 @@ public class AccountTranProcess {
             fundMgr = new FundM();
             try {
                 String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
-                serviceAFWeb.getAccountImp().updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                serviceAFWeb.updateAccountPortfolio(accountObj.getAccountname(), portfStr);
             } catch (JsonProcessingException ex) {
             }
         }
 
         ArrayList portfolioArray = fundMgr.getFunL();
 
-        ArrayList accountList = serviceAFWeb.getAccountImp().getAccountListByCustomerId(accountObj.getCustomerid());
+        ArrayList accountList = serviceAFWeb.getAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
             return 0;
         }
@@ -661,7 +659,7 @@ public class AccountTranProcess {
                 }
                 //////////// Ignore API acocunt
                 //////////// Ignore API acocunt heandle by ProcessAPISignalTrading               
-                CustomerObj cust = serviceAFWeb.getAccountImp().getCustomerByAccount(accountObj);
+                CustomerObj cust = serviceAFWeb.getCustomerByAccount(accountObj);
                 if (cust.getType() == CustomerObj.INT_API_USER) {
                     continue;
                 }

@@ -160,7 +160,7 @@ public class TradingSignalProcess {
             } else {
                 trObj.setPerf(perf);
             }
-            serviceAFWeb.getAccountImp().updateAccounStockPref(trObj, perf);
+            serviceAFWeb.updateAccounStockPref(trObj, perf);
 
         }  // loop
     }
@@ -740,7 +740,7 @@ public class TradingSignalProcess {
         try {
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
             serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
-            TradingRuleObj trObj = serviceAFWeb.getAccountImp().getAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), trName);
+            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), trName);
             // get 2 year
             /// thObjList old first - recent last
             ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.SHORT_MONTH_SIZE);
@@ -1409,7 +1409,6 @@ public class TradingSignalProcess {
             }
         }
         TRObj stockTRObj = new TRObj();
-
         stockTRObj.setTrlist(UpdateTRList);
 
         serviceAFWeb.updateAccountStockSignal(stockTRObj);
@@ -2817,7 +2816,7 @@ public class TradingSignalProcess {
             if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
                 continue;
             }
-            ArrayList stockNameList = serviceAFWeb.getAccountImp().getAccountStockNameList(accountObj.getId());
+            ArrayList stockNameList = serviceAFWeb.getAccountStockNameList(accountObj.getId());
             if (stockNameList == null) {
                 continue;
             }
@@ -2834,7 +2833,7 @@ public class TradingSignalProcess {
                 continue;
             }
 
-            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountImp().getAccountStockTransList(accountObj.getId(), stock.getId(), "TR_ACC", 0);
+            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTransList(accountObj.getId(), stock.getId(), "TR_ACC", 0);
             if (thList == null) {
                 continue;
             }
@@ -2899,7 +2898,7 @@ public class TradingSignalProcess {
 
             int ret = 0;
             if (transSQL.size() > 0) {
-                ret = serviceAFWeb.getAccountImp().updateTransactionOrder(transSQL);
+                ret = serviceAFWeb.updateTransactionOrder(transSQL);
             }
             if (ret == 1) {
 //                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
