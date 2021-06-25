@@ -1327,6 +1327,443 @@ public class ServiceAFweb {
         return ret;
     }
 
+//////////////////////////////////////////////////////    
+    //////////////////////////////////////////////////
+    // SystemService
+    SystemService systemSrv = new SystemService();
+
+    //////////////////////////////////////////////////  
+    public RequestObj SystemSQLRequestSystem(RequestObj sqlObj) {
+        SystemService sysSrv = new SystemService();
+        RequestObj reqObj = sysSrv.SQLRequestSystem(this, sqlObj);
+        return reqObj;
+    }
+
+    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        systemSrv.setDataSource(jdbcTemplate, dataSource);
+    }
+
+    public int initStockDB() {
+        return systemSrv.initStockDB();
+    }
+
+    public ArrayList<String> getAllIdSQLServ(String sql) {
+        return systemSrv.getAllIdSQL(sql);
+    }
+
+    public String getAllLockDBSQL(String sql) {
+        return systemSrv.getAllLockDBSQL(sql);
+    }
+
+    public ArrayList getAllLock() {
+        ArrayList result = null;
+        result = systemSrv.getAllLock();
+        return result;
+    }
+
+    public int setRenewLock(String name, int type) {
+        return systemSrv.setRenewLock(name, type);
+    }
+
+    ////////////////////////////////////////////
+    public int setLockNameServ(String name, int type, long lockdatel, String comment) {
+        int resultLock = setLockName(name, type, lockdatel, comment);
+        // DB will enusre the name in the lock is unique and s
+        RandomDelayMilSec(200);
+        AFLockObject lock = getLockName(name, type);
+        if (lock != null) {
+            if (lock.getLockdatel() == lockdatel) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public AFLockObject getLockName(String name, int type) {
+        return systemSrv.getLockName(name, type);
+    }
+
+    public int setLockName(String name, int type, long lockdatel, String comment) {
+        return systemSrv.setLockName(name, type, lockdatel, comment);
+    }
+
+    public int removeNameLock(String name, int type) {
+        return systemSrv.removeLock(name, type);
+
+    }
+
+    //////////////////////////////////////////////////
+    // CustAccService
+    CustAccService custAccSrv = new CustAccService();
+    public static boolean custAccFlag = true;
+
+    //////////////////////////////////////////////////
+    public RequestObj SystemSQLRequestCustAcc(RequestObj sqlObj) {
+        RequestObj reqObj = custAccSrv.SQLRequestCustAcc(this, sqlObj);
+        return reqObj;
+    }
+
+    public ArrayList getAccountListServ(String EmailUserName, String Password) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountList(this, EmailUserName, Password);
+        }
+        return null;
+    }
+
+    public AccountObj getAccountByCustomerAccountIDServ(String EmailUserName, String Password, String AccountIDSt) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountByCustomerAccountID(this, EmailUserName, Password, AccountIDSt);
+        }
+        return null;
+    }
+
+    public float getAccountStockBalanceServ(TradingRuleObj trObj) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountStockRealTimeBalance(this, trObj);
+        }
+        return -9999;
+    }
+
+    public int addAccountStockByAccountServ(AccountObj accountObj, String symbol) {
+        if (custAccFlag == true) {
+            return custAccSrv.addAccountStockByAccount(this, accountObj, symbol);
+        }
+        return 0;
+    }
+
+    public int addAccountStockByCustAccServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+        if (custAccFlag == true) {
+            return custAccSrv.addAccountStockByCustAcc(this, EmailUserName, Password, AccountIDSt, symbol);
+        }
+        return 0;
+    }
+
+    public int removeAccountStockByUserNameAccIdServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+        if (custAccFlag == true) {
+            return custAccSrv.removeAccountStockByUserNameAccId(this, EmailUserName, Password, AccountIDSt, symbol);
+        }
+        return 0;
+    }
+//    //ConstantKey.NOTEXISTED
+
+    public int removeAccountStockSymbolServ(AccountObj accountObj, String symbol) {
+        if (custAccFlag == true) {
+            return custAccSrv.removeAccountStockSymbol(this, accountObj, symbol);
+        }
+        return 0;
+    }
+
+    public TradingRuleObj getAccountStockTRByTRnameServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountStockTRByTRname(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
+        }
+        return null;
+    }
+
+    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountIDServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountStockTRTranListByAccountID(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
+        }
+        return null;
+    }
+
+    public int getAccountStockTRListHistoryDisplayProcessServ(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
+        if (custAccFlag == true) {
+            return custAccSrv.getAccountStockTRListHistoryDisplayProcess(trObjList, writeArray, displayArray);
+        }
+        return 0;
+    }
+
+//    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
+    public ArrayList getExpiredCustomerListServ(int length) {
+        if (custAccFlag == true) {
+            return custAccSrv.getExpiredCustomerList(this, length);
+        }
+        return null;
+    }
+//    // need ConstantKey.DISABLE status beofore remove customer
+
+    public int removeCustomerServ(String EmailUserName) {
+        if (custAccFlag == true) {
+            return custAccSrv.removeCustomer(this, EmailUserName);
+        }
+        return 0;
+    }
+
+    public boolean SystemFundResetGlobalServ() {
+        if (custAccFlag == true) {
+            return custAccSrv.SystemFundResetGlobal(this);
+        }
+        return false;
+    }
+
+    public boolean SystemFundSelectBestServ() {
+        if (custAccFlag == true) {
+            return custAccSrv.SystemFundSelectBest(this);
+        }
+        return false;
+    }
+
+    public boolean SystemFundPocessAddRemoveServ() {
+        if (custAccFlag == true) {
+            return custAccSrv.SystemFundPocessAddRemove(this);
+        }
+        return false;
+    }
+
+    public String getAccountStockTRListHistoryChartServ(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
+        if (custAccFlag == true) {
+            ChartService chartSrv = new ChartService();
+            return chartSrv.getAccountStockTRListHistoryChartToFile(this, thObjListMain, stockidsymbol, trname, pathSt);
+        }
+        return "";
+    }
+
+    //////////////////////////////////////////////////
+    //////////////////////////////////////////
+    // StockService
+    StockService stockSrv = new StockService();
+    public static boolean stockFlag = true;
+
+    //////////////////////////////////////////
+    public RequestObj SystemSQLRequestStock(RequestObj sqlObj) {
+        RequestObj reqObj = stockSrv.SQLRequestStock(this, sqlObj);
+        return reqObj;
+    }
+
+    public int updateSQLArrayListServ(ArrayList SQLTran) {
+        if (stockFlag == true) {
+            return stockSrv.updateSQLArrayList(this, SQLTran);
+        }
+        return 0;
+    }
+
+    public String getAllStockDBSQL(String sql) {
+        if (stockFlag == true) {
+            return stockSrv.getAllStockDBSQL(sql);
+        }
+        return "";
+    }
+
+    public AFstockObj getStockBySymServ(String symbol) {
+        if (stockFlag == true) {
+            return stockSrv.getStockByName(this, symbol);
+        }
+        return null;
+    }
+
+    public AFstockObj getStockByStockIDServ(int stockID) {
+        if (stockFlag == true) {
+            return stockSrv.getStockBySockID(this, stockID);
+        }
+        return null;
+    }
+
+    public boolean checkStockServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+        if (stockFlag == true) {
+            return stockSrv.checkStock(serviceAFWeb, NormalizeSymbol);
+        }
+        return false;
+    }
+
+    public int addStockServ(String symbol) {
+        if (stockFlag == true) {
+            return stockSrv.addStock(this, symbol);
+        }
+        return 0;
+
+    }
+
+    public int disableStockServ(String symbol) {
+        if (stockFlag == true) {
+            return stockSrv.disableStock(this, symbol);
+        }
+        return 0;
+    }
+
+    public int deleteStockServ(AFstockObj stock) {
+        if (stockFlag == true) {
+            return stockSrv.deleteStock(this, stock);
+        }
+        return 0;
+    }
+
+    public int updateStockStatusDBServ(AFstockObj stock) {
+        if (stockFlag == true) {
+            return stockSrv.updateStockStatusDB(stock);
+        }
+        return 0;
+    }
+
+    public StringBuffer getInternetScreenPageServ(String url) {
+        if (stockFlag == true) {
+            return this.getStockImp().getInternetScreenPage(url);
+        }
+        return null;
+    }
+
+    public AFstockObj getRealTimeStockInternetServ(String NormalizeSymbol) {
+        if (stockFlag == true) {
+            return this.getStockImp().getRealTimeStockInternet(NormalizeSymbol);
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAllOpenStockNameServ() {
+        if (stockFlag == true) {
+            return stockSrv.getAllOpenStockNameArray(this);
+        }
+        return null;
+    }
+
+    //////////////////////////////////////////
+    // StockService
+    StockInfoService stockInfoSrv = new StockInfoService();
+    public static boolean stockInfoFlag = true;
+    //////////////////////////////////////////
+
+    public RequestObj SystemSQLRequestStockInfo(RequestObj sqlObj) {
+        RequestObj reqObj = stockInfoSrv.SQLRequestStockInfo(this, sqlObj);
+        return reqObj;
+    }
+
+    public ArrayList<AFstockInfo> getStockInfoServ(AFstockObj stock, int length, Calendar dateNow) {
+        if (stockInfoFlag == true) {
+            if (stock == null) {
+                return null;
+            }
+            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+                return null;
+            }
+            return stockInfoSrv.getStockInfo(stock.getSymbol(), length, dateNow);
+        }
+        return null;
+    }
+
+    // Heuoku cannot get the date of the first stockinfo????
+    public ArrayList<AFstockInfo> getStockInfo_workaroundServ(AFstockObj stock, int length, Calendar dateNow) {
+        if (stockInfoFlag == true) {
+            if (stock == null) {
+                return null;
+            }
+            if (stock.getSubstatus() == ConstantKey.INITIAL) {
+                return null;
+            }
+            return stockInfoSrv.getStockInfo_workaround(stock.getSymbol(), length, dateNow);
+        }
+        return null;
+    }
+
+    /////recent day first and the old data last////////////
+    // return stock history starting recent date to the old date
+    public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.getStockHistorical(this, symbol, length);
+        }
+        return null;
+    }
+
+    public ArrayList<AFstockInfo> getStockHistoricalRangeServ(String symbol, long start, long end) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.getStockHistoricalRange(this, symbol, start, end);
+        }
+        return null;
+    }
+
+    public int updateStockInfoTransactionServ(StockInfoTranObj stockInfoTran) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.updateStockInfoTransaction(this, stockInfoTran);
+        }
+        return 0;
+    }
+
+    public int removeStockInfoServ(String symbol) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.removeStockInfo(this, symbol);
+        }
+        return 0;
+    }
+
+    public int updateAllStockInfoSrv() {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.updateAllStockInfo(this);
+        }
+        return 0;
+    }
+
+    public int updateSQLStockInfoArrayListServ(ArrayList SQLTran) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.updateSQLStockInfoArrayList(this, SQLTran);
+        }
+        return 0;
+    }
+
+    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArrayServ(String sql) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.getAllStockInfoDBSQLArray(this, sql);
+        }
+        return null;
+    }
+
+    public String getAllStockInfoDBSQLServ(String sql) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.getAllStockInfoDBSQL(this, sql);
+        }
+        return "";
+    }
+
+    public ArrayList<String> getAllIdStockInfoSQLServ(String sql) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.getAllIdStockInfoSQL(sql);
+        }
+        return null;
+    }
+
+    public boolean restStockInfoDB() {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.restStockInfoDB(this);
+        }
+        return false;
+    }
+
+    public boolean cleanStockInfoDB() {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.cleanStockInfoDB(this);
+        }
+        return false;
+    }
+
+    public int initStockInfoDB() {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.initStockInfoDB(this);
+        }
+        return 0;
+    }
+
+    public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        if (stockInfoFlag == true) {
+            stockInfoSrv.setStockInfoDataSource(jdbcTemplate, dataSource);
+        }
+
+    }
+    //////////////////////////////////////////////////
+    // NNService
+    NNService nnSrv = new NNService();
+    public static boolean nnFlag = true;
+    //////////////////////////////////////////////////    
+    public RequestObj SystemSQLRequestNN(RequestObj sqlObj) {
+        RequestObj reqObj = nnSrv.SQLRequestNN(this, sqlObj);
+        return reqObj;
+    }
+
+    public void fileNNInputOutObjListServ(ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
+        if (nnFlag == true) {
+            nnSrv.fileNNInputOutObjList(this, inputList, symbol, stockId, filename);
+        }
+    }
+
+    ///////////////////////////////////////
+    ///////////////////////////////////////
     ///////////////////////////////////////
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
 
@@ -1396,138 +1833,6 @@ public class ServiceAFweb {
         return result;
     }
 
-    //////////////////////////////////////////////////
-    // NNService
-    //////////////////////////////////////////////////    
-    public void fileNNInputOutObjListServ(ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
-        if (true) {
-            NNService nnSrv = new NNService();
-            nnSrv.fileNNInputOutObjList(this, inputList, symbol, stockId, filename);
-        }
-    }
-
-    public String getAccountStockTRListHistoryChartServ(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
-        if (true) {
-            ChartService chartSrv = new ChartService();
-            return chartSrv.getAccountStockTRListHistoryChartToFile(this, thObjListMain, stockidsymbol, trname, pathSt);
-        }
-        return "";
-    }
-
-    //////////////////////////////////////////////////
-    // CustAccService
-    CustAccService custAccSrv = new CustAccService();
-
-    //////////////////////////////////////////////////
-    public ArrayList getAccountListServ(String EmailUserName, String Password) {
-        if (true) {
-            return custAccSrv.getAccountList(this, EmailUserName, Password);
-        }
-        return null;
-    }
-
-    public AccountObj getAccountByCustomerAccountIDServ(String EmailUserName, String Password, String AccountIDSt) {
-        if (true) {
-            return custAccSrv.getAccountByCustomerAccountID(this, EmailUserName, Password, AccountIDSt);
-        }
-        return null;
-    }
-
-    public float getAccountStockBalanceServ(TradingRuleObj trObj) {
-        if (true) {
-            return custAccSrv.getAccountStockRealTimeBalance(this, trObj);
-        }
-        return -9999;
-    }
-
-    public int addAccountStockByAccountServ(AccountObj accountObj, String symbol) {
-        if (true) {
-            return custAccSrv.addAccountStockByAccount(this, accountObj, symbol);
-        }
-        return 0;
-    }
-
-    public int addAccountStockByCustAccServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
-        if (true) {
-            return custAccSrv.addAccountStockByCustAcc(this, EmailUserName, Password, AccountIDSt, symbol);
-        }
-        return 0;
-    }
-
-    public int removeAccountStockByUserNameAccIdServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
-        if (true) {
-            return custAccSrv.removeAccountStockByUserNameAccId(this, EmailUserName, Password, AccountIDSt, symbol);
-        }
-        return 0;
-    }
-//    //ConstantKey.NOTEXISTED
-
-    public int removeAccountStockSymbolServ(AccountObj accountObj, String symbol) {
-        if (true) {
-            return custAccSrv.removeAccountStockSymbol(this, accountObj, symbol);
-        }
-        return 0;
-    }
-
-    public TradingRuleObj getAccountStockTRByTRnameServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
-        if (true) {
-            return custAccSrv.getAccountStockTRByTRname(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
-        }
-        return null;
-    }
-
-    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountIDServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
-        if (true) {
-            return custAccSrv.getAccountStockTRTranListByAccountID(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
-        }
-        return null;
-    }
-
-    public int getAccountStockTRListHistoryDisplayProcessServ(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
-        if (true) {
-            return custAccSrv.getAccountStockTRListHistoryDisplayProcess(trObjList, writeArray, displayArray);
-        }
-        return 0;
-    }
-
-//    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
-    public ArrayList getExpiredCustomerListServ(int length) {
-        if (true) {
-            return custAccSrv.getExpiredCustomerList(this, length);
-        }
-        return null;
-    }
-//    // need ConstantKey.DISABLE status beofore remove customer
-
-    public int removeCustomer(String EmailUserName) {
-        if (true) {
-            return custAccSrv.removeCustomer(this, EmailUserName);
-        }
-        return 0;
-    }
-
-    public boolean SystemFundResetGlobalServ() {
-        if (true) {
-            return custAccSrv.SystemFundResetGlobal(this);
-        }
-        return false;
-    }
-
-    public boolean SystemFundSelectBestServ() {
-        if (true) {
-            return custAccSrv.SystemFundSelectBest(this);
-        }
-        return false;
-    }
-
-    public boolean SystemFundPocessAddRemoveServ() {
-        if (true) {
-            return custAccSrv.SystemFundPocessAddRemove(this);
-        }
-        return false;
-    }
-
-    //////////////////////////////////////////////////
     //////////////////////////////////////////////////
     public ArrayList SystemUserNamebyAccountID(int accountID) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -2087,79 +2392,6 @@ public class ServiceAFweb {
         return 1;
     }
 
-/////////////////////////////////////////        
-/////////////////////////////////////////        
-//
-//    public static HashMap<String, ArrayList> stockInputMapFile = null;
-//
-//    public static boolean CreateAllStockHistoryFile(ServiceAFweb serviceAFWeb, String symbolL[], String fileName) {
-//        HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
-//
-//        try {
-//            ProcessAllStockHistoryCreatJava(serviceAFWeb, symbolL, stockInputMap);
-//
-//            String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-//            String inputListSt = ServiceAFweb.compress(inputListRawSt);
-//
-//            ArrayList msgWrite = new ArrayList();
-//
-//            int sizeline = 1000;
-//            int len = inputListSt.length();
-//            int beg = 0;
-//            int end = sizeline;
-//            while (true) {
-//                String st = inputListSt.substring(beg, end);
-//
-//                msgWrite.add(st);
-//
-//                if (end >= len) {
-//                    break;
-//                }
-//                beg = end;
-//                if (end + sizeline <= len) {
-//                    end += sizeline;
-//                } else {
-//                    end = len;
-//                }
-//            }
-//
-//            ////// end
-//            String fileN = ServiceAFweb.FileLocalPath + fileName + ".txt";
-//            FileUtil.FileWriteTextArray(fileN, msgWrite);
-//
-//            return true;
-//        } catch (Exception ex) {
-//        }
-//        return false;
-//    }
-//
-//    public static ArrayList<AFstockInfo> getAllStockHistoryFile(ServiceAFweb serviceAFWeb, String symbol, String fileName) {
-//        if (stockInputMapFile == null) {
-//            try {
-//
-//                String fileN = ServiceAFweb.FileLocalDebugPath + fileName + ".txt";
-//                if (getEnv.checkLocalPC() == true) {
-//                    fileN = ServiceAFweb.FileLocalPath + fileName + ".txt";
-//                }
-//                ArrayList msgRead = new ArrayList();
-//                boolean ret = FileUtil.FileReadTextArray(fileN, msgRead);
-//                if (ret == true) {
-//                    StringBuffer msgWrite = new StringBuffer();
-//                    for (int i = 0; i < msgRead.size(); i++) {
-//                        msgWrite.append(msgRead.get(i));
-//                    }
-//                    String inputListSt = ServiceAFweb.decompress(msgWrite.toString());
-//                    stockInputMapFile = new ObjectMapper().readValue(inputListSt, HashMap.class);
-//                }
-//            } catch (Exception ex) {
-//
-//            }
-//
-//        }
-//        ArrayList<AFstockInfo> stockInfoList = ProcessAllStockHistoryfromStaticCode(symbol, stockInputMapFile);
-//        return stockInfoList;
-//
-//    }
     public static HashMap<String, ArrayList> stockInputMap = null;
     public static HashMap<String, ArrayList> stockInputMap_1 = null;
 
@@ -2409,16 +2641,8 @@ public class ServiceAFweb {
 
 /////////////////////////////////////////    
 ////////////////////////////////////////////////////        
-    //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
-//    public static void updateAllStockFile(ServiceAFweb serviceAFWeb) {
-//
-//        //    public static String primaryStock[] = {"AAPL", "SPY", "DIA", "QQQ", "HOU.TO", "HOD.TO", "T.TO", "FAS", "FAZ", "RY.TO", "XIU.TO"};
-//        for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-//            String stockN = ServiceAFweb.primaryStock[i];
-//            updateStockFile(serviceAFWeb, stockN);
-//        }
-//
-//    }
+//https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
+
     public static boolean updateStockFileServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         ArrayList inputArray = new ArrayList();
         String nnFileName = ServiceAFweb.FileLocalPath + NormalizeSymbol + ".csv";
@@ -2503,254 +2727,6 @@ public class ServiceAFweb {
     }
 //////////////////////////////////////////    
 
-//////////////////////////////////////////
-    // StockService
-    StockInfoService stockInfoSrv = new StockInfoService();
-//////////////////////////////////////////
-
-    public ArrayList<AFstockInfo> getStockInfoServ(AFstockObj stock, int length, Calendar dateNow) {
-        if (stock == null) {
-            return null;
-        }
-        if (stock.getSubstatus() == ConstantKey.INITIAL) {
-            return null;
-        }
-        return stockInfoSrv.getStockInfo(stock.getSymbol(), length, dateNow);
-    }
-
-    // Heuoku cannot get the date of the first stockinfo????
-    public ArrayList<AFstockInfo> getStockInfo_workaroundServ(AFstockObj stock, int length, Calendar dateNow) {
-        if (stock == null) {
-            return null;
-        }
-        if (stock.getSubstatus() == ConstantKey.INITIAL) {
-            return null;
-        }
-        return stockInfoSrv.getStockInfo_workaround(stock.getSymbol(), length, dateNow);
-    }
-
-    /////recent day first and the old data last////////////
-    // return stock history starting recent date to the old date
-    public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
-        if (true) {
-            return stockInfoSrv.getStockHistorical(this, symbol, length);
-        }
-        return null;
-    }
-
-    public ArrayList<AFstockInfo> getStockHistoricalRangeServ(String symbol, long start, long end) {
-        if (true) {
-            return stockInfoSrv.getStockHistoricalRange(this, symbol, start, end);
-        }
-        return null;
-    }
-
-    public int updateStockInfoTransactionServ(StockInfoTranObj stockInfoTran) {
-        if (true) {
-            return stockInfoSrv.updateStockInfoTransaction(this, stockInfoTran);
-        }
-        return 0;
-    }
-
-    public int removeStockInfoServ(String symbol) {
-        if (true) {
-            return stockInfoSrv.removeStockInfo(this, symbol);
-        }
-        return 0;
-    }
-
-    public int updateAllStockInfoSrv() {
-        if (true) {
-            return stockInfoSrv.updateAllStockInfo(this);
-        }
-        return 0;
-    }
-
-    public int updateSQLStockInfoArrayListServ(ArrayList SQLTran) {
-        if (true) {
-            return stockInfoSrv.updateSQLStockInfoArrayList(this, SQLTran);
-        }
-        return 0;
-    }
-
-    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArrayServ(String sql) {
-        if (true) {
-            return stockInfoSrv.getAllStockInfoDBSQLArray(this, sql);
-        }
-        return null;
-    }
-
-    public String getAllStockInfoDBSQLServ(String sql) {
-        if (true) {
-            return stockInfoSrv.getAllStockInfoDBSQL(this, sql);
-        }
-        return "";
-    }
-
-    public ArrayList<String> getAllIdStockInfoSQLServ(String sql) {
-        return stockInfoSrv.getAllIdStockInfoSQL(sql);
-    }
-
-    public boolean restStockInfoDB() {
-        return stockInfoSrv.restStockInfoDB(this);
-    }
-
-    public boolean cleanStockInfoDB() {
-        return stockInfoSrv.cleanStockInfoDB(this);
-    }
-
-    public int initStockInfoDB() {
-        return stockInfoSrv.initStockInfoDB(this);
-    }
-
-    public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        stockInfoSrv.setStockInfoDataSource(jdbcTemplate, dataSource);
-    }
-    ////////////////////////////////////////////
-//////////////////////////////////////////
-    // StockService
-    StockService stockSrv = new StockService();
-//////////////////////////////////////////
-
-    public int updateSQLArrayListServ(ArrayList SQLTran) {
-        if (true) {
-            return stockSrv.updateSQLArrayList(this, SQLTran);
-        }
-        return 0;
-    }
-
-    public String getAllStockDBSQL(String sql) {
-        return stockSrv.getAllStockDBSQL(sql);
-    }
-
-    public AFstockObj getStockBySymServ(String symbol) {
-        if (true) {
-            return stockSrv.getStockByName(this, symbol);
-        }
-        return null;
-    }
-
-    public AFstockObj getStockByStockIDServ(int stockID) {
-        if (true) {
-            return stockSrv.getStockBySockID(this, stockID);
-        }
-        return null;
-    }
-
-    public boolean checkStockServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
-        if (true) {
-            return stockSrv.checkStock(serviceAFWeb, NormalizeSymbol);
-        }
-        return false;
-    }
-
-    public int addStockServ(String symbol) {
-        if (true) {
-            return stockSrv.addStock(this, symbol);
-        }
-        return 0;
-
-    }
-
-    public int disableStockServ(String symbol) {
-        if (true) {
-            return stockSrv.disableStock(this, symbol);
-        }
-        return 0;
-    }
-
-    public int deleteStockServ(AFstockObj stock) {
-        if (true) {
-            return stockSrv.deleteStock(this, stock);
-        }
-        return 0;
-    }
-
-    public int updateStockStatusDBServ(AFstockObj stock) {
-        if (true) {
-            return stockSrv.updateStockStatusDB(stock);
-        }
-        return 0;
-    }
-
-    public StringBuffer getInternetScreenPageServ(String url) {
-        if (true) {
-            return this.getStockImp().getInternetScreenPage(url);
-        }
-        return null;
-    }
-
-    public AFstockObj getRealTimeStockInternetServ(String NormalizeSymbol) {
-        if (true) {
-            return this.getStockImp().getRealTimeStockInternet(NormalizeSymbol);
-        }
-        return null;
-    }
-
-    public ArrayList<String> getAllOpenStockNameServ() {
-        if (true) {
-            return stockSrv.getAllOpenStockNameArray(this);
-        }
-        return null;
-    }
-
-//////////////////////////////////////////
-    // System
-    SystemService systemSrv = new SystemService();
-
-    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        systemSrv.setDataSource(jdbcTemplate, dataSource);
-    }
-
-    public int initStockDB() {
-        return systemSrv.initStockDB();
-    }
-
-    public ArrayList<String> getAllIdSQLServ(String sql) {
-        return systemSrv.getAllIdSQL(sql);
-    }
-
-    public String getAllLockDBSQL(String sql) {
-        return systemSrv.getAllLockDBSQL(sql);
-    }
-
-    public ArrayList getAllLock() {
-        ArrayList result = null;
-        result = systemSrv.getAllLock();
-        return result;
-    }
-
-    public int setRenewLock(String name, int type) {
-        return systemSrv.setRenewLock(name, type);
-    }
-
-    public int setLockNameServ(String name, int type, long lockdatel, String comment) {
-        int resultLock = setLockName(name, type, lockdatel, comment);
-        // DB will enusre the name in the lock is unique and s
-        RandomDelayMilSec(200);
-        AFLockObject lock = getLockName(name, type);
-        if (lock != null) {
-            if (lock.getLockdatel() == lockdatel) {
-                return 1;
-            }
-        }
-        return 0;
-    }
-
-    public AFLockObject getLockName(String name, int type) {
-        return systemSrv.getLockName(name, type);
-    }
-
-    public int setLockName(String name, int type, long lockdatel, String comment) {
-        return systemSrv.setLockName(name, type, lockdatel, comment);
-    }
-
-    public int removeNameLock(String name, int type) {
-        return systemSrv.removeLock(name, type);
-
-    }
-
-///////////////////////////////////////////////////////////////////////////////////
     public int systemCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -2917,7 +2893,7 @@ public class ServiceAFweb {
     public static final int StockHistoricalRange = 252; //"114";     
     public static final int updateStockInfoTransaction = 253; //"103";
 //    public static final int UpdateSQLListInfo = 101; //"101";
-    
+
     public static final int AllNeuralNet = 310; //"5";
     public static final int AllNeuralNetData = 311; //"15";
     public static final int NeuralNetDataObj = 312; //"120";     
@@ -2932,24 +2908,19 @@ public class ServiceAFweb {
 //        }
         try {
             RequestObj reqObj = null;
-            SystemService sysSrv = new SystemService();
-            CustAccService custSrv = new CustAccService();
-            StockService stockSrv = new StockService();
-            StockInfoService stockInfoSrv = new StockInfoService();
-            NNService nnSrv = new NNService();
 
-            reqObj = sysSrv.SQLRequestSystem(this, sqlObj);
+            reqObj = SystemSQLRequestSystem(sqlObj);
             if (reqObj == null) {
-                reqObj = custSrv.SQLRequestCustAcc(this, sqlObj);
+                reqObj = SystemSQLRequestCustAcc(sqlObj);
             }
             if (reqObj == null) {
-                reqObj = stockSrv.SQLRequestStock(this, sqlObj);
+                reqObj = SystemSQLRequestStock(sqlObj);
             }
             if (reqObj == null) {
-                reqObj = stockInfoSrv.SQLRequestStockInfo(this, sqlObj);
+                reqObj = SystemSQLRequestStockInfo(sqlObj);
             }
             if (reqObj == null) {
-                reqObj = nnSrv.SQLRequestStockInfo(this, sqlObj);
+                reqObj = SystemSQLRequestNN(sqlObj);
             }
             ///////////////////////////////////////////////////////
             if (reqObj != null) {

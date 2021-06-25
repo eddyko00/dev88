@@ -167,7 +167,7 @@ public class AccountMaintProcess {
             if (custObj.getUpdatedatel() < cust15DayAgo) {
 
                 //remove customer
-                serviceAFWeb.removeCustomer(custObj.getUsername());
+                serviceAFWeb.removeCustomerServ(custObj.getUsername());
 
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);

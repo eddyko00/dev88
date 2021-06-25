@@ -36,13 +36,9 @@ public class NNService {
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
     private StockImp stockImp = new StockImp();
 
-    public RequestObj SQLRequestStockInfo(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+    public RequestObj SQLRequestNN(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
-        String st = "";
         String nameST = "";
-        int ret;
-        int accountId = 0;
-        ArrayList<String> nameList = null;
 
         try {
             String typeCd = sqlObj.getCmd();
