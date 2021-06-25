@@ -14,13 +14,13 @@ import com.afweb.nn.*;
 import com.afweb.nnsignal.*;
 
 import com.afweb.processstockinfo.StockInfoProcess;
-import com.afweb.processstock.StockService;
-import com.afweb.processstockinfo.StockInfoService;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
+import com.afweb.stock.StockImp;
 
 import com.afweb.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,66 @@ public class NNService {
 
     protected static Logger logger = Logger.getLogger("EmailService");
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
+    private StockImp stockImp = new StockImp();
 
+    public RequestObj StockInfoSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
+
+        String st = "";
+        String nameST = "";
+        int ret;
+        int accountId = 0;
+        ArrayList<String> nameList = null;
+
+        try {
+            String typeCd = sqlObj.getCmd();
+            int type = Integer.parseInt(typeCd);
+
+            switch (type) {
+                case ServiceAFweb.AllNeuralNet:
+                    nameST = stockImp.getAllNeuralNetDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.AllNeuralNetData:
+                    nameST = stockImp.getAllNeuralNetDataDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.NeuralNetDataObj: //NeuralNetDataObj = 120; //"120";      
+
+                    try {
+                        String BPname = sqlObj.getReq();
+                        ArrayList<AFneuralNetData> retArray = stockImp.getNeuralNetDataObj(BPname, 0);
+                        nameST = new ObjectMapper().writeValueAsString(retArray);
+                        sqlObj.setResp("" + nameST);
+
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
+                case ServiceAFweb.NeuralNetDataObjStockid: //NeuralNetDataObj = 121; //"121";        
+                    try {
+                        String BPname = sqlObj.getReq();
+
+                        String stockID = sqlObj.getReq1();
+                        int stockId121 = Integer.parseInt(stockID);
+
+                        String updatedateSt = sqlObj.getReq2();
+                        long updatedatel = Long.parseLong(updatedateSt);
+
+                        ArrayList<AFneuralNetData> retArray = stockImp.getNeuralNetDataObj(BPname, stockId121, updatedatel);
+                        nameST = new ObjectMapper().writeValueAsString(retArray);
+                        sqlObj.setResp("" + nameST);
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+            }
+        } catch (Exception ex) {
+            logger.info("> StockInfoSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());
+        }
+        return null;
+    }
+
+    //////////////////////////////////////////
     public String SystemClearNNinput(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;

@@ -5,7 +5,6 @@
  */
 package com.afweb.processstock;
 
-import com.afweb.account.AccountImp;
 import com.afweb.processstockinfo.StockInfoProcess;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
@@ -40,7 +39,7 @@ public class StockService {
     private StockImp stockImp = new StockImp();
 
     // need to move to account service
-    private AccountImp accountImp = new AccountImp();
+
 
     public RequestObj StockSQLRequest(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
@@ -55,36 +54,21 @@ public class StockService {
             int type = Integer.parseInt(typeCd);
 
             switch (type) {
-                case ServiceAFweb.AllName:
-                    nameList = getAllNameSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+
                 case ServiceAFweb.AllSymbol:
                     nameList = getAllSymbolSQL(sqlObj.getReq());
                     nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case ServiceAFweb.AllId:
-                    nameList = getAllIdSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-
-                case ServiceAFweb.AllLock:
-                    nameST = getAllLockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
                 case ServiceAFweb.AllStock:
                     nameST = getAllStockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
+                    
+
+
 ////////////////////////////                    
-                case ServiceAFweb.AllUserName:
-                    nameList = accountImp.getAllUserNameSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+
 
             }
         } catch (Exception ex) {
@@ -96,10 +80,6 @@ public class StockService {
 //////////////////////////////////////////    
     public String getAllStockDBSQL(String sql) {
         return stockImp.getAllStockDBSQL(sql);
-    }
-
-    public ArrayList getAllNameSQL(String sql) {
-        return stockImp.getAllNameSQL(sql);
     }
 
     public ArrayList getAllSymbolSQL(String sql) {
@@ -273,93 +253,6 @@ public class StockService {
         return stockImp.updateSQLArrayList(SQLTran);
     }
 
-    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        stockImp.setDataSource(jdbcTemplate, dataSource);
-    }
 
-    // 0 - new db, 1 - db already exist, -1 db error
-    public int initStockDB() {
-        try {
-
-            int result = stockImp.initStockDB();
-
-            if (result >= 0) {
-
-                //dummy stock
-                stockImp.addStock("T_T");
-
-                if (result == 0) {
-                    //clear lock                    
-                    stockImp.deleteAllLock();
-                    // add stocks
-                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                        String stockN = ServiceAFweb.primaryStock[i];
-                        stockImp.addStock(stockN);
-                    }
-                    stockImp.addStock("T.TO");
-                    return 0; // new db
-                }
-                return 1; // DB already exist
-            }
-        } catch (Exception ex) {
-
-        }
-        return -1;  // DB error
-    }
-
-    public ArrayList<String> getAllIdSQL(String sql) {
-        return stockImp.getAllIdSQL(sql);
-    }
-
-///////////////////////////////////////////
-    // System
-    public String getAllLockDBSQL(String sql) {
-        return stockImp.getAllLockDBSQL(sql);
-    }
-
-    public ArrayList getAllLock() {
-        return stockImp.getAllLock();
-    }
-
-    public int setRenewLock(String name, int type) {
-        Calendar dateNow = TimeConvertion.getCurrentCalendar();
-        long lockDateValue = dateNow.getTimeInMillis();
-
-        if (type == ConstantKey.STOCK_LOCKTYPE) {
-            SymbolNameObj symObj = new SymbolNameObj(name);
-            name = symObj.getYahooSymbol();
-        }
-        return stockImp.setRenewLock(name, type, lockDateValue);
-    }
-
-    public AFLockObject getLockName(String name, int type) {
-
-        if (type == ConstantKey.STOCK_LOCKTYPE) {
-            SymbolNameObj symObj = new SymbolNameObj(name);
-            name = symObj.getYahooSymbol();
-        }
-        name = name.toUpperCase();
-        return stockImp.getLockName(name, type);
-    }
-
-    public int setLockName(String name, int type, long lockDateValue, String comment) {
-
-        if (type == ConstantKey.STOCK_LOCKTYPE) {
-            SymbolNameObj symObj = new SymbolNameObj(name);
-            name = symObj.getYahooSymbol();
-        }
-        name = name.toUpperCase();
-        return stockImp.setLockName(name, type, lockDateValue, comment);
-    }
-
-    public int removeLock(String name, int type) {
-
-        if (type == ConstantKey.STOCK_LOCKTYPE) {
-            SymbolNameObj symObj = new SymbolNameObj(name);
-            name = symObj.getYahooSymbol();
-        }
-        name = name.toUpperCase();
-        return stockImp.removeLock(name, type);
-    }
 ///////////////////////////////////////////        
 }

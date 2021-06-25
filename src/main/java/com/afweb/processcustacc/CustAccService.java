@@ -63,6 +63,222 @@ public class CustAccService {
                     nameST = new ObjectMapper().writeValueAsString(nameList);
                     sqlObj.setResp(nameST);
                     return sqlObj;
+
+                case ServiceAFweb.AllCustomer:
+                    nameST = accountImp.getAllCustomerDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.AllAccount:
+                    nameST = accountImp.getAllAccountDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.AllAccountStock:
+                    nameST = accountImp.getAllAccountStockDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.AllPerformance: //AllPerformance = 13; //"13";  
+                    nameST = accountImp.getAllPerformanceDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.AllTransationorder: //AllTransationorder = 12; //"12";
+                    nameST = accountImp.getAllTransationOrderDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.AllSQLquery: //AllSQLreq = 14; //"14";  
+                    nameST = accountImp.getAllSQLquery(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.AllComm: //AllComm = 16; //"16";
+                    nameST = accountImp.getAllCommDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.AllBilling: // AllBilling = 17; //"17";      
+                    nameST = accountImp.getAllBillingDBSQL(sqlObj.getReq());
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.updateAccountStockSignal:  //updateAccountStockSignal = "102";
+                    try {
+                        st = sqlObj.getReq();
+                        TRObj stockTRObj = new ObjectMapper().readValue(st, TRObj.class
+                        );
+                        int result = accountImp.updateAccountStockSignal(stockTRObj.getTrlist());
+                        sqlObj.setResp("" + result);
+
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+                case ServiceAFweb.AllOpenAccountIDList:  //AllOpenAccountIDList = "104";
+                    ArrayList<String> nameId = accountImp.getAllOpenAccountID();
+                    nameST = new ObjectMapper().writeValueAsString(nameId);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.AccountObjByAccountID:  //AccountObjByAccountID = "105";
+                    String accIdSt = sqlObj.getReq();
+                    accountId = Integer.parseInt(accIdSt);
+                    AccountObj accountObj = accountImp.getAccountObjByAccountID(accountId);
+                    nameST = new ObjectMapper().writeValueAsString(accountObj);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.AccountStockNameList:  //AccountStockNameList = "106";
+                    accIdSt = sqlObj.getReq();
+                    accountId = Integer.parseInt(accIdSt);
+                    nameList = accountImp.getAccountStockNameList(accountId);
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+
+                case ServiceAFweb.UserNamebyAccountID:  //UserNamebyAccountID = "107";
+                    accIdSt = sqlObj.getReq();
+                    accountId = Integer.parseInt(accIdSt);
+                    nameList = accountImp.getUserNamebyAccountID(accountId);
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
+                case ServiceAFweb.UpdateTransactionOrder:  //UpdateTransactionOrder = "108";
+                    try {
+                        st = sqlObj.getReq();
+                        ArrayList transSQL = new ObjectMapper().readValue(st, ArrayList.class
+                        );
+                        ret = accountImp.updateTransactionOrder(transSQL);
+                        sqlObj.setResp("" + ret);
+
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
+                case ServiceAFweb.AccountStockListByAccountID:  //AccountStockListByAccountID = 110; //"110";  
+                    try {
+                        accIdSt = sqlObj.getReq();
+                        accountId = Integer.parseInt(accIdSt);
+                        String symbol = sqlObj.getReq1();
+                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                        int stockID = stock.getId();
+                        ArrayList<TradingRuleObj> trList = accountImp.getAccountStockTRListByAccountID(accountId, stockID);
+                        nameST = new ObjectMapper().writeValueAsString(trList);
+                        sqlObj.setResp("" + nameST);
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+                case ServiceAFweb.AccountStockClrTranByAccountID:  //AccountStockClrTranByAccountID = 111; //"111";       
+                    try {
+                        st = sqlObj.getReq();
+                        accountObj = new ObjectMapper().readValue(st, AccountObj.class);
+                        String stockID = sqlObj.getReq1();
+                        String trName = sqlObj.getReq2();
+
+                        int stockId = Integer.parseInt(stockID);
+                        ret = accountImp.clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
+                        sqlObj.setResp("" + ret);
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
+                case ServiceAFweb.AllAccountStockNameListExceptionAdmin:  //AllAccountStockNameListExceptionAdmin = 112; //"112";        
+                    try {
+                        accIdSt = sqlObj.getReq();
+                        accountId = Integer.parseInt(accIdSt);
+                        nameList = accountImp.getAllAccountStockNameListExceptionAdmin(accountId);
+                        nameST = new ObjectMapper().writeValueAsString(nameList);
+                        sqlObj.setResp(nameST);
+                        return sqlObj;
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
+                case ServiceAFweb.AddTransactionOrder:  //AddTransactionOrder = 113; //"113";         
+                    try {
+                        st = sqlObj.getReq();
+                        accountObj = new ObjectMapper().readValue(st, AccountObj.class);
+                        st = sqlObj.getReq1();
+                        AFstockObj stock = new ObjectMapper().readValue(st, AFstockObj.class);
+                        String trName = sqlObj.getReq2();
+                        String tranSt = sqlObj.getReq3();
+                        int tran = Integer.parseInt(tranSt);
+                        Calendar tranDate = null;
+                        String tranDateLSt = sqlObj.getReq4();
+                        if (tranDateLSt != null) {
+                            long tranDateL = Long.parseLong(tranDateLSt);
+                            tranDate = TimeConvertion.getCurrentCalendar(tranDateL);
+                        }
+                        ret = accountImp.AddTransactionOrder(accountObj, stock, trName, tran, tranDate, true);
+                        sqlObj.setResp("" + ret);
+                        return sqlObj;
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
+                case ServiceAFweb.AccountStockTransList: //AccountStockTransList = 115; //"115";    
+                    try {
+                        String accountIDSt = sqlObj.getReq();
+                        int accountID = Integer.parseInt(accountIDSt);
+                        String stockIDSt = sqlObj.getReq1();
+                        int stockID = Integer.parseInt(stockIDSt);
+                        String trName = sqlObj.getReq2();
+                        String lengthSt = sqlObj.getReq3();
+                        int length = Integer.parseInt(lengthSt);
+
+                        ArrayList<TransationOrderObj> retArray = accountImp.getAccountStockTransList(accountID, stockID, trName, length);
+
+                        nameST = new ObjectMapper().writeValueAsString(retArray);
+                        sqlObj.setResp("" + nameST);
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
+                case ServiceAFweb.AccountStockPerfList: //AccountStockPerfList = 116; //"116";    
+                    try {
+                        String accountIDSt = sqlObj.getReq();
+                        int accountID = Integer.parseInt(accountIDSt);
+                        String stockIDSt = sqlObj.getReq1();
+                        int stockID = Integer.parseInt(stockIDSt);
+                        String trName = sqlObj.getReq2();
+                        String lengthSt = sqlObj.getReq3();
+                        int length = Integer.parseInt(lengthSt);
+
+                        ArrayList<PerformanceObj> retArray = accountImp.getAccountStockPerfList(accountID, stockID, trName, length);
+
+                        nameST = new ObjectMapper().writeValueAsString(retArray);
+                        sqlObj.setResp("" + nameST);
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
+                case ServiceAFweb.AccountStockIDByTRname:  //AccountStockIDByTRname = 117; //"117";          
+                    try {
+
+                        String accountID = sqlObj.getReq();
+                        String stockID = sqlObj.getReq1();
+                        String trName = sqlObj.getReq2();
+
+                        accountId = Integer.parseInt(accountID);
+                        int stockId = Integer.parseInt(stockID);
+                        TradingRuleObj trObj = accountImp.getAccountStockIDByTRStockID(accountId, stockId, trName);
+                        nameST = new ObjectMapper().writeValueAsString(trObj);
+                        sqlObj.setResp("" + nameST);
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
+                case ServiceAFweb.AccountStockListByAccountIDStockID:  //AccountStockListByAccountIDStockID = 118; //"118";
+                    try {
+                        accIdSt = sqlObj.getReq();
+                        accountId = Integer.parseInt(accIdSt);
+                        String stockIdSt = sqlObj.getReq1();
+                        int stockId = Integer.parseInt(stockIdSt);
+
+                        ArrayList<TradingRuleObj> trList = accountImp.getAccountStockTRListByAccountID(accountId, stockId);
+                        nameST = new ObjectMapper().writeValueAsString(trList);
+                        sqlObj.setResp("" + nameST);
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
+
             }
         } catch (Exception ex) {
             logger.info("> StockInfoSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());
