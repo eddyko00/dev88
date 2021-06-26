@@ -5,6 +5,7 @@
  */
 package com.afweb.dbnndata;
 
+import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
@@ -17,11 +18,11 @@ import com.afweb.service.*;
 
 import com.afweb.util.CKey;
 import com.afweb.util.TimeConvertion;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,10 +41,9 @@ public class NNetdataDB {
 
     protected static Logger logger = Logger.getLogger("NNetdataDB");
 
-
     private static JdbcTemplate jdbcTemplate;
     private static DataSource dataSource;
-    private static String remoteURL ="";
+    private static String remoteURL = "";
     private ServiceRemoteDBnndata remoteDB = new ServiceRemoteDBnndata();
 
 //    private StockInfoDB stockinfodb = new StockInfoDB();
@@ -72,8 +72,8 @@ public class NNetdataDB {
      * @param dataSource the dataSource to set
      */
     public void setDataSource(DataSource dataSource, String URL) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);       
-        this.remoteURL = URL;        
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.remoteURL = URL;
         this.dataSource = dataSource;
     }
 
@@ -89,7 +89,7 @@ public class NNetdataDB {
             processExecuteDB("drop table if exists dummynndata1");
             return true;
         } catch (Exception e) {
-            logger.info("> RestStockDB Table exception " + e.getMessage());
+            logger.info("> cleanNNdataInfoDB Table exception " + e.getMessage());
         }
         return false;
     }
@@ -108,7 +108,7 @@ public class NNetdataDB {
     public int initNNdataDB() {
 
         int total = 0;
-        logger.info(">>>>> InitStockInfoDB Table creation");
+        logger.info(">>>>> initNNdataDB Table creation");
         try {
 
             boolean initDBflag = false;
@@ -117,7 +117,7 @@ public class NNetdataDB {
             }
             total = getCountRowsInTable(getJdbcTemplate(), "dummynndata1");
         } catch (Exception e) {
-            logger.info("> InitStockInfoDB Table exception");
+            logger.info("> initNNdataDB Table exception");
             total = -1;
         }
         if (total >= 0) {
@@ -129,7 +129,8 @@ public class NNetdataDB {
             // sequency is important
             ArrayList dropTableList = new ArrayList();
             dropTableList.add("drop table if exists dummynndata1");
-            dropTableList.add("drop table if exists stockinfo");
+            dropTableList.add("drop table if exists neuralnet1");
+            dropTableList.add("drop table if exists neuralnetdata");
 
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
@@ -137,23 +138,25 @@ public class NNetdataDB {
             ArrayList createTableList = new ArrayList();
             if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
                 createTableList.add("create table dummynndata1 (id int identity not null, primary key (id))");
-                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
+                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
             }
 
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummynndata1 (id int(10) not null auto_increment, primary key (id))");
-                createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, sym varchar(255) not null, stockid int(10) not null, primary key (id))");
+                createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+                createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
             }
 
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultCreate = ExecuteSQLArrayList(createTableList);
 
-            logger.info("> InitStockInfoDB Done - result " + resultCreate);
-            total = getCountRowsInTable(getJdbcTemplate(), "stockinfo");
+            logger.info("> initNNdataDB Done - result " + resultCreate);
+            total = getCountRowsInTable(getJdbcTemplate(), "neuralnetdata");
             return 0;  // new database
 
         } catch (Exception e) {
-            logger.info("> InitStockInfoDB Table exception " + e.getMessage());
+            logger.info("> initNNdataDB Table exception " + e.getMessage());
         }
         return -1;
     }
@@ -199,6 +202,132 @@ public class NNetdataDB {
         }
         return 0;
 
+    }
+/////////////////////////////////////////////////
+
+    public static String insertNeuralNetData(String table, AFneuralNetData newN) {
+        String dataSt = newN.getData();
+        dataSt = dataSt.replaceAll("\"", "#");
+        newN.setUpdatedatedisplay(new java.sql.Date(newN.getUpdatedatel()));
+        String sqlCMD = "insert into " + table + " (name, status, type, data, updatedatedisplay, updatedatel, id) VALUES "
+                + "('" + newN.getName() + "'," + newN.getStatus() + "," + newN.getType() + ",'" + dataSt + "'"
+                + ",'" + newN.getUpdatedatedisplay() + "'," + newN.getUpdatedatel() + "," + newN.getId() + ")";
+        return sqlCMD;
+    }
+
+    public int insertNeuralNetDataObject(AFneuralNetData nData) {
+        try {
+            String dataSt = nData.getData();
+            dataSt = dataSt.replaceAll("\"", "#");
+            String sqlCMD = "insert into neuralnetdata (name, status, type, data, updatedatedisplay, updatedatel) VALUES "
+                    + "('" + nData.getName() + "'," + nData.getStatus() + "," + nData.getType() + ",'" + dataSt + "'"
+                    + ",'" + new java.sql.Date(nData.getUpdatedatel()) + "'," + nData.getUpdatedatel() + ")";
+            return processUpdateDB(sqlCMD);
+
+        } catch (Exception e) {
+            logger.info("> insertNeuralNetDataObject exception " + nData.getName() + " - " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
+        try {
+            data = data.replaceAll("\"", "#");
+            String sqlCMD = "insert into neuralnetdata (name, status, type, data, updatedatedisplay, updatedatel) VALUES "
+                    + "('" + name + "'," + ConstantKey.OPEN + "," + stockId + ",'" + data + "'"
+                    + ",'" + new java.sql.Date(updatedatel) + "'," + updatedatel + ")";
+            return processUpdateDB(sqlCMD);
+
+        } catch (Exception e) {
+            logger.info("> insertNeuralNetDataObject exception " + name + " - " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public String getAllNeuralNetDataDBSQL(String sql) {
+        try {
+            ArrayList<AFneuralNet> entries = getAllNeuralNetDataSQL(sql);
+            String nameST = new ObjectMapper().writeValueAsString(entries);
+            return nameST;
+        } catch (JsonProcessingException ex) {
+        }
+        return null;
+    }
+
+    private ArrayList getAllNeuralNetDataSQL(String sql) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+            ArrayList nnList;
+            try {
+                nnList = remoteDB.getAllNeuralNetDataSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                return nnList;
+            } catch (Exception ex) {
+            }
+            return null;
+        }
+
+        try {
+            List<AFneuralNetData> entries = new ArrayList<>();
+            entries.clear();
+            entries = this.jdbcTemplate.query(sql, new RowMapper() {
+                public AFneuralNetData mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    AFneuralNetData nn = new AFneuralNetData();
+                    nn.setId(rs.getInt("id"));
+                    nn.setName(rs.getString("name"));
+                    nn.setStatus(rs.getInt("status"));
+                    nn.setType(rs.getInt("type"));
+
+                    String stData = rs.getString("data");
+                    stData = stData.replaceAll("#", "\"");
+                    nn.setData(stData);
+
+                    nn.setUpdatedatedisplay(new java.sql.Date(rs.getDate("updatedatedisplay").getTime()));
+                    nn.setUpdatedatel(rs.getLong("updatedatel"));
+
+                    return nn;
+                }
+            });
+            return (ArrayList) entries;
+        } catch (Exception e) {
+            logger.info("> getAllNeuralNetDataSQL exception " + e.getMessage());
+        }
+        return null;
+    }
+
+    public int deleteNeuralNetDataObjById(int id) {
+        String deleteSQL = "delete from neuralnetdata where id=" + id;
+        try {
+            return processUpdateDB(deleteSQL);
+        } catch (Exception e) {
+            logger.info("> deleteNeuralNetDataObj exception " + e.getMessage());
+        }
+        return 0;
+    }
+
+    /// Need to fix the stockId to sym
+    public ArrayList getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
+        String sql = "select * from neuralnetdata where name='" + name + "' and type=" + stockId + " and updatedatel=" + updatedatel;
+        ArrayList entries = getAllNeuralNetDataSQL(sql);
+        return entries;
+    }
+
+    //desc
+    public ArrayList getNeuralNetDataObj(String name, int length) {
+        String sql = "select * from neuralnetdata where name='" + name + "'" + " order by updatedatel desc";
+
+        sql = ServiceAFweb.getSQLLengh(sql, length);
+        ArrayList entries = getAllNeuralNetDataSQL(sql);
+        return entries;
+    }
+
+    public int deleteNeuralNetDataTable() {
+
+        try {
+            processExecuteDB("drop table if exists neuralnetdata");
+            processExecuteDB("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+            return 1;
+        } catch (Exception ex) {
+        }
+        return 0;
     }
 
     ///////////

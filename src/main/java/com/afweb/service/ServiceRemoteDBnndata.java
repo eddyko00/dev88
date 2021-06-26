@@ -7,6 +7,11 @@ package com.afweb.service;
 
 
 import com.afweb.model.stock.*;
+import static com.afweb.service.ServiceRemoteDB.CMD;
+import static com.afweb.service.ServiceRemoteDB.CMDPOST;
+import static com.afweb.service.ServiceRemoteDB.WEBPOST;
+import static com.afweb.service.ServiceRemoteDB.logger;
+import static com.afweb.service.ServiceRemoteDB.splitIncludeEmpty;
 import com.afweb.service.db.*;
 import com.afweb.util.CKey;
 
@@ -227,8 +232,192 @@ public class ServiceRemoteDBnndata {
         }
 
     }
+////////////////////////////////////////
+    public ArrayList getAllNeuralNetDataSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+//        log.info("getAllNeuralNetSqlRemoteDB_Mysql " + sqlCMD);
+        try {
+            String subResourcePath = remoteURL;
+            HashMap newmap = new HashMap();
+            newmap.put(CMD, "1");
 
+            HashMap newbodymap = new HashMap();
+            newbodymap.put(CMDPOST, sqlCMD);
+
+            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
+
+            int beg = output.indexOf("~~ ");
+            int end = output.indexOf(" ~~");
+            // create hash map
+            if (beg > end) {
+                return null;
+            }
+            output = output.substring(beg + 3, end);
+            if (output.length() == 0) {
+                return null;
+            }
+//            String[] dataArray = output.split("~");
+            String[] dataArray = splitIncludeEmpty(output, '~');
+            output = "[";
+//"create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, 
+//weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+
+            int recSize = 7;
+            for (int i = 0; i < dataArray.length; i += recSize) {
+                output += "{";
+                output += "\"id\":\"" + dataArray[i] + "\",";
+                output += "\"name\":\"" + dataArray[i + 1] + "\",";
+                output += "\"status\":\"" + dataArray[i + 2] + "\",";
+                output += "\"type\":\"" + dataArray[i + 3] + "\",";
+                output += "\"data\":\"" + dataArray[i + 4] + "\",";
+                output += "\"updatedatedisplay\":\"" + dataArray[i + 5] + "\",";
+                output += "\"updatedatel\":\"" + dataArray[i + 6] + "\"";
+
+                if (i + recSize >= dataArray.length) {
+                    output += "}";
+                } else {
+                    output += "},";
+                }
+            }
+            output += "]";
+            return getAllNeuralNetDataSqlRemoteDB_Process(output);
+
+        } catch (Exception ex) {
+            logger.info("getAllNeuralNetSqlRemoteDB exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+            throw ex;
+        }
+    }
+
+    public ArrayList getAllNeuralNetSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+//        log.info("getAllNeuralNetSqlRemoteDB_Mysql " + sqlCMD);
+        try {
+            String subResourcePath = WEBPOST;
+            HashMap newmap = new HashMap();
+            newmap.put(CMD, "1");
+
+            HashMap newbodymap = new HashMap();
+            newbodymap.put(CMDPOST, sqlCMD);
+
+            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
+
+            int beg = output.indexOf("~~ ");
+            int end = output.indexOf(" ~~");
+            // create hash map
+            if (beg > end) {
+                return null;
+            }
+            output = output.substring(beg + 3, end);
+            if (output.length() == 0) {
+                return null;
+            }
+//            String[] dataArray = output.split("~");
+            String[] dataArray = splitIncludeEmpty(output, '~');
+            output = "[";
+//"create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, 
+//weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+
+            int recSize = 8;
+            for (int i = 0; i < dataArray.length; i += recSize) {
+                output += "{";
+                output += "\"id\":\"" + dataArray[i] + "\",";
+                output += "\"name\":\"" + dataArray[i + 1] + "\",";
+                output += "\"refname\":\"" + dataArray[i + 2] + "\",";
+                output += "\"status\":\"" + dataArray[i + 3] + "\",";
+                output += "\"type\":\"" + dataArray[i + 4] + "\",";
+                output += "\"weight\":\"" + dataArray[i + 5] + "\",";
+                output += "\"updatedatedisplay\":\"" + dataArray[i + 6] + "\",";
+                output += "\"updatedatel\":\"" + dataArray[i + 7] + "\"";
+
+                if (i + recSize >= dataArray.length) {
+                    output += "}";
+                } else {
+                    output += "},";
+                }
+            }
+            output += "]";
+            return getAllNeuralNetSqlRemoteDB_Process(output);
+
+        } catch (Exception ex) {
+            logger.info("getAllNeuralNetSqlRemoteDB exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+            throw ex;
+        }
+    }
+
+    private ArrayList<AFneuralNetData> getAllNeuralNetDataSqlRemoteDB_Process(String output) {
+        if (output.equals("")) {
+            return null;
+        }
+        ArrayList<NeuralNetDataRDB> arrayDB = null;
+        ArrayList<AFneuralNetData> arrayReturn = new ArrayList();
+        try {
+            NeuralNetDataRDB[] arrayItem = new ObjectMapper().readValue(output, NeuralNetDataRDB[].class);
+            List<NeuralNetDataRDB> listItem = Arrays.<NeuralNetDataRDB>asList(arrayItem);
+            arrayDB = new ArrayList<NeuralNetDataRDB>(listItem);
+
+            for (int i = 0; i < arrayDB.size(); i++) {
+                NeuralNetDataRDB rs = arrayDB.get(i);
+
+                AFneuralNetData nn = new AFneuralNetData();
+                nn.setId(Integer.parseInt(rs.getId()));
+                nn.setName(rs.getName());
+                nn.setStatus(Integer.parseInt(rs.getStatus()));
+                nn.setType(Integer.parseInt(rs.getType()));
+
+                String stData = rs.getData();
+                stData = stData.replaceAll("#", "\"");
+                nn.setData(stData);
+
+                nn.setUpdatedatel(Long.parseLong(rs.getUpdatedatel()));
+                nn.setUpdatedatedisplay(new java.sql.Date(nn.getUpdatedatel()));
+
+                arrayReturn.add(nn);
+            }
+            return arrayReturn;
+        } catch (IOException ex) {
+            logger.info("getAllNeuralNetDataSqlRemoteDB_Process exception " + output);
+            return null;
+        }
+    }
+    
+    private ArrayList<AFneuralNet> getAllNeuralNetSqlRemoteDB_Process(String output) {
+        if (output.equals("")) {
+            return null;
+        }
+        ArrayList<NeuralNetRDB> arrayDB = null;
+        ArrayList<AFneuralNet> arrayReturn = new ArrayList();
+        try {
+            NeuralNetRDB[] arrayItem = new ObjectMapper().readValue(output, NeuralNetRDB[].class);
+            List<NeuralNetRDB> listItem = Arrays.<NeuralNetRDB>asList(arrayItem);
+            arrayDB = new ArrayList<NeuralNetRDB>(listItem);
+
+            for (int i = 0; i < arrayDB.size(); i++) {
+                NeuralNetRDB rs = arrayDB.get(i);
+
+                AFneuralNet nn = new AFneuralNet();
+                nn.setId(Integer.parseInt(rs.getId()));
+                nn.setName(rs.getName());
+                nn.setRefname(rs.getRefname());
+                nn.setStatus(Integer.parseInt(rs.getStatus()));
+                nn.setType(Integer.parseInt(rs.getType()));
+                nn.setWeight(rs.getWeight());
+                nn.setUpdatedatel(Long.parseLong(rs.getUpdatedatel()));
+                nn.setUpdatedatedisplay(new java.sql.Date(nn.getUpdatedatel()));
+
+                arrayReturn.add(nn);
+            }
+            return arrayReturn;
+        } catch (IOException ex) {
+            logger.info("getAllNeuralNetSqlRemoteDB exception " + output);
+            return null;
+        }
+    }
+//  
+/////////////////////////////////////////////////////////////////////////////    
     public ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
