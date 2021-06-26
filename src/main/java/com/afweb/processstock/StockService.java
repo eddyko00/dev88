@@ -10,7 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockImp;
+import com.afweb.dbstock.StockImp;
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

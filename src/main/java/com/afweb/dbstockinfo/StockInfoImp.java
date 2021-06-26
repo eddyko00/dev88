@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.stockinfo;
+package com.afweb.dbstockinfo;
 
 import com.afweb.model.stock.*;
 

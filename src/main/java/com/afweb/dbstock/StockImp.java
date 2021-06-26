@@ -1,7 +1,7 @@
-package com.afweb.stock;
+package com.afweb.dbstock;
 
 import com.afweb.stockinternet.StockInternetImpDao;
-import com.afweb.stockinfo.StockInfoDB;
+import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;

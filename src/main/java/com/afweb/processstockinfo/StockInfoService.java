@@ -10,7 +10,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stockinfo.StockInfoImp;
+import com.afweb.dbstockinfo.StockInfoImp;
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -17,8 +17,8 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
-import com.afweb.stock.StockDB;
-import com.afweb.stock.StockImp;
+import com.afweb.dbstock.StockDB;
+import com.afweb.dbstock.StockImp;
 
 import com.afweb.util.*;
 

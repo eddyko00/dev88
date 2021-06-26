@@ -17,7 +17,7 @@ import com.afweb.processstockinfo.StockInfoProcess;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
-import com.afweb.stock.StockImp;
+import com.afweb.dbstock.StockImp;
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -8,7 +8,7 @@ package com.afweb.signal;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.AFstockInfo;
 import com.afweb.signal.BBands.*;
-import com.afweb.stock.StockImp;
+import com.afweb.dbstock.StockImp;
 import com.jasonlam604.stocktechnicals.indicators.*;
 
 import java.util.ArrayList;

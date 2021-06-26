@@ -13,7 +13,7 @@ import com.afweb.model.stock.*;
 import com.afweb.processcustacc.CommService;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.stock.StockDB;
+import com.afweb.dbstock.StockDB;
 import com.afweb.util.*;
 
 import java.text.DateFormat;

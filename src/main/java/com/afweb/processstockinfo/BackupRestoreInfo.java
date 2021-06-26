@@ -5,7 +5,7 @@
  */
 package com.afweb.processstockinfo;
 
-import com.afweb.stockinfo.StockInfoDB;
+import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.RequestObj;
 
 import com.afweb.model.stock.*;
