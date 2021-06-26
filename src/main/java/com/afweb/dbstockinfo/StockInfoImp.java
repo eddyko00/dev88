@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 
 /**
  *

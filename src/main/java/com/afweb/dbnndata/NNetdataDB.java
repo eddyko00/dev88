@@ -9,17 +9,19 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.service.ServiceRemoteDB;
+import com.afweb.model.stock.*;
+
+import com.afweb.service.ServiceAFweb;
+
+import com.afweb.service.*;
 
 import com.afweb.util.CKey;
 import com.afweb.util.TimeConvertion;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,13 +36,15 @@ import org.springframework.jdbc.core.RowMapper;
  *
  * @author eddyko
  */
-public class NNetDB {
+public class NNetdataDB {
 
-    protected static Logger logger = Logger.getLogger("NNetDB");
+    protected static Logger logger = Logger.getLogger("NNetdataDB");
+
 
     private static JdbcTemplate jdbcTemplate;
     private static DataSource dataSource;
-    private ServiceRemoteDB remoteDB = new ServiceRemoteDB();
+    private static String remoteURL ="";
+    private ServiceRemoteDBnndata remoteDB = new ServiceRemoteDBnndata();
 
 //    private StockInfoDB stockinfodb = new StockInfoDB();
     /**
@@ -67,31 +71,22 @@ public class NNetDB {
     /**
      * @param dataSource the dataSource to set
      */
-    public void setDataSource(DataSource dataSource) {
+    public void setDataSource(DataSource dataSource, String URL) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);       
+        this.remoteURL = URL;        
         this.dataSource = dataSource;
     }
 
 ////////////////////////////  
 /////////////////////////////////////////////////
-    public boolean restStockInfoDB() {
-        boolean status = true;
+    public boolean cleanNNdataInfoDB() {
         try {
-            processExecuteDB("drop table if exists dummynn1");
-        } catch (Exception e) {
-            logger.info("> RestStockInfoDB Table exception " + e.getMessage());
-            status = false;
-        }
-        return status;
-    }
-
-    public boolean cleanStockInfoDB() {
-        try {
-            processExecuteDB("drop table if exists dummynn1");
-            int result = initStockInfoDB();
+            processExecuteDB("drop table if exists dummynndata1");
+            int result = initNNdataDB();
             if (result == -1) {
                 return false;
             }
-            processExecuteDB("drop table if exists dummynn1");
+            processExecuteDB("drop table if exists dummynndata1");
             return true;
         } catch (Exception e) {
             logger.info("> RestStockDB Table exception " + e.getMessage());
@@ -99,15 +94,18 @@ public class NNetDB {
         return false;
     }
 
-    public static String createDummyInfotable() {
+    public static String createDummyNNdatatable() {
         String sqlCMD = "";
+        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
+            sqlCMD = "create table dummynndata1 (id int identity not null, primary key (id))";
+        }
         if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
-            sqlCMD = "create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))";
+            sqlCMD = "create table dummynndata1 (id int(10) not null auto_increment, primary key (id))";
         }
         return sqlCMD;
     }
 
-    public int initStockInfoDB() {
+    public int initNNdataDB() {
 
         int total = 0;
         logger.info(">>>>> InitStockInfoDB Table creation");
@@ -115,9 +113,9 @@ public class NNetDB {
 
             boolean initDBflag = false;
             if (initDBflag == true) {
-                processExecuteDB("drop table if exists dummyinfo1");
+                processExecuteDB("drop table if exists dummynndata1");
             }
-            total = getCountRowsInTable(getJdbcTemplate(), "dummyinfo1");
+            total = getCountRowsInTable(getJdbcTemplate(), "dummynndata1");
         } catch (Exception e) {
             logger.info("> InitStockInfoDB Table exception");
             total = -1;
@@ -130,16 +128,20 @@ public class NNetDB {
 
             // sequency is important
             ArrayList dropTableList = new ArrayList();
-            dropTableList.add("drop table if exists dummyinfo1");
+            dropTableList.add("drop table if exists dummynndata1");
             dropTableList.add("drop table if exists stockinfo");
 
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
 
             ArrayList createTableList = new ArrayList();
+            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
+                createTableList.add("create table dummynndata1 (id int identity not null, primary key (id))");
+                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
+            }
 
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
-                createTableList.add("create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))");
+                createTableList.add("create table dummynndata1 (id int(10) not null auto_increment, primary key (id))");
                 createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, sym varchar(255) not null, stockid int(10) not null, primary key (id))");
             }
 
@@ -175,7 +177,7 @@ public class NNetDB {
     public int updateSQLInfoArrayList(ArrayList SQLTran) {
 
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
-            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
+            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran, remoteURL);
             if (ret == 0) {
                 return 0;
             }
@@ -200,9 +202,36 @@ public class NNetDB {
     }
 
     ///////////
+    public ArrayList getAllIdSQL(String sql) {
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+            ArrayList nnList;
+            try {
+                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                return nnList;
+            } catch (Exception ex) {
+            }
+            return null;
+        }
+
+        try {
+            List<String> entries = new ArrayList<>();
+            entries.clear();
+            entries = this.jdbcTemplate.query(sql, new RowMapper() {
+                public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    String name = rs.getString("id");
+                    return name;
+                }
+            });
+            return (ArrayList) entries;
+        } catch (Exception e) {
+            logger.info("> getAllIdSQL exception " + e.getMessage());
+        }
+        return null;
+    }
+
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
-            int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
+            int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName, remoteURL);
             return count;
         }
 
@@ -212,7 +241,7 @@ public class NNetDB {
 
     public int processUpdateDB(String sqlCMD) throws Exception {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
-            int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
+            int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return ret;
         }
 
@@ -225,7 +254,7 @@ public class NNetDB {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
-            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
+            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return;
         }
 
