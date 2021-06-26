@@ -100,8 +100,8 @@ public class SystemService {
         return null;
     }
 
-    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        stockImp.setDataSource(jdbcTemplate, dataSource);
+    public void setDataSource(DataSource dataSource) {
+        stockImp.setDataSource(dataSource);
     }
 
     // 0 - new db, 1 - db already exist, -1 db error

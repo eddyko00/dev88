@@ -34,8 +34,7 @@ public class AccountImp {
     protected static Logger logger = Logger.getLogger("AccountImp");
     public AccountDB accountdb = new AccountDB();
 
-    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        accountdb.setJdbcTemplate(jdbcTemplate);
+    public void setDataSource( DataSource dataSource) {
         accountdb.setDataSource(dataSource);
     }
 

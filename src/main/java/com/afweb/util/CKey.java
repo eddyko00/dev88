@@ -129,7 +129,6 @@ public class CKey {
     //////////////////////
     public static final int MSSQL = 1;/////// do not use //jdbc:sqlserver://sql.freeasphost.net\\MSSQL2016;databaseName=eddyko00_SampleDB
 
-    public static String dataSourceURL = "";
 ////////////////////////////  
 ////////////////////////////    
     public static final String COMMA = ",";

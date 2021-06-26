@@ -23,9 +23,8 @@ public class StockInfoImp {
     protected static Logger logger = Logger.getLogger("StockInfoImp");
     private StockInfoDB stockInfodb = new StockInfoDB();
 
-    public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public void setStockInfoDataSource( DataSource dataSource) {
 
-        stockInfodb.setJdbcTemplate(jdbcTemplate);
         stockInfodb.setDataSource(dataSource);
     }
 

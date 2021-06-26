@@ -33,8 +33,7 @@ public class StockImp {
     private StockDB stockdb = new StockDB();
     private StockInfoDB stockInfodb = new StockInfoDB();
 
-    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        stockdb.setJdbcTemplate(jdbcTemplate);
+    public void setDataSource(DataSource dataSource) {
         stockdb.setDataSource(dataSource);
 
     }

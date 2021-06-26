@@ -547,8 +547,8 @@ public class StockInfoService {
         return stockInfoImp.cleanStockInfoDB();
     }
 
-    public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        stockInfoImp.setStockInfoDataSource(jdbcTemplate, dataSource);
+    public void setStockInfoDataSource( DataSource dataSource) {
+        stockInfoImp.setStockInfoDataSource(dataSource);
     }
 
     public int initStockInfoDB(ServiceAFweb serviceAFWeb) {

@@ -96,6 +96,8 @@ public class ServiceAFweb {
     public static String PA_Str = "";
     public static String UU_Str = "";
 
+    public static String URL_INFO = "";
+
     public static ArrayList TRList = new ArrayList();
 
     private static AccountObj cacheAccountAdminObj = null;
@@ -219,11 +221,16 @@ public class ServiceAFweb {
         logger.info(">initDataSource ");
         //testing
         WebAppConfig webConfig = new WebAppConfig();
-        dataSource = webConfig.dataSource();
-        //testing        
+        this.dataSource = webConfig.dataSourceSystem();
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.dataSource = dataSource;
 
+        setDataSource(dataSource);
+
+        setStockInfoDataSource(dataSource);
+
+        setAccountDataSource(dataSource);
+
+////////////////////////////////////////
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);
         PROXYURL = enSt;
@@ -234,16 +241,12 @@ public class ServiceAFweb {
                 FileLocalPath = CKey.FileServerPathTemp;
             }
         }
-        String paStr = CKey.PA;
-        paStr = StringTag.replaceAll("abc", "", paStr);
-        PA_Str = paStr;
-        paStr = CKey.UA;
-        paStr = StringTag.replaceAll("abc", "", paStr);
-        UA_Str = paStr;
-        paStr = CKey.UU;
-        paStr = StringTag.replaceAll("abc", "", paStr);
-        UU_Str = paStr;
 
+        PA_Str = StringTag.replaceAll("abc", "", CKey.PA);
+        UA_Str = StringTag.replaceAll("abc", "", CKey.UA);
+        UU_Str = StringTag.replaceAll("abc", "", CKey.UU);
+
+        URL_INFO = StringTag.replaceAll("abc", "", CKey.SERVER_TIMMER_URL);
     }
 
     public int timerThread() {
@@ -333,12 +336,11 @@ public class ServiceAFweb {
 
                 // work around. must initialize for remote MYSQL
                 ServiceRemoteDB.setServiceAFWeb(this);
-                setDataSource(jdbcTemplate, dataSource);
+//                setDataSource(jdbcTemplate, dataSource);
 
-                setStockInfoDataSource(jdbcTemplate, dataSource);
-
-                setAccountDataSource(jdbcTemplate, dataSource);
-
+//                setStockInfoDataSource(jdbcTemplate, dataSource);
+//
+//                setAccountDataSource(jdbcTemplate, dataSource);
                 // work around. must initialize for remote MYSQL
                 serverObj.setTimerInit(true);
                 getServerObj().setProcessTimerCnt(0);
@@ -361,7 +363,8 @@ public class ServiceAFweb {
                 String dbStr = "";
                 if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
                     getServerObj().setLocalDBservice(true);
-                    String dsURL = CKey.dataSourceURL;
+                    DriverManagerDataSource DMdataSource = (DriverManagerDataSource) this.dataSource;
+                    String dsURL = DMdataSource.getUrl();
                     dbStr += "\r\n" + (">>>>> System Local DB URL:" + dsURL);
                 }
                 if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
@@ -1335,8 +1338,8 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public void setDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        systemSrv.setDataSource(jdbcTemplate, dataSource);
+    public void setDataSource(DataSource dataSource) {
+        systemSrv.setDataSource(dataSource);
     }
 
     public int initStockDB() {
@@ -1636,9 +1639,9 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public void setStockInfoDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public void setStockInfoDataSource(DataSource dataSource) {
         if (stockInfoFlag == true) {
-            stockInfoSrv.setStockInfoDataSource(jdbcTemplate, dataSource);
+            stockInfoSrv.setStockInfoDataSource(dataSource);
         }
 
     }
@@ -1711,8 +1714,8 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public void setAccountDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        custAccSrv.setAccountDataSource(jdbcTemplate, dataSource);
+    public void setAccountDataSource(DataSource dataSource) {
+        custAccSrv.setAccountDataSource(dataSource);
     }
 
     public int updateTransactionOrder(ArrayList transSQL) {
@@ -3471,16 +3474,15 @@ public class ServiceAFweb {
     }
 
 ////////////////////////////////
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        //testing
-        WebAppConfig webConfig = new WebAppConfig();
-        dataSource = webConfig.dataSource();
-        //testing        
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.dataSource = dataSource;
-    }
-
+//    @Autowired
+//    public void setDataSource(DataSource dataSource) {
+//        //testing
+//        WebAppConfig webConfig = new WebAppConfig();
+//        dataSource = webConfig.dataSource();
+//        //testing        
+//        this.jdbcTemplate = new JdbcTemplate(dataSource);
+//        this.dataSource = dataSource;
+//    }
     /**
      * @return the accountImp
      */

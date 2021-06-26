@@ -423,8 +423,8 @@ public class CustAccService {
         return accountImp.getCustomerPasswordNull(UserName);
     }
 
-    public void setAccountDataSource(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        accountImp.setDataSource(jdbcTemplate, dataSource);
+    public void setAccountDataSource( DataSource dataSource) {
+        accountImp.setDataSource( dataSource);
     }
 
     public int updateAddCustStatusPaymentBalance(String UserName,

@@ -9,17 +9,15 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.service.ServiceRemoteDB;
+import com.afweb.service.*;
 
 import com.afweb.util.CKey;
 import com.afweb.util.TimeConvertion;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,7 +38,8 @@ public class StockInfoDB {
 
     private static JdbcTemplate jdbcTemplate;
     private static DataSource dataSource;
-    private ServiceRemoteDB remoteDB = new ServiceRemoteDB();
+    private static String URL;    
+    private ServiceRemoteDBInfo remoteDB = new ServiceRemoteDBInfo();
 
 //    private StockInfoDB stockinfodb = new StockInfoDB();
     /**
@@ -68,6 +67,7 @@ public class StockInfoDB {
      * @param dataSource the dataSource to set
      */
     public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);        
         this.dataSource = dataSource;
     }
 
