@@ -154,12 +154,15 @@ public class NNService {
     public int setCreateNeuralNetObj1(String name, String weight) {
         return stockImp.setCreateNeuralNetObj1(name, weight);
     }
+
     public int updateNeuralNetRef1(String name, ReferNameData refnameData) {
         return stockImp.updateNeuralNetRef1(name, refnameData);
     }
+
     public int deleteNeuralNetDataObjById(int id) {
         return stockImp.deleteNeuralNetDataObjById(id);
-    }    
+    }
+
     //////////////////////////////////////////
     public String SystemClearNNinput(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -667,7 +670,7 @@ public class NNService {
                 logger.info("> remote dB stock:" + stockNameArray1.size());
                 StockNameRemoteList.addAll(stockNameArray1);
                 ArrayList<String> stockNameArray2 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
-                        accountObj.getId() + "", CKey.URL_PATH_OP);
+                        accountObj.getId() + "", CKey.URL_PATH_HERO_1);
                 logger.info("> remote dB1 stock:" + stockNameArray2.size());
                 StockNameRemoteList.addAll(stockNameArray2);
 
@@ -735,7 +738,7 @@ public class NNService {
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
 ////////////////
 ////////////////
-                URL = CKey.URL_PATH_OP;
+                URL = CKey.URL_PATH_HERO_1;
                 nnName = ConstantKey.TR_NN1;
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
                 nnName = ConstantKey.TR_NN2;
@@ -744,7 +747,7 @@ public class NNService {
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
 ////////////////////////////////////////////////  
 
-                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+
                 logger.info("> update  stock:" + stockNameArray.size());
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     String symbol = (String) stockNameArray.get(i);

@@ -75,7 +75,6 @@ public class ServiceAFweb {
 
     private static ServerObj serverObj = new ServerObj();
 
-    private JdbcTemplate jdbcTemplate;
     private DataSource dataSource;
 
     public static String serverLockName = "server";
@@ -89,7 +88,6 @@ public class ServiceAFweb {
 
 //    private AccountImp accountImp = new AccountImp();
     public static String PROXYURL = "";
-    public static String URL_LOCALDB = "";
     public static String FileLocalPath = "";
 
     public static String UA_Str = "";
@@ -222,8 +220,16 @@ public class ServiceAFweb {
         //testing
         WebAppConfig webConfig = new WebAppConfig();
         this.dataSource = webConfig.dataSourceSystem();
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
 
+        String URL_PATH ="";
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            URL_PATH = CKey.URL_PATH_HERO_DBDB_PHP +  CKey.WEBPOST_HERO_1_PHP;
+            //openshift Database
+            if (CKey.OTHER_PHP1_MYSQL == true) {
+                URL_PATH = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
+            }
+        }
+        
         setDataSource(dataSource);
 
         setStockInfoDataSource(dataSource);
@@ -372,9 +378,9 @@ public class ServiceAFweb {
                     getServerObj().setLocalDBservice(false);
                     // need this for SystemSQLRequest
                     if (CKey.OTHER_PHP1_MYSQL == true) {
-                        dbStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_OP_DB_PHP1);
+                        dbStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_HERO_1_DBDB_PHP);
                     } else {
-                        dbStr += "\r\n" + (">>>>> System PHP MYSQL DB URL:" + CKey.REMOTEDB_MY_SQLURL);
+                        dbStr += "\r\n" + (">>>>> System PHP MYSQL DB URL:" + CKey.URL_PATH_HERO_DBDB_PHP);
                     }
                 } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                     getServerObj().setLocalDBservice(true);

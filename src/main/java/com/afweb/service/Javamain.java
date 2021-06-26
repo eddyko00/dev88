@@ -31,8 +31,8 @@ public class Javamain {
 
         } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
             CKey.OTHER_PHP1_MYSQL = true;
-            CKey.SERVER_TIMMER_URL = CKey.URL_PATH_OP;
-            ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
+            CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_1;
+            ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP);
 
         } else if (cmd.indexOf("localmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;

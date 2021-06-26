@@ -67,8 +67,6 @@ public class ControllerAFweb {
         arrayString.add("/server/url0/set?url=stop");
         arrayString.add("/server/dburl");
         arrayString.add("/server/dburl/set?url=");
-        arrayString.add("/server/mysqldb");
-        arrayString.add("/server/mysqldb/set");
         //DB Backup
         arrayString.add("/cust/{username}/sys/downloaddb");
         //DB restore
@@ -294,26 +292,6 @@ public class ControllerAFweb {
         return "";
     }
 
-    //"/server/mysqldb"
-    //"/server/mysqldb/set"
-    @RequestMapping(value = "/server/mysqldb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String getServerLocalDbURL() {
-        return ServiceAFweb.URL_LOCALDB;
-    }
-
-    @RequestMapping(value = "/server/mysqldb/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String setServerLocalDbURL(
-            @RequestParam(value = "url", required = true) String urlSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-
-        ServiceAFweb.URL_LOCALDB = urlSt.trim();
-        //restart ServiceAFweb
-        afWebService.SystemStart();
-        return "done...";
-    }
 
     @RequestMapping(value = "/server/dburl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -331,7 +309,7 @@ public class ControllerAFweb {
     @RequestMapping(value = "/server/dburl/setop", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerDBURLOP() {
-        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP);
+        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP);
         return ServiceRemoteDB.getURL_PATH();
     }
 

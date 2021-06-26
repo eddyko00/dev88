@@ -547,7 +547,8 @@ public class StockInfoService {
         return stockInfoImp.cleanStockInfoDB();
     }
 
-    public void setStockInfoDataSource( DataSource dataSource) {
+    public void setStockInfoDataSource(DataSource dataSource) {
+
         stockInfoImp.setStockInfoDataSource(dataSource);
     }
 

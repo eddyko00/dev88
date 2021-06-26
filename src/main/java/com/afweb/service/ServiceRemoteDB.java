@@ -52,18 +52,18 @@ public class ServiceRemoteDB {
     private static String URL_PATH = "";
 
     public static String WEBPOST_MYSQL = CKey.WEBPOST_HERO_PHP; //"/webgetresp.php";
-    public static String URLPath_MYSQL = CKey.REMOTEDB_MY_SQLURL;
+    public static String URLPath_MYSQL = CKey.URL_PATH_HERO_DBDB_PHP;
 
 //    public static String WEBPOST_REQ = "sqlreq";
 //    public static String WEBPOST_ASP = "/webgetresp.asp";
 //    public static String URLPath_ASP = CKey.REMOTEDB_MS_SQLURL;
     public ServiceRemoteDB() {
 
-        URL_PATH = CKey.REMOTEDB_MY_SQLURL + WEBPOST_MYSQL;
+        URL_PATH = CKey.URL_PATH_HERO_DBDB_PHP + WEBPOST_MYSQL;
 
         //openshift Database
         if (CKey.OTHER_PHP1_MYSQL == true) {
-            URL_PATH = CKey.URL_PATH_OP_DB_PHP1 + CKey.WEBPOST_OP_PHP;
+            URL_PATH = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
         }
     }
 
