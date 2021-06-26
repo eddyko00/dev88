@@ -232,9 +232,9 @@ public class ServiceAFweb {
 
         setDataSource(dataSource, REMOTE_URL);
 
-        setStockInfoDataSource(dataSource, REMOTE_URL);
-
         setAccountDataSource(dataSource);
+
+        setStockInfoDataSource(dataSource, REMOTE_URL);
 
 ////////////////////////////////////////
         String enSt = CKey.PROXYURL_TMP;
