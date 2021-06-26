@@ -240,7 +240,7 @@ var app = {
                         var objData = JSON.parse(objDataStr);
                         if (objData != null) {
                             if (objData.conf != "") {
-                                comment = objData.conf + " n" + objData.nn + " t" + objData.tt;
+                                comment = objData.conf; // + " n" + objData.nn + " t" + objData.tt;
                             }
                         }
                     } catch (err) {
