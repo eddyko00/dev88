@@ -179,7 +179,7 @@ public class StockInfoDB {
     private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
             try {
-                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql);
+                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return AFstockObjArry;
             } catch (Exception ex) {
             }
@@ -330,7 +330,7 @@ public class StockInfoDB {
     public int updateSQLInfoArrayList(ArrayList SQLTran) {
 
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
-            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran);
+            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran, remoteURL);
             if (ret == 0) {
                 return 0;
             }
@@ -359,7 +359,7 @@ public class StockInfoDB {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
-                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql);
+                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return nnList;
             } catch (Exception ex) {
             }
@@ -384,7 +384,7 @@ public class StockInfoDB {
 
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
-            int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName);
+            int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName, remoteURL);
             return count;
         }
 
@@ -394,7 +394,7 @@ public class StockInfoDB {
 
     public int processUpdateDB(String sqlCMD) throws Exception {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
-            int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
+            int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return ret;
         }
 
@@ -407,7 +407,7 @@ public class StockInfoDB {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
-            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
+            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return;
         }
 

@@ -223,7 +223,7 @@ public class ServiceAFweb {
 
         String REMOTE_URL = "";
         if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            REMOTE_URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
+            REMOTE_URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP;
             //openshift Database
             if (CKey.OTHER_PHP1_MYSQL == true) {
                 REMOTE_URL = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
