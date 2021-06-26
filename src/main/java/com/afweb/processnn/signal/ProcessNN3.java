@@ -739,7 +739,7 @@ public class ProcessNN3 {
                         confidentSt = confidentSt + " (Take Profit)";
                     }
 
-                    confidentSt = confidentSt + " - " + debugSt;
+                    confidentSt = confidentSt + " [" + debugSt+"] ";
                     nnRet.setConfident(confidentSt);
                     accData.setConf(confidentSt);
                 }
@@ -981,9 +981,13 @@ public class ProcessNN3 {
     public int Rule5_ResetTR(ServiceAFweb serviceAFWeb, AccountObj accountObj, ArrayList StockArray, int offset, AFstockObj stock,
             int currSignal, float thClose, float StClose) {
 
-//        if (ServiceAFweb.mydebugnewtest == false) {
+        // SKIP for NN3 and use for NN93
+        // SKIP for NN3 and use for NN93
+//        boolean flag = true;
+//        if (flag == true) {
 //            return currSignal;
 //        }
+//        
         boolean checkResetTR = false;
 //        checkResetTR = true; ////// just for testing
 

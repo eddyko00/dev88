@@ -769,7 +769,7 @@ public class ProcessNN2 {
                     } else if (profitTake == true) {
                         confidentSt = confidentSt + " (Take Profit)";
                     }
-                    confidentSt = confidentSt + " - " + debugSt;
+                    confidentSt = confidentSt + " [" + debugSt+"] ";
                     nnRet.setConfident(confidentSt);                    
                     accData.setConf(confidentSt);
                 }
@@ -1031,9 +1031,13 @@ public class ProcessNN2 {
     public int Rule5_ResetTR(ServiceAFweb serviceAFWeb, AccountObj accountObj, ArrayList StockArray, int offset, AFstockObj stock,
             int currSignal, float thClose, float StClose) {
 
-//        if (ServiceAFweb.mydebugnewtest == false) {
+        // SKIP for NN2 and use for NN92
+        // SKIP for NN2 and use for NN92
+//        boolean flag = true;
+//        if (flag == true) {
 //            return currSignal;
 //        }
+//        
         boolean checkResetTR = false;
 //        checkResetTR = true; ////// just for testing
 
