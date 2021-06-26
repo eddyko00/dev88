@@ -5,8 +5,6 @@
  */
 package com.afweb.service;
 
-import com.afweb.model.ConstantKey;
-import com.afweb.model.account.*;
 
 import com.afweb.model.stock.*;
 import com.afweb.service.db.*;
@@ -22,9 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
