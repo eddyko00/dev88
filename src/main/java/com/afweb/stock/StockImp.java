@@ -33,8 +33,8 @@ public class StockImp {
     private StockDB stockdb = new StockDB();
     private StockInfoDB stockInfodb = new StockInfoDB();
 
-    public void setDataSource(DataSource dataSource) {
-        stockdb.setDataSource(dataSource);
+    public void setDataSource(DataSource dataSource, String URL) {
+        stockdb.setDataSource(dataSource, URL);
 
     }
 

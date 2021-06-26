@@ -22,7 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 
 /**
  *
@@ -38,8 +38,7 @@ public class StockInfoService {
 
         String st = "";
         String nameST = "";
-        int ret;
-        int accountId = 0;
+
         ArrayList<String> nameList = null;
 
         try {
@@ -547,9 +546,9 @@ public class StockInfoService {
         return stockInfoImp.cleanStockInfoDB();
     }
 
-    public void setStockInfoDataSource(DataSource dataSource) {
+    public void setStockInfoDataSource(DataSource dataSource, String URL) {
 
-        stockInfoImp.setStockInfoDataSource(dataSource);
+        stockInfoImp.setStockInfoDataSource(dataSource, URL);
     }
 
     public int initStockInfoDB(ServiceAFweb serviceAFWeb) {

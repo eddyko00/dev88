@@ -100,8 +100,8 @@ public class SystemService {
         return null;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        stockImp.setDataSource(dataSource);
+    public void setDataSource(DataSource dataSource, String URL) {
+        stockImp.setDataSource(dataSource, URL);
     }
 
     // 0 - new db, 1 - db already exist, -1 db error

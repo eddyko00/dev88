@@ -38,7 +38,7 @@ public class StockInfoDB {
 
     private static JdbcTemplate jdbcTemplate;
     private static DataSource dataSource;
-    private static String URL;    
+    private static String remoteURL ="";
     private ServiceRemoteDBInfo remoteDB = new ServiceRemoteDBInfo();
 
 //    private StockInfoDB stockinfodb = new StockInfoDB();
@@ -66,8 +66,9 @@ public class StockInfoDB {
     /**
      * @param dataSource the dataSource to set
      */
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);        
+    public void setDataSource(DataSource dataSource, String URL) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);       
+        this.remoteURL = URL;        
         this.dataSource = dataSource;
     }
 

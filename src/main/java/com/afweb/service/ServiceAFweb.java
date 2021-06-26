@@ -215,24 +215,24 @@ public class ServiceAFweb {
         return serverObjList;
     }
 
-    public void initDataSource() {
+    public void InitDataSource() {
         logger.info(">initDataSource ");
         //testing
         WebAppConfig webConfig = new WebAppConfig();
         this.dataSource = webConfig.dataSourceSystem();
 
-        String URL_PATH ="";
+        String REMOTE_URL = "";
         if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            URL_PATH = CKey.URL_PATH_HERO_DBDB_PHP +  CKey.WEBPOST_HERO_1_PHP;
+            REMOTE_URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
             //openshift Database
             if (CKey.OTHER_PHP1_MYSQL == true) {
-                URL_PATH = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
+                REMOTE_URL = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
             }
         }
-        
-        setDataSource(dataSource);
 
-        setStockInfoDataSource(dataSource);
+        setDataSource(dataSource, REMOTE_URL);
+
+        setStockInfoDataSource(dataSource, REMOTE_URL);
 
         setAccountDataSource(dataSource);
 
@@ -337,7 +337,7 @@ public class ServiceAFweb {
 
             if (getServerObj().isTimerInit() == false) {
                 /////////////
-                initDataSource();
+                InitDataSource();
                 InitStaticData();   // init TR data
 
                 // work around. must initialize for remote MYSQL
@@ -1344,8 +1344,8 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        systemSrv.setDataSource(dataSource);
+    public void setDataSource(DataSource dataSource, String URL) {
+        systemSrv.setDataSource(dataSource, URL);
     }
 
     public int initStockDB() {
@@ -1645,9 +1645,9 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public void setStockInfoDataSource(DataSource dataSource) {
+    public void setStockInfoDataSource(DataSource dataSource, String URL) {
         if (stockInfoFlag == true) {
-            stockInfoSrv.setStockInfoDataSource(dataSource);
+            stockInfoSrv.setStockInfoDataSource(dataSource, URL);
         }
 
     }

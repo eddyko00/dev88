@@ -23,9 +23,9 @@ public class StockInfoImp {
     protected static Logger logger = Logger.getLogger("StockInfoImp");
     private StockInfoDB stockInfodb = new StockInfoDB();
 
-    public void setStockInfoDataSource( DataSource dataSource) {
+    public void setStockInfoDataSource( DataSource dataSource, String URL) {
 
-        stockInfodb.setDataSource(dataSource);
+        stockInfodb.setDataSource(dataSource, URL);
     }
 
     public boolean restStockInfoDB() {
