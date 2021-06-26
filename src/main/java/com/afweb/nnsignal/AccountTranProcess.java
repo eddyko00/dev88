@@ -5,8 +5,8 @@
  */
 package com.afweb.nnsignal;
 
-import com.afweb.account.AccountDB;
-import com.afweb.account.AccountTranImp;
+import com.afweb.dbaccount.AccountDB;
+import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;

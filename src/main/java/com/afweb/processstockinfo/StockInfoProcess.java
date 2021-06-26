@@ -5,9 +5,10 @@
  */
 package com.afweb.processstockinfo;
 
+import com.afweb.processcustacc.CommMsgImp;
+import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.stockinternet.StockInternetImpDao;
 import com.afweb.nnsignal.NNCalProcess;
-import com.afweb.account.*;
 
 import com.afweb.model.*;
 

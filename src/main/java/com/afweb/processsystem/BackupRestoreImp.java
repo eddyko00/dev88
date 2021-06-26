@@ -6,7 +6,7 @@
 package com.afweb.processsystem;
 
 import com.afweb.dbstock.StockDB;
-import com.afweb.account.AccountDB;
+import com.afweb.dbaccount.AccountDB;
 import com.afweb.model.RequestObj;
 import com.afweb.model.account.*;
 

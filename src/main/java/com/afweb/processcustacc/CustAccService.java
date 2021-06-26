@@ -5,7 +5,7 @@
  */
 package com.afweb.processcustacc;
 
-import com.afweb.account.*;
+import com.afweb.dbaccount.AccountImp;
 import com.afweb.chart.*;
 import com.afweb.model.*;
 import com.afweb.model.account.*;

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.account;
+package com.afweb.processcustacc;
 
+import com.afweb.dbaccount.AccountDB;
 import com.afweb.model.*;
 
 import com.afweb.model.account.*;

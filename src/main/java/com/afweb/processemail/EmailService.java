@@ -5,7 +5,7 @@
  */
 package com.afweb.processemail;
 
-import com.afweb.account.AccountImp;
+import com.afweb.dbaccount.AccountImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 

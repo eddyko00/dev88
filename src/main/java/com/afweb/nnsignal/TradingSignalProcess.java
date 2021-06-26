@@ -9,13 +9,14 @@ package com.afweb.nnsignal;
 //https://jar-download.com/artifacts/eu.verdelhan/ta4j-examples/0.4/source-code/ta4jexamples/strategies/MovingMomentumStrategy.java
 
 //https://stackoverflow.com/questions/8587047/support-resistance-algorithm-technical-analysis/8590007
+import com.afweb.dbaccount.AccountDB;
+import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.dbstock.StockImp;
 import com.afweb.dbstock.StockDB;
 import com.afweb.processnn.signal.*;
 
 import com.afweb.processnn.*;
 
-import com.afweb.account.*;
 import com.afweb.model.*;
 
 import com.afweb.model.account.*;

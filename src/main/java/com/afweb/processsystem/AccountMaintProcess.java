@@ -5,7 +5,7 @@
  */
 package com.afweb.processsystem;
 
-import com.afweb.account.CommMsgImp;
+import com.afweb.processcustacc.CommMsgImp;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 

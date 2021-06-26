@@ -5,7 +5,7 @@
  */
 package com.afweb.nnsignal;
 
-import com.afweb.account.*;
+import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.model.*;
 
 import com.afweb.model.account.*;

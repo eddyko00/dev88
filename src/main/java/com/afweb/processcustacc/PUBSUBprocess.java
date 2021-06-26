@@ -5,8 +5,7 @@
  */
 package com.afweb.processcustacc;
 
-import com.afweb.account.AccountImp;
-import com.afweb.account.CommMsgImp;
+import com.afweb.dbaccount.AccountImp;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.account;
+package com.afweb.dbaccount;
 
 import com.afweb.model.AccDeprecateObj;
 import com.afweb.model.ConstantKey;
