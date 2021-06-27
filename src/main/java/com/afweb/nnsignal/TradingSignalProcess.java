@@ -25,7 +25,7 @@ import com.afweb.service.ServiceAFweb;
 
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
-import com.afweb.processnn.NNService;
+import com.afweb.processnn.NNetService;
 
 import com.afweb.signal.*;
 
@@ -52,7 +52,7 @@ import java.util.logging.Logger;
 public class TradingSignalProcess {
 
     protected static Logger logger = Logger.getLogger("TrandingSignalProcess");
-    NNService nnservice = new NNService();
+    NNetService nnservice = new NNetService();
 //
 
     public void upateAdminPerformance(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
@@ -2031,7 +2031,7 @@ public class TradingSignalProcess {
     public void downloadNeuralNetWeight(ServiceAFweb serviceAFWeb, int nnNum) {
         String name = CKey.NN_version + "_" + ConstantKey.TR_NN1;
         AFneuralNet nnObj = null;
-        NNService nnservice = new NNService();
+        NNetService nnservice = new NNetService();
         if (nnNum == 0) {
             nnObj = nnservice.getNeuralNetObjWeight0(serviceAFWeb, name, 0);
         } else if (nnNum == 1) {

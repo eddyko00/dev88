@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 public class NN3ProcessBySignal {
 
     public static Logger logger = Logger.getLogger("NN3Process");
-    NNService nnservice = new NNService();
+    NNetService nnservice = new NNetService();
 
     public void processNN3InputNeuralNet(ServiceAFweb serviceAFWeb) {
         TradingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
@@ -268,7 +268,7 @@ public class NN3ProcessBySignal {
 
             boolean flagInit = true;
             if (flagInit == true) {
-                NNService nnservice = new NNService();
+                NNetService nnservice = new NNetService();
                 AFneuralNet afNeuralNet = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPname, 0);
                 ////just for teting
 //                afNeuralNet = null;

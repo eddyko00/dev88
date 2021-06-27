@@ -8,7 +8,7 @@ package com.example.herokudemo;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFneuralNet;
-import com.afweb.processnn.NNService;
+import com.afweb.processnn.NNetService;
 import com.afweb.service.*;
 
 import com.afweb.util.CKey;
@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ControllerNN {
 
     private static AFwebService afWebService = new AFwebService();
-    private static NNService nnService = new NNService();
+    private static NNetService nnService = new NNetService();
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/{username}/sys/clearnninput");

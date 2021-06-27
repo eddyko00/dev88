@@ -23,7 +23,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.processcustacc.CustAccService;
-import com.afweb.processnn.NNService;
+import com.afweb.processnn.NNetService;
 import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.*;
 import com.afweb.processsystem.SystemService;
@@ -618,7 +618,7 @@ public class ServiceAFweb {
 
 ///////////////////////////////////////////////////////////////////////////////////
                     AFprocessDebug();
-                    NNService nnSrv = new NNService();
+                    NNetService nnSrv = new NNetService();
                     nnSrv.processNeuralNetTrain(this);
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -709,7 +709,7 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             updateAllStockInfoSrv();
-            NNService nnSrv = new NNService();
+            NNetService nnSrv = new NNetService();
             nnSrv.AFprocessNeuralNet(this);
 //            
             BillingProcess billProc = new BillingProcess();
@@ -1654,7 +1654,7 @@ public class ServiceAFweb {
     }
     //////////////////////////////////////////////////
     // NNService
-    NNService nnSrv = new NNService();
+    NNetService nnSrv = new NNetService();
     public static boolean nnFlag = true;
 
     //////////////////////////////////////////////////    
@@ -1718,6 +1718,13 @@ public class ServiceAFweb {
     public int initNNetDataDB() {
         if (nnFlag == true) {
             return nnSrv.initNNetDataDB(this);
+        }
+        return 0;
+    }
+
+    public int updateSQLNNArrayListServ(ArrayList SQLTran) {
+        if (nnFlag == true) {
+            return nnSrv.updateSQLNNArrayList(this, SQLTran);
         }
         return 0;
     }
@@ -3166,8 +3173,11 @@ public class ServiceAFweb {
         serverObj.setSysMaintenance(true);
 
         BackupRestoreInfo backupRestoreInfo = new BackupRestoreInfo();
-        backupRestoreInfo.downloadDBData(this);
+        backupRestoreInfo.downloadDBDataInfo(this);
 
+        BackupRestoreNN backupRestoreNN = new BackupRestoreNN();
+        backupRestoreNN.downloadDBDataNN(this);
+        
         BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.downloadDBData(this);
         if (retSatus == true) {
@@ -3184,7 +3194,7 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        BackupRestoreImp backupRestore = new BackupRestoreImp();
+        BackupRestoreNN backupRestore = new BackupRestoreNN();
         retSatus = backupRestore.restoreNNonlyDBData(this);
         if (retSatus == true) {
             serverObj.setSysMaintenance(true);
@@ -3209,6 +3219,9 @@ public class ServiceAFweb {
         BackupRestoreInfo backupRestoreInfo = new BackupRestoreInfo();
         backupRestoreInfo.restoreDBDataInfo(this);
 
+        BackupRestoreNN backupRestoreNN = new BackupRestoreNN();
+        backupRestoreNN.restoreDBDataNN(this);
+        
         BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.restoreDBData(this);
 
@@ -3258,7 +3271,7 @@ public class ServiceAFweb {
         boolean retSatus = false;
         // make sure the system is stopped first
         retSatus = restStockInfoDB();
-        retSatus = restNNdataDB();        
+        retSatus = restNNdataDB();
         retSatus = restStockDB();
         return "" + retSatus;
     }
@@ -3268,7 +3281,7 @@ public class ServiceAFweb {
 
         serverObj.setSysMaintenance(true);
         retSatus = cleanStockInfoDB();
-        retSatus = cleanNNdataDB();        
+        retSatus = cleanNNdataDB();
         retSatus = cleanStockDB();
         return "" + retSatus;
     }

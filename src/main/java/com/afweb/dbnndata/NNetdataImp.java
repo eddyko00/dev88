@@ -44,6 +44,9 @@ public class NNetdataImp {
         return nndatadb.initNNdataDB();
     }
 
+    public int updateSQLNNArrayList(ArrayList SQLTran) {
+        return nndatadb.updateSQLArrayList(SQLTran);
+    }    
     public String getAllNeuralNetDBSQL(String sql) {
         return nndatadb.getAllNeuralNetDBSQL(sql);
     }

@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 public class NN30ProcessByTrend {
 
     public static Logger logger = Logger.getLogger("NNProcessStock");
-    NNService nnservice = new NNService();
+    NNetService nnservice = new NNetService();
 
     public void processNN30InputNeuralNetTrend(ServiceAFweb serviceAFWeb) {
         ////////////////////////////////////////////

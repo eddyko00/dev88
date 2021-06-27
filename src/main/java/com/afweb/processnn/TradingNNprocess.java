@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 public class TradingNNprocess {
 
     protected static Logger logger = Logger.getLogger("TradingNNprocess");
-    NNService nnservice = new NNService();
+    NNetService nnservice = new NNetService();
     // data history from  old to more recent
     // get next 5 days close price
     public static int TREND_Day = 4;

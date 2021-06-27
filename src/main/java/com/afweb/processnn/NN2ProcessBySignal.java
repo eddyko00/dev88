@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 public class NN2ProcessBySignal {
 
     public static Logger logger = Logger.getLogger("NN2Process");
-    NNService nnservice = new NNService();
+    NNetService nnservice = new NNetService();
 ///////////////////////////////
 
     public void processNN2InputNeuralNet(ServiceAFweb serviceAFWeb) {

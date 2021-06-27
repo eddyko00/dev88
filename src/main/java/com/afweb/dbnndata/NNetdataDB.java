@@ -640,7 +640,7 @@ public class NNetdataDB {
 
     }
 
-    public int updateSQLInfoArrayList(ArrayList SQLTran) {
+    public int updateSQLArrayList(ArrayList SQLTran) {
 
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran, remoteURL);

@@ -123,7 +123,7 @@ public class BackupRestoreInfo {
     }
 
     //////////////////////////////////////////////////////////////////
-    public boolean downloadDBData(ServiceAFweb serviceAFWeb) {
+    public boolean downloadDBDataInfo(ServiceAFweb serviceAFWeb) {
         logger.info(">>>>>>>> downloadDBData ");
         saveDBstockinfo(serviceAFWeb);
 

@@ -31,7 +31,7 @@ import javax.sql.DataSource;
  *
  * @author koed
  */
-public class NNService {
+public class NNetService {
 
     protected static Logger logger = Logger.getLogger("EmailService");
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
@@ -108,6 +108,18 @@ public class NNService {
     public int initNNetDataDB(ServiceAFweb serviceAFWeb) {
         return nndataImp.initNNetDataDB();
     }
+    
+    public int updateSQLNNArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            // ignore backup and resotre
+            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
+                ;
+            } else {
+                return 0;
+            }
+        }
+        return nndataImp.updateSQLNNArrayList(SQLTran);
+    }    
 ///////////////////////////    
 
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
@@ -131,7 +143,6 @@ public class NNService {
 //    private int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
 //        return nndataImp.insertNeuralNetDataObject(name, stockId, data, updatedatel);
 //    }
-
     public int updateNeuralNetStatus0(String name, int status, int type) {
         return nndataImp.updateNeuralNetStatus0(name, status, type);
     }
@@ -790,8 +801,8 @@ public class NNService {
         logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + " " + URL);
 
         String BPnameSym = CKey.NN_version + "_" + nnName;
-        NNService nnservice = new NNService();
-        AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
+
+        AFneuralNet nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
         if (nnObj1 != null) {
             serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
         }
@@ -807,7 +818,7 @@ public class NNService {
             ///*****Make sure the DB name is .
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
-                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
+                nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
 
                     int ret = serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
