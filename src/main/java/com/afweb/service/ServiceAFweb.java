@@ -3339,7 +3339,9 @@ public class ServiceAFweb {
         if (retStatus >= 0) {
             //// init StockInfo
             initStockInfoDB();
-
+            
+            initNNetDataDB();
+            
             logger.info(">InitDB Customer account ");
             CustomerObj newCustomer = new CustomerObj();
             newCustomer.setUsername(CKey.ADMIN_USERNAME);

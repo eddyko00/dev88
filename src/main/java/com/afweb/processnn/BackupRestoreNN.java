@@ -44,7 +44,7 @@ public class BackupRestoreNN {
     }
 
     public boolean restoreDBDataNN(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>> restoreDBstockinfo ");
+        logger.info(">>>>>>>> restoreDBDataNN ");
 
         restoreDBneuralnet(serviceAFWeb);
         restoreDBdummyNN(serviceAFWeb);
@@ -205,7 +205,7 @@ public class BackupRestoreNN {
 
     //////////////////////////////////////////////////////////////////
     public boolean downloadDBDataNN(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>> downloadDBData ");
+        logger.info(">>>>>>>> downloadDBDataNN ");
         saveDBneuralnet(serviceAFWeb);
 
         return true;
