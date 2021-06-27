@@ -7,6 +7,7 @@ package com.afweb.processsystem;
 
 import com.afweb.dbstock.StockDB;
 import com.afweb.dbaccount.AccountDB;
+import com.afweb.dbnndata.NNetdataDB;
 import com.afweb.model.RequestObj;
 import com.afweb.model.account.*;
 
@@ -142,7 +143,7 @@ public class BackupRestoreImp {
             for (int i = 0; i < writeArray.size(); i++) {
                 String output = writeArray.get(i);
                 AFneuralNet item = new ObjectMapper().readValue(output, AFneuralNet.class);
-                String sql = StockDB.insertNeuralNet(tableName, item);
+                String sql = NNetdataDB.insertNeuralNet(tableName, item);
                 writeSQLArray.add(sql);
 
                 index++;
@@ -207,7 +208,7 @@ public class BackupRestoreImp {
             for (int i = 0; i < writeArray.size(); i++) {
                 String output = writeArray.get(i);
                 AFneuralNetData item = new ObjectMapper().readValue(output, AFneuralNetData.class);
-                String sql = StockDB.insertNeuralNetData(tableName, item);
+                String sql = NNetdataDB.insertNeuralNetData(tableName, item);
                 writeSQLArray.add(sql);
                 index++;
                 if (index > 500) {  //500) {

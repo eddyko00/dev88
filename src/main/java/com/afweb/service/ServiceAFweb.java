@@ -236,6 +236,7 @@ public class ServiceAFweb {
 
         setStockInfoDataSource(dataSource, REMOTE_URL);
 
+        setNNetDataDataSource(dataSource, REMOTE_URL);
 ////////////////////////////////////////
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);
@@ -1708,6 +1709,12 @@ public class ServiceAFweb {
         }
     }
 
+    public void setNNetDataDataSource(DataSource dataSource, String URL) {
+        if (nnFlag == true) {
+            nnSrv.setNNetDataDataSource(dataSource, URL);
+        }
+
+    }
     ///////////////////////////////////////
     //////////////////////////////////////////////////
     // CustAccService

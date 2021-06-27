@@ -5,13 +5,7 @@
  */
 package com.afweb.service;
 
-
 import com.afweb.model.stock.*;
-import static com.afweb.service.ServiceRemoteDB.CMD;
-import static com.afweb.service.ServiceRemoteDB.CMDPOST;
-import static com.afweb.service.ServiceRemoteDB.WEBPOST;
-import static com.afweb.service.ServiceRemoteDB.logger;
-import static com.afweb.service.ServiceRemoteDB.splitIncludeEmpty;
 import com.afweb.service.db.*;
 import com.afweb.util.CKey;
 
@@ -46,7 +40,6 @@ public class ServiceRemoteDBnndata {
     public static Logger logger = Logger.getLogger("ServiceRemoteDB");
     public static String CMD = "cmd";
     public static String CMDPOST = "sqlreq";
-
 
     public int getExecuteRemoteListDB_Mysql(ArrayList<String> sqlCMDList, String remoteURL) {
 //        log.info("postExecuteListRemoteDB_Mysql sqlCMDList " + sqlCMDList.size());
@@ -233,6 +226,7 @@ public class ServiceRemoteDBnndata {
 
     }
 ////////////////////////////////////////
+
     public ArrayList getAllNeuralNetDataSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
@@ -290,12 +284,12 @@ public class ServiceRemoteDBnndata {
         }
     }
 
-    public ArrayList getAllNeuralNetSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getAllNeuralNetSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAllNeuralNetSqlRemoteDB_Mysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -383,7 +377,7 @@ public class ServiceRemoteDBnndata {
             return null;
         }
     }
-    
+
     private ArrayList<AFneuralNet> getAllNeuralNetSqlRemoteDB_Process(String output) {
         if (output.equals("")) {
             return null;
@@ -416,7 +410,7 @@ public class ServiceRemoteDBnndata {
             return null;
         }
     }
-//  
+
 /////////////////////////////////////////////////////////////////////////////    
     public ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
@@ -458,7 +452,7 @@ public class ServiceRemoteDBnndata {
                 output += "\"low\":\"" + dataArray[i + 6] + "\",";
                 output += "\"volume\":\"" + dataArray[i + 7] + "\",";
                 output += "\"adjustclose\":\"" + dataArray[i + 8] + "\",";
-                output += "\"sym\":\"" + dataArray[i + 9] + "\",";                
+                output += "\"sym\":\"" + dataArray[i + 9] + "\",";
                 output += "\"stockid\":\"" + dataArray[i + 10] + "\"";
 
                 if (i + recSize >= dataArray.length) {
@@ -509,6 +503,150 @@ public class ServiceRemoteDBnndata {
             return arrayReturn;
         } catch (IOException ex) {
             logger.info("getStockInfoSqlRemoteDB_Process exception " + output);
+            return null;
+        }
+    }
+
+///////////////////////////////////
+    public ArrayList getAllNameSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
+
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+//        log.info("getAllNameSqlRemoteDB_RemoteMysql " + sqlCMD);
+        try {
+            String subResourcePath = remoteURL;
+            HashMap newmap = new HashMap();
+            newmap.put(CMD, "1");
+
+            HashMap newbodymap = new HashMap();
+            newbodymap.put(CMDPOST, sqlCMD);
+
+            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
+
+            int beg = output.indexOf("~~ ");
+            int end = output.indexOf(" ~~");
+            // create hash map
+            if (beg > end) {
+                return null;
+            }
+            output = output.substring(beg + 3, end);
+            ArrayList<String> retArray = new ArrayList();
+            if (output.length() == 0) {
+                return retArray;
+            }
+
+//            String[] dataArray = output.split("~");
+            String[] dataArray = splitIncludeEmpty(output, '~');
+            output = "[";
+            int recSize = 1;
+            for (int i = 0; i < dataArray.length; i += recSize) {
+                output += "{";
+                output += "\"name\":\"" + dataArray[i] + "\"";
+                if (i + recSize >= dataArray.length) {
+                    output += "}";
+                } else {
+                    output += "},";
+                }
+            }
+            output += "]";
+            return getAllNameSqlRemoteDB_Process(output);
+
+        } catch (Exception ex) {
+            logger.info("getAllNameSqlRemoteDB exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+            throw ex;
+        }
+    }
+
+    private ArrayList<String> getAllNameSqlRemoteDB_Process(String output) {
+        if (output.equals("")) {
+            return null;
+        }
+        ArrayList<NameRDB> arrayDB = null;
+        ArrayList<String> arrayReturn = new ArrayList();
+        try {
+            NameRDB[] arrayItem = new ObjectMapper().readValue(output, NameRDB[].class);
+            List<NameRDB> listItem = Arrays.<NameRDB>asList(arrayItem);
+            arrayDB = new ArrayList<NameRDB>(listItem);
+
+            for (int i = 0; i < arrayDB.size(); i++) {
+                NameRDB nameRDB = arrayDB.get(i);
+                arrayReturn.add(nameRDB.getName());
+            }
+            return arrayReturn;
+        } catch (IOException ex) {
+            logger.info("getAllNameSqlRemoteDB exception " + output);
+            return null;
+        }
+    }
+
+//////////////////////////////
+    public ArrayList getAllSymbolSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
+
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+//        log.info("getAllSymbolSqlRemoteDB_RemoteMysql " + sqlCMD);
+        try {
+            String subResourcePath = remoteURL;
+            HashMap newmap = new HashMap();
+            newmap.put(CMD, "1");
+
+            HashMap newbodymap = new HashMap();
+            newbodymap.put(CMDPOST, sqlCMD);
+
+            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
+
+            int beg = output.indexOf("~~ ");
+            int end = output.indexOf(" ~~");
+            // create hash map
+            if (beg > end) {
+                return null;
+            }
+            output = output.substring(beg + 3, end);
+            ArrayList<String> retArray = new ArrayList();
+            if (output.length() == 0) {
+                return retArray;
+            }
+
+//            String[] dataArray = output.split("~");
+            String[] dataArray = splitIncludeEmpty(output, '~');
+            output = "[";
+            int recSize = 1;
+            for (int i = 0; i < dataArray.length; i += recSize) {
+                output += "{";
+                output += "\"symbol\":\"" + dataArray[i] + "\"";
+                if (i + recSize >= dataArray.length) {
+                    output += "}";
+                } else {
+                    output += "},";
+                }
+            }
+            output += "]";
+            return getAllSymbolSqlRemoteDB_Process(output);
+
+        } catch (Exception ex) {
+            logger.info("getAllSymbolSqlRemoteDB_RemoteMysql exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+            throw ex;
+        }
+    }
+
+    private ArrayList<String> getAllSymbolSqlRemoteDB_Process(String output) {
+        if (output.equals("")) {
+            return null;
+        }
+        ArrayList<SymbolRDB> arrayDB = null;
+        ArrayList<String> arrayReturn = new ArrayList();
+        try {
+            SymbolRDB[] arrayItem = new ObjectMapper().readValue(output, SymbolRDB[].class);
+            List<SymbolRDB> listItem = Arrays.<SymbolRDB>asList(arrayItem);
+            arrayDB = new ArrayList<SymbolRDB>(listItem);
+
+            for (int i = 0; i < arrayDB.size(); i++) {
+                SymbolRDB nameRDB = arrayDB.get(i);
+                arrayReturn.add(nameRDB.getSymbol());
+            }
+            return arrayReturn;
+        } catch (IOException ex) {
+            logger.info("getAllSymbolSqlRemoteDB exception " + output);
             return null;
         }
     }
@@ -583,7 +721,6 @@ public class ServiceRemoteDBnndata {
             return null;
         }
     }
-
 
     /////////////////////////////////////////////////////////////
     // operations names constants
