@@ -97,6 +97,14 @@ public class NNService {
         nndataImp.setNNDataDataSource(dataSource, URL);
     }
 
+    public boolean restNNdataDB(ServiceAFweb serviceAFWeb) {
+        return nndataImp.restNNdataDB();
+    }
+
+    public boolean cleanNNdataDB(ServiceAFweb serviceAFWeb) {
+        return nndataImp.cleanNNdataDB();
+    }
+
     public int initNNetDataDB(ServiceAFweb serviceAFWeb) {
         return nndataImp.initNNetDataDB();
     }

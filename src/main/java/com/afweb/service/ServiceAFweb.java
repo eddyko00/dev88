@@ -1714,14 +1714,28 @@ public class ServiceAFweb {
             nnSrv.setNNDataDataSource(dataSource, URL);
         }
     }
+
     public int initNNetDataDB() {
         if (nnFlag == true) {
             return nnSrv.initNNetDataDB(this);
         }
         return 0;
     }
-    
-    
+
+    public boolean restNNdataDB() {
+        if (nnFlag == true) {
+            return nnSrv.restNNdataDB(this);
+        }
+        return false;
+    }
+
+    public boolean cleanNNdataDB() {
+        if (nnFlag == true) {
+            return nnSrv.cleanNNdataDB(this);
+        }
+        return false;
+    }
+
     ///////////////////////////////////////
     //////////////////////////////////////////////////
     // CustAccService
@@ -3244,6 +3258,7 @@ public class ServiceAFweb {
         boolean retSatus = false;
         // make sure the system is stopped first
         retSatus = restStockInfoDB();
+        retSatus = restNNdataDB();        
         retSatus = restStockDB();
         return "" + retSatus;
     }
@@ -3253,6 +3268,7 @@ public class ServiceAFweb {
 
         serverObj.setSysMaintenance(true);
         retSatus = cleanStockInfoDB();
+        retSatus = cleanNNdataDB();        
         retSatus = cleanStockDB();
         return "" + retSatus;
     }
