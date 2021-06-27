@@ -10,10 +10,6 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 
-import com.afweb.model.stock.*;
-
-import com.afweb.service.ServiceAFweb;
-
 import com.afweb.service.*;
 
 import com.afweb.util.CKey;

@@ -5,7 +5,6 @@
  */
 package com.afweb.dbnndata;
 
-
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
 import com.afweb.nn.NNInputDataObj;
@@ -16,7 +15,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -30,11 +28,14 @@ public class NNetdataImp {
     protected static Logger logger = Logger.getLogger("StockInfoImp");
     private NNetdataDB nndatadb = new NNetdataDB();
 
-    
-    public void setNNetDataDataSource( DataSource dataSource, String URL) {
+    public void setNNetDataDataSource(DataSource dataSource, String URL) {
         nndatadb.setDataSource(dataSource, URL);
     }
-    
+
+    public int initNNetDataDB() {
+        return nndatadb.initNNdataDB();
+    }
+
     public String getAllNeuralNetDBSQL(String sql) {
         return nndatadb.getAllNeuralNetDBSQL(sql);
     }

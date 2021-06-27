@@ -1713,8 +1713,15 @@ public class ServiceAFweb {
         if (nnFlag == true) {
             nnSrv.setNNetDataDataSource(dataSource, URL);
         }
-
     }
+    public int initNNetDataDB() {
+        if (nnFlag == true) {
+            return nnSrv.initNNetDataDB(this);
+        }
+        return 0;
+    }
+    
+    
     ///////////////////////////////////////
     //////////////////////////////////////////////////
     // CustAccService

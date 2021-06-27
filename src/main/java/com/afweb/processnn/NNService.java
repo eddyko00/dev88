@@ -18,7 +18,6 @@ import com.afweb.processstockinfo.StockInfoProcess;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
-import com.afweb.dbstock.StockImp;
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,6 +95,10 @@ public class NNService {
 
     public void setNNetDataDataSource(DataSource dataSource, String URL) {
         nndataImp.setNNetDataDataSource(dataSource, URL);
+    }
+
+    public int initNNetDataDB(ServiceAFweb serviceAFWeb) {
+        return nndataImp.initNNetDataDB();
     }
 ///////////////////////////    
 
