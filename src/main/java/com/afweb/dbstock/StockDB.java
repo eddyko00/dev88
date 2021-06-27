@@ -543,11 +543,13 @@ public class StockDB {
             dropTableList.add("drop table if exists lockobject");
             dropTableList.add("drop table if exists transationorder");
             dropTableList.add("drop table if exists tradingrule");
+            dropTableList.add("drop table if exists performance");            
+            
 //            dropTableList.add("drop table if exists stockinfo");
-            dropTableList.add("drop table if exists performance");
-            dropTableList.add("drop table if exists neuralnet");
-            dropTableList.add("drop table if exists neuralnet1");
-            dropTableList.add("drop table if exists neuralnetdata");
+
+//            dropTableList.add("drop table if exists neuralnet");
+//            dropTableList.add("drop table if exists neuralnet1");
+//            dropTableList.add("drop table if exists neuralnetdata");
             dropTableList.add("drop table if exists comm");
             dropTableList.add("drop table if exists billing");
             dropTableList.add("drop table if exists stock");
@@ -575,9 +577,9 @@ public class StockDB {
                 createTableList.add("create table performance (id int identity not null, name text null, type int not null, startdate date null, updatedatedisplay date null, updatedatel bigint not null, investment float(10) not null, balance float(10) not null, rating float(10) not null, netprofit float(10) not null, grossprofit float(10) not null, numtrade int not null"
                         + ", accountid int not null, stockid int not null, tradingruleid int not null, primary key (id))");
 
-                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+//                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+//                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+//                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
 
                 createTableList.add("create table comm (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, data text null, accountid int not null, customerid int not null, primary key (id))");
                 createTableList.add("create table billing (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, payment float(10) not null, balance float(10) not null, data text null, accountid int not null, customerid int not null, primary key (id))");
@@ -602,9 +604,9 @@ public class StockDB {
                 createTableList.add("create table performance (id int(10) not null auto_increment, name text, type int(10) not null, startdate date, updatedatedisplay date, updatedatel bigint(20) not null, investment float not null, balance float not null, rating float not null, netprofit float not null, grossprofit float not null, numtrade int(10) not null"
                         + ", accountid int(10) not null, stockid int not null, tradingruleid int(10) not null, primary key (id))");
 
-                createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-                createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-                createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+//                createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+//                createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+//                createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
 
                 createTableList.add("create table comm (id int(10) not null auto_increment, name varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, data text, accountid int(10) not null, customerid int(10) not null, primary key (id))");
                 createTableList.add("create table billing (id int(10) not null auto_increment, name varchar(255) not null, type int(10) not null, status int(10) not null, substatus int(10) not null, updatedatedisplay date, updatedatel bigint(20) not null, payment float not null, balance float not null, data text, accountid int(10) not null, customerid int(10) not null, primary key (id))");

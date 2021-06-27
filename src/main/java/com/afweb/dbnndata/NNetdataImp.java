@@ -28,8 +28,16 @@ public class NNetdataImp {
     protected static Logger logger = Logger.getLogger("StockInfoImp");
     private NNetdataDB nndatadb = new NNetdataDB();
 
-    public void setNNetDataDataSource(DataSource dataSource, String URL) {
+    public void setNNDataDataSource(DataSource dataSource, String URL) {
         nndatadb.setDataSource(dataSource, URL);
+    }
+
+    public boolean restNNdataDB() {
+        return nndatadb.restNNdataDB();
+    }
+
+    public boolean cleanNNdataDB() {
+        return nndatadb.cleanNNdataDB();
     }
 
     public int initNNetDataDB() {

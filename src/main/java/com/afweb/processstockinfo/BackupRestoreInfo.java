@@ -12,14 +12,12 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
 /**

@@ -73,9 +73,21 @@ public class NNetdataDB {
         this.dataSource = dataSource;
     }
 
-////////////////////////////  
+
 /////////////////////////////////////////////////
-    public boolean cleanNNdataInfoDB() {
+    public boolean restNNdataDB() {
+        boolean status = true;
+        try {
+            processExecuteDB("drop table if exists dummynndata1");
+        } catch (Exception e) {
+            logger.info("> restNNdataDB Table exception " + e.getMessage());
+            status = false;
+        }
+        return status;
+    }
+
+    
+    public boolean cleanNNdataDB() {
         try {
             processExecuteDB("drop table if exists dummynndata1");
             int result = initNNdataDB();
@@ -85,7 +97,7 @@ public class NNetdataDB {
             processExecuteDB("drop table if exists dummynndata1");
             return true;
         } catch (Exception e) {
-            logger.info("> cleanNNdataInfoDB Table exception " + e.getMessage());
+            logger.info("> cleanNNdataDB Table exception " + e.getMessage());
         }
         return false;
     }
@@ -125,6 +137,7 @@ public class NNetdataDB {
             // sequency is important
             ArrayList dropTableList = new ArrayList();
             dropTableList.add("drop table if exists dummynndata1");
+            dropTableList.add("drop table if exists neuralnet");
             dropTableList.add("drop table if exists neuralnet1");
             dropTableList.add("drop table if exists neuralnetdata");
 
@@ -134,12 +147,14 @@ public class NNetdataDB {
             ArrayList createTableList = new ArrayList();
             if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
                 createTableList.add("create table dummynndata1 (id int identity not null, primary key (id))");
+                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
                 createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
                 createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
             }
 
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummynndata1 (id int(10) not null auto_increment, primary key (id))");
+                createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
                 createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
                 createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
             }
@@ -157,6 +172,7 @@ public class NNetdataDB {
         return -1;
     }
 ////////////////////////////////////////////////////
+
     public int deleteNeuralNet0Table() {
         try {
             processExecuteDB("drop table if exists neuralnet");
@@ -178,7 +194,6 @@ public class NNetdataDB {
     }
 
     public int deleteNeuralNetDataTable() {
-
         try {
             processExecuteDB("drop table if exists neuralnetdata");
             processExecuteDB("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
@@ -609,7 +624,6 @@ public class NNetdataDB {
     }
 
 ////////////////////////////////////////////////////    
-    
     private boolean ExecuteSQLArrayList(ArrayList SQLTran) {
         String SQL = "";
         try {
@@ -654,7 +668,6 @@ public class NNetdataDB {
     }
 /////////////////////////////////////////////////
 
-
     /// Need to fix the stockId to sym
     public ArrayList getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
         String sql = "select * from neuralnetdata where name='" + name + "' and type=" + stockId + " and updatedatel=" + updatedatel;
@@ -662,10 +675,7 @@ public class NNetdataDB {
         return entries;
     }
 
-
-
     /////////////////////////////
-    
     public ArrayList getAllNameSQL(String sql) {
         if (ServiceAFweb.checkCallRemoteMysql() == true) {
             ArrayList nnList;
@@ -692,7 +702,7 @@ public class NNetdataDB {
         }
         return null;
     }
-    
+
 //    public ArrayList getAllSymbolSQL(String sql) {
 //        if (ServiceAFweb.checkCallRemoteMysql() == true) {
 //            ArrayList nnList;

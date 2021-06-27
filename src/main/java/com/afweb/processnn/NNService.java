@@ -93,8 +93,8 @@ public class NNService {
         return null;
     }
 
-    public void setNNetDataDataSource(DataSource dataSource, String URL) {
-        nndataImp.setNNetDataDataSource(dataSource, URL);
+    public void setNNDataDataSource(DataSource dataSource, String URL) {
+        nndataImp.setNNDataDataSource(dataSource, URL);
     }
 
     public int initNNetDataDB(ServiceAFweb serviceAFWeb) {
