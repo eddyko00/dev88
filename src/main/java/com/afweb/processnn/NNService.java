@@ -128,9 +128,9 @@ public class NNService {
         return nndataImp.insertNeuralNetDataObject(neuralNetData);
     }
 
-    private int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
-        return nndataImp.insertNeuralNetDataObject(name, stockId, data, updatedatel);
-    }
+//    private int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
+//        return nndataImp.insertNeuralNetDataObject(name, stockId, data, updatedatel);
+//    }
 
     public int updateNeuralNetStatus0(String name, int status, int type) {
         return nndataImp.updateNeuralNetStatus0(name, status, type);
@@ -394,9 +394,7 @@ public class NNService {
 
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "processNeuralNetTrain";
-        StockInfoProcess stockProcess = new StockInfoProcess();
 
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
