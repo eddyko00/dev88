@@ -7,10 +7,9 @@ package com.afweb.processsystem;
 
 import com.afweb.dbstock.StockDB;
 import com.afweb.dbaccount.AccountDB;
-import com.afweb.dbnndata.NNetdataDB;
-import com.afweb.model.RequestObj;
-import com.afweb.model.account.*;
 
+import com.afweb.model.*;
+import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
@@ -49,13 +48,6 @@ public class BackupRestoreImp {
         return 0;
     }
 
-//    public boolean restoreNNonlyDBData(ServiceAFweb serviceAFWeb) {
-//        int ret = restoreDBneuralnetPro(serviceAFWeb, "neuralnet");
-////        if (CKey.NN_DATA_DB == false) {
-////            ret = restoreDBneuralnetDataPro(serviceAFWeb, "neuralnetdata");
-////        }
-//        return true;
-//    }
 
 //    public static String ServiceAFweb.FileLocalPath = "T:/Netbean/db/";
     public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
@@ -390,7 +382,7 @@ public class BackupRestoreImp {
                 String sql = AccountDB.insertCommObj(item);
                 writeSQLArray.add(sql);
                 index++;
-                if (index > 500) {
+                if (index > 200) {
                     index = 0;
                     int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
