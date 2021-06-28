@@ -668,8 +668,8 @@ public class NNetdataDB {
 /////////////////////////////////////////////////
 
 //    /// Need to fix the stockId to sym
-    public ArrayList getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
-        String refname="";
+    public ArrayList getNeuralNetDataObjByStockId(String name, String sym,  int stockId, long updatedatel) {
+        String refname=sym;
         String sql = "select * from neuralnetdata where name='" + name + "' and type=" + stockId + " and updatedatel=" + updatedatel;
         ArrayList entries = getAllNeuralNetDataSQL(sql);
         return entries;

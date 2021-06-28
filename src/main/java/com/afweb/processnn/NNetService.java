@@ -67,22 +67,22 @@ public class NNetService {
                     }
                     return sqlObj;
 
-                case ServiceAFweb.NeuralNetDataObjStockid: //NeuralNetDataObj = 121; //"121";        
-                    try {
-                        String BPname = sqlObj.getReq();
-
-                        String stockID = sqlObj.getReq1();
-                        int stockId121 = Integer.parseInt(stockID);
-
-                        String updatedateSt = sqlObj.getReq2();
-                        long updatedatel = Long.parseLong(updatedateSt);
-
-                        ArrayList<AFneuralNetData> retArray = nndataImp.getNeuralNetDataObjByStockId(BPname, stockId121, updatedatel);
-                        nameST = new ObjectMapper().writeValueAsString(retArray);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.NeuralNetDataObjStockid: //NeuralNetDataObj = 121; //"121";        
+//                    try {
+//                        String BPname = sqlObj.getReq();
+//
+//                        String stockID = sqlObj.getReq1();
+//                        int stockId121 = Integer.parseInt(stockID);
+//
+//                        String updatedateSt = sqlObj.getReq2();
+//                        long updatedatel = Long.parseLong(updatedateSt);
+//
+//                        ArrayList<AFneuralNetData> retArray = nndataImp.getNeuralNetDataObjByStockId(BPname, stockId121, updatedatel);
+//                        nameST = new ObjectMapper().writeValueAsString(retArray);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
                 ////////////////////////////                    
                 default:
                     return null;
@@ -108,7 +108,7 @@ public class NNetService {
     public int initNNetDataDB(ServiceAFweb serviceAFWeb) {
         return nndataImp.initNNetDataDB();
     }
-    
+
     public int updateSQLNNArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             // ignore backup and resotre
@@ -119,15 +119,15 @@ public class NNetService {
             }
         }
         return nndataImp.updateSQLNNArrayList(SQLTran);
-    }    
+    }
 ///////////////////////////    
 
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
         return nndataImp.getNeuralNetDataObj(name, length);
     }
 
-    public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
-        return nndataImp.getNeuralNetDataObjByStockId(name, stockId, updatedatel);
+    public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
+        return nndataImp.getNeuralNetDataObjByStockId(name, refname, stockId, updatedatel);
     }
 
     public int deleteNeuralNetDataByBPname(String name) {

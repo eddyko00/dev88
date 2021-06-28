@@ -1667,8 +1667,8 @@ public class ServiceAFweb {
         return nnSrv.getNeuralNetDataObj(name, length);
     }
 
-    public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
-        return nnSrv.getNeuralNetDataObjByStockId(name, stockId, updatedatel);
+    public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
+        return nnSrv.getNeuralNetDataObjByStockId(name,refname, stockId, updatedatel);
     }
 
     public int deleteNeuralNetDataByBPname(String name) {
@@ -2395,41 +2395,7 @@ public class ServiceAFweb {
         return getNeuralNetDataObj(BPnameTR, 0);
     }
 
-    public ArrayList<AFneuralNetData> SystemNeuralNetDataObjStockid(String BPname, int stockId, long updatedatel) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.NeuralNetDataObjStockid + "");
-            String st;
-            try {
-                sqlObj.setReq(BPname + "");
-                sqlObj.setReq1(stockId + "");
-                sqlObj.setReq2(updatedatel + "");
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return null;
-                }
-                if (output.equals(ConstantKey.nullSt)) {
-                    return null;
-                }
-                ArrayList<AFneuralNetData> trArray = null;
-
-                AFneuralNetData[] arrayItem = new ObjectMapper().readValue(output, AFneuralNetData[].class
-                );
-                List<AFneuralNetData> listItem = Arrays.<AFneuralNetData>asList(arrayItem);
-                trArray = new ArrayList<AFneuralNetData>(listItem);
-                return trArray;
-            } catch (Exception ex) {
-                logger.info("> SystemNeuralNetDataObjStockid exception " + ex.getMessage());
-            }
-            return null;
-        }
-        return getNeuralNetDataObjByStockId(BPname, stockId, updatedatel);
-    }
-
+  
     //  entrydatel desc recent transaction first
     public ArrayList<TransationOrderObj> SystemAccountStockTransList(int accountID, int stockID, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -3089,7 +3055,7 @@ public class ServiceAFweb {
     public static final int AllNeuralNet = 310; //"5";
     public static final int AllNeuralNetData = 311; //"15";
     public static final int NeuralNetDataObj = 312; //"120";     
-    public static final int NeuralNetDataObjStockid = 313; //"120";
+//    public static final int NeuralNetDataObjStockid = 313; //"120";
 
     //////////////////////////////////
     public RequestObj SystemSQLRequest(RequestObj sqlObj) {
