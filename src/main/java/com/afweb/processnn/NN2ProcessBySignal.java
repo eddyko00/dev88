@@ -14,9 +14,7 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 
-
 import com.afweb.service.ServiceAFweb;
-
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -243,7 +241,7 @@ public class NN2ProcessBySignal {
                 NNInputDataObj objData = inputList.get(i);
                 ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPname, stockId, objData.getUpdatedatel());
                 if ((objList == null) || (objList.size() == 0)) {
-                    serviceAFWeb.updateNeuralNetDataObject(BPname, stockId, objData);
+                    serviceAFWeb.updateNeuralNetDataObject(BPname, NormalizeSymbol, stockId, objData);
                     totalAdd++;
                     continue;
                 }
@@ -863,7 +861,7 @@ public class NN2ProcessBySignal {
                         NNInputDataObj objData = inputlistSym.get(i);
                         ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
-                            serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
+                            serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
                             totalAdd++;
                             continue;
                         }
@@ -1125,7 +1123,7 @@ public class NN2ProcessBySignal {
 //                            }
 
                         }
-                        serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
+                        serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
                         totalAdd++;
                         writeArray.add(nameST);
                         continue;

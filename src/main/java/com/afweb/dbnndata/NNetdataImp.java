@@ -55,12 +55,12 @@ public class NNetdataImp {
         return nndatadb.getAllNeuralNetDataDBSQL(sql);
     }
 
-    public int updateNeuralNetDataObject(String name, int stockId, NNInputDataObj objData) {
+    public int updateNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
         NNInputOutObj obj = objData.getObj();
         String stData;
         try {
             stData = new ObjectMapper().writeValueAsString(obj);
-            return insertNeuralNetDataObject(name, stockId, stData, objData.getUpdatedatel());
+            return nndatadb.insertNeuralNetDataObject(name, sym, stockId, stData, objData.getUpdatedatel());
         } catch (JsonProcessingException ex) {
         }
         return 0;
@@ -76,9 +76,9 @@ public class NNetdataImp {
         return nndatadb.insertNeuralNetDataObject(neuralNetData);
     }
 
-    public int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
-        return nndatadb.insertNeuralNetDataObject(name, stockId, data, updatedatel);
-    }
+//    public int insertNeuralNetDataObject(String name, String sym, int stockId, String data, long updatedatel) {
+//        return nndatadb.insertNeuralNetDataObject(name, sym, stockId, data, updatedatel);
+//    }
 
     public int updateNeuralNetStatus0(String name, int status, int type) {
         return nndatadb.updateNeuralNetStatus0(name, status, type);

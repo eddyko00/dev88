@@ -227,7 +227,6 @@ public class NN1ProcessBySignal {
         inputList.remove(0);
 
         //////// save in DB
-
         boolean inputSaveFlag = false;
         if (inputSaveFlag == true) {
             int totalAdd = 0;
@@ -236,7 +235,7 @@ public class NN1ProcessBySignal {
                 NNInputDataObj objData = inputList.get(i);
                 ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPname, stockId, objData.getUpdatedatel());
                 if ((objList == null) || (objList.size() == 0)) {
-                    serviceAFWeb.updateNeuralNetDataObject(BPname, stockId, objData);
+                    serviceAFWeb.updateNeuralNetDataObject(BPname, NormalizeSymbol, stockId, objData);
                     totalAdd++;
                     continue;
                 }
@@ -681,7 +680,7 @@ public class NN1ProcessBySignal {
                         NNInputDataObj objData = inputlistSym.get(i);
                         ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
-                            serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
+                            serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
                             totalAdd++;
                             continue;
                         }
@@ -1126,7 +1125,7 @@ public class NN1ProcessBySignal {
 //                            }
 
                         }
-                        serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
+                        serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
                         totalAdd++;
                         writeArray.add(nameST);
                         continue;

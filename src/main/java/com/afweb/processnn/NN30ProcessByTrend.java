@@ -15,7 +15,6 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 
-
 import com.afweb.service.*;
 
 import com.afweb.util.*;
@@ -771,7 +770,7 @@ public class NN30ProcessByTrend {
                         NNInputDataObj objData = inputlistSym.get(i);
                         ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
-                            serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
+                            serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
                             totalAdd++;
                             continue;
                         }

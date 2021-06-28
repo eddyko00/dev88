@@ -309,9 +309,9 @@ public class NNetdataDB {
         return 0;
     }
 
-    public int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
+    public int insertNeuralNetDataObject(String name, String sym, int stockId, String data, long updatedatel) {
         try {
-            String refname = "";
+            String refname = sym;
             data = data.replaceAll("\"", "#");
             String sqlCMD = "insert into neuralnetdata (name, refname, status, type, data, updatedatedisplay, updatedatel) VALUES "
                     + "('" + name + "','" + refname +"',"  + ConstantKey.OPEN + "," + stockId + ",'" + data + "'"
