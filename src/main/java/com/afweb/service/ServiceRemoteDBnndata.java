@@ -257,16 +257,17 @@ public class ServiceRemoteDBnndata {
 //"create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, 
 //weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
 
-            int recSize = 7;
+            int recSize = 8;
             for (int i = 0; i < dataArray.length; i += recSize) {
                 output += "{";
                 output += "\"id\":\"" + dataArray[i] + "\",";
                 output += "\"name\":\"" + dataArray[i + 1] + "\",";
-                output += "\"status\":\"" + dataArray[i + 2] + "\",";
-                output += "\"type\":\"" + dataArray[i + 3] + "\",";
-                output += "\"data\":\"" + dataArray[i + 4] + "\",";
-                output += "\"updatedatedisplay\":\"" + dataArray[i + 5] + "\",";
-                output += "\"updatedatel\":\"" + dataArray[i + 6] + "\"";
+                output += "\"refname\":\"" + dataArray[i + 2] + "\",";                
+                output += "\"status\":\"" + dataArray[i + 3] + "\",";
+                output += "\"type\":\"" + dataArray[i + 4] + "\",";
+                output += "\"data\":\"" + dataArray[i + 5] + "\",";
+                output += "\"updatedatedisplay\":\"" + dataArray[i + 6] + "\",";
+                output += "\"updatedatel\":\"" + dataArray[i + 7] + "\"";
 
                 if (i + recSize >= dataArray.length) {
                     output += "}";
@@ -359,6 +360,7 @@ public class ServiceRemoteDBnndata {
                 AFneuralNetData nn = new AFneuralNetData();
                 nn.setId(Integer.parseInt(rs.getId()));
                 nn.setName(rs.getName());
+                nn.setRefname(rs.getRefname());                
                 nn.setStatus(Integer.parseInt(rs.getStatus()));
                 nn.setType(Integer.parseInt(rs.getType()));
 

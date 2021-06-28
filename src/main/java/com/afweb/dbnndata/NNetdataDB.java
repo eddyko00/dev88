@@ -73,7 +73,6 @@ public class NNetdataDB {
         this.dataSource = dataSource;
     }
 
-
 /////////////////////////////////////////////////
     public boolean restNNdataDB() {
         boolean status = true;
@@ -86,7 +85,6 @@ public class NNetdataDB {
         return status;
     }
 
-    
     public boolean cleanNNdataDB() {
         try {
             processExecuteDB("drop table if exists dummynndata1");
@@ -149,14 +147,14 @@ public class NNetdataDB {
                 createTableList.add("create table dummynndata1 (id int identity not null, primary key (id))");
                 createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
                 createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, refname varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
             }
 
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummynndata1 (id int(10) not null auto_increment, primary key (id))");
                 createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
                 createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-                createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+                createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, refname varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
             }
 
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
@@ -196,7 +194,7 @@ public class NNetdataDB {
     public int deleteNeuralNetDataTable() {
         try {
             processExecuteDB("drop table if exists neuralnetdata");
-            processExecuteDB("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+            processExecuteDB("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, refname varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
             return 1;
         } catch (Exception ex) {
         }
@@ -290,8 +288,8 @@ public class NNetdataDB {
         String dataSt = newN.getData();
         dataSt = dataSt.replaceAll("\"", "#");
         newN.setUpdatedatedisplay(new java.sql.Date(newN.getUpdatedatel()));
-        String sqlCMD = "insert into " + table + " (name, status, type, data, updatedatedisplay, updatedatel, id) VALUES "
-                + "('" + newN.getName() + "'," + newN.getStatus() + "," + newN.getType() + ",'" + dataSt + "'"
+        String sqlCMD = "insert into " + table + " (name, refname, status, type, data, updatedatedisplay, updatedatel, id) VALUES "
+                + "('" + newN.getName() + "','" + newN.getRefname() + "'," + newN.getStatus() + "," + newN.getType() + ",'" + dataSt + "'"
                 + ",'" + newN.getUpdatedatedisplay() + "'," + newN.getUpdatedatel() + "," + newN.getId() + ")";
         return sqlCMD;
     }
@@ -300,8 +298,8 @@ public class NNetdataDB {
         try {
             String dataSt = nData.getData();
             dataSt = dataSt.replaceAll("\"", "#");
-            String sqlCMD = "insert into neuralnetdata (name, status, type, data, updatedatedisplay, updatedatel) VALUES "
-                    + "('" + nData.getName() + "'," + nData.getStatus() + "," + nData.getType() + ",'" + dataSt + "'"
+            String sqlCMD = "insert into neuralnetdata (name, refname, status, type, data, updatedatedisplay, updatedatel) VALUES "
+                    + "('" + nData.getName() + "','" + nData.getRefname() + "'," + nData.getStatus() + "," + nData.getType() + ",'" + dataSt + "'"
                     + ",'" + new java.sql.Date(nData.getUpdatedatel()) + "'," + nData.getUpdatedatel() + ")";
             return processUpdateDB(sqlCMD);
 
@@ -313,9 +311,10 @@ public class NNetdataDB {
 
     public int insertNeuralNetDataObject(String name, int stockId, String data, long updatedatel) {
         try {
+            String refname = "";
             data = data.replaceAll("\"", "#");
-            String sqlCMD = "insert into neuralnetdata (name, status, type, data, updatedatedisplay, updatedatel) VALUES "
-                    + "('" + name + "'," + ConstantKey.OPEN + "," + stockId + ",'" + data + "'"
+            String sqlCMD = "insert into neuralnetdata (name, refname, status, type, data, updatedatedisplay, updatedatel) VALUES "
+                    + "('" + name + "','" + refname +"',"  + ConstantKey.OPEN + "," + stockId + ",'" + data + "'"
                     + ",'" + new java.sql.Date(updatedatel) + "'," + updatedatel + ")";
             return processUpdateDB(sqlCMD);
 
@@ -506,6 +505,7 @@ public class NNetdataDB {
                     AFneuralNetData nn = new AFneuralNetData();
                     nn.setId(rs.getInt("id"));
                     nn.setName(rs.getString("name"));
+                    nn.setRefname(rs.getString("refname"));                    
                     nn.setStatus(rs.getInt("status"));
                     nn.setType(rs.getInt("type"));
 
@@ -541,7 +541,6 @@ public class NNetdataDB {
 //        ArrayList entries = getAllNeuralNetDataSQL(sql);
 //        return entries;
 //    }
-
     //desc
     public ArrayList getNeuralNetDataObj(String name, int length) {
         String sql = "select * from neuralnetdata where name='" + name + "'" + " order by updatedatel desc";
@@ -670,6 +669,7 @@ public class NNetdataDB {
 
 //    /// Need to fix the stockId to sym
     public ArrayList getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
+        String refname="";
         String sql = "select * from neuralnetdata where name='" + name + "' and type=" + stockId + " and updatedatel=" + updatedatel;
         ArrayList entries = getAllNeuralNetDataSQL(sql);
         return entries;

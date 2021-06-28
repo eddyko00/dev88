@@ -11,8 +11,23 @@ package com.afweb.service.db;
  */
 public class NeuralNetDataRDB {
 
+    /**
+     * @return the refname
+     */
+    public String getRefname() {
+        return refname;
+    }
+
+    /**
+     * @param refname the refname to set
+     */
+    public void setRefname(String refname) {
+        this.refname = refname;
+    }
+
     private String id;
     private String name;
+    private String refname;
     private String status;
     private String type;
     private String data;
