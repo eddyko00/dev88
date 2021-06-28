@@ -77,7 +77,7 @@ public class NNetService {
                         String updatedateSt = sqlObj.getReq2();
                         long updatedatel = Long.parseLong(updatedateSt);
 
-                        ArrayList<AFneuralNetData> retArray = nndataImp.getNeuralNetDataObj(BPname, stockId121, updatedatel);
+                        ArrayList<AFneuralNetData> retArray = nndataImp.getNeuralNetDataObjByStockId(BPname, stockId121, updatedatel);
                         nameST = new ObjectMapper().writeValueAsString(retArray);
                         sqlObj.setResp("" + nameST);
                     } catch (Exception ex) {
@@ -126,8 +126,8 @@ public class NNetService {
         return nndataImp.getNeuralNetDataObj(name, length);
     }
 
-    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int stockId, long updatedatel) {
-        return nndataImp.getNeuralNetDataObj(name, stockId, updatedatel);
+    public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
+        return nndataImp.getNeuralNetDataObjByStockId(name, stockId, updatedatel);
     }
 
     public int deleteNeuralNetDataByBPname(String name) {

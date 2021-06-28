@@ -226,16 +226,15 @@ public class NN1ProcessBySignal {
         inputList.remove(len - 1);
         inputList.remove(0);
 
-        //////// do not save in DB, only files
-        //////// do not save in DB, only files
-        //////// do not save in DB, only files
+        //////// save in DB
+
         boolean inputSaveFlag = false;
         if (inputSaveFlag == true) {
             int totalAdd = 0;
             int totalDup = 0;
             for (int i = 0; i < inputList.size(); i++) {
                 NNInputDataObj objData = inputList.get(i);
-                ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObj(BPname, stockId, objData.getUpdatedatel());
+                ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPname, stockId, objData.getUpdatedatel());
                 if ((objList == null) || (objList.size() == 0)) {
                     serviceAFWeb.updateNeuralNetDataObject(BPname, stockId, objData);
                     totalAdd++;
@@ -680,7 +679,7 @@ public class NN1ProcessBySignal {
                         // save into db
                         // save into db
                         NNInputDataObj objData = inputlistSym.get(i);
-                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
+                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
                             serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
                             totalAdd++;
@@ -1095,7 +1094,7 @@ public class NN1ProcessBySignal {
                         // save into db
                         NNInputDataObj objData = inputlistSym.get(i);
 
-                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
+                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
                             ;
                         } else {

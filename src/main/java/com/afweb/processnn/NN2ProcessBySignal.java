@@ -241,7 +241,7 @@ public class NN2ProcessBySignal {
             int totalDup = 0;
             for (int i = 0; i < inputList.size(); i++) {
                 NNInputDataObj objData = inputList.get(i);
-                ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObj(BPname, stockId, objData.getUpdatedatel());
+                ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPname, stockId, objData.getUpdatedatel());
                 if ((objList == null) || (objList.size() == 0)) {
                     serviceAFWeb.updateNeuralNetDataObject(BPname, stockId, objData);
                     totalAdd++;
@@ -861,7 +861,7 @@ public class NN2ProcessBySignal {
                         // save into db
                         // save into db
                         NNInputDataObj objData = inputlistSym.get(i);
-                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
+                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
                             serviceAFWeb.updateNeuralNetDataObject(BPnameSym, 0, objData);
                             totalAdd++;
@@ -1093,7 +1093,7 @@ public class NN2ProcessBySignal {
                         // save into db
                         NNInputDataObj objData = inputlistSym.get(i);
 
-                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
+                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPnameSym, 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
                             ;
                         } else {

@@ -536,11 +536,11 @@ public class NNetdataDB {
         return 0;
     }
 
-    public ArrayList getNeuralNetDataObj(String name, int stockId, long updatedatel) {
-        String sql = "select * from neuralnetdata where name='" + name + "' and type=" + stockId + " and updatedatel=" + updatedatel;
-        ArrayList entries = getAllNeuralNetDataSQL(sql);
-        return entries;
-    }
+//    public ArrayList getNeuralNetDataObj(String name, int stockId, long updatedatel) {
+//        String sql = "select * from neuralnetdata where name='" + name + "' and type=" + stockId + " and updatedatel=" + updatedatel;
+//        ArrayList entries = getAllNeuralNetDataSQL(sql);
+//        return entries;
+//    }
 
     //desc
     public ArrayList getNeuralNetDataObj(String name, int length) {
@@ -668,7 +668,7 @@ public class NNetdataDB {
     }
 /////////////////////////////////////////////////
 
-    /// Need to fix the stockId to sym
+//    /// Need to fix the stockId to sym
     public ArrayList getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
         String sql = "select * from neuralnetdata where name='" + name + "' and type=" + stockId + " and updatedatel=" + updatedatel;
         ArrayList entries = getAllNeuralNetDataSQL(sql);

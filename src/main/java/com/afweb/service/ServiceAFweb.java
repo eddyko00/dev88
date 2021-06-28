@@ -1667,8 +1667,8 @@ public class ServiceAFweb {
         return nnSrv.getNeuralNetDataObj(name, length);
     }
 
-    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int stockId, long updatedatel) {
-        return nnSrv.getNeuralNetDataObj(name, stockId, updatedatel);
+    public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, int stockId, long updatedatel) {
+        return nnSrv.getNeuralNetDataObjByStockId(name, stockId, updatedatel);
     }
 
     public int deleteNeuralNetDataByBPname(String name) {
@@ -2427,7 +2427,7 @@ public class ServiceAFweb {
             }
             return null;
         }
-        return getNeuralNetDataObj(BPname, stockId, updatedatel);
+        return getNeuralNetDataObjByStockId(BPname, stockId, updatedatel);
     }
 
     //  entrydatel desc recent transaction first
