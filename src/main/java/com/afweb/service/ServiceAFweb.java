@@ -430,6 +430,7 @@ public class ServiceAFweb {
                 boolean retFlag = backupRestoreSystem();
                 if (retFlag == true) {
                     // backup or restore is done
+                    logger.info(">>>>>>> backupRestoreSystem done.........");
                     getServerObj().setSysMaintenance(true);
                     return getServerObj().getTimerCnt();
                 }
@@ -520,7 +521,10 @@ public class ServiceAFweb {
                 retFlag = restoreInfo();
                 retFlag = true;
             }
-
+            if (CKey.restoreNNFlag == true) {
+                retFlag = restoreNN();
+                retFlag = true;
+            }
         }
         return retFlag;
     }
