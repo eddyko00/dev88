@@ -142,9 +142,9 @@ public class SystemService {
         return stockImp.restStockDB();
     }
 
-    public boolean cleanNNonlyStockDB() {
-        return stockImp.cleanNNonlyStockDB();
-    }
+//    public boolean cleanNNonlyStockDB() {
+//        return stockImp.cleanNNonlyStockDB();
+//    }
 
     public int deleteAllLock() {
         return stockImp.deleteAllLock();

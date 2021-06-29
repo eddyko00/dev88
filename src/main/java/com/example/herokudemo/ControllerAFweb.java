@@ -67,11 +67,12 @@ public class ControllerAFweb {
         arrayString.add("/server/url0/set?url=stop");
         arrayString.add("/server/dburl");
         arrayString.add("/server/dburl/set?url=");
-        //DB Backup
-        arrayString.add("/cust/{username}/sys/downloaddb");
-        //DB restore
+ 
+//        arrayString.add("/cust/{username}/sys/downloaddb");
+//        arrayString.add("/cust/{username}/sys/restoredb");
+
         arrayString.add("/cust/{username}/sys/cleandb");
-        arrayString.add("/cust/{username}/sys/restoredb");
+
         arrayString.add("/cust/{username}/sys/request");
     }
 
@@ -424,7 +425,7 @@ public class ControllerAFweb {
         }
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemRestDBData());
+                msg.setResponse(afWebService.SystemDropDBData());
                 msg.setResult(true);
                 return msg;
             }
@@ -432,7 +433,7 @@ public class ControllerAFweb {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemRestDBData());
+                msg.setResponse(afWebService.SystemDropDBData());
                 msg.setResult(true);
                 return msg;
             }
@@ -464,58 +465,58 @@ public class ControllerAFweb {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/downloaddb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus SystemDownloadDB(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remoote is stopped
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemDownloadDBData());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemDownloadDBData());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-        return null;
-
-    }
-
-    ///// Restore DB need the following
-    ////  SystemStop
-    ////  SystemCleanDBData
-    ////  SystemUploadDBData
-    ///// Restore DB need the following   
-    @RequestMapping(value = "/cust/{username}/sys/restoredb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus SystemRestoreDB(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemRestoreDBData());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemRestoreDBData());
-                msg.setResult(true);
-                return msg;
-            }
-        }
-        return null;
-    }
+//    @RequestMapping(value = "/cust/{username}/sys/downloaddb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus SystemDownloadDB(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remoote is stopped
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                msg.setResponse(afWebService.SystemDownloadDBData());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                msg.setResponse(afWebService.SystemDownloadDBData());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//        return null;
+//
+//    }
+//
+//    ///// Restore DB need the following
+//    ////  SystemStop
+//    ////  SystemCleanDBData
+//    ////  SystemUploadDBData
+//    ///// Restore DB need the following   
+//    @RequestMapping(value = "/cust/{username}/sys/restoredb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    WebStatus SystemRestoreDB(@PathVariable("username") String username) {
+//        WebStatus msg = new WebStatus();
+//        // remote is stopped
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+//                msg.setResponse(afWebService.SystemRestoreDBData());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//
+//        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                msg.setResponse(afWebService.SystemRestoreDBData());
+//                msg.setResult(true);
+//                return msg;
+//            }
+//        }
+//        return null;
+//    }
 
     //"/cust/{username}/uisys/{custid}/lock"
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

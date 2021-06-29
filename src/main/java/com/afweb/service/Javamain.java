@@ -36,14 +36,20 @@ public class Javamain {
 
         } else if (cmd.indexOf("localmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
-
+///////////////
         } else if (cmd.indexOf("backupFlag") != -1) {
             CKey.backupFlag = true;
+        } else if (cmd.indexOf("backupInfoFlag") != -1) {
+            CKey.backupInfoFlag = true;
+         } else if (cmd.indexOf("backupNNFlag") != -1) {
+            CKey.backupNNFlag = true;           
         } else if (cmd.indexOf("restoreFlag") != -1) {
             CKey.restoreFlag = true;
-        } else if (cmd.indexOf("restoreNNonlyFlag") != -1) {
-            CKey.restoreNNonlyFlag = true;
-
+        } else if (cmd.indexOf("restoreInfoFlag") != -1) {
+            CKey.restoreInfoFlag = true;            
+        } else if (cmd.indexOf("restoreNNFlag") != -1) {
+            CKey.restoreNNFlag = true;
+////////////////
         } else if (cmd.indexOf("proxyflag") != -1) {
             CKey.PROXY = true;
         } else if (cmd.indexOf("nndebugflag") != -1) {

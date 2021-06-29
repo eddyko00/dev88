@@ -157,9 +157,9 @@ public class StockImp {
         return stockdb.cleanStockDB();
     }
 
-    public boolean cleanNNonlyStockDB() {
-        return stockdb.cleanNNonlyStockDB();
-    }
+//    public boolean cleanNNonlyStockDB() {
+//        return stockdb.cleanNNonlyStockDB();
+//    }
 
     public int deleteAllLock() {
         return stockdb.deleteAllLock();

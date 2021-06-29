@@ -437,32 +437,32 @@ public class StockDB {
         return status;
     }
 
-    public boolean cleanNNonlyStockDB() {
-        try {
-            processExecuteDB("drop table if exists neuralnet");
-            processExecuteDB("drop table if exists neuralnetdata");
-            processExecuteDB("drop table if exists neuralnet1");
-            ArrayList createTableList = new ArrayList();
-            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-
-            } else if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
-                createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-                createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-                createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-
-            }
-            //must use this ExecuteSQLArrayList to exec one by one for 2 db 
-            boolean resultCreate = ExecuteSQLArrayList(createTableList);
-
-            return true;
-        } catch (Exception e) {
-            logger.info("> cleanNNonlyStockDB Table exception " + e.getMessage());
-        }
-        return false;
-    }
+//    public boolean cleanNNonlyStockDB() {
+//        try {
+//            processExecuteDB("drop table if exists neuralnet");
+//            processExecuteDB("drop table if exists neuralnetdata");
+//            processExecuteDB("drop table if exists neuralnet1");
+//            ArrayList createTableList = new ArrayList();
+//            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
+//                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+//                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+//                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+//
+//            } else if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+//                createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+//                createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+//                createTableList.add("create table neuralnetdata (id int(10) not null auto_increment, name varchar(255) not null, status int(10) not null, type int(10) not null, data text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
+//
+//            }
+//            //must use this ExecuteSQLArrayList to exec one by one for 2 db 
+//            boolean resultCreate = ExecuteSQLArrayList(createTableList);
+//
+//            return true;
+//        } catch (Exception e) {
+//            logger.info("> cleanNNonlyStockDB Table exception " + e.getMessage());
+//        }
+//        return false;
+//    }
 
     public boolean cleanStockDB() {
         try {

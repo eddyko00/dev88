@@ -47,8 +47,13 @@ public class CKey {
     public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
 
     public static boolean backupFlag = false;
+    public static boolean backupInfoFlag = false;    
+    public static boolean backupNNFlag = false;   
+    
     public static boolean restoreFlag = false;
-    public static boolean restoreNNonlyFlag = false;
+    public static boolean restoreInfoFlag = false;    
+    public static boolean restoreNNFlag = false;    
+    
 
     /////heroku
     /////heroku

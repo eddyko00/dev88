@@ -396,8 +396,11 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
                 displayStr += "\r\n" + (">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
                 displayStr += "\r\n" + (">>>>> System backupFlag:" + CKey.backupFlag);
+                displayStr += "\r\n" + (">>>>> System backupInfoFlag:" + CKey.backupInfoFlag);
+                displayStr += "\r\n" + (">>>>> System backupNNFlag:" + CKey.backupNNFlag);
                 displayStr += "\r\n" + (">>>>> System restoreFlag:" + CKey.restoreFlag);
-                displayStr += "\r\n" + (">>>>> System restoreNNonlyFlag:" + CKey.restoreNNonlyFlag);
+                displayStr += "\r\n" + (">>>>> System restoreInfoFlag:" + CKey.restoreInfoFlag);
+                displayStr += "\r\n" + (">>>>> System restoreNNFlag:" + CKey.restoreNNFlag);
                 displayStr += "\r\n" + (">>>>> System proxyflag PROXY:" + CKey.PROXY);
                 displayStr += "\r\n" + (">>>>> System nndebugflag NN_DEBUG:" + CKey.NN_DEBUG);
                 displayStr += "\r\n" + (">>>>> System nndebugflag UI_ONLY:" + CKey.UI_ONLY);
@@ -424,27 +427,13 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 logger.info(displayStr);
 
-//                boolean CKey.backupFlag = false;
-                if (CKey.backupFlag == true) {
-                    backupSystem();
-                    serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
+                boolean retFlag = backupRestoreSystem();
+                if (retFlag == true) {
+                    // backup or restore is done
+                    getServerObj().setSysMaintenance(true);
                     return getServerObj().getTimerCnt();
-
                 }
-//                boolean restoreFlag = false;
-                if (CKey.restoreFlag == true) {
-                    restoreSystem();
-                    serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
-                    return getServerObj().getTimerCnt();
 
-                }
-//                boolean restoreNNonlyFlag = false;
-                if (CKey.restoreNNonlyFlag == true) {
-                    restoreNNonlySystem();
-                    serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
-                    return getServerObj().getTimerCnt();
-
-                }
                 if (CKey.UI_ONLY == false) {
                     String sysPortfolio = "";
                     // make sure not request during DB initialize
@@ -506,84 +495,252 @@ public class ServiceAFweb {
         return getServerObj().getTimerCnt();
     }
 
-    private void backupSystem() {
-
-        getServerObj().setSysMaintenance(true);
-        serverObj.setTimerInit(true);
+    private boolean backupRestoreSystem() {
+        boolean retFlag = false;
         if (CKey.NN_DEBUG == true) {
-            // LocalPCflag = true; 
-            // SQL_DATABASE = REMOTE_MYSQL;
-            if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                    logger.info(">>>>> SystemDownloadDBData form Other DB");
-                } else {
-                    logger.info(">>>>> SystemDownloadDBData form Heroku");
-                }
-            } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                logger.info(">>>>> SystemDownloadDBData form local My SQL");
+
+            if (CKey.backupFlag == true) {
+                retFlag = backupSystem();
+                retFlag = true;
+            }
+            if (CKey.backupInfoFlag == true) {
+                retFlag = backupInfo();
+                retFlag = true;
+            }
+            if (CKey.backupNNFlag == true) {
+                retFlag = backupNN();
+                retFlag = true;
             }
 
-            SystemDownloadDBData();
+            if (CKey.restoreFlag == true) {
+                retFlag = restoreSystem();
+                retFlag = true;
+            }
+            if (CKey.restoreInfoFlag == true) {
+                retFlag = restoreInfo();
+                retFlag = true;
+            }
+
+        }
+        return retFlag;
+    }
+
+    private boolean backupSystem() {
+        serverObj.setSysMaintenance(true);
+        serverObj.setTimerInit(true);
+        // LocalPCflag = true; 
+        // SQL_DATABASE = REMOTE_MYSQL;
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            if ((CKey.OTHER_PHP1_MYSQL == true)) {
+                logger.info(">>>>> backupSystem form Other DB");
+            } else {
+                logger.info(">>>>> backupSystem form Heroku");
+            }
+        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+            logger.info(">>>>> backupSystem form local My SQL");
+        }
+        boolean retSatus = false;
+
+        BackupRestoreImp backupRestore = new BackupRestoreImp();
+        retSatus = backupRestore.downloadDBData(this);
+        if (retSatus == true) {
+            serverObj.setSysMaintenance(true);
+            serverObj.setTimerInit(false);
+            serverObj.setTimerQueueCnt(0);
+            serverObj.setTimerCnt(0);
+        }
+        logger.info("backupSystem " + retSatus);
+        return retSatus;
+    }
+
+    private boolean backupInfo() {
+        serverObj.setSysMaintenance(true);
+        serverObj.setTimerInit(true);
+        // LocalPCflag = true; 
+        // SQL_DATABASE = REMOTE_MYSQL;
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            if ((CKey.OTHER_PHP1_MYSQL == true)) {
+                logger.info(">>>>> backupInfo form Other DB");
+            } else {
+                logger.info(">>>>> backupInfo form Heroku");
+            }
+        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+            logger.info(">>>>> backupInfo form local My SQL");
+        }
+        boolean retSatus = false;
+
+        BackupRestoreInfo backupRestore = new BackupRestoreInfo();
+        retSatus = backupRestore.downloadDBDataInfo(this);
+        if (retSatus == true) {
+            serverObj.setSysMaintenance(true);
+            serverObj.setTimerInit(false);
+            serverObj.setTimerQueueCnt(0);
+            serverObj.setTimerCnt(0);
+        }
+        logger.info("backupInfo " + retSatus);
+        return retSatus;
+    }
+
+    private boolean backupNN() {
+        serverObj.setSysMaintenance(true);
+        serverObj.setTimerInit(true);
+        // LocalPCflag = true; 
+        // SQL_DATABASE = REMOTE_MYSQL;
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            if ((CKey.OTHER_PHP1_MYSQL == true)) {
+                logger.info(">>>>> backupNN form Other DB");
+            } else {
+                logger.info(">>>>> backupNN form Heroku");
+            }
+        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+            logger.info(">>>>> backupNN form local My SQL");
+        }
+        boolean retSatus = false;
+
+        BackupRestoreNN backupRestore = new BackupRestoreNN();
+        retSatus = backupRestore.downloadDBDataNN(this);
+        if (retSatus == true) {
+            serverObj.setSysMaintenance(true);
+            serverObj.setTimerInit(false);
+            serverObj.setTimerQueueCnt(0);
+            serverObj.setTimerCnt(0);
+        }
+        logger.info("backupNN " + retSatus);
+        return retSatus;
+    }
+
+    private boolean restoreSystem() {
+        getServerObj().setSysMaintenance(true);
+        serverObj.setTimerInit(true);
+
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            if ((CKey.OTHER_PHP1_MYSQL == true)) {
+                logger.info(">>>>> restoreSystem to Other DB");
+            } else {
+                logger.info(">>>>> restoreSystem to Heroku");
+            }
+        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+            logger.info(">>>>> restoreSystem form to My SQL");
+        }
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Hit any key to continue to restore restoreSystem?");
+        String YN = scan.next();
+        boolean retSatus = false;
+
+        retSatus = cleanStockDB();
+        if (retSatus == true) {
+            BackupRestoreImp backupRestore = new BackupRestoreImp();
+            retSatus = backupRestore.restoreDBData(this);
+            if (retSatus == true) {
+                serverObj.setSysMaintenance(true);
+                serverObj.setTimerInit(false);
+                serverObj.setTimerQueueCnt(0);
+                serverObj.setTimerCnt(0);
+            }
             getServerObj().setSysMaintenance(true);
-            logger.info(">>>>> SystemDownloadDBData done");
+            logger.info(">>>>> restoreSystem done");
         }
-
+        return retSatus;
     }
 
-    private void restoreNNonlySystem() {
+    private boolean restoreInfo() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        if (CKey.NN_DEBUG == true) {
-            if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                    logger.info(">>>>> SystemRestoreDBData to Other DB");
-                } else {
-                    logger.info(">>>>> SystemRestoreDBData to Heroku");
-                }
-            } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                logger.info(">>>>> SystemRestoreDBData form to My SQL");
+
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            if ((CKey.OTHER_PHP1_MYSQL == true)) {
+                logger.info(">>>>> restoreInfo to Other DB");
+            } else {
+                logger.info(">>>>> restoreInfo to Heroku");
             }
-
-            Scanner scan = new Scanner(System.in);
-            System.out.print("Hit any key to continue to restore?");
-            String YN = scan.next();
-
-            String retSt = SystemCleanNNonlyDBData();
-            if (retSt.equals("true")) {
-                SystemRestoreNNonlyDBData();
-                getServerObj().setSysMaintenance(true);
-                logger.info(">>>>> SystemRestoreDBData done");
-            }
-
+        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+            logger.info(">>>>> restoreInfo form to My SQL");
         }
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Hit any key to continue to restore restoreInfo?");
+        String YN = scan.next();
+        boolean retSatus = false;
+
+        retSatus = cleanStockInfoDB();
+        if (retSatus == true) {
+            BackupRestoreInfo backupRestore = new BackupRestoreInfo();
+            retSatus = backupRestore.restoreDBDataInfo(this);
+            if (retSatus == true) {
+                serverObj.setSysMaintenance(true);
+                serverObj.setTimerInit(false);
+                serverObj.setTimerQueueCnt(0);
+                serverObj.setTimerCnt(0);
+            }
+            getServerObj().setSysMaintenance(true);
+            logger.info(">>>>> restoreInfo done");
+        }
+        return retSatus;
     }
 
-    private void restoreSystem() {
+    private boolean restoreNN() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        if (CKey.NN_DEBUG == true) {
-            if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                    logger.info(">>>>> SystemRestoreDBData to Other DB");
-                } else {
-                    logger.info(">>>>> SystemRestoreDBData to Heroku");
-                }
-            } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                logger.info(">>>>> SystemRestoreDBData form to My SQL");
-            }
-            Scanner scan = new Scanner(System.in);
-            System.out.print("Hit any key to continue to restore?");
-            String YN = scan.next();
 
-            String retSt = SystemCleanDBData();
-            if (retSt.equals("true")) {
-                SystemRestoreDBData();
-                getServerObj().setSysMaintenance(true);
-                logger.info(">>>>> SystemRestoreDBData done");
+        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            if ((CKey.OTHER_PHP1_MYSQL == true)) {
+                logger.info(">>>>> restoreNN to Other DB");
+            } else {
+                logger.info(">>>>> restoreNN to Heroku");
             }
+        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+            logger.info(">>>>> restoreNN form to My SQL");
         }
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Hit any key to continue to restore restoreNN?");
+        String YN = scan.next();
+        boolean retSatus = false;
+
+        retSatus = cleanStockInfoDB();
+        if (retSatus == true) {
+            BackupRestoreNN backupRestore = new BackupRestoreNN();
+            retSatus = backupRestore.restoreDBDataNN(this);
+            if (retSatus == true) {
+                serverObj.setSysMaintenance(true);
+                serverObj.setTimerInit(false);
+                serverObj.setTimerQueueCnt(0);
+                serverObj.setTimerCnt(0);
+            }
+            getServerObj().setSysMaintenance(true);
+            logger.info(">>>>> restoreNN done");
+        }
+        return retSatus;
     }
-    //////////
+
+    // drop table
+    public String SystemDropDBData() {
+        boolean retSatus = false;
+        // make sure the system is stopped first
+        retSatus = dropStockInfoDB();
+        retSatus = dropNNdataDB();
+        retSatus = dropStockDB();
+        return "" + retSatus;
+    }
+
+    // drop table
+    // create table
+    public String SystemCleanDBData() {
+        boolean retSatus = false;
+
+        serverObj.setSysMaintenance(true);
+        retSatus = cleanStockInfoDB();
+        retSatus = cleanNNdataDB();
+        retSatus = cleanStockDB();
+        return "" + retSatus;
+    }
+
+    public String SystemClearNNData() {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        AccountObj accountAdminObj = this.getAdminObjFromCache();
+        int retStatus = NNProcessImp.ClearStockNNData(this, accountAdminObj);
+        return "" + retStatus;
+    }
+
+    //////////////////////////////////////////////////////////
     private long lastProcessTimer = 0;
     public boolean debugFlag = false;
 
@@ -1357,13 +1514,13 @@ public class ServiceAFweb {
         return systemSrv.cleanStockDB();
     }
 
-    public boolean restStockDB() {
+    public boolean dropStockDB() {
         return systemSrv.restStockDB();
     }
 
-    public boolean cleanNNonlyStockDB() {
-        return systemSrv.cleanNNonlyStockDB();
-    }
+//    public boolean cleanNNonlyStockDB() {
+//        return systemSrv.cleanNNonlyStockDB();
+//    }
 
     public int updateRemoteMYSQL(String sql) {
         return systemSrv.updateRemoteMYSQL(sql);
@@ -1625,7 +1782,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public boolean restStockInfoDB() {
+    public boolean dropStockInfoDB() {
         if (stockInfoFlag == true) {
             return stockInfoSrv.restStockInfoDB(this);
         }
@@ -1668,7 +1825,7 @@ public class ServiceAFweb {
     }
 
     public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
-        return nnSrv.getNeuralNetDataObjByStockId(name,refname, stockId, updatedatel);
+        return nnSrv.getNeuralNetDataObjByStockId(name, refname, stockId, updatedatel);
     }
 
     public int deleteNeuralNetDataByBPname(String name) {
@@ -1729,7 +1886,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public boolean restNNdataDB() {
+    public boolean dropNNdataDB() {
         if (nnFlag == true) {
             return nnSrv.restNNdataDB(this);
         }
@@ -2395,7 +2552,6 @@ public class ServiceAFweb {
         return getNeuralNetDataObj(BPnameTR, 0);
     }
 
-  
     //  entrydatel desc recent transaction first
     public ArrayList<TransationOrderObj> SystemAccountStockTransList(int accountID, int stockID, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -3133,29 +3289,6 @@ public class ServiceAFweb {
         return refData;
     }
 
-    public String SystemDownloadDBData() {
-        boolean retSatus = false;
-
-        serverObj.setSysMaintenance(true);
-
-        BackupRestoreInfo backupRestoreInfo = new BackupRestoreInfo();
-        backupRestoreInfo.downloadDBDataInfo(this);
-
-        BackupRestoreNN backupRestoreNN = new BackupRestoreNN();
-        backupRestoreNN.downloadDBDataNN(this);
-        
-        BackupRestoreImp backupRestore = new BackupRestoreImp();
-        retSatus = backupRestore.downloadDBData(this);
-        if (retSatus == true) {
-            serverObj.setSysMaintenance(true);
-            serverObj.setTimerInit(false);
-            serverObj.setTimerQueueCnt(0);
-            serverObj.setTimerCnt(0);
-        }
-
-        return "SystemDownloadDBData " + retSatus;
-    }
-
     public String SystemRestoreNNonlyDBData() {
         boolean retSatus = false;
 
@@ -3187,7 +3320,7 @@ public class ServiceAFweb {
 
         BackupRestoreNN backupRestoreNN = new BackupRestoreNN();
         backupRestoreNN.restoreDBDataNN(this);
-        
+
         BackupRestoreImp backupRestore = new BackupRestoreImp();
         retSatus = backupRestore.restoreDBData(this);
 
@@ -3220,43 +3353,17 @@ public class ServiceAFweb {
         return ret;
     }
 
-    public String SystemCleanNNonlyDBData() {
-        boolean retSatus = false;
-        serverObj.setSysMaintenance(true);
-        retSatus = cleanNNonlyStockDB();
-        return "" + retSatus;
-    }
+//    public String SystemCleanNNonlyDBData() {
+//        boolean retSatus = false;
+//        serverObj.setSysMaintenance(true);
+//        retSatus = cleanNNonlyStockDB();
+//        return "" + retSatus;
+//    }
 
     public String SystemClearLock() {
         int retSatus = 0;
         retSatus = deleteAllLock();
         return "" + retSatus;
-    }
-
-    public String SystemRestDBData() {
-        boolean retSatus = false;
-        // make sure the system is stopped first
-        retSatus = restStockInfoDB();
-        retSatus = restNNdataDB();
-        retSatus = restStockDB();
-        return "" + retSatus;
-    }
-
-    public String SystemCleanDBData() {
-        boolean retSatus = false;
-
-        serverObj.setSysMaintenance(true);
-        retSatus = cleanStockInfoDB();
-        retSatus = cleanNNdataDB();
-        retSatus = cleanStockDB();
-        return "" + retSatus;
-    }
-
-    public String SystemClearNNData() {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        AccountObj accountAdminObj = this.getAdminObjFromCache();
-        int retStatus = NNProcessImp.ClearStockNNData(this, accountAdminObj);
-        return "" + retStatus;
     }
 
     public String SystemClearNNtranAllAcc() {
@@ -3305,9 +3412,9 @@ public class ServiceAFweb {
         if (retStatus >= 0) {
             //// init StockInfo
             initStockInfoDB();
-            
+
             initNNetDataDB();
-            
+
             logger.info(">InitDB Customer account ");
             CustomerObj newCustomer = new CustomerObj();
             newCustomer.setUsername(CKey.ADMIN_USERNAME);
