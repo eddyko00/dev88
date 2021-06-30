@@ -42,6 +42,7 @@ public class AccountDB {
 
     private static JdbcTemplate jdbcTemplate;
     private static DataSource dataSource;
+    private static String remoteURL = "";
     private ServiceRemoteDB remoteDB = new ServiceRemoteDB();
 
     /**
@@ -68,8 +69,9 @@ public class AccountDB {
     /**
      * @param dataSource the dataSource to set
      */
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);        
+    public void setDataSource(DataSource dataSource, String URL) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.remoteURL = URL;
         this.dataSource = dataSource;
     }
 
@@ -134,7 +136,7 @@ public class AccountDB {
             sql = ServiceAFweb.getSQLLengh(sql, length);
 
             if (checkCallRemoteSQL_Mysql() == true) {
-                ArrayList custList = remoteDB.getCustomerListSqlRemoteDB_RemoteMysql(sql);
+                ArrayList custList = remoteDB.getCustomerListSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return custList;
             }
 
@@ -476,7 +478,7 @@ public class AccountDB {
     private ArrayList getAccountBySQL(String sql) {
         try {
             if (checkCallRemoteSQL_Mysql() == true) {
-                ArrayList accList = remoteDB.getAccountListSqlRemoteDB_RemoteMysql(sql);
+                ArrayList accList = remoteDB.getAccountListSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return accList;
             }
 
@@ -591,7 +593,7 @@ public class AccountDB {
     private ArrayList getBillingBySQL(String sql) {
         try {
             if (checkCallRemoteSQL_Mysql() == true) {
-                ArrayList accList = remoteDB.getBillingListSqlRemoteDB_RemoteMysql(sql);
+                ArrayList accList = remoteDB.getBillingListSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return accList;
             }
 
@@ -699,7 +701,7 @@ public class AccountDB {
     private ArrayList getCommBySQL(String sql) {
         try {
             if (checkCallRemoteSQL_Mysql() == true) {
-                ArrayList accList = remoteDB.getCommListSqlRemoteDB_RemoteMysql(sql);
+                ArrayList accList = remoteDB.getCommListSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return accList;
             }
 
@@ -930,7 +932,7 @@ public class AccountDB {
     public ArrayList<PerformanceObj> getAccountStockPerfromanceList(String sql) {
         try {
             if (checkCallRemoteSQL_Mysql() == true) {
-                ArrayList trList = remoteDB.getAccountStockPerfromanceListRemoteDB_RemoteMysql(sql);
+                ArrayList trList = remoteDB.getAccountStockPerfromanceListRemoteDB_RemoteMysql(sql, remoteURL);
                 return trList;
             }
             List<PerformanceObj> entries = new ArrayList<>();
@@ -1048,7 +1050,7 @@ public class AccountDB {
     public ArrayList<TransationOrderObj> getAccountStockTransactionList(String sql) {
         try {
             if (checkCallRemoteSQL_Mysql() == true) {
-                ArrayList trList = remoteDB.getAccountStockTransactionListRemoteDB_RemoteMysql(sql);
+                ArrayList trList = remoteDB.getAccountStockTransactionListRemoteDB_RemoteMysql(sql, remoteURL);
                 return trList;
             }
 
@@ -1143,7 +1145,7 @@ public class AccountDB {
         try {
             List retList = null;
             if (checkCallRemoteSQL_Mysql() == true) {
-                String retST = remoteDB.getAllSQLqueryRemoteDB_RemoteMysql(sql);
+                String retST = remoteDB.getAllSQLqueryRemoteDB_RemoteMysql(sql, remoteURL);
                 return retST;
             }
 
@@ -1211,7 +1213,7 @@ public class AccountDB {
     public ArrayList getAccountStockList(String sql) {
         try {
             if (checkCallRemoteSQL_Mysql() == true) {
-                ArrayList trList = remoteDB.getAccountStockListSqlRemoteDB_RemoteMysql(sql);
+                ArrayList trList = remoteDB.getAccountStockListSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return trList;
             }
 
@@ -1880,7 +1882,7 @@ public class AccountDB {
         if (checkCallRemoteSQL_Mysql() == true) {
             ArrayList nnList;
             try {
-                nnList = remoteDB.getAllSymbolSqlRemoteDB_RemoteMysql(sql);
+                nnList = remoteDB.getAllSymbolSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return nnList;
             } catch (Exception ex) {
             }
@@ -1907,7 +1909,7 @@ public class AccountDB {
         if (checkCallRemoteSQL_Mysql() == true) {
             ArrayList nnList;
             try {
-                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql);
+                nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return nnList;
             } catch (Exception ex) {
             }
@@ -1934,7 +1936,7 @@ public class AccountDB {
         if (checkCallRemoteSQL_Mysql() == true) {
             ArrayList nnList;
             try {
-                nnList = remoteDB.getAllUserNameSqlRemoteDB_RemoteMysql(sql);
+                nnList = remoteDB.getAllUserNameSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return nnList;
             } catch (Exception ex) {
             }
@@ -2008,7 +2010,7 @@ public class AccountDB {
 
     public void processUpdateDB(String sqlCMD) throws Exception {
         if (checkCallRemoteSQL_Mysql() == true) {
-            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
+            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return;
         }
 
@@ -2019,7 +2021,7 @@ public class AccountDB {
     public void processExecuteDB(String sqlCMD) throws Exception {
 //       logger.info("> processExecuteDB " + sqlCMD);
         if (checkCallRemoteSQL_Mysql() == true) {
-            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD);
+            int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return;
         }
         getJdbcTemplate().execute(sqlCMD);

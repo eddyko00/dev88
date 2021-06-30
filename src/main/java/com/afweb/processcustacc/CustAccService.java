@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 
 /**
  *
@@ -423,8 +423,8 @@ public class CustAccService {
         return accountImp.getCustomerPasswordNull(UserName);
     }
 
-    public void setAccountDataSource( DataSource dataSource) {
-        accountImp.setDataSource( dataSource);
+    public void setAccountDataSource( DataSource dataSource, String URL) {
+        accountImp.setDataSource( dataSource, URL);
     }
 
     public int updateAddCustStatusPaymentBalance(String UserName,

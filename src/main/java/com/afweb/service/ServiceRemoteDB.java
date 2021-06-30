@@ -48,54 +48,54 @@ public class ServiceRemoteDB {
     public static String CMD = "cmd";
     public static String CMDPOST = "sqlreq";
 
-    public static String WEBPOST = "";
-    private static String URL_PATH = "";
-
-    public static String WEBPOST_MYSQL = CKey.WEBPOST_HERO_PHP; //"/webgetresp.php";
-    public static String URLPath_MYSQL = CKey.URL_PATH_HERO_DBDB_PHP;
+//    public static String WEBPOST = "";
+//    private static String URL_PATH = "";
+//
+//    public static String WEBPOST_MYSQL = CKey.WEBPOST_HERO_PHP; //"/webgetresp.php";
+//    public static String URLPath_MYSQL = CKey.URL_PATH_HERO_DBDB_PHP;
 
 //    public static String WEBPOST_REQ = "sqlreq";
 //    public static String WEBPOST_ASP = "/webgetresp.asp";
 //    public static String URLPath_ASP = CKey.REMOTEDB_MS_SQLURL;
-    public ServiceRemoteDB() {
+//    public ServiceRemoteDB() {
+//
+//        URL_PATH = CKey.URL_PATH_HERO_DBDB_PHP + WEBPOST_MYSQL;
+//
+//        //openshift Database
+//        if (CKey.OTHER_PHP1_MYSQL == true) {
+//            URL_PATH = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
+//        }
+//    }
+//
+//    /**
+//     * @return the URL_PATH
+//     */
+//    public static String getURL_PATH() {
+//        return URL_PATH;
+//    }
+//
+//    /**
+//     * @param aURL_PATH the URL_PATH to set
+//     */
+//    public static void setURL_PATH(String aURL_PATH) {
+//        URL_PATH = aURL_PATH;
+//    }
 
-        URL_PATH = CKey.URL_PATH_HERO_DBDB_PHP + WEBPOST_MYSQL;
+//    /**
+//     * @return the serviceAFWeb
+//     */
+//    public static ServiceAFweb getServiceAFWeb() {
+//        return serviceAFWeb;
+//    }
+//
+//    /**
+//     * @param aServiceAFWeb the serviceAFWeb to set
+//     */
+//    public static void setServiceAFWeb(ServiceAFweb aServiceAFWeb) {
+//        serviceAFWeb = aServiceAFWeb;
+//    }
 
-        //openshift Database
-        if (CKey.OTHER_PHP1_MYSQL == true) {
-            URL_PATH = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
-        }
-    }
-
-    /**
-     * @return the URL_PATH
-     */
-    public static String getURL_PATH() {
-        return URL_PATH;
-    }
-
-    /**
-     * @param aURL_PATH the URL_PATH to set
-     */
-    public static void setURL_PATH(String aURL_PATH) {
-        URL_PATH = aURL_PATH;
-    }
-
-    /**
-     * @return the serviceAFWeb
-     */
-    public static ServiceAFweb getServiceAFWeb() {
-        return serviceAFWeb;
-    }
-
-    /**
-     * @param aServiceAFWeb the serviceAFWeb to set
-     */
-    public static void setServiceAFWeb(ServiceAFweb aServiceAFWeb) {
-        serviceAFWeb = aServiceAFWeb;
-    }
-
-    public int getExecuteRemoteListDB_Mysql(ArrayList<String> sqlCMDList) {
+    public int getExecuteRemoteListDB_Mysql(ArrayList<String> sqlCMDList, String remoteURL) {
 //        log.info("postExecuteListRemoteDB_Mysql sqlCMDList " + sqlCMDList.size());
         String postSt = "";
         int MAXPostSize = 20;
@@ -105,7 +105,7 @@ public class ServiceRemoteDB {
             postSize++;
             if ((postSize > MAXPostSize) || (postSt.length() > 2000)) {
                 try {
-                    int ret = postExecuteListRemoteDB_Mysql(postSt);
+                    int ret = postExecuteListRemoteDB_Mysql(postSt, remoteURL);
                     if (ret == 0) {
                         return ret;
                     }
@@ -127,7 +127,7 @@ public class ServiceRemoteDB {
             if (postSt.length() == 0) {
                 return 1;
             }
-            int ret = postExecuteListRemoteDB_Mysql(postSt);
+            int ret = postExecuteListRemoteDB_Mysql(postSt, remoteURL);
             return ret;
         } catch (Exception ex) {
             logger.info("postExecuteListRemoteDB_Mysql exception " + ex);
@@ -136,11 +136,11 @@ public class ServiceRemoteDB {
 
     }
 
-    private int postExecuteListRemoteDB_Mysql(String sqlCMDList) throws Exception {
+    private int postExecuteListRemoteDB_Mysql(String sqlCMDList, String remoteURL) throws Exception {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("postExecuteListRemoteDB_Mysql " + sqlCMDList);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "3");
 
@@ -177,13 +177,13 @@ public class ServiceRemoteDB {
         }
     }
 
-    public int postExecuteRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public int postExecuteRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 
 //        log.info("postExecuteRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "2");
 
@@ -222,11 +222,11 @@ public class ServiceRemoteDB {
 
     }
 
-    public int getCountRowsRemoteDB_RemoteMysql(String sqlTable) throws Exception {
+    public int getCountRowsRemoteDB_RemoteMysql(String sqlTable, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             // create hash map
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
@@ -280,12 +280,12 @@ public class ServiceRemoteDB {
 
     }
 
-    public ArrayList getStockSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getStockSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getStockSqlRemoteDB_RemoteMysql sql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -386,12 +386,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getStockInfoSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -481,12 +481,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList<CustomerObj> getCustomerListSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList<CustomerObj> getCustomerListSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getCustomerListSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -604,12 +604,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList getAccountListSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getAccountListSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAccountListSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -713,12 +713,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList getBillingListSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getBillingListSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAccountListSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -813,12 +813,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList getCommListSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getCommListSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAccountListSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -907,12 +907,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList<TransationOrderObj> getAccountStockTransactionListRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList<TransationOrderObj> getAccountStockTransactionListRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAccountStockTransactionListRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1020,12 +1020,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList<PerformanceObj> getAccountStockPerfromanceListRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList<PerformanceObj> getAccountStockPerfromanceListRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAccountStockTransactionListRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1155,13 +1155,13 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList getAccountStockListSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getAccountStockListSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAccountStockListSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
             //"select tradingrule.*, stock.symbol as symbol  always add symbol at the end
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1275,12 +1275,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList getAllLockSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getAllLockSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAllLockSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1372,197 +1372,14 @@ public class ServiceRemoteDB {
 
     }
 
-//    public ArrayList getAllNeuralNetDataSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
-//
-//        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-////        log.info("getAllNeuralNetSqlRemoteDB_Mysql " + sqlCMD);
-//        try {
-//            String subResourcePath = WEBPOST;
-//            HashMap newmap = new HashMap();
-//            newmap.put(CMD, "1");
-//
-//            HashMap newbodymap = new HashMap();
-//            newbodymap.put(CMDPOST, sqlCMD);
-//
-//            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
-//
-//            int beg = output.indexOf("~~ ");
-//            int end = output.indexOf(" ~~");
-//            // create hash map
-//            if (beg > end) {
-//                return null;
-//            }
-//            output = output.substring(beg + 3, end);
-//            if (output.length() == 0) {
-//                return null;
-//            }
-////            String[] dataArray = output.split("~");
-//            String[] dataArray = splitIncludeEmpty(output, '~');
-//            output = "[";
-////"create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, 
-////weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-//
-//            int recSize = 7;
-//            for (int i = 0; i < dataArray.length; i += recSize) {
-//                output += "{";
-//                output += "\"id\":\"" + dataArray[i] + "\",";
-//                output += "\"name\":\"" + dataArray[i + 1] + "\",";
-//                output += "\"status\":\"" + dataArray[i + 2] + "\",";
-//                output += "\"type\":\"" + dataArray[i + 3] + "\",";
-//                output += "\"data\":\"" + dataArray[i + 4] + "\",";
-//                output += "\"updatedatedisplay\":\"" + dataArray[i + 5] + "\",";
-//                output += "\"updatedatel\":\"" + dataArray[i + 6] + "\"";
-//
-//                if (i + recSize >= dataArray.length) {
-//                    output += "}";
-//                } else {
-//                    output += "},";
-//                }
-//            }
-//            output += "]";
-//            return getAllNeuralNetDataSqlRemoteDB_Process(output);
-//
-//        } catch (Exception ex) {
-//            logger.info("getAllNeuralNetSqlRemoteDB exception " + ex);
-//            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-//            throw ex;
-//        }
-//    }
-//
-//    public ArrayList getAllNeuralNetSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
-//
-//        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-////        log.info("getAllNeuralNetSqlRemoteDB_Mysql " + sqlCMD);
-//        try {
-//            String subResourcePath = WEBPOST;
-//            HashMap newmap = new HashMap();
-//            newmap.put(CMD, "1");
-//
-//            HashMap newbodymap = new HashMap();
-//            newbodymap.put(CMDPOST, sqlCMD);
-//
-//            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
-//
-//            int beg = output.indexOf("~~ ");
-//            int end = output.indexOf(" ~~");
-//            // create hash map
-//            if (beg > end) {
-//                return null;
-//            }
-//            output = output.substring(beg + 3, end);
-//            if (output.length() == 0) {
-//                return null;
-//            }
-////            String[] dataArray = output.split("~");
-//            String[] dataArray = splitIncludeEmpty(output, '~');
-//            output = "[";
-////"create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, status int(10) not null, type int(10) not null, 
-////weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
-//
-//            int recSize = 8;
-//            for (int i = 0; i < dataArray.length; i += recSize) {
-//                output += "{";
-//                output += "\"id\":\"" + dataArray[i] + "\",";
-//                output += "\"name\":\"" + dataArray[i + 1] + "\",";
-//                output += "\"refname\":\"" + dataArray[i + 2] + "\",";
-//                output += "\"status\":\"" + dataArray[i + 3] + "\",";
-//                output += "\"type\":\"" + dataArray[i + 4] + "\",";
-//                output += "\"weight\":\"" + dataArray[i + 5] + "\",";
-//                output += "\"updatedatedisplay\":\"" + dataArray[i + 6] + "\",";
-//                output += "\"updatedatel\":\"" + dataArray[i + 7] + "\"";
-//
-//                if (i + recSize >= dataArray.length) {
-//                    output += "}";
-//                } else {
-//                    output += "},";
-//                }
-//            }
-//            output += "]";
-//            return getAllNeuralNetSqlRemoteDB_Process(output);
-//
-//        } catch (Exception ex) {
-//            logger.info("getAllNeuralNetSqlRemoteDB exception " + ex);
-//            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-//            throw ex;
-//        }
-//    }
-//
-//    private ArrayList<AFneuralNetData> getAllNeuralNetDataSqlRemoteDB_Process(String output) {
-//        if (output.equals("")) {
-//            return null;
-//        }
-//        ArrayList<NeuralNetDataRDB> arrayDB = null;
-//        ArrayList<AFneuralNetData> arrayReturn = new ArrayList();
-//        try {
-//            NeuralNetDataRDB[] arrayItem = new ObjectMapper().readValue(output, NeuralNetDataRDB[].class);
-//            List<NeuralNetDataRDB> listItem = Arrays.<NeuralNetDataRDB>asList(arrayItem);
-//            arrayDB = new ArrayList<NeuralNetDataRDB>(listItem);
-//
-//            for (int i = 0; i < arrayDB.size(); i++) {
-//                NeuralNetDataRDB rs = arrayDB.get(i);
-//
-//                AFneuralNetData nn = new AFneuralNetData();
-//                nn.setId(Integer.parseInt(rs.getId()));
-//                nn.setName(rs.getName());
-//                nn.setStatus(Integer.parseInt(rs.getStatus()));
-//                nn.setType(Integer.parseInt(rs.getType()));
-//
-//                String stData = rs.getData();
-//                stData = stData.replaceAll("#", "\"");
-//                nn.setData(stData);
-//
-//                nn.setUpdatedatel(Long.parseLong(rs.getUpdatedatel()));
-//                nn.setUpdatedatedisplay(new java.sql.Date(nn.getUpdatedatel()));
-//
-//                arrayReturn.add(nn);
-//            }
-//            return arrayReturn;
-//        } catch (IOException ex) {
-//            logger.info("getAllNeuralNetDataSqlRemoteDB_Process exception " + output);
-//            return null;
-//        }
-//    }
-//
-//    private ArrayList<AFneuralNet> getAllNeuralNetSqlRemoteDB_Process(String output) {
-//        if (output.equals("")) {
-//            return null;
-//        }
-//        ArrayList<NeuralNetRDB> arrayDB = null;
-//        ArrayList<AFneuralNet> arrayReturn = new ArrayList();
-//        try {
-//            NeuralNetRDB[] arrayItem = new ObjectMapper().readValue(output, NeuralNetRDB[].class);
-//            List<NeuralNetRDB> listItem = Arrays.<NeuralNetRDB>asList(arrayItem);
-//            arrayDB = new ArrayList<NeuralNetRDB>(listItem);
-//
-//            for (int i = 0; i < arrayDB.size(); i++) {
-//                NeuralNetRDB rs = arrayDB.get(i);
-//
-//                AFneuralNet nn = new AFneuralNet();
-//                nn.setId(Integer.parseInt(rs.getId()));
-//                nn.setName(rs.getName());
-//                nn.setRefname(rs.getRefname());
-//                nn.setStatus(Integer.parseInt(rs.getStatus()));
-//                nn.setType(Integer.parseInt(rs.getType()));
-//                nn.setWeight(rs.getWeight());
-//                nn.setUpdatedatel(Long.parseLong(rs.getUpdatedatel()));
-//                nn.setUpdatedatedisplay(new java.sql.Date(nn.getUpdatedatel()));
-//
-//                arrayReturn.add(nn);
-//            }
-//            return arrayReturn;
-//        } catch (IOException ex) {
-//            logger.info("getAllNeuralNetSqlRemoteDB exception " + output);
-//            return null;
-//        }
-//    }
 ////    
 
-    public ArrayList getAllNameSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getAllNameSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAllNameSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1628,12 +1445,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList getAllSymbolSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getAllSymbolSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAllSymbolSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1699,12 +1516,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList getAllIdSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getAllIdSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAllIdSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1770,12 +1587,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList getAllUserNameSqlRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public ArrayList getAllUserNameSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAllUserNameSqlRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1841,12 +1658,12 @@ public class ServiceRemoteDB {
         }
     }
 
-    public String getAllSQLqueryRemoteDB_RemoteMysql(String sqlCMD) throws Exception {
+    public String getAllSQLqueryRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        log.info("getAccountStockTransactionListRemoteDB_RemoteMysql " + sqlCMD);
         try {
-            String subResourcePath = WEBPOST;
+            String subResourcePath = remoteURL;
             HashMap newmap = new HashMap();
             newmap.put(CMD, "1");
 
@@ -1904,8 +1721,8 @@ public class ServiceRemoteDB {
             throws Exception {
         try {
 
-            String URLPath = getURL_PATH() + subResourcePath;
-
+//            String URLPath = getURL_PATH() + subResourcePath;
+            String URLPath = subResourcePath;
             String webResourceString = "";
             // assume only one param
             if (queryParams != null && !queryParams.isEmpty()) {

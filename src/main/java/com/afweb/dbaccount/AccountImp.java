@@ -34,8 +34,8 @@ public class AccountImp {
     protected static Logger logger = Logger.getLogger("AccountImp");
     public AccountDB accountdb = new AccountDB();
 
-    public void setDataSource( DataSource dataSource) {
-        accountdb.setDataSource(dataSource);
+    public void setDataSource( DataSource dataSource, String URL) {
+        accountdb.setDataSource(dataSource, URL);
     }
 
     public ArrayList getExpiredCustomerList(int length) {

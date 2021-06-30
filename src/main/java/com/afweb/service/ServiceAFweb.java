@@ -232,7 +232,7 @@ public class ServiceAFweb {
 
         setDataSource(dataSource, REMOTE_URL);
 
-        setAccountDataSource(dataSource);
+        setAccountDataSource(dataSource, REMOTE_URL);
 
         setStockInfoDataSource(dataSource, REMOTE_URL);
 
@@ -341,13 +341,6 @@ public class ServiceAFweb {
                 InitDataSource();
                 InitStaticData();   // init TR data
 
-                // work around. must initialize for remote MYSQL
-                ServiceRemoteDB.setServiceAFWeb(this);
-//                setDataSource(jdbcTemplate, dataSource);
-
-//                setStockInfoDataSource(jdbcTemplate, dataSource);
-//
-//                setAccountDataSource(jdbcTemplate, dataSource);
                 // work around. must initialize for remote MYSQL
                 serverObj.setTimerInit(true);
                 getServerObj().setProcessTimerCnt(0);
@@ -1915,8 +1908,8 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public void setAccountDataSource(DataSource dataSource) {
-        custAccSrv.setAccountDataSource(dataSource);
+    public void setAccountDataSource(DataSource dataSource, String URL) {
+        custAccSrv.setAccountDataSource(dataSource, URL);
     }
 
     public int updateTransactionOrder(ArrayList transSQL) {

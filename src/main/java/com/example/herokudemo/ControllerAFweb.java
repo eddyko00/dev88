@@ -10,7 +10,6 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.AFLockObject;
 import com.afweb.processcustacc.CustAccService;
 import com.afweb.service.ServiceAFweb;
-import com.afweb.service.ServiceRemoteDB;
 import com.afweb.util.CKey;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,10 +62,10 @@ public class ControllerAFweb {
         arrayString.add("/server/filepath");
         arrayString.add("/server/filepath/set?path=&name=&string= ");
         arrayString.add("/server/filepath/read?path=&name=");
-        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
-        arrayString.add("/server/url0/set?url=stop");
-        arrayString.add("/server/dburl");
-        arrayString.add("/server/dburl/set?url=");
+//        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
+//        arrayString.add("/server/url0/set?url=stop");
+//        arrayString.add("/server/dburl");
+//        arrayString.add("/server/dburl/set?url=");
  
 //        arrayString.add("/cust/{username}/sys/downloaddb");
 //        arrayString.add("/cust/{username}/sys/restoredb");
@@ -294,35 +293,35 @@ public class ControllerAFweb {
     }
 
 
-    @RequestMapping(value = "/server/dburl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String getServerDBURL() {
-        return ServiceRemoteDB.getURL_PATH();
-    }
+//    @RequestMapping(value = "/server/dburl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    String getServerDBURL() {
+//        return ServiceRemoteDB.getURL_PATH();
+//    }
+//
+//    @RequestMapping(value = "/server/dburl/setherodb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    String getServerDBURLOPHERDB() {
+//        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
+//        return ServiceRemoteDB.getURL_PATH();
+//    }
 
-    @RequestMapping(value = "/server/dburl/setherodb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String getServerDBURLOPHERDB() {
-        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
-        return ServiceRemoteDB.getURL_PATH();
-    }
-
-    @RequestMapping(value = "/server/dburl/setop", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String getServerDBURLOP() {
-        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP);
-        return ServiceRemoteDB.getURL_PATH();
-    }
-
-    @RequestMapping(value = "/server/dburl/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String setServerDBURL(
-            @RequestParam(value = "url", required = true) String urlSt,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceRemoteDB.setURL_PATH(urlSt.trim());
-        return "done...";
-    }
+//    @RequestMapping(value = "/server/dburl/setop", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    String getServerDBURLOP() {
+//        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP);
+//        return ServiceRemoteDB.getURL_PATH();
+//    }
+//
+//    @RequestMapping(value = "/server/dburl/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    String setServerDBURL(
+//            @RequestParam(value = "url", required = true) String urlSt,
+//            HttpServletRequest request, HttpServletResponse response
+//    ) {
+//        ServiceRemoteDB.setURL_PATH(urlSt.trim());
+//        return "done...";
+//    }
 
     @RequestMapping(value = "/server/url0", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

@@ -32,7 +32,6 @@ public class Javamain {
         } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
             CKey.OTHER_PHP1_MYSQL = true;
             CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_1;
-            ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP);
 
         } else if (cmd.indexOf("localmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
@@ -41,12 +40,12 @@ public class Javamain {
             CKey.backupFlag = true;
         } else if (cmd.indexOf("backupInfoFlag") != -1) {
             CKey.backupInfoFlag = true;
-         } else if (cmd.indexOf("backupNNFlag") != -1) {
-            CKey.backupNNFlag = true;           
+        } else if (cmd.indexOf("backupNNFlag") != -1) {
+            CKey.backupNNFlag = true;
         } else if (cmd.indexOf("restoreFlag") != -1) {
             CKey.restoreFlag = true;
         } else if (cmd.indexOf("restoreInfoFlag") != -1) {
-            CKey.restoreInfoFlag = true;            
+            CKey.restoreInfoFlag = true;
         } else if (cmd.indexOf("restoreNNFlag") != -1) {
             CKey.restoreNNFlag = true;
 ////////////////
