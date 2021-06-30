@@ -1525,7 +1525,6 @@ public class ServiceAFweb {
 //    public boolean cleanNNonlyStockDB() {
 //        return systemSrv.cleanNNonlyStockDB();
 //    }
-
     public int updateRemoteMYSQL(String sql) {
         return systemSrv.updateRemoteMYSQL(sql);
     }
@@ -3363,7 +3362,6 @@ public class ServiceAFweb {
 //        retSatus = cleanNNonlyStockDB();
 //        return "" + retSatus;
 //    }
-
     public String SystemClearLock() {
         int retSatus = 0;
         retSatus = deleteAllLock();
@@ -3457,14 +3455,17 @@ public class ServiceAFweb {
                 AccountObj account = custAccSrv.getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
                 if (account != null) {
                     int result = 0;
+                    getServerObj().setSysMaintenance(false);
                     for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                         String stockN = ServiceAFweb.primaryStock[i];
                         AFstockObj stock = getStockBySymServ(stockN);
                         logger.info(">InitDBData add stock " + stock.getSymbol());
                         result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
                     }
+
                     AFstockObj stock = getStockBySymServ("T.TO");
                     result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
+                    getServerObj().setSysMaintenance(true);
                 }
             }
 
