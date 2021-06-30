@@ -110,14 +110,6 @@ public class NNetService {
     }
 
     public int updateSQLNNArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            // ignore backup and resotre
-            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
-                ;
-            } else {
-                return 0;
-            }
-        }
         return nndataImp.updateSQLNNArrayList(SQLTran);
     }
 ///////////////////////////    

@@ -91,7 +91,7 @@ public class BackupRestoreNN {
             FileUtil.FileReadTextArray(ServiceAFweb.FileLocalPath + fileName, writeArray);
             ArrayList<String> writeSQLArray = new ArrayList();
 
-            logger.info("> restoreDBneuralnetPro " + writeArray.size());
+            logger.info("> restoreDBneuralnetPro " + fileName + " " + writeArray.size());
             int index = 0;
             for (int i = 0; i < writeArray.size(); i++) {
                 String output = writeArray.get(i);
