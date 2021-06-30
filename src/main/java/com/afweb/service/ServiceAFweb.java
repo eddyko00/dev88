@@ -699,7 +699,7 @@ public class ServiceAFweb {
         String YN = scan.next();
         boolean retSatus = false;
 
-        retSatus = cleanStockInfoDB();
+        retSatus = cleanNNdataDB();
         if (retSatus == true) {
             BackupRestoreNN backupRestore = new BackupRestoreNN();
             retSatus = backupRestore.restoreDBDataNN(this);
