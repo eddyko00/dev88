@@ -252,7 +252,10 @@ public class StockInfoDB {
 //        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
 //            sqlCMD = "create table dummyinfo1 (id int identity not null, primary key (id))";
 //        }
-        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) ||
+                (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || 
+                (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) || 
+                (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             sqlCMD = "create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))";
         }
         return sqlCMD;
@@ -293,7 +296,10 @@ public class StockInfoDB {
 //                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
 //            }
 
-            if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+            if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || 
+                    (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || 
+                    (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) || 
+                    (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))");
                 createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, sym varchar(255) not null, stockid int(10) not null, primary key (id))");
             }

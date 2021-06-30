@@ -123,11 +123,17 @@ public class AccountDB {
     }
 
     public static boolean checkCallRemoteSQL_Mysql() {
-        boolean ret = false;
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            ret = true;
+        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+            return true;
         }
-        return ret;
+        return false;
+
+//        boolean ret = false;
+//        if ((CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
+//                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)) {
+//            ret = true;
+//        }
+//        return ret;
     }
 
     private ArrayList<CustomerObj> getCustomerListSQL(String sql, int length) {

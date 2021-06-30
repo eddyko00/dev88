@@ -348,9 +348,11 @@ public class ServiceAFweb {
                 serverLockName = ServiceAFweb.getServerObj().getServerName();
 
                 String displayStr = "";
-
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                displayStr += "\r\n" + (">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
+                displayStr += "\r\n" + (">>>>> LOCAL_MYSQL = 0");
+                displayStr += "\r\n" + (">>>>> DIRECT__MYSQL = 1");
+                displayStr += "\r\n" + (">>>>> REMOTE_PHP_MYSQL = 2");
+                displayStr += "\r\n" + (">>>>> REMOTE_PHP_1_MYSQL = 3");
                 displayStr += "\r\n" + (">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
 
                 getServerObj().setLocalDBservice(true);
@@ -528,8 +530,8 @@ public class ServiceAFweb {
 
     private boolean backupInfo() {
         serverObj.setSysMaintenance(true);
-        serverObj.setTimerInit(true);       
-        logger.info(">>>>> backupInfo form DB URL:" + REMOTE_URL);        
+        serverObj.setTimerInit(true);
+        logger.info(">>>>> backupInfo form DB URL:" + REMOTE_URL);
 
         boolean retSatus = false;
 
@@ -548,7 +550,7 @@ public class ServiceAFweb {
     private boolean backupNN() {
         serverObj.setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> backupNN form DB URL:" + REMOTE_URL);           
+        logger.info(">>>>> backupNN form DB URL:" + REMOTE_URL);
 
         boolean retSatus = false;
 
@@ -567,7 +569,7 @@ public class ServiceAFweb {
     private boolean restoreSystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> restoreSystem form DB URL:" + REMOTE_URL);   
+        logger.info(">>>>> restoreSystem form DB URL:" + REMOTE_URL);
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreSystem?");
@@ -593,7 +595,7 @@ public class ServiceAFweb {
     private boolean restoreInfo() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> restoreInfo form DB URL:" + REMOTE_URL);   
+        logger.info(">>>>> restoreInfo form DB URL:" + REMOTE_URL);
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreInfo?");
@@ -619,7 +621,7 @@ public class ServiceAFweb {
     private boolean restoreNN() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> restoreNN form DB URL:" + REMOTE_URL);   
+        logger.info(">>>>> restoreNN form DB URL:" + REMOTE_URL);
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreNN?");
@@ -3507,7 +3509,10 @@ public class ServiceAFweb {
         //SELECT TOP 10 column FROM table - Microsoft SQL Server
         //SELECT column FROM table LIMIT 10 - PostgreSQL and MySQL
         //SELECT column FROM table WHERE ROWNUM <= 10 - Oracle
-        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) ||
+                (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) ||
+                (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) ||
+                (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             if (length != 0) {
                 if (length == 1) {
                     sql += " limit 1 ";

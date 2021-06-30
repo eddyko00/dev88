@@ -35,11 +35,15 @@ public class Javamain {
 //            CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_1_DBDB_PHP;
 ////////////////
         } else if (cmd.indexOf("localmysqlflag") != -1) {
-            CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;            
+            CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
         } else if (cmd.indexOf("phpmysqlflag") != -1) {
-            CKey.SQL_DATABASE = CKey.REMOTE_PHP_MYSQL;            
+            CKey.SQL_DATABASE = CKey.REMOTE_PHP_MYSQL;
+            CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_DBDB_PHP;
+            CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO;
         } else if (cmd.indexOf("php_1_mysqlflag") != -1) {
-            CKey.SQL_DATABASE = CKey.REMOTE_PHP_1_MYSQL;               
+            CKey.SQL_DATABASE = CKey.REMOTE_PHP_1_MYSQL;
+            CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_1_DBDB_PHP;
+            CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_1;
 ///////////////
         } else if (cmd.indexOf("backupFlag") != -1) {
             CKey.backupFlag = true;
