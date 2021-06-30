@@ -15,8 +15,8 @@ public class WebAppConfig {
             dataSource = dataSourceMYQLRemotePHP();
         } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
             dataSource = dataSourceMYSQLRemoteDirect();
-        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            dataSource = dataSourceMS_SQLRemote();
+//        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
+//            dataSource = dataSourceMS_SQLRemote();
         }
         return dataSource;
     }
@@ -29,8 +29,8 @@ public class WebAppConfig {
             dataSource = dataSourceMYQLRemotePHP();
         } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
             dataSource = dataSourceMYSQLRemoteDirect();
-        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-            dataSource = dataSourceMS_SQLRemote();
+//        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
+//            dataSource = dataSourceMS_SQLRemote();
         }
         return dataSource;
     }
@@ -69,6 +69,7 @@ public class WebAppConfig {
 //            dataSource.setUrl("jdbc:mysql://www.db4free.net:3306/eddydb_sample?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
 //            dataSource.setUsername("eddysa");
 //            dataSource.setPassword("eddyadmin");
+//
 //$host = "sql9.freemysqlhosting.net";
 //$username = "sql9376612";
 //$password = "p4WL3psmvm";

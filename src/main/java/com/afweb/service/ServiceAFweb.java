@@ -59,8 +59,6 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 
@@ -3583,15 +3581,15 @@ public class ServiceAFweb {
             }
         }
 
-        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-            if (length != 0) {
-                if (length == 1) {
-                    sql = sql.replace("select ", "select top 1 ");
-                } else {
-                    sql = sql.replace("select ", "select top " + length + " ");
-                }
-            }
-        }
+//        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
+//            if (length != 0) {
+//                if (length == 1) {
+//                    sql = sql.replace("select ", "select top 1 ");
+//                } else {
+//                    sql = sql.replace("select ", "select top " + length + " ");
+//                }
+//            }
+//        }
         return sql;
     }
 

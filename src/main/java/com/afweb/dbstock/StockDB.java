@@ -480,9 +480,9 @@ public class StockDB {
 
     public static String createDummytable() {
         String sqlCMD = "";
-        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-            sqlCMD = "create table dummy1 (id int identity not null, primary key (id))";
-        }
+//        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
+//            sqlCMD = "create table dummy1 (id int identity not null, primary key (id))";
+//        }
         if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             sqlCMD = "create table dummy1 (id int(10) not null auto_increment, primary key (id))";
         }
@@ -526,9 +526,9 @@ public class StockDB {
         try {
 
             processExecuteDB("drop table if exists eddy");
-            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-                processExecuteDB("create table eddy (id int identity not null, primary key (id))");
-            }
+//            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
+//                processExecuteDB("create table eddy (id int identity not null, primary key (id))");
+//            }
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 processExecuteDB("create table eddy (id int(10) not null auto_increment, primary key (id))");
             }
@@ -558,32 +558,32 @@ public class StockDB {
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
 
             ArrayList createTableList = new ArrayList();
-            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
-                createTableList.add("create table dummy1 (id int identity not null, primary key (id))");
-                createTableList.add("create table tradingrule (id int identity not null, trname varchar(255) not null, type int not null, trsignal int not null, updatedatedisplay date null, updatedatel bigint not null, status int not null, substatus int not null, investment float(10) not null, balance float(10) not null, longshare float(10) not null, longamount float(10) not null, shortshare float(10) not null, "
-                        + "shortamount float(10) not null,perf float(10) not null, linktradingruleid int not null, stockid int not null, accountid int not null, comment varchar(255) not null, primary key (id))");
-                createTableList.add("create table stock (id int identity not null, symbol varchar(255) not null unique, stockname varchar(255) not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, failedupdate int not null, longterm float(10) not null, shortterm float(10) not null, direction float(10) not null, data varchar(255) not null,primary key (id))");
-//                
-//                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
-//                
-                createTableList.add("create table account (id int identity not null, accountname varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, startdate date null, investment float(10) not null, balance float(10) not null, servicefee float(10) not null, portfolio varchar(255) not null, linkaccountid int not null, customerid int not null, primary key (id))");
-                createTableList.add("create table lockobject (id int identity not null, lockname varchar(255) not null unique, type int not null, lockdatedisplay date null, lockdatel bigint null, comment varchar(255) null, primary key (id))");
-                createTableList.add("create table customer (id int identity not null, username varchar(255) not null unique, password varchar(255) not null, type int not null, status int not null, substatus int not null, startdate date null, firstname varchar(255) null, lastname varchar(255) null, email varchar(255) null, payment float(10) not null, balance float(10) not null, "
-                        + "portfolio varchar(255) not null,data varchar(255) not null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                createTableList.add("create table transationorder (id int identity not null, symbol varchar(255) null, status int not null, type int not null, entrydatedisplay date null, entrydatel bigint null, share float(10) not null, avgprice float(10) not null, trname varchar(255) null, trsignal int not null, accountid int not null, stockid int not null, tradingruleid int not null, comment varchar(255) not null, primary key (id))");
-
-                createTableList.add("create table performance (id int identity not null, name text null, type int not null, startdate date null, updatedatedisplay date null, updatedatel bigint not null, investment float(10) not null, balance float(10) not null, rating float(10) not null, netprofit float(10) not null, grossprofit float(10) not null, numtrade int not null"
-                        + ", accountid int not null, stockid int not null, tradingruleid int not null, primary key (id))");
-
-//                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-//                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-//                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
-                createTableList.add("create table comm (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, data text null, accountid int not null, customerid int not null, primary key (id))");
-                createTableList.add("create table billing (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, payment float(10) not null, balance float(10) not null, data text null, accountid int not null, customerid int not null, primary key (id))");
-                createTableList.add("alter table tradingrule add constraint fktradingrul566192 foreign key (accountid) references account (id)");
-                createTableList.add("alter table transationorder add constraint fktransation900454 foreign key (tradingruleid) references tradingrule (id)");
-                createTableList.add("alter table account add constraint fkaccount643453 foreign key (customerid) references customer (id)");
-            }
+//            if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
+//                createTableList.add("create table dummy1 (id int identity not null, primary key (id))");
+//                createTableList.add("create table tradingrule (id int identity not null, trname varchar(255) not null, type int not null, trsignal int not null, updatedatedisplay date null, updatedatel bigint not null, status int not null, substatus int not null, investment float(10) not null, balance float(10) not null, longshare float(10) not null, longamount float(10) not null, shortshare float(10) not null, "
+//                        + "shortamount float(10) not null,perf float(10) not null, linktradingruleid int not null, stockid int not null, accountid int not null, comment varchar(255) not null, primary key (id))");
+//                createTableList.add("create table stock (id int identity not null, symbol varchar(255) not null unique, stockname varchar(255) not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, failedupdate int not null, longterm float(10) not null, shortterm float(10) not null, direction float(10) not null, data varchar(255) not null,primary key (id))");
+////                
+////                createTableList.add("create table stockinfo (id int identity not null, entrydatedisplay date not null, entrydatel bigint not null, fopen float(10) not null, fclose float(10) not null, high float(10) not null, low float(10) not null, volume float(10) not null, adjustclose float(10) not null, sym varchar(255) not null, stockid int not null, primary key (id))");
+////                
+//                createTableList.add("create table account (id int identity not null, accountname varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, startdate date null, investment float(10) not null, balance float(10) not null, servicefee float(10) not null, portfolio varchar(255) not null, linkaccountid int not null, customerid int not null, primary key (id))");
+//                createTableList.add("create table lockobject (id int identity not null, lockname varchar(255) not null unique, type int not null, lockdatedisplay date null, lockdatel bigint null, comment varchar(255) null, primary key (id))");
+//                createTableList.add("create table customer (id int identity not null, username varchar(255) not null unique, password varchar(255) not null, type int not null, status int not null, substatus int not null, startdate date null, firstname varchar(255) null, lastname varchar(255) null, email varchar(255) null, payment float(10) not null, balance float(10) not null, "
+//                        + "portfolio varchar(255) not null,data varchar(255) not null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+//                createTableList.add("create table transationorder (id int identity not null, symbol varchar(255) null, status int not null, type int not null, entrydatedisplay date null, entrydatel bigint null, share float(10) not null, avgprice float(10) not null, trname varchar(255) null, trsignal int not null, accountid int not null, stockid int not null, tradingruleid int not null, comment varchar(255) not null, primary key (id))");
+//
+//                createTableList.add("create table performance (id int identity not null, name text null, type int not null, startdate date null, updatedatedisplay date null, updatedatel bigint not null, investment float(10) not null, balance float(10) not null, rating float(10) not null, netprofit float(10) not null, grossprofit float(10) not null, numtrade int not null"
+//                        + ", accountid int not null, stockid int not null, tradingruleid int not null, primary key (id))");
+//
+////                createTableList.add("create table neuralnet (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+////                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+////                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
+//                createTableList.add("create table comm (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, data text null, accountid int not null, customerid int not null, primary key (id))");
+//                createTableList.add("create table billing (id int identity not null, name varchar(255) not null unique, type int not null, status int not null, substatus int not null, updatedatedisplay date null, updatedatel bigint not null, payment float(10) not null, balance float(10) not null, data text null, accountid int not null, customerid int not null, primary key (id))");
+//                createTableList.add("alter table tradingrule add constraint fktradingrul566192 foreign key (accountid) references account (id)");
+//                createTableList.add("alter table transationorder add constraint fktransation900454 foreign key (tradingruleid) references tradingrule (id)");
+//                createTableList.add("alter table account add constraint fkaccount643453 foreign key (customerid) references customer (id)");
+//            }
 
             if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
                 createTableList.add("create table dummy1 (id int(10) not null auto_increment, primary key (id))");
