@@ -7,33 +7,54 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 public class WebAppConfig {
 
+    public String dataSourceURLSystem(DriverManagerDataSource dataSource) {
+        String URL = "";
+        if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+            URL = "Local MySQL DB " + dataSource.getUrl();
+        } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
+            URL = "Direct MySQL DB " + dataSource.getUrl();
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP;
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
+            URL = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
+
+        }
+        return URL;
+    }
+
     public DataSource dataSourceSystem() {
         DataSource dataSource = null;
         if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
             dataSource = dataSourceMYSQLLocal();
-        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            dataSource = dataSourceMYQLRemotePHP();
-        } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
-            dataSource = dataSourceMYSQLRemoteDirect();
-//        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
-//            dataSource = dataSourceMS_SQLRemote();
-        }
-        return dataSource;
-    }
 
-    public DataSource dataSourceInfo() {
-        DataSource dataSource = null;
-        if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-            dataSource = dataSourceMYSQLLocal();
-        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            dataSource = dataSourceMYQLRemotePHP();
         } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
             dataSource = dataSourceMYSQLRemoteDirect();
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            dataSource = dataSourceMYQLRemotePHP();
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
+            dataSource = dataSourceMYQLRemotePHP();
 //        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
 //            dataSource = dataSourceMS_SQLRemote();
         }
         return dataSource;
     }
+//
+//    public DataSource dataSourceInfo() {
+//        DataSource dataSource = null;
+//        if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
+//            dataSource = dataSourceMYSQLLocal();
+//            
+//       } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
+//            dataSource = dataSourceMYSQLRemoteDirect();
+//        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+//            dataSource = dataSourceMYQLRemotePHP();
+//        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
+//            dataSource = dataSourceMYQLRemotePHP();
+////        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
+////            dataSource = dataSourceMS_SQLRemote();
+//        }
+//        return dataSource;
+//    }
 
     public DataSource dataSourceMYSQLLocal() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -174,5 +195,4 @@ public class WebAppConfig {
 //
 //        return dataSource;
 //    }
-
 }

@@ -74,6 +74,7 @@ public class ServiceAFweb {
     private static ServerObj serverObj = new ServerObj();
 
     private DataSource dataSource;
+    private String REMOTE_URL = "";
 
     public static String serverLockName = "server";
     public static boolean NN_AllowTraingStockFlag = false;
@@ -219,14 +220,7 @@ public class ServiceAFweb {
         WebAppConfig webConfig = new WebAppConfig();
         this.dataSource = webConfig.dataSourceSystem();
 
-        String REMOTE_URL = "";
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            REMOTE_URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP;
-            //openshift Database
-            if (CKey.OTHER_PHP1_MYSQL == true) {
-                REMOTE_URL = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
-            }
-        }
+        REMOTE_URL = webConfig.dataSourceURLSystem((DriverManagerDataSource) dataSource);
 
         setDataSource(dataSource, REMOTE_URL);
 
@@ -354,38 +348,31 @@ public class ServiceAFweb {
                 serverLockName = ServiceAFweb.getServerObj().getServerName();
 
                 String displayStr = "";
-                getServerObj().setLocalDBservice(true);
+
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 displayStr += "\r\n" + (">>>>> System LOCAL_MYSQL = 4, REMOTE_PHP_MYSQL = 2, DIRECT_MYSQL = 0");
                 displayStr += "\r\n" + (">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
-                String dbStr = "";
-                if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
+
+                getServerObj().setLocalDBservice(true);
+                if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
                     getServerObj().setLocalDBservice(true);
-                    DriverManagerDataSource DMdataSource = (DriverManagerDataSource) this.dataSource;
-                    String dsURL = DMdataSource.getUrl();
-                    dbStr += "\r\n" + (">>>>> System Local DB URL:" + dsURL);
-                }
-                if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+
+                } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
+                    getServerObj().setLocalDBservice(true);
+
+                } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                     // need this for SystemSQLRequest
                     getServerObj().setLocalDBservice(false);
-                    // need this for SystemSQLRequest
-                    if (CKey.OTHER_PHP1_MYSQL == true) {
-                        dbStr += "\r\n" + (">>>>> System OTHER PHP1 DB URL:" + CKey.URL_PATH_HERO_1_DBDB_PHP);
-                    } else {
-                        dbStr += "\r\n" + (">>>>> System PHP MYSQL DB URL:" + CKey.URL_PATH_HERO_DBDB_PHP);
-                    }
-                } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                    getServerObj().setLocalDBservice(true);
-                    if (dataSource != null) {
-                        DriverManagerDataSource dataSourceObj = (DriverManagerDataSource) dataSource;
-                        dbStr += "\r\n" + (">>>>> System LOCAL_MYSQL DB URL:" + dataSourceObj.getUrl());
-                    }
+
+                } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
+                    getServerObj().setLocalDBservice(false);
                 }
-                displayStr += "\r\n" + dbStr;
+
+                displayStr += "\r\n" + (">>>>> System REMOTE DB URL:" + REMOTE_URL);
+                displayStr += "\r\n" + (">>>>> System SERVER_DB_URL:" + CKey.SERVER_DB_URL);
+                displayStr += "\r\n" + (">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-                displayStr += "\r\n" + (">>>>> System OTHER_PHP1_MYSQL:" + CKey.OTHER_PHP1_MYSQL);
-                displayStr += "\r\n" + (">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
                 displayStr += "\r\n" + (">>>>> System backupFlag:" + CKey.backupFlag);
                 displayStr += "\r\n" + (">>>>> System backupInfoFlag:" + CKey.backupInfoFlag);
                 displayStr += "\r\n" + (">>>>> System backupNNFlag:" + CKey.backupNNFlag);
@@ -414,7 +401,7 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> System mydebugnewtest:" + ServiceAFweb.forceMarketOpen);
 
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                displayStr += "\r\n" + dbStr;
+
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 logger.info(displayStr);
 
@@ -523,17 +510,8 @@ public class ServiceAFweb {
     private boolean backupSystem() {
         serverObj.setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        // LocalPCflag = true; 
-        // SQL_DATABASE = REMOTE_MYSQL;
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                logger.info(">>>>> backupSystem form Other DB");
-            } else {
-                logger.info(">>>>> backupSystem form Heroku");
-            }
-        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-            logger.info(">>>>> backupSystem form local My SQL");
-        }
+        logger.info(">>>>> backupSystem form DB URL:" + REMOTE_URL);
+
         boolean retSatus = false;
 
         BackupRestoreImp backupRestore = new BackupRestoreImp();
@@ -550,18 +528,9 @@ public class ServiceAFweb {
 
     private boolean backupInfo() {
         serverObj.setSysMaintenance(true);
-        serverObj.setTimerInit(true);
-        // LocalPCflag = true; 
-        // SQL_DATABASE = REMOTE_MYSQL;
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                logger.info(">>>>> backupInfo form Other DB");
-            } else {
-                logger.info(">>>>> backupInfo form Heroku");
-            }
-        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-            logger.info(">>>>> backupInfo form local My SQL");
-        }
+        serverObj.setTimerInit(true);       
+        logger.info(">>>>> backupInfo form DB URL:" + REMOTE_URL);        
+
         boolean retSatus = false;
 
         BackupRestoreInfo backupRestore = new BackupRestoreInfo();
@@ -579,17 +548,8 @@ public class ServiceAFweb {
     private boolean backupNN() {
         serverObj.setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        // LocalPCflag = true; 
-        // SQL_DATABASE = REMOTE_MYSQL;
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                logger.info(">>>>> backupNN form Other DB");
-            } else {
-                logger.info(">>>>> backupNN form Heroku");
-            }
-        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-            logger.info(">>>>> backupNN form local My SQL");
-        }
+        logger.info(">>>>> backupNN form DB URL:" + REMOTE_URL);           
+
         boolean retSatus = false;
 
         BackupRestoreNN backupRestore = new BackupRestoreNN();
@@ -607,16 +567,8 @@ public class ServiceAFweb {
     private boolean restoreSystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
+        logger.info(">>>>> restoreSystem form DB URL:" + REMOTE_URL);   
 
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                logger.info(">>>>> restoreSystem to Other DB");
-            } else {
-                logger.info(">>>>> restoreSystem to Heroku");
-            }
-        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-            logger.info(">>>>> restoreSystem form to My SQL");
-        }
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreSystem?");
         String YN = scan.next();
@@ -641,16 +593,8 @@ public class ServiceAFweb {
     private boolean restoreInfo() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
+        logger.info(">>>>> restoreInfo form DB URL:" + REMOTE_URL);   
 
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                logger.info(">>>>> restoreInfo to Other DB");
-            } else {
-                logger.info(">>>>> restoreInfo to Heroku");
-            }
-        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-            logger.info(">>>>> restoreInfo form to My SQL");
-        }
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreInfo?");
         String YN = scan.next();
@@ -675,16 +619,8 @@ public class ServiceAFweb {
     private boolean restoreNN() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
+        logger.info(">>>>> restoreNN form DB URL:" + REMOTE_URL);   
 
-        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            if ((CKey.OTHER_PHP1_MYSQL == true)) {
-                logger.info(">>>>> restoreNN to Other DB");
-            } else {
-                logger.info(">>>>> restoreNN to Heroku");
-            }
-        } else if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-            logger.info(">>>>> restoreNN form to My SQL");
-        }
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreNN?");
         String YN = scan.next();

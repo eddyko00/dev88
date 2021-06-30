@@ -24,11 +24,11 @@ public class CKey {
 
     //////////////////////
 //    public static final int REMOTE_MS_SQL = 3;////// do not use // http://eddyko00.freeasphost.net asp on freeasphost ma sql   
-
     // remember to update the application properties      
-    public static final int LOCAL_MYSQL = 4; //jdbc:mysql://localhost:3306/db_sample     
+    public static final int LOCAL_MYSQL = 0; //jdbc:mysql://localhost:3306/db_sample     
+    public static final int DIRECT__MYSQL = 1;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
     public static final int REMOTE_PHP_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
-    public static final int DIRECT__MYSQL = 0;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
+    public static final int REMOTE_PHP_1_MYSQL = 3; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
 
     public static int SQL_DATABASE = REMOTE_PHP_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
 
@@ -47,19 +47,18 @@ public class CKey {
     public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
 
     public static boolean backupFlag = false;
-    public static boolean backupInfoFlag = false;    
-    public static boolean backupNNFlag = false;   
-    
+    public static boolean backupInfoFlag = false;
+    public static boolean backupNNFlag = false;
+
     public static boolean restoreFlag = false;
-    public static boolean restoreInfoFlag = false;    
-    public static boolean restoreNNFlag = false;    
-    
+    public static boolean restoreInfoFlag = false;
+    public static boolean restoreNNFlag = false;
 
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
     public static String WEBPOST_HERO_PHP = "/webgetresp.php";
-    public static String URL_PATH_HERO_DBDB_PHP = "https://iiswebdb.herokuapp.com";  
+    public static String URL_PATH_HERO_DBDB_PHP = "https://iiswebdb.herokuapp.com";
 
     /////heroku
     /////heroku
@@ -71,9 +70,10 @@ public class CKey {
 //*********** 
 // server timerhandler
 // server timerhandler    
-    public static boolean OTHER_PHP1_MYSQL = false; //using HEROKU = false // using Other DB =  true
-
+//    public static boolean OTHER_PHP1_MYSQL = false; //using HEROKU = false // using Other DB =  true
+    public static String SERVER_DB_URL = URL_PATH_HERO_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
     public static String SERVER_TIMMER_URL = URL_PATH_HERO;  // server timerhandler OTHER_DB1 = false;
+
 //    public static String SERVER_TIMMER_URL = URL_PATH_HERO_1;  // server timerhandler OTHER_DB1 = true;
 //
 //***********    
@@ -86,7 +86,6 @@ public class CKey {
     ////////////////////////////       
 //https://www.thebalance.com/best-etfs-4173857
 //https://www.etftrends.com/popular-etfs/
-
     public static String NN_version = "NNBP_V1";
 
     public static float SPLIT_VAL = (float) 1.5;
@@ -140,7 +139,6 @@ public class CKey {
     public static final String UU = "eabcdabcdy.ko00@yahoo.ca";
 
 ////////////////////////////////////////////////////////////////////////////////    
-
     public CKey() {
     }
 
