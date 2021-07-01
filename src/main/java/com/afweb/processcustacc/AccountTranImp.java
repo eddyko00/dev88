@@ -353,7 +353,7 @@ public class AccountTranImp {
                         pObj.setAccountid(accountObj.getId());
                         pObj.setStockid(stock.getId());
                         pObj.setTradingruleid(trObj.getId());
-                        ArrayList<PerformanceObj> currentPerfList = serviceAFWeb.SystemAccountStockPerfList(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
+                        ArrayList<PerformanceObj> currentPerfList = serviceAFWeb.getAccountStockPerfListSystem(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
                         String SQLPerf = "";
                         if ((currentPerfList != null) && (currentPerfList.size() > 0)) {
                             PerformanceObj currentpObj = currentPerfList.get(0);

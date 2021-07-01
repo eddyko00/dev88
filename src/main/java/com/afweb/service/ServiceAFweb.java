@@ -1752,9 +1752,10 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-     public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
-         return getNeuralNetDataObj(BPnameTR, 0);
-     }
+    public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
+        return getNeuralNetDataObj(BPnameTR, 0);
+    }
+
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
         return nnSrv.getNeuralNetDataObj(name, length);
     }
@@ -2076,7 +2077,7 @@ public class ServiceAFweb {
     public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdStockIdSystem(int accountId, int stockId) {
         return custAccSrv.getAccountStockTRListByAccIdStockId(accountId, stockId);
     }
-    
+
 //    public ArrayList<TradingRuleObj> SystemAccountStockListByAccountID(int accountId, String symbol) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return null;
@@ -2115,7 +2116,6 @@ public class ServiceAFweb {
 //        int stockID = stock.getId();
 //        return custAccSrv.getAccountStockTRListByAccountID(accountId, stockID);
 //    }
-
 //    public ArrayList<TradingRuleObj> SystemAccountStockListByAccountIDStockID(int accountId, int stockId) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return null;
@@ -2273,6 +2273,45 @@ public class ServiceAFweb {
         return "";
     }
 
+    public ArrayList<PerformanceObj> getAccountStockPerfListSystem(int accountID, int stockID, String trName, int length) {
+        return custAccSrv.getAccountStockPerfList(accountID, stockID, trName, length);
+    }
+    //    public ArrayList<PerformanceObj> SystemAccountStockPerfList(int accountID, int stockID, String trName, int length) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AccountStockPerfList + "");
+//            String st;
+//            try {
+//                sqlObj.setReq(accountID + "");
+//                sqlObj.setReq1(stockID + "");
+//                sqlObj.setReq2(trName);
+//                sqlObj.setReq3(length + "");
+//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+//                if (output == null) {
+//                    return null;
+//                }
+//                if (output.equals(ConstantKey.nullSt)) {
+//                    return null;
+//                }
+//                ArrayList<PerformanceObj> trArray = null;
+//
+//                PerformanceObj[] arrayItem = new ObjectMapper().readValue(output, PerformanceObj[].class
+//                );
+//                List<PerformanceObj> listItem = Arrays.<PerformanceObj>asList(arrayItem);
+//                trArray = new ArrayList<PerformanceObj>(listItem);
+//                return trArray;
+//            } catch (Exception ex) {
+//                logger.info("> SystemAccountStockPerfList exception " + ex.getMessage());
+//            }
+//            return null;
+//        }
+//        return custAccSrv.getAccountStockPerfList(accountID, stockID, trName, length);
+//    }
+
     public CommObj getCommObjByID(int commID) {
         return custAccSrv.getCommObjByID(commID);
     }
@@ -2405,8 +2444,6 @@ public class ServiceAFweb {
         return getStockHistoricalRangeServ(symbol, start, end);
     }
 
-
-
     public ArrayList SystemAllOpenAccountIDList() {
         ArrayList<String> NameList = new ArrayList();
         if (getServerObj().isSysMaintenance() == true) {
@@ -2488,7 +2525,6 @@ public class ServiceAFweb {
         return getStockByStockIDServ(stockId);
     }
 
-
     //  entrydatel desc recent transaction first
     public ArrayList<TransationOrderObj> SystemAccountStockTransList(int accountID, int stockID, String trName, int length) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -2524,42 +2560,6 @@ public class ServiceAFweb {
             return null;
         }
         return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
-    }
-
-    public ArrayList<PerformanceObj> SystemAccountStockPerfList(int accountID, int stockID, String trName, int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AccountStockPerfList + "");
-            String st;
-            try {
-                sqlObj.setReq(accountID + "");
-                sqlObj.setReq1(stockID + "");
-                sqlObj.setReq2(trName);
-                sqlObj.setReq3(length + "");
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return null;
-                }
-                if (output.equals(ConstantKey.nullSt)) {
-                    return null;
-                }
-                ArrayList<PerformanceObj> trArray = null;
-
-                PerformanceObj[] arrayItem = new ObjectMapper().readValue(output, PerformanceObj[].class
-                );
-                List<PerformanceObj> listItem = Arrays.<PerformanceObj>asList(arrayItem);
-                trArray = new ArrayList<PerformanceObj>(listItem);
-                return trArray;
-            } catch (Exception ex) {
-                logger.info("> SystemAccountStockPerfList exception " + ex.getMessage());
-            }
-            return null;
-        }
-        return custAccSrv.getAccountStockPerfList(accountID, stockID, trName, length);
     }
 
 //    public String SystemSQLquery(String SQL) {
@@ -3123,7 +3123,7 @@ public class ServiceAFweb {
     public static final int AddTransactionOrder = 116; //"113"; 
 
     public static final int AccountStockTransList = 117; //"115";     
-    public static final int AccountStockPerfList = 118; //"116";     
+//    public static final int AccountStockPerfList = 118; //"116";     
 //    public static final int AccountStockIDByTRname = 119; //"117";   
 //    public static final int AccountStockListByAccountIDStockID = 120; //"118"; 
     public static final int AllPerformance = 121; //"13";  
