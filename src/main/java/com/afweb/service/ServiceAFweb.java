@@ -2153,7 +2153,6 @@ public class ServiceAFweb {
 //
 //        return custAccSrv.getAccountStockTRListByAccountID(accountId, stockId);
 //    }
-    
     //  entrydatel desc recent transaction first    
     public ArrayList<TransationOrderObj> getAccountStockTransListSystem(int accountID, int stockID, String trName, int length) {
         return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
@@ -2193,6 +2192,39 @@ public class ServiceAFweb {
 //            return null;
 //        }
 //        return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
+//    }
+
+    public ArrayList getAllAccountStockNameListExceptionAdmin(int accountId) {
+        return custAccSrv.getAllAccountStockNameListExceptionAdmin(accountId);
+
+    }
+//    public ArrayList SystemAllAccountStockNameListExceptionAdmin(int accountId) {
+//        ArrayList<String> NameList = new ArrayList();
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllAccountStockNameListExceptionAdmin + "");
+//            sqlObj.setReq(accountId + "");
+//            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//
+//            String output = sqlObjresp.getResp();
+//            if (output == null) {
+//                return NameList;
+//
+//            }
+//
+//            try {
+//                NameList = new ObjectMapper().readValue(output, ArrayList.class
+//                );
+//            } catch (Exception ex) {
+//                logger.info("> AllAccountStockNameListExceptionAdmin exception " + ex.getMessage());
+//            }
+//            return NameList;
+//        }
+//        return custAccSrv.getAllAccountStockNameListExceptionAdmin(accountId);
+//
 //    }
 
     public ArrayList getAccountListServ(String EmailUserName, String Password) {
@@ -2508,34 +2540,6 @@ public class ServiceAFweb {
         return custAccSrv.getAllOpenAccountID();
     }
 
-    public ArrayList SystemAllAccountStockNameListExceptionAdmin(int accountId) {
-        ArrayList<String> NameList = new ArrayList();
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllAccountStockNameListExceptionAdmin + "");
-            sqlObj.setReq(accountId + "");
-            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return NameList;
-
-            }
-
-            try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class
-                );
-            } catch (Exception ex) {
-                logger.info("> AllAccountStockNameListExceptionAdmin exception " + ex.getMessage());
-            }
-            return NameList;
-        }
-        return custAccSrv.getAllAccountStockNameListExceptionAdmin(accountId);
-
-    }
 
     public AFstockObj SystemRealTimeStockByStockID(int stockId) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -2562,7 +2566,6 @@ public class ServiceAFweb {
         }
         return getStockByStockIDServ(stockId);
     }
-
 
 //    public String SystemSQLquery(String SQL) {
 ////        if (getServerObj().isSysMaintenance() == true) {
@@ -3112,7 +3115,7 @@ public class ServiceAFweb {
     public static final int UserNamebyAccountID = 18; //"107";
     public static final int UpdateTransactionOrder = 19; //"108";
 //    public static final int AccountStockClrTranByAccountID = 20; //"111";    
-    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
+//    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
 
     ////////////////////////
     // Customer Account

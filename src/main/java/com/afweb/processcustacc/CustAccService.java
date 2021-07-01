@@ -180,17 +180,17 @@ public class CustAccService {
 //                    }
 //                    return sqlObj;
 
-                case ServiceAFweb.AllAccountStockNameListExceptionAdmin:  //AllAccountStockNameListExceptionAdmin = 112; //"112";        
-                    try {
-                        accIdSt = sqlObj.getReq();
-                        accountId = Integer.parseInt(accIdSt);
-                        nameList = accountImp.getAllAccountStockNameListExceptionAdmin(accountId);
-                        nameST = new ObjectMapper().writeValueAsString(nameList);
-                        sqlObj.setResp(nameST);
-                        return sqlObj;
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.AllAccountStockNameListExceptionAdmin:  //AllAccountStockNameListExceptionAdmin = 112; //"112";        
+//                    try {
+//                        accIdSt = sqlObj.getReq();
+//                        accountId = Integer.parseInt(accIdSt);
+//                        nameList = accountImp.getAllAccountStockNameListExceptionAdmin(accountId);
+//                        nameST = new ObjectMapper().writeValueAsString(nameList);
+//                        sqlObj.setResp(nameST);
+//                        return sqlObj;
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 
                 case ServiceAFweb.AddTransactionOrder:  //AddTransactionOrder = 113; //"113";         
                     try {
