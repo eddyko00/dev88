@@ -1533,11 +1533,11 @@ public class ServiceAFweb {
 //        tr.setComment("");
 //        getTRList().add(tr);
     }
+
     public void SysInitSystemData() {
         logger.info(">InitDB InitSystemData for Stock and account ");
 
     }
-    
 
     public void SysInitSystemFund(String portfolio) {
         if (portfolio.length() == 0) {
@@ -1586,9 +1586,24 @@ public class ServiceAFweb {
         return "" + retStatus;
     }
 
+    public String SystemClearLock() {
+        int retSatus = 0;
+        retSatus = deleteAllLock();
+        return "" + retSatus;
+    }
 
-    
+    public String SystemClearNNtranAllAcc() {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        int retSatus = 0;
+
+        retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
+        return "" + retSatus;
+    }
+//   
     ////////////////////////////////
+    ////////////////////////////////    
+    ////////////////////////////////
+
     public RequestObj SystemSQLRequestSystem(RequestObj sqlObj) {
         SystemService sysSrv = new SystemService();
         RequestObj reqObj = sysSrv.SQLRequestSystem(this, sqlObj);
@@ -3416,27 +3431,6 @@ public class ServiceAFweb {
         return ret;
     }
 
-//    public String SystemCleanNNonlyDBData() {
-//        boolean retSatus = false;
-//        serverObj.setSysMaintenance(true);
-//        retSatus = cleanNNonlyStockDB();
-//        return "" + retSatus;
-//    }
-    public String SystemClearLock() {
-        int retSatus = 0;
-        retSatus = deleteAllLock();
-        return "" + retSatus;
-    }
-
-    public String SystemClearNNtranAllAcc() {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = 0;
-
-        retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
-        return "" + retSatus;
-    }
-//    
-
     public String SystemClearNNtran(String sym) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
@@ -3481,7 +3475,6 @@ public class ServiceAFweb {
 
         return result;
     }
-
 
     public static String getSQLLengh(String sql, int length) {
         //https://www.petefreitag.com/item/59.cfm
