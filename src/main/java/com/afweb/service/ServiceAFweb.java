@@ -2009,12 +2009,12 @@ public class ServiceAFweb {
 //        return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
 //    }
 
-    public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdSymbol(int accountId, String symbol) {
+    public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdSymbolSystem(int accountId, String symbol) {
         AFstockObj stock = getStockBySymServ(symbol);
-        return getAccountStockTRListByAccIdStockId(accountId, stock.getId());
+        return getAccountStockTRListByAccIdStockIdSystem(accountId, stock.getId());
     }
 
-    public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdStockId(int accountId, int stockId) {
+    public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdStockIdSystem(int accountId, int stockId) {
         return custAccSrv.getAccountStockTRListByAccIdStockId(accountId, stockId);
     }
     

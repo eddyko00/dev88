@@ -42,9 +42,9 @@ public class AccountTranImp {
         }
 //        logger.info("> updateTradingsignal " + symbol + " " + accountObj.getAccountname());
         // update Trading signal
-        ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.getAccountStockTRListByAccIdSymbol(accountAdminObj.getId(), symbol);
+        ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.getAccountStockTRListByAccIdSymbolSystem(accountAdminObj.getId(), symbol);
 
-        ArrayList<TradingRuleObj> tradingRuleList = serviceAFWeb.getAccountStockTRListByAccIdSymbol(accountObj.getId(), symbol);
+        ArrayList<TradingRuleObj> tradingRuleList = serviceAFWeb.getAccountStockTRListByAccIdSymbolSystem(accountObj.getId(), symbol);
 
         if ((tradingRuleList == null) || (tradingRuleAdminList == null)) {
             return;
