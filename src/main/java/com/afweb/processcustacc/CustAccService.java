@@ -214,23 +214,23 @@ public class CustAccService {
                     }
                     return sqlObj;
 
-                case ServiceAFweb.AccountStockTransList: //AccountStockTransList = 115; //"115";    
-                    try {
-                        String accountIDSt = sqlObj.getReq();
-                        int accountID = Integer.parseInt(accountIDSt);
-                        String stockIDSt = sqlObj.getReq1();
-                        int stockID = Integer.parseInt(stockIDSt);
-                        String trName = sqlObj.getReq2();
-                        String lengthSt = sqlObj.getReq3();
-                        int length = Integer.parseInt(lengthSt);
-
-                        ArrayList<TransationOrderObj> retArray = accountImp.getAccountStockTransList(accountID, stockID, trName, length);
-
-                        nameST = new ObjectMapper().writeValueAsString(retArray);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.AccountStockTransList: //AccountStockTransList = 115; //"115";    
+//                    try {
+//                        String accountIDSt = sqlObj.getReq();
+//                        int accountID = Integer.parseInt(accountIDSt);
+//                        String stockIDSt = sqlObj.getReq1();
+//                        int stockID = Integer.parseInt(stockIDSt);
+//                        String trName = sqlObj.getReq2();
+//                        String lengthSt = sqlObj.getReq3();
+//                        int length = Integer.parseInt(lengthSt);
+//
+//                        ArrayList<TransationOrderObj> retArray = accountImp.getAccountStockTransList(accountID, stockID, trName, length);
+//
+//                        nameST = new ObjectMapper().writeValueAsString(retArray);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 
 //                case ServiceAFweb.AccountStockPerfList: //AccountStockPerfList = 116; //"116";    
 //                    try {

@@ -2153,9 +2153,47 @@ public class ServiceAFweb {
 //
 //        return custAccSrv.getAccountStockTRListByAccountID(accountId, stockId);
 //    }
-    public ArrayList<TransationOrderObj> getAccountStockTransList(int accountID, int stockID, String trName, int length) {
+    
+    //  entrydatel desc recent transaction first    
+    public ArrayList<TransationOrderObj> getAccountStockTransListSystem(int accountID, int stockID, String trName, int length) {
         return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
     }
+//    //  entrydatel desc recent transaction first
+//    public ArrayList<TransationOrderObj> SystemAccountStockTransList(int accountID, int stockID, String trName, int length) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AccountStockTransList + "");
+//            String st;
+//            try {
+//                sqlObj.setReq(accountID + "");
+//                sqlObj.setReq1(stockID + "");
+//                sqlObj.setReq2(trName);
+//                sqlObj.setReq3(length + "");
+//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+//                if (output == null) {
+//                    return null;
+//                }
+//                if (output.equals(ConstantKey.nullSt)) {
+//                    return null;
+//                }
+//                ArrayList<TransationOrderObj> trArray = null;
+//
+//                TransationOrderObj[] arrayItem = new ObjectMapper().readValue(output, TransationOrderObj[].class
+//                );
+//                List<TransationOrderObj> listItem = Arrays.<TransationOrderObj>asList(arrayItem);
+//                trArray = new ArrayList<TransationOrderObj>(listItem);
+//                return trArray;
+//            } catch (Exception ex) {
+//                logger.info("> SystemAccountStockTransList exception " + ex.getMessage());
+//            }
+//            return null;
+//        }
+//        return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
+//    }
 
     public ArrayList getAccountListServ(String EmailUserName, String Password) {
         if (custAccFlag == true) {
@@ -2525,42 +2563,6 @@ public class ServiceAFweb {
         return getStockByStockIDServ(stockId);
     }
 
-    //  entrydatel desc recent transaction first
-    public ArrayList<TransationOrderObj> SystemAccountStockTransList(int accountID, int stockID, String trName, int length) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AccountStockTransList + "");
-            String st;
-            try {
-                sqlObj.setReq(accountID + "");
-                sqlObj.setReq1(stockID + "");
-                sqlObj.setReq2(trName);
-                sqlObj.setReq3(length + "");
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return null;
-                }
-                if (output.equals(ConstantKey.nullSt)) {
-                    return null;
-                }
-                ArrayList<TransationOrderObj> trArray = null;
-
-                TransationOrderObj[] arrayItem = new ObjectMapper().readValue(output, TransationOrderObj[].class
-                );
-                List<TransationOrderObj> listItem = Arrays.<TransationOrderObj>asList(arrayItem);
-                trArray = new ArrayList<TransationOrderObj>(listItem);
-                return trArray;
-            } catch (Exception ex) {
-                logger.info("> SystemAccountStockTransList exception " + ex.getMessage());
-            }
-            return null;
-        }
-        return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
-    }
 
 //    public String SystemSQLquery(String SQL) {
 ////        if (getServerObj().isSysMaintenance() == true) {
@@ -3122,7 +3124,7 @@ public class ServiceAFweb {
     public static final int updateAccountStockSignal = 115;// "102";    
     public static final int AddTransactionOrder = 116; //"113"; 
 
-    public static final int AccountStockTransList = 117; //"115";     
+//    public static final int AccountStockTransList = 117; //"115";     
 //    public static final int AccountStockPerfList = 118; //"116";     
 //    public static final int AccountStockIDByTRname = 119; //"117";   
 //    public static final int AccountStockListByAccountIDStockID = 120; //"118"; 

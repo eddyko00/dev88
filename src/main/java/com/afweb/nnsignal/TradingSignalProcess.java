@@ -75,7 +75,7 @@ public class TradingSignalProcess {
             String trName = trObj.getTrname();
 
             // most recent tran first - old tran at the end 
-            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.getAccountStockTransListSystem(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList == null) || (tranOrderList.size() == 0)) {
                 continue;
             }
@@ -152,7 +152,7 @@ public class TradingSignalProcess {
 //            }
             // process performance
             String trName = trObj.getTrname();
-            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.getAccountStockTransListSystem(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList == null) || (tranOrderList.size() == 0)) {
                 continue;
             }
@@ -863,7 +863,7 @@ public class TradingSignalProcess {
                             }
                         }
                     }
-                    ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
+                    ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.getAccountStockTransListSystem(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
                     if (currTranOrderList != null) {
                         if (currTranOrderList.size() > 0) {
                             //should be empty it should be cleared at the begining by 
@@ -2835,7 +2835,7 @@ public class TradingSignalProcess {
                 continue;
             }
 
-            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTransList(accountObj.getId(), stock.getId(), "TR_ACC", 0);
+            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTransListSystem(accountObj.getId(), stock.getId(), "TR_ACC", 0);
             if (thList == null) {
                 continue;
             }
