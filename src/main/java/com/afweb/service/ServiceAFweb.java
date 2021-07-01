@@ -2541,32 +2541,6 @@ public class ServiceAFweb {
     }
 
     //////////////////////////////////////////////////
-    public ArrayList SystemUserNamebyAccountID(int accountID) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.UserNamebyAccountID + "");
-            sqlObj.setReq("" + accountID);
-            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return null;
-            }
-            ArrayList<String> NameList = new ArrayList();
-
-            try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class
-                );
-            } catch (Exception ex) {
-                logger.info("> SystemUserNamebyAccountID exception " + ex.getMessage());
-            }
-            return NameList;
-        }
-        return custAccSrv.getUserNamebyAccountID(accountID);
-    }
 
 
 
@@ -3115,7 +3089,7 @@ public class ServiceAFweb {
 //    public static final int AllOpenAccountIDList = 15; //"104";
 //    public static final int AccountObjByAccountID = 16; //"105";
 //    public static final int AccountStockNameList = 17; //"106";
-    public static final int UserNamebyAccountID = 18; //"107";
+//    public static final int UserNamebyAccountID = 18; //"107";
     public static final int UpdateTransactionOrder = 19; //"108";
 //    public static final int AccountStockClrTranByAccountID = 20; //"111";    
 //    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 

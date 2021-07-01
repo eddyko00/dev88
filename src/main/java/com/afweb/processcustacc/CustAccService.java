@@ -134,13 +134,13 @@ public class CustAccService {
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
 
-                case ServiceAFweb.UserNamebyAccountID:  //UserNamebyAccountID = "107";
-                    accIdSt = sqlObj.getReq();
-                    accountId = Integer.parseInt(accIdSt);
-                    nameList = accountImp.getUserNamebyAccountID(accountId);
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.UserNamebyAccountID:  //UserNamebyAccountID = "107";
+//                    accIdSt = sqlObj.getReq();
+//                    accountId = Integer.parseInt(accIdSt);
+//                    nameList = accountImp.getUserNamebyAccountID(accountId);
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
                 case ServiceAFweb.UpdateTransactionOrder:  //UpdateTransactionOrder = "108";
                     try {
                         st = sqlObj.getReq();
@@ -497,9 +497,36 @@ public class CustAccService {
         return accountImp.getAccounBestFundList(UserName, Password);
     }
 
-    public ArrayList getUserNamebyAccountID(int accountID) {
-        return accountImp.getUserNamebyAccountID(accountID);
-    }
+//    public ArrayList getUserNamebyAccountID(int accountID) {
+//        return accountImp.getUserNamebyAccountID(accountID);
+//    }
+//    public ArrayList SystemUserNamebyAccountID(int accountID) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.UserNamebyAccountID + "");
+//            sqlObj.setReq("" + accountID);
+//            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+//            if (output == null) {
+//                return null;
+//            }
+//            ArrayList<String> NameList = new ArrayList();
+//
+//            try {
+//                NameList = new ObjectMapper().readValue(output, ArrayList.class
+//                );
+//            } catch (Exception ex) {
+//                logger.info("> SystemUserNamebyAccountID exception " + ex.getMessage());
+//            }
+//            return NameList;
+//        }
+//        return custAccSrv.getUserNamebyAccountID(accountID);
+//    }
+    
 
     public ArrayList getAllOpenAccountID() {
         return accountImp.getAllOpenAccountID();
