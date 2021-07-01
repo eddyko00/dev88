@@ -214,40 +214,6 @@ public class ServiceAFweb {
         return serverObjList;
     }
 
-    public void InitDataSource() {
-        logger.info(">initDataSource ");
-        //testing
-        WebAppConfig webConfig = new WebAppConfig();
-        this.dataSource = webConfig.dataSourceSystem();
-
-        REMOTE_URL = webConfig.dataSourceURLSystem((DriverManagerDataSource) dataSource);
-
-        setDataSource(dataSource, REMOTE_URL);
-
-        setAccountDataSource(dataSource, REMOTE_URL);
-
-        setStockInfoDataSource(dataSource, REMOTE_URL);
-
-        setNNDataDataSource(dataSource, REMOTE_URL);
-////////////////////////////////////////
-        String enSt = CKey.PROXYURL_TMP;
-        enSt = StringTag.replaceAll("abc", "", enSt);
-        PROXYURL = enSt;
-        if (FileLocalPath.length() == 0) {
-            if (getEnv.checkLocalPC() == true) {
-                FileLocalPath = CKey.FileLocalPathTemp;
-            } else {
-                FileLocalPath = CKey.FileServerPathTemp;
-            }
-        }
-
-        PA_Str = StringTag.replaceAll("abc", "", CKey.PA);
-        UA_Str = StringTag.replaceAll("abc", "", CKey.UA);
-        UU_Str = StringTag.replaceAll("abc", "", CKey.UU);
-
-        URL_INFO = StringTag.replaceAll("abc", "", CKey.SERVER_TIMMER_URL);
-    }
-
     public int timerThread() {
 
         if (timerThreadDateValue > 0) {
@@ -330,8 +296,8 @@ public class ServiceAFweb {
 
             if (getServerObj().isTimerInit() == false) {
                 /////////////
-                InitDataSource();
-                InitStaticData();   // init TR data
+                SysInitDataSource();
+                SysInitStaticData();   // init TR data
 
                 // work around. must initialize for remote MYSQL
                 serverObj.setTimerInit(true);
@@ -422,7 +388,7 @@ public class ServiceAFweb {
                     getServerObj().setSysMaintenance(true);
                     logger.info(">>>>>>> InitDBData started.........");
                     // 0 - new db, 1 - db already exist, -1 db error
-                    int ret = InitDBData();  // init DB Adding customer account
+                    int ret = SysInitDBData();  // init DB Adding customer account
 //                        sysPortfolio = CKey.FUND_PORTFOLIO;
                     if (ret != -1) {
 
@@ -1434,12 +1400,171 @@ public class ServiceAFweb {
         return ret;
     }
 
-//////////////////////////////////////////////////////    
     //////////////////////////////////////////////////
     // SystemService
     SystemService systemSrv = new SystemService();
-
+    // SystemService
     //////////////////////////////////////////////////  
+
+    public int SysInitDBData() {
+        logger.info(">InitDBData ");
+        // 0 - new db, 1 - db already exist, -1 db error
+        int retStatus = SystemInitStockDB();
+
+        if (retStatus >= 0) {
+            //// init StockInfo
+            initStockInfoDB();
+
+            initNNetDataDB();
+
+            logger.info(">InitDB Customer account ");
+            CustomerObj newCustomer = new CustomerObj();
+            newCustomer.setUsername(CKey.ADMIN_USERNAME);
+            newCustomer.setPassword("passw0rd");
+            newCustomer.setFirstname("ADM");
+            newCustomer.setType(CustomerObj.INT_ADMIN_USER);
+            //// result 1 = success, 2 = existed,  0 = fail
+            custAccSrv.addCustomer(newCustomer, -1);
+
+            newCustomer.setUsername(CKey.API_USERNAME);
+            newCustomer.setPassword("eddy");
+            newCustomer.setFirstname("APIUser");
+            newCustomer.setType(CustomerObj.INT_API_USER);
+            custAccSrv.addCustomer(newCustomer, -1);
+
+            if (retStatus == 0) {
+
+                newCustomer.setUsername(CKey.G_USERNAME);
+                newCustomer.setPassword("guest");
+                newCustomer.setFirstname("G");
+                newCustomer.setType(CustomerObj.INT_GUEST_USER);
+                custAccSrv.addCustomer(newCustomer, -1);
+
+                newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);
+                newCustomer.setPassword("passw0rd");
+                newCustomer.setFirstname("FundMgr");
+                newCustomer.setType(CustomerObj.INT_FUND_USER);
+                custAccSrv.addCustomer(newCustomer, -1);
+//                
+                newCustomer.setUsername(CKey.INDEXFUND_MANAGER_USERNAME);
+                newCustomer.setPassword("passw0rd");
+                newCustomer.setFirstname("IndexMgr");
+                newCustomer.setType(CustomerObj.INT_FUND_USER);
+                custAccSrv.addCustomer(newCustomer, -1);
+
+                AccountObj account = custAccSrv.getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
+                if (account != null) {
+                    int result = 0;
+                    getServerObj().setSysMaintenance(false);
+                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
+                        String stockN = ServiceAFweb.primaryStock[i];
+                        AFstockObj stock = getStockBySymServ(stockN);
+                        logger.info(">InitDBData add stock " + stock.getSymbol());
+                        result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
+                    }
+
+                    AFstockObj stock = getStockBySymServ("T.TO");
+                    result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
+                    getServerObj().setSysMaintenance(true);
+                }
+            }
+
+            newCustomer.setUsername(CKey.E_USERNAME);
+            newCustomer.setPassword("pass");
+            newCustomer.setFirstname("E");
+            newCustomer.setType(CustomerObj.INT_CLIENT_BASIC_USER);
+            custAccSrv.addCustomer(newCustomer, -1);
+        }
+        return retStatus;
+    }
+
+    public void SysInitDataSource() {
+        logger.info(">initDataSource ");
+        //testing
+        WebAppConfig webConfig = new WebAppConfig();
+        this.dataSource = webConfig.dataSourceSystem();
+
+        REMOTE_URL = webConfig.dataSourceURLSystem((DriverManagerDataSource) dataSource);
+
+        setDataSource(dataSource, REMOTE_URL);
+
+        setAccountDataSource(dataSource, REMOTE_URL);
+
+        setStockInfoDataSource(dataSource, REMOTE_URL);
+
+        setNNDataDataSource(dataSource, REMOTE_URL);
+////////////////////////////////////////
+        String enSt = CKey.PROXYURL_TMP;
+        enSt = StringTag.replaceAll("abc", "", enSt);
+        PROXYURL = enSt;
+        if (FileLocalPath.length() == 0) {
+            if (getEnv.checkLocalPC() == true) {
+                FileLocalPath = CKey.FileLocalPathTemp;
+            } else {
+                FileLocalPath = CKey.FileServerPathTemp;
+            }
+        }
+
+        PA_Str = StringTag.replaceAll("abc", "", CKey.PA);
+        UA_Str = StringTag.replaceAll("abc", "", CKey.UA);
+        UU_Str = StringTag.replaceAll("abc", "", CKey.UU);
+
+        URL_INFO = StringTag.replaceAll("abc", "", CKey.SERVER_TIMMER_URL);
+    }
+
+    public void SysInitStaticData() {
+        logger.info(">InitDB InitStaticData ");
+        getTRList().clear();
+        TradingRuleObj tr = new TradingRuleObj();
+        tr.setTrname(ConstantKey.TR_ACC);
+        tr.setType(ConstantKey.INT_TR_ACC);
+        tr.setComment("");
+        getTRList().add(tr);
+
+        tr = new TradingRuleObj();
+        tr.setTrname(ConstantKey.TR_MV);
+        tr.setType(ConstantKey.INT_TR_MV);
+        tr.setComment("");
+        getTRList().add(tr);
+
+        tr = new TradingRuleObj();
+        tr.setTrname(ConstantKey.TR_MACD);
+        tr.setType(ConstantKey.INT_TR_MACD);
+        tr.setComment("");
+        getTRList().add(tr);
+
+        tr = new TradingRuleObj();
+        tr.setTrname(ConstantKey.TR_RSI);
+        tr.setType(ConstantKey.INT_TR_RSI);
+        tr.setComment("");
+        getTRList().add(tr);
+
+        tr = new TradingRuleObj();
+        tr.setTrname(ConstantKey.TR_NN1);
+        tr.setType(ConstantKey.INT_TR_NN1);
+        tr.setComment("");
+        getTRList().add(tr);
+
+        tr = new TradingRuleObj();
+        tr.setTrname(ConstantKey.TR_NN2);
+        tr.setType(ConstantKey.INT_TR_NN2);
+        tr.setComment("");
+        getTRList().add(tr);
+
+        tr = new TradingRuleObj();
+        tr.setTrname(ConstantKey.TR_NN3);
+        tr.setType(ConstantKey.INT_TR_NN3);
+        tr.setComment("");
+        getTRList().add(tr);
+
+//        tr = new TradingRuleObj();
+//        tr.setTrname(ConstantKey.TR_NN91);
+//        tr.setType(ConstantKey.INT_TR_NN91);
+//        tr.setComment("");
+//        getTRList().add(tr);
+    }
+
+    ////////////////////////////////
     public RequestObj SystemSQLRequestSystem(RequestObj sqlObj) {
         SystemService sysSrv = new SystemService();
         RequestObj reqObj = sysSrv.SQLRequestSystem(this, sqlObj);
@@ -1450,7 +1575,7 @@ public class ServiceAFweb {
         systemSrv.setDataSource(dataSource, URL);
     }
 
-    public int initStockDB() {
+    public int SystemInitStockDB() {
         return systemSrv.initStockDB();
     }
 
@@ -1737,7 +1862,6 @@ public class ServiceAFweb {
 //
 //        return getStockHistoricalRangeServ(symbol, start, end);
 //    }    
-
     public int updateStockInfoTransactionServ(StockInfoTranObj stockInfoTran) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.updateStockInfoTransaction(this, stockInfoTran);
@@ -1987,7 +2111,7 @@ public class ServiceAFweb {
 //        }
 //        return custAccSrv.updateTransactionOrder(transSQL);
 //    }
-    
+
     public int clearAccountStockTranByAccountIDSystem(AccountObj accountObj, int stockID, String trName) {
         return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockID, trName);
     }
@@ -2519,6 +2643,7 @@ public class ServiceAFweb {
     public CommData getCommDataObj(CommObj commObj) {
         return custAccSrv.getCommDataObj(commObj);
     }
+
     ///////////////////////////////////////
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
 
@@ -2568,9 +2693,6 @@ public class ServiceAFweb {
     }
 
     //////////////////////////////////////////////////
-
-
-
 //    public String SystemSQLquery(String SQL) {
 ////        if (getServerObj().isSysMaintenance() == true) {
 ////            return "";
@@ -2595,15 +2717,13 @@ public class ServiceAFweb {
 //        }
 //        return getAccountImp().getAllSQLquery(SQL);
 //    }
-    public int SystemAddTransactionOrder(AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate) {
+    public int custAccAddTransactionOrder(AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
         AccountTranImp accountTran = new AccountTranImp();
         return accountTran.AddTransactionOrder(this, accountObj, stock, trName, tranSignal, tranDate, true);
     }
-
-
 
 //////////
     public int updateAccountStockSignalList(ArrayList<TradingRuleObj> TRList) {
@@ -2634,7 +2754,7 @@ public class ServiceAFweb {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
-            ProcessAllStockHistoryCreatJava(serviceAFWeb, symbolL, stockInputMap);
+            CreateStaticStockHistory(serviceAFWeb, symbolL, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
@@ -2744,7 +2864,7 @@ public class ServiceAFweb {
         return false;
     }
 
-    private static void ProcessAllStockHistoryCreatJava(ServiceAFweb serviceAFWeb, String symbolL[], HashMap<String, ArrayList> stockInputMap) {
+    private static void CreateStaticStockHistory(ServiceAFweb serviceAFWeb, String symbolL[], HashMap<String, ArrayList> stockInputMap) {
         boolean saveStockDBFlag = true;
         if (saveStockDBFlag == true) {
 
@@ -2825,7 +2945,7 @@ public class ServiceAFweb {
         if (stockInputMap == null) {
             stockInputMap = nnAllStock_src.AllStockHistoryStaticCodeInit(stockInputMap);
         }
-        ArrayList<AFstockInfo> stockInfoList = ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap);
+        ArrayList<AFstockInfo> stockInfoList = getAllStockHistoryStaticCode(symbol, stockInputMap);
         if (stockInfoList != null) {
             return stockInfoList;
         }
@@ -2836,11 +2956,11 @@ public class ServiceAFweb {
         if (stockInputMap_1 == null) {
             stockInputMap_1 = nnAllStock_1_src.AllStockHistoryStaticCodeInit(stockInputMap_1);
         }
-        return ProcessAllStockHistoryfromStaticCode(symbol, stockInputMap_1);
+        return getAllStockHistoryStaticCode(symbol, stockInputMap_1);
 
     }
 
-    private static ArrayList<AFstockInfo> ProcessAllStockHistoryfromStaticCode(String symbol,
+    private static ArrayList<AFstockInfo> getAllStockHistoryStaticCode(String symbol,
             HashMap<String, ArrayList> stockInMap) {
 
         ArrayList<AFstockInfo> inputlist = new ArrayList();
@@ -3094,7 +3214,6 @@ public class ServiceAFweb {
 //    public static final int UpdateTransactionOrder = 19; //"108";
 //    public static final int AccountStockClrTranByAccountID = 20; //"111";    
 //    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
-
     ////////////////////////
     // Customer Account
     public static final int AllUserName = 110; //"1";
@@ -3318,84 +3437,6 @@ public class ServiceAFweb {
         return "sysMaintenance " + retSatus;
     }
 
-//    public int testDBData() {
-//        logger.info(">testDBData ");
-//        int retSatus = getStockImp().testStockDB();
-//        return retSatus;
-//    }
-    public int InitDBData() {
-        logger.info(">InitDBData ");
-        // 0 - new db, 1 - db already exist, -1 db error
-        int retStatus = initStockDB();
-
-        if (retStatus >= 0) {
-            //// init StockInfo
-            initStockInfoDB();
-
-            initNNetDataDB();
-
-            logger.info(">InitDB Customer account ");
-            CustomerObj newCustomer = new CustomerObj();
-            newCustomer.setUsername(CKey.ADMIN_USERNAME);
-            newCustomer.setPassword("passw0rd");
-            newCustomer.setFirstname("ADM");
-            newCustomer.setType(CustomerObj.INT_ADMIN_USER);
-            //// result 1 = success, 2 = existed,  0 = fail
-            custAccSrv.addCustomer(newCustomer, -1);
-
-            newCustomer.setUsername(CKey.API_USERNAME);
-            newCustomer.setPassword("eddy");
-            newCustomer.setFirstname("APIUser");
-            newCustomer.setType(CustomerObj.INT_API_USER);
-            custAccSrv.addCustomer(newCustomer, -1);
-
-            if (retStatus == 0) {
-
-                newCustomer.setUsername(CKey.G_USERNAME);
-                newCustomer.setPassword("guest");
-                newCustomer.setFirstname("G");
-                newCustomer.setType(CustomerObj.INT_GUEST_USER);
-                custAccSrv.addCustomer(newCustomer, -1);
-
-                newCustomer.setUsername(CKey.FUND_MANAGER_USERNAME);
-                newCustomer.setPassword("passw0rd");
-                newCustomer.setFirstname("FundMgr");
-                newCustomer.setType(CustomerObj.INT_FUND_USER);
-                custAccSrv.addCustomer(newCustomer, -1);
-//                
-                newCustomer.setUsername(CKey.INDEXFUND_MANAGER_USERNAME);
-                newCustomer.setPassword("passw0rd");
-                newCustomer.setFirstname("IndexMgr");
-                newCustomer.setType(CustomerObj.INT_FUND_USER);
-                custAccSrv.addCustomer(newCustomer, -1);
-
-                AccountObj account = custAccSrv.getAccountByType(CKey.G_USERNAME, "guest", AccountObj.INT_TRADING_ACCOUNT);
-                if (account != null) {
-                    int result = 0;
-                    getServerObj().setSysMaintenance(false);
-                    for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
-                        String stockN = ServiceAFweb.primaryStock[i];
-                        AFstockObj stock = getStockBySymServ(stockN);
-                        logger.info(">InitDBData add stock " + stock.getSymbol());
-                        result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
-                    }
-
-                    AFstockObj stock = getStockBySymServ("T.TO");
-                    result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
-                    getServerObj().setSysMaintenance(true);
-                }
-            }
-
-            newCustomer.setUsername(CKey.E_USERNAME);
-            newCustomer.setPassword("pass");
-            newCustomer.setFirstname("E");
-            newCustomer.setType(CustomerObj.INT_CLIENT_BASIC_USER);
-            custAccSrv.addCustomer(newCustomer, -1);
-        }
-        return retStatus;
-
-    }
-
     ////////////////////////////
     public ArrayList getRemoveStockNameList(int length) {
         ArrayList result = null;
@@ -3415,58 +3456,6 @@ public class ServiceAFweb {
         result = getAllDisableStockNameList(length);
 
         return result;
-    }
-
-    public void InitStaticData() {
-        logger.info(">InitDB InitStaticData ");
-        getTRList().clear();
-        TradingRuleObj tr = new TradingRuleObj();
-        tr.setTrname(ConstantKey.TR_ACC);
-        tr.setType(ConstantKey.INT_TR_ACC);
-        tr.setComment("");
-        getTRList().add(tr);
-
-        tr = new TradingRuleObj();
-        tr.setTrname(ConstantKey.TR_MV);
-        tr.setType(ConstantKey.INT_TR_MV);
-        tr.setComment("");
-        getTRList().add(tr);
-
-        tr = new TradingRuleObj();
-        tr.setTrname(ConstantKey.TR_MACD);
-        tr.setType(ConstantKey.INT_TR_MACD);
-        tr.setComment("");
-        getTRList().add(tr);
-
-        tr = new TradingRuleObj();
-        tr.setTrname(ConstantKey.TR_RSI);
-        tr.setType(ConstantKey.INT_TR_RSI);
-        tr.setComment("");
-        getTRList().add(tr);
-
-        tr = new TradingRuleObj();
-        tr.setTrname(ConstantKey.TR_NN1);
-        tr.setType(ConstantKey.INT_TR_NN1);
-        tr.setComment("");
-        getTRList().add(tr);
-
-        tr = new TradingRuleObj();
-        tr.setTrname(ConstantKey.TR_NN2);
-        tr.setType(ConstantKey.INT_TR_NN2);
-        tr.setComment("");
-        getTRList().add(tr);
-
-        tr = new TradingRuleObj();
-        tr.setTrname(ConstantKey.TR_NN3);
-        tr.setType(ConstantKey.INT_TR_NN3);
-        tr.setComment("");
-        getTRList().add(tr);
-
-//        tr = new TradingRuleObj();
-//        tr.setTrname(ConstantKey.TR_NN91);
-//        tr.setType(ConstantKey.INT_TR_NN91);
-//        tr.setComment("");
-//        getTRList().add(tr);
     }
 
     public void InitSystemFund(String portfolio) {
