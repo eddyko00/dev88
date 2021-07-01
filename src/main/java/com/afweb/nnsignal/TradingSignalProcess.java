@@ -909,7 +909,7 @@ public class TradingSignalProcess {
                     }
                     // udpate tr SubStatus to open
                     // need to get the latest TR object after the SystemAddTransactionOrder
-                    trObj = servicegetAccountStockIDByTRStockIDSystemtockID(accountObj.getId(), stock.getId(), trObj.getTrname());
+                    trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountObj.getId(), stock.getId(), trObj.getTrname());
                     // need to get the latest TR object after the SystemAddTransactionOrder
                     trObj.setSubstatus(ConstantKey.OPEN);
                     String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);
