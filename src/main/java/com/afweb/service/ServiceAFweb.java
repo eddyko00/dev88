@@ -1899,9 +1899,35 @@ public class ServiceAFweb {
         return custAccSrv.getCustomerByType(type);
     }
 
-    public AccountObj getAccountObjByAccountID(int accountID) {
+    public AccountObj getAccountObjByAccountIDSystem(int accountID) {
         return custAccSrv.getAccountObjByAccountID(accountID);
     }
+
+//    public AccountObj SystemAccountObjByAccountID(int accountId) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AccountObjByAccountID + "");
+//            sqlObj.setReq("" + accountId);
+//            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+//            if (output == null) {
+//                return null;
+//            }
+//            AccountObj accountObj = null;
+//
+//            try {
+//                accountObj = new ObjectMapper().readValue(output, AccountObj.class
+//                );
+//            } catch (Exception ex) {
+//                logger.info("> SystemAccountObjByAccountID exception " + ex.getMessage());
+//            }
+//            return accountObj;
+//        }
+//        return custAccSrv.getAccountObjByAccountID(accountId);
+//    }
 
     public int updateAccountPortfolio(String accountName, String portfolio) {
         return custAccSrv.updateAccountPortfolio(accountName, portfolio);
@@ -2277,32 +2303,6 @@ public class ServiceAFweb {
             return stockObj;
         }
         return getStockByStockIDServ(stockId);
-    }
-
-    public AccountObj SystemAccountObjByAccountID(int accountId) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AccountObjByAccountID + "");
-            sqlObj.setReq("" + accountId);
-            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return null;
-            }
-            AccountObj accountObj = null;
-
-            try {
-                accountObj = new ObjectMapper().readValue(output, AccountObj.class
-                );
-            } catch (Exception ex) {
-                logger.info("> SystemAccountObjByAccountID exception " + ex.getMessage());
-            }
-            return accountObj;
-        }
-        return custAccSrv.getAccountObjByAccountID(accountId);
     }
 
     public TradingRuleObj SystemAccountStockIDByTRname(int accountID, int stockID, String trName) {
@@ -3100,7 +3100,7 @@ public class ServiceAFweb {
     public static final int RemoteUpdateMySQLList = 14; //"11";   
 
     public static final int AllOpenAccountIDList = 15; //"104";
-    public static final int AccountObjByAccountID = 16; //"105";
+//    public static final int AccountObjByAccountID = 16; //"105";
     public static final int AccountStockNameList = 17; //"106";
     public static final int UserNamebyAccountID = 18; //"107";
     public static final int UpdateTransactionOrder = 19; //"108";
@@ -3509,10 +3509,10 @@ public class ServiceAFweb {
         //SELECT TOP 10 column FROM table - Microsoft SQL Server
         //SELECT column FROM table LIMIT 10 - PostgreSQL and MySQL
         //SELECT column FROM table WHERE ROWNUM <= 10 - Oracle
-        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) ||
-                (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) ||
-                (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) ||
-                (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             if (length != 0) {
                 if (length == 1) {
                     sql += " limit 1 ";

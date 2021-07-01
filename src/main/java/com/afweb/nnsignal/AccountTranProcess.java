@@ -226,7 +226,7 @@ public class AccountTranProcess {
                     String accountIdSt = (String) accountFundIdNameArray.get(0);
                     accountFundIdNameArray.remove(0);
                     int accountId = Integer.parseInt(accountIdSt);
-                    AccountObj accountObj = serviceAFWeb.getAccountObjByAccountID(accountId);
+                    AccountObj accountObj = serviceAFWeb.getAccountObjByAccountIDSystem(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         ProcessTradingAccountUpdate(serviceAFWeb, accountObj);
                         ProcessFundAccountUpdate(serviceAFWeb, accountObj, true);
@@ -653,7 +653,7 @@ public class AccountTranProcess {
                     continue;
                 }
 //                logger.info("> ProcessAllAccountTradingSignal id " + accountId);
-                AccountObj accountObj = serviceAFWeb.SystemAccountObjByAccountID(accountId);
+                AccountObj accountObj = serviceAFWeb.getAccountObjByAccountIDSystem(accountId);
                 if (accountObj == null) {
                     continue;
                 }

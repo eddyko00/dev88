@@ -53,6 +53,8 @@ public class CustAccService {
         String nameST = "";
         int ret;
         int accountId = 0;
+        String accIdSt="";
+        AccountObj accountObj = null;
         ArrayList<String> nameList = null;
 
         try {
@@ -116,13 +118,13 @@ public class CustAccService {
                     sqlObj.setResp(nameST);
                     return sqlObj;
 
-                case ServiceAFweb.AccountObjByAccountID:  //AccountObjByAccountID = "105";
-                    String accIdSt = sqlObj.getReq();
-                    accountId = Integer.parseInt(accIdSt);
-                    AccountObj accountObj = accountImp.getAccountObjByAccountID(accountId);
-                    nameST = new ObjectMapper().writeValueAsString(accountObj);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AccountObjByAccountID:  //AccountObjByAccountID = "105";
+//                    String accIdSt = sqlObj.getReq();
+//                    accountId = Integer.parseInt(accIdSt);
+//                    AccountObj accountObj = accountImp.getAccountObjByAccountID(accountId);
+//                    nameST = new ObjectMapper().writeValueAsString(accountObj);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
                 case ServiceAFweb.AccountStockNameList:  //AccountStockNameList = "106";
                     accIdSt = sqlObj.getReq();

@@ -961,7 +961,7 @@ public class TradingSignalProcess {
             return null;
         }
 
-        AccountObj accountObj = serviceAFWeb.SystemAccountObjByAccountID(trObj.getAccountid());
+        AccountObj accountObj = serviceAFWeb.getAccountObjByAccountIDSystem(trObj.getAccountid());
         AFstockObj stock = serviceAFWeb.SystemRealTimeStockByStockID(trObj.getStockid());
 
         // this only use by ConstantKey.INT_TR_BST can delete it 
@@ -2810,7 +2810,7 @@ public class TradingSignalProcess {
         for (int i = 0; i < accountIdList.size(); i++) {
             String accountIdSt = (String) accountIdList.get(i);
             int accountId = Integer.parseInt(accountIdSt);
-            AccountObj accountObj = serviceAFWeb.SystemAccountObjByAccountID(accountId);
+            AccountObj accountObj = serviceAFWeb.getAccountObjByAccountIDSystem(accountId);
             if (accountObj == null) {
                 continue;
             }
