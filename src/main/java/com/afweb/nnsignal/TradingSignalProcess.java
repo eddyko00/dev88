@@ -741,7 +741,7 @@ public class TradingSignalProcess {
     public ArrayList<StockTRHistoryObj> resetVitualTransaction(ServiceAFweb serviceAFWeb, AFstockObj stock, String trName) {
         try {
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
-            serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
+            serviceAFWeb.clearAccountStockTranByAccountIDSystem(accountAdminObj, stock.getId(), trName);
             TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), trName);
             // get 2 year
             /// thObjList old first - recent last
@@ -752,7 +752,7 @@ public class TradingSignalProcess {
 //        int offset = 0;
 //        ///asc thObjList old first - recent last
 //        ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistoryOffset(serviceAFWeb, trObj, StockArray, offset, CKey.SHORT_MONTH_SIZE);
-            serviceAFWeb.SystemAccountStockClrTranByAccountID(accountAdminObj, stock.getId(), trName);
+            serviceAFWeb.clearAccountStockTranByAccountIDSystem(accountAdminObj, stock.getId(), trName);
             return trHistoryList;
         } catch (Exception ex) {
             logger.info("> resetVitualTransaction Exception" + ex.getMessage());
@@ -834,7 +834,7 @@ public class TradingSignalProcess {
 
                 if (subStatus == ConstantKey.INITIAL) {
 //                    logger.info("> upateAdminTransaction INITIAL " + stock.getSymbol() + " " + trObj.getTrname());
-                    serviceAFWeb.SystemAccountStockClrTranByAccountID(accountObj, stock.getId(), trObj.getTrname());
+                    serviceAFWeb.clearAccountStockTranByAccountIDSystem(accountObj, stock.getId(), trObj.getTrname());
 
                     // get 2 year
                     /// thObjList old first - recent last

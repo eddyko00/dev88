@@ -166,19 +166,19 @@ public class CustAccService {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                case ServiceAFweb.AccountStockClrTranByAccountID:  //AccountStockClrTranByAccountID = 111; //"111";       
-                    try {
-                        st = sqlObj.getReq();
-                        accountObj = new ObjectMapper().readValue(st, AccountObj.class);
-                        String stockID = sqlObj.getReq1();
-                        String trName = sqlObj.getReq2();
-
-                        int stockId = Integer.parseInt(stockID);
-                        ret = accountImp.clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
-                        sqlObj.setResp("" + ret);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.AccountStockClrTranByAccountID:  //AccountStockClrTranByAccountID = 111; //"111";       
+//                    try {
+//                        st = sqlObj.getReq();
+//                        accountObj = new ObjectMapper().readValue(st, AccountObj.class);
+//                        String stockID = sqlObj.getReq1();
+//                        String trName = sqlObj.getReq2();
+//
+//                        int stockId = Integer.parseInt(stockID);
+//                        ret = accountImp.clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
+//                        sqlObj.setResp("" + ret);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 
                 case ServiceAFweb.AllAccountStockNameListExceptionAdmin:  //AllAccountStockNameListExceptionAdmin = 112; //"112";        
                     try {

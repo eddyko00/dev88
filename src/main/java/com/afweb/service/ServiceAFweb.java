@@ -1852,9 +1852,44 @@ public class ServiceAFweb {
         return custAccSrv.updateTransactionOrder(transSQL);
     }
 
-    public int clearAccountStockTranByAccountID(AccountObj accountObj, int stockID, String trName) {
+    public int clearAccountStockTranByAccountIDSystem(AccountObj accountObj, int stockID, String trName) {
         return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockID, trName);
     }
+//    public int SystemAccountStockClrTranByAccountID(AccountObj accountObj, int stockId, String trName) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//
+//        if (checkCallRemoteMysql() == true) {
+//            try {
+//                RequestObj sqlObj = new RequestObj();
+//                sqlObj.setCmd(ServiceAFweb.AccountStockClrTranByAccountID + "");
+//
+//                String st = new ObjectMapper().writeValueAsString(accountObj);
+//                sqlObj.setReq(st);
+//                sqlObj.setReq1(stockId + "");
+//                sqlObj.setReq2(trName);
+//
+//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+//                if (output == null) {
+//                    return 0;
+//
+//                }
+//
+//                int result = new ObjectMapper().readValue(output, Integer.class
+//                );
+//                return result;
+//
+//            } catch (Exception ex) {
+//                logger.info("> SystemAccountStockClrTranByAccountID exception " + ex.getMessage());
+//            }
+//            return 0;
+//        }
+//
+//        return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
+//
+//    }
 
     public boolean checkTRListByStockID(String StockID) {
         return custAccSrv.checkTRListByStockID(StockID);
@@ -1928,7 +1963,6 @@ public class ServiceAFweb {
 //        }
 //        return custAccSrv.getAccountObjByAccountID(accountId);
 //    }
-
     public int updateAccountPortfolio(String accountName, String portfolio) {
         return custAccSrv.updateAccountPortfolio(accountName, portfolio);
     }
@@ -2336,42 +2370,6 @@ public class ServiceAFweb {
             }
         }
         return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
-    }
-
-    public int SystemAccountStockClrTranByAccountID(AccountObj accountObj, int stockId, String trName) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        if (checkCallRemoteMysql() == true) {
-            try {
-                RequestObj sqlObj = new RequestObj();
-                sqlObj.setCmd(ServiceAFweb.AccountStockClrTranByAccountID + "");
-
-                String st = new ObjectMapper().writeValueAsString(accountObj);
-                sqlObj.setReq(st);
-                sqlObj.setReq1(stockId + "");
-                sqlObj.setReq2(trName);
-
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return 0;
-
-                }
-
-                int result = new ObjectMapper().readValue(output, Integer.class
-                );
-                return result;
-
-            } catch (Exception ex) {
-                logger.info("> SystemAccountStockClrTranByAccountID exception " + ex.getMessage());
-            }
-            return 0;
-        }
-
-        return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockId, trName.toUpperCase());
-
     }
 
     public ArrayList<TradingRuleObj> SystemAccountStockListByAccountID(int accountId, String symbol) {
@@ -3104,7 +3102,7 @@ public class ServiceAFweb {
     public static final int AccountStockNameList = 17; //"106";
     public static final int UserNamebyAccountID = 18; //"107";
     public static final int UpdateTransactionOrder = 19; //"108";
-    public static final int AccountStockClrTranByAccountID = 20; //"111";    
+//    public static final int AccountStockClrTranByAccountID = 20; //"111";    
     public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
 
     ////////////////////////
