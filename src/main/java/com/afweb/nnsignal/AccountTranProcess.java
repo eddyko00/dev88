@@ -127,7 +127,7 @@ public class AccountTranProcess {
                         boolean ret = serviceAFWeb.checkStockServ(serviceAFWeb, symbol);
                         if (ret == true) {
 
-                            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
+                            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
                             if (trObj != null) {
                                 long lastUpdate = trObj.getUpdatedatel();
                                 long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);
@@ -348,7 +348,7 @@ public class AccountTranProcess {
                         if (notRemoveFlag == true) {
 
                             String trName = ConstantKey.TR_ACC;
-                            TradingRuleObj trObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
+                            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), trName);
                             // need to get the latest TR object after the SystemAddTransactionOrder
                             if (trObj.getStatus() != ConstantKey.PENDING) {
                                 trObj.setStatus(ConstantKey.PENDING);
@@ -376,7 +376,7 @@ public class AccountTranProcess {
 
                         int signal = ConstantKey.S_NEUTRAL;
                         String trName = ConstantKey.TR_ACC;
-                        TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accObj.getId(), stock.getId(), trName);
+                        TradingRuleObj tradingRuleObj = serviceAFWeb.getAccountStockIDByTRStockID(accObj.getId(), stock.getId(), trName);
                         int curSignal = tradingRuleObj.getTrsignal();
 
                         boolean updateTran = true;

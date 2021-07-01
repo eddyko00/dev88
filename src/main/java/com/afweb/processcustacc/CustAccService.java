@@ -250,21 +250,21 @@ public class CustAccService {
                     }
                     return sqlObj;
 
-                case ServiceAFweb.AccountStockIDByTRname:  //AccountStockIDByTRname = 117; //"117";          
-                    try {
-
-                        String accountID = sqlObj.getReq();
-                        String stockID = sqlObj.getReq1();
-                        String trName = sqlObj.getReq2();
-
-                        accountId = Integer.parseInt(accountID);
-                        int stockId = Integer.parseInt(stockID);
-                        TradingRuleObj trObj = accountImp.getAccountStockIDByTRStockID(accountId, stockId, trName);
-                        nameST = new ObjectMapper().writeValueAsString(trObj);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.AccountStockIDByTRname:  //AccountStockIDByTRname = 117; //"117";          
+//                    try {
+//
+//                        String accountID = sqlObj.getReq();
+//                        String stockID = sqlObj.getReq1();
+//                        String trName = sqlObj.getReq2();
+//
+//                        accountId = Integer.parseInt(accountID);
+//                        int stockId = Integer.parseInt(stockID);
+//                        TradingRuleObj trObj = accountImp.getAccountStockIDByTRStockID(accountId, stockId, trName);
+//                        nameST = new ObjectMapper().writeValueAsString(trObj);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 
                 case ServiceAFweb.AccountStockListByAccountIDStockID:  //AccountStockListByAccountIDStockID = 118; //"118";
                     try {
@@ -1005,7 +1005,7 @@ public class CustAccService {
 
             int signal = ConstantKey.S_NEUTRAL;
             String trName = ConstantKey.TR_ACC;
-            TradingRuleObj tradingRuleObj = serviceAFWeb.SystemAccountStockIDByTRname(accountObj.getId(), stockObj.getId(), trName);
+            TradingRuleObj tradingRuleObj = getAccountStockIDByTRStockID(accountObj.getId(), stockObj.getId(), trName);
             if (tradingRuleObj == null) {
                 return ConstantKey.NOTEXISTED;
             }

@@ -1980,6 +1980,38 @@ public class ServiceAFweb {
         // not sure why it does not work in Open shift but work local
         return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
     }
+//    public TradingRuleObj SystemAccountStockIDByTRname(int accountID, int stockID, String trName) {
+//
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//
+//        if (checkCallRemoteMysql() == true) {
+//            try {
+//                RequestObj sqlObj = new RequestObj();
+//                sqlObj.setCmd(ServiceAFweb.AccountStockIDByTRname + "");
+//
+//                sqlObj.setReq(accountID + "");
+//                sqlObj.setReq1(stockID + "");
+//                sqlObj.setReq2(trName);
+//
+//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+//                if (output == null) {
+//                    return null;
+//
+//                }
+//
+//                TradingRuleObj ret = new ObjectMapper().readValue(output, TradingRuleObj.class
+//                );
+//                return ret;
+//
+//            } catch (Exception ex) {
+//                logger.info("> SystemAccountStockIDByTRname exception " + ex.getMessage());
+//            }
+//        }
+//        return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
+//    }
 
     public ArrayList<TransationOrderObj> getAccountStockTransList(int accountID, int stockID, String trName, int length) {
         return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
@@ -2339,39 +2371,7 @@ public class ServiceAFweb {
         return getStockByStockIDServ(stockId);
     }
 
-    public TradingRuleObj SystemAccountStockIDByTRname(int accountID, int stockID, String trName) {
-
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        if (checkCallRemoteMysql() == true) {
-            try {
-                RequestObj sqlObj = new RequestObj();
-                sqlObj.setCmd(ServiceAFweb.AccountStockIDByTRname + "");
-
-                sqlObj.setReq(accountID + "");
-                sqlObj.setReq1(stockID + "");
-                sqlObj.setReq2(trName);
-
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return null;
-
-                }
-
-                TradingRuleObj ret = new ObjectMapper().readValue(output, TradingRuleObj.class
-                );
-                return ret;
-
-            } catch (Exception ex) {
-                logger.info("> SystemAccountStockIDByTRname exception " + ex.getMessage());
-            }
-        }
-        return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
-    }
-
+  
     public ArrayList<TradingRuleObj> SystemAccountStockListByAccountID(int accountId, String symbol) {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
@@ -3117,7 +3117,7 @@ public class ServiceAFweb {
 
     public static final int AccountStockTransList = 117; //"115";     
     public static final int AccountStockPerfList = 118; //"116";     
-    public static final int AccountStockIDByTRname = 119; //"117";   
+//    public static final int AccountStockIDByTRname = 119; //"117";   
     public static final int AccountStockListByAccountIDStockID = 120; //"118"; 
     public static final int AllPerformance = 121; //"13";  
     public static final int AllBilling = 122; //"17";    
