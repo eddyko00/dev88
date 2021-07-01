@@ -1683,12 +1683,12 @@ public class ServiceAFweb {
         return null;
     }
 
-    public ArrayList<AFstockInfo> getStockHistoricalRangeServ(String symbol, long start, long end) {
-        if (stockInfoFlag == true) {
-            return stockInfoSrv.getStockHistoricalRange(this, symbol, start, end);
-        }
-        return null;
-    }
+//    public ArrayList<AFstockInfo> getStockHistoricalRangeServ(String symbol, long start, long end) {
+//        if (stockInfoFlag == true) {
+//            return stockInfoSrv.getStockHistoricalRange(this, symbol, start, end);
+//        }
+//        return null;
+//    }
 //    public ArrayList<AFstockInfo> SystemStockHistoricalRange(String symbol, long start, long end) {
 //        if (getServerObj().isSysMaintenance() == true) {
 //            return null;
