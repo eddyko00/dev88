@@ -834,7 +834,18 @@ public class ServiceAFweb {
 
         }
     }
+//////////Account Process
+    private AccountTranProcess accountProcessImp = new AccountTranProcess();
 
+    public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
+        accountProcessImp.ProcessAllAccountTradingSignal(this);
+    }
+
+    public void ProcessAdminAddRemoveStock(ServiceAFweb serviceAFWeb) {
+        accountProcessImp.ProcessAdminAddRemoveStock(this);
+    }
+
+/////////////////////////////////////////////
     public static String debugSymbol = "HOU.TO";
 
     public static boolean javamainflag = false;
@@ -2508,17 +2519,6 @@ public class ServiceAFweb {
     public CommData getCommDataObj(CommObj commObj) {
         return custAccSrv.getCommDataObj(commObj);
     }
-//////////
-    private AccountTranProcess accountProcessImp = new AccountTranProcess();
-
-    public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
-        accountProcessImp.ProcessAllAccountTradingSignal(this);
-    }
-
-    public void ProcessAdminAddRemoveStock(ServiceAFweb serviceAFWeb) {
-        accountProcessImp.ProcessAdminAddRemoveStock(this);
-    }
-
     ///////////////////////////////////////
     public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
 
