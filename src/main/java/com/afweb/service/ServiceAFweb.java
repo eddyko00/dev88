@@ -1752,7 +1752,7 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
+    public ArrayList<AFneuralNetData> SystemNeuralNetDataObjSystem(String BPnameTR) {
         return getNeuralNetDataObj(BPnameTR, 0);
     }
 

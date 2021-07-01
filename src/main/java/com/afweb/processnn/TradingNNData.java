@@ -31,7 +31,7 @@ public class TradingNNData {
         String BPnameSym = CKey.NN_version + "_" + nnName;
         try {
 
-            ArrayList<AFneuralNetData> objDataList = serviceAFWeb.SystemNeuralNetDataObj(BPnameSym);
+            ArrayList<AFneuralNetData> objDataList = serviceAFWeb.SystemNeuralNetDataObjSystem(BPnameSym);
             if (objDataList.size() > 300) {
                 // already saved
                 logger.info(">>>>>>>>>>>> saveNNBaseDataDB " + BPnameSym + " No Save. Already exist.");
@@ -74,7 +74,7 @@ public class TradingNNData {
         ArrayList<AFneuralNetData> objDataList = new ArrayList();
         String BPnameSym = CKey.NN_version + "_" + nnName;
         try {
-            objDataList = serviceAFWeb.SystemNeuralNetDataObj(BPnameSym);
+            objDataList = serviceAFWeb.SystemNeuralNetDataObjSystem(BPnameSym);
             if (objDataList != null) {
                 logger.info("> getNNdataDB " + BPnameSym + " " + objDataList.size());
                 for (int i = 0; i < objDataList.size(); i++) {

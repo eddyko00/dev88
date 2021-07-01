@@ -1065,7 +1065,7 @@ public class NN30ProcessByTrend {
             if (BPnameTR.equals(BPnameSym)) {
                 ;
             } else {
-                objDataList = serviceAFWeb.SystemNeuralNetDataObj(BPnameSym);
+                objDataList = serviceAFWeb.SystemNeuralNetDataObjSystem(BPnameSym);
                 if (objDataList != null) {
                     logger.info("> TRtrainingNNNeuralNetProcess " + BPnameSym + " " + inputlist.size() + " " + objDataList.size());
                     for (int i = 0; i < objDataList.size(); i++) {
