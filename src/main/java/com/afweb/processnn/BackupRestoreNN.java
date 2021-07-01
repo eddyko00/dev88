@@ -272,7 +272,7 @@ public class BackupRestoreNN {
             }
             sqlObj.setReq(sql);
 
-            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
                 return 0;
@@ -349,7 +349,7 @@ public class BackupRestoreNN {
             }
             sqlObj.setReq(sql);
 
-            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
+            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
             String output = sqlObjresp.getResp();
             if (output == null) {
                 return 0;

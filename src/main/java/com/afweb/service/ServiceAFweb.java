@@ -1558,13 +1558,100 @@ public class ServiceAFweb {
     }
 
 //////////////////////
-    public String SystemClearLock() {
+    public static final int AllName = 10; //"1";
+    public static final int AllLock = 11; //"2";
+
+    public static final int RemoteGetMySQL = 12; //"9";
+    public static final int RemoteUpdateMySQL = 13; //"10";    
+    public static final int RemoteUpdateMySQLList = 14; //"11";   
+
+//    public static final int AllOpenAccountIDList = 15; //"104";
+//    public static final int AccountObjByAccountID = 16; //"105";
+//    public static final int AccountStockNameList = 17; //"106";
+//    public static final int UserNamebyAccountID = 18; //"107";
+//    public static final int UpdateTransactionOrder = 19; //"108";
+//    public static final int AccountStockClrTranByAccountID = 20; //"111";    
+//    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
+    ////////////////////////
+    // Customer Account
+    public static final int AllUserName = 110; //"1";
+    public static final int AllCustomer = 111; //"6";
+    public static final int AllAccount = 112; //"7";
+    public static final int AllAccountStock = 113; //"8";
+//    public static final int AccountStockListByAccountID = 114; //"110";    
+    public static final int updateAccountStockSignal = 115;// "102";    
+    public static final int AddTransactionOrder = 116; //"113"; 
+
+//    public static final int AccountStockTransList = 117; //"115";     
+//    public static final int AccountStockPerfList = 118; //"116";     
+//    public static final int AccountStockIDByTRname = 119; //"117";   
+//    public static final int AccountStockListByAccountIDStockID = 120; //"118"; 
+    public static final int AllPerformance = 121; //"13";  
+    public static final int AllBilling = 122; //"17";    
+    public static final int AllComm = 123; //"16";
+    public static final int AllTransationorder = 124; //"12";   
+    //////////////////////////////////
+    public static final int AllId = 210; //"1";   
+    public static final int AllSQLquery = 211; //"14";  
+//    public static final int UpdateSQLList = 101; //"101";
+
+    public static final int AllStock = 212; //"3";    
+    public static final int AllSymbol = 213; //"1";    
+//    public static final int RealTimeStockByStockID = 214; //"119"; 
+
+    public static final int AllIdInfo = 250; //"1";
+    public static final int AllStockInfo = 251; //"4";    
+////    public static final int StockHistoricalRange = 252; //"114";     
+    public static final int updateStockInfoTransaction = 253; //"103";
+//    public static final int UpdateSQLListInfo = 101; //"101";
+
+    public static final int AllNeuralNet = 310; //"5";
+    public static final int AllNeuralNetData = 311; //"15";
+//    public static final int NeuralNetDataObj = 312; //"120";     
+//    public static final int NeuralNetDataObjStockid = 313; //"120";
+
+    //////////////////////////////////
+    public RequestObj SysSQLRequest(RequestObj sqlObj) {
+
+//        boolean RemoteCallflag = checkCallRemoteMysql();
+//        if (RemoteCallflag == true) {
+//            return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
+//        }
+        try {
+            RequestObj reqObj = null;
+
+            reqObj = SystemSQLRequestSystem(sqlObj);
+            if (reqObj == null) {
+                reqObj = SystemSQLRequestCustAcc(sqlObj);
+            }
+            if (reqObj == null) {
+                reqObj = StSQLRequestStock(sqlObj);
+            }
+            if (reqObj == null) {
+                reqObj = SystemSQLRequestStockInfo(sqlObj);
+            }
+            if (reqObj == null) {
+                reqObj = NnSQLRequestNN(sqlObj);
+            }
+            ///////////////////////////////////////////////////////
+            if (reqObj != null) {
+                return (reqObj);
+            }
+
+        } catch (Exception ex) {
+            logger.info("> SystemSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());
+        }
+        return null;
+    }
+/////////////////////////////////////////////
+
+    public String SysClearLock() {
         int retSatus = 0;
         retSatus = deleteAllLock();
         return "" + retSatus;
     }
-///////////////////////////
 
+///////////////////////////
     public String SysClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         AccountObj accountAdminObj = this.getAdminObjFromCache();
@@ -1817,7 +1904,7 @@ public class ServiceAFweb {
     public static boolean stockFlag = true;
 
     //////////////////////////////////////////
-    public RequestObj SystemSQLRequestStock(RequestObj sqlObj) {
+    public RequestObj StSQLRequestStock(RequestObj sqlObj) {
         RequestObj reqObj = stockSrv.SQLRequestStock(this, sqlObj);
         return reqObj;
     }
@@ -2090,12 +2177,12 @@ public class ServiceAFweb {
     public static boolean nnFlag = true;
 
     //////////////////////////////////////////////////    
-    public RequestObj SystemSQLRequestNN(RequestObj sqlObj) {
+    public RequestObj NnSQLRequestNN(RequestObj sqlObj) {
         RequestObj reqObj = nnSrv.SQLRequestNN(this, sqlObj);
         return reqObj;
     }
 
-    public ArrayList<AFneuralNetData> NNNeuralNetDataObjSystem(String BPnameTR) {
+    public ArrayList<AFneuralNetData> NnNeuralNetDataObjSystem(String BPnameTR) {
         return getNeuralNetDataObj(BPnameTR, 0);
     }
 
@@ -3316,94 +3403,6 @@ public class ServiceAFweb {
 ///////////////////////////
     ////////////////////////
     // System
-    public static final int AllName = 10; //"1";
-    public static final int AllLock = 11; //"2";
-
-    public static final int RemoteGetMySQL = 12; //"9";
-    public static final int RemoteUpdateMySQL = 13; //"10";    
-    public static final int RemoteUpdateMySQLList = 14; //"11";   
-
-//    public static final int AllOpenAccountIDList = 15; //"104";
-//    public static final int AccountObjByAccountID = 16; //"105";
-//    public static final int AccountStockNameList = 17; //"106";
-//    public static final int UserNamebyAccountID = 18; //"107";
-//    public static final int UpdateTransactionOrder = 19; //"108";
-//    public static final int AccountStockClrTranByAccountID = 20; //"111";    
-//    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
-    ////////////////////////
-    // Customer Account
-    public static final int AllUserName = 110; //"1";
-    public static final int AllCustomer = 111; //"6";
-    public static final int AllAccount = 112; //"7";
-    public static final int AllAccountStock = 113; //"8";
-//    public static final int AccountStockListByAccountID = 114; //"110";    
-    public static final int updateAccountStockSignal = 115;// "102";    
-    public static final int AddTransactionOrder = 116; //"113"; 
-
-//    public static final int AccountStockTransList = 117; //"115";     
-//    public static final int AccountStockPerfList = 118; //"116";     
-//    public static final int AccountStockIDByTRname = 119; //"117";   
-//    public static final int AccountStockListByAccountIDStockID = 120; //"118"; 
-    public static final int AllPerformance = 121; //"13";  
-    public static final int AllBilling = 122; //"17";    
-    public static final int AllComm = 123; //"16";
-    public static final int AllTransationorder = 124; //"12";   
-    //////////////////////////////////
-    public static final int AllId = 210; //"1";   
-    public static final int AllSQLquery = 211; //"14";  
-//    public static final int UpdateSQLList = 101; //"101";
-
-    public static final int AllStock = 212; //"3";    
-    public static final int AllSymbol = 213; //"1";    
-//    public static final int RealTimeStockByStockID = 214; //"119"; 
-
-    public static final int AllIdInfo = 250; //"1";
-    public static final int AllStockInfo = 251; //"4";    
-////    public static final int StockHistoricalRange = 252; //"114";     
-    public static final int updateStockInfoTransaction = 253; //"103";
-//    public static final int UpdateSQLListInfo = 101; //"101";
-
-    public static final int AllNeuralNet = 310; //"5";
-    public static final int AllNeuralNetData = 311; //"15";
-//    public static final int NeuralNetDataObj = 312; //"120";     
-//    public static final int NeuralNetDataObjStockid = 313; //"120";
-
-    //////////////////////////////////
-    public RequestObj SystemSQLRequest(RequestObj sqlObj) {
-
-//        boolean RemoteCallflag = checkCallRemoteMysql();
-//        if (RemoteCallflag == true) {
-//            return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
-//        }
-        try {
-            RequestObj reqObj = null;
-
-            reqObj = SystemSQLRequestSystem(sqlObj);
-            if (reqObj == null) {
-                reqObj = SystemSQLRequestCustAcc(sqlObj);
-            }
-            if (reqObj == null) {
-                reqObj = SystemSQLRequestStock(sqlObj);
-            }
-            if (reqObj == null) {
-                reqObj = SystemSQLRequestStockInfo(sqlObj);
-            }
-            if (reqObj == null) {
-                reqObj = SystemSQLRequestNN(sqlObj);
-            }
-            ///////////////////////////////////////////////////////
-            if (reqObj != null) {
-                return (reqObj);
-            }
-/////////////////////////////////////////////////////
-            /////
-//            }
-        } catch (Exception ex) {
-            logger.info("> SystemSQLRequest exception " + sqlObj.getCmd() + " - " + ex.getMessage());
-        }
-        return null;
-    }
-
     public AccData getAccData(String accDataStr) {
         AccData refData = new AccData();
         try {

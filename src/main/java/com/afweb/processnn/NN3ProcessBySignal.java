@@ -995,7 +995,7 @@ public class NN3ProcessBySignal {
             if (BPnameTR.equals(BPnameSym)) {
                 ;
             } else {
-                objDataList = serviceAFWeb.NNNeuralNetDataObjSystem(BPnameSym);
+                objDataList = serviceAFWeb.NnNeuralNetDataObjSystem(BPnameSym);
                 if (objDataList != null) {
                     logger.info("> TRtrainingNNNeuralNetProcess " + BPnameSym + " " + inputlist.size() + " " + objDataList.size());
                     for (int i = 0; i < objDataList.size(); i++) {

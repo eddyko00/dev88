@@ -447,7 +447,7 @@ public class ControllerAFweb {
         // remote is stopped
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemClearLock());
+                msg.setResponse(afWebService.SysClearLock());
                 msg.setResult(true);
                 return msg;
             }
@@ -455,7 +455,7 @@ public class ControllerAFweb {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemClearLock());
+                msg.setResponse(afWebService.SysClearLock());
                 msg.setResult(true);
                 return msg;
             }
@@ -667,7 +667,7 @@ public class ControllerAFweb {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                RequestObj sqlResp = afWebService.SystemSQLRequest(sqlReq);
+                RequestObj sqlResp = afWebService.SysSQLRequest(sqlReq);
                 return sqlResp;
             }
         }
@@ -675,7 +675,7 @@ public class ControllerAFweb {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                RequestObj sqlResp = afWebService.SystemSQLRequest(sqlReq);
+                RequestObj sqlResp = afWebService.SysSQLRequest(sqlReq);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return sqlResp;
             }
