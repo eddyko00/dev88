@@ -398,7 +398,7 @@ public class ControllerAFweb {
         }
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemCleanDBData());
+                msg.setResponse(afWebService.SysCleanDBData());
                 msg.setResult(true);
                 return msg;
             }
@@ -406,7 +406,7 @@ public class ControllerAFweb {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemCleanDBData());
+                msg.setResponse(afWebService.SysCleanDBData());
                 msg.setResult(true);
                 return msg;
             }
@@ -424,7 +424,7 @@ public class ControllerAFweb {
         }
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemDropDBData());
+                msg.setResponse(afWebService.SysDropDBData());
                 msg.setResult(true);
                 return msg;
             }
@@ -432,7 +432,7 @@ public class ControllerAFweb {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemDropDBData());
+                msg.setResponse(afWebService.SysDropDBData());
                 msg.setResult(true);
                 return msg;
             }

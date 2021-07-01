@@ -392,8 +392,8 @@ public class ServiceAFweb {
 //                        sysPortfolio = CKey.FUND_PORTFOLIO;
                     if (ret != -1) {
 
-                        InitSystemData();   // Add Stock 
-                        InitSystemFund(sysPortfolio);
+                        SysInitSystemData();   // Add Stock 
+                        SysInitSystemFund(sysPortfolio);
                         initProcessTimer = false;
                         delayProcessTimer = 0;
 
@@ -609,36 +609,6 @@ public class ServiceAFweb {
         }
         return retSatus;
     }
-
-    // drop table
-    public String SystemDropDBData() {
-        boolean retSatus = false;
-        // make sure the system is stopped first
-        retSatus = dropStockInfoDB();
-        retSatus = dropNNdataDB();
-        retSatus = dropStockDB();
-        return "" + retSatus;
-    }
-
-    // drop table
-    // create table
-    public String SystemCleanDBData() {
-        boolean retSatus = false;
-
-        serverObj.setSysMaintenance(true);
-        retSatus = cleanStockInfoDB();
-        retSatus = cleanNNdataDB();
-        retSatus = cleanStockDB();
-        return "" + retSatus;
-    }
-
-    public String SystemClearNNData() {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        AccountObj accountAdminObj = this.getAdminObjFromCache();
-        int retStatus = NNProcessImp.ClearStockNNData(this, accountAdminObj);
-        return "" + retStatus;
-    }
-
     //////////////////////////////////////////////////////////
     private long lastProcessTimer = 0;
     public boolean debugFlag = false;
@@ -1563,7 +1533,61 @@ public class ServiceAFweb {
 //        tr.setComment("");
 //        getTRList().add(tr);
     }
+    public void SysInitSystemData() {
+        logger.info(">InitDB InitSystemData for Stock and account ");
 
+    }
+    
+
+    public void SysInitSystemFund(String portfolio) {
+        if (portfolio.length() == 0) {
+            return;
+        }
+        CustomerObj custObj = custAccSrv.getCustomerBySystem(CKey.FUND_MANAGER_USERNAME, null);
+        ArrayList accountList = custAccSrv.getAccountListByCustomerObj(custObj);
+        if (accountList != null) {
+            for (int i = 0; i < accountList.size(); i++) {
+                AccountObj accountObj = (AccountObj) accountList.get(i);
+                if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
+                    custAccSrv.updateAccountPortfolio(accountObj.getAccountname(), portfolio);
+                    break;
+                }
+            }
+        }
+
+    }
+
+    // drop table
+    public String SysDropDBData() {
+        boolean retSatus = false;
+        // make sure the system is stopped first
+        retSatus = dropStockInfoDB();
+        retSatus = dropNNdataDB();
+        retSatus = dropStockDB();
+        return "" + retSatus;
+    }
+
+    // drop table
+    // create table
+    public String SysCleanDBData() {
+        boolean retSatus = false;
+
+        serverObj.setSysMaintenance(true);
+        retSatus = cleanStockInfoDB();
+        retSatus = cleanNNdataDB();
+        retSatus = cleanStockDB();
+        return "" + retSatus;
+    }
+
+    public String SysClearNNData() {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        AccountObj accountAdminObj = this.getAdminObjFromCache();
+        int retStatus = NNProcessImp.ClearStockNNData(this, accountAdminObj);
+        return "" + retStatus;
+    }
+
+
+    
     ////////////////////////////////
     public RequestObj SystemSQLRequestSystem(RequestObj sqlObj) {
         SystemService sysSrv = new SystemService();
@@ -3458,28 +3482,6 @@ public class ServiceAFweb {
         return result;
     }
 
-    public void InitSystemFund(String portfolio) {
-        if (portfolio.length() == 0) {
-            return;
-        }
-        CustomerObj custObj = custAccSrv.getCustomerBySystem(CKey.FUND_MANAGER_USERNAME, null);
-        ArrayList accountList = custAccSrv.getAccountListByCustomerObj(custObj);
-        if (accountList != null) {
-            for (int i = 0; i < accountList.size(); i++) {
-                AccountObj accountObj = (AccountObj) accountList.get(i);
-                if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
-                    custAccSrv.updateAccountPortfolio(accountObj.getAccountname(), portfolio);
-                    break;
-                }
-            }
-        }
-
-    }
-
-    public void InitSystemData() {
-        logger.info(">InitDB InitSystemData for Stock and account ");
-
-    }
 
     public static String getSQLLengh(String sql, int length) {
         //https://www.petefreitag.com/item/59.cfm
