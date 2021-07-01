@@ -1689,6 +1689,43 @@ public class ServiceAFweb {
         }
         return null;
     }
+//    public ArrayList<AFstockInfo> SystemStockHistoricalRange(String symbol, long start, long end) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            try {
+//                RequestObj sqlObj = new RequestObj();
+//                sqlObj.setCmd(ServiceAFweb.StockHistoricalRange + "");
+//                sqlObj.setReq(symbol);
+//                sqlObj.setReq1(start + "");
+//                sqlObj.setReq2(end + "");
+//
+//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+//                if (output == null) {
+//                    return null;
+//                }
+//                if (output.equals(ConstantKey.nullSt)) {
+//                    return null;
+//                }
+//
+//                ArrayList<AFstockInfo> trArray = null;
+//                AFstockInfo[] arrayItem = new ObjectMapper().readValue(output, AFstockInfo[].class
+//                );
+//
+//                List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
+//                trArray = new ArrayList<AFstockInfo>(listItem);
+//                return trArray;
+//
+//            } catch (Exception ex) {
+//                logger.info("> SystemStockHistoricalRange exception " + ex.getMessage());
+//            }
+//            return null;
+//        }
+//
+//        return getStockHistoricalRangeServ(symbol, start, end);
+//    }    
 
     public int updateStockInfoTransactionServ(StockInfoTranObj stockInfoTran) {
         if (stockInfoFlag == true) {
@@ -2531,44 +2568,6 @@ public class ServiceAFweb {
         return custAccSrv.getUserNamebyAccountID(accountID);
     }
 
-    public ArrayList<AFstockInfo> SystemStockHistoricalRange(String symbol, long start, long end) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            try {
-                RequestObj sqlObj = new RequestObj();
-                sqlObj.setCmd(ServiceAFweb.StockHistoricalRange + "");
-                sqlObj.setReq(symbol);
-                sqlObj.setReq1(start + "");
-                sqlObj.setReq2(end + "");
-
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return null;
-                }
-                if (output.equals(ConstantKey.nullSt)) {
-                    return null;
-                }
-
-                ArrayList<AFstockInfo> trArray = null;
-                AFstockInfo[] arrayItem = new ObjectMapper().readValue(output, AFstockInfo[].class
-                );
-
-                List<AFstockInfo> listItem = Arrays.<AFstockInfo>asList(arrayItem);
-                trArray = new ArrayList<AFstockInfo>(listItem);
-                return trArray;
-
-            } catch (Exception ex) {
-                logger.info("> SystemStockHistoricalRange exception " + ex.getMessage());
-            }
-            return null;
-        }
-
-        return getStockHistoricalRangeServ(symbol, start, end);
-    }
-
 
 
 //    public String SystemSQLquery(String SQL) {
@@ -3150,7 +3149,7 @@ public class ServiceAFweb {
 
     public static final int AllIdInfo = 250; //"1";
     public static final int AllStockInfo = 251; //"4";    
-    public static final int StockHistoricalRange = 252; //"114";     
+////    public static final int StockHistoricalRange = 252; //"114";     
     public static final int updateStockInfoTransaction = 253; //"103";
 //    public static final int UpdateSQLListInfo = 101; //"101";
 

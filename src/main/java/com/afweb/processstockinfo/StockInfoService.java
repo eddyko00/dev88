@@ -68,19 +68,19 @@ public class StockInfoService {
                     }
                     return sqlObj;
 
-                case ServiceAFweb.StockHistoricalRange: //StockHistoricalRange = 114; //"114";  
-                    try {
-                        String symbol = sqlObj.getReq();
-                        String startSt = sqlObj.getReq1();
-                        long start = Long.parseLong(startSt);
-                        String endSt = sqlObj.getReq2();
-                        long end = Long.parseLong(endSt);
-                        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalRangeServ(symbol, start, end);
-                        nameST = new ObjectMapper().writeValueAsString(StockArray);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.StockHistoricalRange: //StockHistoricalRange = 114; //"114";  
+//                    try {
+//                        String symbol = sqlObj.getReq();
+//                        String startSt = sqlObj.getReq1();
+//                        long start = Long.parseLong(startSt);
+//                        String endSt = sqlObj.getReq2();
+//                        long end = Long.parseLong(endSt);
+//                        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalRangeServ(symbol, start, end);
+//                        nameST = new ObjectMapper().writeValueAsString(StockArray);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
                 default:
                     return null;
             }
