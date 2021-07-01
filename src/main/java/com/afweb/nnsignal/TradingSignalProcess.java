@@ -2789,7 +2789,7 @@ public class TradingSignalProcess {
 
     public int processStockSplit(ServiceAFweb serviceAFWeb, String symbol, float split) {
         logger.info(">processStockSplit");
-        ArrayList accountIdList = serviceAFWeb.SystemAllOpenAccountIDList();
+        ArrayList accountIdList = serviceAFWeb.getAllOpenAccountIDSystem();
         if (accountIdList == null) {
             return 0;
         }

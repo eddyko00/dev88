@@ -2382,6 +2382,36 @@ public class ServiceAFweb {
 //        return custAccSrv.getAccountStockPerfList(accountID, stockID, trName, length);
 //    }
 
+    public ArrayList getAllOpenAccountIDSystem() {
+        return custAccSrv.getAllOpenAccountID();
+    }
+//    public ArrayList SystemAllOpenAccountIDList() {
+//        ArrayList<String> NameList = new ArrayList();
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllOpenAccountIDList + "");
+//
+//            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+//            if (output == null) {
+//                return NameList;
+//
+//            }
+//
+//            try {
+//                NameList = new ObjectMapper().readValue(output, ArrayList.class);
+//            } catch (Exception ex) {
+//                logger.info("> SystemAllOpenAccountIDList exception " + ex.getMessage());
+//            }
+//            return NameList;
+//        }
+//        return custAccSrv.getAllOpenAccountID();
+//    }    
+//    
+
     public CommObj getCommObjByID(int commID) {
         return custAccSrv.getCommObjByID(commID);
     }
@@ -2513,33 +2543,6 @@ public class ServiceAFweb {
 
         return getStockHistoricalRangeServ(symbol, start, end);
     }
-
-    public ArrayList SystemAllOpenAccountIDList() {
-        ArrayList<String> NameList = new ArrayList();
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllOpenAccountIDList + "");
-
-            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return NameList;
-
-            }
-
-            try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class);
-            } catch (Exception ex) {
-                logger.info("> SystemAllOpenAccountIDList exception " + ex.getMessage());
-            }
-            return NameList;
-        }
-        return custAccSrv.getAllOpenAccountID();
-    }
-
 
     public AFstockObj SystemRealTimeStockByStockID(int stockId) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -3109,7 +3112,7 @@ public class ServiceAFweb {
     public static final int RemoteUpdateMySQL = 13; //"10";    
     public static final int RemoteUpdateMySQLList = 14; //"11";   
 
-    public static final int AllOpenAccountIDList = 15; //"104";
+//    public static final int AllOpenAccountIDList = 15; //"104";
 //    public static final int AccountObjByAccountID = 16; //"105";
 //    public static final int AccountStockNameList = 17; //"106";
     public static final int UserNamebyAccountID = 18; //"107";

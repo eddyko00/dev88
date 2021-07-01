@@ -112,11 +112,11 @@ public class CustAccService {
                     } catch (Exception ex) {
                     }
                     return sqlObj;
-                case ServiceAFweb.AllOpenAccountIDList:  //AllOpenAccountIDList = "104";
-                    ArrayList<String> nameId = accountImp.getAllOpenAccountID();
-                    nameST = new ObjectMapper().writeValueAsString(nameId);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllOpenAccountIDList:  //AllOpenAccountIDList = "104";
+//                    ArrayList<String> nameId = accountImp.getAllOpenAccountID();
+//                    nameST = new ObjectMapper().writeValueAsString(nameId);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
 //                case ServiceAFweb.AccountObjByAccountID:  //AccountObjByAccountID = "105";
 //                    String accIdSt = sqlObj.getReq();

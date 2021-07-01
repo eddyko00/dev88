@@ -111,7 +111,7 @@ public class FundMgrProcess {
             accountFundIdNameArray = new ArrayList();
         }
         if (accountFundIdNameArray.size() == 0) {
-            ArrayList accountIdList = serviceAFWeb.SystemAllOpenAccountIDList();
+            ArrayList accountIdList = serviceAFWeb.getAllOpenAccountIDSystem();
             if (accountIdList == null) {
                 return;
             }
