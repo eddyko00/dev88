@@ -153,19 +153,19 @@ public class CustAccService {
                     }
                     return sqlObj;
 
-                case ServiceAFweb.AccountStockListByAccountID:  //AccountStockListByAccountID = 110; //"110";  
-                    try {
-                        accIdSt = sqlObj.getReq();
-                        accountId = Integer.parseInt(accIdSt);
-                        String symbol = sqlObj.getReq1();
-                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
-                        int stockID = stock.getId();
-                        ArrayList<TradingRuleObj> trList = accountImp.getAccountStockTRListByAccIdStockId(accountId, stockID);
-                        nameST = new ObjectMapper().writeValueAsString(trList);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.AccountStockListByAccountID:  //AccountStockListByAccountID = 110; //"110";  
+//                    try {
+//                        accIdSt = sqlObj.getReq();
+//                        accountId = Integer.parseInt(accIdSt);
+//                        String symbol = sqlObj.getReq1();
+//                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+//                        int stockID = stock.getId();
+//                        ArrayList<TradingRuleObj> trList = accountImp.getAccountStockTRListByAccIdStockId(accountId, stockID);
+//                        nameST = new ObjectMapper().writeValueAsString(trList);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 //                case ServiceAFweb.AccountStockClrTranByAccountID:  //AccountStockClrTranByAccountID = 111; //"111";       
 //                    try {
 //                        st = sqlObj.getReq();
@@ -266,19 +266,19 @@ public class CustAccService {
 //                    }
 //                    return sqlObj;
 
-                case ServiceAFweb.AccountStockListByAccountIDStockID:  //AccountStockListByAccountIDStockID = 118; //"118";
-                    try {
-                        accIdSt = sqlObj.getReq();
-                        accountId = Integer.parseInt(accIdSt);
-                        String stockIdSt = sqlObj.getReq1();
-                        int stockId = Integer.parseInt(stockIdSt);
-
-                        ArrayList<TradingRuleObj> trList = accountImp.getAccountStockTRListByAccIdStockId(accountId, stockId);
-                        nameST = new ObjectMapper().writeValueAsString(trList);
-                        sqlObj.setResp("" + nameST);
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.AccountStockListByAccountIDStockID:  //AccountStockListByAccountIDStockID = 118; //"118";
+//                    try {
+//                        accIdSt = sqlObj.getReq();
+//                        accountId = Integer.parseInt(accIdSt);
+//                        String stockIdSt = sqlObj.getReq1();
+//                        int stockId = Integer.parseInt(stockIdSt);
+//
+//                        ArrayList<TradingRuleObj> trList = accountImp.getAccountStockTRListByAccIdStockId(accountId, stockId);
+//                        nameST = new ObjectMapper().writeValueAsString(trList);
+//                        sqlObj.setResp("" + nameST);
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 
                 default:
                     return null;
@@ -347,10 +347,8 @@ public class CustAccService {
         return accountImp.checkTRListByStockID(StockID);
     }
 
-    public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(int accountId, int stockId) {
-        return accountImp.getAccountStockTRListByAccIdStockId(accountId, stockId);
-    }
 
+    
     public TradingRuleObj getAccountStockIDByTRStockID(int accountID, int stockID, String trName) {
         // not sure why it does not work in Open shift but work local
         return accountImp.getAccountStockIDByTRStockID(accountID, stockID, trName);
@@ -841,7 +839,7 @@ public class CustAccService {
                     if (stock != null) {
                         stock.setTrname(trname);
 
-                        ArrayList<TradingRuleObj> trObjList = getAccountStockTRListByAccountID(accountObj.getId(), stock.getId());
+                        ArrayList<TradingRuleObj> trObjList = getAccountStockTRListByAccIdStockId(accountObj.getId(), stock.getId());
                         if (trObjList != null) {
                             if (trObjList.size() == 0) {
                                 continue;
@@ -1052,7 +1050,7 @@ public class CustAccService {
                 return null;
             }
             stockID = stock.getId();
-            ArrayList tradingRuleList = getAccountStockTRListByAccountID(accountObj.getId(), stockID);
+            ArrayList tradingRuleList = getAccountStockTRListByAccIdStockId(accountObj.getId(), stockID);
             if (tradingRuleList != null) {
                 return stock;
             }
@@ -1085,7 +1083,8 @@ public class CustAccService {
     public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdStockId(int accountId, int stockId) {
         return accountImp.getAccountStockTRListByAccIdStockId(accountId, stockId);
     }
-
+    
+    
     public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -1100,7 +1099,7 @@ public class CustAccService {
                 return null;
             }
             stockID = stock.getId();
-            return getAccountStockTRListByAccountID(accountObj.getId(), stockID);
+            return getAccountStockTRListByAccIdStockId(accountObj.getId(), stockID);
         }
         return null;
     }
@@ -2447,7 +2446,7 @@ public class CustAccService {
                 AFstockObj stock = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
                 if (stock != null) {
 
-                    ArrayList<TradingRuleObj> trObjList = getAccountStockTRListByAccountID(accFundObj.getId(), stock.getId());
+                    ArrayList<TradingRuleObj> trObjList = getAccountStockTRListByAccIdStockId(accFundObj.getId(), stock.getId());
                     if (trObjList != null) {
                         for (int j = 0; j < trObjList.size(); j++) {
                             TradingRuleObj trObj = trObjList.get(j);

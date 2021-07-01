@@ -64,7 +64,7 @@ public class TradingSignalProcess {
             return;
         }
         AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
-        ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
+        ArrayList tradingRuleList = serviceAFWeb.getAccountStockTRListByAccIdSymbol(accountObj.getId(), symbol);
 
         for (int j = 0; j < tradingRuleList.size(); j++) {
             TradingRuleObj trObj = (TradingRuleObj) tradingRuleList.get(j);
@@ -143,7 +143,7 @@ public class TradingSignalProcess {
             return;
         }
         AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
-        ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
+        ArrayList tradingRuleList = serviceAFWeb.getAccountStockTRListByAccIdSymbol(accountObj.getId(), symbol);
 
         for (int j = 0; j < tradingRuleList.size(); j++) {
             TradingRuleObj trObj = (TradingRuleObj) tradingRuleList.get(j);
@@ -773,7 +773,7 @@ public class TradingSignalProcess {
             }
             AccountTranImp accountTran = new AccountTranImp();
 //            logger.info("> upateAdminTransaction " + stock.getSymbol());
-            ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
+            ArrayList tradingRuleList = serviceAFWeb.getAccountStockTRListByAccIdSymbol(accountObj.getId(), symbol);
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
 
             for (int j = 0; j < tradingRuleList.size(); j++) {
@@ -1258,7 +1258,7 @@ public class TradingSignalProcess {
         }
         // update Trading signal
         ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
-        ArrayList tradingRuleList = serviceAFWeb.SystemAccountStockListByAccountID(accountObj.getId(), symbol);
+        ArrayList tradingRuleList = serviceAFWeb.getAccountStockTRListByAccIdSymbol(accountObj.getId(), symbol);
         int offset = 0;
 
         TradingRuleObj trTradingACCObj = null;
