@@ -1946,10 +1946,37 @@ public class ServiceAFweb {
         custAccSrv.setAccountDataSource(dataSource, URL);
     }
 
-    public int updateTransactionOrder(ArrayList transSQL) {
+    public int updateTransactionOrderSystem(ArrayList transSQL) {
         return custAccSrv.updateTransactionOrder(transSQL);
     }
-
+//    public int SystemuUpdateTransactionOrder(ArrayList<String> transSQL) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return 0;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.UpdateTransactionOrder + "");
+//            String st;
+//            try {
+//                st = new ObjectMapper().writeValueAsString(transSQL);
+//                sqlObj.setReq(st);
+//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+//                if (output == null) {
+//                    return 0;
+//
+//                }
+//                int result = new ObjectMapper().readValue(output, Integer.class
+//                );
+//                return result;
+//            } catch (Exception ex) {
+//                logger.info("> SystemuUpdateTransactionOrder exception " + ex.getMessage());
+//            }
+//            return 0;
+//        }
+//        return custAccSrv.updateTransactionOrder(transSQL);
+//    }
+    
     public int clearAccountStockTranByAccountIDSystem(AccountObj accountObj, int stockID, String trName) {
         return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockID, trName);
     }
@@ -2576,33 +2603,7 @@ public class ServiceAFweb {
         return accountTran.AddTransactionOrder(this, accountObj, stock, trName, tranSignal, tranDate, true);
     }
 
-    public int SystemuUpdateTransactionOrder(ArrayList<String> transSQL) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.UpdateTransactionOrder + "");
-            String st;
-            try {
-                st = new ObjectMapper().writeValueAsString(transSQL);
-                sqlObj.setReq(st);
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return 0;
 
-                }
-                int result = new ObjectMapper().readValue(output, Integer.class
-                );
-                return result;
-            } catch (Exception ex) {
-                logger.info("> SystemuUpdateTransactionOrder exception " + ex.getMessage());
-            }
-            return 0;
-        }
-        return custAccSrv.updateTransactionOrder(transSQL);
-    }
 
 //////////
     public int updateAccountStockSignalList(ArrayList<TradingRuleObj> TRList) {
@@ -3090,7 +3091,7 @@ public class ServiceAFweb {
 //    public static final int AccountObjByAccountID = 16; //"105";
 //    public static final int AccountStockNameList = 17; //"106";
 //    public static final int UserNamebyAccountID = 18; //"107";
-    public static final int UpdateTransactionOrder = 19; //"108";
+//    public static final int UpdateTransactionOrder = 19; //"108";
 //    public static final int AccountStockClrTranByAccountID = 20; //"111";    
 //    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
 

@@ -472,7 +472,7 @@ public class AccountTranImp {
                     String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
                     transSQL.add(trSql);
                 }
-                return serviceAFWeb.SystemuUpdateTransactionOrder(transSQL);
+                return serviceAFWeb.updateTransactionOrderSystem(transSQL);
             }
         } catch (Exception e) {
             logger.info("> AddTransactionOrder exception " + e.getMessage());

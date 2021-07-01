@@ -2900,7 +2900,7 @@ public class TradingSignalProcess {
 
             int ret = 0;
             if (transSQL.size() > 0) {
-                ret = serviceAFWeb.updateTransactionOrder(transSQL);
+                ret = serviceAFWeb.updateTransactionOrderSystem(transSQL);
             }
             if (ret == 1) {
 //                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {

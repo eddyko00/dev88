@@ -141,17 +141,17 @@ public class CustAccService {
 //                    nameST = new ObjectMapper().writeValueAsString(nameList);
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-                case ServiceAFweb.UpdateTransactionOrder:  //UpdateTransactionOrder = "108";
-                    try {
-                        st = sqlObj.getReq();
-                        ArrayList transSQL = new ObjectMapper().readValue(st, ArrayList.class
-                        );
-                        ret = accountImp.updateTransactionOrder(transSQL);
-                        sqlObj.setResp("" + ret);
-
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.UpdateTransactionOrder:  //UpdateTransactionOrder = "108";
+//                    try {
+//                        st = sqlObj.getReq();
+//                        ArrayList transSQL = new ObjectMapper().readValue(st, ArrayList.class
+//                        );
+//                        ret = accountImp.updateTransactionOrder(transSQL);
+//                        sqlObj.setResp("" + ret);
+//
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 
 //                case ServiceAFweb.AccountStockListByAccountID:  //AccountStockListByAccountID = 110; //"110";  
 //                    try {
