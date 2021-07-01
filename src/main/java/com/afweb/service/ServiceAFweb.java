@@ -1910,9 +1910,33 @@ public class ServiceAFweb {
         return custAccSrv.getAccountByType(UserName, Password, accType);
     }
 
-    public ArrayList getAccountStockNameList(int accountId) {
+    public ArrayList getAccountStockNameListSystem(int accountId) {
         return custAccSrv.getAccountStockNameList(accountId);
     }
+//    public ArrayList<String> SystemAccountStockNameList(int accountId) {
+//        ArrayList<String> NameList = new ArrayList();
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AccountStockNameList + "");
+//            sqlObj.setReq("" + accountId);
+//            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+//            if (output == null) {
+//                return NameList;
+//            }
+//            try {
+//                NameList = new ObjectMapper().readValue(output, ArrayList.class
+//                );
+//            } catch (Exception ex) {
+//                logger.info("> SystemAccountStockNameList exception " + ex.getMessage());
+//            }
+//            return NameList;
+//        }
+//        return custAccSrv.getAccountStockNameList(accountId);
+//    }    
 
     public int updateAccounStockPref(TradingRuleObj trObj, float perf) {
         return custAccSrv.updateAccounStockPref(trObj, perf);
@@ -2346,30 +2370,7 @@ public class ServiceAFweb {
         return getStockHistoricalRangeServ(symbol, start, end);
     }
 
-    public ArrayList<String> SystemAccountStockNameList(int accountId) {
-        ArrayList<String> NameList = new ArrayList();
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AccountStockNameList + "");
-            sqlObj.setReq("" + accountId);
-            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return NameList;
-            }
-            try {
-                NameList = new ObjectMapper().readValue(output, ArrayList.class
-                );
-            } catch (Exception ex) {
-                logger.info("> SystemAccountStockNameList exception " + ex.getMessage());
-            }
-            return NameList;
-        }
-        return custAccSrv.getAccountStockNameList(accountId);
-    }
+
 
     public ArrayList SystemAllOpenAccountIDList() {
         ArrayList<String> NameList = new ArrayList();
@@ -3102,7 +3103,7 @@ public class ServiceAFweb {
 
     public static final int AllOpenAccountIDList = 15; //"104";
 //    public static final int AccountObjByAccountID = 16; //"105";
-    public static final int AccountStockNameList = 17; //"106";
+//    public static final int AccountStockNameList = 17; //"106";
     public static final int UserNamebyAccountID = 18; //"107";
     public static final int UpdateTransactionOrder = 19; //"108";
 //    public static final int AccountStockClrTranByAccountID = 20; //"111";    

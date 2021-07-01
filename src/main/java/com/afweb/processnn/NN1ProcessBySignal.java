@@ -422,7 +422,7 @@ public class NN1ProcessBySignal {
 //            AccountObj account = serviceAFWeb.getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
 //            accountObj = account;
 //        }
-        ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountObj.getId());
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");

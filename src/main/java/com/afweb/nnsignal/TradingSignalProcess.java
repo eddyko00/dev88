@@ -2818,7 +2818,7 @@ public class TradingSignalProcess {
             if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
                 continue;
             }
-            ArrayList stockNameList = serviceAFWeb.getAccountStockNameList(accountObj.getId());
+            ArrayList stockNameList = serviceAFWeb.getAccountStockNameListSystem(accountObj.getId());
             if (stockNameList == null) {
                 continue;
             }

@@ -184,7 +184,7 @@ public class FundMgrProcess {
         for (int k = 0; k < accountList.size(); k++) {
             AccountObj accObj = (AccountObj) accountList.get(k);
             if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                ArrayList AccountStockNameList = serviceAFWeb.SystemAccountStockNameList(accObj.getId());
+                ArrayList AccountStockNameList = serviceAFWeb.getAccountStockNameListSystem(accObj.getId());
                 if (AccountStockNameList == null) {
                     return 0;
                 }

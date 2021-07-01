@@ -47,7 +47,7 @@ public class TradingAPISignalProcess {
             CustomerObj cust = custList.get(i);
             AccountObj accountObj = serviceAFWeb.getAccountByType(cust.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
 
-            ArrayList stockNameArray = serviceAFWeb.SystemAccountStockNameList(accountObj.getId());
+            ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountObj.getId());
             ArrayList stockNameAccIdArray = new ArrayList();
             if (stockNameArray != null) {
                 for (int j = 0; j < stockNameArray.size(); j++) {

@@ -126,13 +126,13 @@ public class CustAccService {
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
 
-                case ServiceAFweb.AccountStockNameList:  //AccountStockNameList = "106";
-                    accIdSt = sqlObj.getReq();
-                    accountId = Integer.parseInt(accIdSt);
-                    nameList = accountImp.getAccountStockNameList(accountId);
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AccountStockNameList:  //AccountStockNameList = "106";
+//                    accIdSt = sqlObj.getReq();
+//                    accountId = Integer.parseInt(accIdSt);
+//                    nameList = accountImp.getAccountStockNameList(accountId);
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
                 case ServiceAFweb.UserNamebyAccountID:  //UserNamebyAccountID = "107";
                     accIdSt = sqlObj.getReq();
