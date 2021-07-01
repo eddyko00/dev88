@@ -742,7 +742,7 @@ public class TradingSignalProcess {
         try {
             AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
             serviceAFWeb.clearAccountStockTranByAccountIDSystem(accountAdminObj, stock.getId(), trName);
-            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), trName);
+            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountAdminObj.getId(), stock.getId(), trName);
             // get 2 year
             /// thObjList old first - recent last
             ArrayList<StockTRHistoryObj> trHistoryList = ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.SHORT_MONTH_SIZE);
@@ -909,7 +909,7 @@ public class TradingSignalProcess {
                     }
                     // udpate tr SubStatus to open
                     // need to get the latest TR object after the SystemAddTransactionOrder
-                    trObj = serviceAFWeb.getAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trObj.getTrname());
+                    trObj = servicegetAccountStockIDByTRStockIDSystemtockID(accountObj.getId(), stock.getId(), trObj.getTrname());
                     // need to get the latest TR object after the SystemAddTransactionOrder
                     trObj.setSubstatus(ConstantKey.OPEN);
                     String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);

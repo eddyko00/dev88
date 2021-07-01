@@ -1976,7 +1976,7 @@ public class ServiceAFweb {
         return custAccSrv.getAccountListByCustomerId(custId);
     }
 
-    public TradingRuleObj getAccountStockIDByTRStockID(int accountID, int stockID, String trName) {
+    public TradingRuleObj getAccountStockIDByTRStockIDSystem(int accountID, int stockID, String trName) {
         // not sure why it does not work in Open shift but work local
         return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
     }

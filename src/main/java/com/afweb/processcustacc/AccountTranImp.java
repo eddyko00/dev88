@@ -237,7 +237,7 @@ public class AccountTranImp {
             }
             if (accTrading != null) {
                 int stockId = trFundACCObj.getStockid();
-                TradingRuleObj trTradingA = serviceAFWeb.getAccountStockIDByTRStockID(accTrading.getId(), stockId, ConstantKey.TR_ACC);
+                TradingRuleObj trTradingA = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accTrading.getId(), stockId, ConstantKey.TR_ACC);
                 int newTsSig = trTradingA.getTrsignal();
                 long newUpdatedatel = trTradingA.getUpdatedatel();
                 int tsSig = trFundACCObj.getTrsignal();
@@ -307,7 +307,7 @@ public class AccountTranImp {
                     return;
                 }
             }
-            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
 
             if (trObj == null) {
                 return;
@@ -410,7 +410,7 @@ public class AccountTranImp {
 
         int ret = AddTransactionOrder(serviceAFWeb, accountObj, stock, trName, tranSignal, null, false);
         if (ret == 1) {
-            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
+            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountObj.getId(), stock.getId(), trName);
 
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -456,7 +456,7 @@ public class AccountTranImp {
 //                }
 //            }
             ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.SystemAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
-            TradingRuleObj tradingRuleObj = serviceAFWeb.getAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
+            TradingRuleObj tradingRuleObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountObj.getId(), stock.getId(), trName);
 
             ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, tradingRuleObj, accountObj, stock, trName, tranSignal, tranDate, fromSystem);
 
