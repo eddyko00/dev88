@@ -1561,12 +1561,37 @@ public class ServiceAFweb {
         return null;
     }
 
-    public AFstockObj getStockByStockIDServ(int stockID) {
+    public AFstockObj getStockByStockIDSystem(int stockID) {
         if (stockFlag == true) {
             return stockSrv.getStockBySockID(this, stockID);
         }
         return null;
     }
+//    public AFstockObj SystemRealTimeStockByStockID(int stockId) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.RealTimeStockByStockID + "");
+//            sqlObj.setReq("" + stockId);
+//            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+//            if (output == null) {
+//                return null;
+//            }
+//            AFstockObj stockObj = null;
+//
+//            try {
+//                stockObj = new ObjectMapper().readValue(output, AFstockObj.class
+//                );
+//            } catch (Exception ex) {
+//                logger.info("> SystemRealTimeStockByStockID exception " + ex.getMessage());
+//            }
+//            return stockObj;
+//        }
+//        return getStockByStockIDServ(stockId);
+//    }    
 
     public boolean checkStockServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         if (stockFlag == true) {
@@ -2544,31 +2569,7 @@ public class ServiceAFweb {
         return getStockHistoricalRangeServ(symbol, start, end);
     }
 
-    public AFstockObj SystemRealTimeStockByStockID(int stockId) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.RealTimeStockByStockID + "");
-            sqlObj.setReq("" + stockId);
-            RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
-            if (output == null) {
-                return null;
-            }
-            AFstockObj stockObj = null;
 
-            try {
-                stockObj = new ObjectMapper().readValue(output, AFstockObj.class
-                );
-            } catch (Exception ex) {
-                logger.info("> SystemRealTimeStockByStockID exception " + ex.getMessage());
-            }
-            return stockObj;
-        }
-        return getStockByStockIDServ(stockId);
-    }
 
 //    public String SystemSQLquery(String SQL) {
 ////        if (getServerObj().isSysMaintenance() == true) {
@@ -3145,7 +3146,7 @@ public class ServiceAFweb {
 
     public static final int AllStock = 212; //"3";    
     public static final int AllSymbol = 213; //"1";    
-    public static final int RealTimeStockByStockID = 214; //"119"; 
+//    public static final int RealTimeStockByStockID = 214; //"119"; 
 
     public static final int AllIdInfo = 250; //"1";
     public static final int AllStockInfo = 251; //"4";    

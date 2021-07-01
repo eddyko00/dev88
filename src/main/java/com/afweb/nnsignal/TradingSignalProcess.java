@@ -962,7 +962,7 @@ public class TradingSignalProcess {
         }
 
         AccountObj accountObj = serviceAFWeb.getAccountObjByAccountIDSystem(trObj.getAccountid());
-        AFstockObj stock = serviceAFWeb.SystemRealTimeStockByStockID(trObj.getStockid());
+        AFstockObj stock = serviceAFWeb.getStockByStockIDSystem(trObj.getStockid());
 
         // this only use by ConstantKey.INT_TR_BST can delete it 
         ArrayList<TradingRuleObj> tradingRuleList = null;

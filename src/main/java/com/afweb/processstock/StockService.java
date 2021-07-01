@@ -61,13 +61,13 @@ public class StockService {
                     nameST = getAllStockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                case ServiceAFweb.RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
-                    stockIdSt = sqlObj.getReq();
-                    stockId = Integer.parseInt(stockIdSt);
-                    AFstockObj stockObj = getStockBySockID(serviceAFWeb, stockId);
-                    nameST = new ObjectMapper().writeValueAsString(stockObj);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
+//                    stockIdSt = sqlObj.getReq();
+//                    stockId = Integer.parseInt(stockIdSt);
+//                    AFstockObj stockObj = getStockBySockID(serviceAFWeb, stockId);
+//                    nameST = new ObjectMapper().writeValueAsString(stockObj);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
 ////////////////////////////                    
                 default:

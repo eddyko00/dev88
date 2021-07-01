@@ -1379,7 +1379,7 @@ public class CustAccService {
         AFstockObj stock = null;
         try {
             int stockID = Integer.parseInt(stockidsymbol);
-            stock = serviceAFWeb.getStockByStockIDServ(stockID);
+            stock = serviceAFWeb.getStockByStockIDSystem(stockID);
         } catch (NumberFormatException e) {
             SymbolNameObj symObj = new SymbolNameObj(stockidsymbol);
             String NormalizeSymbol = symObj.getYahooSymbol();
