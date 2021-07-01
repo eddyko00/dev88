@@ -1752,9 +1752,44 @@ public class ServiceAFweb {
         return reqObj;
     }
 
+     public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
+         return getNeuralNetDataObj(BPnameTR, 0);
+     }
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
         return nnSrv.getNeuralNetDataObj(name, length);
     }
+//    public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
+//        if (getServerObj().isSysMaintenance() == true) {
+//            return null;
+//        }
+//        if (checkCallRemoteMysql() == true) {
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.NeuralNetDataObj + "");
+//            String st;
+//            try {
+//                sqlObj.setReq(BPnameTR + "");
+//                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+//                if (output == null) {
+//                    return null;
+//                }
+//                if (output.equals(ConstantKey.nullSt)) {
+//                    return null;
+//                }
+//                ArrayList<AFneuralNetData> trArray = null;
+//
+//                AFneuralNetData[] arrayItem = new ObjectMapper().readValue(output, AFneuralNetData[].class
+//                );
+//                List<AFneuralNetData> listItem = Arrays.<AFneuralNetData>asList(arrayItem);
+//                trArray = new ArrayList<AFneuralNetData>(listItem);
+//                return trArray;
+//            } catch (Exception ex) {
+//                logger.info("> SystemNeuralNetDataObj exception " + ex.getMessage());
+//            }
+//            return null;
+//        }
+//        return getNeuralNetDataObj(BPnameTR, 0);
+//    }
 
     public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
         return nnSrv.getNeuralNetDataObjByStockId(name, refname, stockId, updatedatel);
@@ -2453,38 +2488,6 @@ public class ServiceAFweb {
         return getStockByStockIDServ(stockId);
     }
 
-    public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        if (checkCallRemoteMysql() == true) {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.NeuralNetDataObj + "");
-            String st;
-            try {
-                sqlObj.setReq(BPnameTR + "");
-                RequestObj sqlObjresp = SystemSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
-                if (output == null) {
-                    return null;
-                }
-                if (output.equals(ConstantKey.nullSt)) {
-                    return null;
-                }
-                ArrayList<AFneuralNetData> trArray = null;
-
-                AFneuralNetData[] arrayItem = new ObjectMapper().readValue(output, AFneuralNetData[].class
-                );
-                List<AFneuralNetData> listItem = Arrays.<AFneuralNetData>asList(arrayItem);
-                trArray = new ArrayList<AFneuralNetData>(listItem);
-                return trArray;
-            } catch (Exception ex) {
-                logger.info("> SystemNeuralNetDataObj exception " + ex.getMessage());
-            }
-            return null;
-        }
-        return getNeuralNetDataObj(BPnameTR, 0);
-    }
 
     //  entrydatel desc recent transaction first
     public ArrayList<TransationOrderObj> SystemAccountStockTransList(int accountID, int stockID, String trName, int length) {
@@ -3144,7 +3147,7 @@ public class ServiceAFweb {
 
     public static final int AllNeuralNet = 310; //"5";
     public static final int AllNeuralNetData = 311; //"15";
-    public static final int NeuralNetDataObj = 312; //"120";     
+//    public static final int NeuralNetDataObj = 312; //"120";     
 //    public static final int NeuralNetDataObjStockid = 313; //"120";
 
     //////////////////////////////////

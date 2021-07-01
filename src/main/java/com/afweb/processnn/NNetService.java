@@ -55,17 +55,17 @@ public class NNetService {
                     sqlObj.setResp(nameST);
                     return sqlObj;
 
-                case ServiceAFweb.NeuralNetDataObj: //NeuralNetDataObj = 120; //"120";      
-
-                    try {
-                        String BPname = sqlObj.getReq();
-                        ArrayList<AFneuralNetData> retArray = nndataImp.getNeuralNetDataObj(BPname, 0);
-                        nameST = new ObjectMapper().writeValueAsString(retArray);
-                        sqlObj.setResp("" + nameST);
-
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.NeuralNetDataObj: //NeuralNetDataObj = 120; //"120";      
+//
+//                    try {
+//                        String BPname = sqlObj.getReq();
+//                        ArrayList<AFneuralNetData> retArray = nndataImp.getNeuralNetDataObj(BPname, 0);
+//                        nameST = new ObjectMapper().writeValueAsString(retArray);
+//                        sqlObj.setResp("" + nameST);
+//
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 
 //                case ServiceAFweb.NeuralNetDataObjStockid: //NeuralNetDataObj = 121; //"121";        
 //                    try {
