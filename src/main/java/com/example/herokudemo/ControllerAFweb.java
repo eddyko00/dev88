@@ -200,11 +200,11 @@ public class ControllerAFweb {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
 //                System.out.println(sqlObj.getReq());
                 if (sqlObj.getCmd().equals("1")) {
-                    return afWebService.SystemRemoteGetMySQL(sqlObj.getReq());
+                    return afWebService.SysRemoteGetMySQL(sqlObj.getReq());
                 } else if (sqlObj.getCmd().equals("2")) {
-                    return afWebService.SystemRemoteUpdateMySQL(sqlObj.getReq());
+                    return afWebService.SysRemoteUpdateMySQL(sqlObj.getReq());
                 } else if (sqlObj.getCmd().equals("3")) {
-                    return afWebService.SystemRemoteUpdateMySQLList(sqlObj.getReq());
+                    return afWebService.SysRemoteUpdateMySQLList(sqlObj.getReq());
                 }
             }
         }
@@ -256,7 +256,7 @@ public class ControllerAFweb {
                 }
                 ArrayList msgWrite = new ArrayList();
                 msgWrite.add(St);
-                boolean ret = ServiceAFweb.SystemFilePut(fileName, msgWrite);
+                boolean ret = ServiceAFweb.SysFilePut(fileName, msgWrite);
                 return "done...";
             }
         }
@@ -280,7 +280,7 @@ public class ControllerAFweb {
         if (nameSt != null) {
             if (nameSt.length() > 0) {
                 ArrayList msgRead = new ArrayList();
-                boolean ret = ServiceAFweb.SystemFilePut(nameSt, msgRead);
+                boolean ret = ServiceAFweb.SysFilePut(nameSt, msgRead);
                 StringBuffer msgWrite = new StringBuffer();
                 for (int i = 0; i < msgRead.size(); i++) {
                     msgWrite.append(msgRead.get(i));
@@ -358,7 +358,7 @@ public class ControllerAFweb {
         WebStatus msg = new WebStatus();
 
         if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-            msg.setResponse(afWebService.SystemStop());
+            msg.setResponse(afWebService.SysStop());
             msg.setResult(true);
             return msg;
         }

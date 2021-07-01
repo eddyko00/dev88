@@ -542,7 +542,7 @@ public class ServiceAFweb {
         String YN = scan.next();
         boolean retSatus = false;
 
-        retSatus = cleanStockDB();
+        retSatus = SystemCleanStockDB();
         if (retSatus == true) {
             BackupRestoreImp backupRestore = new BackupRestoreImp();
             retSatus = backupRestore.restoreDBData(this);
@@ -1557,13 +1557,103 @@ public class ServiceAFweb {
 
     }
 
+//////////////////////
+    public String SystemClearLock() {
+        int retSatus = 0;
+        retSatus = deleteAllLock();
+        return "" + retSatus;
+    }
+///////////////////////////
+
+    public String SysClearNNData() {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        AccountObj accountAdminObj = this.getAdminObjFromCache();
+        int retStatus = NNProcessImp.ClearStockNNData(this, accountAdminObj);
+        return "" + retStatus;
+    }
+
+    public String SystemClearNNtranAllAcc() {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        int retSatus = 0;
+
+        retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
+        return "" + retSatus;
+    }
+
+    public String SysRemoteUpdateMySQLList(String SQL) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return "";
+        }
+
+        String st = SQL;
+        String[] sqlList = st.split("~");
+        for (int i = 0; i < sqlList.length; i++) {
+            String sqlCmd = sqlList[i];
+            int ret = updateRemoteMYSQL(sqlCmd);
+        }
+        return ("" + sqlList.length);
+    }
+
+    public String SysRemoteUpdateMySQL(String SQL) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return "";
+        }
+
+        return updateRemoteMYSQL(SQL) + "";
+    }
+
+    public String SysRemoteGetMySQL(String SQL) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return "";
+        }
+
+        return getRemoteMYSQL(SQL);
+    }
+/////////////////////////////////
+    ///// Restore DB need the following
+    ////  SystemStop
+    ////  SystemCleanDBData
+    ////  SystemUploadDBData
+    ///// Restore DB need the following    
+
+    public String SysRestoreDBData() {
+        boolean retSatus = false;
+
+        serverObj.setSysMaintenance(true);
+
+        BackupRestoreInfo backupRestoreInfo = new BackupRestoreInfo();
+        backupRestoreInfo.restoreDBDataInfo(this);
+
+        BackupRestoreNN backupRestoreNN = new BackupRestoreNN();
+        backupRestoreNN.restoreDBDataNN(this);
+
+        BackupRestoreImp backupRestore = new BackupRestoreImp();
+        retSatus = backupRestore.restoreDBData(this);
+
+        if (retSatus == true) {
+            serverObj.setSysMaintenance(true);
+            serverObj.setTimerInit(false);
+            serverObj.setTimerQueueCnt(0);
+            serverObj.setTimerCnt(0);
+        }
+
+        return "SystemUploadDBData " + retSatus;
+    }
+
+    public String SysStop() {
+        boolean retSatus = true;
+        serverObj.setSysMaintenance(true);
+
+        return "sysMaintenance " + retSatus;
+    }
+
     // drop table
     public String SysDropDBData() {
         boolean retSatus = false;
         // make sure the system is stopped first
         retSatus = dropStockInfoDB();
         retSatus = dropNNdataDB();
-        retSatus = dropStockDB();
+        retSatus = SystemDropStockDB();
         return "" + retSatus;
     }
 
@@ -1575,35 +1665,27 @@ public class ServiceAFweb {
         serverObj.setSysMaintenance(true);
         retSatus = cleanStockInfoDB();
         retSatus = cleanNNdataDB();
-        retSatus = cleanStockDB();
+        retSatus = SystemCleanStockDB();
         return "" + retSatus;
     }
 
-    public String SysClearNNData() {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        AccountObj accountAdminObj = this.getAdminObjFromCache();
-        int retStatus = NNProcessImp.ClearStockNNData(this, accountAdminObj);
-        return "" + retStatus;
+    ///////////////////////////////
+    public static boolean SysFilePut(String fileName, ArrayList msgWrite) {
+        String fileN = ServiceAFweb.FileLocalPath + fileName;
+        boolean ret = FileUtil.FileWriteTextArray(fileN, msgWrite);
+        return ret;
     }
 
-    public String SystemClearLock() {
-        int retSatus = 0;
-        retSatus = deleteAllLock();
-        return "" + retSatus;
+    public static boolean SysFileRead(String fileName, ArrayList msgWrite) {
+        String fileN = ServiceAFweb.FileLocalPath + fileName;
+        boolean ret = FileUtil.FileReadTextArray(fileN, msgWrite);
+        return ret;
     }
 
-    public String SystemClearNNtranAllAcc() {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = 0;
-
-        retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
-        return "" + retSatus;
-    }
 //   
     ////////////////////////////////
     ////////////////////////////////    
     ////////////////////////////////
-
     public RequestObj SystemSQLRequestSystem(RequestObj sqlObj) {
         SystemService sysSrv = new SystemService();
         RequestObj reqObj = sysSrv.SQLRequestSystem(this, sqlObj);
@@ -1618,11 +1700,11 @@ public class ServiceAFweb {
         return systemSrv.initStockDB();
     }
 
-    public boolean cleanStockDB() {
+    public boolean SystemCleanStockDB() {
         return systemSrv.cleanStockDB();
     }
 
-    public boolean dropStockDB() {
+    public boolean SystemDropStockDB() {
         return systemSrv.restStockDB();
     }
 
@@ -1988,7 +2070,7 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public ArrayList<AFneuralNetData> SystemNeuralNetDataObjSystem(String BPnameTR) {
+    public ArrayList<AFneuralNetData> NNNeuralNetDataObjSystem(String BPnameTR) {
         return getNeuralNetDataObj(BPnameTR, 0);
     }
 
@@ -3206,36 +3288,6 @@ public class ServiceAFweb {
         return msg;
     }
 
-    public String SystemRemoteUpdateMySQLList(String SQL) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return "";
-        }
-
-        String st = SQL;
-        String[] sqlList = st.split("~");
-        for (int i = 0; i < sqlList.length; i++) {
-            String sqlCmd = sqlList[i];
-            int ret = updateRemoteMYSQL(sqlCmd);
-        }
-        return ("" + sqlList.length);
-    }
-
-    public String SystemRemoteUpdateMySQL(String SQL) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return "";
-        }
-
-        return updateRemoteMYSQL(SQL) + "";
-    }
-
-    public String SystemRemoteGetMySQL(String SQL) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return "";
-        }
-
-        return getRemoteMYSQL(SQL);
-    }
-
 ///////////////////////////
     ////////////////////////
     // System
@@ -3381,54 +3433,6 @@ public class ServiceAFweb {
         }
 
         return "SystemUploadDBData " + retSatus;
-    }
-
-    ///// Restore DB need the following
-    ////  SystemStop
-    ////  SystemCleanDBData
-    ////  SystemUploadDBData
-    ///// Restore DB need the following    
-    public String SystemRestoreDBData() {
-        boolean retSatus = false;
-
-        serverObj.setSysMaintenance(true);
-
-        BackupRestoreInfo backupRestoreInfo = new BackupRestoreInfo();
-        backupRestoreInfo.restoreDBDataInfo(this);
-
-        BackupRestoreNN backupRestoreNN = new BackupRestoreNN();
-        backupRestoreNN.restoreDBDataNN(this);
-
-        BackupRestoreImp backupRestore = new BackupRestoreImp();
-        retSatus = backupRestore.restoreDBData(this);
-
-        if (retSatus == true) {
-            serverObj.setSysMaintenance(true);
-            serverObj.setTimerInit(false);
-            serverObj.setTimerQueueCnt(0);
-            serverObj.setTimerCnt(0);
-        }
-
-        return "SystemUploadDBData " + retSatus;
-    }
-
-    public String SystemStop() {
-        boolean retSatus = true;
-        serverObj.setSysMaintenance(true);
-
-        return "sysMaintenance " + retSatus;
-    }
-
-    public static boolean SystemFilePut(String fileName, ArrayList msgWrite) {
-        String fileN = ServiceAFweb.FileLocalPath + fileName;
-        boolean ret = FileUtil.FileWriteTextArray(fileN, msgWrite);
-        return ret;
-    }
-
-    public static boolean SystemFileRead(String fileName, ArrayList msgWrite) {
-        String fileN = ServiceAFweb.FileLocalPath + fileName;
-        boolean ret = FileUtil.FileReadTextArray(fileN, msgWrite);
-        return ret;
     }
 
     public String SystemClearNNtran(String sym) {
