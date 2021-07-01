@@ -372,7 +372,7 @@ public class ControllerAFweb {
         WebStatus msg = new WebStatus();
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(afWebService.SystemStart());
+                msg.setResponse(afWebService.SysStart());
                 msg.setResult(true);
                 return msg;
             }
@@ -381,7 +381,7 @@ public class ControllerAFweb {
         CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(afWebService.SystemStart());
+                msg.setResponse(afWebService.SysStart());
                 msg.setResult(true);
                 return msg;
             }

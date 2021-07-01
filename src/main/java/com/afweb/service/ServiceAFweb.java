@@ -1572,7 +1572,7 @@ public class ServiceAFweb {
         return "" + retStatus;
     }
 
-    public String SystemClearNNtranAllAcc() {
+    public String SysClearNNtranAllAcc() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
 
@@ -1580,6 +1580,21 @@ public class ServiceAFweb {
         return "" + retSatus;
     }
 
+    public String SysClearNNtran(String sym) {
+        TradingNNprocess NNProcessImp = new TradingNNprocess();
+        int retSatus = 0;
+
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
+        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
+
+        return "" + retSatus;
+    }
+
+    ////////////////////////
     public String SysRemoteUpdateMySQLList(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
@@ -1644,6 +1659,16 @@ public class ServiceAFweb {
         boolean retSatus = true;
         serverObj.setSysMaintenance(true);
 
+        return "sysMaintenance " + retSatus;
+    }
+
+//
+    public String SysStart() {
+        boolean retSatus = true;
+        serverObj.setSysMaintenance(false);
+        serverObj.setTimerInit(false);
+        serverObj.setTimerQueueCnt(0);
+        serverObj.setTimerCnt(0);
         return "sysMaintenance " + retSatus;
     }
 
@@ -3419,46 +3444,21 @@ public class ServiceAFweb {
         return refData;
     }
 
-    public String SystemRestoreNNonlyDBData() {
-        boolean retSatus = false;
-
-        serverObj.setSysMaintenance(true);
-        BackupRestoreNN backupRestore = new BackupRestoreNN();
-        retSatus = backupRestore.restoreNNonlyDBData(this);
-        if (retSatus == true) {
-            serverObj.setSysMaintenance(true);
-            serverObj.setTimerInit(false);
-            serverObj.setTimerQueueCnt(0);
-            serverObj.setTimerCnt(0);
-        }
-
-        return "SystemUploadDBData " + retSatus;
-    }
-
-    public String SystemClearNNtran(String sym) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = 0;
-
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
-
-        return "" + retSatus;
-    }
+//    public String SystemRestoreNNonlyDBData() {
+//        boolean retSatus = false;
 //
-
-    public String SystemStart() {
-        boolean retSatus = true;
-        serverObj.setSysMaintenance(false);
-        serverObj.setTimerInit(false);
-        serverObj.setTimerQueueCnt(0);
-        serverObj.setTimerCnt(0);
-        return "sysMaintenance " + retSatus;
-    }
-
+//        serverObj.setSysMaintenance(true);
+//        BackupRestoreNN backupRestore = new BackupRestoreNN();
+//        retSatus = backupRestore.restoreNNonlyDBData(this);
+//        if (retSatus == true) {
+//            serverObj.setSysMaintenance(true);
+//            serverObj.setTimerInit(false);
+//            serverObj.setTimerQueueCnt(0);
+//            serverObj.setTimerCnt(0);
+//        }
+//
+//        return "SystemUploadDBData " + retSatus;
+//    }
     ////////////////////////////
     public ArrayList getRemoveStockNameList(int length) {
         ArrayList result = null;
