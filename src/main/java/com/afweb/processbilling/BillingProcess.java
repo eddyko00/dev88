@@ -725,7 +725,7 @@ public class BillingProcess {
             if (customer == null) {
                 return 0;
             }
-            ArrayList accountList = serviceAFWeb.getAccountListServ(UserName, null);
+            ArrayList accountList = serviceAFWeb.AccGetAccountList(UserName, null);
 
             if (accountList == null) {
                 return 0;

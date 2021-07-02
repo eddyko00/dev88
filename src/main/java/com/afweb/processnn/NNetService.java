@@ -578,7 +578,7 @@ public class NNetService {
 
                 /////////////////////
                 ArrayList<String> APIStockNameList = new ArrayList();
-                ArrayList<AccountObj> accountAPIObjL = serviceAFWeb.getAccountListServ(CKey.API_USERNAME, null);
+                ArrayList<AccountObj> accountAPIObjL = serviceAFWeb.AccGetAccountList(CKey.API_USERNAME, null);
                 if (accountAPIObjL != null) {
                     if (accountAPIObjL.size() > 0) {
                         AccountObj accountAPIObj = accountAPIObjL.get(0);
@@ -692,7 +692,7 @@ public class NNetService {
                 logger.info("> remote dB1 stock:" + stockNameArray2.size());
                 StockNameRemoteList.addAll(stockNameArray2);
 
-                ArrayList<AccountObj> accountAPIObjL = serviceAFWeb.getAccountListServ(CKey.API_USERNAME, null);
+                ArrayList<AccountObj> accountAPIObjL = serviceAFWeb.AccGetAccountList(CKey.API_USERNAME, null);
                 if (accountAPIObjL == null) {
                     return;
                 }

@@ -136,7 +136,7 @@ public class ServiceAFweb {
         try {
             AccountObj accountAdminObj = ServiceAFweb.getCacheAccountAdminObj();
             if (accountAdminObj == null) {
-                ArrayList accountList = getAccountListServ(CKey.ADMIN_USERNAME, null);
+                ArrayList accountList = AccGetAccountList(CKey.ADMIN_USERNAME, null);
                 // do not clear the lock so that it not run by other tast immediately
                 if (accountList == null) {
                     return null;
@@ -2703,7 +2703,7 @@ public class ServiceAFweb {
 //        return custAccSrv.getAccountStockTRListByAccountID(accountId, stockId);
 //    }
     //  entrydatel desc recent transaction first    
-    public ArrayList<TransationOrderObj> getAccountStockTransListSystem(int accountID, int stockID, String trName, int length) {
+    public ArrayList<TransationOrderObj> AccGetAccountStockTransList(int accountID, int stockID, String trName, int length) {
         return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
     }
 //    //  entrydatel desc recent transaction first
@@ -2743,7 +2743,7 @@ public class ServiceAFweb {
 //        return custAccSrv.getAccountStockTransList(accountID, stockID, trName, length);
 //    }
 
-    public ArrayList getAllAccountStockNameListExceptionAdmin(int accountId) {
+    public ArrayList AccGetAllAccountStockNameListExceptAdmin(int accountId) {
         return custAccSrv.getAllAccountStockNameListExceptionAdmin(accountId);
 
     }
@@ -2776,21 +2776,21 @@ public class ServiceAFweb {
 //
 //    }
 
-    public ArrayList getAccountListServ(String EmailUserName, String Password) {
+    public ArrayList AccGetAccountList(String EmailUserName, String Password) {
         if (custAccFlag == true) {
             return custAccSrv.getAccountList(this, EmailUserName, Password);
         }
         return null;
     }
 
-    public AccountObj getAccountByCustomerAccountIDServ(String EmailUserName, String Password, String AccountIDSt) {
+    public AccountObj AccGetAccountByCustomerAccountID(String EmailUserName, String Password, String AccountIDSt) {
         if (custAccFlag == true) {
             return custAccSrv.getAccountByCustomerAccountID(this, EmailUserName, Password, AccountIDSt);
         }
         return null;
     }
 
-    public float getAccountStockBalanceServ(TradingRuleObj trObj) {
+    public float AccGetAccountStockBalance(TradingRuleObj trObj) {
         if (custAccFlag == true) {
             return custAccSrv.getAccountStockRealTimeBalance(this, trObj);
         }

@@ -319,7 +319,7 @@ public class AccountTranImp {
 
             // process performance
             String trName = trObj.getTrname();
-            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.getAccountStockTransListSystem(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+            ArrayList<TransationOrderObj> tranOrderList = serviceAFWeb.AccGetAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
 
             int currentTS = ConstantKey.S_NEUTRAL;
             currentTS = trObj.getTrsignal();
@@ -343,7 +343,7 @@ public class AccountTranImp {
             }
             // Get transaction again process performance
             //  entrydatel desc recent transaction first
-            tranOrderList = serviceAFWeb.getAccountStockTransListSystem(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
+            tranOrderList = serviceAFWeb.AccGetAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
 
                 ArrayList<PerformanceObj> performanceList = TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, true); // buyOnly true for TR_ACC
@@ -455,7 +455,7 @@ public class AccountTranImp {
 //                    tranDate = cDate;
 //                }
 //            }
-            ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.getAccountStockTransListSystem(accountObj.getId(), stock.getId(), trName, 1);
+            ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.AccGetAccountStockTransList(accountObj.getId(), stock.getId(), trName, 1);
             TradingRuleObj tradingRuleObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
 
             ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, tradingRuleObj, accountObj, stock, trName, tranSignal, tranDate, fromSystem);

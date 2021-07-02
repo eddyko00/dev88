@@ -359,7 +359,7 @@ public class AccountTranProcess {
                             }
                         }
 
-                        ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTransListSystem(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
+                        ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTransList(accObj.getId(), stock.getId(), ConstantKey.TR_ACC, 1);
                         if (thList != null) {
                             if (thList.size() != 0) {
                                 TransationOrderObj thObj = thList.get(0);

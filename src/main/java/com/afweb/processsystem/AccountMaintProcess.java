@@ -241,7 +241,7 @@ public class AccountMaintProcess {
         if (StockNameList == null) {
             return;
         }
-        ArrayList AllAccountStockNameList = serviceAFWeb.getAllAccountStockNameListExceptionAdmin(accountAdminObj.getId());
+        ArrayList AllAccountStockNameList = serviceAFWeb.AccGetAllAccountStockNameListExceptAdmin(accountAdminObj.getId());
 
         if (AllAccountStockNameList == null) {
             return;
