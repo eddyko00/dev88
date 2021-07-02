@@ -202,9 +202,9 @@ public class ControllerAFweb {
                 if (sqlObj.getCmd().equals("1")) {
                     return afWebService.SysRemoteGetMySQL(sqlObj.getReq());
                 } else if (sqlObj.getCmd().equals("2")) {
-                    return afWebService.SysRemoteUpdateMySQL(sqlObj.getReq());
+                    return afWebService.SysUpdateFromRemoteMySQL(sqlObj.getReq());
                 } else if (sqlObj.getCmd().equals("3")) {
-                    return afWebService.SysRemoteUpdateMySQLList(sqlObj.getReq());
+                    return afWebService.SysUpdateFromRemoteMySQLList(sqlObj.getReq());
                 }
             }
         }

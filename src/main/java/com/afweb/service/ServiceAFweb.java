@@ -538,7 +538,7 @@ public class ServiceAFweb {
         String YN = scan.next();
         boolean retSatus = false;
 
-        retSatus = SystemCleanStockDB();
+        retSatus = SysCleanStockDB();
         if (retSatus == true) {
             BackupRestoreImp backupRestore = new BackupRestoreImp();
             retSatus = backupRestore.restoreDBData(this);
@@ -731,22 +731,17 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             updateAllStockInfoSrv();
-            NNetService nnSrv = new NNetService();
-            nnSrv.AFprocessNeuralNet(this);
-//            
-            BillingProcess billProc = new BillingProcess();
-            billProc.processUserBillingAll(this);
 
-            PUBSUBprocess pubsub = new PUBSUBprocess();
-            pubsub.ProcessPUBSUBAccount(this);
+            ProcessNeuralNetDataTrain(this);
+//            
+            ProcessUserBilling(this);
+            ProcessPUBSUBAccountComm(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
             updateAllStockInfoSrv();
 
-            AccountTranProcess accountTranP = new AccountTranProcess();
-            accountTranP.ProcessAdminSignalTrading(this);
-
+            ProcessAdminSignalTrading(this);
             ProcessAdminAddRemoveStock(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
@@ -757,24 +752,49 @@ public class ServiceAFweb {
 //            
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
             if (CKey.PROXY == false) {
-                if (ServiceAFweb.processEmailFlag == true) {
-                    EmailProcess eProcess = new EmailProcess();
-                    eProcess.ProcessEmailAccount(this);
-                }
+                ProcessEmailAccount(this);
             }
         } else {
 
         }
     }
 //////////Account Process
-    private AccountTranProcess accountProcessImp = new AccountTranProcess();
+
+    public void ProcessAdminSignalTrading(ServiceAFweb serviceAFWeb) {
+        AccountTranProcess accountTranP = new AccountTranProcess();
+        accountTranP.ProcessAdminSignalTrading(this);
+    }
 
     public void ProcessAllAccountTradingSignal(ServiceAFweb serviceAFWeb) {
+        AccountTranProcess accountProcessImp = new AccountTranProcess();
         accountProcessImp.ProcessAllAccountTradingSignal(this);
     }
 
     public void ProcessAdminAddRemoveStock(ServiceAFweb serviceAFWeb) {
+        AccountTranProcess accountProcessImp = new AccountTranProcess();
         accountProcessImp.ProcessAdminAddRemoveStock(this);
+    }
+
+    public void ProcessUserBilling(ServiceAFweb serviceAFWeb) {
+        BillingProcess billProc = new BillingProcess();
+        billProc.processUserBillingAll(this);
+    }
+
+    public void ProcessPUBSUBAccountComm(ServiceAFweb serviceAFWeb) {
+        PUBSUBprocess pubsub = new PUBSUBprocess();
+        pubsub.ProcessPUBSUBAccount(this);
+    }
+
+    public void ProcessNeuralNetDataTrain(ServiceAFweb serviceAFWeb) {
+        NNetService nnSrv = new NNetService();
+        nnSrv.AFprocessNeuralNet(this);
+    }
+
+    public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {
+        if (ServiceAFweb.processEmailFlag == true) {
+            EmailProcess eProcess = new EmailProcess();
+            eProcess.ProcessEmailAccount(this);
+        }
     }
 
 /////////////////////////////////////////////
@@ -1350,16 +1370,10 @@ public class ServiceAFweb {
         }
     }
 
-    //////////////////////////////////////////////////
-    // SystemService
-    SystemService systemSrv = new SystemService();
-    // SystemService
-    //////////////////////////////////////////////////  
-
     public int SysInitDBData() {
         logger.info(">InitDBData ");
         // 0 - new db, 1 - db already exist, -1 db error
-        int retStatus = SystemInitStockDB();
+        int retStatus = SysInitStockDB();
 
         if (retStatus >= 0) {
             //// init StockInfo
@@ -1436,7 +1450,7 @@ public class ServiceAFweb {
 
         REMOTE_URL = webConfig.dataSourceURLSystem((DriverManagerDataSource) dataSource);
 
-        SystemSetDataSource(dataSource, REMOTE_URL);
+        SysSetDataSource(dataSource, REMOTE_URL);
 
         setAccountDataSource(dataSource, REMOTE_URL);
 
@@ -1600,7 +1614,7 @@ public class ServiceAFweb {
         try {
             RequestObj reqObj = null;
 
-            reqObj = SystemSQLRequestSystem(sqlObj);
+            reqObj = SysSQLRequestSystem(sqlObj);
             if (reqObj == null) {
                 reqObj = AccSQLRequestCustAcc(sqlObj);
             }
@@ -1684,7 +1698,7 @@ public class ServiceAFweb {
     }
 
     ////////////////////////
-    public String SysRemoteUpdateMySQLList(String SQL) {
+    public String SysUpdateFromRemoteMySQLList(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
         }
@@ -1693,17 +1707,17 @@ public class ServiceAFweb {
         String[] sqlList = st.split("~");
         for (int i = 0; i < sqlList.length; i++) {
             String sqlCmd = sqlList[i];
-            int ret = updateRemoteMYSQL(sqlCmd);
+            int ret = SysUpdateRemoteMYSQL(sqlCmd);
         }
         return ("" + sqlList.length);
     }
 
-    public String SysRemoteUpdateMySQL(String SQL) {
+    public String SysUpdateFromRemoteMySQL(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
             return "";
         }
 
-        return updateRemoteMYSQL(SQL) + "";
+        return SysUpdateRemoteMYSQL(SQL) + "";
     }
 
     public String SysRemoteGetMySQL(String SQL) {
@@ -1711,7 +1725,7 @@ public class ServiceAFweb {
             return "";
         }
 
-        return getRemoteMYSQL(SQL);
+        return SysGetRemoteMYSQL(SQL);
     }
 /////////////////////////////////
     ///// Restore DB need the following
@@ -1767,7 +1781,7 @@ public class ServiceAFweb {
         // make sure the system is stopped first
         retSatus = InfDropStockInfoDB();
         retSatus = NnDropNNdataDB();
-        retSatus = SystemDropStockDB();
+        retSatus = SysDropStockDB();
         return "" + retSatus;
     }
 
@@ -1779,7 +1793,7 @@ public class ServiceAFweb {
         serverObj.setSysMaintenance(true);
         retSatus = InfCleanStockInfoDB();
         retSatus = NnCleanNNdataDB();
-        retSatus = SystemCleanStockDB();
+        retSatus = SysCleanStockDB();
         return "" + retSatus;
     }
 
@@ -1803,62 +1817,6 @@ public class ServiceAFweb {
         result = getAllDisableStockNameList(length);
 
         return result;
-    }
-
-    public int SysCustStatusPaymentBalance(String customername,
-            String statusSt, String paymenttSt, String balanceSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = custAccSrv.getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            ArrayList accountList = getAccountListServ(UserName, null);
-
-            if (accountList == null) {
-                return 0;
-            }
-            AccountObj accountObj = null;
-            for (int i = 0; i < accountList.size(); i++) {
-                AccountObj accountTmp = (AccountObj) accountList.get(i);
-                if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                    accountObj = accountTmp;
-                    break;
-                }
-            }
-            if (accountObj == null) {
-                return 0;
-            }
-
-            int status = -9999;
-            if (statusSt != null) {
-                if (!statusSt.equals("")) {
-                    status = Integer.parseInt(statusSt);
-                }
-            }
-            float payment = -9999;
-            if (paymenttSt != null) {
-                if (!paymenttSt.equals("")) {
-                    payment = Float.parseFloat(paymenttSt);
-                }
-            }
-            float balance = -9999;
-            if (balanceSt != null) {
-                if (!balanceSt.equals("")) {
-                    balance = Float.parseFloat(balanceSt);
-                }
-            }
-            return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);
-
-        } catch (Exception e) {
-        }
-        return 0;
     }
 
 //////////////////////////////helper function
@@ -1887,7 +1845,6 @@ public class ServiceAFweb {
         return nameSt;
     }
 
-  
     public ReferNameData getReferNameData(AFneuralNet nnObj0) {
         ReferNameData refData = new ReferNameData();
         String refName = nnObj0.getRefname();
@@ -1945,39 +1902,38 @@ public class ServiceAFweb {
         return msg;
     }
 
-    ////////////////////////////////
-    ////////////////////////////////    
-    ////////////////////////////////
-    public RequestObj SystemSQLRequestSystem(RequestObj sqlObj) {
-        SystemService sysSrv = new SystemService();
-        RequestObj reqObj = sysSrv.SQLRequestSystem(this, sqlObj);
+    //////////////////////////////////////////////////
+    // SystemService
+    SystemService systemSrv = new SystemService();
+    // SystemService
+    //////////////////////////////////////////////////  
+
+    public RequestObj SysSQLRequestSystem(RequestObj sqlObj) {
+        RequestObj reqObj = systemSrv.SQLRequestSystem(this, sqlObj);
         return reqObj;
     }
 
-    public void SystemSetDataSource(DataSource dataSource, String URL) {
+    public void SysSetDataSource(DataSource dataSource, String URL) {
         systemSrv.setDataSource(dataSource, URL);
     }
 
-    public int SystemInitStockDB() {
+    public int SysInitStockDB() {
         return systemSrv.initStockDB();
     }
 
-    public boolean SystemCleanStockDB() {
+    public boolean SysCleanStockDB() {
         return systemSrv.cleanStockDB();
     }
 
-    public boolean SystemDropStockDB() {
+    public boolean SysDropStockDB() {
         return systemSrv.restStockDB();
     }
 
-//    public boolean cleanNNonlyStockDB() {
-//        return systemSrv.cleanNNonlyStockDB();
-//    }
-    public int updateRemoteMYSQL(String sql) {
+    public int SysUpdateRemoteMYSQL(String sql) {
         return systemSrv.updateRemoteMYSQL(sql);
     }
 
-    public String getRemoteMYSQL(String sql) {
+    public String SysGetRemoteMYSQL(String sql) {
         return systemSrv.getRemoteMYSQL(sql);
     }
 
@@ -2449,6 +2405,15 @@ public class ServiceAFweb {
 
     public void setAccountDataSource(DataSource dataSource, String URL) {
         custAccSrv.setAccountDataSource(dataSource, URL);
+    }
+
+    public CustomerObj getCustomerPasswordNull(String UserName) {
+        return custAccSrv.getCustomerPasswordNull(UserName);
+    }
+
+    public int setCustStatusPaymentBalance(String UserName,
+            int status, float payment, float balance) {
+        return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);
     }
 
     public int updateTransactionOrderSystem(ArrayList transSQL) {

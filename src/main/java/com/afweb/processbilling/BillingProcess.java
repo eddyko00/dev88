@@ -211,7 +211,7 @@ public class BillingProcess {
                 customer.setPayment(0);
 
                 // transaction
-                int result = serviceAFWeb.SysCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
+                int result = SysCustStatusPaymentBalance(serviceAFWeb, customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
 
                 billing.setStatus(ConstantKey.COMPLETED);
 
@@ -250,7 +250,7 @@ public class BillingProcess {
                                 billing.setSubstatus(NO_PAYMENT_2);
 
                                 customer.setStatus(ConstantKey.DISABLE);
-                                int result = serviceAFWeb.SysCustStatusPaymentBalance(customer.getUsername(), customer.getStatus() + "", null, null);
+                                int result = SysCustStatusPaymentBalance(serviceAFWeb, customer.getUsername(), customer.getStatus() + "", null, null);
                                 result = accountImp.updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                                 // send email disable
@@ -502,14 +502,14 @@ public class BillingProcess {
                 billData.setPrevOwn(prevOwning);
                 payment = fInvoice + prevOwning - billData.getCredit();
                 customer.setPayment(payment);
-                result = serviceAFWeb.SysCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+                result = SysCustStatusPaymentBalance(serviceAFWeb, customer.getUsername(), null, customer.getPayment() + "", null);
             } else {
                 // first bill
                 firstBill = true;
                 if (payment == 0) {
                     payment = fInvoice - billData.getCredit();
                     customer.setPayment(payment);
-                    result = serviceAFWeb.SysCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+                    result = SysCustStatusPaymentBalance(serviceAFWeb, customer.getUsername(), null, customer.getPayment() + "", null);
                 }
             }
 
@@ -712,7 +712,60 @@ public class BillingProcess {
         return 0;
     }
 /////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
+
+    public int SysCustStatusPaymentBalance(ServiceAFweb serviceAFWeb, String customername,
+            String statusSt, String paymenttSt, String balanceSt) {
+
+
+        customername = customername.toUpperCase();
+        NameObj nameObj = new NameObj(customername);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = serviceAFWeb.getCustomerPasswordNull(UserName);
+            if (customer == null) {
+                return 0;
+            }
+            ArrayList accountList = serviceAFWeb.getAccountListServ(UserName, null);
+
+            if (accountList == null) {
+                return 0;
+            }
+            AccountObj accountObj = null;
+            for (int i = 0; i < accountList.size(); i++) {
+                AccountObj accountTmp = (AccountObj) accountList.get(i);
+                if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+                    accountObj = accountTmp;
+                    break;
+                }
+            }
+            if (accountObj == null) {
+                return 0;
+            }
+
+            int status = -9999;
+            if (statusSt != null) {
+                if (!statusSt.equals("")) {
+                    status = Integer.parseInt(statusSt);
+                }
+            }
+            float payment = -9999;
+            if (paymenttSt != null) {
+                if (!paymenttSt.equals("")) {
+                    payment = Float.parseFloat(paymenttSt);
+                }
+            }
+            float balance = -9999;
+            if (balanceSt != null) {
+                if (!balanceSt.equals("")) {
+                    balance = Float.parseFloat(balanceSt);
+                }
+            }
+            return serviceAFWeb.setCustStatusPaymentBalance(UserName, status, payment, balance);
+
+        } catch (Exception e) {
+        }
+        return 0;
+    }
 
     //////////////////////////////
 }
