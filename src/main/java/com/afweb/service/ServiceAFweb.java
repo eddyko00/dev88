@@ -1962,21 +1962,13 @@ public class ServiceAFweb {
         return systemSrv.removeLock(name, type);
 
     }
-//////////////////////////////////////////
 
-    public ArrayList getAllRemoveStockNameList(int length) {
-        return systemSrv.getAllRemoveStockNameList(length);
-    }
-
-    public ArrayList getAllDisableStockNameList(int length) {
-        return systemSrv.getAllDisableStockNameList(length);
-    }
-
-    public StringBuffer getInternetScreenPageServ(String url) {
+    //////////////////
+    public StringBuffer SysGetInternetScreenPage(String url) {
         return systemSrv.getInternetScreenPage(url);
     }
 
-    public AFstockObj getRealTimeStockInternetServ(String NormalizeSymbol) {
+    public AFstockObj getRealTimeStockInternet(String NormalizeSymbol) {
         return systemSrv.getRealTimeStockInternet(NormalizeSymbol);
 
     }
@@ -1992,19 +1984,28 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public int updateSQLArrayListServ(ArrayList SQLTran) {
+    public int StoUpdateSQLArrayList(ArrayList SQLTran) {
         if (stockFlag == true) {
             return stockSrv.updateSQLArrayList(this, SQLTran);
         }
         return 0;
     }
+//////////////////////////////////////////
 
-    public String getAllStockDBSQL(String sql) {
-        if (stockFlag == true) {
-            return stockSrv.getAllStockDBSQL(sql);
-        }
-        return "";
+    public ArrayList getAllRemoveStockNameList(int length) {
+        return stockSrv.getAllRemoveStockNameList(length);
     }
+
+    public ArrayList getAllDisableStockNameList(int length) {
+        return stockSrv.getAllDisableStockNameList(length);
+    }
+
+//    public String getAllStockDBSQL(String sql) {
+//        if (stockFlag == true) {
+//            return stockSrv.getAllStockDBSQL(sql);
+//        }
+//        return "";
+//    }
 
     public AFstockObj getStockBySymServ(String symbol) {
         if (stockFlag == true) {
@@ -2393,7 +2394,7 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public void AccDataSource (DataSource dataSource, String URL) {
+    public void AccDataSource(DataSource dataSource, String URL) {
         custAccSrv.setAccountDataSource(dataSource, URL);
     }
 

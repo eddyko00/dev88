@@ -481,7 +481,7 @@ public class FundMgrProcess {
 
     public boolean getGlobeFundStockList(ServiceAFweb serviceAFWeb, String fundURL, ArrayList stockArray, int maxStock) {
 
-        StringBuffer strBuilderFund = serviceAFWeb.getInternetScreenPageServ(fundURL);
+        StringBuffer strBuilderFund = serviceAFWeb.SysGetInternetScreenPage(fundURL);
 
         String str1 = strBuilderFund.toString();
         String str2 = StringTag.replaceAll("&quot;", "", str1);
@@ -521,7 +521,7 @@ public class FundMgrProcess {
                     }
                     stockName = stockName.replace("symbolName:", "");
 
-                    AFstockObj stockObj = serviceAFWeb.getRealTimeStockInternetServ(stockN);
+                    AFstockObj stockObj = serviceAFWeb.getRealTimeStockInternet(stockN);
                     if (stockObj == null) {
                         continue;
                     }

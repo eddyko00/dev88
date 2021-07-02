@@ -41,7 +41,7 @@ public class BackupRestoreImp {
             if (writeSQLArray.size() == 0) {
                 return 1;
             }
-            return serviceAFWeb.updateSQLArrayListServ(writeSQLArray);
+            return serviceAFWeb.StoUpdateSQLArrayList(writeSQLArray);
         } catch (Exception ex) {
             logger.info("> sendRequestObj - exception " + ex);
         }
@@ -87,7 +87,7 @@ public class BackupRestoreImp {
         ArrayList<String> writeSQLArray = new ArrayList();
         String sql = StockDB.createDummytable();
         writeSQLArray.add(sql);
-        return serviceAFWeb.updateSQLArrayListServ(writeSQLArray);
+        return serviceAFWeb.StoUpdateSQLArrayList(writeSQLArray);
 
     }
 

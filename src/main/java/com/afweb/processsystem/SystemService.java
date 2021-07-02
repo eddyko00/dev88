@@ -145,7 +145,6 @@ public class SystemService {
 //    public boolean cleanNNonlyStockDB() {
 //        return stockImp.cleanNNonlyStockDB();
 //    }
-
     public int deleteAllLock() {
         return stockImp.deleteAllLock();
     }
@@ -218,13 +217,6 @@ public class SystemService {
     }
 //////////////////////////////////////////    
 
-    public ArrayList getAllRemoveStockNameList(int length) {
-        return stockImp.getAllRemoveStockNameList(length);
-    }
-
-    public ArrayList getAllDisableStockNameList(int length) {
-        return stockImp.getAllDisableStockNameList(length);
-    }
     public StringBuffer getInternetScreenPage(String url) {
         StockInternetImpDao internet = new StockInternetImpDao();
         return internet.getInternetYahooScreenPage(url);

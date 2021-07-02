@@ -127,7 +127,7 @@ public class TradingSignalProcess {
                     }
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(SQLPerf);
-                    serviceAFWeb.updateSQLArrayListServ(sqlList);
+                    serviceAFWeb.StoUpdateSQLArrayList(sqlList);
                 }
             }
 
@@ -915,7 +915,7 @@ public class TradingSignalProcess {
                     String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(updateSQL);
-                    serviceAFWeb.updateSQLArrayListServ(sqlList);
+                    serviceAFWeb.StoUpdateSQLArrayList(sqlList);
                 }
             }  // loop
         } catch (Exception ex) {
@@ -2874,7 +2874,7 @@ public class TradingSignalProcess {
                         String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
                         ArrayList sqlList = new ArrayList();
                         sqlList.add(sockNameSQL);
-                        serviceAFWeb.updateSQLArrayListServ(sqlList);
+                        serviceAFWeb.StoUpdateSQLArrayList(sqlList);
                         logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
                     }
 
@@ -2925,7 +2925,7 @@ public class TradingSignalProcess {
             String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
             ArrayList sqlList = new ArrayList();
             sqlList.add(sockNameSQL);
-            serviceAFWeb.updateSQLArrayListServ(sqlList);
+            serviceAFWeb.StoUpdateSQLArrayList(sqlList);
             logger.info("updateRealTimeStock " + symbol + " Stock Split cleared");
         }
 

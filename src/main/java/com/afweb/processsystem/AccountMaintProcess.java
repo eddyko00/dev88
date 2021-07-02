@@ -130,7 +130,7 @@ public class AccountMaintProcess {
                         String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
                         ArrayList sqlList = new ArrayList();
                         sqlList.add(sockUpdateSQL);
-                        serviceAFWeb.updateSQLArrayListServ(sqlList);
+                        serviceAFWeb.StoUpdateSQLArrayList(sqlList);
 
                         numCnt++;
                         if (numCnt > 10) {

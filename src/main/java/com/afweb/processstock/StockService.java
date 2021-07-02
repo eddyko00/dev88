@@ -88,6 +88,14 @@ public class StockService {
     public ArrayList getAllSymbolSQL(String sql) {
         return stockImp.getAllSymbolSQL(sql);
     }
+    public ArrayList getAllRemoveStockNameList(int length) {
+        return stockImp.getAllRemoveStockNameList(length);
+    }
+
+    public ArrayList getAllDisableStockNameList(int length) {
+        return stockImp.getAllDisableStockNameList(length);
+    }
+
 
     public ArrayList getStockObjArray(ServiceAFweb serviceAFWeb, int length) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
@@ -188,7 +196,7 @@ public class StockService {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
-        AFstockObj stockRT = serviceAFWeb.getRealTimeStockInternetServ(NormalizeSymbol);
+        AFstockObj stockRT = serviceAFWeb.getRealTimeStockInternet(NormalizeSymbol);
         if (stockRT == null) {
             return 0;
         }
