@@ -62,7 +62,7 @@ public class SystemMaintProcess {
                         logger.info("updateStockFile not found " + nnFileName);
                         return;
                     }
-                    serviceAFWeb.removeStockInfoServ(sym);
+                    serviceAFWeb.InfRemoveStockInfo(sym);
 
                     // update file
                     retBoolean = serviceAFWeb.SysUpdateStockFileServ(serviceAFWeb, sym);

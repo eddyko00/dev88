@@ -657,7 +657,7 @@ public class ServiceAFweb {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);
                 ProcessAllAccountTradingSignal(this);
             } else if (cmd.equals("updatestock")) {
-                updateAllStockInfoSrv();
+                InfUpdateAllStockInfo();
             } else if (cmd.equals("debugtest")) {
                 debugtest();
             }
@@ -689,10 +689,10 @@ public class ServiceAFweb {
 //            logger.info("> processTimer " + getServerObj().getProcessTimerCnt());
             if (getEnv.checkLocalPC() == true) {
                 if (CKey.NN_DEBUG == true) {
-                    updateAllStockInfoSrv();
+                    InfUpdateAllStockInfo();
                     accountTranP.ProcessAdminSignalTrading(this);
                     ProcessAllAccountTradingSignal(this);
-                    updateAllStockInfoSrv();
+                    InfUpdateAllStockInfo();
 
                 }
             }
@@ -730,7 +730,7 @@ public class ServiceAFweb {
             maintProcess.ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-            updateAllStockInfoSrv();
+            InfUpdateAllStockInfo();
 
             ProcessNeuralNetDataTrain(this);
 //            
@@ -739,13 +739,13 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
-            updateAllStockInfoSrv();
+            InfUpdateAllStockInfo();
 
             ProcessAdminSignalTrading(this);
             ProcessAdminAddRemoveStock(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-            updateAllStockInfoSrv();
+            InfUpdateAllStockInfo();
             ProcessAllAccountTradingSignal(this);
             ProcessAdminAddRemoveStock(this);
 
@@ -2185,14 +2185,14 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int removeStockInfoServ(String symbol) {
+    public int InfRemoveStockInfo(String symbol) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.removeStockInfo(this, symbol);
         }
         return 0;
     }
 
-    public int updateAllStockInfoSrv() {
+    public int InfUpdateAllStockInfo() {
         if (stockInfoFlag == true) {
             return stockInfoSrv.updateAllStockInfo(this);
         }
@@ -3330,7 +3330,7 @@ public class ServiceAFweb {
             return false;
         }
 
-        serviceAFWeb.removeStockInfoServ(NormalizeSymbol);
+        serviceAFWeb.InfRemoveStockInfo(NormalizeSymbol);
 
         ArrayList<AFstockInfo> StockArray = new ArrayList();
         boolean ret = FileUtil.FileReadTextArray(nnFileName, inputArray);

@@ -620,7 +620,7 @@ public class NNetService {
                 accountTranP.ProcessAdminSignalTrading(serviceAFWeb);
 
                 serviceAFWeb.ProcessAllAccountTradingSignal(serviceAFWeb);
-                serviceAFWeb.updateAllStockInfoSrv();
+                serviceAFWeb.InfUpdateAllStockInfo();
                 logger.info("> processNNSignalAdmin end... cycle " + k);
             }
 ////////////////////////////////////////////////////////////////////////////

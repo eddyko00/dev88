@@ -122,7 +122,7 @@ public class AccountMaintProcess {
 
                     for (int i = 0; i < stockNDisableList.size(); i++) {
                         String symbol = (String) stockNDisableList.get(i);
-                        serviceAFWeb.removeStockInfoServ(symbol);
+                        serviceAFWeb.InfRemoveStockInfo(symbol);
 
                         AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                         stock.setStatus(ConstantKey.COMPLETED);
