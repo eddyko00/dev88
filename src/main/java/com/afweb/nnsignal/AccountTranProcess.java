@@ -226,7 +226,7 @@ public class AccountTranProcess {
                     String accountIdSt = (String) accountFundIdNameArray.get(0);
                     accountFundIdNameArray.remove(0);
                     int accountId = Integer.parseInt(accountIdSt);
-                    AccountObj accountObj = serviceAFWeb.getAccountObjByAccountIDSystem(accountId);
+                    AccountObj accountObj = serviceAFWeb.AccGetAccountObjByAccountIDServ(accountId);
                     if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                         ProcessTradingAccountUpdate(serviceAFWeb, accountObj);
                         ProcessFundAccountUpdate(serviceAFWeb, accountObj, true);
@@ -255,7 +255,7 @@ public class AccountTranProcess {
             fundMgr = new FundM();
             try {
                 String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
-                serviceAFWeb.updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                serviceAFWeb.AccUpdateAccountPortfolio(accountObj.getAccountname(), portfStr);
             } catch (JsonProcessingException ex) {
             }
         }
@@ -436,7 +436,7 @@ public class AccountTranProcess {
                     float investment = accObj.getInvestment();
                     float balance = accObj.getBalance();
                     float servicefee = investment + balance;
-                    serviceAFWeb.updateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
+                    serviceAFWeb.AccUpdateAccountStatusByAccountID(accObj.getId(), substatus, investment, balance, servicefee);
                 } catch (Exception e) {
                 }
             }
@@ -461,7 +461,7 @@ public class AccountTranProcess {
             fundMgr = new FundM();
             try {
                 String portfStr = new ObjectMapper().writeValueAsString(fundMgr);
-                serviceAFWeb.updateAccountPortfolio(accountObj.getAccountname(), portfStr);
+                serviceAFWeb.AccUpdateAccountPortfolio(accountObj.getAccountname(), portfStr);
             } catch (JsonProcessingException ex) {
             }
         }
@@ -653,7 +653,7 @@ public class AccountTranProcess {
                     continue;
                 }
 //                logger.info("> ProcessAllAccountTradingSignal id " + accountId);
-                AccountObj accountObj = serviceAFWeb.getAccountObjByAccountIDSystem(accountId);
+                AccountObj accountObj = serviceAFWeb.AccGetAccountObjByAccountIDServ(accountId);
                 if (accountObj == null) {
                     continue;
                 }

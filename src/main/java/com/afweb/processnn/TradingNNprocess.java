@@ -223,7 +223,7 @@ public class TradingNNprocess {
             for (int j = 0; j < accNameArray.size(); j++) {
                 String accIdSt = (String) accNameArray.get(j);
                 int accountId = Integer.parseInt(accIdSt);
-                AccountObj accObj = serviceAFWeb.getAccountObjByAccountIDSystem(accountId);
+                AccountObj accObj = serviceAFWeb.AccGetAccountObjByAccountIDServ(accountId);
                 if (accObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
                     continue;
                 }

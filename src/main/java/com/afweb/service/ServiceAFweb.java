@@ -1436,11 +1436,11 @@ public class ServiceAFweb {
 
         REMOTE_URL = webConfig.dataSourceURLSystem((DriverManagerDataSource) dataSource);
 
-        setDataSource(dataSource, REMOTE_URL);
+        SystemSetDataSource(dataSource, REMOTE_URL);
 
         setAccountDataSource(dataSource, REMOTE_URL);
 
-        setStockInfoDataSource(dataSource, REMOTE_URL);
+        InfSetDataSource(dataSource, REMOTE_URL);
 
         setNNDataDataSource(dataSource, REMOTE_URL);
 ////////////////////////////////////////
@@ -1954,7 +1954,7 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public void setDataSource(DataSource dataSource, String URL) {
+    public void SystemSetDataSource(DataSource dataSource, String URL) {
         systemSrv.setDataSource(dataSource, URL);
     }
 
@@ -2302,7 +2302,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public void setStockInfoDataSource(DataSource dataSource, String URL) {
+    public void InfSetDataSource(DataSource dataSource, String URL) {
         if (stockInfoFlag == true) {
             stockInfoSrv.setStockInfoDataSource(dataSource, URL);
         }
@@ -2580,11 +2580,11 @@ public class ServiceAFweb {
         return custAccSrv.getCustomerByAccount(accountObj);
     }
 
-    public ArrayList<CustomerObj> getCustomerByType(int type) {
+    public ArrayList<CustomerObj> AccGetCustomerByType(int type) {
         return custAccSrv.getCustomerByType(type);
     }
 
-    public AccountObj getAccountObjByAccountIDSystem(int accountID) {
+    public AccountObj AccGetAccountObjByAccountIDServ(int accountID) {
         return custAccSrv.getAccountObjByAccountID(accountID);
     }
 
@@ -2613,11 +2613,11 @@ public class ServiceAFweb {
 //        }
 //        return custAccSrv.getAccountObjByAccountID(accountId);
 //    }
-    public int updateAccountPortfolio(String accountName, String portfolio) {
+    public int AccUpdateAccountPortfolio(String accountName, String portfolio) {
         return custAccSrv.updateAccountPortfolio(accountName, portfolio);
     }
 
-    public int updateAccountStatusByAccountID(int accountID,
+    public int AccUpdateAccountStatusByAccountID(int accountID,
             int substatus, float investment, float balance, float servicefee) {
         return custAccSrv.updateAccountStatusByAccountID(accountID, substatus, investment, balance, servicefee);
     }

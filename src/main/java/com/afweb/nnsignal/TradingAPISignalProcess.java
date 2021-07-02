@@ -38,7 +38,7 @@ public class TradingAPISignalProcess {
         if (stockSignalNameArray != null && stockSignalNameArray.size() > 0) {
             return stockSignalNameArray;
         }
-        ArrayList<CustomerObj> custList = serviceAFWeb.getCustomerByType(CustomerObj.INT_API_USER);
+        ArrayList<CustomerObj> custList = serviceAFWeb.AccGetCustomerByType(CustomerObj.INT_API_USER);
         if (custList == null) {
             return stockSignalNameArray;
         }
