@@ -236,7 +236,7 @@ public class AccountMaintProcess {
         if (accountAdminObj == null) {
             return;
         }
-        ArrayList StockNameList = serviceAFWeb.getAllOpenStockNameServ();
+        ArrayList StockNameList = serviceAFWeb.StoGetAllOpenStockNameServ();
 
         if (StockNameList == null) {
             return;
@@ -274,7 +274,7 @@ public class AccountMaintProcess {
             return;
         }
 
-        ArrayList StockNameList = serviceAFWeb.getAllOpenStockNameServ();
+        ArrayList StockNameList = serviceAFWeb.StoGetAllOpenStockNameServ();
 
         if (StockNameList == null) {
             return;

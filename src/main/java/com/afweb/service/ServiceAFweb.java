@@ -1794,7 +1794,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = getAllRemoveStockNameList(length);
+        result = StoGetAllRemoveStockNameList(length);
 
         return result;
     }
@@ -1804,7 +1804,7 @@ public class ServiceAFweb {
         if (getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        result = getAllDisableStockNameList(length);
+        result = StoGetAllDisableStockNameList(length);
 
         return result;
     }
@@ -1992,20 +1992,27 @@ public class ServiceAFweb {
     }
 //////////////////////////////////////////
 
-    public ArrayList<String> getAllRemoveStockNameList(int length) {
+    public ArrayList<String> StoGetAllRemoveStockNameList(int length) {
         return stockSrv.getAllRemoveStockNameList(length);
     }
 
-    public ArrayList<String> getAllDisableStockNameList(int length) {
+    public ArrayList<String> StoGetAllDisableStockNameList(int length) {
         return stockSrv.getAllDisableStockNameList(length);
     }
 
+    public ArrayList<String> StoGetAllOpenStockNameServ() {
+        if (stockFlag == true) {
+            return stockSrv.getAllOpenStockNameArray(this);
+        }
+        return null;
+    }
 //    public String getAllStockDBSQL(String sql) {
 //        if (stockFlag == true) {
 //            return stockSrv.getAllStockDBSQL(sql);
 //        }
 //        return "";
 //    }
+
     public AFstockObj StoGetStockObjBySym(String symbol) {
         if (stockFlag == true) {
             return stockSrv.getStockByName(this, symbol);
@@ -2079,13 +2086,6 @@ public class ServiceAFweb {
             return stockSrv.updateStockStatusDB(stock);
         }
         return 0;
-    }
-
-    public ArrayList<String> getAllOpenStockNameServ() {
-        if (stockFlag == true) {
-            return stockSrv.getAllOpenStockNameArray(this);
-        }
-        return null;
     }
 
     //////////////////////////////////////////
