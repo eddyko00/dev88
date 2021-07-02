@@ -149,7 +149,7 @@ public class AccountMaintProcess {
         ServiceAFweb.lastfun = "ProcessCustomerRemoveMaintance";
 //        logger.info(">>>>>>>>>>>>>> ProcessCustomerRemoveMaintance " + acTimerCnt);
         // reomve customer with no activity in 4 days        
-        ArrayList custList = serviceAFWeb.getExpiredCustomerListServ(0);
+        ArrayList custList = serviceAFWeb.AccGetExpiredCustomerList(0);
         if (custList == null) {
             return;
         }
@@ -167,7 +167,7 @@ public class AccountMaintProcess {
             if (custObj.getUpdatedatel() < cust15DayAgo) {
 
                 //remove customer
-                serviceAFWeb.removeCustomerServ(custObj.getUsername());
+                serviceAFWeb.AccRemoveCustomer(custObj.getUsername());
 
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);

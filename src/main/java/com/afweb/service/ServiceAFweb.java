@@ -629,13 +629,13 @@ public class ServiceAFweb {
 
                     boolean fundMgrFlag = false;
                     if (fundMgrFlag == true) {
-                        SystemFundResetGlobalServ();
+                        AccFundResetGlobal();
                     }
 // use /cust/{username}/sys/processfundmgr                    }
 // Fund Manger only do once a month   
                     boolean fundFlag = false;
                     if (fundFlag == true) {
-                        SystemFundPocessAddRemoveServ();
+                        AccFundPocessAddRemove();
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -723,7 +723,7 @@ public class ServiceAFweb {
         if ((getServerObj().getProcessTimerCnt() % 11) == 0) {
             // add or remove stock in Mutual fund account based on all stocks in the system
             System.gc();
-            SystemFundPocessAddRemoveServ();
+            AccFundPocessAddRemove();
 //            ProcessAddRemoveFundAccount(this);
 
             AccountMaintProcess maintProcess = new AccountMaintProcess();
@@ -2840,7 +2840,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public int getAccountStockTRListHistoryDisplayProcessServ(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
+    public int AccGetAccountStockTRListHistoryDisplayProc(ArrayList<StockTRHistoryObj> trObjList, ArrayList<String> writeArray, ArrayList<String> displayArray) {
         if (custAccFlag == true) {
             return custAccSrv.getAccountStockTRListHistoryDisplayProcess(trObjList, writeArray, displayArray);
         }
@@ -2848,7 +2848,7 @@ public class ServiceAFweb {
     }
 
 //    //only on type=" + CustomerObj.INT_CLIENT_BASIC_USER;
-    public ArrayList getExpiredCustomerListServ(int length) {
+    public ArrayList AccGetExpiredCustomerList(int length) {
         if (custAccFlag == true) {
             return custAccSrv.getExpiredCustomerList(this, length);
         }
@@ -2856,28 +2856,28 @@ public class ServiceAFweb {
     }
 //    // need ConstantKey.DISABLE status beofore remove customer
 
-    public int removeCustomerServ(String EmailUserName) {
+    public int AccRemoveCustomer(String EmailUserName) {
         if (custAccFlag == true) {
             return custAccSrv.removeCustomer(this, EmailUserName);
         }
         return 0;
     }
 
-    public boolean SystemFundResetGlobalServ() {
+    public boolean AccFundResetGlobal() {
         if (custAccFlag == true) {
             return custAccSrv.SystemFundResetGlobal(this);
         }
         return false;
     }
 
-    public boolean SystemFundSelectBestServ() {
+    public boolean AccFundSelectBest() {
         if (custAccFlag == true) {
             return custAccSrv.SystemFundSelectBest(this);
         }
         return false;
     }
 
-    public boolean SystemFundPocessAddRemoveServ() {
+    public boolean AccFundPocessAddRemove() {
         if (custAccFlag == true) {
             return custAccSrv.SystemFundPocessAddRemove(this);
         }

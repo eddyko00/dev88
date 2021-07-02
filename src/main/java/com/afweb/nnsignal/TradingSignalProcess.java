@@ -856,7 +856,7 @@ public class TradingSignalProcess {
                             if (flag == true) {
                                 ArrayList<String> writeArray = new ArrayList();
                                 ArrayList<String> displayArray = new ArrayList();
-                                int ret = serviceAFWeb.getAccountStockTRListHistoryDisplayProcessServ(trHistoryList, writeArray, displayArray);
+                                int ret = serviceAFWeb.AccGetAccountStockTRListHistoryDisplayProc(trHistoryList, writeArray, displayArray);
                                 if (ret == 1) {
                                     FileUtil.FileWriteTextArray(serviceAFWeb.FileLocalDebugPath + symbol + "_predict_tran.csv", writeArray);
                                 }
