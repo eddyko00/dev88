@@ -202,7 +202,7 @@ public class AccountMaintProcess {
         logger.info(">>>>> ProcessAllLockCleanup " + acTimerCnt);
         // clean up old lock name
         // clean Lock entry pass 30 min
-        ArrayList<AFLockObject> lockArray = serviceAFWeb.getAllLock();
+        ArrayList<AFLockObject> lockArray = serviceAFWeb.SysGetAllLock();
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         int numCnt = 0;
         if (lockArray != null) {

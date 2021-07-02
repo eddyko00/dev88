@@ -530,7 +530,7 @@ public class ControllerAFweb {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
-                    ArrayList result = afWebService.getAllLock();
+                    ArrayList result = afWebService.SysGetAllLock();
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                     return result;
                 }
@@ -548,7 +548,7 @@ public class ControllerAFweb {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                ArrayList result = afWebService.getAllLock();
+                ArrayList result = afWebService.SysGetAllLock();
                 return result;
             }
         }
@@ -556,7 +556,7 @@ public class ControllerAFweb {
         CustomerObj cust = afWebService.getCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                ArrayList result = afWebService.getAllLock();
+                ArrayList result = afWebService.SysGetAllLock();
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -576,7 +576,7 @@ public class ControllerAFweb {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int locktype = Integer.parseInt(type);
-                AFLockObject result = afWebService.getLockName(lockname, locktype);
+                AFLockObject result = afWebService.SysGetLockName(lockname, locktype);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -597,7 +597,7 @@ public class ControllerAFweb {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int locktype = Integer.parseInt(type);
-                int result = afWebService.setRenewLock(name, locktype);
+                int result = afWebService.SysRenewLock(name, locktype);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
@@ -621,7 +621,7 @@ public class ControllerAFweb {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int locktype = Integer.parseInt(type);
                 long lockdatel = Long.parseLong(lockdate);
-                int result = afWebService.setLockName(name, locktype, lockdatel, comment);
+                int result = afWebService.SysSetLockName(name, locktype, lockdatel, comment);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }

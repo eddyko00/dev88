@@ -711,7 +711,7 @@ public class ServiceAFweb {
 
         ////////////
         if (((getServerObj().getProcessTimerCnt() % 29) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
-            long result = setRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
+            long result = SysRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
             if (result == 0) {
                 Calendar dateNow1 = TimeConvertion.getCurrentCalendar();
                 long lockDateValue1 = dateNow1.getTimeInMillis();
@@ -1379,7 +1379,7 @@ public class ServiceAFweb {
             //// init StockInfo
             InfInitStockInfoDB();
 
-            initNNetDataDB();
+            NnInitDBNNet();
 
             logger.info(">InitDB Customer account ");
             CustomerObj newCustomer = new CustomerObj();
@@ -1456,7 +1456,7 @@ public class ServiceAFweb {
 
         InfSetDataSource(dataSource, REMOTE_URL);
 
-        setNNDataDataSource(dataSource, REMOTE_URL);
+        NnDataSourceNNnet(dataSource, REMOTE_URL);
 ////////////////////////////////////////
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);
@@ -1641,16 +1641,16 @@ public class ServiceAFweb {
 /////////////////////////////////////////////
     public String SysClearLock() {
         int retSatus = 0;
-        retSatus = SystemDeleteAllLock();
+        retSatus = SysDeleteAllLock();
         return "" + retSatus;
     }
 
     ////////////////////////////////////////////
     public int SysSetLockName(String name, int type, long lockdatel, String comment) {
-        int resultLock = setLockName(name, type, lockdatel, comment);
+        int resultLock = SysSetLockNameSystem(name, type, lockdatel, comment);
         // DB will enusre the name in the lock is unique and s
         AFRandomDelayMilSec(200);
-        AFLockObject lock = getLockName(name, type);
+        AFLockObject lock = SysGetLockName(name, type);
         if (lock != null) {
             if (lock.getLockdatel() == lockdatel) {
                 return 1;
@@ -1928,33 +1928,33 @@ public class ServiceAFweb {
     }
 
 ///////////////////////////////////////
-    public int SystemDeleteAllLock() {
+    public int SysDeleteAllLock() {
         return systemSrv.deleteAllLock();
     }
 
-    public ArrayList<String> getAllIdSQLServ(String sql) {
+    public ArrayList<String> SysGetAllIdSQLServ(String sql) {
         return systemSrv.getAllIdSQL(sql);
     }
 
-    public String getAllLockDBSQL(String sql) {
+    public String SysGetAllLockDBSQL(String sql) {
         return systemSrv.getAllLockDBSQL(sql);
     }
 
-    public ArrayList getAllLock() {
+    public ArrayList SysGetAllLock() {
         ArrayList result = null;
         result = systemSrv.getAllLock();
         return result;
     }
 
-    public int setRenewLock(String name, int type) {
+    public int SysRenewLock(String name, int type) {
         return systemSrv.setRenewLock(name, type);
     }
 
-    public AFLockObject getLockName(String name, int type) {
+    public AFLockObject SysGetLockName(String name, int type) {
         return systemSrv.getLockName(name, type);
     }
 
-    public int setLockName(String name, int type, long lockdatel, String comment) {
+    public int SysSetLockNameSystem(String name, int type, long lockdatel, String comment) {
         return systemSrv.setLockName(name, type, lockdatel, comment);
     }
 
@@ -2347,20 +2347,20 @@ public class ServiceAFweb {
         }
     }
 
-    public void setNNDataDataSource(DataSource dataSource, String URL) {
+    public void NnDataSourceNNnet(DataSource dataSource, String URL) {
         if (nnFlag == true) {
             nnSrv.setNNDataDataSource(dataSource, URL);
         }
     }
 
-    public int initNNetDataDB() {
+    public int NnInitDBNNet() {
         if (nnFlag == true) {
             return nnSrv.initNNetDataDB(this);
         }
         return 0;
     }
 
-    public int updateSQLNNArrayListServ(ArrayList SQLTran) {
+    public int NnUpdateSQLArrayListServ(ArrayList SQLTran) {
         if (nnFlag == true) {
             return nnSrv.updateSQLNNArrayList(this, SQLTran);
         }

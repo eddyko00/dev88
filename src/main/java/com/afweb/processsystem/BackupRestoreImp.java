@@ -1207,7 +1207,7 @@ public class BackupRestoreImp {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllId + "");
             String sql = "select id from " + table + " order by id asc";
-            return serviceAFWeb.getAllIdSQLServ(sql);
+            return serviceAFWeb.SysGetAllIdSQLServ(sql);
 
 //            sqlObj.setReq(sql);
 //

@@ -35,7 +35,7 @@ public class BackupRestoreNN {
             if (writeSQLArray.size() == 0) {
                 return 1;
             }
-            return serviceAFWeb.updateSQLNNArrayListServ(writeSQLArray);
+            return serviceAFWeb.NnUpdateSQLArrayListServ(writeSQLArray);
 
         } catch (Exception ex) {
             logger.info("> sendRequestObj - exception " + ex);
