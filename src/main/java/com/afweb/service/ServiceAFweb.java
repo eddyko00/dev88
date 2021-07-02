@@ -2113,7 +2113,7 @@ public class ServiceAFweb {
     }
 
     // Heuoku cannot get the date of the first stockinfo????
-    public ArrayList<AFstockInfo> getStockInfo_workaroundServ(AFstockObj stock, int length, Calendar dateNow) {
+    public ArrayList<AFstockInfo> StoGetStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
         if (stockInfoFlag == true) {
             if (stock == null) {
                 return null;
