@@ -42,9 +42,9 @@ public class AccountTranImp {
         }
 //        logger.info("> updateTradingsignal " + symbol + " " + accountObj.getAccountname());
         // update Trading signal
-        ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.getAccountStockTRListByAccIdSymbolSystem(accountAdminObj.getId(), symbol);
+        ArrayList<TradingRuleObj> tradingRuleAdminList = serviceAFWeb.AccGetAccountStockTRListByAccIdSym(accountAdminObj.getId(), symbol);
 
-        ArrayList<TradingRuleObj> tradingRuleList = serviceAFWeb.getAccountStockTRListByAccIdSymbolSystem(accountObj.getId(), symbol);
+        ArrayList<TradingRuleObj> tradingRuleList = serviceAFWeb.AccGetAccountStockTRListByAccIdSym(accountObj.getId(), symbol);
 
         if ((tradingRuleList == null) || (tradingRuleAdminList == null)) {
             return;
@@ -225,7 +225,7 @@ public class AccountTranImp {
         if (flag == true) {
             // get trading account. Follow the signal from the trading account
             AccountObj accTrading = null;
-            ArrayList<AccountObj> accountList = serviceAFWeb.getAccountListByCustomerId(accFundObj.getCustomerid());
+            ArrayList<AccountObj> accountList = serviceAFWeb.AccGetAccountListByCustomerId(accFundObj.getCustomerid());
             if (accountList != null) {
                 for (int i = 0; i < accountList.size(); i++) {
                     AccountObj acc = accountList.get(i);
@@ -237,7 +237,7 @@ public class AccountTranImp {
             }
             if (accTrading != null) {
                 int stockId = trFundACCObj.getStockid();
-                TradingRuleObj trTradingA = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accTrading.getId(), stockId, ConstantKey.TR_ACC);
+                TradingRuleObj trTradingA = serviceAFWeb.AccGetAccountStockIDByTRStockID(accTrading.getId(), stockId, ConstantKey.TR_ACC);
                 int newTsSig = trTradingA.getTrsignal();
                 long newUpdatedatel = trTradingA.getUpdatedatel();
                 int tsSig = trFundACCObj.getTrsignal();
@@ -307,7 +307,7 @@ public class AccountTranImp {
                     return;
                 }
             }
-            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+            TradingRuleObj trObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), ConstantKey.TR_ACC);
 
             if (trObj == null) {
                 return;
@@ -410,7 +410,7 @@ public class AccountTranImp {
 
         int ret = AddTransactionOrder(serviceAFWeb, accountObj, stock, trName, tranSignal, null, false);
         if (ret == 1) {
-            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountObj.getId(), stock.getId(), trName);
+            TradingRuleObj trObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
 
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
@@ -456,7 +456,7 @@ public class AccountTranImp {
 //                }
 //            }
             ArrayList<TransationOrderObj> currTranOrderList = serviceAFWeb.getAccountStockTransListSystem(accountObj.getId(), stock.getId(), trName, 1);
-            TradingRuleObj tradingRuleObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountObj.getId(), stock.getId(), trName);
+            TradingRuleObj tradingRuleObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accountObj.getId(), stock.getId(), trName);
 
             ArrayList transObjList = AddTransactionOrderProcess(currTranOrderList, tradingRuleObj, accountObj, stock, trName, tranSignal, tranDate, fromSystem);
 

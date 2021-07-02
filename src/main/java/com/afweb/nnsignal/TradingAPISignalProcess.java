@@ -149,7 +149,7 @@ public class TradingAPISignalProcess {
                         boolean ret = this.checkStock(serviceAFWeb, symbol);
                         if (ret == true) {
 
-                            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
+                            TradingRuleObj trObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
                             if (trObj != null) {
                                 AccountTranImp accountTran = new AccountTranImp();
                                 accountTran.updateTradingsignal(serviceAFWeb, accountAdminObj, accountObj, symbol);

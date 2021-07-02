@@ -127,7 +127,7 @@ public class AccountTranProcess {
                         boolean ret = serviceAFWeb.StoCheckStockValidServ(serviceAFWeb, symbol);
                         if (ret == true) {
 
-                            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
+                            TradingRuleObj trObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
                             if (trObj != null) {
                                 long lastUpdate = trObj.getUpdatedatel();
                                 long lastUpdate5Min = TimeConvertion.addMinutes(lastUpdate, 5);
@@ -262,7 +262,7 @@ public class AccountTranProcess {
 
         ArrayList portAccArray = fundMgr.getAccL();
 
-        ArrayList accountList = serviceAFWeb.getAccountListByCustomerId(accountObj.getCustomerid());
+        ArrayList accountList = serviceAFWeb.AccGetAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
             return 0;
         }
@@ -311,7 +311,7 @@ public class AccountTranProcess {
                         continue;
                     }
                     float curPrice = stock.getAfstockInfo().getFclose();
-                    TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+                    TradingRuleObj trObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
                     if (trObj == null) {
                         continue;
                     }
@@ -348,7 +348,7 @@ public class AccountTranProcess {
                         if (notRemoveFlag == true) {
 
                             String trName = ConstantKey.TR_ACC;
-                            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accObj.getId(), stock.getId(), trName);
+                            TradingRuleObj trObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accObj.getId(), stock.getId(), trName);
                             // need to get the latest TR object after the SystemAddTransactionOrder
                             if (trObj.getStatus() != ConstantKey.PENDING) {
                                 trObj.setStatus(ConstantKey.PENDING);
@@ -376,7 +376,7 @@ public class AccountTranProcess {
 
                         int signal = ConstantKey.S_NEUTRAL;
                         String trName = ConstantKey.TR_ACC;
-                        TradingRuleObj tradingRuleObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accObj.getId(), stock.getId(), trName);
+                        TradingRuleObj tradingRuleObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accObj.getId(), stock.getId(), trName);
                         int curSignal = tradingRuleObj.getTrsignal();
 
                         boolean updateTran = true;
@@ -397,7 +397,7 @@ public class AccountTranProcess {
 
                             //////calcuate performance
                             float curPrice = stock.getAfstockInfo().getFclose();
-                            TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
+                            TradingRuleObj trObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accObj.getId(), stock.getId(), ConstantKey.TR_ACC);
 
                             float sharebalance = 0;
                             if (trObj.getTrsignal() == ConstantKey.S_BUY) {
@@ -468,7 +468,7 @@ public class AccountTranProcess {
 
         ArrayList portfolioArray = fundMgr.getFunL();
 
-        ArrayList accountList = serviceAFWeb.getAccountListByCustomerId(accountObj.getCustomerid());
+        ArrayList accountList = serviceAFWeb.AccGetAccountListByCustomerId(accountObj.getCustomerid());
         if (accountList == null) {
             return 0;
         }

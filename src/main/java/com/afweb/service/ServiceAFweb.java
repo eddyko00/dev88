@@ -2480,7 +2480,7 @@ public class ServiceAFweb {
         return custAccSrv.checkTRListByStockID(StockID);
     }
 
-    public ArrayList<TradingRuleObj> getAccountStockTRListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
+    public ArrayList<TradingRuleObj> AccGetAccountStockTRListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol) {
         return custAccSrv.getAccountStockTRListByAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt, stockidsymbol);
     }
 
@@ -2577,11 +2577,11 @@ public class ServiceAFweb {
         return custAccSrv.updateAccountStatusByAccountID(accountID, substatus, investment, balance, servicefee);
     }
 
-    public ArrayList<AccountObj> getAccountListByCustomerId(int custId) {
+    public ArrayList<AccountObj> AccGetAccountListByCustomerId(int custId) {
         return custAccSrv.getAccountListByCustomerId(custId);
     }
 
-    public TradingRuleObj getAccountStockIDByTRStockIDSystem(int accountID, int stockID, String trName) {
+    public TradingRuleObj AccGetAccountStockIDByTRStockID(int accountID, int stockID, String trName) {
         // not sure why it does not work in Open shift but work local
         return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
     }
@@ -2618,7 +2618,7 @@ public class ServiceAFweb {
 //        return custAccSrv.getAccountStockIDByTRStockID(accountID, stockID, trName);
 //    }
 
-    public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdSymbolSystem(int accountId, String symbol) {
+    public ArrayList<TradingRuleObj> AccGetAccountStockTRListByAccIdSym(int accountId, String symbol) {
         AFstockObj stock = StoGetStockObjBySym(symbol);
         return getAccountStockTRListByAccIdStockIdSystem(accountId, stock.getId());
     }
