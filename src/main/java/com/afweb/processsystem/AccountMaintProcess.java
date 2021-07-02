@@ -79,7 +79,7 @@ public class AccountMaintProcess {
                 commSrv.removeAllCommBy1Month(serviceAFWeb);
             }
         }
-        serviceAFWeb.SysRemoveNameLock(LockName, ConstantKey.ACC_LOCKTYPE);
+        serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.ACC_LOCKTYPE);
 
     }
     //////////////////////////////////////////////
@@ -202,7 +202,7 @@ public class AccountMaintProcess {
         logger.info(">>>>> ProcessAllLockCleanup " + acTimerCnt);
         // clean up old lock name
         // clean Lock entry pass 30 min
-        ArrayList<AFLockObject> lockArray = serviceAFWeb.SysGetAllLock();
+        ArrayList<AFLockObject> lockArray = serviceAFWeb.SysLockGetAll();
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         int numCnt = 0;
         if (lockArray != null) {
@@ -216,7 +216,7 @@ public class AccountMaintProcess {
                     lastUpdateAdd30 = TimeConvertion.addMinutes(lastUpdate, StockDB.MaxMinuteAdminSignalTrading); // remove lock for 90min
                 }
                 if (lastUpdateAdd30 < dateNow.getTimeInMillis()) {
-                    serviceAFWeb.SysRemoveNameLock(lockObj.getLockname(), lockObj.getType());
+                    serviceAFWeb.SysLockRemoveName(lockObj.getLockname(), lockObj.getType());
                     numCnt++;
                     if (numCnt > 10) {
                         break;
