@@ -695,7 +695,7 @@ public class ControllerAFweb {
         msg.setResultID(ConstantKey.ENABLE);
 
         //process timer handler
-        int timerCnt = afWebService.timerHandler(resttimerMsg);
+        int timerCnt = afWebService.AFtimerHandler(resttimerMsg);
 
         msg.setResponse("timerCnt " + timerCnt);
         return msg;
@@ -719,7 +719,7 @@ public class ControllerAFweb {
                     msg.setResultID(ConstantKey.ENABLE);
 
                     //process timer handler
-                    int timerCnt = afWebService.timerHandler("starttimer");
+                    int timerCnt = afWebService.AFtimerHandler("starttimer");
 
                     msg.setResponse("timerCnt " + timerCnt);
                     ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
@@ -750,7 +750,7 @@ public class ControllerAFweb {
         msg.setResultID(ConstantKey.ENABLE);
 
         //process timer handler
-        int timerCnt = afWebService.timerThread();
+        int timerCnt = afWebService.AFtimerThread();
 
         msg.setResponse("timerCnt " + timerCnt);
 

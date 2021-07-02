@@ -210,7 +210,7 @@ public class ServiceAFweb {
         return serverObjList;
     }
 
-    public int timerThread() {
+    public int AFtimerThread() {
 
         if (timerThreadDateValue > 0) {
             long currentTime = System.currentTimeMillis();
@@ -224,7 +224,7 @@ public class ServiceAFweb {
 //            while (true) {
             Thread.sleep(10 * 100);
             timerThreadDateValue = System.currentTimeMillis();
-            timerHandler("");
+            AFtimerHandler("");
 //            }
         } catch (Exception ex) {
             logger.info("> timerThread Exception" + ex.getMessage());
@@ -234,7 +234,7 @@ public class ServiceAFweb {
     }
 
     //Repeat every 10 seconds
-    public int timerHandler(String timerThreadMsg) {
+    public int AFtimerHandler(String timerThreadMsg) {
         // too much log
 //        logger.info("> timerHandler " + timerThreadMsg);
 
@@ -369,7 +369,7 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 logger.info(displayStr);
 
-                boolean retFlag = backupRestoreSystem();
+                boolean retFlag = AFbackupRestoreSystem();
                 if (retFlag == true) {
                     // backup or restore is done
                     logger.info(">>>>>>> backupRestoreSystem done.........");
@@ -438,7 +438,7 @@ public class ServiceAFweb {
         return getServerObj().getTimerCnt();
     }
 
-    private boolean backupRestoreSystem() {
+    private boolean AFbackupRestoreSystem() {
         boolean retFlag = false;
         if (CKey.NN_DEBUG == true) {
 
@@ -1348,7 +1348,7 @@ public class ServiceAFweb {
         }
     }
 
-    private void RandomDelayMilSec(int sec) {
+    private void AFRandomDelayMilSec(int sec) {
 
         // delay seems causing openshif not working
         if (true) {
@@ -1649,7 +1649,7 @@ public class ServiceAFweb {
     public int SysSetLockName(String name, int type, long lockdatel, String comment) {
         int resultLock = setLockName(name, type, lockdatel, comment);
         // DB will enusre the name in the lock is unique and s
-        RandomDelayMilSec(200);
+        AFRandomDelayMilSec(200);
         AFLockObject lock = getLockName(name, type);
         if (lock != null) {
             if (lock.getLockdatel() == lockdatel) {
@@ -1677,23 +1677,13 @@ public class ServiceAFweb {
 
     public String SysClearNNtranAllAcc() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = 0;
-
-        retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
+        int retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
         return "" + retSatus;
     }
 
     public String SysClearNNtran(String sym) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = 0;
-
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MACD, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_MV, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_RSI, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN1, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN2, sym);
-        retSatus = NNProcessImp.ClearStockNNTranHistory(this, ConstantKey.TR_NN3, sym);
-
+        int retSatus = NNProcessImp.SysClearNNtranBySymbol(this, sym);
         return "" + retSatus;
     }
 

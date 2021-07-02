@@ -116,7 +116,7 @@ public class Javamain {
         }
 
         while (true) {
-            srv.timerHandler("");
+            srv.AFtimerHandler("");
             ServiceAFweb.AFSleep1Sec(1);
         }
 

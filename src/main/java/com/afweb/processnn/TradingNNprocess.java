@@ -249,6 +249,17 @@ public class TradingNNprocess {
         return 0;
     }
 
+    public int SysClearNNtranBySymbol(ServiceAFweb serviceAFWeb, String sym) {
+
+        int retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_MACD, sym);
+        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_MV, sym);
+        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_RSI, sym);
+        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN1, sym);
+        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN2, sym);
+        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN3, sym);
+        return retSatus;
+    }
+
     public int ClearStockNNTranHistory(ServiceAFweb serviceAFWeb, String nnName, String sym) {
         logger.info("> ClearStockNNTranHistory " + nnName);
         AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
