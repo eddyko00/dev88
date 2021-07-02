@@ -92,7 +92,7 @@ public class AccountTranImp {
             int subStatus = trTradingACCObj.getSubstatus();
 
             if (subStatus == ConstantKey.INITIAL) {
-                serviceAFWeb.SysClearAccountStockTranByAccountIDSystem(accountObj, trTradingACCObj.getStockid(), trTradingACCObj.getTrname());
+                serviceAFWeb.AccClearAccountStockTranByAccountID(accountObj, trTradingACCObj.getStockid(), trTradingACCObj.getTrname());
                 // udpate tr Status to open
                 trTradingACCObj.setSubstatus(ConstantKey.OPEN);
                 String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trTradingACCObj);
@@ -314,7 +314,7 @@ public class AccountTranImp {
             }
             int subStatus = trObj.getSubstatus();
             if (subStatus == ConstantKey.INITIAL) {
-                serviceAFWeb.SysClearAccountStockTranByAccountIDSystem(accountObj, trObj.getStockid(), trObj.getTrname());
+                serviceAFWeb.AccClearAccountStockTranByAccountID(accountObj, trObj.getStockid(), trObj.getTrname());
             }
 
             // process performance
@@ -472,7 +472,7 @@ public class AccountTranImp {
                     String trSql = AccountDB.SQLUpdateAccountStockSignal(trObj);
                     transSQL.add(trSql);
                 }
-                return serviceAFWeb.updateTransactionOrderSystem(transSQL);
+                return serviceAFWeb.AccUpdateTransactionOrder(transSQL);
             }
         } catch (Exception e) {
             logger.info("> AddTransactionOrder exception " + e.getMessage());

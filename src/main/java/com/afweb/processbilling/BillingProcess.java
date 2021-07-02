@@ -760,7 +760,7 @@ public class BillingProcess {
                     balance = Float.parseFloat(balanceSt);
                 }
             }
-            return serviceAFWeb.setCustStatusPaymentBalance(UserName, status, payment, balance);
+            return serviceAFWeb.AccUpdateCustStatusPaymentBalance(UserName, status, payment, balance);
 
         } catch (Exception e) {
         }

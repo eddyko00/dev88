@@ -1638,26 +1638,7 @@ public class ServiceAFweb {
         return null;
     }
 
-/////////////////////////////////////////////
-    public String SysClearLock() {
-        int retSatus = 0;
-        retSatus = SysLockDeleteAll();
-        return "" + retSatus;
-    }
 
-    ////////////////////////////////////////////
-    public int SysSetLockName(String name, int type, long lockdatel, String comment) {
-        int resultLock = SysLockSetName(name, type, lockdatel, comment);
-        // DB will enusre the name in the lock is unique and s
-        AFRandomDelayMilSec(200);
-        AFLockObject lock = SysLockGetName(name, type);
-        if (lock != null) {
-            if (lock.getLockdatel() == lockdatel) {
-                return 1;
-            }
-        }
-        return 0;
-    }
 
 ///////////////////////////
     public static boolean SysCheckCallRemoteMysql() {
@@ -1936,9 +1917,9 @@ public class ServiceAFweb {
         return systemSrv.deleteAllLock();
     }
 
-    public String SysLockGetAllDBSQL(String sql) {
-        return systemSrv.getAllLockDBSQL(sql);
-    }
+//    public String SysLockGetAllDBSQL(String sql) {
+//        return systemSrv.getAllLockDBSQL(sql);
+//    }
 
     public ArrayList SysLockGetAll() {
         ArrayList result = null;
@@ -1962,7 +1943,26 @@ public class ServiceAFweb {
         return systemSrv.removeLock(name, type);
 
     }
+/////////////////////////////////////////////
+    public String SysClearLock() {
+        int retSatus = 0;
+        retSatus = SysLockDeleteAll();
+        return "" + retSatus;
+    }
 
+
+    public int SysSetLockName(String name, int type, long lockdatel, String comment) {
+        int resultLock = SysLockSetName(name, type, lockdatel, comment);
+        // DB will enusre the name in the lock is unique and s
+        AFRandomDelayMilSec(200);
+        AFLockObject lock = SysLockGetName(name, type);
+        if (lock != null) {
+            if (lock.getLockdatel() == lockdatel) {
+                return 1;
+            }
+        }
+        return 0;
+    }
     //////////////////
     public StringBuffer SysGetInternetScreenPage(String url) {
         return systemSrv.getInternetScreenPage(url);
@@ -2401,12 +2401,12 @@ public class ServiceAFweb {
         return custAccSrv.getCustomerPasswordNull(UserName);
     }
 
-    public int setCustStatusPaymentBalance(String UserName,
+    public int AccUpdateCustStatusPaymentBalance(String UserName,
             int status, float payment, float balance) {
         return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);
     }
 
-    public int updateTransactionOrderSystem(ArrayList transSQL) {
+    public int AccUpdateTransactionOrder(ArrayList transSQL) {
         return custAccSrv.updateTransactionOrder(transSQL);
     }
 //    public int SystemuUpdateTransactionOrder(ArrayList<String> transSQL) {
@@ -2437,7 +2437,7 @@ public class ServiceAFweb {
 //        return custAccSrv.updateTransactionOrder(transSQL);
 //    }
 
-    public int SysClearAccountStockTranByAccountIDSystem(AccountObj accountObj, int stockID, String trName) {
+    public int AccClearAccountStockTranByAccountID(AccountObj accountObj, int stockID, String trName) {
         return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockID, trName);
     }
 //    public int SystemAccountStockClrTranByAccountID(AccountObj accountObj, int stockId, String trName) {
