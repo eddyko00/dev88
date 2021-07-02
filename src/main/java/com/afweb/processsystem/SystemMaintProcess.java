@@ -65,7 +65,7 @@ public class SystemMaintProcess {
                     serviceAFWeb.removeStockInfoServ(sym);
 
                     // update file
-                    retBoolean = serviceAFWeb.updateStockFileServ(serviceAFWeb, sym);
+                    retBoolean = serviceAFWeb.SysUpdateStockFileServ(serviceAFWeb, sym);
 
                     if (retBoolean == true) {
                         TradingSignalProcess TRprocessImp = new TradingSignalProcess();

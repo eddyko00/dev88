@@ -53,7 +53,7 @@ public class ControllerAFweb {
     WebStatus serverPing() {
         WebStatus msg = new WebStatus();
 
-        msg = afWebService.serverPing();
+        msg = afWebService.SysServerPing();
         return msg;
     }
 

@@ -574,7 +574,7 @@ public class NNetService {
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
 
-                ServiceAFweb.CreateStaticStockHistoryServ(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
+                ServiceAFweb.SysCreateStaticStockHistoryServ(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
 
                 /////////////////////
                 ArrayList<String> APIStockNameList = new ArrayList();
@@ -607,7 +607,7 @@ public class NNetService {
                 }
                 /*ArrayList to Array Conversion */
                 String SymbolAllOther[] = APIStockNameList.toArray(new String[APIStockNameList.size()]);
-                ServiceAFweb.CreateStaticStockHistoryServ(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
+                ServiceAFweb.SysCreateStaticStockHistoryServ(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
 
                 return;
             }

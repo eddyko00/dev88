@@ -568,7 +568,7 @@ public class ServiceAFweb {
         String YN = scan.next();
         boolean retSatus = false;
 
-        retSatus = cleanStockInfoDB();
+        retSatus = InfCleanStockInfoDB();
         if (retSatus == true) {
             BackupRestoreInfo backupRestore = new BackupRestoreInfo();
             retSatus = backupRestore.restoreDBDataInfo(this);
@@ -594,7 +594,7 @@ public class ServiceAFweb {
         String YN = scan.next();
         boolean retSatus = false;
 
-        retSatus = cleanNNdataDB();
+        retSatus = NnCleanNNdataDB();
         if (retSatus == true) {
             BackupRestoreNN backupRestore = new BackupRestoreNN();
             retSatus = backupRestore.restoreDBDataNN(this);
@@ -1367,7 +1367,7 @@ public class ServiceAFweb {
 
         if (retStatus >= 0) {
             //// init StockInfo
-            initStockInfoDB();
+            InfInitStockInfoDB();
 
             initNNetDataDB();
 
@@ -1628,8 +1628,6 @@ public class ServiceAFweb {
         return null;
     }
 
-
-
 /////////////////////////////////////////////
     public String SysClearLock() {
         int retSatus = 0;
@@ -1638,14 +1636,14 @@ public class ServiceAFweb {
     }
 
 ///////////////////////////
-
     public static boolean SysCheckCallRemoteMysql() {
         boolean ret = true;
         if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
             ret = false;
         }
         return ret;
-    }    
+    }
+
     public String SysClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         AccountObj accountAdminObj = this.getAdminObjFromCache();
@@ -1757,8 +1755,8 @@ public class ServiceAFweb {
     public String SysDropDBData() {
         boolean retSatus = false;
         // make sure the system is stopped first
-        retSatus = dropStockInfoDB();
-        retSatus = dropNNdataDB();
+        retSatus = InfDropStockInfoDB();
+        retSatus = NnDropNNdataDB();
         retSatus = SystemDropStockDB();
         return "" + retSatus;
     }
@@ -1769,10 +1767,67 @@ public class ServiceAFweb {
         boolean retSatus = false;
 
         serverObj.setSysMaintenance(true);
-        retSatus = cleanStockInfoDB();
-        retSatus = cleanNNdataDB();
+        retSatus = InfCleanStockInfoDB();
+        retSatus = NnCleanNNdataDB();
         retSatus = SystemCleanStockDB();
         return "" + retSatus;
+    }
+
+    ////////////////////////
+    public int SysCustStatusPaymentBalance(String customername,
+            String statusSt, String paymenttSt, String balanceSt) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        customername = customername.toUpperCase();
+        NameObj nameObj = new NameObj(customername);
+        String UserName = nameObj.getNormalizeName();
+        try {
+            CustomerObj customer = custAccSrv.getCustomerPasswordNull(UserName);
+            if (customer == null) {
+                return 0;
+            }
+            ArrayList accountList = getAccountListServ(UserName, null);
+
+            if (accountList == null) {
+                return 0;
+            }
+            AccountObj accountObj = null;
+            for (int i = 0; i < accountList.size(); i++) {
+                AccountObj accountTmp = (AccountObj) accountList.get(i);
+                if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
+                    accountObj = accountTmp;
+                    break;
+                }
+            }
+            if (accountObj == null) {
+                return 0;
+            }
+
+            int status = -9999;
+            if (statusSt != null) {
+                if (!statusSt.equals("")) {
+                    status = Integer.parseInt(statusSt);
+                }
+            }
+            float payment = -9999;
+            if (paymenttSt != null) {
+                if (!paymenttSt.equals("")) {
+                    payment = Float.parseFloat(paymenttSt);
+                }
+            }
+            float balance = -9999;
+            if (balanceSt != null) {
+                if (!balanceSt.equals("")) {
+                    balance = Float.parseFloat(balanceSt);
+                }
+            }
+            return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);
+
+        } catch (Exception e) {
+        }
+        return 0;
     }
 
     ///////////////////////////////
@@ -1788,7 +1843,36 @@ public class ServiceAFweb {
         return ret;
     }
 
-//   
+    public WebStatus SysServerPing() {
+        WebStatus msg = new WebStatus();
+
+        msg.setResult(true);
+        msg.setResponse("Server Ready");
+        ArrayList serverlist = getServerList();
+        if (serverlist == null) {
+            msg.setResult(false);
+            msg.setResponse("WebServer down");
+            return msg;
+        }
+        if (serverlist.size() == 1) {
+            ServerObj serverObj = (ServerObj) serverlist.get(0);
+            if (serverObj.isLocalDBservice() == false) {
+                msg.setResult(false);
+                msg.setResponse("MasterDBServer down");
+                return msg;
+            }
+        }
+        for (int i = 0; i < serverlist.size(); i++) {
+            ServerObj serverObj = (ServerObj) serverlist.get(i);
+            if (serverObj.isSysMaintenance() == true) {
+                msg.setResult(false);
+                msg.setResponse("Server in Maintenance");
+                break;
+            }
+        }
+        return msg;
+    }
+
     ////////////////////////////////
     ////////////////////////////////    
     ////////////////////////////////
@@ -2138,21 +2222,21 @@ public class ServiceAFweb {
         return null;
     }
 
-    public boolean dropStockInfoDB() {
+    public boolean InfDropStockInfoDB() {
         if (stockInfoFlag == true) {
             return stockInfoSrv.restStockInfoDB(this);
         }
         return false;
     }
 
-    public boolean cleanStockInfoDB() {
+    public boolean InfCleanStockInfoDB() {
         if (stockInfoFlag == true) {
             return stockInfoSrv.cleanStockInfoDB(this);
         }
         return false;
     }
 
-    public int initStockInfoDB() {
+    public int InfInitStockInfoDB() {
         if (stockInfoFlag == true) {
             return stockInfoSrv.initStockInfoDB(this);
         }
@@ -2278,14 +2362,14 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public boolean dropNNdataDB() {
+    public boolean NnDropNNdataDB() {
         if (nnFlag == true) {
             return nnSrv.restNNdataDB(this);
         }
         return false;
     }
 
-    public boolean cleanNNdataDB() {
+    public boolean NnCleanNNdataDB() {
         if (nnFlag == true) {
             return nnSrv.cleanNNdataDB(this);
         }
@@ -2977,11 +3061,11 @@ public class ServiceAFweb {
     public static HashMap<String, ArrayList> stockInputMap = null;
     public static HashMap<String, ArrayList> stockInputMap_1 = null;
 
-    public static boolean CreateStaticStockHistoryServ(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
+    public static boolean SysCreateStaticStockHistoryServ(ServiceAFweb serviceAFWeb, String symbolL[], String fileName, String tagName) {
         HashMap<String, ArrayList> stockInputMap = new HashMap<String, ArrayList>();
 
         try {
-            CreateStaticStockHistory(serviceAFWeb, symbolL, stockInputMap);
+            SysCreateStaticStockHistory(serviceAFWeb, symbolL, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
             String inputListSt = ServiceAFweb.compress(inputListRawSt);
@@ -3091,7 +3175,7 @@ public class ServiceAFweb {
         return false;
     }
 
-    private static void CreateStaticStockHistory(ServiceAFweb serviceAFWeb, String symbolL[], HashMap<String, ArrayList> stockInputMap) {
+    private static void SysCreateStaticStockHistory(ServiceAFweb serviceAFWeb, String symbolL[], HashMap<String, ArrayList> stockInputMap) {
         boolean saveStockDBFlag = true;
         if (saveStockDBFlag == true) {
 
@@ -3168,26 +3252,26 @@ public class ServiceAFweb {
         }
     }
 
-    public static ArrayList<AFstockInfo> getAllStaticStockHistoryServ(String symbol) {
+    public static ArrayList<AFstockInfo> SysGetAllStaticStockHistoryServ(String symbol) {
         if (stockInputMap == null) {
             stockInputMap = nnAllStock_src.AllStockHistoryStaticCodeInit(stockInputMap);
         }
-        ArrayList<AFstockInfo> stockInfoList = getAllStockHistoryStaticCode(symbol, stockInputMap);
+        ArrayList<AFstockInfo> stockInfoList = SysGetAllStockHistoryStaticCode(symbol, stockInputMap);
         if (stockInfoList != null) {
             return stockInfoList;
         }
-        return getAllStockHistory(symbol);
+        return SysGetAllStockHistory(symbol);
     }
 
-    private static ArrayList<AFstockInfo> getAllStockHistory(String symbol) {
+    private static ArrayList<AFstockInfo> SysGetAllStockHistory(String symbol) {
         if (stockInputMap_1 == null) {
             stockInputMap_1 = nnAllStock_1_src.AllStockHistoryStaticCodeInit(stockInputMap_1);
         }
-        return getAllStockHistoryStaticCode(symbol, stockInputMap_1);
+        return SysGetAllStockHistoryStaticCode(symbol, stockInputMap_1);
 
     }
 
-    private static ArrayList<AFstockInfo> getAllStockHistoryStaticCode(String symbol,
+    private static ArrayList<AFstockInfo> SysGetAllStockHistoryStaticCode(String symbol,
             HashMap<String, ArrayList> stockInMap) {
 
         ArrayList<AFstockInfo> inputlist = new ArrayList();
@@ -3224,7 +3308,7 @@ public class ServiceAFweb {
 /////////////////////////////////////////    
 ////////////////////////////////////////////////////        
 //https://ca.finance.yahoo.com/quote/T.TO/history?period1=1200441600&period2=1583539200&interval=1d&filter=history&frequency=1d
-    public static boolean updateStockFileServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+    public static boolean SysUpdateStockFileServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         ArrayList inputArray = new ArrayList();
         String nnFileName = ServiceAFweb.FileLocalPath + NormalizeSymbol + ".csv";
         if (FileUtil.FileTest(nnFileName) == false) {
@@ -3307,92 +3391,6 @@ public class ServiceAFweb {
         return true;
     }
 //////////////////////////////////////////    
-
-    public int systemCustStatusPaymentBalance(String customername,
-            String statusSt, String paymenttSt, String balanceSt) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        customername = customername.toUpperCase();
-        NameObj nameObj = new NameObj(customername);
-        String UserName = nameObj.getNormalizeName();
-        try {
-            CustomerObj customer = custAccSrv.getCustomerPasswordNull(UserName);
-            if (customer == null) {
-                return 0;
-            }
-            ArrayList accountList = getAccountListServ(UserName, null);
-
-            if (accountList == null) {
-                return 0;
-            }
-            AccountObj accountObj = null;
-            for (int i = 0; i < accountList.size(); i++) {
-                AccountObj accountTmp = (AccountObj) accountList.get(i);
-                if (accountTmp.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                    accountObj = accountTmp;
-                    break;
-                }
-            }
-            if (accountObj == null) {
-                return 0;
-            }
-
-            int status = -9999;
-            if (statusSt != null) {
-                if (!statusSt.equals("")) {
-                    status = Integer.parseInt(statusSt);
-                }
-            }
-            float payment = -9999;
-            if (paymenttSt != null) {
-                if (!paymenttSt.equals("")) {
-                    payment = Float.parseFloat(paymenttSt);
-                }
-            }
-            float balance = -9999;
-            if (balanceSt != null) {
-                if (!balanceSt.equals("")) {
-                    balance = Float.parseFloat(balanceSt);
-                }
-            }
-            return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);
-
-        } catch (Exception e) {
-        }
-        return 0;
-    }
-
-    public WebStatus serverPing() {
-        WebStatus msg = new WebStatus();
-
-        msg.setResult(true);
-        msg.setResponse("Server Ready");
-        ArrayList serverlist = getServerList();
-        if (serverlist == null) {
-            msg.setResult(false);
-            msg.setResponse("WebServer down");
-            return msg;
-        }
-        if (serverlist.size() == 1) {
-            ServerObj serverObj = (ServerObj) serverlist.get(0);
-            if (serverObj.isLocalDBservice() == false) {
-                msg.setResult(false);
-                msg.setResponse("MasterDBServer down");
-                return msg;
-            }
-        }
-        for (int i = 0; i < serverlist.size(); i++) {
-            ServerObj serverObj = (ServerObj) serverlist.get(i);
-            if (serverObj.isSysMaintenance() == true) {
-                msg.setResult(false);
-                msg.setResponse("Server in Maintenance");
-                break;
-            }
-        }
-        return msg;
-    }
 
 ///////////////////////////
     ////////////////////////

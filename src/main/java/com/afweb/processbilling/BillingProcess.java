@@ -211,7 +211,7 @@ public class BillingProcess {
                 customer.setPayment(0);
 
                 // transaction
-                int result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
+                int result = serviceAFWeb.SysCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", customer.getBalance() + "");
 
                 billing.setStatus(ConstantKey.COMPLETED);
 
@@ -250,7 +250,7 @@ public class BillingProcess {
                                 billing.setSubstatus(NO_PAYMENT_2);
 
                                 customer.setStatus(ConstantKey.DISABLE);
-                                int result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), customer.getStatus() + "", null, null);
+                                int result = serviceAFWeb.SysCustStatusPaymentBalance(customer.getUsername(), customer.getStatus() + "", null, null);
                                 result = accountImp.updateAccountBillingStatus(billing.getId(), billing.getStatus(), billing.getSubstatus());
 
                                 // send email disable
@@ -502,14 +502,14 @@ public class BillingProcess {
                 billData.setPrevOwn(prevOwning);
                 payment = fInvoice + prevOwning - billData.getCredit();
                 customer.setPayment(payment);
-                result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+                result = serviceAFWeb.SysCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
             } else {
                 // first bill
                 firstBill = true;
                 if (payment == 0) {
                     payment = fInvoice - billData.getCredit();
                     customer.setPayment(payment);
-                    result = serviceAFWeb.systemCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
+                    result = serviceAFWeb.SysCustStatusPaymentBalance(customer.getUsername(), null, customer.getPayment() + "", null);
                 }
             }
 

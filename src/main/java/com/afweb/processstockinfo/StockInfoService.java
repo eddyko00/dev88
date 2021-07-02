@@ -140,7 +140,7 @@ public class StockInfoService {
             end = TimeConvertion.addDays(start, -length);
 
             long endStaticDay = 0;
-            ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.getAllStaticStockHistoryServ(NormalizeSymbol);
+            ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.SysGetAllStaticStockHistoryServ(NormalizeSymbol);
             if (stockInfoArrayStatic == null) {
                 stockInfoArrayStatic = new ArrayList();
             }
@@ -355,7 +355,7 @@ public class StockInfoService {
             if (CKey.CACHE_STOCKH == true) {
                 if ((stockinfoDBArray == null) || (stockinfoDBArray.size() == 0)) {
 
-                    ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.getAllStaticStockHistoryServ(stock.getSymbol());
+                    ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.SysGetAllStaticStockHistoryServ(stock.getSymbol());
                     if (stockInfoArrayStatic == null) {
                         stockInfoArrayStatic = new ArrayList();
                     }
@@ -468,7 +468,7 @@ public class StockInfoService {
             if (CKey.CACHE_STOCKH == true) {
 
                 long endStaticDay = 0;
-                ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.getAllStaticStockHistoryServ(symbol);
+                ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.SysGetAllStaticStockHistoryServ(symbol);
                 if (stockInfoArrayStatic == null) {
                     stockInfoArrayStatic = new ArrayList();
                 }
