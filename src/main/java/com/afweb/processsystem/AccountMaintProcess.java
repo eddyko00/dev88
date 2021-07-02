@@ -49,7 +49,7 @@ public class AccountMaintProcess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ACC_" + CKey.AF_SYSTEM;
-        long lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.ACC_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessSystemMaintance");
+        long lockReturn = serviceAFWeb.SysSetLockName(LockName, ConstantKey.ACC_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessSystemMaintance");
         if (lockReturn > 0) {
 
             if ((acTimerCnt % 2) == 0) {
@@ -86,7 +86,7 @@ public class AccountMaintProcess {
 
     public void ProcessStockInfodeleteMaintance(ServiceAFweb serviceAFWeb) {
 //        logger.info(">>>>>>>>>>>>>> ProcessStockInfodeleteMaintance ");
-        ArrayList stockRemoveList = serviceAFWeb.getRemoveStockNameList(20);  // status = ConstantKey.COMPLETED      
+        ArrayList stockRemoveList = serviceAFWeb.SysGetRemoveStockNameList(20);  // status = ConstantKey.COMPLETED      
         //delete stock if disable
         if (stockRemoveList != null) {
             if (stockRemoveList.size() >= 0) {
@@ -111,7 +111,7 @@ public class AccountMaintProcess {
             }
         }
 
-        ArrayList stockNDisableList = serviceAFWeb.getDisableStockNameList(20);
+        ArrayList stockNDisableList = serviceAFWeb.SysGetDisableStockNameList(20);
         // delete stock info if disable
         if (stockNDisableList != null) {
             if (stockNDisableList.size() > 0) {

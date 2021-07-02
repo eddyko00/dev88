@@ -49,7 +49,7 @@ public class EmailProcess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ALL_EMAIL";
-        long lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.FUND_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
+        long lockReturn = serviceAFWeb.SysSetLockName(LockName, ConstantKey.FUND_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
         if (CKey.NN_DEBUG == true) {
             lockReturn = 1;
         }

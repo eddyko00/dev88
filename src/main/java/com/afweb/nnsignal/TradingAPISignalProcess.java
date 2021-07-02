@@ -87,7 +87,7 @@ public class TradingAPISignalProcess {
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
 
         long lockReturn = 1;
-        lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
+        lockReturn = serviceAFWeb.SysSetLockName(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
 
         boolean testing = false;
         if (testing == true) {
@@ -139,7 +139,7 @@ public class TradingAPISignalProcess {
                     LockStock = LockStock.toUpperCase();
 
                     long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                    long lockReturnStock = serviceAFWeb.setLockNameServ(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
+                    long lockReturnStock = serviceAFWeb.SysSetLockName(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAdminSignalTrading");
                     if (testing == true) {
                         lockReturnStock = 1;
                     }

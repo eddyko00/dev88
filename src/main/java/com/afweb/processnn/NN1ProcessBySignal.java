@@ -468,7 +468,7 @@ public class NN1ProcessBySignal {
 
         LockName = "NN1_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
-        long lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+        long lockReturn = serviceAFWeb.SysSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
         if (testing == true) {
             lockReturn = 1;
@@ -539,7 +539,7 @@ public class NN1ProcessBySignal {
         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
         long lockReturnStock = 1;
 
-        lockReturnStock = serviceAFWeb.setLockNameServ(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+        lockReturnStock = serviceAFWeb.SysSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
 
 //                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
         if (lockReturnStock == 0) {
@@ -560,7 +560,7 @@ public class NN1ProcessBySignal {
                         if (stockNNprocessNameArray != null) {
                             stockNNprocessNameArray.remove(0);
                         }
-                        serviceAFWeb.deleteNeuralNet1(BPnameSym);
+                        serviceAFWeb.NnDeleteNeuralNet1(BPnameSym);
 
                     }
                 }

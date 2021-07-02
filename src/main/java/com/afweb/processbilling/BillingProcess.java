@@ -74,7 +74,7 @@ public class BillingProcess {
 
         LockName = "BP_" + CKey.AF_SYSTEM; // + ServiceAFweb.getServerObj().getServerName();
 //        LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
-        long lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+        long lockReturn = serviceAFWeb.SysSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
         if (ServiceAFweb.mydebugtestflag == true) {
             lockReturn = 1;

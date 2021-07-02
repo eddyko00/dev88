@@ -47,7 +47,7 @@ public class PUBSUBprocess {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
         String LockName = "ALL_PUBSUB";
-        long lockReturn = serviceAFWeb.setLockNameServ(LockName, ConstantKey.FUND_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
+        long lockReturn = serviceAFWeb.SysSetLockName(LockName, ConstantKey.FUND_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessAllAccountTradingSignal");
         if (CKey.NN_DEBUG == true) {
             lockReturn = 1;
         }

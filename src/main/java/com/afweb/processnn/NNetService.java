@@ -349,7 +349,7 @@ public class NNetService {
                 long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                 long lockReturnStock = 1;
 
-                lockReturnStock = serviceAFWeb.setLockNameServ(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
+                lockReturnStock = serviceAFWeb.SysSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
 
                 if (lockReturnStock == 0) {
                     continue;

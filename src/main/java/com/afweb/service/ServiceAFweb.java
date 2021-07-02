@@ -82,7 +82,6 @@ public class ServiceAFweb {
     private static int delayProcessTimer = 0;
     private static long timerThreadDateValue = 0;
 
-
     public static String PROXYURL = "";
     public static String FileLocalPath = "";
 
@@ -408,7 +407,7 @@ public class ServiceAFweb {
                     String servIP = StockInternetImpDao.getServerIP();
                     serverObj.setServip(servIP);
 
-                    setLockNameServ(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
+                    SysSetLockName(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, serverObj.getSrvProjName() + " " + serverObj.getServip());
 
                     //try 2 times
                     ProcessAdminAddRemoveStock(this);
@@ -674,7 +673,7 @@ public class ServiceAFweb {
             long lockDateValue = dateNow.getTimeInMillis();
 
             LockName = "LOCK_" + ServiceAFweb.getServerObj().getServerName();
-            long lockReturn = setLockNameServ(LockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, "ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
+            long lockReturn = SysSetLockName(LockName, ConstantKey.SRV_LOCKTYPE, lockDateValue, "ProcessTimerCnt " + getServerObj().getProcessTimerCnt());
 
             if (CKey.NN_DEBUG == true) {
                 lockReturn = 1;
@@ -716,7 +715,7 @@ public class ServiceAFweb {
             if (result == 0) {
                 Calendar dateNow1 = TimeConvertion.getCurrentCalendar();
                 long lockDateValue1 = dateNow1.getTimeInMillis();
-                setLockNameServ(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue1, serverObj.getSrvProjName() + " " + serverObj.getServip());
+                SysSetLockName(serverLockName, ConstantKey.SRV_LOCKTYPE, lockDateValue1, serverObj.getSrvProjName() + " " + serverObj.getServip());
             }
         }
 
@@ -1628,8 +1627,22 @@ public class ServiceAFweb {
 /////////////////////////////////////////////
     public String SysClearLock() {
         int retSatus = 0;
-        retSatus = deleteAllLock();
+        retSatus = SystemDeleteAllLock();
         return "" + retSatus;
+    }
+
+    ////////////////////////////////////////////
+    public int SysSetLockName(String name, int type, long lockdatel, String comment) {
+        int resultLock = setLockName(name, type, lockdatel, comment);
+        // DB will enusre the name in the lock is unique and s
+        RandomDelayMilSec(200);
+        AFLockObject lock = getLockName(name, type);
+        if (lock != null) {
+            if (lock.getLockdatel() == lockdatel) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
 ///////////////////////////
@@ -1771,6 +1784,27 @@ public class ServiceAFweb {
     }
 
     ////////////////////////
+    ////////////////////////////
+    public ArrayList SysGetRemoveStockNameList(int length) {
+        ArrayList result = null;
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = getAllRemoveStockNameList(length);
+
+        return result;
+    }
+
+    public ArrayList SysGetDisableStockNameList(int length) {
+        ArrayList result = null;
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = getAllDisableStockNameList(length);
+
+        return result;
+    }
+
     public int SysCustStatusPaymentBalance(String customername,
             String statusSt, String paymenttSt, String balanceSt) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -1906,7 +1940,8 @@ public class ServiceAFweb {
         return systemSrv.getRemoteMYSQL(sql);
     }
 
-    public int deleteAllLock() {
+///////////////////////////////////////
+    public int SystemDeleteAllLock() {
         return systemSrv.deleteAllLock();
     }
 
@@ -1928,20 +1963,6 @@ public class ServiceAFweb {
         return systemSrv.setRenewLock(name, type);
     }
 
-    ////////////////////////////////////////////
-    public int setLockNameServ(String name, int type, long lockdatel, String comment) {
-        int resultLock = setLockName(name, type, lockdatel, comment);
-        // DB will enusre the name in the lock is unique and s
-        RandomDelayMilSec(200);
-        AFLockObject lock = getLockName(name, type);
-        if (lock != null) {
-            if (lock.getLockdatel() == lockdatel) {
-                return 1;
-            }
-        }
-        return 0;
-    }
-
     public AFLockObject getLockName(String name, int type) {
         return systemSrv.getLockName(name, type);
     }
@@ -1954,7 +1975,7 @@ public class ServiceAFweb {
         return systemSrv.removeLock(name, type);
 
     }
-/////////////////////////////
+//////////////////////////////////////////
 
     public ArrayList getAllRemoveStockNameList(int length) {
         return systemSrv.getAllRemoveStockNameList(length);
@@ -2305,7 +2326,7 @@ public class ServiceAFweb {
         return nnSrv.deleteNeuralNetDataByBPname(name);
     }
 
-    public int deleteNeuralNet1(String name) {
+    public int NnDeleteNeuralNet1(String name) {
         return nnSrv.deleteNeuralNet1(name);
     }
 
@@ -3025,7 +3046,7 @@ public class ServiceAFweb {
 //        }
 //        return getAccountImp().getAllSQLquery(SQL);
 //    }
-    public int custAccAddTransactionOrder(AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate) {
+    public int AccAddTransactionOrder(AccountObj accountObj, AFstockObj stock, String trName, int tranSignal, Calendar tranDate) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -3065,7 +3086,7 @@ public class ServiceAFweb {
             SysCreateStaticStockHistory(serviceAFWeb, symbolL, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = ServiceAFweb.compress(inputListRawSt);
+            String inputListSt = ServiceAFweb.SysCompress(inputListRawSt);
 
             StringBuffer msgWrite = new StringBuffer();
             msgWrite.append("" ///
@@ -3390,8 +3411,6 @@ public class ServiceAFweb {
 //////////////////////////////////////////    
 
 ///////////////////////////
-    ////////////////////////
-    // System
     public AccData getAccData(String accDataStr) {
         AccData refData = new AccData();
         try {
@@ -3447,27 +3466,6 @@ public class ServiceAFweb {
 //
 //        return "SystemUploadDBData " + retSatus;
 //    }
-    ////////////////////////////
-    public ArrayList getRemoveStockNameList(int length) {
-        ArrayList result = null;
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        result = getAllRemoveStockNameList(length);
-
-        return result;
-    }
-
-    public ArrayList getDisableStockNameList(int length) {
-        ArrayList result = null;
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        result = getAllDisableStockNameList(length);
-
-        return result;
-    }
-
     public static String getSQLLengh(String sql, int length) {
         //https://www.petefreitag.com/item/59.cfm
         //SELECT TOP 10 column FROM table - Microsoft SQL Server
@@ -3521,7 +3519,7 @@ public class ServiceAFweb {
 //    public void setAccountImp(AccountImp accountImp) {
 //        this.accountImp = accountImp;
 //    }
-    public static String compress(String str) {
+    public static String SysCompress(String str) {
         if (str == null || str.length() == 0) {
             return str;
         }
@@ -3538,7 +3536,7 @@ public class ServiceAFweb {
         return null;
     }
 
-    public static String decompress(String str) {
+    public static String SysDecompress(String str) {
         if (str == null || str.length() == 0) {
             return str;
         }
@@ -3563,5 +3561,4 @@ public class ServiceAFweb {
     }
 
 //////////////////////////////
-
 }
