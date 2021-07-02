@@ -92,7 +92,7 @@ public class AccountTranImp {
             int subStatus = trTradingACCObj.getSubstatus();
 
             if (subStatus == ConstantKey.INITIAL) {
-                serviceAFWeb.clearAccountStockTranByAccountIDSystem(accountObj, trTradingACCObj.getStockid(), trTradingACCObj.getTrname());
+                serviceAFWeb.SysClearAccountStockTranByAccountIDSystem(accountObj, trTradingACCObj.getStockid(), trTradingACCObj.getTrname());
                 // udpate tr Status to open
                 trTradingACCObj.setSubstatus(ConstantKey.OPEN);
                 String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trTradingACCObj);
@@ -314,7 +314,7 @@ public class AccountTranImp {
             }
             int subStatus = trObj.getSubstatus();
             if (subStatus == ConstantKey.INITIAL) {
-                serviceAFWeb.clearAccountStockTranByAccountIDSystem(accountObj, trObj.getStockid(), trObj.getTrname());
+                serviceAFWeb.SysClearAccountStockTranByAccountIDSystem(accountObj, trObj.getStockid(), trObj.getTrname());
             }
 
             // process performance

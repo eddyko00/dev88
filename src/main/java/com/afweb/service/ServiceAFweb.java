@@ -82,10 +82,7 @@ public class ServiceAFweb {
     private static int delayProcessTimer = 0;
     private static long timerThreadDateValue = 0;
 
-    private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
-//    private StockImp stockImp = new StockImp();
 
-//    private AccountImp accountImp = new AccountImp();
     public static String PROXYURL = "";
     public static String FileLocalPath = "";
 
@@ -2423,7 +2420,7 @@ public class ServiceAFweb {
 //        return custAccSrv.updateTransactionOrder(transSQL);
 //    }
 
-    public int clearAccountStockTranByAccountIDSystem(AccountObj accountObj, int stockID, String trName) {
+    public int SysClearAccountStockTranByAccountIDSystem(AccountObj accountObj, int stockID, String trName) {
         return custAccSrv.clearAccountStockTranByAccountID(accountObj, stockID, trName);
     }
 //    public int SystemAccountStockClrTranByAccountID(AccountObj accountObj, int stockId, String trName) {
@@ -3524,20 +3521,6 @@ public class ServiceAFweb {
 //    public void setAccountImp(AccountImp accountImp) {
 //        this.accountImp = accountImp;
 //    }
-    /**
-     * @return the serviceAFwebREST
-     */
-    public ServiceAFwebREST getServiceAFwebREST() {
-        return serviceAFwebREST;
-    }
-
-    /**
-     * @param serviceAFwebREST the serviceAFwebREST to set
-     */
-    public void setServiceAFwebREST(ServiceAFwebREST serviceAFwebREST) {
-        this.serviceAFwebREST = serviceAFwebREST;
-    }
-
     public static String compress(String str) {
         if (str == null || str.length() == 0) {
             return str;
@@ -3580,4 +3563,5 @@ public class ServiceAFweb {
     }
 
 //////////////////////////////
+
 }
