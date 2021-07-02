@@ -145,7 +145,7 @@ public class TradingNNprocess {
                     }
                 }
             }  // end for loop
-            serviceAFWeb.removeNameLock(LockName, ConstantKey.NN_LOCKTYPE);
+            serviceAFWeb.SysRemoveNameLock(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessReLearnInputNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> ProcessReLearnInputNeuralNet ... done");
@@ -180,7 +180,7 @@ public class TradingNNprocess {
             } catch (Exception ex) {
                 logger.info("> PReLearnInputNeuralNet Exception" + ex.getMessage());
             }
-            serviceAFWeb.removeNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+            serviceAFWeb.SysRemoveNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //          logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
         }
     }

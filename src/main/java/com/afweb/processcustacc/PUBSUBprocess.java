@@ -83,7 +83,7 @@ public class PUBSUBprocess {
 
                 accountCommArray.remove(0);
             }
-            serviceAFWeb.removeNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
+            serviceAFWeb.SysRemoveNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
         }
     }
 

@@ -158,14 +158,14 @@ public class TradingAPISignalProcess {
                             }
                         }
 
-                        serviceAFWeb.removeNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+                        serviceAFWeb.SysRemoveNameLock(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
 //                        logger.info("ProcessAPISignalTrading " + LockStock + " unLock LockStock ");
                     }
                 } catch (Exception ex) {
                     logger.info("> ProcessAPISignalTrading Exception" + ex.getMessage());
                 }
             }
-            serviceAFWeb.removeNameLock(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+            serviceAFWeb.SysRemoveNameLock(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
 //            logger.info("ProcessAPISignalTrading " + LockName + " unlock LockName");
         }
     }

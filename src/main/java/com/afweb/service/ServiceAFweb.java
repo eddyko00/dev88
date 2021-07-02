@@ -704,7 +704,7 @@ public class ServiceAFweb {
             logger.info("> Exception lastfun - " + lastfun);
             logger.info("> processTimer Exception " + ex.getMessage());
         }
-        removeNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
+        SysRemoveNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
     }
 
     void AFwebExec() {
@@ -1958,7 +1958,7 @@ public class ServiceAFweb {
         return systemSrv.setLockName(name, type, lockdatel, comment);
     }
 
-    public int removeNameLock(String name, int type) {
+    public int SysRemoveNameLock(String name, int type) {
         return systemSrv.removeLock(name, type);
 
     }
