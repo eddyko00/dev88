@@ -2811,7 +2811,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int removeAccountStockByUserNameAccIdServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+    public int AccRemoveAccountStockByUserNameAccId(String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (custAccFlag == true) {
             return custAccSrv.removeAccountStockByUserNameAccId(this, EmailUserName, Password, AccountIDSt, symbol);
         }
@@ -2819,21 +2819,21 @@ public class ServiceAFweb {
     }
 //    //ConstantKey.NOTEXISTED
 
-    public int removeAccountStockSymbolServ(AccountObj accountObj, String symbol) {
+    public int AccRemoveAccountStockSymbol(AccountObj accountObj, String symbol) {
         if (custAccFlag == true) {
             return custAccSrv.removeAccountStockSymbol(this, accountObj, symbol);
         }
         return 0;
     }
 
-    public TradingRuleObj getAccountStockTRByTRnameServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
+    public TradingRuleObj AccGetAccountStockTRByTRname(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
         if (custAccFlag == true) {
             return custAccSrv.getAccountStockTRByTRname(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trname);
         }
         return null;
     }
 
-    public ArrayList<TransationOrderObj> getAccountStockTRTranListByAccountIDServ(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
+    public ArrayList<TransationOrderObj> AccGetAccountStockTRTranListByAccountID(String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trName, int length) {
         if (custAccFlag == true) {
             return custAccSrv.getAccountStockTRTranListByAccountID(this, EmailUserName, Password, AccountIDSt, stockidsymbol, trName, length);
         }

@@ -161,7 +161,7 @@ public class ProcessNN2 {
 
         String TRname = ConstantKey.TR_NN2;
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjNN2 = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, TRname);
+        TradingRuleObj trObjNN2 = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, TRname);
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
@@ -189,10 +189,10 @@ public class ProcessNN2 {
             }
         }
 
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MV);
+        TradingRuleObj trObjMV = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
         ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
 
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MACD);
+        TradingRuleObj trObjMACD = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
 
         ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN2(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
@@ -211,7 +211,7 @@ public class ProcessNN2 {
         String TRname = ConstantKey.TR_NN2;
 
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjNN2 = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, TRname);
+        TradingRuleObj trObjNN2 = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, TRname);
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_MV);
@@ -239,10 +239,10 @@ public class ProcessNN2 {
             }
         }
 
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MV);
+        TradingRuleObj trObjMV = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
         ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
 
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MACD);
+        TradingRuleObj trObjMACD = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
 
         ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN2(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
@@ -264,7 +264,7 @@ public class ProcessNN2 {
 //        ArrayList<NNInputOutObj> inputlist = new ArrayList<NNInputOutObj>();
 
         NNTrainObj nnTrSym = new NNTrainObj();
-        TradingRuleObj trObjNN2 = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_NN2);
+        TradingRuleObj trObjNN2 = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_NN2);
 
         TradingRuleObj trObj2 = new TradingRuleObj();
         trObj2.setTrname(ConstantKey.TR_NN2);
@@ -275,10 +275,10 @@ public class ProcessNN2 {
 
         ArrayList<StockTRHistoryObj> thObjListEMA = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObj2, StockArray, offset, monthSize);
 
-        TradingRuleObj trObjMV = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MV);
+        TradingRuleObj trObjMV = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MV);
         ArrayList<StockTRHistoryObj> thObjListMV = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMV, StockArray, offset, monthSize);
 
-        TradingRuleObj trObjMACD = serviceAFWeb.getAccountStockTRByTRnameServ(username, null, accountid, symbol, ConstantKey.TR_MACD);
+        TradingRuleObj trObjMACD = serviceAFWeb.AccGetAccountStockTRByTRname(username, null, accountid, symbol, ConstantKey.TR_MACD);
         ArrayList<StockTRHistoryObj> thObjListMACD = TRprocessImp.ProcessTRHistoryOffset(serviceAFWeb, trObjMACD, StockArray, offset, monthSize);
 
         ArrayList<NNInputDataObj> inputDatalist = getAccountStockTRListHistoryEMANN2(thObjListEMA, thObjListMV, thObjListMACD, symbol, nnTrSym, true);
@@ -631,7 +631,7 @@ public class ProcessNN2 {
 
                 // get the last transaction price for later
                 AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
-                ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountIDServ(CKey.ADMIN_USERNAME, null,
+                ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
                         accObj.getId() + "", symbol, ConstantKey.TR_NN2, 0);
 
                 confident += 30;
@@ -664,7 +664,7 @@ public class ProcessNN2 {
                         // somthing wrong. no transaction for 1 year
                         if (thList.size() == 1) {
                             // try to get the MACD transaction. for sure this will have some signal
-                            thList = serviceAFWeb.getAccountStockTRTranListByAccountIDServ(CKey.ADMIN_USERNAME, null,
+                            thList = serviceAFWeb.AccGetAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
                                     accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
                         }
                         if (thList.size() > 0) {
@@ -1207,7 +1207,7 @@ public class ProcessNN2 {
         try {
             // get the last transaction price
             AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
-            ArrayList<TransationOrderObj> thList = serviceAFWeb.getAccountStockTRTranListByAccountIDServ(CKey.ADMIN_USERNAME, null,
+            ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
                     accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
             if (thList != null) {
                 TransationOrderObj lastTH = thList.get(0);

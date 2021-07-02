@@ -725,7 +725,7 @@ public class NNetService {
                     }
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
-                        int resultRemove = serviceAFWeb.removeAccountStockByUserNameAccIdServ(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
+                        int resultRemove = serviceAFWeb.AccRemoveAccountStockByUserNameAccId(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Remove API stock " + symbol);
 
                         ServiceAFweb.AFSleep();

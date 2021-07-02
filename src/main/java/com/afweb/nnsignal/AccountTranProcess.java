@@ -418,7 +418,7 @@ public class AccountTranProcess {
 
                         }
 //            
-                        int resultRemove = serviceAFWeb.removeAccountStockSymbolServ(accObj, symbol);
+                        int resultRemove = serviceAFWeb.AccRemoveAccountStockSymbol(accObj, symbol);
                         if (resultRemove > 0) {
                             logger.info("> ProcessFundAccount remove TR stock " + accObj.getAccountname() + " " + symbol);
                         }
@@ -507,7 +507,7 @@ public class AccountTranProcess {
                         if (stock == null) {
                             continue;
                         }
-                        int resultRemove = serviceAFWeb.removeAccountStockSymbolServ(accObj, symbol);
+                        int resultRemove = serviceAFWeb.AccRemoveAccountStockSymbol(accObj, symbol);
                         if (resultRemove > 0) {
                             logger.info("> ProcessTradingAccountUpdate remove TR stock " + accObj.getAccountname() + " " + symbol);
                         }
@@ -563,7 +563,7 @@ public class AccountTranProcess {
             /////////
             for (int i = 0; i < removeList.size(); i++) {
                 String symbol = (String) removeList.get(i);
-                int resultRemove = serviceAFWeb.removeAccountStockByUserNameAccIdServ(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
+                int resultRemove = serviceAFWeb.AccRemoveAccountStockByUserNameAccId(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
                 logger.info("> AdminAddRemoveStock remove TR stock " + symbol);
                 numCnt++;
                 if (numCnt > 10) {
