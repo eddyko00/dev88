@@ -1450,7 +1450,7 @@ public class ServiceAFweb {
 
         REMOTE_URL = webConfig.dataSourceURLSystem((DriverManagerDataSource) dataSource);
 
-        SysSetDataSource(dataSource, REMOTE_URL);
+        SysDataSourceSystem(dataSource, REMOTE_URL);
 
         setAccountDataSource(dataSource, REMOTE_URL);
 
@@ -1903,7 +1903,7 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public void SysSetDataSource(DataSource dataSource, String URL) {
+    public void SysDataSourceSystem(DataSource dataSource, String URL) {
         systemSrv.setDataSource(dataSource, URL);
     }
 
