@@ -1373,7 +1373,7 @@ public class ServiceAFweb {
     public int SysInitDBData() {
         logger.info(">InitDBData ");
         // 0 - new db, 1 - db already exist, -1 db error
-        int retStatus = SysInitStockDB();
+        int retStatus = SysInitDBSystem();
 
         if (retStatus >= 0) {
             //// init StockInfo
@@ -1452,7 +1452,7 @@ public class ServiceAFweb {
 
         SysDataSourceSystem(dataSource, REMOTE_URL);
 
-        setAccountDataSource(dataSource, REMOTE_URL);
+        AccDataSource(dataSource, REMOTE_URL);
 
         InfSetDataSource(dataSource, REMOTE_URL);
 
@@ -1907,7 +1907,7 @@ public class ServiceAFweb {
         systemSrv.setDataSource(dataSource, URL);
     }
 
-    public int SysInitStockDB() {
+    public int SysInitDBSystem() {
         return systemSrv.initStockDB();
     }
 
@@ -2393,7 +2393,7 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public void setAccountDataSource(DataSource dataSource, String URL) {
+    public void AccDataSource (DataSource dataSource, String URL) {
         custAccSrv.setAccountDataSource(dataSource, URL);
     }
 
