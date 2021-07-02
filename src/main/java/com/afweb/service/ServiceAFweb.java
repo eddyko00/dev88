@@ -2113,7 +2113,7 @@ public class ServiceAFweb {
     }
 
     // Heuoku cannot get the date of the first stockinfo????
-    public ArrayList<AFstockInfo> StoGetStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
+    public ArrayList<AFstockInfo> InfGetStockInfo_workaround(AFstockObj stock, int length, Calendar dateNow) {
         if (stockInfoFlag == true) {
             if (stock == null) {
                 return null;
@@ -2128,7 +2128,7 @@ public class ServiceAFweb {
 
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date
-    public ArrayList<AFstockInfo> getStockHistoricalServ(String symbol, int length) {
+    public ArrayList<AFstockInfo> InfGetStockHistorical(String symbol, int length) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.getStockHistorical(this, symbol, length);
         }
@@ -2178,7 +2178,7 @@ public class ServiceAFweb {
 //
 //        return getStockHistoricalRangeServ(symbol, start, end);
 //    }    
-    public int updateStockInfoTransactionServ(StockInfoTranObj stockInfoTran) {
+    public int InfUpdateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.updateStockInfoTransaction(this, stockInfoTran);
         }
@@ -3384,7 +3384,7 @@ public class ServiceAFweb {
                     stockInfoTran.setStockInfoList(StockSendArray);
                     // require oldest date to earliest
                     // require oldest date to earliest
-                    int retTran = serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
+                    int retTran = serviceAFWeb.InfUpdateStockInfoTransaction(stockInfoTran);
                     if (retTran == 0) {
                         return false;
                     }
@@ -3400,7 +3400,7 @@ public class ServiceAFweb {
 
             // require oldest date to earliest
             // require oldest date to earliest
-            serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
+            serviceAFWeb.InfUpdateStockInfoTransaction(stockInfoTran);
         }
         return true;
     }

@@ -121,7 +121,7 @@ public class StockService {
         }
         if (stock.getStatus() == ConstantKey.OPEN) {
             if (stock.getSubstatus() != ConstantKey.INITIAL) {
-                ArrayList StockArray = serviceAFWeb.StoGetStockInfo_workaround(stock, 2, null);
+                ArrayList StockArray = serviceAFWeb.InfGetStockInfo_workaround(stock, 2, null);
 
                 if (StockArray != null) {
                     if (StockArray.size() >= 2) {
@@ -137,7 +137,7 @@ public class StockService {
             Calendar cDate = null;
             cDate = Calendar.getInstance();
             cDate.setTimeInMillis(ServiceAFweb.SimDateL);
-            ArrayList<AFstockInfo> stockInfolist = serviceAFWeb.getStockHistoricalServ(NormalizeSymbol, 80);
+            ArrayList<AFstockInfo> stockInfolist = serviceAFWeb.InfGetStockHistorical(NormalizeSymbol, 80);
             if (stockInfolist != null) {
                 if (stockInfolist.size() > 0) {
                     AFstockInfo stockinfo = stockInfolist.get(0);
@@ -172,7 +172,7 @@ public class StockService {
         }
         if (stock.getStatus() == ConstantKey.OPEN) {
             if (stock.getSubstatus() != ConstantKey.INITIAL) {
-                ArrayList StockArray = serviceAFWeb.StoGetStockInfo_workaround(stock, 2, null);
+                ArrayList StockArray = serviceAFWeb.InfGetStockInfo_workaround(stock, 2, null);
 
                 if (StockArray != null) {
                     if (StockArray.size() >= 2) {

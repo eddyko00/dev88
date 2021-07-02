@@ -1494,7 +1494,7 @@ public class CustAccService {
             AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
 
             int size1year = 20 * 10;
-            ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year);
+            ArrayList<AFstockInfo> StockArray = serviceAFWeb.InfGetStockHistorical(stock.getSymbol(), size1year);
             if (StockArray == null) {
                 return null;
             }
@@ -1610,7 +1610,7 @@ public class CustAccService {
         }
 
         // recent date first
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), sizeLen);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.InfGetStockHistorical(stock.getSymbol(), sizeLen);
         if (StockArray == null) {
             return null;
         }
@@ -1780,7 +1780,7 @@ public class CustAccService {
         }
 
         // recent date first
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), sizeLen);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.InfGetStockHistorical(stock.getSymbol(), sizeLen);
         if (StockArray == null) {
             return null;
         }

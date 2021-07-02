@@ -135,7 +135,7 @@ public class NN3ProcessBySignal {
             throw new ArithmeticException(msg);
         }
 
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(NormalizeSymbol, size1yearAll);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.InfGetStockHistorical(NormalizeSymbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
         if (tr == ConstantKey.INT_TR_MACD1) {
@@ -832,7 +832,7 @@ public class NN3ProcessBySignal {
         int size1yearAll = 20 * 12 * 2 + (50 * 3);
 
 //        logger.info("> trainingNN " + symbol);
-        ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(symbol, size1yearAll);
+        ArrayList<AFstockInfo> StockArray = serviceAFWeb.InfGetStockHistorical(symbol, size1yearAll);
         ArrayList<NNInputDataObj> inputList = null;
 
         if (tr == ConstantKey.INT_TR_MACD1) {
@@ -1053,7 +1053,7 @@ public class NN3ProcessBySignal {
                 ArrayList<NNInputDataObj> inputlistSym = new ArrayList();
 
                 int size1yearAll = 20 * 12 * 5 + (50 * 3);
-                ArrayList<AFstockInfo> StockArray = serviceAFWeb.getStockHistoricalServ(symbol, size1yearAll);
+                ArrayList<AFstockInfo> StockArray = serviceAFWeb.InfGetStockHistorical(symbol, size1yearAll);
                 //StockArray assume recent date to old data   
                 ArrayList<NNInputDataObj> inputlistSym1 = getReTrainingNN3dataStockReTrain(serviceAFWeb, symbol, ConstantKey.INT_TR_NN3, StockArray, 0);
                 inputlistSym.addAll(inputlistSym1);

@@ -245,7 +245,7 @@ public class StockInfoProcess {
             return 0;
         }
         int size1year = 5 * 52;
-        ArrayList StockArray = serviceAFWeb.getStockHistoricalServ(stock.getSymbol(), size1year);
+        ArrayList StockArray = serviceAFWeb.InfGetStockHistorical(stock.getSymbol(), size1year);
         if (StockArray == null) {
             return 0;
         }
@@ -403,7 +403,7 @@ public class StockInfoProcess {
                 int internetHistoryLen = 0;
 
                 int size1yearAll = 20;
-                ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.getStockHistoricalServ(NormalizeSymbol, size1yearAll);
+                ArrayList<AFstockInfo> StockArrayHistory = serviceAFWeb.InfGetStockHistorical(NormalizeSymbol, size1yearAll);
                 if ((StockArrayHistory == null) || (StockArrayHistory.size() == 0)) {
                     ;
                 } else {
@@ -502,7 +502,7 @@ public class StockInfoProcess {
                         stockInfoTran.setNormalizeName(NormalizeSymbol);
                         stockInfoTran.setStockInfoList(StockSendArray);
 
-                        int ret = serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
+                        int ret = serviceAFWeb.InfUpdateStockInfoTransaction(stockInfoTran);
                         if (ret == 0) {
                             return 0;
                         }
@@ -519,7 +519,7 @@ public class StockInfoProcess {
                 }
 
 //                logger.info("updateRealTimeStock send " + StockSendArray.size());
-                return serviceAFWeb.updateStockInfoTransactionServ(stockInfoTran);
+                return serviceAFWeb.InfUpdateStockInfoTransaction(stockInfoTran);
             }
         } catch (Exception e) {
             logger.info("> updateRealTimeStock " + NormalizeSymbol + " exception " + e.getMessage());
