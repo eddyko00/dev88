@@ -853,10 +853,10 @@ public class ServiceAFweb {
 
             // javamain localmysqlflag nn2testflag flagNNLearningSignal nndebugflag
             logger.info("Start mydebugtestflag.....");
-            NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
-            NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
-            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-            NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
+//            NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
+//            NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
+//            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
+//            NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
 
             TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
@@ -1641,7 +1641,7 @@ public class ServiceAFweb {
 /////////////////////////////////////////////
     public String SysClearLock() {
         int retSatus = 0;
-        retSatus = SysDeleteAllLock();
+        retSatus = SysLockDeleteAll();
         return "" + retSatus;
     }
 
@@ -1919,6 +1919,10 @@ public class ServiceAFweb {
         return systemSrv.restStockDB();
     }
 
+    public ArrayList<String> SysGetAllIdSQLServ(String sql) {
+        return systemSrv.getAllIdSQL(sql);
+    }
+
     public int SysUpdateRemoteMYSQL(String sql) {
         return systemSrv.updateRemoteMYSQL(sql);
     }
@@ -1928,15 +1932,11 @@ public class ServiceAFweb {
     }
 
 ///////////////////////////////////////
-    public int SysDeleteAllLock() {
+    public int SysLockDeleteAll() {
         return systemSrv.deleteAllLock();
     }
 
-    public ArrayList<String> SysGetAllIdSQLServ(String sql) {
-        return systemSrv.getAllIdSQL(sql);
-    }
-
-    public String SysGetAllLockDBSQL(String sql) {
+    public String SysLockGetAllDBSQL(String sql) {
         return systemSrv.getAllLockDBSQL(sql);
     }
 
