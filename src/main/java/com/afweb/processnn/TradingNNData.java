@@ -117,7 +117,7 @@ public class TradingNNData {
         String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
         try {
             //order by desc 
-            objDataList = serviceAFWeb.getNeuralNetDataObj(BPnameSym, length);
+            objDataList = serviceAFWeb.NnGetNeuralNetDataObj(BPnameSym, length);
             if (objDataList != null) {
 //                logger.info("> getNNOtherDataDB " + BPnameSym + " " + objDataList.size());
                 for (int i = 0; i < objDataList.size(); i++) {

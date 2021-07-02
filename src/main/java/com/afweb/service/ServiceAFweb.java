@@ -2199,28 +2199,28 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int updateSQLStockInfoArrayListServ(ArrayList SQLTran) {
+    public int InfUpdateSQLStockInfoArrayList(ArrayList SQLTran) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.updateSQLStockInfoArrayList(this, SQLTran);
         }
         return 0;
     }
 
-    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArrayServ(String sql) {
+    public ArrayList<AFstockInfo> InfGetAllStockInfoDBSQLArray(String sql) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.getAllStockInfoDBSQLArray(this, sql);
         }
         return null;
     }
 
-    public String getAllStockInfoDBSQLServ(String sql) {
+    public String InfGetAllStockInfoDBSQL(String sql) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.getAllStockInfoDBSQL(this, sql);
         }
         return "";
     }
 
-    public ArrayList<String> getAllIdStockInfoSQLServ(String sql) {
+    public ArrayList<String> InfGetAllIdStockInfoSQL(String sql) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.getAllIdStockInfoSQL(sql);
         }
@@ -2266,10 +2266,10 @@ public class ServiceAFweb {
     }
 
     public ArrayList<AFneuralNetData> NnNeuralNetDataObjSystem(String BPnameTR) {
-        return getNeuralNetDataObj(BPnameTR, 0);
+        return NnGetNeuralNetDataObj(BPnameTR, 0);
     }
 
-    public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
+    public ArrayList<AFneuralNetData> NnGetNeuralNetDataObj(String name, int length) {
         return nnSrv.getNeuralNetDataObj(name, length);
     }
 //    public ArrayList<AFneuralNetData> SystemNeuralNetDataObj(String BPnameTR) {
@@ -2305,7 +2305,7 @@ public class ServiceAFweb {
 //        return getNeuralNetDataObj(BPnameTR, 0);
 //    }
 
-    public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
+    public ArrayList<AFneuralNetData> NnGetNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
         return nnSrv.getNeuralNetDataObjByStockId(name, refname, stockId, updatedatel);
     }
 

@@ -34,7 +34,7 @@ public class BackupRestoreInfo {
             if (writeSQLArray.size() == 0) {
                 return 1;
             }
-            return serviceAFWeb.updateSQLStockInfoArrayListServ(writeSQLArray);
+            return serviceAFWeb.InfUpdateSQLStockInfoArrayList(writeSQLArray);
 
         } catch (Exception ex) {
             logger.info("> sendRequestObj - exception " + ex);
@@ -118,7 +118,7 @@ public class BackupRestoreInfo {
         ArrayList<String> writeSQLArray = new ArrayList();
         String sql = StockInfoDB.createDummyInfotable();
         writeSQLArray.add(sql);
-        return serviceAFWeb.updateSQLStockInfoArrayListServ(writeSQLArray);
+        return serviceAFWeb.InfUpdateSQLStockInfoArrayList(writeSQLArray);
 
     }
 
@@ -183,7 +183,7 @@ public class BackupRestoreInfo {
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            ArrayList<AFstockInfo> array =  serviceAFWeb.getAllStockInfoDBSQLArrayServ(sql);
+            ArrayList<AFstockInfo> array =  serviceAFWeb.InfGetAllStockInfoDBSQLArray(sql);
             
 //            String output = serviceAFWeb.getAllStockInfoDBSQLServ(sql);
 //            sqlObj.setReq(sql);
@@ -215,7 +215,7 @@ public class BackupRestoreInfo {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllIdInfo + "");
             String sql = "select id from " + table + " order by id asc";
-            return serviceAFWeb.getAllIdStockInfoSQLServ(sql);
+            return serviceAFWeb.InfGetAllIdStockInfoSQL(sql);
 
 //            sqlObj.setReq(sql);
 //            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);

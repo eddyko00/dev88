@@ -768,7 +768,7 @@ public class NN30ProcessByTrend {
                         // save into db
                         // save into db
                         NNInputDataObj objData = inputlistSym.get(i);
-                        ArrayList<AFneuralNetData> objList = serviceAFWeb.getNeuralNetDataObjByStockId(BPnameSym, "", 0, objData.getUpdatedatel());
+                        ArrayList<AFneuralNetData> objList = serviceAFWeb.NnGetNeuralNetDataObjByStockId(BPnameSym, "", 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
                             serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
                             totalAdd++;

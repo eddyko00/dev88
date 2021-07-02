@@ -194,7 +194,7 @@ public class BackupRestoreNN {
         ArrayList<String> writeSQLArray = new ArrayList();
         String sql = NNetdataDB.createDummyNNdatatable();
         writeSQLArray.add(sql);
-        return serviceAFWeb.updateSQLStockInfoArrayListServ(writeSQLArray);
+        return serviceAFWeb.InfUpdateSQLStockInfoArrayList(writeSQLArray);
 
     }
 
@@ -378,7 +378,7 @@ public class BackupRestoreNN {
             RequestObj sqlObj = new RequestObj();
             sqlObj.setCmd(ServiceAFweb.AllIdInfo + "");
             String sql = "select id from " + table + " order by id asc";
-            return serviceAFWeb.getAllIdStockInfoSQLServ(sql);
+            return serviceAFWeb.InfGetAllIdStockInfoSQL(sql);
 
 //            sqlObj.setReq(sql);
 //            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);
