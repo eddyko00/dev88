@@ -56,7 +56,7 @@ public class TradingNNprocess {
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String sym = (String) stockNameArray.get(i);
                 if (ServiceAFweb.mydebugtestNN3flag == true) {
-                    if (ServiceAFweb.checkSymbolDebugTest(sym) == false) {
+                    if (ServiceAFweb.SysCheckSymbolDebugTest(sym) == false) {
                         continue;
                     }
                 }

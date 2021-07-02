@@ -493,7 +493,7 @@ public class NNetdataDB {
     }
 
     private ArrayList getAllNeuralNetDataSQL(String sql) {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllNeuralNetDataSqlRemoteDB_RemoteMysql(sql, remoteURL);
@@ -557,7 +557,7 @@ public class NNetdataDB {
     }
 
     private ArrayList getAllNeuralNetSQL(String sql) {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllNeuralNetSqlRemoteDB_RemoteMysql(sql, remoteURL);
@@ -647,7 +647,7 @@ public class NNetdataDB {
 
     public int updateSQLArrayList(ArrayList SQLTran) {
 
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran, remoteURL);
             if (ret == 0) {
                 return 0;
@@ -683,7 +683,7 @@ public class NNetdataDB {
 
     /////////////////////////////
     public ArrayList getAllNameSQL(String sql) {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllNameSqlRemoteDB_RemoteMysql(sql, remoteURL);
@@ -737,7 +737,7 @@ public class NNetdataDB {
 //    }
 //    
     public ArrayList getAllIdSQL(String sql) {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql, remoteURL);
@@ -764,7 +764,7 @@ public class NNetdataDB {
     }
 
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName, remoteURL);
             return count;
         }
@@ -774,7 +774,7 @@ public class NNetdataDB {
     }
 
     public int processUpdateDB(String sqlCMD) throws Exception {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return ret;
         }
@@ -787,7 +787,7 @@ public class NNetdataDB {
     public void processExecuteDB(String sqlCMD) throws Exception {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return;
         }

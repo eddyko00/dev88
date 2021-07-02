@@ -431,7 +431,7 @@ public class NN1ProcessBySignal {
 
                 String sym = (String) stockNameArray.get(i);
                 if (ServiceAFweb.mydebugtestNN3flag == true) {
-                    if (ServiceAFweb.checkSymbolDebugTest(sym) == false) {
+                    if (ServiceAFweb.SysCheckSymbolDebugTest(sym) == false) {
                         continue;
                     }
                 }

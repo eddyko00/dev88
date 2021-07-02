@@ -811,7 +811,7 @@ public class ServiceAFweb {
 
     public static boolean forceMarketOpen = false; //forceMarketOpen;
 
-    public static boolean checkSymbolDebugTest(String symbol) {
+    public static boolean SysCheckSymbolDebugTest(String symbol) {
 
         if (ServiceAFweb.mydebugtestNN3flag == true) {
             if (symbol.equals("GLD")) {
@@ -1354,22 +1354,6 @@ public class ServiceAFweb {
         }
     }
 
-    ///////////////////////////////////
-//    public static boolean checkCallRemoteMysql() {
-//        boolean ret = false;
-//        if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-//            ret = true;
-//        }
-//        return ret;
-//    }
-    public static boolean checkCallRemoteMysql() {
-        boolean ret = true;
-        if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
-            ret = false;
-        }
-        return ret;
-    }
-
     //////////////////////////////////////////////////
     // SystemService
     SystemService systemSrv = new SystemService();
@@ -1622,7 +1606,7 @@ public class ServiceAFweb {
 
             reqObj = SystemSQLRequestSystem(sqlObj);
             if (reqObj == null) {
-                reqObj = SystemSQLRequestCustAcc(sqlObj);
+                reqObj = AccSQLRequestCustAcc(sqlObj);
             }
             if (reqObj == null) {
                 reqObj = StoSQLRequestStock(sqlObj);
@@ -1643,8 +1627,10 @@ public class ServiceAFweb {
         }
         return null;
     }
-/////////////////////////////////////////////
 
+
+
+/////////////////////////////////////////////
     public String SysClearLock() {
         int retSatus = 0;
         retSatus = deleteAllLock();
@@ -1652,6 +1638,14 @@ public class ServiceAFweb {
     }
 
 ///////////////////////////
+
+    public static boolean SysCheckCallRemoteMysql() {
+        boolean ret = true;
+        if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
+            ret = false;
+        }
+        return ret;
+    }    
     public String SysClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         AccountObj accountAdminObj = this.getAdminObjFromCache();
@@ -1962,7 +1956,7 @@ public class ServiceAFweb {
 //        return getStockByStockIDServ(stockId);
 //    }    
 
-    public boolean checkStockServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
+    public boolean StoCheckStockValidServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         if (stockFlag == true) {
             return stockSrv.checkStock(serviceAFWeb, NormalizeSymbol);
         }
@@ -2305,7 +2299,7 @@ public class ServiceAFweb {
     public static boolean custAccFlag = true;
 
     //////////////////////////////////////////////////
-    public RequestObj SystemSQLRequestCustAcc(RequestObj sqlObj) {
+    public RequestObj AccSQLRequestCustAcc(RequestObj sqlObj) {
         RequestObj reqObj = custAccSrv.SQLRequestCustAcc(this, sqlObj);
         return reqObj;
     }
@@ -2384,7 +2378,7 @@ public class ServiceAFweb {
 //
 //    }
 
-    public boolean checkTRListByStockID(String StockID) {
+    public boolean AccCheckTRListByStockID(String StockID) {
         return custAccSrv.checkTRListByStockID(StockID);
     }
 

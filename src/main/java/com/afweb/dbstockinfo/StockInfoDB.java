@@ -177,7 +177,7 @@ public class StockInfoDB {
 //    }
 
     private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             try {
                 ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return AFstockObjArry;
@@ -335,7 +335,7 @@ public class StockInfoDB {
 
     public int updateSQLInfoArrayList(ArrayList SQLTran) {
 
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran, remoteURL);
             if (ret == 0) {
                 return 0;
@@ -362,7 +362,7 @@ public class StockInfoDB {
 
     ///////////
     public ArrayList getAllIdSQL(String sql) {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
                 nnList = remoteDB.getAllIdSqlRemoteDB_RemoteMysql(sql, remoteURL);
@@ -389,7 +389,7 @@ public class StockInfoDB {
     }
 
     public int getCountRowsInTable(JdbcTemplate jdbcTemplate, String tableName) throws Exception {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             int count = remoteDB.getCountRowsRemoteDB_RemoteMysql(tableName, remoteURL);
             return count;
         }
@@ -399,7 +399,7 @@ public class StockInfoDB {
     }
 
     public int processUpdateDB(String sqlCMD) throws Exception {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             int ret = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return ret;
         }
@@ -412,7 +412,7 @@ public class StockInfoDB {
     public void processExecuteDB(String sqlCMD) throws Exception {
 //        logger.info("> processExecuteDB " + sqlCMD);
 
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             int count = remoteDB.postExecuteRemoteDB_RemoteMysql(sqlCMD, remoteURL);
             return;
         }

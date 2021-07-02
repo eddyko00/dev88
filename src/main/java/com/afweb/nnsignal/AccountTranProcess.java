@@ -97,7 +97,7 @@ public class AccountTranProcess {
                     stockSignalNameArray.remove(0);
 
                     if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (ServiceAFweb.checkSymbolDebugTest(symbol) == false) {
+                        if (ServiceAFweb.SysCheckSymbolDebugTest(symbol) == false) {
                             continue;
                         }
                     }
@@ -124,7 +124,7 @@ public class AccountTranProcess {
 //                    logger.info("ProcessAdminSignalTrading " + LockStock + " LockStock " + lockReturnStock);
                     if (lockReturnStock > 0) {
 
-                        boolean ret = serviceAFWeb.checkStockServ(serviceAFWeb, symbol);
+                        boolean ret = serviceAFWeb.StoCheckStockValidServ(serviceAFWeb, symbol);
                         if (ret == true) {
 
                             TradingRuleObj trObj = serviceAFWeb.getAccountStockIDByTRStockIDSystem(accountAdminObj.getId(), stock.getId(), ConstantKey.TR_NN1);
@@ -678,12 +678,12 @@ public class AccountTranProcess {
                     String symbol = (String) stockNameArray.get(j);
 
                     if (ServiceAFweb.mydebugtestNN3flag == true) {
-                        if (ServiceAFweb.checkSymbolDebugTest(symbol) == false) {
+                        if (ServiceAFweb.SysCheckSymbolDebugTest(symbol) == false) {
                             continue;
                         }
                     }
 
-                    boolean ret = serviceAFWeb.checkStockServ(serviceAFWeb, symbol);
+                    boolean ret = serviceAFWeb.StoCheckStockValidServ(serviceAFWeb, symbol);
 
                     if (ret == true) {
                         AccountTranImp tranImp = new AccountTranImp();

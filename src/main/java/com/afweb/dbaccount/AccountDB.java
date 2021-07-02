@@ -123,7 +123,7 @@ public class AccountDB {
     }
 
     public static boolean checkCallRemoteSQL_Mysql() {
-        if (ServiceAFweb.checkCallRemoteMysql() == true) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             return true;
         }
         return false;
