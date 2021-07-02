@@ -1638,8 +1638,6 @@ public class ServiceAFweb {
         return null;
     }
 
-
-
 ///////////////////////////
     public static boolean SysCheckCallRemoteMysql() {
         boolean ret = true;
@@ -1789,6 +1787,53 @@ public class ServiceAFweb {
 
         return result;
     }
+    ///////////////////////////////////////
+    public CustomerObj SysGetCustomerIgnoreMaintenance(String EmailUserName, String Password) {
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        return SysGetCustomerPassword(UserName, Password);
+    }
+
+    public CustomerObj SysGetCustomerPassword(String EmailUserName, String Password) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+
+        NameObj nameObj = new NameObj(EmailUserName);
+        String UserName = nameObj.getNormalizeName();
+        CustomerObj custObj = AccGetCustomerPassword(UserName, Password);
+        if (custObj != null) {
+            if (custObj.getStatus() != ConstantKey.OPEN) {
+                custObj.setUsername("");
+                custObj.setPassword("");
+            }
+        }
+        return custObj;
+    }
+//
+
+    public CustomerObj AccGetCustomerObjByName(String name) {
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        ArrayList<CustomerObj> custList = AccGetCustomerObjByNameList(name);
+        if (custList != null) {
+            if (custList.size() > 0) {
+                return custList.get(0);
+            }
+        }
+        return null;
+    }
+
+    public CustomerObj SysGetCustomerByAccoutObj(AccountObj accObj) {
+        CustomerObj result = null;
+        if (getServerObj().isSysMaintenance() == true) {
+            return null;
+        }
+        result = AccGetCustomerByAccoutObj(accObj);
+        return result;
+    }
 
 //////////////////////////////helper function
     public AccData getAccData(String accDataStr) {
@@ -1920,7 +1965,6 @@ public class ServiceAFweb {
 //    public String SysLockGetAllDBSQL(String sql) {
 //        return systemSrv.getAllLockDBSQL(sql);
 //    }
-
     public ArrayList SysLockGetAll() {
         ArrayList result = null;
         result = systemSrv.getAllLock();
@@ -1944,12 +1988,12 @@ public class ServiceAFweb {
 
     }
 /////////////////////////////////////////////
+
     public String SysClearLock() {
         int retSatus = 0;
         retSatus = SysLockDeleteAll();
         return "" + retSatus;
     }
-
 
     public int SysSetLockName(String name, int type, long lockdatel, String comment) {
         int resultLock = SysLockSetName(name, type, lockdatel, comment);
@@ -1963,6 +2007,7 @@ public class ServiceAFweb {
         }
         return 0;
     }
+
     //////////////////
     public StringBuffer SysGetInternetScreenPage(String url) {
         return systemSrv.getInternetScreenPage(url);
@@ -2884,7 +2929,7 @@ public class ServiceAFweb {
         return false;
     }
 
-    public String getAccountStockTRListHistoryChartServ(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
+    public String AccGetAccountStockTRListHistoryChart(ArrayList<StockTRHistoryObj> thObjListMain, String stockidsymbol, String trname, String pathSt) {
         if (custAccFlag == true) {
             ChartService chartSrv = new ChartService();
             return chartSrv.getAccountStockTRListHistoryChartToFile(this, thObjListMain, stockidsymbol, trname, pathSt);
@@ -2892,7 +2937,7 @@ public class ServiceAFweb {
         return "";
     }
 
-    public ArrayList<PerformanceObj> getAccountStockPerfListSystem(int accountID, int stockID, String trName, int length) {
+    public ArrayList<PerformanceObj> AccGetAccountStockPerfList(int accountID, int stockID, String trName, int length) {
         return custAccSrv.getAccountStockPerfList(accountID, stockID, trName, length);
     }
     //    public ArrayList<PerformanceObj> SystemAccountStockPerfList(int accountID, int stockID, String trName, int length) {
@@ -2931,7 +2976,7 @@ public class ServiceAFweb {
 //        return custAccSrv.getAccountStockPerfList(accountID, stockID, trName, length);
 //    }
 
-    public ArrayList getAllOpenAccountIDSystem() {
+    public ArrayList AccGetAllOpenAccountID() {
         return custAccSrv.getAllOpenAccountID();
     }
 //    public ArrayList SystemAllOpenAccountIDList() {
@@ -2961,6 +3006,18 @@ public class ServiceAFweb {
 //    }    
 //    
 
+    public CustomerObj AccGetCustomerPassword(String UserName, String Password) {
+        return custAccSrv.getCustomerPassword(UserName, Password);
+    }
+
+    public ArrayList<CustomerObj> AccGetCustomerObjByNameList(String name) {
+        return custAccSrv.getCustomerObjByNameList(name);
+    }
+
+    public CustomerObj AccGetCustomerByAccoutObj(AccountObj accObj) {
+        return custAccSrv.getCustomerByAccoutObj(accObj);
+    }
+
     public CommObj getCommObjByID(int commID) {
         return custAccSrv.getCommObjByID(commID);
     }
@@ -2969,53 +3026,6 @@ public class ServiceAFweb {
         return custAccSrv.getCommDataObj(commObj);
     }
 
-    ///////////////////////////////////////
-    public CustomerObj getCustomerIgnoreMaintenance(String EmailUserName, String Password) {
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        return getCustomerPassword(UserName, Password);
-    }
-
-    public CustomerObj getCustomerPassword(String EmailUserName, String Password) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        NameObj nameObj = new NameObj(EmailUserName);
-        String UserName = nameObj.getNormalizeName();
-        CustomerObj custObj = custAccSrv.getCustomerPassword(UserName, Password);
-        if (custObj != null) {
-            if (custObj.getStatus() != ConstantKey.OPEN) {
-                custObj.setUsername("");
-                custObj.setPassword("");
-            }
-        }
-        return custObj;
-    }
-//
-
-    public CustomerObj getCustomerObjByName(String name) {
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        ArrayList<CustomerObj> custList = custAccSrv.getCustomerObjByNameList(name);
-        if (custList != null) {
-            if (custList.size() > 0) {
-                return custList.get(0);
-            }
-        }
-        return null;
-    }
-
-    public CustomerObj getCustomerByAccoutObj(AccountObj accObj) {
-        CustomerObj result = null;
-        if (getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-        result = custAccSrv.getCustomerByAccoutObj(accObj);
-        return result;
-    }
 
     //////////////////////////////////////////////////
 //    public String SystemSQLquery(String SQL) {

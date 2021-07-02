@@ -78,7 +78,7 @@ public class ControllerNN {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse(nnService.SystemClearNNinput(afWebService));
@@ -103,7 +103,7 @@ public class ControllerNN {
                 return msg;
             }
         }
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse("" + nnService.SystemDeleteNN1Table(afWebService));
@@ -128,7 +128,7 @@ public class ControllerNN {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse("" + ServiceAFweb.processNeuralNetFlag);
@@ -156,7 +156,7 @@ public class ControllerNN {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 ServiceAFweb.processNeuralNetFlag = true;
@@ -186,7 +186,7 @@ public class ControllerNN {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 ServiceAFweb.processNeuralNetFlag = false;
@@ -214,7 +214,7 @@ public class ControllerNN {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse(nnService.SystemClearNNtran(afWebService, ConstantKey.SIZE_TR));
@@ -250,7 +250,7 @@ public class ControllerNN {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse(nnService.SystemClearNNtran(afWebService, defTR));
@@ -269,7 +269,7 @@ public class ControllerNN {
             @PathVariable("name") String name
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
 
@@ -289,7 +289,7 @@ public class ControllerNN {
             @PathVariable("type") String type
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int nnType = Integer.parseInt(type);
@@ -309,7 +309,7 @@ public class ControllerNN {
             @PathVariable("type") String type
     ) {
         afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int nnType = Integer.parseInt(type);
@@ -338,7 +338,7 @@ public class ControllerNN {
             return 0;
         }
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int result = nnService.setNeuralNetObjWeight0(afWebService, afNeuralNet);
@@ -367,7 +367,7 @@ public class ControllerNN {
             return 0;
         }
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int result = nnService.setNeuralNetObjWeight1(afWebService, afNeuralNet);

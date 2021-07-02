@@ -70,7 +70,7 @@ public class ControllerAccounting {
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -96,7 +96,7 @@ public class ControllerAccounting {
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -121,7 +121,7 @@ public class ControllerAccounting {
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -147,7 +147,7 @@ public class ControllerAccounting {
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -169,7 +169,7 @@ public class ControllerAccounting {
             @RequestParam(value = "year", required = false) String yearSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -191,7 +191,7 @@ public class ControllerAccounting {
             @RequestParam(value = "year", required = false) String yearSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -217,7 +217,7 @@ public class ControllerAccounting {
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -243,7 +243,7 @@ public class ControllerAccounting {
             @RequestParam(value = "comment", required = false) String commentSt
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -278,7 +278,7 @@ public class ControllerAccounting {
             year = Integer.parseInt(yeatSt);
         }
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
@@ -306,7 +306,7 @@ public class ControllerAccounting {
             return null;
         }
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
@@ -334,7 +334,7 @@ public class ControllerAccounting {
             return 0;
         }
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {

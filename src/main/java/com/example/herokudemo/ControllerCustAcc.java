@@ -767,7 +767,7 @@ public class ControllerCustAcc {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
@@ -795,14 +795,14 @@ public class ControllerCustAcc {
             length = Integer.parseInt(lengthSt);
         }
         ArrayList custObjList = new ArrayList();
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (custidSt.equals(cust.getId() + "")) {
                 if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                     if (nameSt != null) {
                         NameObj nameObj = new NameObj(nameSt);
                         String UserName = nameObj.getNormalizeName();
-                        CustomerObj cutObj = afWebService.getCustomerObjByName(UserName);
+                        CustomerObj cutObj = afWebService.AccGetCustomerObjByName(UserName);
                         custObjList.add(cutObj);
                     } else {
 
@@ -828,7 +828,7 @@ public class ControllerCustAcc {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 ArrayList custNameList = custaccService.getExpiredCustomerList(afWebService, length);
@@ -853,7 +853,7 @@ public class ControllerCustAcc {
         if (customername == null) {
             return 0;
         }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int result = custaccService.updateCustStatusSubStatus(afWebService, customername, status, substatus);
@@ -876,7 +876,7 @@ public class ControllerCustAcc {
         if (emailSt == null) {
             return 0;
         }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int result = custaccService.changeAPICustomer(afWebService, emailSt);
@@ -899,7 +899,7 @@ public class ControllerCustAcc {
         if (emailSt == null) {
             return 0;
         }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int result = custaccService.changeFundCustomer(afWebService, emailSt);
@@ -922,7 +922,7 @@ public class ControllerCustAcc {
         if (customername == null) {
             return 0;
         }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int result = custaccService.removeCustomer(afWebService, customername);
@@ -950,7 +950,7 @@ public class ControllerCustAcc {
         if (customername == null) {
             return 0;
         }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {

@@ -196,7 +196,7 @@ public class AccountTranProcess {
             accountFundIdNameArray = new ArrayList();
         }
         if (accountFundIdNameArray.size() == 0) {
-            ArrayList accountIdList = serviceAFWeb.getAllOpenAccountIDSystem();
+            ArrayList accountIdList = serviceAFWeb.AccGetAllOpenAccountID();
             if (accountIdList == null) {
                 return;
             }
@@ -610,7 +610,7 @@ public class AccountTranProcess {
             accountIdNameArray = new ArrayList();
         }
         if (accountIdNameArray.size() == 0) {
-            ArrayList accountIdList = serviceAFWeb.getAllOpenAccountIDSystem();
+            ArrayList accountIdList = serviceAFWeb.AccGetAllOpenAccountID();
             if (accountIdList == null) {
                 return;
             }

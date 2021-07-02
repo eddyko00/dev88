@@ -136,7 +136,7 @@ public class ControllerStock {
         if (lengthSt != null) {
             length = Integer.parseInt(lengthSt);
         }
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 ArrayList stNameList = afWebService.SysGetDisableStockNameList(length);

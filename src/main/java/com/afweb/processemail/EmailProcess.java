@@ -40,7 +40,7 @@ public class EmailProcess {
             accountNameArray = new ArrayList();
         }
         if (accountNameArray.size() == 0) {
-            ArrayList accountIdList = serviceAFWeb.getAllOpenAccountIDSystem();
+            ArrayList accountIdList = serviceAFWeb.AccGetAllOpenAccountID();
             if (accountIdList == null) {
                 return;
             }

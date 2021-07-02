@@ -218,7 +218,7 @@ public class TradingNNprocess {
     public int ClearStockNNTranHistoryAllAcc(ServiceAFweb serviceAFWeb, String nnName, String sym) {
         logger.info("> ClearStockNNTranHistoryAllAcc " + nnName);
 
-        ArrayList accNameArray = serviceAFWeb.getAllOpenAccountIDSystem();
+        ArrayList accNameArray = serviceAFWeb.AccGetAllOpenAccountID();
         if (accNameArray != null) {
             for (int j = 0; j < accNameArray.size(); j++) {
                 String accIdSt = (String) accNameArray.get(j);

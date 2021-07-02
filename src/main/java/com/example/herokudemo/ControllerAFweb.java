@@ -195,7 +195,7 @@ public class ControllerAFweb {
         } catch (IOException ex) {
             return "";
         }
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
 //                System.out.println(sqlObj.getReq());
@@ -378,7 +378,7 @@ public class ControllerAFweb {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse(afWebService.SysStart());
@@ -403,7 +403,7 @@ public class ControllerAFweb {
                 return msg;
             }
         }
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse(afWebService.SysCleanDBData());
@@ -429,7 +429,7 @@ public class ControllerAFweb {
                 return msg;
             }
         }
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse(afWebService.SysDropDBData());
@@ -452,7 +452,7 @@ public class ControllerAFweb {
                 return msg;
             }
         }
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse(afWebService.SysClearLock());
@@ -526,7 +526,7 @@ public class ControllerAFweb {
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {
@@ -553,7 +553,7 @@ public class ControllerAFweb {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 ArrayList result = afWebService.SysLockGetAll();
@@ -572,7 +572,7 @@ public class ControllerAFweb {
             @PathVariable("type") String type
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int locktype = Integer.parseInt(type);
@@ -593,7 +593,7 @@ public class ControllerAFweb {
     ) {
 
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int locktype = Integer.parseInt(type);
@@ -616,7 +616,7 @@ public class ControllerAFweb {
     ) {
 
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int locktype = Integer.parseInt(type);
@@ -638,7 +638,7 @@ public class ControllerAFweb {
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int locktype = Integer.parseInt(type);
@@ -672,7 +672,7 @@ public class ControllerAFweb {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 RequestObj sqlResp = afWebService.SysSQLRequest(sqlReq);
@@ -710,7 +710,7 @@ public class ControllerAFweb {
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
 
-        CustomerObj cust = afWebService.getCustomerPassword(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 if (custidSt.equals(cust.getId() + "")) {

@@ -178,7 +178,7 @@ public class AccountTranImp {
                                         sig = ConstantKey.S_SELL_ST;
                                     }
 
-                                    CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accountObj);
+                                    CustomerObj cust = serviceAFWeb.SysGetCustomerByAccoutObj(accountObj);
                                     if (cust.getType() == CustomerObj.INT_API_USER) {
                                         DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
                                         formatD.setTimeZone(tz);
@@ -264,7 +264,7 @@ public class AccountTranImp {
                     } else if (newTsSig == ConstantKey.S_SELL) {
                         sig = ConstantKey.S_SELL_ST;
                     }
-                    CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accFundObj);
+                    CustomerObj cust = serviceAFWeb.SysGetCustomerByAccoutObj(accFundObj);
                     String accTxt = "acc-" + cust.getId();
                     String msg = ESTtime + " " + accTxt + " " + symbol + " Sig:" + sig;
                     // comm message is in the trading account instead of multfund account
@@ -353,7 +353,7 @@ public class AccountTranImp {
                         pObj.setAccountid(accountObj.getId());
                         pObj.setStockid(stock.getId());
                         pObj.setTradingruleid(trObj.getId());
-                        ArrayList<PerformanceObj> currentPerfList = serviceAFWeb.getAccountStockPerfListSystem(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
+                        ArrayList<PerformanceObj> currentPerfList = serviceAFWeb.AccGetAccountStockPerfList(accountObj.getId(), stock.getId(), trObj.getTrname(), 1);
                         String SQLPerf = "";
                         if ((currentPerfList != null) && (currentPerfList.size() > 0)) {
                             PerformanceObj currentpObj = currentPerfList.get(0);
@@ -427,7 +427,7 @@ public class AccountTranImp {
                 sig = ConstantKey.S_SELL_ST;
             }
             CommMsgImp commMsgImp = new CommMsgImp();
-            CustomerObj cust = serviceAFWeb.getCustomerByAccoutObj(accountObj);
+            CustomerObj cust = serviceAFWeb.SysGetCustomerByAccoutObj(accountObj);
             if (cust.getType() == CustomerObj.INT_API_USER) {
                 DateFormat formatD = new SimpleDateFormat("M/dd/yyyy hh:mm a");
                 formatD.setTimeZone(tz);

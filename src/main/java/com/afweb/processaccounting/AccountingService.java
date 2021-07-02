@@ -610,7 +610,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getCustomerPassword(UserName, Password);
+            CustomerObj customer = serviceAFWeb.SysGetCustomerPassword(UserName, Password);
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
 
@@ -652,7 +652,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getCustomerPassword(UserName, Password);
+            CustomerObj customer = serviceAFWeb.SysGetCustomerPassword(UserName, Password);
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
                     int id = Integer.parseInt(idSt);
@@ -674,7 +674,7 @@ public class AccountingService {
         NameObj nameObj = new NameObj(EmailUserName);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getCustomerPassword(UserName, Password);
+            CustomerObj customer = serviceAFWeb.SysGetCustomerPassword(UserName, Password);
             if (customer != null) {
                 if (customer.getUsername().equals(CKey.ADMIN_USERNAME)) {
                     int id = Integer.parseInt(idSt);

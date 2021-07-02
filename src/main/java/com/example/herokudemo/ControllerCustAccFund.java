@@ -296,7 +296,7 @@ public class ControllerCustAccFund {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse("" + custaccService.SystemFundResetGlobal(afWebService));
@@ -323,7 +323,7 @@ public class ControllerCustAccFund {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse("" + custaccService.SystemFundSelectBest(afWebService));
@@ -350,7 +350,7 @@ public class ControllerCustAccFund {
             }
         }
 
-        CustomerObj cust = afWebService.getCustomerIgnoreMaintenance(username, null);
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 msg.setResponse("" + custaccService.SystemFundPocessAddRemove(afWebService));

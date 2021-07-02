@@ -97,7 +97,7 @@ public class BillingProcess {
                     break;
                 }
                 String custName = (String) custProcessNameArray.get(0);
-                CustomerObj customer = serviceAFWeb.getCustomerObjByName(custName);
+                CustomerObj customer = serviceAFWeb.AccGetCustomerObjByName(custName);
                 if (customer != null) {
                     if ((customer.getType() == CustomerObj.INT_ADMIN_USER)) {
                         //                            || (customer.getType() == CustomerObj.INT_FUND_USER)) {
@@ -573,7 +573,7 @@ public class BillingProcess {
                     try {
                         int FundId = Integer.parseInt(FundIdSt);
                         AccountObj accFund = accountImp.getAccountByAccountID(FundId);
-                        CustomerObj custFund = serviceAFWeb.getCustomerByAccoutObj(accFund);
+                        CustomerObj custFund = serviceAFWeb.SysGetCustomerByAccoutObj(accFund);
                         portfolio = custFund.getPortfolio();
                         custPortfilio = new CustPort();
                         if ((portfolio != null) && (portfolio.length() > 0)) {
@@ -620,7 +620,7 @@ public class BillingProcess {
         // Need to refesh customer from DB to get the portfolio
         // Need to refesh customer from DB to get the portfolio        
         String name = customer.getUsername();
-        customer = serviceAFWeb.getCustomerObjByName(name);
+        customer = serviceAFWeb.AccGetCustomerObjByName(name);
         String portfolio = customer.getPortfolio();
         String portfStr;
         CustPort custPortfilio = new CustPort();
@@ -690,7 +690,7 @@ public class BillingProcess {
             portfStr = new ObjectMapper().writeValueAsString(custPortfilio);
             accountImp.updateCustomerPortfolio(customer.getUsername(), portfStr);
 
-            CustomerObj custFund = serviceAFWeb.getCustomerByAccoutObj(accFund);
+            CustomerObj custFund = serviceAFWeb.SysGetCustomerByAccoutObj(accFund);
             portfolio = custFund.getPortfolio();
             custPortfilio = new CustPort();
             if ((portfolio != null) && (portfolio.length() > 0)) {
