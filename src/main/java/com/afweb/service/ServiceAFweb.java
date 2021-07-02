@@ -2099,7 +2099,7 @@ public class ServiceAFweb {
         return reqObj;
     }
 
-    public ArrayList<AFstockInfo> getStockInfoServ(AFstockObj stock, int length, Calendar dateNow) {
+    public ArrayList<AFstockInfo> InfGetStockInfo(AFstockObj stock, int length, Calendar dateNow) {
         if (stockInfoFlag == true) {
             if (stock == null) {
                 return null;
