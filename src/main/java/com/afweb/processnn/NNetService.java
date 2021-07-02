@@ -385,7 +385,7 @@ public class NNetService {
                     } catch (Exception ex) {
 
                     }
-                    serviceAFWeb.SysRemoveNameLock(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                    serviceAFWeb.SysLockRemoveName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                     return true;
                 }
 

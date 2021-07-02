@@ -704,14 +704,14 @@ public class ServiceAFweb {
             logger.info("> Exception lastfun - " + lastfun);
             logger.info("> processTimer Exception " + ex.getMessage());
         }
-        SysRemoveNameLock(LockName, ConstantKey.SRV_LOCKTYPE);
+        SysLockRemoveName(LockName, ConstantKey.SRV_LOCKTYPE);
     }
 
     void AFwebExec() {
 
         ////////////
         if (((getServerObj().getProcessTimerCnt() % 29) == 0) || (getServerObj().getProcessTimerCnt() == 1)) {
-            long result = SysRenewLock(serverLockName, ConstantKey.SRV_LOCKTYPE);
+            long result = SysLockRenew(serverLockName, ConstantKey.SRV_LOCKTYPE);
             if (result == 0) {
                 Calendar dateNow1 = TimeConvertion.getCurrentCalendar();
                 long lockDateValue1 = dateNow1.getTimeInMillis();
@@ -1647,10 +1647,10 @@ public class ServiceAFweb {
 
     ////////////////////////////////////////////
     public int SysSetLockName(String name, int type, long lockdatel, String comment) {
-        int resultLock = SysSetLockNameSystem(name, type, lockdatel, comment);
+        int resultLock = SysLockSetName(name, type, lockdatel, comment);
         // DB will enusre the name in the lock is unique and s
         AFRandomDelayMilSec(200);
-        AFLockObject lock = SysGetLockName(name, type);
+        AFLockObject lock = SysLockGetName(name, type);
         if (lock != null) {
             if (lock.getLockdatel() == lockdatel) {
                 return 1;
@@ -1940,25 +1940,25 @@ public class ServiceAFweb {
         return systemSrv.getAllLockDBSQL(sql);
     }
 
-    public ArrayList SysGetAllLock() {
+    public ArrayList SysLockGetAll() {
         ArrayList result = null;
         result = systemSrv.getAllLock();
         return result;
     }
 
-    public int SysRenewLock(String name, int type) {
+    public int SysLockRenew(String name, int type) {
         return systemSrv.setRenewLock(name, type);
     }
 
-    public AFLockObject SysGetLockName(String name, int type) {
+    public AFLockObject SysLockGetName(String name, int type) {
         return systemSrv.getLockName(name, type);
     }
 
-    public int SysSetLockNameSystem(String name, int type, long lockdatel, String comment) {
+    public int SysLockSetName(String name, int type, long lockdatel, String comment) {
         return systemSrv.setLockName(name, type, lockdatel, comment);
     }
 
-    public int SysRemoveNameLock(String name, int type) {
+    public int SysLockRemoveName(String name, int type) {
         return systemSrv.removeLock(name, type);
 
     }

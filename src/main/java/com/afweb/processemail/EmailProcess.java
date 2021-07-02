@@ -91,7 +91,7 @@ public class EmailProcess {
                     logger.info("> ProcessEmailAccount Exception " + e.getMessage());
                 }
             }
-            serviceAFWeb.SysRemoveNameLock(LockName, ConstantKey.FUND_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.FUND_LOCKTYPE);
         }
     }
 

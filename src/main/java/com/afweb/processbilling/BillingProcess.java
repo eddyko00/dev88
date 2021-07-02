@@ -114,7 +114,7 @@ public class BillingProcess {
                 custProcessNameArray.remove(0);
 
             }  // end for loop
-            serviceAFWeb.SysRemoveNameLock(LockName, ConstantKey.NN_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
 //        logger.info("> updateUserBillingAll ... done");

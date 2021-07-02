@@ -205,7 +205,7 @@ public class StockInfoProcess {
                             sqlList.add(sockUpdateSQL);
                             serviceAFWeb.InfUpdateSQLStockInfoArrayList(sqlList);
 
-                            serviceAFWeb.SysRemoveNameLock(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
+                            serviceAFWeb.SysLockRemoveName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
                             return 1;
                         }
 
