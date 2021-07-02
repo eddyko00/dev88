@@ -235,7 +235,7 @@ public class NN1ProcessBySignal {
                 NNInputDataObj objData = inputList.get(i);
                 ArrayList<AFneuralNetData> objList = serviceAFWeb.NnGetNeuralNetDataObjByStockId(BPname, NormalizeSymbol, stockId, objData.getUpdatedatel());
                 if ((objList == null) || (objList.size() == 0)) {
-                    serviceAFWeb.updateNeuralNetDataObject(BPname, NormalizeSymbol, stockId, objData);
+                    serviceAFWeb.NnUpdateNeuralNetDataObject(BPname, NormalizeSymbol, stockId, objData);
                     totalAdd++;
                     continue;
                 }
@@ -680,7 +680,7 @@ public class NN1ProcessBySignal {
                         NNInputDataObj objData = inputlistSym.get(i);
                         ArrayList<AFneuralNetData> objList = serviceAFWeb.NnGetNeuralNetDataObjByStockId(BPnameSym, "", 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
-                            serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
+                            serviceAFWeb.NnUpdateNeuralNetDataObject(BPnameSym, "", 0, objData);
                             totalAdd++;
                             continue;
                         }
@@ -726,10 +726,10 @@ public class NN1ProcessBySignal {
                 logger.info("> inputStockNeuralNetData v" + version + " " + middlelayer + " " + nnName + " " + BPnameSym + "  toAdd=" + totalAdd + " toDup=" + totalDup);
 
                 String weightSt = nnTemp.getNetObjSt();
-                int ret = serviceAFWeb.setCreateNeuralNetObj1(BPnameSym, weightSt);
+                int ret = serviceAFWeb.NnCreateNeuralNetObj1(BPnameSym, weightSt);
                 if (refData.getmError() != 0) {
                     logger.info("> inputStockNeuralNet  " + BPnameSym + " refMinError " + refData.getmError());
-                    serviceAFWeb.updateNeuralNetRef1(BPnameSym, refData);
+                    serviceAFWeb.NnUpdateNeuralNetRef1(BPnameSym, refData);
                 }
 //                if (refName != null) {
 //                    if (refName.length() > 0) {
@@ -1125,7 +1125,7 @@ public class NN1ProcessBySignal {
 //                            }
 
                         }
-                        serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
+                        serviceAFWeb.NnUpdateNeuralNetDataObject(BPnameSym, "", 0, objData);
                         totalAdd++;
                         writeArray.add(nameST);
                         continue;
@@ -1143,7 +1143,7 @@ public class NN1ProcessBySignal {
                 }
                 refData.setnRLCnt(cnt);
                 refData.setnRLearn(totalAdd);
-                serviceAFWeb.updateNeuralNetRef0(BPnameSym, refData);
+                serviceAFWeb.NnUpdateNeuralNetRef0(BPnameSym, refData);
 
                 logger.info("> ReLearnNN1StockNeuralNetData Symbol " + BPnameSym + "  totalAdd=" + totalAdd + " totalDup=" + totalDup);
 

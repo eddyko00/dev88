@@ -51,7 +51,7 @@ public class TradingNNData {
 //                logger.info("> saveNNdataDB - " + sym + " " + inputlistSym.size());
                 for (int i = 0; i < inputlistSym.size(); i++) {
                     NNInputDataObj objData = inputlistSym.get(i);
-                    serviceAFWeb.updateNeuralNetDataObject(BPnameSym, "", 0, objData);
+                    serviceAFWeb.NnUpdateNeuralNetDataObject(BPnameSym, "", 0, objData);
                     added++;
 //                    ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
 //                    if ((objList == null) || (objList.size() == 0)) {

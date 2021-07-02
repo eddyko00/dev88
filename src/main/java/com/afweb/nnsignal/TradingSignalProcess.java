@@ -2588,7 +2588,7 @@ public class TradingSignalProcess {
 
         afNeuralNet.setType(afNeuralNet.getType() + 1);
         nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
-        serviceAFWeb.updateNeuralNetStatus1(name, ConstantKey.OPEN, afNeuralNet.getType());
+        serviceAFWeb.NnUpdateNeuralNetStatus1(name, ConstantKey.OPEN, afNeuralNet.getType());
 
 //        if (getEnv.checkLocalPC() == true) {
 //            StringBuffer msg1 = new StringBuffer(weightSt);
@@ -2613,7 +2613,7 @@ public class TradingSignalProcess {
                 double refminError = minError + 0.004; //+ 0.002;
                 refData.setmError(refminError);
 
-                serviceAFWeb.updateNeuralNetRef0(name, refData);
+                serviceAFWeb.NnUpdateNeuralNetRef0(name, refData);
                 logger.info("> TrainingNNBP override higher minError " + name + " " + refminError);
 
             } else {
@@ -2625,7 +2625,7 @@ public class TradingSignalProcess {
                     if (refminError < refError) {
                         if (nnErrorOrg < minError) {
                             refData.setmError(minError);
-                            serviceAFWeb.updateNeuralNetRef0(name, refData);
+                            serviceAFWeb.NnUpdateNeuralNetRef0(name, refData);
                             logger.info("> TrainingNNBP override lower minError " + name + " " + minError);
                         }
                     }

@@ -2317,23 +2317,23 @@ public class ServiceAFweb {
         return nnSrv.deleteNeuralNet1(name);
     }
 
-    public int updateNeuralNetStatus1(String name, int status, int type) {
+    public int NnUpdateNeuralNetStatus1(String name, int status, int type) {
         return nnSrv.updateNeuralNetStatus1(name, status, type);
     }
 
-    public int updateNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
+    public int NnUpdateNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
         return nnSrv.updateNeuralNetDataObject(name, sym, stockId, objData);
     }
 
-    public int updateNeuralNetRef0(String name, ReferNameData refnameData) {
+    public int NnUpdateNeuralNetRef0(String name, ReferNameData refnameData) {
         return nnSrv.updateNeuralNetRef0(name, refnameData);
     }
 
-    public int setCreateNeuralNetObj1(String name, String weight) {
+    public int NnCreateNeuralNetObj1(String name, String weight) {
         return nnSrv.setCreateNeuralNetObj1(name, weight);
     }
 
-    public int updateNeuralNetRef1(String name, ReferNameData refnameData) {
+    public int NnUpdateNeuralNetRef1(String name, ReferNameData refnameData) {
         return nnSrv.updateNeuralNetRef1(name, refnameData);
     }
 
@@ -3071,7 +3071,8 @@ public class ServiceAFweb {
         custAccSrv.removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
-
+////////////////////////////////////////////////////
+    // Util
     public static HashMap<String, ArrayList> stockInputMap = null;
     public static HashMap<String, ArrayList> stockInputMap_1 = null;
 

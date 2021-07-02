@@ -301,7 +301,7 @@ public class TradingNNprocess {
                 AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
                     // clear the input Neural network
-                    serviceAFWeb.updateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
+                    serviceAFWeb.NnUpdateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
                 }
                 ServiceAFweb.AFSleep();
             }
