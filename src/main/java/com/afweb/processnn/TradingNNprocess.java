@@ -139,7 +139,7 @@ public class TradingNNprocess {
 
                     int trNN = Integer.parseInt(symbolArray[1]);
 
-                    AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                    AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                     if (stock != null) {
                         this.ReLearnInputNeuralNet(serviceAFWeb, symbol, trNN);
                     }
@@ -236,7 +236,7 @@ public class TradingNNprocess {
                                 continue;
                             }
                         }
-                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                        AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                         serviceAFWeb.SysClearAccountStockTranByAccountIDSystem(accObj, stock.getId(), nnName);
 
                         ServiceAFweb.AFSleep();
@@ -276,7 +276,7 @@ public class TradingNNprocess {
                         continue;
                     }
                 }
-                AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                 serviceAFWeb.SysClearAccountStockTranByAccountIDSystem(accountAdminObj, stock.getId(), nnName);
 
                 ServiceAFweb.AFSleep();

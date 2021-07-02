@@ -257,7 +257,7 @@ public class NN30ProcessByTrend {
         }
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stock = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
+        AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(NormalizeSymbol);
         if (stock == null) {
             return inputList;
         }
@@ -515,7 +515,7 @@ public class NN30ProcessByTrend {
 //                    symbol = "BABA";
                     int TR_NN = Integer.parseInt(symbolArray[1]);
 
-                    AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                    AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
 
                     if (stock == null) {
                         stockNNprocessNameArray.remove(0);

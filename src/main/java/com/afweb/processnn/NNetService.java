@@ -329,7 +329,7 @@ public class NNetService {
             for (int i = 0; i < stockNameArray.size(); i++) {
 
                 String symbol = (String) stockNameArray.get(i);
-                AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                 if (stock == null) {
                     continue;
                 }

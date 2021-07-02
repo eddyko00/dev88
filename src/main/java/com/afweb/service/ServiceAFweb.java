@@ -1422,12 +1422,12 @@ public class ServiceAFweb {
                     getServerObj().setSysMaintenance(false);
                     for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                         String stockN = ServiceAFweb.primaryStock[i];
-                        AFstockObj stock = getStockBySymServ(stockN);
+                        AFstockObj stock = StoGetStockObjBySym(stockN);
                         logger.info(">InitDBData add stock " + stock.getSymbol());
                         result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
                     }
 
-                    AFstockObj stock = getStockBySymServ("T.TO");
+                    AFstockObj stock = StoGetStockObjBySym("T.TO");
                     result = custAccSrv.addAccountStockId(account, stock.getId(), TRList);
                     getServerObj().setSysMaintenance(true);
                 }
@@ -1992,11 +1992,11 @@ public class ServiceAFweb {
     }
 //////////////////////////////////////////
 
-    public ArrayList getAllRemoveStockNameList(int length) {
+    public ArrayList<String> getAllRemoveStockNameList(int length) {
         return stockSrv.getAllRemoveStockNameList(length);
     }
 
-    public ArrayList getAllDisableStockNameList(int length) {
+    public ArrayList<String> getAllDisableStockNameList(int length) {
         return stockSrv.getAllDisableStockNameList(length);
     }
 
@@ -2006,15 +2006,14 @@ public class ServiceAFweb {
 //        }
 //        return "";
 //    }
-
-    public AFstockObj getStockBySymServ(String symbol) {
+    public AFstockObj StoGetStockObjBySym(String symbol) {
         if (stockFlag == true) {
             return stockSrv.getStockByName(this, symbol);
         }
         return null;
     }
 
-    public AFstockObj getStockByStockIDSystem(int stockID) {
+    public AFstockObj StoGetStockObjByStockID(int stockID) {
         if (stockFlag == true) {
             return stockSrv.getStockBySockID(this, stockID);
         }
@@ -2620,7 +2619,7 @@ public class ServiceAFweb {
 //    }
 
     public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdSymbolSystem(int accountId, String symbol) {
-        AFstockObj stock = getStockBySymServ(symbol);
+        AFstockObj stock = StoGetStockObjBySym(symbol);
         return getAccountStockTRListByAccIdStockIdSystem(accountId, stock.getId());
     }
 

@@ -101,7 +101,7 @@ public class AccountTranProcess {
                             continue;
                         }
                     }
-                    AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                    AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
                             logger.info("> ProcessAdminSignalTrading return stock split " + symbol);
@@ -303,7 +303,7 @@ public class AccountTranProcess {
                 float accountTotal = 0;
                 for (int j = 0; j < AccountStockNameList.size(); j++) {
                     String symbol = (String) AccountStockNameList.get(j);
-                    AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                    AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                     if (stock == null) {
                         continue;
                     }
@@ -336,7 +336,7 @@ public class AccountTranProcess {
                     for (int i = 0; i < removeList.size(); i++) {
 
                         String symbol = (String) removeList.get(i);
-                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                        AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                         if (stock == null) {
                             continue;
                         }
@@ -503,7 +503,7 @@ public class AccountTranProcess {
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
 
-                        AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
+                        AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                         if (stock == null) {
                             continue;
                         }
