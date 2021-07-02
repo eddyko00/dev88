@@ -295,7 +295,7 @@ public class AccountMaintProcess {
         if (result == true) {
             for (int i = 0; i < addedList.size(); i++) {
                 String symbol = (String) addedList.get(i);
-                int resultAdd = serviceAFWeb.addAccountStockByCustAccServ(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
+                int resultAdd = serviceAFWeb.AccAddAccountStockByCustAccServ(CKey.ADMIN_USERNAME, null, accountAdminObj.getId() + "", symbol);
                 logger.info("> AdminAddRemoveStock add TR stock " + symbol);
                 numCnt++;
                 if (numCnt > 10) {

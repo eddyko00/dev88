@@ -950,7 +950,7 @@ public class CustAccService {
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
         if (stockObj == null) {
-            int result = serviceAFWeb.addStockServ(NormalizeSymbol);
+            int result = serviceAFWeb.StoAddStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
@@ -962,7 +962,7 @@ public class CustAccService {
         }
         if (stockObj.getStatus() != ConstantKey.OPEN) {
             // set to open
-            int result = serviceAFWeb.addStockServ(NormalizeSymbol);
+            int result = serviceAFWeb.StoAddStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
@@ -979,7 +979,7 @@ public class CustAccService {
         String NormalizeSymbol = symObj.getYahooSymbol();
         AFstockObj stockObj = serviceAFWeb.getStockBySymServ(NormalizeSymbol);
         if (stockObj == null) {
-            int result = serviceAFWeb.addStockServ(NormalizeSymbol);
+            int result = serviceAFWeb.StoAddStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }
@@ -991,7 +991,7 @@ public class CustAccService {
         }
         if (stockObj.getStatus() != ConstantKey.OPEN) {
             // set to open
-            int result = serviceAFWeb.addStockServ(NormalizeSymbol);
+            int result = serviceAFWeb.StoAddStockServ(NormalizeSymbol);
             if (result == 0) {
                 return 0;
             }

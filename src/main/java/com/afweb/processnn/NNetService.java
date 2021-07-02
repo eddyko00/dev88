@@ -717,7 +717,7 @@ public class NNetService {
                         if (symbol.equals("T_T")) {
                             continue;
                         }
-                        int resultAdd = serviceAFWeb.addAccountStockByCustAccServ(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
+                        int resultAdd = serviceAFWeb.AccAddAccountStockByCustAccServ(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Add API stock " + symbol);
 
                         ServiceAFweb.AFSleep();

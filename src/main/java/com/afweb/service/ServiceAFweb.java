@@ -1625,10 +1625,10 @@ public class ServiceAFweb {
                 reqObj = SystemSQLRequestCustAcc(sqlObj);
             }
             if (reqObj == null) {
-                reqObj = StSQLRequestStock(sqlObj);
+                reqObj = StoSQLRequestStock(sqlObj);
             }
             if (reqObj == null) {
-                reqObj = SystemSQLRequestStockInfo(sqlObj);
+                reqObj = InfSQLRequestStockInfo(sqlObj);
             }
             if (reqObj == null) {
                 reqObj = NnSQLRequestNN(sqlObj);
@@ -1904,7 +1904,7 @@ public class ServiceAFweb {
     public static boolean stockFlag = true;
 
     //////////////////////////////////////////
-    public RequestObj StSQLRequestStock(RequestObj sqlObj) {
+    public RequestObj StoSQLRequestStock(RequestObj sqlObj) {
         RequestObj reqObj = stockSrv.SQLRequestStock(this, sqlObj);
         return reqObj;
     }
@@ -1969,7 +1969,7 @@ public class ServiceAFweb {
         return false;
     }
 
-    public int addStockServ(String symbol) {
+    public int StoAddStockServ(String symbol) {
         if (stockFlag == true) {
             return stockSrv.addStock(this, symbol);
         }
@@ -2011,7 +2011,7 @@ public class ServiceAFweb {
     public static boolean stockInfoFlag = true;
     //////////////////////////////////////////
 
-    public RequestObj SystemSQLRequestStockInfo(RequestObj sqlObj) {
+    public RequestObj InfSQLRequestStockInfo(RequestObj sqlObj) {
         RequestObj reqObj = stockInfoSrv.SQLRequestStockInfo(this, sqlObj);
         return reqObj;
     }
@@ -2705,14 +2705,14 @@ public class ServiceAFweb {
         return -9999;
     }
 
-    public int addAccountStockByAccountServ(AccountObj accountObj, String symbol) {
+    public int AccAddAccountStockByAccountServ(AccountObj accountObj, String symbol) {
         if (custAccFlag == true) {
             return custAccSrv.addAccountStockByAccount(this, accountObj, symbol);
         }
         return 0;
     }
 
-    public int addAccountStockByCustAccServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
+    public int AccAddAccountStockByCustAccServ(String EmailUserName, String Password, String AccountIDSt, String symbol) {
         if (custAccFlag == true) {
             return custAccSrv.addAccountStockByCustAcc(this, EmailUserName, Password, AccountIDSt, symbol);
         }
