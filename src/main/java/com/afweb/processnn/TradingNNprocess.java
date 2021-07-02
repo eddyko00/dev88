@@ -204,11 +204,11 @@ public class TradingNNprocess {
 
                 String nnName = ConstantKey.TR_NN1;
                 String BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
-                serviceAFWeb.deleteNeuralNetDataByBPname(BPname);
+                serviceAFWeb.NnDeleteNeuralNetDataByBPname(BPname);
 
                 nnName = ConstantKey.TR_NN2;
                 BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
-                serviceAFWeb.deleteNeuralNetDataByBPname(BPname);
+                serviceAFWeb.NnDeleteNeuralNetDataByBPname(BPname);
             }
         }
         logger.info("> ClearStockNNData ..... Done");

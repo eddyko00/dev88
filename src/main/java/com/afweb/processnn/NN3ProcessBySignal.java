@@ -1119,7 +1119,7 @@ public class NN3ProcessBySignal {
                                 }
                             }
 
-                            serviceAFWeb.deleteNeuralNetDataObjById(nnData.getId());
+                            serviceAFWeb.NnDeleteNeuralNetDataObjById(nnData.getId());
 //                            if (ServiceAFweb.mydebugtestflag == true) {
 //                                try {
 //

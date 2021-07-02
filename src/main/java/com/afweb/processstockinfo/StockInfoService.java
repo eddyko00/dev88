@@ -321,7 +321,7 @@ public class StockInfoService {
                 stock.setStatus(ConstantKey.DISABLE);;
             }
             stock.setFailedupdate(failCnt);
-            serviceAFWeb.updateStockStatusDBServ(stock);
+            serviceAFWeb.StoUpdateStockStatusDBServ(stock);
             //workaround unknown dfect- somehow cannot find the Internet from stock to add the error update
             //workaround unknown defect- somehow cannot find the Internet from stock to add the error update    
         }

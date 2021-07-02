@@ -1861,6 +1861,47 @@ public class ServiceAFweb {
         return 0;
     }
 
+//////////////////////////////helper function
+    public AccData getAccData(String accDataStr) {
+        AccData refData = new AccData();
+        try {
+            if ((accDataStr != null) && (accDataStr.length() > 0)) {
+                accDataStr = accDataStr.replaceAll("#", "\"");
+                refData = new ObjectMapper().readValue(accDataStr, AccData.class);
+                return refData;
+            }
+        } catch (Exception ex) {
+        }
+        return refData;
+    }
+
+    public String saveAccData(AccData accData) {
+
+        String nameSt = "";
+        try {
+            nameSt = new ObjectMapper().writeValueAsString(accData);
+            nameSt = nameSt.replaceAll("\"", "#");
+        } catch (Exception ex) {
+        }
+
+        return nameSt;
+    }
+
+  
+    public ReferNameData getReferNameData(AFneuralNet nnObj0) {
+        ReferNameData refData = new ReferNameData();
+        String refName = nnObj0.getRefname();
+        try {
+            if ((refName != null) && (refName.length() > 0)) {
+                refName = refName.replaceAll("#", "\"");
+                refData = new ObjectMapper().readValue(refName, ReferNameData.class);
+                return refData;
+            }
+        } catch (Exception ex) {
+        }
+        return refData;
+    }
+
     ///////////////////////////////
     public static boolean SysFilePut(String fileName, ArrayList msgWrite) {
         String fileN = ServiceAFweb.FileLocalPath + fileName;
@@ -2073,21 +2114,21 @@ public class ServiceAFweb {
 
     }
 
-    public int disableStockServ(String symbol) {
+    public int StoDisableStockServ(String symbol) {
         if (stockFlag == true) {
             return stockSrv.disableStock(this, symbol);
         }
         return 0;
     }
 
-    public int deleteStockServ(AFstockObj stock) {
+    public int StoDeleteStockServ(AFstockObj stock) {
         if (stockFlag == true) {
             return stockSrv.deleteStock(this, stock);
         }
         return 0;
     }
 
-    public int updateStockStatusDBServ(AFstockObj stock) {
+    public int StoUpdateStockStatusDBServ(AFstockObj stock) {
         if (stockFlag == true) {
             return stockSrv.updateStockStatusDB(stock);
         }
@@ -2322,7 +2363,7 @@ public class ServiceAFweb {
         return nnSrv.getNeuralNetDataObjByStockId(name, refname, stockId, updatedatel);
     }
 
-    public int deleteNeuralNetDataByBPname(String name) {
+    public int NnDeleteNeuralNetDataByBPname(String name) {
         return nnSrv.deleteNeuralNetDataByBPname(name);
     }
 
@@ -2350,7 +2391,7 @@ public class ServiceAFweb {
         return nnSrv.updateNeuralNetRef1(name, refnameData);
     }
 
-    public int deleteNeuralNetDataObjById(int id) {
+    public int NnDeleteNeuralNetDataObjById(int id) {
         return nnSrv.deleteNeuralNetDataObjById(id);
     }
 
@@ -3409,47 +3450,6 @@ public class ServiceAFweb {
         return true;
     }
 //////////////////////////////////////////    
-
-///////////////////////////
-    public AccData getAccData(String accDataStr) {
-        AccData refData = new AccData();
-        try {
-            if ((accDataStr != null) && (accDataStr.length() > 0)) {
-                accDataStr = accDataStr.replaceAll("#", "\"");
-                refData = new ObjectMapper().readValue(accDataStr, AccData.class);
-                return refData;
-            }
-        } catch (Exception ex) {
-        }
-        return refData;
-    }
-
-    public String saveAccData(AccData accData) {
-
-        String nameSt = "";
-        try {
-            nameSt = new ObjectMapper().writeValueAsString(accData);
-            nameSt = nameSt.replaceAll("\"", "#");
-        } catch (Exception ex) {
-        }
-
-        return nameSt;
-    }
-
-    /////helper function
-    public ReferNameData getReferNameData(AFneuralNet nnObj0) {
-        ReferNameData refData = new ReferNameData();
-        String refName = nnObj0.getRefname();
-        try {
-            if ((refName != null) && (refName.length() > 0)) {
-                refName = refName.replaceAll("#", "\"");
-                refData = new ObjectMapper().readValue(refName, ReferNameData.class);
-                return refData;
-            }
-        } catch (Exception ex) {
-        }
-        return refData;
-    }
 
 //    public String SystemRestoreNNonlyDBData() {
 //        boolean retSatus = false;

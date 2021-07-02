@@ -99,7 +99,7 @@ public class AccountMaintProcess {
                         // check transaction
                         boolean hasTran = serviceAFWeb.AccCheckTRListByStockID(stock.getId() + "");
                         if (hasTran == false) {
-                            serviceAFWeb.deleteStockServ(stock);
+                            serviceAFWeb.StoDeleteStockServ(stock);
                         }
                         numCnt++;
                         if (numCnt > 10) {
@@ -255,7 +255,7 @@ public class AccountMaintProcess {
             for (int i = 0; i < removeList.size(); i++) {
                 String NormalizeSymbol = (String) removeList.get(i);
                 logger.info("> ProcessStockkMaintance remove stock " + NormalizeSymbol);
-                serviceAFWeb.disableStockServ(NormalizeSymbol);
+                serviceAFWeb.StoDisableStockServ(NormalizeSymbol);
                 numCnt++;
                 if (numCnt > 10) {
                     break;
