@@ -2395,7 +2395,7 @@ public class ServiceAFweb {
         return nnSrv.deleteNeuralNetDataObjById(id);
     }
 
-    public void fileNNInputOutObjListServ(ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
+    public void NnfileNNInputOutObjListServ(ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
         if (nnFlag == true) {
             nnSrv.fileNNInputOutObjList(this, inputList, symbol, stockId, filename);
         }
@@ -2532,15 +2532,15 @@ public class ServiceAFweb {
     ////////////////////////////////
     // Security - Do not allow outside ServiceAFweb to access this function
     ////////////////////////////////
-    public AccountObj getAccountByAccountID(int accountID) {
+    public AccountObj AccGetAccountByAccountID(int accountID) {
         return custAccSrv.getAccountByAccountID(accountID);
     }
 
-    public AccountObj getAccountByType(String UserName, String Password, int accType) {
+    public AccountObj AccGetAccountByType(String UserName, String Password, int accType) {
         return custAccSrv.getAccountByType(UserName, Password, accType);
     }
 
-    public ArrayList getAccountStockNameListSystem(int accountId) {
+    public ArrayList AccGetAccountStockNameListServ(int accountId) {
         return custAccSrv.getAccountStockNameList(accountId);
     }
 //    public ArrayList<String> SystemAccountStockNameList(int accountId) {
@@ -2568,15 +2568,15 @@ public class ServiceAFweb {
 //        return custAccSrv.getAccountStockNameList(accountId);
 //    }    
 
-    public int updateAccounStockPref(TradingRuleObj trObj, float perf) {
+    public int AccUpdateAccounStockPref(TradingRuleObj trObj, float perf) {
         return custAccSrv.updateAccounStockPref(trObj, perf);
     }
 
-    public int removeAccountStock(AccountObj accountObj, int StockID) {
+    public int AccRemoveAccountStock(AccountObj accountObj, int StockID) {
         return custAccSrv.removeAccountStock(accountObj, StockID);
     }
 
-    public CustomerObj getCustomerByAccount(AccountObj accountObj) {
+    public CustomerObj AccGetCustomerByAccount(AccountObj accountObj) {
         return custAccSrv.getCustomerByAccount(accountObj);
     }
 

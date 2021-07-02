@@ -371,7 +371,7 @@ public class AccountTranImp {
                 if (accountObj.getType() == AccountObj.INT_MUTUAL_FUND_ACCOUNT) {
                     if (trObj.getStatus() == ConstantKey.PENDING) {
                         // delete stock
-                        serviceAFWeb.removeAccountStock(accountObj, trObj.getStockid());
+                        serviceAFWeb.AccRemoveAccountStock(accountObj, trObj.getStockid());
                     }
                 }
             }

@@ -98,7 +98,7 @@ public class EmailProcess {
     public int SendEmailTradingAccount(ServiceAFweb serviceAFWeb, AccountObj accObj) {
        ServiceAFweb.lastfun = "SendEmailTradingAccount";   
         
-        CustomerObj cust = serviceAFWeb.getCustomerByAccount(accObj);
+        CustomerObj cust = serviceAFWeb.AccGetCustomerByAccount(accObj);
         String emailAddr = cust.getEmail();
         if ((emailAddr != null) && (emailAddr.length() > 0)) {
             if (validate(emailAddr) == false) {

@@ -47,7 +47,7 @@ public class TradingNNprocess {
             return stockNNretrainNameArray;
         }
 
-        ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
@@ -196,7 +196,7 @@ public class TradingNNprocess {
             return -1;
         }
 
-        ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             for (int i = 0; i < stockNameArray.size(); i++) {
@@ -227,7 +227,7 @@ public class TradingNNprocess {
                 if (accObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
                     continue;
                 }
-                ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accObj.getId());
+                ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accObj.getId());
                 if (stockNameArray != null) {
                     for (int i = 0; i < stockNameArray.size(); i++) {
                         String symbol = (String) stockNameArray.get(i);
@@ -255,7 +255,7 @@ public class TradingNNprocess {
         if (accountAdminObj == null) {
             return -1;
         }
-        ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             for (int i = 0; i < stockNameArray.size(); i++) {
@@ -281,7 +281,7 @@ public class TradingNNprocess {
         if (accountAdminObj == null) {
             return -1;
         }
-        ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             for (int i = 0; i < stockNameArray.size(); i++) {

@@ -280,7 +280,7 @@ public class AccountMaintProcess {
             return;
         }
 
-        ArrayList AccountStockNameList = serviceAFWeb.getAccountStockNameListSystem(accountAdminObj.getId());
+        ArrayList AccountStockNameList = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
         if (AccountStockNameList == null) {
             return;
         }

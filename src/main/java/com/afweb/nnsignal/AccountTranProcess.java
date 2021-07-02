@@ -165,7 +165,7 @@ public class AccountTranProcess {
             return stockSignalNameArray;
         }
 
-        ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
@@ -272,7 +272,7 @@ public class AccountTranProcess {
                 continue;
             }
 
-            ArrayList AccountStockNameList = serviceAFWeb.getAccountStockNameListSystem(accObj.getId());
+            ArrayList AccountStockNameList = serviceAFWeb.AccGetAccountStockNameListServ(accObj.getId());
             if (AccountStockNameList == null) {
                 continue;
             }
@@ -296,7 +296,7 @@ public class AccountTranProcess {
 
                 }
                 // calculate performance for the account
-                AccountStockNameList = serviceAFWeb.getAccountStockNameListSystem(accObj.getId());
+                AccountStockNameList = serviceAFWeb.AccGetAccountStockNameListServ(accObj.getId());
                 if (AccountStockNameList == null) {
                     return 0;
                 }
@@ -475,7 +475,7 @@ public class AccountTranProcess {
         for (int k = 0; k < accountList.size(); k++) {
             AccountObj accObj = (AccountObj) accountList.get(k);
             if (accObj.getType() == AccountObj.INT_TRADING_ACCOUNT) {
-                ArrayList AccountStockNameList = serviceAFWeb.getAccountStockNameListSystem(accObj.getId());
+                ArrayList AccountStockNameList = serviceAFWeb.AccGetAccountStockNameListServ(accObj.getId());
                 if (AccountStockNameList == null) {
                     return 0;
                 }
@@ -537,7 +537,7 @@ public class AccountTranProcess {
         if (StockNameList == null) {
             return;
         }
-        ArrayList AccountStockNameList = serviceAFWeb.getAccountStockNameListSystem(accountAdminObj.getId());
+        ArrayList AccountStockNameList = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
         if (AccountStockNameList == null) {
             return;
         }
@@ -659,12 +659,12 @@ public class AccountTranProcess {
                 }
                 //////////// Ignore API acocunt
                 //////////// Ignore API acocunt heandle by ProcessAPISignalTrading               
-                CustomerObj cust = serviceAFWeb.getCustomerByAccount(accountObj);
+                CustomerObj cust = serviceAFWeb.AccGetCustomerByAccount(accountObj);
                 if (cust.getType() == CustomerObj.INT_API_USER) {
                     continue;
                 }
 
-                ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountId);
+                ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountId);
                 if (stockNameArray == null) {
                     continue;
                 }

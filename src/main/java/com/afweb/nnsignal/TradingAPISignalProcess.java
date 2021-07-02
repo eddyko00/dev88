@@ -45,9 +45,9 @@ public class TradingAPISignalProcess {
 
         for (int i = 0; i < custList.size(); i++) {
             CustomerObj cust = custList.get(i);
-            AccountObj accountObj = serviceAFWeb.getAccountByType(cust.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
+            AccountObj accountObj = serviceAFWeb.AccGetAccountByType(cust.getUsername(), null, AccountObj.INT_TRADING_ACCOUNT);
 
-            ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountObj.getId());
+            ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
             ArrayList stockNameAccIdArray = new ArrayList();
             if (stockNameArray != null) {
                 for (int j = 0; j < stockNameArray.size(); j++) {
@@ -121,7 +121,7 @@ public class TradingAPISignalProcess {
                     String symbol = accIdSymList[1];
 
                     int accId = Integer.parseInt(accIdSt);
-                    AccountObj accountObj = serviceAFWeb.getAccountByAccountID(accId);
+                    AccountObj accountObj = serviceAFWeb.AccGetAccountByAccountID(accId);
 
                     AFstockObj stock = serviceAFWeb.getStockBySymServ(symbol);
                     if (stock != null) {

@@ -424,7 +424,7 @@ public class NN3ProcessBySignal {
 //            AccountObj account = serviceAFWeb.getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
 //            accountObj = account;
 //        }
-        ArrayList stockNameArray = serviceAFWeb.getAccountStockNameListSystem(accountObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
@@ -666,9 +666,9 @@ public class NN3ProcessBySignal {
                 }
                 if (serviceAFWeb.mydebugtestflag == true) {
                     String filename = ServiceAFweb.FileLocalDebugPath + symbol + "_tmp1.csv";
-                    serviceAFWeb.fileNNInputOutObjListServ(inputlistSym1, symbol, 0, filename);
+                    serviceAFWeb.NnfileNNInputOutObjListServ(inputlistSym1, symbol, 0, filename);
                     filename = ServiceAFweb.FileLocalDebugPath + symbol + "_tmp2.csv";
-                    serviceAFWeb.fileNNInputOutObjListServ(inputlistSym2, symbol, 0, filename);
+                    serviceAFWeb.NnfileNNInputOutObjListServ(inputlistSym2, symbol, 0, filename);
                 }
                 inputlistSym.addAll(inputlistSym1);
                 inputlistSym.addAll(inputlistSym2);

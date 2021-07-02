@@ -162,7 +162,7 @@ public class TradingSignalProcess {
             } else {
                 trObj.setPerf(perf);
             }
-            serviceAFWeb.updateAccounStockPref(trObj, perf);
+            serviceAFWeb.AccUpdateAccounStockPref(trObj, perf);
 
         }  // loop
     }
@@ -2818,7 +2818,7 @@ public class TradingSignalProcess {
             if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
                 continue;
             }
-            ArrayList stockNameList = serviceAFWeb.getAccountStockNameListSystem(accountObj.getId());
+            ArrayList stockNameList = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
             if (stockNameList == null) {
                 continue;
             }
