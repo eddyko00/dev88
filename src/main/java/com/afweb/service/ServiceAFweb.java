@@ -2620,10 +2620,10 @@ public class ServiceAFweb {
 
     public ArrayList<TradingRuleObj> AccGetAccountStockTRListByAccIdSym(int accountId, String symbol) {
         AFstockObj stock = StoGetStockObjBySym(symbol);
-        return getAccountStockTRListByAccIdStockIdSystem(accountId, stock.getId());
+        return AccGetAccountStockTRListByAccIdStockId(accountId, stock.getId());
     }
 
-    public ArrayList<TradingRuleObj> getAccountStockTRListByAccIdStockIdSystem(int accountId, int stockId) {
+    public ArrayList<TradingRuleObj> AccGetAccountStockTRListByAccIdStockId(int accountId, int stockId) {
         return custAccSrv.getAccountStockTRListByAccIdStockId(accountId, stockId);
     }
 
