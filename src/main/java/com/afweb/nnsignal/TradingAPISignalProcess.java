@@ -66,7 +66,7 @@ public class TradingAPISignalProcess {
     public void ProcessAPISignalTrading(ServiceAFweb serviceAFWeb) {
 //        logger.info("> ProcessAPISignalTrading ");
 //        this.serviceAFWeb = serviceAFWeb;
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }

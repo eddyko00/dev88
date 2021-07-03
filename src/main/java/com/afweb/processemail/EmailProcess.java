@@ -32,7 +32,7 @@ public class EmailProcess {
     public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {
        ServiceAFweb.lastfun = "ProcessEmailAccount";   
         logger.info("> ProcessEmailAccount ");
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }

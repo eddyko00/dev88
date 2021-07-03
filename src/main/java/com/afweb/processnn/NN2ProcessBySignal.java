@@ -627,7 +627,7 @@ public class NN2ProcessBySignal {
 
     public void ProcessTrainNN2NeuralNetBySign(ServiceAFweb serviceAFWeb) {
 
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         UpdateStockNNprocessNameArray(serviceAFWeb, accountAdminObj);
         if (stockNNprocessNameArray == null) {
             return;

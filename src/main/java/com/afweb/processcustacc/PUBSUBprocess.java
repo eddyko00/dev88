@@ -30,7 +30,7 @@ public class PUBSUBprocess {
     public void ProcessPUBSUBAccount(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "ProcessPUBSUBAccount";
         logger.info("> ProcessPUBSUBAccount ");
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }

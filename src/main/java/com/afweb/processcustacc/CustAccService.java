@@ -593,7 +593,7 @@ public class CustAccService {
 //
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
-            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long dateNowLong = dateNow.getTimeInMillis();
             java.sql.Date d = new java.sql.Date(dateNowLong);
@@ -771,7 +771,7 @@ public class CustAccService {
 
         String tzid = "America/New_York"; //EDT
         TimeZone tz = TimeZone.getTimeZone(tzid);
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
         java.sql.Date d = new java.sql.Date(dateNowLong);
@@ -1208,7 +1208,7 @@ public class CustAccService {
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 return getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), length);
             } else {
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 if (accountAdminObj == null) {
                     return null;
                 }
@@ -1435,7 +1435,7 @@ public class CustAccService {
                 return TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, true);  // buyOnly = true
             }
 
-            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
             if (accountAdminObj == null) {
                 return null;
             }
@@ -1467,7 +1467,7 @@ public class CustAccService {
                 return TRprocessImp.ProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, true);  // buyOnly = true
 
             }
-            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
             if (accountAdminObj == null) {
                 return null;
             }
@@ -1855,7 +1855,7 @@ public class CustAccService {
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 perfList = getAccountStockPerfList(accountObj.getId(), stock.getId(), trName, length);
             } else {
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 if (accountAdminObj == null) {
                     return null;
                 }
@@ -2029,7 +2029,7 @@ public class CustAccService {
                 String msg = ESTtime + " " + emailSt;
 
                 addAccountMessage(accountObj, ConstantKey.ACCT_TRAN, msg);
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
                 // send email
@@ -2088,7 +2088,7 @@ public class CustAccService {
         }
         String tzid = "America/New_York"; //EDT
         TimeZone tz = TimeZone.getTimeZone(tzid);
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
         java.sql.Date d = new java.sql.Date(dateNowLong);
@@ -2135,7 +2135,7 @@ public class CustAccService {
 
         String tzid = "America/New_York"; //EDT
         TimeZone tz = TimeZone.getTimeZone(tzid);
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long dateNowLong = dateNow.getTimeInMillis();
         java.sql.Date d = new java.sql.Date(dateNowLong);
@@ -2659,7 +2659,7 @@ public class CustAccService {
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 perfList = getAccountStockPerfList(accFundObj.getId(), stock.getId(), trName, length);
             } else {
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 if (accountAdminObj == null) {
                     return null;
                 }

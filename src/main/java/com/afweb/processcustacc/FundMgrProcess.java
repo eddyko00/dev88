@@ -103,7 +103,7 @@ public class FundMgrProcess {
     public void ProcessSelectBestFundMgrAccount(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "ProcessSelectBestFundMgrAccount";
 //        logger.info("> ProcessSelectBestFundMgrAccount ");
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }

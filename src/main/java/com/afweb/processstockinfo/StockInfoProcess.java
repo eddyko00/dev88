@@ -297,7 +297,7 @@ public class StockInfoProcess {
             String trname = ConstantKey.TR_NN1;
             if (stock != null) {
                 stock.setTrname(trname);
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 ArrayList<TradingRuleObj> trObjList = serviceAFWeb.AccGetAccountStockTRListByAccIdStockId(accountAdminObj.getId(), stock.getId());
                 if (trObjList != null) {
                     if (trObjList.size() != 0) {
@@ -595,7 +595,7 @@ public class StockInfoProcess {
             // send admin messsage
             String tzid = "America/New_York"; //EDT
             TimeZone tz = TimeZone.getTimeZone(tzid);
-            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
             Calendar dateNow = TimeConvertion.getCurrentCalendar();
             long dateNowLong = dateNow.getTimeInMillis();
             java.sql.Date d = new java.sql.Date(dateNowLong);

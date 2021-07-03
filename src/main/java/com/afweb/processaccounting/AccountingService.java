@@ -140,7 +140,7 @@ public class AccountingService {
 
                 String msg = ESTtime + " " + commSt;
 
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
@@ -214,7 +214,7 @@ public class AccountingService {
 
                 String msg = ESTtime + " " + commSt;
 
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
@@ -288,7 +288,7 @@ public class AccountingService {
 
                 String msg = ESTtime + " " + commSt;
 
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
@@ -362,7 +362,7 @@ public class AccountingService {
 
                 String msg = ESTtime + " " + commSt;
 
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
@@ -515,7 +515,7 @@ public class AccountingService {
 
                 String msg = ESTtime + " " + commSt;
 
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }
@@ -590,7 +590,7 @@ public class AccountingService {
 
                 String msg = ESTtime + " " + commSt;
 
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 accountImp.addAccountMessage(accountAdminObj, ConstantKey.ACCT_TRAN, msg);
 
             }

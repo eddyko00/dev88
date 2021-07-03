@@ -601,7 +601,7 @@ public class ProcessNN1 {
                 }
 
                 // get the last transaction price for later
-                AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accObj = serviceAFWeb.SysGetAdminObjFromCache();
                 ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
                         accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
 
@@ -1148,7 +1148,7 @@ public class ProcessNN1 {
     public int Rule6_CheckProfitTake(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
         try {
             // get the last transaction price
-            AccountObj accObj = serviceAFWeb.getAdminObjFromCache();
+            AccountObj accObj = serviceAFWeb.SysGetAdminObjFromCache();
             ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTRTranListByAccountID(CKey.ADMIN_USERNAME, null,
                     accObj.getId() + "", symbol, ConstantKey.TR_NN1, 0);
             if (thList != null) {

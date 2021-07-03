@@ -42,7 +42,7 @@ public class TradingNNprocess {
 
     public ArrayList reLearnInputStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
 
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (stockNNretrainNameArray != null && stockNNretrainNameArray.size() > 0) {
             return stockNNretrainNameArray;
         }
@@ -262,7 +262,7 @@ public class TradingNNprocess {
 
     public int ClearStockNNTranHistory(ServiceAFweb serviceAFWeb, String nnName, String sym) {
         logger.info("> ClearStockNNTranHistory " + nnName);
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return -1;
         }
@@ -288,7 +288,7 @@ public class TradingNNprocess {
 
     public int ClearStockNN_inputNameArray(ServiceAFweb serviceAFWeb, String nnName) {
 //        logger.info("> ClearStockNNinputNameArray ");
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return -1;
         }

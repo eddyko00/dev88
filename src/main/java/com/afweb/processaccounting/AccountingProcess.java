@@ -188,7 +188,7 @@ public class AccountingProcess {
     }
 
     public int closingYearEnd(ServiceAFweb serviceAFWeb, CustomerObj customer, int year) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         int newYear = 0;
         if (year != 0) {
@@ -939,7 +939,7 @@ public class AccountingProcess {
         totalTax = totalTax / 100;
         amount = amount - tax;
 
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         int result = accountImp.addAccountingDoubleEntry(A_CASH, R_REVENUE, accountAdminObj, (float) amount, data, trantime);
@@ -951,7 +951,7 @@ public class AccountingProcess {
     }
 
     public int addTransferPayTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         int result = accountImp.addAccountingDoubleEntry(L_TAX_PAYABLE, A_CASH, accountAdminObj, (float) amount, data, trantime);
@@ -965,7 +965,7 @@ public class AccountingProcess {
         totalTax = totalTax / 100;
         amount = amount - tax;
 
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         int result = accountImp.addAccountingDoubleEntry(R_REVENUE, A_CASH, accountAdminObj, (float) amount, data, trantime);
@@ -978,7 +978,7 @@ public class AccountingProcess {
 
 //Interest received on bank deposit account    
     public int addTransferIncome(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         int result = accountImp.addAccountingDoubleEntry(A_CASH, R_F_INCOME, accountAdminObj, (float) amount, data, trantime);
@@ -996,7 +996,7 @@ public class AccountingProcess {
 //If you made a profit for the year, the profit and loss account would have a credit balance   
 
     public int addCashWithdraw(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         String tranData = " debit " + E_COMMON + " :" + amount + "  credit " + A_CASH + ":" + amount + " year=" + year + " ";
@@ -1012,7 +1012,7 @@ public class AccountingProcess {
 
 //If, however, the business made a loss for the year, the profit and loss account would have a debit balance.       
     public int addCashInvest(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         String tranData = " debit " + A_CASH + " :" + amount + "  credit " + E_COMMON + ":" + amount + " year=" + year + " ";
@@ -1039,7 +1039,7 @@ public class AccountingProcess {
 //If you made a profit for the year, the profit and loss account would have a credit balance   
 
     public int addRetainEarningProfit(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         String tranData = " debit " + E_RET_EARNING + " :" + 0 + "  credit " + E_RET_EARNING + ":" + amount + " year=" + year + " ";
@@ -1055,7 +1055,7 @@ public class AccountingProcess {
 
 //If, however, the business made a loss for the year, the profit and loss account would have a debit balance.       
     public int addRetainEarningLoss(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         String tranData = " debit " + E_RET_EARNING + " :" + amount + "  credit " + E_RET_EARNING + ":" + 0 + " year=" + year + " ";
@@ -1074,7 +1074,7 @@ public class AccountingProcess {
     //https://www.double-entry-bookkeeping.com/accounts-receivable/accounts-receivable-journal-entries/
     //https://www.double-entry-bookkeeping.com/accounts-payable/accounts-payable-journal-entries/
     public int addAccReceivableRecordSale(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         int result = accountImp.addAccountingDoubleEntry(A_ACC_RECEIVABLE, R_REVENUE, accountAdminObj, (float) amount, data, trantime);
@@ -1083,7 +1083,7 @@ public class AccountingProcess {
     }
 
     public int addAccReceivableCashPayment(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         int result = accountImp.addAccountingDoubleEntry(A_CASH, A_ACC_RECEIVABLE, accountAdminObj, (float) amount, data, trantime);
@@ -1095,7 +1095,7 @@ public class AccountingProcess {
     // Examples of Payroll Journal Entries For Wages
 
     public int addTransferPayroll(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
         int result = accountImp.addAccountingDoubleEntry(EX_WAGES, A_CASH, accountAdminObj, (float) amount, data, trantime);
@@ -1107,7 +1107,7 @@ public class AccountingProcess {
 //////////////////////////////////////////////////    
     // Payment of utility bills
     public int addTransferUtilityExpense(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, int year, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
 
@@ -1151,7 +1151,7 @@ public class AccountingProcess {
 //////////////////////////////////////////////////        
     // meals and entertaining 50% for tax
     public int addTransferExpenseTax(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, int year, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
 
         long trantime = System.currentTimeMillis();
 
@@ -1180,7 +1180,7 @@ public class AccountingProcess {
     // Purchase of Equipment by cash
     // same for Depreciation
     public int addTransferDepreciation(ServiceAFweb serviceAFWeb, CustomerObj customer, double amount, float rate, String data) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         long trantime = System.currentTimeMillis();
 
         Date dateSt = new Date(trantime);

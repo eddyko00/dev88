@@ -449,7 +449,7 @@ public class NN3ProcessBySignal {
 
     public void ProcessTrainNN3NeuralNetBySign(ServiceAFweb serviceAFWeb) {
 
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         UpdateStockNN3processNameArray(serviceAFWeb, accountAdminObj);
         if (stockNNprocessNameArray == null) {
             return;

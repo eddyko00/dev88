@@ -343,7 +343,7 @@ public class NNetService {
         NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
 
         if (stockNameArray != null) {
@@ -673,7 +673,7 @@ public class NNetService {
 
         String BPname = CKey.NN_version + "_" + TRname;
 
-        AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
         ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
 
         if (stockNameArray != null) {
@@ -704,7 +704,7 @@ public class NNetService {
                 initLRnn = true;
                 ArrayList<String> StockNameRemoteList = new ArrayList();
 
-                AccountObj accountObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
                 ArrayList<String> stockNameArray1 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
                         accountObj.getId() + "", CKey.URL_PATH_HERO);
                 logger.info("> remote dB stock:" + stockNameArray1.size());
@@ -759,7 +759,7 @@ public class NNetService {
                 serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
                 serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
 
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
 
                 String printName = "";

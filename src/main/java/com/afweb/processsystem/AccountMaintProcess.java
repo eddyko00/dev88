@@ -171,7 +171,7 @@ public class AccountMaintProcess {
 
                 String tzid = "America/New_York"; //EDT
                 TimeZone tz = TimeZone.getTimeZone(tzid);
-                AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+                AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 java.sql.Date d = new java.sql.Date(dateNowLong);
 //                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
                 DateFormat format = new SimpleDateFormat(" hh:mm a");
@@ -232,7 +232,7 @@ public class AccountMaintProcess {
         // delete stock based on all customer account exclude the ADMIN_USERNAME account 
         // do Simulation trading
 //        logger.info(">>>>>>>>>>>>>> ProcessStockkMaintance " + acTimerCnt);
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }
@@ -269,7 +269,7 @@ public class AccountMaintProcess {
 
         // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
 //        logger.info("> ProcessAdminAccount ......... ");
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }

@@ -46,7 +46,7 @@ public class AccountTranProcess {
         TradingAPISignalProcess TradingSignalAPI = new TradingAPISignalProcess();
         TradingSignalAPI.ProcessAPISignalTrading(serviceAFWeb);
         //////////
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }
@@ -188,7 +188,7 @@ public class AccountTranProcess {
         //        logger.info("> ProcessAddRemoveFundAccount ......... ");
 //        this.serviceAFWeb = serviceAFWeb;
 //        logger.info("> UpdateAccountSignal ");
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }
@@ -529,7 +529,7 @@ public class AccountTranProcess {
 
         // add or remove stock in ADMIN_USERNAME account based on all stocks in the system
 //        logger.info("> ProcessAdminAccount ......... ");
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }
@@ -602,7 +602,7 @@ public class AccountTranProcess {
 
 //        logger.info("> ProcessAllAccountTradingSignal ");
 
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return;
         }

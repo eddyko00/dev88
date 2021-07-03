@@ -115,7 +115,7 @@ public class ServiceAFweb {
     /**
      * @return the cacheAccountAdminObj
      */
-    public static AccountObj getCacheAccountAdminObj() {
+    private static AccountObj SysGetCacheAccountAdminObj() {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         if (cacheAccountAdminObjDL == 0) {
             cacheAccountAdminObjDL = dateNow.getTimeInMillis();
@@ -129,16 +129,11 @@ public class ServiceAFweb {
         return cacheAccountAdminObj;
     }
 
-    /**
-     * @param aCacheAccountAdminObj the cacheAccountAdminObj to set
-     */
-    public static void setCacheAccountAdminObj(AccountObj aCacheAccountAdminObj) {
-        cacheAccountAdminObj = aCacheAccountAdminObj;
-    }
 
-    public AccountObj getAdminObjFromCache() {
+
+    public AccountObj SysGetAdminObjFromCache() {
         try {
-            AccountObj accountAdminObj = ServiceAFweb.getCacheAccountAdminObj();
+            AccountObj accountAdminObj = ServiceAFweb.SysGetCacheAccountAdminObj();
             if (accountAdminObj == null) {
                 ArrayList accountList = AccGetAccountList(CKey.ADMIN_USERNAME, null);
                 // do not clear the lock so that it not run by other tast immediately
@@ -152,7 +147,7 @@ public class ServiceAFweb {
                         break;
                     }
                 }
-                ServiceAFweb.setCacheAccountAdminObj(accountAdminObj);
+                cacheAccountAdminObj = accountAdminObj;
             }
             return accountAdminObj;
         } catch (Exception ex) {
@@ -422,16 +417,16 @@ public class ServiceAFweb {
             } else {
                 if (timerThreadMsg != null) {
                     if (timerThreadMsg.indexOf("adminsignal") != -1) {
-                        processTimer("adminsignal");
+                        AFprocessTimer("adminsignal");
                     } else if (timerThreadMsg.indexOf("updatestock") != -1) {
-                        processTimer("updatestock");
+                        AFprocessTimer("updatestock");
                     } else if (timerThreadMsg.indexOf("starttimer") != -1) {
-                        processTimer("starttimer");
+                        AFprocessTimer("starttimer");
                     } else if (timerThreadMsg.indexOf("debugtest") != -1) {
-                        processTimer("debugtest");
+                        AFprocessTimer("debugtest");
                     }
                 }
-                processTimer("");
+                AFprocessTimer("");
             }
 
         } catch (Exception ex) {
@@ -447,7 +442,7 @@ public class ServiceAFweb {
         if (CKey.NN_DEBUG == true) {
 
             if (CKey.backupFlag == true) {
-                retFlag = backupSystem();
+                retFlag = AFbackupSystem();
                 retFlag = true;
             }
             if (CKey.backupInfoFlag == true) {
@@ -460,7 +455,7 @@ public class ServiceAFweb {
             }
 
             if (CKey.restoreFlag == true) {
-                retFlag = restoreSystem();
+                retFlag = AFrestoreSystem();
                 retFlag = true;
             }
             if (CKey.restoreInfoFlag == true) {
@@ -475,7 +470,7 @@ public class ServiceAFweb {
         return retFlag;
     }
 
-    private boolean backupSystem() {
+    private boolean AFbackupSystem() {
         serverObj.setSysMaintenance(true);
         serverObj.setTimerInit(true);
         logger.info(">>>>> backupSystem form DB URL:" + REMOTE_URL);
@@ -532,7 +527,7 @@ public class ServiceAFweb {
         return retSatus;
     }
 
-    private boolean restoreSystem() {
+    private boolean AFrestoreSystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
         logger.info(">>>>> restoreSystem form DB URL:" + REMOTE_URL);
@@ -617,7 +612,7 @@ public class ServiceAFweb {
 
     public static String lastfun = "";
 
-    private void processTimer(String cmd) {
+    private void AFprocessTimer(String cmd) {
 
         if (getEnv.checkLocalPC() == true) {
             if (CKey.NN_DEBUG == true) {
@@ -643,7 +638,7 @@ public class ServiceAFweb {
                     }
 
 ///////////////////////////////////////////////////////////////////////////////////
-                    AFprocessDebug();
+                    AFdebugProcess();
                     NNetService nnSrv = new NNetService();
                     nnSrv.processNeuralNetTrain(this);
 
@@ -848,7 +843,7 @@ public class ServiceAFweb {
         return false;
     }
 
-    private void AFprocessDebug() {
+    private void AFdebugProcess() {
         //Feb 10, 2021 db size = 5,543 InnoDB utf8_general_ci 4.7 MiB	
         if (mydebugtestflag == true) {
             //set up run parm 
@@ -1223,7 +1218,7 @@ public class ServiceAFweb {
 
     public String SysClearNNData() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        AccountObj accountAdminObj = this.getAdminObjFromCache();
+        AccountObj accountAdminObj = this.SysGetAdminObjFromCache();
         int retStatus = NNProcessImp.ClearStockNNData(this, accountAdminObj);
         return "" + retStatus;
     }
@@ -2597,11 +2592,11 @@ public class ServiceAFweb {
         return custAccSrv.getCustomerByAccoutObj(accObj);
     }
 
-    public CommObj getCommObjByID(int commID) {
+    public CommObj AccGetCommObjByID(int commID) {
         return custAccSrv.getCommObjByID(commID);
     }
 
-    public CommData getCommDataObj(CommObj commObj) {
+    public CommData AccGetCommDataObj(CommObj commObj) {
         return custAccSrv.getCommDataObj(commObj);
     }
 

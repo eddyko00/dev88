@@ -454,7 +454,7 @@ public class NN30ProcessByTrend {
 
     public void ProcessTrainNeuralNetNN30ByTrend(ServiceAFweb serviceAFWeb) {
 
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         UpdateStockNN30processNameArray(serviceAFWeb, accountAdminObj);
         if (stockNNprocessNameArray == null) {
             return;
@@ -867,7 +867,7 @@ public class NN30ProcessByTrend {
     }
 
     public ArrayList retrainStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (stockNNretrainprocessNameArray != null && stockNNretrainprocessNameArray.size() > 0) {
             return stockNNretrainprocessNameArray;
         }

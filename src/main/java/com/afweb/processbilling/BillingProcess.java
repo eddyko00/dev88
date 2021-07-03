@@ -299,7 +299,7 @@ public class BillingProcess {
             String msgSt = ESTtime + " " + msg;
 
             accountImp.addAccountMessage(account, ConstantKey.COM_BILLMSG, msg);
-            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
             accountImp.addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msg);
 
             // send email
@@ -549,7 +549,7 @@ public class BillingProcess {
             String msgSt = ESTtime + " " + msg;
 //            String compassMsgSt = ServiceAFweb.compress(msgSt);
             accountImp.addAccountMessage(account, ConstantKey.COM_BILLMSG, msgSt);
-            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
             accountImp.addAccountMessage(accountAdminObj, ConstantKey.COM_BILLMSG, msgSt);
 
             // send email

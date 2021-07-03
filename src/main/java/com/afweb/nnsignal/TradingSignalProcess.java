@@ -736,7 +736,7 @@ public class TradingSignalProcess {
     ///asc thObjList old first - recent last
     public ArrayList<StockTRHistoryObj> resetVitualTransaction(ServiceAFweb serviceAFWeb, AFstockObj stock, String trName) {
         try {
-            AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
             serviceAFWeb.AccClearAccountStockTranByAccountID(accountAdminObj, stock.getId(), trName);
             TradingRuleObj trObj = serviceAFWeb.AccGetAccountStockIDByTRStockID(accountAdminObj.getId(), stock.getId(), trName);
             // get 2 year
@@ -1226,7 +1226,7 @@ public class TradingSignalProcess {
 
     public void testUpdateAdminTradingsignal(ServiceAFweb serviceAFWeb, String symbol) {
 //        this.serviceAFWeb = serviceAFWeb;
-        AccountObj accountAdminObj = serviceAFWeb.getAdminObjFromCache();
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
         upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
         upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
