@@ -42,7 +42,7 @@ public class CKey {
     /////////////////////
     /////////////////////
     /////////////////////
-    public static boolean CACHE_STOCKH = true;      // must be true    
+    public static boolean STATIC_STOCKH = true;      // must be true    
     public static boolean DELAY_RESTORE = false;  // true only for VM ware restore local
     public static boolean GET_STOCKHISTORY_SCREEN = false; //false //true    
 

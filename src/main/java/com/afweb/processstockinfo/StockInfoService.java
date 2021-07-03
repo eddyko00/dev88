@@ -152,7 +152,7 @@ public class StockInfoService {
         length = (int) (len);
         long end = TimeConvertion.addDays(start, -length);
 
-        if (CKey.CACHE_STOCKH == true) {
+        if (CKey.STATIC_STOCKH == true) {
             start = TimeConvertion.endOfDayInMillis(dateNow.getTimeInMillis());
             end = TimeConvertion.addDays(start, -length);
 
@@ -369,7 +369,7 @@ public class StockInfoService {
                 stockinfoDBEndDay = stockinfoDB.getEntrydatel();
             }
             AFstockInfo stockinfoStaticDB = null;
-            if (CKey.CACHE_STOCKH == true) {
+            if (CKey.STATIC_STOCKH == true) {
                 if ((stockinfoDBArray == null) || (stockinfoDBArray.size() == 0)) {
 
                     ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.SysGetAllStaticStockHistoryServ(stock.getSymbol());
@@ -403,7 +403,7 @@ public class StockInfoService {
                 if (stockinfoRTEndDay < stockinfoDBEndDay) {
                     continue;
                 } else if (stockinfoRTEndDay == stockinfoDBEndDay) {
-                    if (CKey.CACHE_STOCKH == true) {
+                    if (CKey.STATIC_STOCKH == true) {
                         if (stockinfoStaticDB != null) {
                             if (stockinfoStaticDB.getEntrydatel() == stockinfoRTEndDay) {
                                 // ignore to update the static db file
@@ -482,7 +482,7 @@ public class StockInfoService {
             if (stockObj == null) {
                 continue;
             }
-            if (CKey.CACHE_STOCKH == true) {
+            if (CKey.STATIC_STOCKH == true) {
 
                 long endStaticDay = 0;
                 ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.SysGetAllStaticStockHistoryServ(symbol);
