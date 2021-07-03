@@ -1,6 +1,8 @@
 package com.afweb.processcache;
 
 import com.afweb.model.stock.AFneuralNet;
+import com.afweb.model.stock.AFstockInfo;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /*
@@ -30,6 +32,17 @@ public class ECacheService {
 
     public AFneuralNet getNeuralNetObjWeight0(String name) {
         return cacheImp.get(NN0 + name);
+    }
+
+    public static String SH = "SH_";
+
+    public int getStockHistorical(String name, ArrayList<AFstockInfo> infoArray) {
+        cacheImp.put(SH + name, infoArray, TTL);
+        return 1;
+    }
+
+    public ArrayList<AFstockInfo> getStockHistorical(String name) {
+        return cacheImp.get(SH + name);
     }
 
 }

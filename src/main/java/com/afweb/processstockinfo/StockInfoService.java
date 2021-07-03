@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 
-
 /**
  *
  * @author eddy
@@ -107,8 +106,25 @@ public class StockInfoService {
     }
 
     /////recent day first and the old data last////////////
-    // return stock history starting recent date to the old date
+    // return stock history starting recent date to the old date    
     public ArrayList<AFstockInfo> getStockHistorical(ServiceAFweb serviceAFWeb, String symbol, int length) {
+        if (ServiceAFweb.cacheServ.cacheFlag == true) {
+            String name = symbol + length;
+            ArrayList<AFstockInfo> infoList = ServiceAFweb.cacheServ.getStockHistorical(name);
+            if (infoList == null) {
+                infoList = getStockHistorical(serviceAFWeb, symbol, length);
+                if (infoList != null) {
+                    ServiceAFweb.cacheServ.getStockHistorical(name, infoList);
+                }
+            }
+            return infoList;
+        }
+        return this.getStockHistorical(serviceAFWeb, symbol, length);
+    }
+
+    /////recent day first and the old data last////////////
+    // return stock history starting recent date to the old date
+    public ArrayList<AFstockInfo> getStockHistoricalImp(ServiceAFweb serviceAFWeb, String symbol, int length) {
         ServiceAFweb.lastfun = "getStockHistorical";
 
         if (length == 0) {
