@@ -1,7 +1,9 @@
 package com.afweb.processcache;
 
+import com.afweb.model.account.AccountObj;
 import com.afweb.model.stock.AFneuralNet;
 import com.afweb.model.stock.AFstockInfo;
+import com.afweb.model.stock.AFstockObj;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -61,6 +63,29 @@ public class ECacheService {
 
     public static ArrayList<AFstockInfo> getStockHistorical(String name) {
         return cacheImp.get(SH + name);
+    }
+////////////////
+    public static String AC = "AC_";
+
+    public static int putAccountByCustomerAccountID(String name, AccountObj accObj) {
+        cacheImp.put(SH + name, accObj, TTL);
+        return 1;
+    }
+
+    public static AccountObj getAccountByCustomerAccountID(String name) {
+        return cacheImp.get(AC + name);
+    }
+
+////////////////
+    public static String SAT = "SAT_";
+
+    public static int putStockByAccountIDTRname(String name, AFstockObj stockObj) {
+        cacheImp.put(SH + name, stockObj, TTL);
+        return 1;
+    }
+
+    public static AFstockObj getStockByAccountIDTRname(String name) {
+        return cacheImp.get(SAT + name);
     }
 
 }
