@@ -126,7 +126,7 @@ public class NNetdataDB {
             }
             total = getCountRowsInTable(getJdbcTemplate(), "dummynndata1");
         } catch (Exception e) {
-            logger.info("> initNNdataDB Table exception");
+            logger.info("> initNNdataDB Table exception ");
             total = -1;
         }
         if (total >= 0) {

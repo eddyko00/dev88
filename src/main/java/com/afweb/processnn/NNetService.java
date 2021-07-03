@@ -13,6 +13,7 @@ import com.afweb.model.stock.*;
 import com.afweb.nn.*;
 
 import com.afweb.nnsignal.*;
+import com.afweb.processcache.ECacheService;
 
 import com.afweb.processstockinfo.StockInfoProcess;
 
@@ -257,12 +258,12 @@ public class NNetService {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        if (ServiceAFweb.cacheServ.cacheFlag == true) {
-            AFneuralNet aFneuralNet = ServiceAFweb.cacheServ.getNeuralNetObjWeight0(name);
+        if (ECacheService.cacheFlag == true) {
+            AFneuralNet aFneuralNet = ECacheService.getNeuralNetObjWeight0(name);
             if (aFneuralNet == null) {
                 aFneuralNet = nndataImp.getNeuralNetObjWeight0(name);
                 if (aFneuralNet != null) {
-                    ServiceAFweb.cacheServ.putNeuralNetObjWeight0(name, aFneuralNet);
+                    ECacheService.putNeuralNetObjWeight0(name, aFneuralNet);
                 }
             }
             return aFneuralNet;

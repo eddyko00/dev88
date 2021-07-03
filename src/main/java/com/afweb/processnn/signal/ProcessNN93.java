@@ -752,7 +752,7 @@ public class ProcessNN93 {
                 return nnRet;
             }
         } catch (Exception ex) {
-            logger.info("> updateAdminTradingsignalNN93 Exception" + ex.getMessage());
+            logger.info("> updateAdminTradingsignalNN93 Exception " + ex.getMessage());
         }
         return null;
     }

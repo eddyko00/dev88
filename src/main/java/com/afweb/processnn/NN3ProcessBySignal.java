@@ -574,7 +574,7 @@ public class NN3ProcessBySignal {
                 }
 
             } catch (Exception ex) {
-                logger.info("> ProcessTrainNeuralNetBySign Exception" + ex.getMessage());
+                logger.info("> ProcessTrainNeuralNetBySign Exception " + ex.getMessage());
             }
             serviceAFWeb.SysLockRemoveName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //          logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");

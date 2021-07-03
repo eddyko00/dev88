@@ -63,7 +63,7 @@ public class ChartService {
 
             return BitmapEncoder.getBitmapBytes(chart, BitmapEncoder.BitmapFormat.JPG);
         } catch (Exception ex) {
-            logger.info("> saveChart exception" + ex.getMessage());
+            logger.info("> saveChart exception " + ex.getMessage());
         }
         return null;
     }
@@ -92,7 +92,7 @@ public class ChartService {
             }
             return BitmapEncoder.getBitmapBytes(chart, BitmapEncoder.BitmapFormat.JPG);
         } catch (Exception ex) {
-            logger.info("> saveChart exception" + ex.getMessage());
+            logger.info("> saveChart exception " + ex.getMessage());
         }
         return null;
     }
@@ -124,7 +124,7 @@ public class ChartService {
             saveChart(chart, filepath);
             return true;
         } catch (Exception ex) {
-            logger.info("> saveChartToFile exception" + ex.getMessage());
+            logger.info("> saveChartToFile exception " + ex.getMessage());
         }
         return false;
     }
@@ -228,7 +228,7 @@ public class ChartService {
 //        BitmapEncoder.saveBitmap(chart, "./Sample_Chart", BitmapFormat.GIF);      
             return 1;
         } catch (IOException ex) {
-            logger.info("> saveChart exception" + ex.getMessage());
+            logger.info("> saveChart exception " + ex.getMessage());
         }
 
         return 0;
@@ -301,7 +301,7 @@ public class ChartService {
                     xDate, yD, buyDate, buyD, sellDate, sellD);
             return "Save in " + filepath;
         } catch (Exception ex) {
-            logger.info("> getAccountStockTRListHistoryChartProcess exception" + ex.getMessage());
+            logger.info("> getAccountStockTRListHistoryChartProcess exception " + ex.getMessage());
         }
         return "Save failed";
 

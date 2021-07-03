@@ -173,7 +173,7 @@ public class TradingSignalProcess {
             dupObj.setStartdate(new java.sql.Date(dupObj.getUpdatedatel()));
             return dupObj;
         } catch (Exception ex) {
-            logger.info("> duplicatePerformanceObj Exception" + ex.getMessage());
+            logger.info("> duplicatePerformanceObj Exception " + ex.getMessage());
         }
 
         return null;
@@ -751,7 +751,7 @@ public class TradingSignalProcess {
             serviceAFWeb.AccClearAccountStockTranByAccountID(accountAdminObj, stock.getId(), trName);
             return trHistoryList;
         } catch (Exception ex) {
-            logger.info("> resetVitualTransaction Exception" + ex.getMessage());
+            logger.info("> resetVitualTransaction Exception " + ex.getMessage());
         }
         return null;
     }

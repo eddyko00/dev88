@@ -162,7 +162,7 @@ public class TradingAPISignalProcess {
 //                        logger.info("ProcessAPISignalTrading " + LockStock + " unLock LockStock ");
                     }
                 } catch (Exception ex) {
-                    logger.info("> ProcessAPISignalTrading Exception" + ex.getMessage());
+                    logger.info("> ProcessAPISignalTrading Exception " + ex.getMessage());
                 }
             }
             serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);

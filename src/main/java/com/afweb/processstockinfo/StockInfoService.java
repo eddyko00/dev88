@@ -11,6 +11,7 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.dbstockinfo.StockInfoImp;
+import com.afweb.processcache.ECacheService;
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -108,14 +109,14 @@ public class StockInfoService {
     /////recent day first and the old data last////////////
     // return stock history starting recent date to the old date    
     public ArrayList<AFstockInfo> getStockHistorical(ServiceAFweb serviceAFWeb, String symbol, int length) {
-        if (ServiceAFweb.cacheServ.cacheFlag == true) {
+        if (ECacheService.cacheFlag == true) {
             if (length > 100) {
                 String name = symbol + length;
-                ArrayList<AFstockInfo> infoList = ServiceAFweb.cacheServ.getStockHistorical(name);
+                ArrayList<AFstockInfo> infoList = ECacheService.getStockHistorical(name);
                 if (infoList == null) {
                     infoList = getStockHistoricalImp(serviceAFWeb, symbol, length);
                     if (infoList != null) {
-                        ServiceAFweb.cacheServ.putStockHistorical(name, infoList);
+                        ECacheService.putStockHistorical(name, infoList);
                     }
                 }
                 return infoList;

@@ -1574,7 +1574,7 @@ public class CustAccService {
             chart.saveChartToFile(stockidsymbol + "_" + trname, filepath, xDate, yD, buyDate, buyD, sellDate, sellD);
             return "Save in " + filepath;
         } catch (Exception ex) {
-            logger.info("> getAccountStockTRLIstCurrentChartFile exception" + ex.getMessage());
+            logger.info("> getAccountStockTRLIstCurrentChartFile exception " + ex.getMessage());
         }
         return "Save failed";
     }

@@ -14,6 +14,20 @@ import com.afweb.util.CKey;
 public class ServerObj {
 
     /**
+     * @return the cacheSize
+     */
+    public int getCacheSize() {
+        return cacheSize;
+    }
+
+    /**
+     * @param cacheSize the cacheSize to set
+     */
+    public void setCacheSize(int cacheSize) {
+        this.cacheSize = cacheSize;
+    }
+
+    /**
      * @return the servip
      */
     public String getServip() {
@@ -41,7 +55,7 @@ public class ServerObj {
         this.autoNNCnt = autoNNCnt;
     }
 
-    private String servip="";
+    private String servip = "";
     private String serverName;
     private String srvProjName;
     private String verString;
@@ -72,8 +86,9 @@ public class ServerObj {
     private int processTimerCnt = 0;
     private boolean uidisplayonly;
     private int autoNNCnt = 0;
-    
-    
+
+    private int cacheSize = 0;
+
     public ServerObj() {
         serverName = "Server";
         srvProjName = "project";
@@ -100,7 +115,8 @@ public class ServerObj {
 
         processTimerCnt = 0;
         uidisplayonly = CKey.UI_ONLY;
-        autoNNCnt=0;
+        autoNNCnt = 0;
+        cacheSize = 0;
     }
 
     /**

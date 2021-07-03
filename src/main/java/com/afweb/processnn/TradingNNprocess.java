@@ -178,7 +178,7 @@ public class TradingNNprocess {
                     nn3Process.ReLearnNN3StockNeuralNetData(serviceAFWeb, trNN, symbol);
                 }
             } catch (Exception ex) {
-                logger.info("> PReLearnInputNeuralNet Exception" + ex.getMessage());
+                logger.info("> PReLearnInputNeuralNet Exception " + ex.getMessage());
             }
             serviceAFWeb.SysLockRemoveName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //          logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");

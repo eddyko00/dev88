@@ -273,7 +273,7 @@ public class StockInfoDB {
             }
             total = getCountRowsInTable(getJdbcTemplate(), "dummyinfo1");
         } catch (Exception e) {
-            logger.info("> InitStockInfoDB Table exception");
+            logger.info("> InitStockInfoDB Table exception ");
             total = -1;
         }
         if (total >= 0) {

@@ -752,7 +752,7 @@ public class ProcessNN91 {
                 return nnRet;
             }
         } catch (Exception ex) {
-            logger.info("> updateAdminTradingsignalNN91 Exception" + ex.getMessage());
+            logger.info("> updateAdminTradingsignalNN91 Exception " + ex.getMessage());
         }
         return null;
     }

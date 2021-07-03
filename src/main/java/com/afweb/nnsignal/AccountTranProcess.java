@@ -152,7 +152,7 @@ public class AccountTranProcess {
 //                        logger.info("ProcessAdminSignalTrading " + LockStock + " unLock LockStock ");
                     }
                 } catch (Exception ex) {
-                    logger.info("> ProcessAdminSignalTrading Exception" + ex.getMessage());
+                    logger.info("> ProcessAdminSignalTrading Exception " + ex.getMessage());
                 }
             }
             serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);

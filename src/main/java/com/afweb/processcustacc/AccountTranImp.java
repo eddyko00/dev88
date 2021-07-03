@@ -377,7 +377,7 @@ public class AccountTranImp {
             }
 
         } catch (Exception ex) {
-            logger.info("> updateTradingTransaction Exception" + ex.getMessage());
+            logger.info("> updateTradingTransaction Exception " + ex.getMessage());
         }
     }
 
@@ -643,7 +643,7 @@ public class AccountTranImp {
             dupObj.setUpdatedatedisplay(new java.sql.Date(dupObj.getUpdatedatel()));
             return dupObj;
         } catch (Exception ex) {
-            logger.info("> duplicateTRObj Exception" + ex.getMessage());
+            logger.info("> duplicateTRObj Exception " + ex.getMessage());
         }
         return null;
     }

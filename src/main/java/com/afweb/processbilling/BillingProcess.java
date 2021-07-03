@@ -421,7 +421,7 @@ public class BillingProcess {
 
                 }
             } catch (Exception ex) {
-                logger.info("createUserBilling exception");
+                logger.info("createUserBilling exception ");
             }
 
             if (custPortfilio.getnPlan() != -1) {
@@ -707,7 +707,7 @@ public class BillingProcess {
             accountImp.updateCustomerPortfolio(custFund.getUsername(), portfStr);
 
         } catch (Exception ex) {
-            logger.info("createUserBilling exception");
+            logger.info("createUserBilling exception ");
         }
 
         return 0;

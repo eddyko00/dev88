@@ -617,7 +617,7 @@ public class NN30ProcessByTrend {
                     }
                 }
             } catch (Exception ex) {
-                logger.info("> PTrainNN30NeuralNetByTrend Exception" + ex.getMessage());
+                logger.info("> PTrainNN30NeuralNetByTrend Exception " + ex.getMessage());
             }
             serviceAFWeb.SysLockRemoveName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //                        logger.info("ProcessTrainNeuralNetByTrend " + LockStock + " unLock LockStock ");

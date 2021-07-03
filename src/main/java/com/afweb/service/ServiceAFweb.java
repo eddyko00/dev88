@@ -22,7 +22,7 @@ import com.afweb.chart.ChartService;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
-import com.afweb.processcache.ECache;
+
 import com.afweb.processcache.ECacheService;
 import com.afweb.processcustacc.CustAccService;
 import com.afweb.processnn.NNetService;
@@ -98,8 +98,6 @@ public class ServiceAFweb {
     private static AccountObj cacheAccountAdminObj = null;
     private static long cacheAccountAdminObjDL = 0;
 
-    public static ECacheService cacheServ = new ECacheService();
-
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
 
@@ -149,7 +147,7 @@ public class ServiceAFweb {
             }
             return accountAdminObj;
         } catch (Exception ex) {
-            logger.info("> getAdminObjFromCache Exception" + ex.getMessage());
+            logger.info("> getAdminObjFromCache Exception " + ex.getMessage());
         }
         return null;
     }
@@ -224,7 +222,7 @@ public class ServiceAFweb {
             AFtimerHandler("");
 //            }
         } catch (Exception ex) {
-            logger.info("> timerThread Exception" + ex.getMessage());
+            logger.info("> timerThread Exception " + ex.getMessage());
         }
 
         return getServerObj().getTimerCnt();
@@ -429,7 +427,7 @@ public class ServiceAFweb {
 
         } catch (Exception ex) {
             logger.info("> Exception lastfun - " + lastfun);
-            logger.info("> timerHandler Exception" + ex.getMessage());
+            logger.info("> timerHandler Exception " + ex.getMessage());
         }
         serverObj.setTimerQueueCnt(serverObj.getTimerQueueCnt() - 1);
         return getServerObj().getTimerCnt();
@@ -682,6 +680,8 @@ public class ServiceAFweb {
                 getServerObj().setProcessTimerCnt(0);
             }
             getServerObj().setProcessTimerCnt(getServerObj().getProcessTimerCnt() + 1);
+
+            getServerObj().setCacheSize(ECacheService.getCurrentCacheSize());
 
 //            logger.info("> processTimer " + getServerObj().getProcessTimerCnt());
             if (getEnv.checkLocalPC() == true) {

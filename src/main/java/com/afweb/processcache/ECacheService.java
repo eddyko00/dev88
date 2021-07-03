@@ -22,7 +22,7 @@ public class ECacheService {
     public static ECache cacheImp = new ECache();
     public static boolean cacheFlag = true;
 
-    public static int TTL = 2*60*1000; // 2 minutes
+    public static int TTL = 2 * 60 * 1000; // 2 minutes
 
     public static void checkCache() {
         Map<String, ECache.Entity> map = cacheImp.DATA_BASE;
@@ -34,26 +34,32 @@ public class ECacheService {
         logger.info("> checkCache " + map.size() + " -" + retSt);
     }
 
+    public static int getCurrentCacheSize() {
+        Map<String, ECache.Entity> map = cacheImp.DATA_BASE;
+        return map.size();
+
+    }
+
 /////////////    
     public static String NN0 = "NN0_";
 
-    public int putNeuralNetObjWeight0(String name, AFneuralNet aFneuralNet) {
+    public static int putNeuralNetObjWeight0(String name, AFneuralNet aFneuralNet) {
         cacheImp.put(NN0 + name, aFneuralNet, TTL);
         return 1;
     }
 
-    public AFneuralNet getNeuralNetObjWeight0(String name) {
+    public static AFneuralNet getNeuralNetObjWeight0(String name) {
         return cacheImp.get(NN0 + name);
     }
 ////////////////
     public static String SH = "SH_";
 
-    public int putStockHistorical(String name, ArrayList<AFstockInfo> infoArray) {
+    public static int putStockHistorical(String name, ArrayList<AFstockInfo> infoArray) {
         cacheImp.put(SH + name, infoArray, TTL);
         return 1;
     }
 
-    public ArrayList<AFstockInfo> getStockHistorical(String name) {
+    public static ArrayList<AFstockInfo> getStockHistorical(String name) {
         return cacheImp.get(SH + name);
     }
 
