@@ -1409,7 +1409,7 @@ public class TradingSignalProcess {
         TRObj stockTRObj = new TRObj();
         stockTRObj.setTrlist(UpdateTRList);
 
-        serviceAFWeb.updateAccountStockSignal(stockTRObj);
+        serviceAFWeb.AccUpdateAccountStockSignal(stockTRObj);
     }
 
 //    private ArrayList UpdateStockSignalNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {
@@ -2454,7 +2454,7 @@ public class TradingSignalProcess {
         }
         return 0;
     }
-
+    NNetService nnservice = new NNetService();
     public static boolean forceToInitleaningNewNN = false;
     public static boolean forceToGenerateNewNN = false;
     public static boolean forceToErrorNewNN = false;
@@ -2605,7 +2605,7 @@ public class TradingSignalProcess {
             serviceAFWeb.NnReleaseNeuralNetObj(serviceAFWeb, name);
 
             if (nnError == 1) {
-                ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
+                ReferNameData refData = nnservice.getReferNameData(afNeuralNet);
                 double refminError = minError + 0.004; //+ 0.002;
                 refData.setmError(refminError);
 
@@ -2614,7 +2614,7 @@ public class TradingSignalProcess {
 
             } else {
 
-                ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
+                ReferNameData refData = nnservice.getReferNameData(afNeuralNet);
                 if (refData.getmError() != 0) {
                     double refError = refData.getmError();
                     double refminError = minError + 0.006; //+ 0.002;

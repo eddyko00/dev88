@@ -393,7 +393,7 @@ public class AccountTranProcess {
                             tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
                             ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
                             UpdateTRList.add(tradingRuleObj);
-                            serviceAFWeb.updateAccountStockSignalList(UpdateTRList);
+                            serviceAFWeb.AccUpdateAccountStockSignalList(UpdateTRList);
 
                             //////calcuate performance
                             float curPrice = stock.getAfstockInfo().getFclose();

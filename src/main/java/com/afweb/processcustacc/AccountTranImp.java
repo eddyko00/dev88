@@ -208,7 +208,7 @@ public class AccountTranImp {
         }
         TRObj stockTRObj = new TRObj();
         stockTRObj.setTrlist(UpdateTRList);
-        serviceAFWeb.updateAccountStockSignal(stockTRObj);
+        serviceAFWeb.AccUpdateAccountStockSignal(stockTRObj);
     }
 
     public int followFundSignalFromAcc(ServiceAFweb serviceAFWeb, AccountObj accFundObj,

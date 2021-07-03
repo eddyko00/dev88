@@ -20,6 +20,7 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
 
 import com.afweb.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 
 import java.util.logging.Logger;
@@ -181,6 +182,20 @@ public class NNetService {
     }
 
     //////////////////////////////////////////
+    public ReferNameData getReferNameData(AFneuralNet nnObj0) {
+        ReferNameData refData = new ReferNameData();
+        String refName = nnObj0.getRefname();
+        try {
+            if ((refName != null) && (refName.length() > 0)) {
+                refName = refName.replaceAll("#", "\"");
+                refData = new ObjectMapper().readValue(refName, ReferNameData.class);
+                return refData;
+            }
+        } catch (Exception ex) {
+        }
+        return refData;
+    }    
+    
     public String SystemClearNNinput(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;

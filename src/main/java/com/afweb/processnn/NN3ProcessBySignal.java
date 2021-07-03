@@ -720,7 +720,7 @@ public class NN3ProcessBySignal {
 //                            logger.info("> inputStockNeuralNetData create existing Symbol ");
                             //just for testing                           
                             nnTemp.createNet(stWeight0);
-                            refData = serviceAFWeb.getReferNameData(nnObj0);
+                            refData = nnservice.getReferNameData(nnObj0);
                             nnCreateSt = "Existing symbol DB";
 //                            refName = nnObj0.getRefname();
                         } else {
@@ -777,7 +777,7 @@ public class NN3ProcessBySignal {
             }
 
             ReferNameData refData = new ReferNameData();
-            refData = serviceAFWeb.getReferNameData(nnObj1);
+            refData = nnservice.getReferNameData(nnObj1);
             if (refData.getmError() != 0) {
                 errorNN = refData.getmError();
 //                logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
@@ -1141,7 +1141,7 @@ public class NN3ProcessBySignal {
                 }
                 // redue multiple task update the same ref condition
                 nnObj0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
-                ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
+                ReferNameData refData = nnservice.getReferNameData(nnObj0);
                 int cnt = refData.getnRLCnt();
                 if (cnt < 0) {
                     cnt = 0;
@@ -1208,7 +1208,7 @@ public class NN3ProcessBySignal {
         }
 
         if (CheckRefData == true) {
-            ReferNameData refData = serviceAFWeb.getReferNameData(nnObj0);
+            ReferNameData refData = nnservice.getReferNameData(nnObj0);
             int numReLearn = refData.getnRLearn();
             if (numReLearn == -1) {
                 return false;

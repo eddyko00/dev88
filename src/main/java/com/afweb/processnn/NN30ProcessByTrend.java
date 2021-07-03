@@ -671,7 +671,7 @@ public class NN30ProcessByTrend {
                     }
                 }
                 ReferNameData refData = new ReferNameData();
-                refData = serviceAFWeb.getReferNameData(nnObj1);
+                refData = nnservice.getReferNameData(nnObj1);
                 if (refData.getmError() != 0) {
                     errorNN = refData.getmError();
 //                    logger.info("> stockTrainNeuralNet override new error " + BPname + " " + errorNN);
@@ -802,7 +802,7 @@ public class NN30ProcessByTrend {
 //                            logger.info("> inputStockNeuralNetData create existing Symbol ");
                             ///just for testing
                             nnTemp.createNet(stWeight0);
-                            refData = serviceAFWeb.getReferNameData(nnObj0);
+                            refData = nnservice.getReferNameData(nnObj0);
                             nnCreateSt = "Existing symbol DB";
 //                            refName = nnObj0.getRefname();
                         } else {

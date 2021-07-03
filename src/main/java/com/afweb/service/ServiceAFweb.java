@@ -1436,19 +1436,7 @@ public class ServiceAFweb {
         return nameSt;
     }
 
-    public ReferNameData getReferNameData(AFneuralNet nnObj0) {
-        ReferNameData refData = new ReferNameData();
-        String refName = nnObj0.getRefname();
-        try {
-            if ((refName != null) && (refName.length() > 0)) {
-                refName = refName.replaceAll("#", "\"");
-                refData = new ObjectMapper().readValue(refName, ReferNameData.class);
-                return refData;
-            }
-        } catch (Exception ex) {
-        }
-        return refData;
-    }
+
 
     ///////////////////////////////
     public static boolean SysFilePut(String fileName, ArrayList msgWrite) {
@@ -2651,7 +2639,7 @@ public class ServiceAFweb {
     }
 
 //////////
-    public int updateAccountStockSignalList(ArrayList<TradingRuleObj> TRList) {
+    public int AccUpdateAccountStockSignalList(ArrayList<TradingRuleObj> TRList) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -2659,7 +2647,7 @@ public class ServiceAFweb {
 
     }
 
-    public int updateAccountStockSignal(TRObj stockTRObj) {
+    public int AccUpdateAccountStockSignal(TRObj stockTRObj) {
         if (getServerObj().isSysMaintenance() == true) {
             return 0;
         }
@@ -2667,7 +2655,7 @@ public class ServiceAFweb {
 
     }
 
-    public int systemRemoveAllEmail() {
+    public int AccRemoveAllEmail() {
         custAccSrv.removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
