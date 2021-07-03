@@ -868,15 +868,15 @@ public class ServiceAFweb {
 
             symbol = "HOU.TO";
 
-            ServiceAFweb.cacheServ.checkCache();
-            int size1yearAll = 20 * 12 * 5 + (50 * 3);
-            AFstockObj stock = StoGetStockObjBySym(symbol);
-            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
-            ServiceAFweb.cacheServ.checkCache();            
-            if (StockInfoArray == null) {
-                ;
-            }
-            StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
+//            ServiceAFweb.cacheServ.checkCache();
+//            int size1yearAll = 20 * 12 * 5 + (50 * 3);
+//            AFstockObj stock = StoGetStockObjBySym(symbol);
+//            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
+//            ServiceAFweb.cacheServ.checkCache();            
+//            if (StockInfoArray == null) {
+//                ;
+//            }
+//            StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
 
             logger.info("End mydebugtestflag.....");
         }
