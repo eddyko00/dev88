@@ -879,6 +879,7 @@ public class CustAccService {
                 if (stockObj != null) {
                     ECacheService.putStockByAccountIDTRname(name, stockObj);
                 }
+                return stockObj;
             }
         }
         return getStockByAccountIDTRnameImp(serviceAFWeb, accountObj, NormalizeSymbol, trname);
