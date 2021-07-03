@@ -34,14 +34,10 @@ import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.HashMap;
-import java.util.TimeZone;
 
 import java.util.logging.Logger;
 
@@ -52,7 +48,7 @@ import java.util.logging.Logger;
 public class TradingSignalProcess {
 
     protected static Logger logger = Logger.getLogger("TrandingSignalProcess");
-    NNetService nnservice = new NNetService();
+//    NNetService nnservice = new NNetService();
 //
 
     public void upateAdminPerformance(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
@@ -2031,11 +2027,11 @@ public class TradingSignalProcess {
     public void downloadNeuralNetWeight(ServiceAFweb serviceAFWeb, int nnNum) {
         String name = CKey.NN_version + "_" + ConstantKey.TR_NN1;
         AFneuralNet nnObj = null;
-        NNetService nnservice = new NNetService();
+
         if (nnNum == 0) {
-            nnObj = nnservice.getNeuralNetObjWeight0(serviceAFWeb, name, 0);
+            nnObj = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, name, 0);
         } else if (nnNum == 1) {
-            nnObj = nnservice.getNeuralNetObjWeight1(serviceAFWeb, name, 0);
+            nnObj = serviceAFWeb.NnGetNeuralNetObjWeight1(serviceAFWeb, name, 0);
         }
         if (nnObj != null) {
             String weightSt = nnObj.getWeight();
@@ -2050,7 +2046,7 @@ public class TradingSignalProcess {
 
     public AFneuralNet testNeuralNet0Symbol(ServiceAFweb serviceAFWeb, String nnName, String symbol) {
         String BPname = CKey.NN_version + "_" + nnName + "_" + symbol;
-        AFneuralNet nnObj0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
+        AFneuralNet nnObj0 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
         if (nnObj0 == null) {
             return null;
         }
@@ -2322,111 +2318,110 @@ public class TradingSignalProcess {
         return false;
     }
 
-    public static AFneuralNet nn1ObjCache = null;
-    public static AFneuralNet nn2ObjCache = null;
-    public static AFneuralNet nn3ObjCache = null;
-    public static AFneuralNet nn30ObjCache = null;
-    public static AFneuralNet nn35ObjCache = null;
-    public static long lastUpdateTime1 = 0;
-    public static long lastUpdateTime2 = 0;
-    public static long lastUpdateTime3 = 0;
-    public static long lastUpdateTime30 = 0;
-    public static long lastUpdateTime35 = 0;
-
-    private AFneuralNet getCacheNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
-        String BPname = nnTraining.getNameNN();
-        AFneuralNet nnObj1 = null;
-        if (nnTraining.getTrname().equals(ConstantKey.TR_NN1)) {
-            if (nn1ObjCache != null) {
-                if (nn1ObjCache.getName().equals(BPname)) {
-
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime1, 10);
-                    long currentTime = System.currentTimeMillis();
-                    if (date5Min > currentTime) {
-                        nnObj1 = nn1ObjCache;
-                    }
-                }
-            }
-
-            if (nnObj1 == null) {
-                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
-                if (nnObj1 == null) {
-                    return null;
-                }
-                nn1ObjCache = nnObj1;
-                lastUpdateTime1 = System.currentTimeMillis();
-            }
-        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN2)) {
-            if (nn2ObjCache != null) {
-                if (nn2ObjCache.getName().equals(BPname)) {
-
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime2, 10);
-                    long currentTime = System.currentTimeMillis();
-                    if (date5Min > currentTime) {
-                        nnObj1 = nn2ObjCache;
-                    }
-                }
-            }
-
-            if (nnObj1 == null) {
-                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
-                if (nnObj1 == null) {
-                    return null;
-                }
-                nn2ObjCache = nnObj1;
-                lastUpdateTime2 = System.currentTimeMillis();
-            }
-        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN3)) {
-            if (nn3ObjCache != null) {
-                if (nn3ObjCache.getName().equals(BPname)) {
-
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime3, 10);
-                    long currentTime = System.currentTimeMillis();
-                    if (date5Min > currentTime) {
-                        nnObj1 = nn3ObjCache;
-                    }
-                }
-            }
-
-            if (nnObj1 == null) {
-                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
-                if (nnObj1 == null) {
-                    return null;
-                }
-                nn3ObjCache = nnObj1;
-                lastUpdateTime3 = System.currentTimeMillis();
-            }
-        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN30)) {
-            if (nn30ObjCache != null) {
-                if (nn30ObjCache.getName().equals(BPname)) {
-
-                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime30, 10);
-                    long currentTime = System.currentTimeMillis();
-                    if (date5Min > currentTime) {
-                        nnObj1 = nn30ObjCache;
-                    }
-                }
-            }
-
-            if (nnObj1 == null) {
-                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
-                if (nnObj1 == null) {
-                    return null;
-                }
-                nn30ObjCache = nnObj1;
-                lastUpdateTime30 = System.currentTimeMillis();
-            }
-
-        } else {
-            logger.info("> OutputNNBP exception - need to define new cache " + nnTraining.getTrname());
-            nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
-            if (nnObj1 == null) {
-                return null;
-            }
-        }
-        return nnObj1;
-    }
-
+//    public static AFneuralNet nn1ObjCache = null;
+//    public static AFneuralNet nn2ObjCache = null;
+//    public static AFneuralNet nn3ObjCache = null;
+//    public static AFneuralNet nn30ObjCache = null;
+//    public static AFneuralNet nn35ObjCache = null;
+//    public static long lastUpdateTime1 = 0;
+//    public static long lastUpdateTime2 = 0;
+//    public static long lastUpdateTime3 = 0;
+//    public static long lastUpdateTime30 = 0;
+//    public static long lastUpdateTime35 = 0;
+//
+//    private AFneuralNet getCacheNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
+//        String BPname = nnTraining.getNameNN();
+//        AFneuralNet nnObj1 = null;
+//        if (nnTraining.getTrname().equals(ConstantKey.TR_NN1)) {
+//            if (nn1ObjCache != null) {
+//                if (nn1ObjCache.getName().equals(BPname)) {
+//
+//                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime1, 10);
+//                    long currentTime = System.currentTimeMillis();
+//                    if (date5Min > currentTime) {
+//                        nnObj1 = nn1ObjCache;
+//                    }
+//                }
+//            }
+//
+//            if (nnObj1 == null) {
+//                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
+//                if (nnObj1 == null) {
+//                    return null;
+//                }
+//                nn1ObjCache = nnObj1;
+//                lastUpdateTime1 = System.currentTimeMillis();
+//            }
+//        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN2)) {
+//            if (nn2ObjCache != null) {
+//                if (nn2ObjCache.getName().equals(BPname)) {
+//
+//                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime2, 10);
+//                    long currentTime = System.currentTimeMillis();
+//                    if (date5Min > currentTime) {
+//                        nnObj1 = nn2ObjCache;
+//                    }
+//                }
+//            }
+//
+//            if (nnObj1 == null) {
+//                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
+//                if (nnObj1 == null) {
+//                    return null;
+//                }
+//                nn2ObjCache = nnObj1;
+//                lastUpdateTime2 = System.currentTimeMillis();
+//            }
+//        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN3)) {
+//            if (nn3ObjCache != null) {
+//                if (nn3ObjCache.getName().equals(BPname)) {
+//
+//                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime3, 10);
+//                    long currentTime = System.currentTimeMillis();
+//                    if (date5Min > currentTime) {
+//                        nnObj1 = nn3ObjCache;
+//                    }
+//                }
+//            }
+//
+//            if (nnObj1 == null) {
+//                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
+//                if (nnObj1 == null) {
+//                    return null;
+//                }
+//                nn3ObjCache = nnObj1;
+//                lastUpdateTime3 = System.currentTimeMillis();
+//            }
+//        } else if (nnTraining.getTrname().equals(ConstantKey.TR_NN30)) {
+//            if (nn30ObjCache != null) {
+//                if (nn30ObjCache.getName().equals(BPname)) {
+//
+//                    long date5Min = TimeConvertion.addMinutes(lastUpdateTime30, 10);
+//                    long currentTime = System.currentTimeMillis();
+//                    if (date5Min > currentTime) {
+//                        nnObj1 = nn30ObjCache;
+//                    }
+//                }
+//            }
+//
+//            if (nnObj1 == null) {
+//                nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
+//                if (nnObj1 == null) {
+//                    return null;
+//                }
+//                nn30ObjCache = nnObj1;
+//                lastUpdateTime30 = System.currentTimeMillis();
+//            }
+//
+//        } else {
+//            logger.info("> OutputNNBP exception - need to define new cache " + nnTraining.getTrname());
+//            nnObj1 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
+//            if (nnObj1 == null) {
+//                return null;
+//            }
+//        }
+//        return nnObj1;
+//    }
     public int OutputNNBP(ServiceAFweb serviceAFWeb, NNTrainObj nnTraining) {
         double[][] inputpattern = null;
         double[][] targetpattern = null;
@@ -2440,7 +2435,8 @@ public class TradingSignalProcess {
             return 0;
         }
         AFneuralNet nnObj1 = null;
-        nnObj1 = this.getCacheNNBP(serviceAFWeb, nnTraining);
+//        nnObj1 = this.getCacheNNBP(serviceAFWeb, nnTraining);
+        nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPname, 0);
         if (nnObj1 == null) {
             return 0;
         }
@@ -2488,7 +2484,7 @@ public class TradingSignalProcess {
         ///NeuralNetObj1 transition
         ///NeuralNetObj0 release
 
-        AFneuralNet afNeuralNet = nnservice.getNeuralNetObjWeight1(serviceAFWeb, name, 0);
+        AFneuralNet afNeuralNet = serviceAFWeb.NnGetNeuralNetObjWeight1(serviceAFWeb, name, 0);
 
         if (forceToErrorNewNN == true) {
             nnError = nnError - 0.002;
@@ -2529,7 +2525,7 @@ public class TradingSignalProcess {
             afNeuralNet.setUpdatedatel(dateDefault.getTimeInMillis());
             String weightSt = "";
             afNeuralNet.setWeight(weightSt);
-            nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
+            serviceAFWeb.NnSetNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
         }
         if (nn == null) {
             nn = new NNBPservice();
@@ -2587,7 +2583,7 @@ public class TradingSignalProcess {
         //Weight too large when save. So, alway empty  
 
         afNeuralNet.setType(afNeuralNet.getType() + 1);
-        nnservice.setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
+        serviceAFWeb.NnSetNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
         serviceAFWeb.NnUpdateNeuralNetStatus1(name, ConstantKey.OPEN, afNeuralNet.getType());
 
 //        if (getEnv.checkLocalPC() == true) {
@@ -2606,7 +2602,7 @@ public class TradingSignalProcess {
 
             retFlag = 1;
             //////////// training completed and release the NN
-            nnservice.releaseNeuralNetObj(serviceAFWeb, name);
+            serviceAFWeb.NnReleaseNeuralNetObj(serviceAFWeb, name);
 
             if (nnError == 1) {
                 ReferNameData refData = serviceAFWeb.getReferNameData(afNeuralNet);
@@ -2652,7 +2648,7 @@ public class TradingSignalProcess {
             }
             if (getEnv.checkLocalPC() == true) {
 
-                AFneuralNet nnObj0 = nnservice.getNeuralNetObjWeight0(serviceAFWeb, name, 0);
+                AFneuralNet nnObj0 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, name, 0);
                 if (nnObj0 != null) {
                     String weightSt0 = nnObj0.getWeight();
                     if (weightSt0.length() > 0) {
@@ -2740,7 +2736,7 @@ public class TradingSignalProcess {
 
         if (getEnv.checkLocalPC() == true) {
 
-            AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, name, 0);
+            AFneuralNet nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight1(serviceAFWeb, name, 0);
             if (nnObj1 != null) {
                 String weightSt11 = nnObj1.getWeight();
                 if (weightSt1.length() > 0) {

@@ -22,6 +22,7 @@ import com.afweb.chart.ChartService;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.processcache.ECacheService;
 import com.afweb.processcustacc.CustAccService;
 import com.afweb.processnn.NNetService;
 import com.afweb.processstock.StockService;
@@ -95,6 +96,8 @@ public class ServiceAFweb {
 
     private static AccountObj cacheAccountAdminObj = null;
     private static long cacheAccountAdminObjDL = 0;
+
+    public static ECacheService cacheServ = new ECacheService();
 
     public static String FileLocalDebugPath = "T:/Netbean/debug/";
     public static String FileLocalNNPath = "T:/Netbean/debug/training";
@@ -1787,6 +1790,7 @@ public class ServiceAFweb {
 
         return result;
     }
+
     ///////////////////////////////////////
     public CustomerObj SysGetCustomerIgnoreMaintenance(String EmailUserName, String Password) {
 
@@ -2352,6 +2356,22 @@ public class ServiceAFweb {
 
     public ArrayList<AFneuralNetData> NnGetNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
         return nnSrv.getNeuralNetDataObjByStockId(name, refname, stockId, updatedatel);
+    }
+
+    public AFneuralNet NnGetNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, String name, int type) {
+        return nnSrv.getNeuralNetObjWeight0(serviceAFWeb, name, type);
+    }
+
+    public AFneuralNet NnGetNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, String name, int type) {
+        return nnSrv.getNeuralNetObjWeight1(serviceAFWeb, name, type);
+    }
+
+    public int NnSetNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, AFneuralNet nn) {
+        return nnSrv.setNeuralNetObjWeight1(serviceAFWeb, nn);
+    }
+
+    public int NnReleaseNeuralNetObj(ServiceAFweb serviceAFWeb, String name) {
+        return nnSrv.releaseNeuralNetObj(serviceAFWeb, name);
     }
 
     public int NnDeleteNeuralNetDataByBPname(String name) {
@@ -3025,7 +3045,6 @@ public class ServiceAFweb {
     public CommData getCommDataObj(CommObj commObj) {
         return custAccSrv.getCommDataObj(commObj);
     }
-
 
     //////////////////////////////////////////////////
 //    public String SystemSQLquery(String SQL) {

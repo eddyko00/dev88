@@ -592,7 +592,9 @@ public class NNetdataDB {
         return null;
     }
 
+    ///////////////////////
     public AFneuralNet getNeuralNetObjWeight0(String name) {
+
         String sql = "select * from neuralnet where name='" + name + "'";
         ArrayList entries = getAllNeuralNetSQL(sql);
         if (entries != null) {

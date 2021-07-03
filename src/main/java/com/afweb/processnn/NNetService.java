@@ -66,7 +66,6 @@ public class NNetService {
 //                    } catch (Exception ex) {
 //                    }
 //                    return sqlObj;
-
 //                case ServiceAFweb.NeuralNetDataObjStockid: //NeuralNetDataObj = 121; //"121";        
 //                    try {
 //                        String BPname = sqlObj.getReq();
@@ -244,6 +243,16 @@ public class NNetService {
     public AFneuralNet getNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, String name, int type) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
+        }
+        if (ServiceAFweb.cacheServ.cacheFlag == true) {
+            AFneuralNet aFneuralNet = ServiceAFweb.cacheServ.getNeuralNetObjWeight0(name);
+            if (aFneuralNet == null) {
+                aFneuralNet = nndataImp.getNeuralNetObjWeight0(name);
+                if (aFneuralNet != null) {
+                    ServiceAFweb.cacheServ.putNeuralNetObjWeight0(name, aFneuralNet);
+                }
+            }
+            return aFneuralNet;
         }
         return nndataImp.getNeuralNetObjWeight0(name);
     }
@@ -794,7 +803,7 @@ public class NNetService {
 
         String BPnameSym = CKey.NN_version + "_" + nnName;
 
-        AFneuralNet nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
+        AFneuralNet nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
         if (nnObj1 != null) {
             serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
         }
@@ -810,7 +819,7 @@ public class NNetService {
             ///*****Make sure the DB name is .
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
-                nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
+                nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
 
                     int ret = serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
