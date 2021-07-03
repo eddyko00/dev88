@@ -128,7 +128,7 @@ public class StockInfoProcess {
 
                 String NormalizeSymbol = (String) stockUpdateNameArray.get(0);
                 stockUpdateNameArray.remove(0);
-                result = updateAllStockProcess(serviceAFWeb, NormalizeSymbol, updateTrend);
+                result = updateAllStockInfoProcess(serviceAFWeb, NormalizeSymbol, updateTrend);
                 if (result == 1) {
                     stockPass++;
                 } else {
@@ -140,7 +140,7 @@ public class StockInfoProcess {
         return result;
     }
 
-    public int updateAllStockProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol, boolean updateTrend) {
+    public int updateAllStockInfoProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol, boolean updateTrend) {
         ServiceAFweb.lastfun = "updateAllStockProcess";
 
 //        logger.warning("> updateAllStock " + NormalizeSymbol);

@@ -129,8 +129,6 @@ public class ServiceAFweb {
         return cacheAccountAdminObj;
     }
 
-
-
     public AccountObj SysGetAdminObjFromCache() {
         try {
             AccountObj accountAdminObj = ServiceAFweb.SysGetCacheAccountAdminObj();
@@ -656,7 +654,7 @@ public class ServiceAFweb {
 //                    TRprocessImp.ProcessAdminSignalTrading(this);
                 ProcessAllAccountTradingSignal(this);
             } else if (cmd.equals("updatestock")) {
-                InfUpdateAllStockInfo();
+                ProcessUpdateAllStockInfo();
             } else if (cmd.equals("debugtest")) {
                 debugtest();
             }
@@ -688,10 +686,10 @@ public class ServiceAFweb {
 //            logger.info("> processTimer " + getServerObj().getProcessTimerCnt());
             if (getEnv.checkLocalPC() == true) {
                 if (CKey.NN_DEBUG == true) {
-                    InfUpdateAllStockInfo();
+                    ProcessUpdateAllStockInfo();
                     accountTranP.ProcessAdminSignalTrading(this);
                     ProcessAllAccountTradingSignal(this);
-                    InfUpdateAllStockInfo();
+                    ProcessUpdateAllStockInfo();
 
                 }
             }
@@ -729,7 +727,7 @@ public class ServiceAFweb {
             maintProcess.ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
-            InfUpdateAllStockInfo();
+            ProcessUpdateAllStockInfo();
 
             ProcessNeuralNetDataTrain(this);
 //            
@@ -738,13 +736,13 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
-            InfUpdateAllStockInfo();
+            ProcessUpdateAllStockInfo();
 
             ProcessAdminSignalTrading(this);
             ProcessAdminAddRemoveStock(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
-            InfUpdateAllStockInfo();
+            ProcessUpdateAllStockInfo();
             ProcessAllAccountTradingSignal(this);
             ProcessAdminAddRemoveStock(this);
 
@@ -794,6 +792,10 @@ public class ServiceAFweb {
             EmailProcess eProcess = new EmailProcess();
             eProcess.ProcessEmailAccount(this);
         }
+    }
+
+    public int ProcessUpdateAllStockInfo() {
+        return InfUpdateAllStockInfo();
     }
 
 /////////////////////////////////////////////
@@ -877,7 +879,6 @@ public class ServiceAFweb {
 //                ;
 //            }
 //            StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
-
             logger.info("End mydebugtestflag.....");
         }
 
@@ -1430,8 +1431,6 @@ public class ServiceAFweb {
 
         return nameSt;
     }
-
-
 
     ///////////////////////////////
     public static boolean SysFilePut(String fileName, ArrayList msgWrite) {
@@ -2019,7 +2018,6 @@ public class ServiceAFweb {
 //    public CustomerObj AccGetCustomerPasswordNull(String UserName) {
 //        return custAccSrv.getCustomerPasswordNull(UserName);
 //    }
-
     public int AccUpdateCustStatusPaymentBalance(String UserName,
             int status, float payment, float balance) {
         return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);

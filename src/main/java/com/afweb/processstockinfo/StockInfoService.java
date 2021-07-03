@@ -109,16 +109,17 @@ public class StockInfoService {
     // return stock history starting recent date to the old date    
     public ArrayList<AFstockInfo> getStockHistorical(ServiceAFweb serviceAFWeb, String symbol, int length) {
         if (ServiceAFweb.cacheServ.cacheFlag == true) {
-            String name = symbol + length;
-            ArrayList<AFstockInfo> infoList = ServiceAFweb.cacheServ.getStockHistorical(name);
-            if (infoList == null) {
-                infoList = getStockHistoricalImp(serviceAFWeb, symbol, length);
-                if (infoList != null) {
-                    ServiceAFweb.cacheServ.putStockHistorical(name, infoList);
-
+            if (length > 100) {
+                String name = symbol + length;
+                ArrayList<AFstockInfo> infoList = ServiceAFweb.cacheServ.getStockHistorical(name);
+                if (infoList == null) {
+                    infoList = getStockHistoricalImp(serviceAFWeb, symbol, length);
+                    if (infoList != null) {
+                        ServiceAFweb.cacheServ.putStockHistorical(name, infoList);
+                    }
                 }
+                return infoList;
             }
-            return infoList;
         }
         return getStockHistoricalImp(serviceAFWeb, symbol, length);
     }

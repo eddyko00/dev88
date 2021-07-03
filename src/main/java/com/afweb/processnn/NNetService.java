@@ -642,7 +642,7 @@ public class NNetService {
                 accountTranP.ProcessAdminSignalTrading(serviceAFWeb);
 
                 serviceAFWeb.ProcessAllAccountTradingSignal(serviceAFWeb);
-                serviceAFWeb.InfUpdateAllStockInfo();
+                serviceAFWeb.ProcessUpdateAllStockInfo();
                 logger.info("> processNNSignalAdmin end... cycle " + k);
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -793,7 +793,7 @@ public class NNetService {
                     if (symbol.equals("T_T")) {
                         continue;
                     }
-                    int re = stockProcess.updateAllStockProcess(serviceAFWeb, symbol, false);
+                    int re = stockProcess.updateAllStockInfoProcess(serviceAFWeb, symbol, false);
                     if ((i % 5) == 0) {
                         logger.info("> updated: " + i);
                     }
