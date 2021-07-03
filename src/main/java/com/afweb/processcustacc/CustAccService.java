@@ -63,11 +63,11 @@ public class CustAccService {
 
             switch (type) {
 
-                case ServiceAFweb.AllUserName:
-                    nameList = getAllUserNameSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllUserName:
+//                    nameList = getAllUserNameSQL(sqlObj.getReq());
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
                 case ServiceAFweb.AllCustomer:
                     nameST = accountImp.getAllCustomerDBSQL(sqlObj.getReq());
@@ -101,17 +101,17 @@ public class CustAccService {
                     sqlObj.setResp(nameST);
                     return sqlObj;
 
-                case ServiceAFweb.updateAccountStockSignal:  //updateAccountStockSignal = "102";
-                    try {
-                        st = sqlObj.getReq();
-                        TRObj stockTRObj = new ObjectMapper().readValue(st, TRObj.class
-                        );
-                        int result = accountImp.updateAccountStockSignal(stockTRObj.getTrlist());
-                        sqlObj.setResp("" + result);
-
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.updateAccountStockSignal:  //updateAccountStockSignal = "102";
+//                    try {
+//                        st = sqlObj.getReq();
+//                        TRObj stockTRObj = new ObjectMapper().readValue(st, TRObj.class
+//                        );
+//                        int result = accountImp.updateAccountStockSignal(stockTRObj.getTrlist());
+//                        sqlObj.setResp("" + result);
+//
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 //                case ServiceAFweb.AllOpenAccountIDList:  //AllOpenAccountIDList = "104";
 //                    ArrayList<String> nameId = accountImp.getAllOpenAccountID();
 //                    nameST = new ObjectMapper().writeValueAsString(nameId);
@@ -192,27 +192,27 @@ public class CustAccService {
 //                    }
 //                    return sqlObj;
 
-                case ServiceAFweb.AddTransactionOrder:  //AddTransactionOrder = 113; //"113";         
-                    try {
-                        st = sqlObj.getReq();
-                        accountObj = new ObjectMapper().readValue(st, AccountObj.class);
-                        st = sqlObj.getReq1();
-                        AFstockObj stock = new ObjectMapper().readValue(st, AFstockObj.class);
-                        String trName = sqlObj.getReq2();
-                        String tranSt = sqlObj.getReq3();
-                        int tran = Integer.parseInt(tranSt);
-                        Calendar tranDate = null;
-                        String tranDateLSt = sqlObj.getReq4();
-                        if (tranDateLSt != null) {
-                            long tranDateL = Long.parseLong(tranDateLSt);
-                            tranDate = TimeConvertion.getCurrentCalendar(tranDateL);
-                        }
-                        ret = accountImp.AddTransactionOrder(accountObj, stock, trName, tran, tranDate, true);
-                        sqlObj.setResp("" + ret);
-                        return sqlObj;
-                    } catch (Exception ex) {
-                    }
-                    return sqlObj;
+//                case ServiceAFweb.AddTransactionOrder:  //AddTransactionOrder = 113; //"113";         
+//                    try {
+//                        st = sqlObj.getReq();
+//                        accountObj = new ObjectMapper().readValue(st, AccountObj.class);
+//                        st = sqlObj.getReq1();
+//                        AFstockObj stock = new ObjectMapper().readValue(st, AFstockObj.class);
+//                        String trName = sqlObj.getReq2();
+//                        String tranSt = sqlObj.getReq3();
+//                        int tran = Integer.parseInt(tranSt);
+//                        Calendar tranDate = null;
+//                        String tranDateLSt = sqlObj.getReq4();
+//                        if (tranDateLSt != null) {
+//                            long tranDateL = Long.parseLong(tranDateLSt);
+//                            tranDate = TimeConvertion.getCurrentCalendar(tranDateL);
+//                        }
+//                        ret = accountImp.AddTransactionOrder(accountObj, stock, trName, tran, tranDate, true);
+//                        sqlObj.setResp("" + ret);
+//                        return sqlObj;
+//                    } catch (Exception ex) {
+//                    }
+//                    return sqlObj;
 
 //                case ServiceAFweb.AccountStockTransList: //AccountStockTransList = 115; //"115";    
 //                    try {

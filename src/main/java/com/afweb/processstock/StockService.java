@@ -52,11 +52,11 @@ public class StockService {
 
             switch (type) {
 
-                case ServiceAFweb.AllSymbol:
-                    nameList = getAllSymbolSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllSymbol:
+//                    nameList = getAllSymbolSQL(sqlObj.getReq());
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
                 case ServiceAFweb.AllStock:
                     nameST = getAllStockDBSQL(sqlObj.getReq());
                     sqlObj.setResp(nameST);

@@ -51,44 +51,44 @@ public class SystemService {
                     nameST = new ObjectMapper().writeValueAsString(nameList);
                     sqlObj.setResp(nameST);
                     return sqlObj;
-                case ServiceAFweb.AllName:
-                    nameList = getAllNameSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case ServiceAFweb.AllLock:
-                    nameST = getAllLockDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllName:
+//                    nameList = getAllNameSQL(sqlObj.getReq());
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case ServiceAFweb.AllLock:
+//                    nameST = getAllLockDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
-                case ServiceAFweb.AllSQLquery: //AllSQLreq = 14; //"14";  
-                    nameST = stockImp.getAllSQLquery(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllSQLquery: //AllSQLreq = 14; //"14";  
+//                    nameST = stockImp.getAllSQLquery(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 ////////////////////////////////////////////////////////                    
-                case ServiceAFweb.RemoteGetMySQL:  //RemoteGetMySQL = 9; //"9"; 
-                    st = sqlObj.getReq();
-                    nameST = stockImp.getRemoteMYSQL(st);
-                    sqlObj.setResp("" + nameST);
+//                case ServiceAFweb.RemoteGetMySQL:  //RemoteGetMySQL = 9; //"9"; 
+//                    st = sqlObj.getReq();
+//                    nameST = stockImp.getRemoteMYSQL(st);
+//                    sqlObj.setResp("" + nameST);
+//
+//                    return sqlObj;
 
-                    return sqlObj;
-
-                case ServiceAFweb.RemoteUpdateMySQL:  //RemoteUpdateMySQL = 10; //"10"; 
-                    st = sqlObj.getReq();
-                    ret = stockImp.updateRemoteMYSQL(st);
-                    sqlObj.setResp("" + ret);
-
-                    return sqlObj;
-                case ServiceAFweb.RemoteUpdateMySQLList:  //RemoteUpdateMySQLList = 11; //"11"; 
-                    st = sqlObj.getReq();
-                    String[] sqlList = st.split("~");
-                    for (int i = 0; i < sqlList.length; i++) {
-                        String sqlCmd = sqlList[i];
-                        ret = stockImp.updateRemoteMYSQL(sqlCmd);
-                    }
-                    sqlObj.setResp("" + sqlList.length);
-
-                    return sqlObj;
+//                case ServiceAFweb.RemoteUpdateMySQL:  //RemoteUpdateMySQL = 10; //"10"; 
+//                    st = sqlObj.getReq();
+//                    ret = stockImp.updateRemoteMYSQL(st);
+//                    sqlObj.setResp("" + ret);
+//
+//                    return sqlObj;
+//                case ServiceAFweb.RemoteUpdateMySQLList:  //RemoteUpdateMySQLList = 11; //"11"; 
+//                    st = sqlObj.getReq();
+//                    String[] sqlList = st.split("~");
+//                    for (int i = 0; i < sqlList.length; i++) {
+//                        String sqlCmd = sqlList[i];
+//                        ret = stockImp.updateRemoteMYSQL(sqlCmd);
+//                    }
+//                    sqlObj.setResp("" + sqlList.length);
+//
+//                    return sqlObj;
 ////////////////////////////                    
                 default:
                     return null;

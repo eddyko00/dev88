@@ -1122,12 +1122,12 @@ public class ServiceAFweb {
     }
 
 //////////////////////
-    public static final int AllName = 10; //"1";
-    public static final int AllLock = 11; //"2";
+//    public static final int AllName = 10; //"1";
+//    public static final int AllLock = 11; //"2";
 
-    public static final int RemoteGetMySQL = 12; //"9";
-    public static final int RemoteUpdateMySQL = 13; //"10";    
-    public static final int RemoteUpdateMySQLList = 14; //"11";   
+//    public static final int RemoteGetMySQL = 12; //"9";
+//    public static final int RemoteUpdateMySQL = 13; //"10";    
+//    public static final int RemoteUpdateMySQLList = 14; //"11";   
 
 //    public static final int AllOpenAccountIDList = 15; //"104";
 //    public static final int AccountObjByAccountID = 16; //"105";
@@ -1138,13 +1138,13 @@ public class ServiceAFweb {
 //    public static final int AllAccountStockNameListExceptionAdmin = 21; //"112"; 
     ////////////////////////
     // Customer Account
-    public static final int AllUserName = 110; //"1";
+//    public static final int AllUserName = 110; //"1";
     public static final int AllCustomer = 111; //"6";
     public static final int AllAccount = 112; //"7";
     public static final int AllAccountStock = 113; //"8";
 //    public static final int AccountStockListByAccountID = 114; //"110";    
-    public static final int updateAccountStockSignal = 115;// "102";    
-    public static final int AddTransactionOrder = 116; //"113"; 
+//    public static final int updateAccountStockSignal = 115;// "102";    
+//    public static final int AddTransactionOrder = 116; //"113"; 
 
 //    public static final int AccountStockTransList = 117; //"115";     
 //    public static final int AccountStockPerfList = 118; //"116";     
@@ -1156,11 +1156,11 @@ public class ServiceAFweb {
     public static final int AllTransationorder = 124; //"12";   
     //////////////////////////////////
     public static final int AllId = 210; //"1";   
-    public static final int AllSQLquery = 211; //"14";  
+//    public static final int AllSQLquery = 211; //"14";  
 //    public static final int UpdateSQLList = 101; //"101";
 
     public static final int AllStock = 212; //"3";    
-    public static final int AllSymbol = 213; //"1";    
+//    public static final int AllSymbol = 213; //"1";    
 //    public static final int RealTimeStockByStockID = 214; //"119"; 
 
     public static final int AllIdInfo = 250; //"1";
