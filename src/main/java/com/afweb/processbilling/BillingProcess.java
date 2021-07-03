@@ -8,6 +8,7 @@ package com.afweb.processbilling;
 import com.afweb.dbaccount.AccountImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
+import com.afweb.processcustacc.CustAccService;
 import com.afweb.service.*;
 import com.afweb.util.*;
 
@@ -712,16 +713,16 @@ public class BillingProcess {
         return 0;
     }
 /////////////////////////////////////////////////////////////////
+    CustAccService custAccSrv = new CustAccService();
 
     public int SysCustStatusPaymentBalance(ServiceAFweb serviceAFWeb, String customername,
             String statusSt, String paymenttSt, String balanceSt) {
-
 
         customername = customername.toUpperCase();
         NameObj nameObj = new NameObj(customername);
         String UserName = nameObj.getNormalizeName();
         try {
-            CustomerObj customer = serviceAFWeb.getCustomerPasswordNull(UserName);
+            CustomerObj customer = custAccSrv.getCustomerPasswordNull(UserName);
             if (customer == null) {
                 return 0;
             }

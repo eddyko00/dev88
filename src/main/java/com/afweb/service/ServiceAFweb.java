@@ -2033,9 +2033,9 @@ public class ServiceAFweb {
         custAccSrv.setAccountDataSource(dataSource, URL);
     }
 
-    public CustomerObj getCustomerPasswordNull(String UserName) {
-        return custAccSrv.getCustomerPasswordNull(UserName);
-    }
+//    public CustomerObj AccGetCustomerPasswordNull(String UserName) {
+//        return custAccSrv.getCustomerPasswordNull(UserName);
+//    }
 
     public int AccUpdateCustStatusPaymentBalance(String UserName,
             int status, float payment, float balance) {
