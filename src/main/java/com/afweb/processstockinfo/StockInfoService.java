@@ -115,7 +115,7 @@ public class StockInfoService {
                 infoList = getStockHistoricalImp(serviceAFWeb, symbol, length);
                 if (infoList != null) {
                     ServiceAFweb.cacheServ.putStockHistorical(name, infoList);
-                    ServiceAFweb.cacheServ.cacheImp.put("id", 123, 3000);
+
                 }
             }
             return infoList;

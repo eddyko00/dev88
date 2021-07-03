@@ -22,7 +22,7 @@ public class ECacheService {
     public static ECache cacheImp = new ECache();
     public static boolean cacheFlag = true;
 
-    public static int TTL = 5000;
+    public static int TTL = 2*60*1000; // 2 minutes
 
     public static void checkCache() {
         Map<String, ECache.Entity> map = cacheImp.DATA_BASE;
