@@ -20,8 +20,6 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
 
 import com.afweb.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.ArrayList;
 
 import java.util.logging.Logger;

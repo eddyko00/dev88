@@ -19,14 +19,17 @@ public class ECacheService {
     public static ECache cacheImp = new ECache();
     public static boolean cacheFlag = true;
 
-    public static int TTL =5000;
+    public static int TTL = 5000;
+
+    public static String NN0 = "NN0_";
+
     public int putNeuralNetObjWeight0(String name, AFneuralNet aFneuralNet) {
-        cacheImp.put(name, aFneuralNet, TTL);
+        cacheImp.put(NN0 + name, aFneuralNet, TTL);
         return 1;
     }
 
     public AFneuralNet getNeuralNetObjWeight0(String name) {
-        return cacheImp.get(name);
+        return cacheImp.get(NN0 + name);
     }
 
 }

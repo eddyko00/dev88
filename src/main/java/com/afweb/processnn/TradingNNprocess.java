@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 public class TradingNNprocess {
 
     protected static Logger logger = Logger.getLogger("TradingNNprocess");
-    NNetService nnservice = new NNetService();
+//    NNetService nnservice = new NNetService();
     // data history from  old to more recent
     // get next 5 days close price
     public static int TREND_Day = 4;
@@ -298,7 +298,7 @@ public class TradingNNprocess {
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String symbol = (String) stockNameArray.get(i);
                 String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-                AFneuralNet nnObj1 = nnservice.getNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
+                AFneuralNet nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight1(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
                     // clear the input Neural network
                     serviceAFWeb.NnUpdateNeuralNetStatus1(BPnameSym, ConstantKey.INITIAL, 0);
