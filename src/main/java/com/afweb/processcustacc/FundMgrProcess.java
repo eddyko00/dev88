@@ -521,7 +521,7 @@ public class FundMgrProcess {
                     }
                     stockName = stockName.replace("symbolName:", "");
 
-                    AFstockObj stockObj = serviceAFWeb.getRealTimeStockInternet(stockN);
+                    AFstockObj stockObj = serviceAFWeb.SysGetRealTimeStockInternet(stockN);
                     if (stockObj == null) {
                         continue;
                     }

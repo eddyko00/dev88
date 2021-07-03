@@ -196,7 +196,7 @@ public class StockService {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
-        AFstockObj stockRT = serviceAFWeb.getRealTimeStockInternet(NormalizeSymbol);
+        AFstockObj stockRT = serviceAFWeb.SysGetRealTimeStockInternet(NormalizeSymbol);
         if (stockRT == null) {
             return 0;
         }

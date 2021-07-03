@@ -325,7 +325,7 @@ public class TradingSignalProcess {
             }
             return retList;
         } catch (Exception ex) {
-            logger.info("> ProcessTranPerfHistory Exception" + ex.getMessage());
+            logger.info("> ProcessTranPerfHistory Exception " + ex.getMessage());
 
         }
         return null;

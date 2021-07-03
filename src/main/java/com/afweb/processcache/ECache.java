@@ -16,7 +16,9 @@ public class ECache {
 	/**
 	 * key-value data set
 	 */
-	private final static Map<String, Entity> DATA_BASE = new HashMap<>();
+	public static Map<String, Entity> DATA_BASE = new HashMap<>();
+        
+
 	/**
 	 * use scheduled executor to clean expired data
 	 */
@@ -96,7 +98,7 @@ public class ECache {
 	/**
 	 * cached data entity
 	 */
-	private static class Entity {
+	public static class Entity {
 		Object value;
 		Long expirationTime;
 		Future future;

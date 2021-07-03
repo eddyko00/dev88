@@ -112,14 +112,15 @@ public class StockInfoService {
             String name = symbol + length;
             ArrayList<AFstockInfo> infoList = ServiceAFweb.cacheServ.getStockHistorical(name);
             if (infoList == null) {
-                infoList = getStockHistorical(serviceAFWeb, symbol, length);
+                infoList = getStockHistoricalImp(serviceAFWeb, symbol, length);
                 if (infoList != null) {
-                    ServiceAFweb.cacheServ.getStockHistorical(name, infoList);
+                    ServiceAFweb.cacheServ.putStockHistorical(name, infoList);
+                    ServiceAFweb.cacheServ.cacheImp.put("id", 123, 3000);
                 }
             }
             return infoList;
         }
-        return this.getStockHistorical(serviceAFWeb, symbol, length);
+        return getStockHistoricalImp(serviceAFWeb, symbol, length);
     }
 
     /////recent day first and the old data last////////////

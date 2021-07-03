@@ -3,6 +3,7 @@ package com.afweb.processcache;
 import com.afweb.model.stock.AFneuralNet;
 import com.afweb.model.stock.AFstockInfo;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /*
@@ -23,6 +24,17 @@ public class ECacheService {
 
     public static int TTL = 5000;
 
+    public static void checkCache() {
+        Map<String, ECache.Entity> map = cacheImp.DATA_BASE;
+        String retSt = "";
+        for (Map.Entry<String, ECache.Entity> entry : map.entrySet()) {
+            retSt += " key: " + entry.getKey();
+            retSt += " value: " + entry.getValue();
+        }
+        logger.info("> checkCache " + map.size() + " -" + retSt);
+    }
+
+/////////////    
     public static String NN0 = "NN0_";
 
     public int putNeuralNetObjWeight0(String name, AFneuralNet aFneuralNet) {
@@ -33,10 +45,10 @@ public class ECacheService {
     public AFneuralNet getNeuralNetObjWeight0(String name) {
         return cacheImp.get(NN0 + name);
     }
-
+////////////////
     public static String SH = "SH_";
 
-    public int getStockHistorical(String name, ArrayList<AFstockInfo> infoArray) {
+    public int putStockHistorical(String name, ArrayList<AFstockInfo> infoArray) {
         cacheImp.put(SH + name, infoArray, TTL);
         return 1;
     }
