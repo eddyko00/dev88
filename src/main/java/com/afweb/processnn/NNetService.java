@@ -46,14 +46,14 @@ public class NNetService {
             int type = Integer.parseInt(typeCd);
 
             switch (type) {
-                case ServiceAFweb.AllNeuralNet:
-                    nameST = nndataImp.getAllNeuralNetDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case ServiceAFweb.AllNeuralNetData:
-                    nameST = nndataImp.getAllNeuralNetDataDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllNeuralNet:
+//                    nameST = nndataImp.getAllNeuralNetDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case ServiceAFweb.AllNeuralNetData:
+//                    nameST = nndataImp.getAllNeuralNetDataDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
 //                case ServiceAFweb.NeuralNetDataObj: //NeuralNetDataObj = 120; //"120";      
 //
@@ -114,6 +114,14 @@ public class NNetService {
 ///////////////////////////    
     public ArrayList<String> getAllIdNNetDataSQL(String sql) {
         return nndataImp.getAllIdNNSQL(sql);
+    }
+    
+    public String getAllNeuralNetDBSQL(String sql) {
+        return nndataImp.getAllNeuralNetDBSQL(sql);
+    }    
+    
+    public String getAllNeuralNetDataDBSQL(String sql) {
+        return nndataImp.getAllNeuralNetDataDBSQL(sql);
     }
     
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {

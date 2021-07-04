@@ -1159,13 +1159,12 @@ public class ServiceAFweb {
 //    public static final int AllSymbol = 213; //"1";    
 //    public static final int RealTimeStockByStockID = 214; //"119"; 
 //    public static final int AllIdInfo = 250; //"1";
-    public static final int AllStockInfo = 251; //"4";    
+//    public static final int AllStockInfo = 251; //"4";    
 ////    public static final int StockHistoricalRange = 252; //"114";     
-    public static final int updateStockInfoTransaction = 253; //"103";
+//    public static final int updateStockInfoTransaction = 253; //"103";
 //    public static final int UpdateSQLListInfo = 101; //"101";
-
-    public static final int AllNeuralNet = 310; //"5";
-    public static final int AllNeuralNetData = 311; //"15";
+//    public static final int AllNeuralNet = 310; //"5";
+//    public static final int AllNeuralNetData = 311; //"15";
 //    public static final int NeuralNetDataObj = 312; //"120";     
 //    public static final int NeuralNetDataObjStockid = 313; //"120";
 
@@ -1868,6 +1867,14 @@ public class ServiceAFweb {
 
     public ArrayList<AFneuralNetData> NnNeuralNetDataObjSystem(String BPnameTR) {
         return NnGetNeuralNetDataObj(BPnameTR, 0);
+    }
+
+    public String NnGetAllNeuralNetDBSQL(String sql) {
+        return nnSrv.getAllNeuralNetDBSQL(sql);
+    }
+
+    public String NnGetAllNeuralNetDataDBSQL(String sql) {
+        return nnSrv.getAllNeuralNetDataDBSQL(sql);
     }
 
     public ArrayList<AFneuralNetData> NnGetNeuralNetDataObj(String name, int length) {

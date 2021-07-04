@@ -177,8 +177,8 @@ public class BackupRestoreInfo {
         try {
             logger.info("> saveDBstockinfo - " + first + " " + last);
 
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllStockInfo + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllStockInfo + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;

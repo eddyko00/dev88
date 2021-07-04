@@ -264,16 +264,18 @@ public class BackupRestoreNN {
         try {
             logger.info("> saveDBneuralnetDataPro - " + first + " " + last);
 
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllNeuralNet + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllNeuralNet + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
+//            sqlObj.setReq(sql);
+//
+//            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
 
-            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
+            String output = serviceAFWeb.NnGetAllNeuralNetDBSQL(sql);
             if (output == null) {
                 return 0;
             }
@@ -341,16 +343,18 @@ public class BackupRestoreNN {
         try {
             logger.info("> saveDBneuralnetDataPro - " + first + " " + last);
 
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllNeuralNetData + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllNeuralNetData + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
-
-            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
+//            sqlObj.setReq(sql);
+//
+//            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+            
+            String output = serviceAFWeb.NnGetAllNeuralNetDataDBSQL(sql);
             if (output == null) {
                 return 0;
             }
