@@ -1143,7 +1143,6 @@ public class ServiceAFweb {
 //    public static final int AccountStockListByAccountID = 114; //"110";    
 //    public static final int updateAccountStockSignal = 115;// "102";    
 //    public static final int AddTransactionOrder = 116; //"113"; 
-
 //    public static final int AccountStockTransList = 117; //"115";     
 //    public static final int AccountStockPerfList = 118; //"116";     
 //    public static final int AccountStockIDByTRname = 119; //"117";   
@@ -1156,12 +1155,10 @@ public class ServiceAFweb {
 //    public static final int AllId = 210; //"1";   
 //    public static final int AllSQLquery = 211; //"14";  
 //    public static final int UpdateSQLList = 101; //"101";
-
-    public static final int AllStock = 212; //"3";    
+//    public static final int AllStock = 212; //"3";    
 //    public static final int AllSymbol = 213; //"1";    
 //    public static final int RealTimeStockByStockID = 214; //"119"; 
-
-    public static final int AllIdInfo = 250; //"1";
+//    public static final int AllIdInfo = 250; //"1";
     public static final int AllStockInfo = 251; //"4";    
 ////    public static final int StockHistoricalRange = 252; //"114";     
     public static final int updateStockInfoTransaction = 253; //"103";
@@ -1592,6 +1589,10 @@ public class ServiceAFweb {
     }
 //////////////////////////////////////////
 
+    public String StoGetAllStockDBSQL(String sql) {
+        return stockSrv.getAllStockDBSQL(sql);
+    }
+
     public ArrayList<String> StoGetAllRemoveStockNameList(int length) {
         return stockSrv.getAllRemoveStockNameList(length);
     }
@@ -1981,6 +1982,10 @@ public class ServiceAFweb {
             return nnSrv.updateSQLNNArrayList(this, SQLTran);
         }
         return 0;
+    }
+
+    public ArrayList<String> NnGetAllIdNNetDataSQL(String sql) {
+        return nnSrv.getAllIdNNetDataSQL(sql);
     }
 
     public boolean NnDropNNdataDB() {

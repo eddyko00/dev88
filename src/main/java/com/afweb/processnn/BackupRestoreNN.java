@@ -375,10 +375,10 @@ public class BackupRestoreNN {
 
     private ArrayList<String> getDBDataTableId(ServiceAFweb serviceAFWeb, String table) {
         try {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllIdInfo + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllIdInfo + "");
             String sql = "select id from " + table + " order by id asc";
-            return serviceAFWeb.InfGetAllIdStockInfoSQL(sql);
+            return serviceAFWeb.NnGetAllIdNNetDataSQL(sql);
 
 //            sqlObj.setReq(sql);
 //            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);

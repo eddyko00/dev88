@@ -53,10 +53,10 @@ public class StockService {
 //                    nameST = new ObjectMapper().writeValueAsString(nameList);
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-                case ServiceAFweb.AllStock:
-                    nameST = getAllStockDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllStock:
+//                    nameST = getAllStockDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 //                case ServiceAFweb.RealTimeStockByStockID:  //RealTimeStockByStockID = 119; //"119"; 
 //                    stockIdSt = sqlObj.getReq();
 //                    stockId = Integer.parseInt(stockIdSt);

@@ -1134,16 +1134,18 @@ public class BackupRestoreImp {
                 String first = idList.get(0);
                 String last = idList.get(len - 1);
                 logger.info("> saveDBstock - " + first + " " + last);
-                RequestObj sqlObj = new RequestObj();
-                sqlObj.setCmd(ServiceAFweb.AllStock + "");
+//                RequestObj sqlObj = new RequestObj();
+//                sqlObj.setCmd(ServiceAFweb.AllStock + "");
                 String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
                 if (first.equals(last)) {
                     sql = "select * from " + tableName + " where id = " + first;
                 }
-                sqlObj.setReq(sql);
-
-                RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
+//                sqlObj.setReq(sql);
+//
+//                RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+                
+                String output = serviceAFWeb.StoGetAllStockDBSQL(sql);
                 if (output == null) {
                     return 0;
                 }

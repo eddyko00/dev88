@@ -112,7 +112,10 @@ public class NNetService {
         return nndataImp.updateSQLNNArrayList(SQLTran);
     }
 ///////////////////////////    
-
+    public ArrayList<String> getAllIdNNetDataSQL(String sql) {
+        return nndataImp.getAllIdNNSQL(sql);
+    }
+    
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
         return nndataImp.getNeuralNetDataObj(name, length);
     }
