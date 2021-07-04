@@ -1124,11 +1124,9 @@ public class ServiceAFweb {
 //////////////////////
 //    public static final int AllName = 10; //"1";
 //    public static final int AllLock = 11; //"2";
-
 //    public static final int RemoteGetMySQL = 12; //"9";
 //    public static final int RemoteUpdateMySQL = 13; //"10";    
 //    public static final int RemoteUpdateMySQLList = 14; //"11";   
-
 //    public static final int AllOpenAccountIDList = 15; //"104";
 //    public static final int AccountObjByAccountID = 16; //"105";
 //    public static final int AccountStockNameList = 17; //"106";
@@ -1139,9 +1137,9 @@ public class ServiceAFweb {
     ////////////////////////
     // Customer Account
 //    public static final int AllUserName = 110; //"1";
-    public static final int AllCustomer = 111; //"6";
-    public static final int AllAccount = 112; //"7";
-    public static final int AllAccountStock = 113; //"8";
+//    public static final int AllCustomer = 111; //"6";
+//    public static final int AllAccount = 112; //"7";
+//    public static final int AllAccountStock = 113; //"8";
 //    public static final int AccountStockListByAccountID = 114; //"110";    
 //    public static final int updateAccountStockSignal = 115;// "102";    
 //    public static final int AddTransactionOrder = 116; //"113"; 
@@ -1150,12 +1148,12 @@ public class ServiceAFweb {
 //    public static final int AccountStockPerfList = 118; //"116";     
 //    public static final int AccountStockIDByTRname = 119; //"117";   
 //    public static final int AccountStockListByAccountIDStockID = 120; //"118"; 
-    public static final int AllPerformance = 121; //"13";  
-    public static final int AllBilling = 122; //"17";    
-    public static final int AllComm = 123; //"16";
-    public static final int AllTransationorder = 124; //"12";   
+//    public static final int AllPerformance = 121; //"13";  
+//    public static final int AllBilling = 122; //"17";    
+//    public static final int AllComm = 123; //"16";
+//    public static final int AllTransationorder = 124; //"12";   
     //////////////////////////////////
-    public static final int AllId = 210; //"1";   
+//    public static final int AllId = 210; //"1";   
 //    public static final int AllSQLquery = 211; //"14";  
 //    public static final int UpdateSQLList = 101; //"101";
 
@@ -2547,6 +2545,34 @@ public class ServiceAFweb {
 //        }
 //        return custAccSrv.getAccountStockPerfList(accountID, stockID, trName, length);
 //    }
+
+    public String AccGetAllCustomerDBSQL(String sql) {
+        return custAccSrv.getAllCustomerDBSQL(sql);
+    }
+
+    public String AccGetAllAccountDBSQL(String sql) {
+        return custAccSrv.getAllAccountDBSQL(sql);
+    }
+
+    public String AccGetAllAccountStockDBSQL(String sql) {
+        return custAccSrv.getAllAccountStockDBSQL(sql);
+    }
+
+    public String AccGetAllTransationOrderDBSQL(String sql) {
+        return custAccSrv.getAllTransationOrderDBSQL(sql);
+    }
+
+    public String AccGetAllBillingDBSQL(String sql) {
+        return custAccSrv.getAllBillingDBSQL(sql);
+    }
+
+    public String AccGetAllCommDBSQL(String sql) {
+        return custAccSrv.getAllCommDBSQL(sql);
+    }
+
+    public String AccGetAllPerformanceDBSQL(String sql) {
+        return custAccSrv.getAllPerformanceDBSQL(sql);
+    }
 
     public ArrayList AccGetAllOpenAccountID() {
         return custAccSrv.getAllOpenAccountID();

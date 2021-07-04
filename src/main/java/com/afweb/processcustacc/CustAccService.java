@@ -68,37 +68,36 @@ public class CustAccService {
 //                    nameST = new ObjectMapper().writeValueAsString(nameList);
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-                case ServiceAFweb.AllCustomer:
-                    nameST = accountImp.getAllCustomerDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllCustomer:
+//                    nameST = accountImp.getAllCustomerDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case ServiceAFweb.AllAccount:
+//                    nameST = accountImp.getAllAccountDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case ServiceAFweb.AllAccountStock:
+//                    nameST = accountImp.getAllAccountStockDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case ServiceAFweb.AllPerformance: //AllPerformance = 13; //"13";  
+//                    nameST = accountImp.getAllPerformanceDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
-                case ServiceAFweb.AllAccount:
-                    nameST = accountImp.getAllAccountDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case ServiceAFweb.AllAccountStock:
-                    nameST = accountImp.getAllAccountStockDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case ServiceAFweb.AllPerformance: //AllPerformance = 13; //"13";  
-                    nameST = accountImp.getAllPerformanceDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllTransationorder: //AllTransationorder = 12; //"12";
+//                    nameST = accountImp.getAllTransationOrderDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
-                case ServiceAFweb.AllTransationorder: //AllTransationorder = 12; //"12";
-                    nameST = accountImp.getAllTransationOrderDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-
-                case ServiceAFweb.AllComm: //AllComm = 16; //"16";
-                    nameST = accountImp.getAllCommDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
-                case ServiceAFweb.AllBilling: // AllBilling = 17; //"17";      
-                    nameST = accountImp.getAllBillingDBSQL(sqlObj.getReq());
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllComm: //AllComm = 16; //"16";
+//                    nameST = accountImp.getAllCommDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
+//                case ServiceAFweb.AllBilling: // AllBilling = 17; //"17";      
+//                    nameST = accountImp.getAllBillingDBSQL(sqlObj.getReq());
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 
 //                case ServiceAFweb.updateAccountStockSignal:  //updateAccountStockSignal = "102";
 //                    try {
@@ -281,6 +280,34 @@ public class CustAccService {
         return accountImp.getCustomerPassword(UserName, Password);
     }
 
+    public String getAllCustomerDBSQL(String sql) {
+        return accountImp.getAllCustomerDBSQL(sql);
+    }
+
+    public String getAllAccountDBSQL(String sql) {
+        return accountImp.getAllAccountDBSQL(sql);
+    }
+
+    public String getAllAccountStockDBSQL(String sql) {
+        return accountImp.getAllAccountStockDBSQL(sql);
+    }
+
+    public String getAllTransationOrderDBSQL(String sql) {
+        return accountImp.getAllTransationOrderDBSQL(sql);
+    }
+
+    public String getAllBillingDBSQL(String sql) {
+        return accountImp.getAllBillingDBSQL(sql);
+    }
+
+    public String getAllCommDBSQL(String sql) {
+        return accountImp.getAllCommDBSQL(sql);
+    }
+
+    public String getAllPerformanceDBSQL(String sql) {
+        return accountImp.getAllPerformanceDBSQL(sql);
+    }
+
     public CommObj getCommObjByID(int commID) {
         return accountImp.getCommObjByID(commID);
     }
@@ -391,9 +418,6 @@ public class CustAccService {
         return accountImp.getAccountStockPerfList(accountID, stockID, trName, length);
     }
 
-    public String getAllPerformanceDBSQL(String sql) {
-        return accountImp.getAllPerformanceDBSQL(sql);
-    }
 
     public ArrayList<String> getCustomerNList(int length) {
         return accountImp.getCustomerNList(length);

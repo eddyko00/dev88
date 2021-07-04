@@ -46,11 +46,11 @@ public class SystemService {
             int type = Integer.parseInt(typeCd);
 
             switch (type) {
-                case ServiceAFweb.AllId:
-                    nameList = getAllIdSQL(sqlObj.getReq());
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
-                    return sqlObj;
+//                case ServiceAFweb.AllId:
+//                    nameList = getAllIdSQL(sqlObj.getReq());
+//                    nameST = new ObjectMapper().writeValueAsString(nameList);
+//                    sqlObj.setResp(nameST);
+//                    return sqlObj;
 //                case ServiceAFweb.AllName:
 //                    nameList = getAllNameSQL(sqlObj.getReq());
 //                    nameST = new ObjectMapper().writeValueAsString(nameList);

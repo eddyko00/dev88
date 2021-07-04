@@ -48,7 +48,6 @@ public class BackupRestoreImp {
         return 0;
     }
 
-
 //    public static String ServiceAFweb.FileLocalPath = "T:/Netbean/db/";
     public boolean restoreDBData(ServiceAFweb serviceAFWeb) {
 //        this.serviceAFWeb = serviceAFWeb;
@@ -226,7 +225,6 @@ public class BackupRestoreImp {
 //        }
 //        return 0;
 //    }
-
     private int restoreDBstock(ServiceAFweb serviceAFWeb) {
         String tableName = "stock";
         try {
@@ -532,16 +530,17 @@ public class BackupRestoreImp {
     private int saveDBperformance(ServiceAFweb serviceAFWeb, String tableName, String first, String last, ArrayList<String> writeArray) {
         try {
             logger.info("> saveDBperformance - " + first + " " + last);
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllPerformance + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllPerformance + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
+//            sqlObj.setReq(sql);
 
-            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
+//            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+            String output =serviceAFWeb.AccGetAllPerformanceDBSQL(sql);
             if (output == null) {
                 return 0;
             }
@@ -606,16 +605,17 @@ public class BackupRestoreImp {
 
         try {
             logger.info("> saveDBbilling - " + first + " " + last);
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllBilling + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllBilling + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
-
-            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
+//            sqlObj.setReq(sql);
+//
+//            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+            String output =serviceAFWeb.AccGetAllBillingDBSQL(sql);
             if (output == null) {
                 return 0;
             }
@@ -680,16 +680,17 @@ public class BackupRestoreImp {
 
         try {
             logger.info("> saveDBcomm - " + first + " " + last);
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllComm + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllComm + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
-
-            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
+//            sqlObj.setReq(sql);
+//
+//            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+            String output = serviceAFWeb.AccGetAllCommDBSQL(sql);
             if (output == null) {
                 return 0;
             }
@@ -755,16 +756,17 @@ public class BackupRestoreImp {
 
         try {
             logger.info("> saveDBtransationorder - " + first + " " + last);
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllTransationorder + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllTransationorder + "");
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
-
-            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
+//            sqlObj.setReq(sql);
+//
+//            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+            String output = serviceAFWeb.AccGetAllTransationOrderDBSQL(sql);
             if (output == null) {
                 return 0;
             }
@@ -830,16 +832,18 @@ public class BackupRestoreImp {
         try {
 
             logger.info("> saveDBaccountstock - " + first + " " + last);
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllAccountStock + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllAccountStock + "");
             String sql = "select tradingrule.*, tradingrule.trname as symbol from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select tradingrule.*, tradingrule.trname as symbol from " + tableName + " where id = " + first;
             }
-            sqlObj.setReq(sql);
-
-            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-            String output = sqlObjresp.getResp();
+//            sqlObj.setReq(sql);
+//
+//            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//            String output = sqlObjresp.getResp();
+            
+             String output = serviceAFWeb.AccGetAllAccountStockDBSQL(sql);
             if (output == null) {
                 return 0;
             }
@@ -881,16 +885,17 @@ public class BackupRestoreImp {
                 String first = idList.get(0);
                 String last = idList.get(len - 1);
                 logger.info("> saveDBaccount - " + first + " " + last);
-                RequestObj sqlObj = new RequestObj();
-                sqlObj.setCmd(ServiceAFweb.AllAccount + "");
+//                RequestObj sqlObj = new RequestObj();
+//                sqlObj.setCmd(ServiceAFweb.AllAccount + "");
                 String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
                 if (first.equals(last)) {
                     sql = "select * from " + tableName + " where id = " + first;
                 }
-                sqlObj.setReq(sql);
+//                sqlObj.setReq(sql);
 
-                RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
+//                RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
+                String output = serviceAFWeb.AccGetAllAccountDBSQL(sql);
                 if (output == null) {
                     return 0;
                 }
@@ -923,16 +928,18 @@ public class BackupRestoreImp {
                 String first = idList.get(0);
                 String last = idList.get(len - 1);
                 logger.info("> saveDBcustomer - " + first + " " + last);
-                RequestObj sqlObj = new RequestObj();
-                sqlObj.setCmd(ServiceAFweb.AllCustomer + "");
+//                RequestObj sqlObj = new RequestObj();
+//                sqlObj.setCmd(ServiceAFweb.AllCustomer + "");
                 String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
                 if (first.equals(last)) {
                     sql = "select * from " + tableName + " where id = " + first;
                 }
-                sqlObj.setReq(sql);
+//                sqlObj.setReq(sql);
+//
+//                RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
+//                String output = sqlObjresp.getResp();
 
-                RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
-                String output = sqlObjresp.getResp();
+                String output = serviceAFWeb.AccGetAllCustomerDBSQL(sql);
                 if (output == null) {
                     return 0;
                 }
@@ -1118,7 +1125,6 @@ public class BackupRestoreImp {
 //        return 0;
 //    }
 ////
-
     private int saveDBstock(ServiceAFweb serviceAFWeb) {
         try {
             String tableName = "stock";
@@ -1204,8 +1210,8 @@ public class BackupRestoreImp {
 //    }
     private ArrayList<String> getDBDataTableId(ServiceAFweb serviceAFWeb, String table) {
         try {
-            RequestObj sqlObj = new RequestObj();
-            sqlObj.setCmd(ServiceAFweb.AllId + "");
+//            RequestObj sqlObj = new RequestObj();
+//            sqlObj.setCmd(ServiceAFweb.AllId + "");
             String sql = "select id from " + table + " order by id asc";
             return serviceAFWeb.SysGetAllIdSQLServ(sql);
 
