@@ -11,21 +11,17 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.dbstock.StockImp;
-import com.afweb.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.TimeZone;
 import java.util.logging.Logger;
-import javax.sql.DataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 
 /**
  *
