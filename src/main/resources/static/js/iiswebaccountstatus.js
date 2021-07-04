@@ -55,6 +55,7 @@ var app = {
             trStr += '<br><br>' + srvObj.timerMsg;
             trStr += '<br>RESTreq:' + srvObj.cntRESTrequest + '   Ex:' + srvObj.cntRESTexception;
             trStr += '<br>InterReq:' + srvObj.cntInterRequest + '   Ex:' + srvObj.cntInterException;
+            trStr += '<br>cacheSize:' + srvObj.cacheSize;
             trStr += '<br><br>iisurl: ' + iisurl;
             var htmlName = ' ' + trStr + ' ';
             $("#myid").append('<li ></li>' + htmlName);
