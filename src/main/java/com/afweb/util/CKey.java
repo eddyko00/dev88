@@ -53,7 +53,7 @@ public class CKey {
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO_1 = "https://iiswebsrv1.herokuapp.com";  // server timerhandler
-    public static String WEBPOST_HERO_1_PHP = "/webgetresp.php";
+    public static String WEBPOST_HERO_1_PHP = "/webgetresp_1.php";
     public static String URL_PATH_HERO_1_DBDB_PHP = "https://iiswebdb1.herokuapp.com"; //    
 
 //
