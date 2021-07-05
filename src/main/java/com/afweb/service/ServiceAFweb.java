@@ -1123,6 +1123,7 @@ public class ServiceAFweb {
     }
 
 //////////////////////
+    public static final int AccountStockNameList = 11;
 //    public static final int AllName = 10; //"1";
 //    public static final int AllLock = 11; //"2";
 //    public static final int RemoteGetMySQL = 12; //"9";
@@ -1130,7 +1131,6 @@ public class ServiceAFweb {
 //    public static final int RemoteUpdateMySQLList = 14; //"11";   
 //    public static final int AllOpenAccountIDList = 15; //"104";
 //    public static final int AccountObjByAccountID = 16; //"105";
-//    public static final int AccountStockNameList = 17; //"106";
 //    public static final int UserNamebyAccountID = 18; //"107";
 //    public static final int UpdateTransactionOrder = 19; //"108";
 //    public static final int AccountStockClrTranByAccountID = 20; //"111";    
@@ -2020,6 +2020,10 @@ public class ServiceAFweb {
     public RequestObj AccSQLRequestCustAcc(RequestObj sqlObj) {
         RequestObj reqObj = custAccSrv.SQLRequestCustAcc(this, sqlObj);
         return reqObj;
+    }
+
+    public ArrayList<String> AccGetStockNameListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
+        return custAccSrv.getStockNameListByAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt);
     }
 
     public void AccDataSource(DataSource dataSource, String URL) {

@@ -49,19 +49,24 @@ public class CustAccService {
 
     public RequestObj SQLRequestCustAcc(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
-        String st = "";
-        String nameST = "";
-        int ret;
-        int accountId = 0;
+        String UserName = "";
         String accIdSt = "";
-        AccountObj accountObj = null;
+        String nameST = "";
         ArrayList<String> nameList = null;
+
 
         try {
             String typeCd = sqlObj.getCmd();
             int type = Integer.parseInt(typeCd);
 
             switch (type) {
+                case ServiceAFweb.AccountStockNameList:
+                    UserName = sqlObj.getReq();
+                    accIdSt = sqlObj.getReq1();
+                    nameList = getStockNameListByAccountID(serviceAFWeb, UserName, null, accIdSt);
+                    nameST = new ObjectMapper().writeValueAsString(nameList);
+                    sqlObj.setResp(nameST);
+                    return sqlObj;
 
 //                case ServiceAFweb.AllUserName:
 //                    nameList = getAllUserNameSQL(sqlObj.getReq());
@@ -84,12 +89,10 @@ public class CustAccService {
 //                    nameST = accountImp.getAllPerformanceDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
 //                case ServiceAFweb.AllTransationorder: //AllTransationorder = 12; //"12";
 //                    nameST = accountImp.getAllTransationOrderDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
 //                case ServiceAFweb.AllComm: //AllComm = 16; //"16";
 //                    nameST = accountImp.getAllCommDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
@@ -98,7 +101,6 @@ public class CustAccService {
 //                    nameST = accountImp.getAllBillingDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
 //                case ServiceAFweb.updateAccountStockSignal:  //updateAccountStockSignal = "102";
 //                    try {
 //                        st = sqlObj.getReq();
@@ -120,13 +122,6 @@ public class CustAccService {
 //                    accountId = Integer.parseInt(accIdSt);
 //                    AccountObj accountObj = accountImp.getAccountObjByAccountID(accountId);
 //                    nameST = new ObjectMapper().writeValueAsString(accountObj);
-//                    sqlObj.setResp(nameST);
-//                    return sqlObj;
-//                case ServiceAFweb.AccountStockNameList:  //AccountStockNameList = "106";
-//                    accIdSt = sqlObj.getReq();
-//                    accountId = Integer.parseInt(accIdSt);
-//                    nameList = accountImp.getAccountStockNameList(accountId);
-//                    nameST = new ObjectMapper().writeValueAsString(nameList);
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
 //                case ServiceAFweb.UserNamebyAccountID:  //UserNamebyAccountID = "107";
@@ -353,7 +348,7 @@ public class CustAccService {
         return accountImp.getAllUserNameSQL(sql);
     }
 
-    public ArrayList getAccountStockNameList(int accountId) {
+    public ArrayList<String> getAccountStockNameList(int accountId) {
         return accountImp.getAccountStockNameList(accountId);
     }
 
@@ -417,7 +412,6 @@ public class CustAccService {
     public ArrayList<PerformanceObj> getAccountStockPerfList(int accountID, int stockID, String trName, int length) {
         return accountImp.getAccountStockPerfList(accountID, stockID, trName, length);
     }
-
 
     public ArrayList<String> getCustomerNList(int length) {
         return accountImp.getCustomerNList(length);
@@ -827,7 +821,7 @@ public class CustAccService {
 
     }
 
-    public ArrayList<AFstockObj> getStockNameListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
+    public ArrayList<String> getStockNameListByAccountID(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }

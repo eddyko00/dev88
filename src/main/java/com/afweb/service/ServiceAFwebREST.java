@@ -1122,26 +1122,51 @@ public class ServiceAFwebREST {
 //
 //    /cust/{username}/acc/{accountid}/stname
 
-    public ArrayList<String> getRESTAccountStockNameList(String EmailUserName, String AccountIDSt, String URL) {
-        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-        String subResourcePath = URL + "/cust/" + EmailUserName + "/acc/" + AccountIDSt + "/stname";
-        try {
-
-//            ClientResponse response = get(subResourcePath, null);
-//            String output = response.getEntity(String.class);
-            String output = sendRequest_1(METHOD_GET, subResourcePath, null, null);
-            ArrayList<String> stockNameList = new ArrayList();
-            stockNameList = new ObjectMapper().readValue(output, ArrayList.class);
-
-            return stockNameList;
-
-        } catch (Exception ex) {
-            logger.info("getRESTAccountStockNameList exception " + ex);
-            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+    public ArrayList<String> RESTGetAccountStockNameList(ServiceAFweb serviceAFWeb, String remoteURL, String username, int accountId) {
+        ArrayList<String> NameList = new ArrayList();
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return null;
         }
-        return null;
+
+        RequestObj sqlObj = new RequestObj();
+        sqlObj.setCmd(ServiceAFweb.AccountStockNameList + "");
+        sqlObj.setReq(username);
+        sqlObj.setReq1("" + accountId);
+
+        RequestObj sqlObjresp = RestGetSQLRequest(sqlObj, remoteURL);
+        String output = sqlObjresp.getResp();
+        if (output == null) {
+            return NameList;
+        }
+        try {
+            NameList = new ObjectMapper().readValue(output, ArrayList.class);
+        } catch (Exception ex) {
+            logger.info("> RESTAccountStockNameList exception " + ex.getMessage());
+        }
+        return NameList;
+
     }
+
+//    public ArrayList<String> getRESTAccountStockNameList(String EmailUserName, String AccountIDSt, String URL) {
+//        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+//        String subResourcePath = URL + "/cust/" + EmailUserName + "/acc/" + AccountIDSt + "/stname";
+//        try {
 //
+////            ClientResponse response = get(subResourcePath, null);
+////            String output = response.getEntity(String.class);
+//            String output = sendRequest_1(METHOD_GET, subResourcePath, null, null);
+//            ArrayList<String> stockNameList = new ArrayList();
+//            stockNameList = new ObjectMapper().readValue(output, ArrayList.class);
+//
+//            return stockNameList;
+//
+//        } catch (Exception ex) {
+//            logger.info("getRESTAccountStockNameList exception " + ex);
+//            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+//        }
+//        return null;
+//    }
+////
 //    public ArrayList getServerList() {
 //        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
 //        String subResourcePath = "/server";
@@ -1165,8 +1190,7 @@ public class ServiceAFwebREST {
 //        }
 //        return null;
 //    }
-
-    public RequestObj getSQLRequest(RequestObj sqlObj, String URL) {
+    public RequestObj RestGetSQLRequest(RequestObj sqlObj, String URL) {
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
         String subResourcePath = URL + "/cust/" + CKey.ADMIN_USERNAME + "/sys/request";
 

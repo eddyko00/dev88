@@ -16,7 +16,6 @@ import com.afweb.nnsignal.*;
 import com.afweb.processcache.ECacheService;
 
 import com.afweb.processstockinfo.StockInfoProcess;
-import com.afweb.service.Javamain;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
@@ -718,12 +717,17 @@ public class NNetService {
                 ArrayList<String> StockNameRemoteList = new ArrayList();
 
                 AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
-                ArrayList<String> stockNameArray1 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
-                        accountObj.getId() + "", CKey.URL_PATH_HERO);
+                String remoteURL = CKey.URL_PATH_HERO;
+                
+                ArrayList<String> stockNameArray1 = serviceAFwebREST.
+                        RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
                 logger.info("> remote dB stock:" + stockNameArray1.size());
                 StockNameRemoteList.addAll(stockNameArray1);
-                ArrayList<String> stockNameArray2 = serviceAFwebREST.getRESTAccountStockNameList(CKey.ADMIN_USERNAME,
-                        accountObj.getId() + "", CKey.URL_PATH_HERO_1);
+                
+                remoteURL = CKey.URL_PATH_HERO;
+                ArrayList<String> stockNameArray2 = serviceAFwebREST.
+                        RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
+
                 logger.info("> remote dB1 stock:" + stockNameArray2.size());
                 StockNameRemoteList.addAll(stockNameArray2);
 

@@ -792,7 +792,7 @@ public class AccountImp {
 
     }
 
-    public ArrayList getAccountStockNameList(int accountId) {
+    public ArrayList<String> getAccountStockNameList(int accountId) {
         return accountdb.getAccountStockNameList(accountId);
     }
 

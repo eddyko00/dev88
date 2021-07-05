@@ -787,7 +787,7 @@ public class AccountDB {
         return null;
     }
 
-    public ArrayList getAccountStockNameList(int AccountID) {
+    public ArrayList<String> getAccountStockNameList(int AccountID) {
         try {
             String sql = ""
                     + "select distinct stock.symbol as symbol from tradingrule inner join stock on "
