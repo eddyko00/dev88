@@ -39,13 +39,28 @@ public class NNetService {
 
     public RequestObj SQLRequestNN(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
+        String nnSt = "";
         String nameST = "";
+        AFneuralNet afNeuralNet = null;
 
         try {
             String typeCd = sqlObj.getCmd();
             int type = Integer.parseInt(typeCd);
 
             switch (type) {
+//
+                case ServiceAFweb.SetNeuralNetObjWeight0:
+                    try {
+                        nnSt = sqlObj.getReq();
+                        afNeuralNet = new ObjectMapper().readValue(nnSt, AFneuralNet.class);
+                        int result = setNeuralNetObjWeight0(serviceAFWeb, afNeuralNet);
+
+                        nameST = new ObjectMapper().writeValueAsString(result);
+                        sqlObj.setResp("" + nameST);
+
+                    } catch (Exception ex) {
+                    }
+                    return sqlObj;
 //                case ServiceAFweb.AllNeuralNet:
 //                    nameST = nndataImp.getAllNeuralNetDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
@@ -112,18 +127,19 @@ public class NNetService {
         return nndataImp.updateSQLNNArrayList(SQLTran);
     }
 ///////////////////////////    
+
     public ArrayList<String> getAllIdNNetDataSQL(String sql) {
         return nndataImp.getAllIdNNSQL(sql);
     }
-    
+
     public String getAllNeuralNetDBSQL(String sql) {
         return nndataImp.getAllNeuralNetDBSQL(sql);
-    }    
-    
+    }
+
     public String getAllNeuralNetDataDBSQL(String sql) {
         return nndataImp.getAllNeuralNetDataDBSQL(sql);
     }
-    
+
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
         return nndataImp.getNeuralNetDataObj(name, length);
     }
@@ -206,8 +222,8 @@ public class NNetService {
         } catch (Exception ex) {
         }
         return refData;
-    }    
-    
+    }
+
     public String SystemClearNNinput(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
@@ -718,12 +734,12 @@ public class NNetService {
 
                 AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
                 String remoteURL = CKey.URL_PATH_HERO;
-                
+
                 ArrayList<String> stockNameArray1 = serviceAFwebREST.
                         RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
                 logger.info("> remote dB stock:" + stockNameArray1.size());
                 StockNameRemoteList.addAll(stockNameArray1);
-                
+
                 remoteURL = CKey.URL_PATH_HERO;
                 ArrayList<String> stockNameArray2 = serviceAFwebREST.
                         RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
@@ -786,7 +802,7 @@ public class NNetService {
 ////////////////////////////////////////////////                
                 ////update remote Neural Net
                 String RestURL = CKey.URL_PATH_HERO;
-                
+
                 String nnName = ConstantKey.TR_NN1;
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
                 nnName = ConstantKey.TR_NN2;
@@ -796,7 +812,7 @@ public class NNetService {
 ////////////////
 ////////////////
                 RestURL = CKey.URL_PATH_HERO_1;
-                
+
                 nnName = ConstantKey.TR_NN1;
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
                 nnName = ConstantKey.TR_NN2;
@@ -836,7 +852,7 @@ public class NNetService {
 
         AFneuralNet nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
         if (nnObj1 != null) {
-            serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, RestURL);
+            serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
         }
 
         for (int i = 0; i < APIStockNameList.size(); i++) {
@@ -853,7 +869,7 @@ public class NNetService {
                 nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
 
-                    int ret = serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, RestURL);
+                    int ret = serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
                     ServiceAFweb.AFSleep1Sec(3);
                     if (ret != 1) {
                         logger.info("> updateRESTNNWeight0 " + BPnameSym + " ret=" + ret);

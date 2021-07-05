@@ -5,7 +5,6 @@
  */
 package com.afweb.processsystem;
 
-import com.afweb.processstockinfo.StockInfoProcess;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
 
@@ -13,16 +12,14 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.dbstock.StockImp;
 import com.afweb.stockinternet.StockInternetImpDao;
 
-import com.afweb.util.CKey;
-import com.afweb.util.TimeConvertion;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.afweb.util.*;
 
 import java.util.ArrayList;
 
 import java.util.Calendar;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 
 /**
  *

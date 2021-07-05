@@ -871,12 +871,12 @@ public class ServiceAFweb {
 
             symbol = "HOU.TO";
 
-            ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
-            AccountObj accountObj = SysGetAdminObjFromCache();
-            String remoteURL = "http://127.0.0.1:8080";
-            ArrayList<String> stockNameArray1 = serviceAFwebREST.
-                    RESTGetAccountStockNameList(this, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
-            logger.info("> remote dB stock:" + stockNameArray1.size());
+//            ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
+//            AccountObj accountObj = SysGetAdminObjFromCache();
+//            String remoteURL = "http://127.0.0.1:8080";
+//            ArrayList<String> stockNameArray1 = serviceAFwebREST.
+//                    RESTGetAccountStockNameList(this, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
+//            logger.info("> remote dB stock:" + stockNameArray1.size());
 
 //            ServiceAFweb.cacheServ.checkCache();
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
@@ -1168,9 +1168,11 @@ public class ServiceAFweb {
 //    public static final int RealTimeStockByStockID = 214; //"119"; 
 //    public static final int AllIdInfo = 250; //"1";
 //    public static final int AllStockInfo = 251; //"4";    
-////    public static final int StockHistoricalRange = 252; //"114";     
+//    public static final int StockHistoricalRange = 252; //"114";     
 //    public static final int updateStockInfoTransaction = 253; //"103";
 //    public static final int UpdateSQLListInfo = 101; //"101";
+///////////////////////////////////    
+    public static final int SetNeuralNetObjWeight0 = 310; //"5";    
 //    public static final int AllNeuralNet = 310; //"5";
 //    public static final int AllNeuralNetData = 311; //"15";
 //    public static final int NeuralNetDataObj = 312; //"120";     
