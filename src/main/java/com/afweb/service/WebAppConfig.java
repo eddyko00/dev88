@@ -16,13 +16,16 @@ public class WebAppConfig {
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
             URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP;
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
+
             Javamain.set_phpmysqlflag();
+            URL = CKey.SERVER_DB_URL;
+
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
-            URL = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
             Javamain.set_php_1_mysqlflag();
+            URL = CKey.SERVER_DB_URL;
 
         }
+        CKey.SERVER_DB_URL = URL;
         return URL;
     }
 

@@ -97,13 +97,13 @@ public class Javamain {
 
     public static void set_phpmysqlflag() {
         CKey.SQL_DATABASE = CKey.REMOTE_PHP_MYSQL;
-        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_DBDB_PHP;
+        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP;
         CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO;
     }
 
     public static void set_php_1_mysqlflag() {
         CKey.SQL_DATABASE = CKey.REMOTE_PHP_1_MYSQL;
-        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_1_DBDB_PHP;
+        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
         CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_1;
     }
 

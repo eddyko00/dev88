@@ -16,6 +16,7 @@ import com.afweb.nnsignal.*;
 import com.afweb.processcache.ECacheService;
 
 import com.afweb.processstockinfo.StockInfoProcess;
+import com.afweb.service.Javamain;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
@@ -781,22 +782,24 @@ public class NNetService {
                 logger.info("processInitLocalRemoteNN " + printName);
 ////////////////////////////////////////////////                
                 ////update remote Neural Net
-                String URL = CKey.URL_PATH_HERO;
+                String RestURL = CKey.URL_PATH_HERO;
+                
                 String nnName = ConstantKey.TR_NN1;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
+                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
                 nnName = ConstantKey.TR_NN2;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
+                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
                 nnName = ConstantKey.TR_NN30;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
+                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
 ////////////////
 ////////////////
-                URL = CKey.URL_PATH_HERO_1;
+                RestURL = CKey.URL_PATH_HERO_1;
+                
                 nnName = ConstantKey.TR_NN1;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
+                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
                 nnName = ConstantKey.TR_NN2;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
+                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
                 nnName = ConstantKey.TR_NN30;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, URL);
+                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
 ////////////////////////////////////////////////  
 
                 logger.info("> update  stock:" + stockNameArray.size());
@@ -819,18 +822,18 @@ public class NNetService {
         }
     }
 
-    private int updateRESTNNWeight0(ServiceAFweb serviceAFWeb, ArrayList<String> APIStockNameList, String nnName, String URL) {
+    private int updateRESTNNWeight0(ServiceAFweb serviceAFWeb, ArrayList<String> APIStockNameList, String nnName, String RestURL) {
         if (APIStockNameList == null) {
             return 0;
         }
 
-        logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + " " + URL);
+        logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + " " + RestURL);
 
         String BPnameSym = CKey.NN_version + "_" + nnName;
 
         AFneuralNet nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
         if (nnObj1 != null) {
-            serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
+            serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, RestURL);
         }
 
         for (int i = 0; i < APIStockNameList.size(); i++) {
@@ -847,7 +850,7 @@ public class NNetService {
                 nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
 
-                    int ret = serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, URL);
+                    int ret = serviceAFwebREST.setNeuralNetObjWeight0(nnObj1, RestURL);
                     ServiceAFweb.AFSleep1Sec(3);
                     if (ret != 1) {
                         logger.info("> updateRESTNNWeight0 " + BPnameSym + " ret=" + ret);
