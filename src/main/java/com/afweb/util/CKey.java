@@ -22,16 +22,6 @@ public class CKey {
     //local pc
 //    public static final boolean LocalPCflag = true; // true;
 
-    //////////////////////
-//    public static final int REMOTE_MS_SQL = 3;////// do not use // http://eddyko00.freeasphost.net asp on freeasphost ma sql   
-    // remember to update the application properties      
-    public static final int LOCAL_MYSQL = 0; //jdbc:mysql://localhost:3306/db_sample     
-    public static final int DIRECT__MYSQL = 1;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
-    public static final int REMOTE_PHP_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
-    public static final int REMOTE_PHP_1_MYSQL = 3; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
-
-    public static int SQL_DATABASE = REMOTE_PHP_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)
-
     //
     //////////////////////
     //
@@ -66,18 +56,24 @@ public class CKey {
     public static String WEBPOST_HERO_1_PHP = "/webgetresp.php";
     public static String URL_PATH_HERO_1_DBDB_PHP = "https://iiswebdb1.herokuapp.com"; //    
 
-//***********    
-//*********** 
-// server timerhandler
-// server timerhandler    
-//    public static boolean OTHER_PHP1_MYSQL = false; //using HEROKU = false // using Other DB =  true
-    public static String SERVER_DB_URL = URL_PATH_HERO_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
-    public static String SERVER_TIMMER_URL = URL_PATH_HERO;  // server timerhandler OTHER_DB1 = false;
-
-//    public static String SERVER_TIMMER_URL = URL_PATH_HERO_1;  // server timerhandler OTHER_DB1 = true;
 //
 //***********    
 //*********** 
+    //////////////////////
+//    public static final int REMOTE_MS_SQL = 3;////// do not use // http://eddyko00.freeasphost.net asp on freeasphost ma sql   
+    // remember to update the application properties      
+    public static final int LOCAL_MYSQL = 0; //jdbc:mysql://localhost:3306/db_sample     
+    public static final int DIRECT__MYSQL = 1;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
+    public static final int REMOTE_PHP_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
+    public static final int REMOTE_PHP_1_MYSQL = 3; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
+
+    public static int SQL_DATABASE = REMOTE_PHP_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)    
+//    public static int SQL_DATABASE = REMOTE_PHP_1_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)  
+
+// default DB server and timerhandler
+    public static String SERVER_DB_URL = URL_PATH_HERO_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
+    public static String SERVER_TIMMER_URL = URL_PATH_HERO;  // server timerhandler OTHER_DB1 = false;
+
 //***********    
 //*********** 
 //**********    

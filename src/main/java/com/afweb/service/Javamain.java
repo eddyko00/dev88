@@ -37,13 +37,9 @@ public class Javamain {
         } else if (cmd.indexOf("localmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
         } else if (cmd.indexOf("phpmysqlflag") != -1) {
-            CKey.SQL_DATABASE = CKey.REMOTE_PHP_MYSQL;
-            CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_DBDB_PHP;
-            CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO;
+            set_phpmysqlflag();
         } else if (cmd.indexOf("php_1_mysqlflag") != -1) {
-            CKey.SQL_DATABASE = CKey.REMOTE_PHP_1_MYSQL;
-            CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_1_DBDB_PHP;
-            CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_1;
+            set_php_1_mysqlflag();
 ///////////////
         } else if (cmd.indexOf("backupFlag") != -1) {
             CKey.backupFlag = true;
@@ -97,6 +93,18 @@ public class Javamain {
 
         }
 
+    }
+
+    public static void set_phpmysqlflag() {
+        CKey.SQL_DATABASE = CKey.REMOTE_PHP_MYSQL;
+        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_DBDB_PHP;
+        CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO;
+    }
+
+    public static void set_php_1_mysqlflag() {
+        CKey.SQL_DATABASE = CKey.REMOTE_PHP_1_MYSQL;
+        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_1_DBDB_PHP;
+        CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_1;
     }
 
     /**

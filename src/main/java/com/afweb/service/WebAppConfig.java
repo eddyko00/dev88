@@ -15,8 +15,12 @@ public class WebAppConfig {
             URL = "Direct MySQL DB " + dataSource.getUrl();
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
             URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP;
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
+            URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
+            Javamain.set_phpmysqlflag();
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
             URL = CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP;
+            Javamain.set_php_1_mysqlflag();
 
         }
         return URL;
