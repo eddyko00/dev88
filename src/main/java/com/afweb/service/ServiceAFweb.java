@@ -870,9 +870,10 @@ public class ServiceAFweb {
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
             symbol = "HOU.TO";
-            String remoteURL = "http://127.0.0.1:8080";
+
             ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
             AccountObj accountObj = SysGetAdminObjFromCache();
+            String remoteURL = "http://127.0.0.1:8080";
             ArrayList<String> stockNameArray1 = serviceAFwebREST.
                     RESTGetAccountStockNameList(this, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
             logger.info("> remote dB stock:" + stockNameArray1.size());
