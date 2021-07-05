@@ -229,6 +229,7 @@ public class ServiceAFweb {
     }
 
     //Repeat every 10 seconds
+    //https://iiswebsrv.herokuapp.com/timerhandler?resttimerMsg=
     public int AFtimerHandler(String timerThreadMsg) {
         // too much log
 //        logger.info("> timerHandler " + timerThreadMsg);
