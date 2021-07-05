@@ -52,8 +52,8 @@ public class CustAccService {
         String UserName = "";
         String accIdSt = "";
         String nameST = "";
-        ArrayList<String> nameList = null;
-
+        ArrayList<String> nameList = new ArrayList();
+        ArrayList<String> nameListTmp = new ArrayList();
 
         try {
             String typeCd = sqlObj.getCmd();
@@ -61,11 +61,20 @@ public class CustAccService {
 
             switch (type) {
                 case ServiceAFweb.AccountStockNameList:
-                    UserName = sqlObj.getReq();
-                    accIdSt = sqlObj.getReq1();
-                    nameList = getStockNameListByAccountID(serviceAFWeb, UserName, null, accIdSt);
-                    nameST = new ObjectMapper().writeValueAsString(nameList);
-                    sqlObj.setResp(nameST);
+                    try {
+                        UserName = sqlObj.getReq();
+                        accIdSt = sqlObj.getReq1();
+                        nameListTmp = getStockNameListByAccountID(serviceAFWeb, UserName, null, accIdSt);
+                        if (nameListTmp != null) {
+                            nameList = nameListTmp;
+                        }
+                        nameST = new ObjectMapper().writeValueAsString(nameList);
+                        sqlObj.setResp(nameST);
+
+                    } catch (Exception ex) {
+                        sqlObj.setResp("");
+                    }
+
                     return sqlObj;
 
 //                case ServiceAFweb.AllUserName:

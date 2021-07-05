@@ -42,6 +42,7 @@ public class NNetService {
         String nnSt = "";
         String nameST = "";
         AFneuralNet afNeuralNet = null;
+        int result = 0;
 
         try {
             String typeCd = sqlObj.getCmd();
@@ -53,12 +54,12 @@ public class NNetService {
                     try {
                         nnSt = sqlObj.getReq();
                         afNeuralNet = new ObjectMapper().readValue(nnSt, AFneuralNet.class);
-                        int result = setNeuralNetObjWeight0(serviceAFWeb, afNeuralNet);
+                        result = setNeuralNetObjWeight0(serviceAFWeb, afNeuralNet);
 
-                        nameST = new ObjectMapper().writeValueAsString(result);
-                        sqlObj.setResp("" + nameST);
+                        sqlObj.setResp("" + result);
 
                     } catch (Exception ex) {
+                        sqlObj.setResp("" + -1);
                     }
                     return sqlObj;
 //                case ServiceAFweb.AllNeuralNet:
