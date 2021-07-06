@@ -7,22 +7,18 @@ package com.example.herokudemo;
 
 import com.afweb.model.*;
 import com.afweb.model.account.*;
-import com.afweb.model.stock.AFneuralNet;
+
 import com.afweb.processnn.NNetService;
 import com.afweb.service.*;
 
 import com.afweb.util.CKey;
-
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 
 import java.util.ArrayList;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,11 +49,11 @@ public class ControllerNN {
 
         arrayString.add("/cust/{username}/sys/deletenn1table");
 
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
-        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/release");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight0");
+//        arrayString.add("/cust/{username}/sys/neuralnet/{name}/updateweight1");
     }
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
@@ -262,120 +258,120 @@ public class ControllerNN {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/release", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int releaseNeuralNetObj(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/release", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int releaseNeuralNetObj(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//
+//                int result = nnService.releaseNeuralNetObj(afWebService, name);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
 
-                int result = nnService.releaseNeuralNetObj(afWebService, name);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    AFneuralNet getNeuralNetObjWeight0(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name,
+//            @PathVariable("type") String type
+//    ) {
+//        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int nnType = Integer.parseInt(type);
+//                AFneuralNet result = nnService.getNeuralNetObjWeight0(afWebService, name, nnType);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    AFneuralNet getNeuralNetObjWeight1(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name,
+//            @PathVariable("type") String type
+//    ) {
+//        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int nnType = Integer.parseInt(type);
+//                AFneuralNet result = nnService.getNeuralNetObjWeight1(afWebService, name, nnType);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return null;
+//    }
 
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/type/{type}/weight0", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    AFneuralNet getNeuralNetObjWeight0(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name,
-            @PathVariable("type") String type
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int nnType = Integer.parseInt(type);
-                AFneuralNet result = nnService.getNeuralNetObjWeight0(afWebService, name, nnType);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/type/{type}/weight1", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    AFneuralNet getNeuralNetObjWeight1(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name,
-            @PathVariable("type") String type
-    ) {
-        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int nnType = Integer.parseInt(type);
-                AFneuralNet result = nnService.getNeuralNetObjWeight1(afWebService, name, nnType);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/updateweight0", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int setNeuralNetObjWeight0(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name,
-            @RequestBody String input
-    ) {
-        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        AFneuralNet afNeuralNet = null;
-        try {
-//            int size = input.length();
-//            input = input.substring(1, size - 1);
-            afNeuralNet = new ObjectMapper().readValue(input, AFneuralNet.class);
-        } catch (IOException ex) {
-            return 0;
-        }
-
-        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = nnService.setNeuralNetObjWeight0(afWebService, afNeuralNet);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/updateweight1", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int setNeuralNetObjWeight1(
-            @PathVariable("username") String username,
-            @PathVariable("name") String name,
-            @RequestBody String input
-    ) {
-        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        AFneuralNet afNeuralNet = null;
-        try {
-//            int size = input.length();
-//            input = input.substring(1, size - 1);
-
-            afNeuralNet = new ObjectMapper().readValue(input, AFneuralNet.class);
-        } catch (IOException ex) {
-            return 0;
-        }
-
-        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                int result = nnService.setNeuralNetObjWeight1(afWebService, afNeuralNet);
-                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-                return result;
-            }
-        }
-        return 0;
-    }
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/updateweight0", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int setNeuralNetObjWeight0(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name,
+//            @RequestBody String input
+//    ) {
+//        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        AFneuralNet afNeuralNet = null;
+//        try {
+////            int size = input.length();
+////            input = input.substring(1, size - 1);
+//            afNeuralNet = new ObjectMapper().readValue(input, AFneuralNet.class);
+//        } catch (IOException ex) {
+//            return 0;
+//        }
+//
+//        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int result = nnService.setNeuralNetObjWeight0(afWebService, afNeuralNet);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
+//
+//    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/updateweight1", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody
+//    int setNeuralNetObjWeight1(
+//            @PathVariable("username") String username,
+//            @PathVariable("name") String name,
+//            @RequestBody String input
+//    ) {
+//        afWebService.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+//        AFneuralNet afNeuralNet = null;
+//        try {
+////            int size = input.length();
+////            input = input.substring(1, size - 1);
+//
+//            afNeuralNet = new ObjectMapper().readValue(input, AFneuralNet.class);
+//        } catch (IOException ex) {
+//            return 0;
+//        }
+//
+//        CustomerObj cust = afWebService.SysGetCustomerPassword(username, null);
+//        if (cust != null) {
+//            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+//                int result = nnService.setNeuralNetObjWeight1(afWebService, afNeuralNet);
+//                ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+//                return result;
+//            }
+//        }
+//        return 0;
+//    }
 
 }

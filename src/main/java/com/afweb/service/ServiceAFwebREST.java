@@ -1012,6 +1012,33 @@ public class ServiceAFwebREST {
         return 0;
 
     }
+    public int RESTSetNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, String remoteURL, AFneuralNet nn) {
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+        RequestObj sqlObj = new RequestObj();
+        sqlObj.setCmd(ServiceAFweb.SetNeuralNetObjWeight1 + "");
+        String nnSt;
+        try {
+            nnSt = new ObjectMapper().writeValueAsString(nn);
+            sqlObj.setReq(nnSt);
+
+            RequestObj sqlObjresp = RestGetSQLRequest(sqlObj, remoteURL);
+            String output = sqlObjresp.getResp();
+            if (output == null) {
+                return 0;
+            }
+
+            int result = new ObjectMapper().readValue(output, Integer.class);
+            return result;
+
+        } catch (Exception ex) {
+            logger.info("> RESTSetNeuralNetObjWeight0 exception " + ex.getMessage());
+        }
+        return 0;
+
+    }
 
 //    public int setNeuralNetObjWeight0(AFneuralNet nn, String URL) {
 //        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);

@@ -877,7 +877,6 @@ public class ServiceAFweb {
 //            ArrayList<String> stockNameArray1 = serviceAFwebREST.
 //                    RESTGetAccountStockNameList(this, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
 //            logger.info("> remote dB stock:" + stockNameArray1.size());
-
 //            ServiceAFweb.cacheServ.checkCache();
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = StoGetStockObjBySym(symbol);
@@ -1173,6 +1172,7 @@ public class ServiceAFweb {
 //    public static final int UpdateSQLListInfo = 101; //"101";
 ///////////////////////////////////    
     public static final int SetNeuralNetObjWeight0 = 310; //"5";    
+    public static final int SetNeuralNetObjWeight1 = 312; //"5";        
 //    public static final int AllNeuralNet = 310; //"5";
 //    public static final int AllNeuralNetData = 311; //"15";
 //    public static final int NeuralNetDataObj = 312; //"120";     

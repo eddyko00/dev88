@@ -62,6 +62,18 @@ public class NNetService {
                         sqlObj.setResp("" + -1);
                     }
                     return sqlObj;
+                case ServiceAFweb.SetNeuralNetObjWeight1:
+                    try {
+                        nnSt = sqlObj.getReq();
+                        afNeuralNet = new ObjectMapper().readValue(nnSt, AFneuralNet.class);
+                        result = setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
+
+                        sqlObj.setResp("" + result);
+
+                    } catch (Exception ex) {
+                        sqlObj.setResp("" + -1);
+                    }
+                    return sqlObj;                    
 //                case ServiceAFweb.AllNeuralNet:
 //                    nameST = nndataImp.getAllNeuralNetDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
@@ -851,7 +863,7 @@ public class NNetService {
 
         String BPnameSym = CKey.NN_version + "_" + nnName;
 
-        AFneuralNet nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
+        AFneuralNet nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
         if (nnObj1 != null) {
             serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
         }
@@ -867,7 +879,7 @@ public class NNetService {
             ///*****Make sure the DB name is .
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
-                nnObj1 = serviceAFWeb.NnGetNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
+                nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
 
                     int ret = serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
