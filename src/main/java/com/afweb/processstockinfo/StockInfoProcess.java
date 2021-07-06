@@ -398,7 +398,7 @@ public class StockInfoProcess {
 
                     ArrayList<String> SQLlist = new ArrayList();
                     SQLlist.add(sockNameSQL);
-                    serviceAFWeb.StoUpdateSQLArrayList( SQLlist);
+                    serviceAFWeb.StoUpdateSQLArrayList(SQLlist);
                 }
                 int internetHistoryLen = 0;
 
@@ -458,8 +458,12 @@ public class StockInfoProcess {
                             if (ret == false) {
                                 stockInfoHistory = StockArrayHistory.get(2);
                                 ret = this.checkStockSplit(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
-
                             }
+                        }
+                        if (ret == false) {
+                            stockInfoHistory = StockArrayHistory.get(0);
+                            ret = checkStockAbnormalPrice(serviceAFWeb, stock, StockArray, StockArrayHistory, stockInfoHistory, NormalizeSymbol);
+
                         }
                         if (ret == true) {
                             return 0;
@@ -473,10 +477,10 @@ public class StockInfoProcess {
                     stock.setSubstatus(ConstantKey.OPEN);
 
                     String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-                    
+
                     ArrayList<String> SQLlist = new ArrayList();
                     SQLlist.add(sockNameSQL);
-                    serviceAFWeb.StoUpdateSQLArrayList( SQLlist);
+                    serviceAFWeb.StoUpdateSQLArrayList(SQLlist);
 
                     logger.info("updateRealTimeStock " + NormalizeSymbol + " Split flag was not correct. Clear Split flag");
                     return 0;
@@ -558,13 +562,10 @@ public class StockInfoProcess {
                         splitF = -deltaPTmp;
                     }
 
-//                    if (ServiceAFweb.mydebugtestflag == true) {
-//                        deltaPTmp = 10;
-//                    }
                     if (deltaPTmp > CKey.SPLIT_VAL) {
 //                                
                         splitFlag = true;
-                        msg = "updateRealTimeStock " + NormalizeSymbol + " Split=" + splitF + " "
+                        msg = "checkStockSplit " + NormalizeSymbol + " Split=" + splitF + " "
                                 + stockInfoHistory.getEntrydatedisplay() + " newClose " + newClose + " oldClose " + oldClose;
 
                         commDataObj.setType(0);
@@ -589,7 +590,97 @@ public class StockInfoProcess {
             String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
             ArrayList sqlList = new ArrayList();
             sqlList.add(sockNameSQL);
-            serviceAFWeb.StoUpdateSQLArrayList( sqlList);
+            serviceAFWeb.StoUpdateSQLArrayList(sqlList);
+            logger.info(msg);
+
+            // send admin messsage
+            String tzid = "America/New_York"; //EDT
+            TimeZone tz = TimeZone.getTimeZone(tzid);
+            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            long dateNowLong = dateNow.getTimeInMillis();
+            java.sql.Date d = new java.sql.Date(dateNowLong);
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+            DateFormat format = new SimpleDateFormat(" hh:mm a");
+            format.setTimeZone(tz);
+            String ESTdate = format.format(d);
+
+            String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
+
+            commDataObj.setMsg(commMsg);
+            CommMsgImp commMsgImp = new CommMsgImp();
+            commMsgImp.AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_TYPE_COM_SPLIT, commDataObj);
+
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkStockAbnormalPrice(ServiceAFweb serviceAFWeb, AFstockObj stock,
+            ArrayList<AFstockInfo> StockArray,
+            ArrayList<AFstockInfo> StockArrayHistory, AFstockInfo stockInfoHistory,
+            String NormalizeSymbol) {
+
+        boolean splitFlag = false;
+        float splitF = 0;
+        String msg = "";
+        CommData commDataObj = new CommData();
+        AFstockInfo stockInfoObjInternet = null;
+
+        if (StockArrayHistory != null && StockArrayHistory.size() > 0) {
+
+            long historydate = stockInfoHistory.getEntrydatel();
+            historydate = TimeConvertion.endOfDayInMillis(historydate);
+            float newClose = stockInfoHistory.getFclose();
+            for (int j = 0; j < StockArray.size(); j++) {
+                stockInfoObjInternet = StockArray.get(j);
+                long currentdate = TimeConvertion.endOfDayInMillis(stockInfoObjInternet.getEntrydatel());
+                if (historydate == currentdate) {
+                    if (j < 5) {
+                        stockInfoObjInternet = StockArray.get(0);
+                    } else {
+                        stockInfoObjInternet = StockArray.get(j + 4);
+                    }
+
+                    float oldClose = stockInfoObjInternet.getFclose();
+                    float deltaPTmp = 0;
+                    if (newClose > oldClose) {
+                        deltaPTmp = newClose / oldClose;
+                        splitF = deltaPTmp;
+                    } else {
+                        deltaPTmp = oldClose / newClose;
+                        splitF = -deltaPTmp;
+                    }
+
+                    if (deltaPTmp > CKey.SPLIT_VAL) {
+//                                
+                        splitFlag = true;
+                        msg = "checkStockAbnormalPrice " + NormalizeSymbol + " Split=" + splitF + " "
+                                + stockInfoHistory.getEntrydatedisplay() + " newClose " + newClose + " oldClose " + oldClose;
+
+                        commDataObj.setType(0);
+                        commDataObj.setSymbol(NormalizeSymbol);
+                        commDataObj.setEntrydatedisplay(stockInfoHistory.getEntrydatedisplay());
+                        commDataObj.setEntrydatel(stockInfoHistory.getEntrydatel());
+                        commDataObj.setSplit(splitF);
+                        commDataObj.setOldclose(oldClose);
+                        commDataObj.setNewclose(newClose);
+                    }
+                    break;
+                }
+            }
+
+        }
+        if (splitFlag == true) {
+            if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+                //just for testing
+                return true;
+            }
+            stock.setSubstatus(ConstantKey.STOCK_SPLIT);
+            String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+            ArrayList sqlList = new ArrayList();
+            sqlList.add(sockNameSQL);
+            serviceAFWeb.StoUpdateSQLArrayList(sqlList);
             logger.info(msg);
 
             // send admin messsage

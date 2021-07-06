@@ -871,21 +871,12 @@ public class ServiceAFweb {
 
             symbol = "HOU.TO";
 
-//            ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
-//            AccountObj accountObj = SysGetAdminObjFromCache();
-//            String remoteURL = "http://127.0.0.1:8080";
-//            ArrayList<String> stockNameArray1 = serviceAFwebREST.
-//                    RESTGetAccountStockNameList(this, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
-//            logger.info("> remote dB stock:" + stockNameArray1.size());
-//            ServiceAFweb.cacheServ.checkCache();
-//            int size1yearAll = 20 * 12 * 5 + (50 * 3);
-//            AFstockObj stock = StoGetStockObjBySym(symbol);
-//            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
-//            ServiceAFweb.cacheServ.checkCache();            
-//            if (StockInfoArray == null) {
-//                ;
-//            }
-//            StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
+            StockInfoProcess stockProcess = new StockInfoProcess();
+            stockProcess.updateAllStockInfoProcess(this, symbol, false);
+            
+            int size1yearAll = 20 * 12 * 5 + (50 * 3);
+            AFstockObj stock = StoGetStockObjBySym(symbol);
+            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
             logger.info("End mydebugtestflag.....");
         }
 
