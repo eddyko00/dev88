@@ -104,7 +104,7 @@ public class AccountTranProcess {
                     AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                            logger.info("> ProcessAdminSignalTrading return stock split " + symbol);
+//                            logger.info("> ProcessAdminSignalTrading return stock split " + symbol);
                             return;
                         }
                     }
