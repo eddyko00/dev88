@@ -1012,6 +1012,7 @@ public class ServiceAFwebREST {
         return 0;
 
     }
+
     public int RESTSetNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, String remoteURL, AFneuralNet nn) {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
@@ -1178,24 +1179,24 @@ public class ServiceAFwebREST {
 //    }
 //
 //    /cust/{username}/acc/{accountid}/stname
-
     public ArrayList<String> RESTGetAccountStockNameList(ServiceAFweb serviceAFWeb, String remoteURL, String username, int accountId) {
         ArrayList<String> NameList = new ArrayList();
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            return null;
-        }
-
-        RequestObj sqlObj = new RequestObj();
-        sqlObj.setCmd(ServiceAFweb.AccountStockNameList + "");
-        sqlObj.setReq(username);
-        sqlObj.setReq1("" + accountId);
-
-        RequestObj sqlObjresp = RestGetSQLRequest(sqlObj, remoteURL);
-        String output = sqlObjresp.getResp();
-        if (output == null) {
-            return NameList;
-        }
         try {
+            if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+                return null;
+            }
+
+            RequestObj sqlObj = new RequestObj();
+            sqlObj.setCmd(ServiceAFweb.AccountStockNameList + "");
+            sqlObj.setReq(username);
+            sqlObj.setReq1("" + accountId);
+
+            RequestObj sqlObjresp = RestGetSQLRequest(sqlObj, remoteURL);
+            String output = sqlObjresp.getResp();
+            if (output == null) {
+                return NameList;
+            }
+
             NameList = new ObjectMapper().readValue(output, ArrayList.class);
         } catch (Exception ex) {
             logger.info("> RESTAccountStockNameList exception " + ex.getMessage());

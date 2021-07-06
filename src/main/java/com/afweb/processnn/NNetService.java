@@ -32,22 +32,22 @@ import javax.sql.DataSource;
  * @author koed
  */
 public class NNetService {
-
+    
     protected static Logger logger = Logger.getLogger("EmailService");
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
     private NNetdataImp nndataImp = new NNetdataImp();
-
+    
     public RequestObj SQLRequestNN(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
-
+        
         String nnSt = "";
         String nameST = "";
         AFneuralNet afNeuralNet = null;
         int result = 0;
-
+        
         try {
             String typeCd = sqlObj.getCmd();
             int type = Integer.parseInt(typeCd);
-
+            
             switch (type) {
 //
                 case ServiceAFweb.SetNeuralNetObjWeight0:
@@ -55,9 +55,9 @@ public class NNetService {
                         nnSt = sqlObj.getReq();
                         afNeuralNet = new ObjectMapper().readValue(nnSt, AFneuralNet.class);
                         result = setNeuralNetObjWeight0(serviceAFWeb, afNeuralNet);
-
+                        
                         sqlObj.setResp("" + result);
-
+                        
                     } catch (Exception ex) {
                         sqlObj.setResp("" + -1);
                     }
@@ -67,13 +67,13 @@ public class NNetService {
                         nnSt = sqlObj.getReq();
                         afNeuralNet = new ObjectMapper().readValue(nnSt, AFneuralNet.class);
                         result = setNeuralNetObjWeight1(serviceAFWeb, afNeuralNet);
-
+                        
                         sqlObj.setResp("" + result);
-
+                        
                     } catch (Exception ex) {
                         sqlObj.setResp("" + -1);
                     }
-                    return sqlObj;                    
+                    return sqlObj;
 //                case ServiceAFweb.AllNeuralNet:
 //                    nameST = nndataImp.getAllNeuralNetDBSQL(sqlObj.getReq());
 //                    sqlObj.setResp(nameST);
@@ -119,23 +119,23 @@ public class NNetService {
         }
         return null;
     }
-
+    
     public void setNNDataDataSource(DataSource dataSource, String URL) {
         nndataImp.setNNDataDataSource(dataSource, URL);
     }
-
+    
     public boolean restNNdataDB(ServiceAFweb serviceAFWeb) {
         return nndataImp.restNNdataDB();
     }
-
+    
     public boolean cleanNNdataDB(ServiceAFweb serviceAFWeb) {
         return nndataImp.cleanNNdataDB();
     }
-
+    
     public int initNNetDataDB(ServiceAFweb serviceAFWeb) {
         return nndataImp.initNNetDataDB();
     }
-
+    
     public int updateSQLNNArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
         return nndataImp.updateSQLNNArrayList(SQLTran);
     }
@@ -144,29 +144,29 @@ public class NNetService {
     public ArrayList<String> getAllIdNNetDataSQL(String sql) {
         return nndataImp.getAllIdNNSQL(sql);
     }
-
+    
     public String getAllNeuralNetDBSQL(String sql) {
         return nndataImp.getAllNeuralNetDBSQL(sql);
     }
-
+    
     public String getAllNeuralNetDataDBSQL(String sql) {
         return nndataImp.getAllNeuralNetDataDBSQL(sql);
     }
-
+    
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
         return nndataImp.getNeuralNetDataObj(name, length);
     }
-
+    
     public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
         return nndataImp.getNeuralNetDataObjByStockId(name, refname, stockId, updatedatel);
     }
-
+    
     public int deleteNeuralNetDataByBPname(String name) {
 //        logger.info(">>>>>>>>> deleteNeuralNetDataByBPname " + name);
 //        logger.info(">>>>>>>>> deleteNeuralNetDataByBPname " + name);
         return nndataImp.deleteNeuralNetData(name);
     }
-
+    
     public int insertNeuralNetDataObject(AFneuralNetData neuralNetData) {
         return nndataImp.insertNeuralNetDataObject(neuralNetData);
     }
@@ -177,47 +177,47 @@ public class NNetService {
     public int updateNeuralNetStatus0(String name, int status, int type) {
         return nndataImp.updateNeuralNetStatus0(name, status, type);
     }
-
+    
     public int deleteNeuralNet0Table() {
         return nndataImp.deleteNeuralNet1Table();
     }
-
+    
     public int deleteNeuralNet1Table() {
         return nndataImp.deleteNeuralNet1Table();
     }
-
+    
     public int deleteNeuralNet0Rel(String name) {
         return nndataImp.deleteNeuralNet0Rel(name);
     }
-
+    
     public int deleteNeuralNet1(String name) {
         return nndataImp.deleteNeuralNet1(name);
     }
-
+    
     public int deleteNeuralNetDataTable() {
         return nndataImp.deleteNeuralNetDataTable();
     }
-
+    
     public int updateNeuralNetStatus1(String name, int status, int type) {
         return nndataImp.updateNeuralNetStatus1(name, status, type);
     }
-
+    
     public int updateNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
         return nndataImp.updateNeuralNetDataObject(name, sym, stockId, objData);
     }
-
+    
     public int updateNeuralNetRef0(String name, ReferNameData refnameData) {
         return nndataImp.updateNeuralNetRef0(name, refnameData);
     }
-
+    
     public int setCreateNeuralNetObj1(String name, String weight) {
         return nndataImp.setCreateNeuralNetObj1(name, weight);
     }
-
+    
     public int updateNeuralNetRef1(String name, ReferNameData refnameData) {
         return nndataImp.updateNeuralNetRef1(name, refnameData);
     }
-
+    
     public int deleteNeuralNetDataObjById(int id) {
         return nndataImp.deleteNeuralNetDataObjById(id);
     }
@@ -236,26 +236,26 @@ public class NNetService {
         }
         return refData;
     }
-
+    
     public String SystemClearNNinput(ServiceAFweb serviceAFWeb) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
-
+        
         retSatus = NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN1);
 //            retSatus = NNProcessImp.ClearStockNNinputNameArray(this, ConstantKey.TR_NN2);
 
         return "" + retSatus;
     }
-
+    
     public boolean SystemDeleteNN1Table(ServiceAFweb serviceAFWeb) {
         logger.info(">SystemDeleteNN1Table start ");
         nndataImp.deleteNeuralNet1Table();
         logger.info(">SystemDeleteNN1Table end ");
         return true;
     }
-
+    
     public String SystemClearNNtran(ServiceAFweb serviceAFWeb, int tr) {
-
+        
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
         if (tr == ConstantKey.SIZE_TR) {
@@ -281,10 +281,10 @@ public class NNetService {
         } else if (tr == ConstantKey.INT_TR_NN3) {
             retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN3);
         }
-
+        
         return "" + retSatus;
     }
-
+    
     public int releaseNeuralNetObj(ServiceAFweb serviceAFWeb, String name) {
         logger.info("> releaseNeuralNetObj " + name);
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
@@ -293,7 +293,7 @@ public class NNetService {
 //        return getStockImp().releaseNeuralNetObj(name);
         return nndataImp.releaseNeuralNetBPObj(name);
     }
-
+    
     public AFneuralNet getNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, String name, int type) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
@@ -310,14 +310,14 @@ public class NNetService {
         }
         return nndataImp.getNeuralNetObjWeight0(name);
     }
-
+    
     public AFneuralNet getNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, String name, int type) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
         return nndataImp.getNeuralNetObjWeight1(name);
     }
-
+    
     public int setNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, AFneuralNet nn) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -328,7 +328,7 @@ public class NNetService {
         int ret = nndataImp.setCreateNeuralNetObjRef0(nn.getName(), nn.getWeight(), nn.getRefname());
         return ret;
     }
-
+    
     public int setNeuralNetObjWeight1(ServiceAFweb serviceAFWeb, AFneuralNet nn) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -340,20 +340,20 @@ public class NNetService {
     }
 ////////////////////////////////////////////////////////////
     public static int cntNN = 0;
-
+    
     public void AFprocessNeuralNet(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "AFprocessNeuralNet";
-
+        
         if (serviceAFWeb.processNeuralNetFlag == true) {
             cntNN++;
             TradingNNprocess NNProcessImp = new TradingNNprocess();
             NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
             NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
             NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-
+            
             serviceAFWeb.nn1testflag = true;
             serviceAFWeb.nn2testflag = true;
-
+            
             if (cntNN == 1) {
                 nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(serviceAFWeb);
                 return;
@@ -365,32 +365,32 @@ public class NNetService {
                 return;
             } else if (cntNN == 4) {
                 NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
-
+                
                 cntNN = 0;
                 return;
-
+                
             }
-
+            
             cntNN = 0;
         }
     }
-
+    
     public boolean processNewLearnNeuralNet(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "processNewLearnNeuralNet";
-
+        
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN30ProcessByTrend nn1trend = new NN30ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-
+        
         AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
-
+        
         if (stockNameArray != null) {
             logger.info("Start processNewLearnNeuralNet.....Stock Size " + stockNameArray.size());
             for (int i = 0; i < stockNameArray.size(); i++) {
-
+                
                 String symbol = (String) stockNameArray.get(i);
                 AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                 if (stock == null) {
@@ -399,35 +399,35 @@ public class NNetService {
                 if (stock.getAfstockInfo() == null) {
                     continue;
                 }
-
+                
                 boolean chk1 = nn1ProcBySig.checkNN1Ready(serviceAFWeb, symbol, true);
                 boolean chk2 = nn2ProcBySig.checkNN2Ready(serviceAFWeb, symbol, true);
                 if ((chk1 == true) && (chk2 == true)) {
                     continue;
                 }
-
+                
                 String LockStock = "NN_New_" + symbol; // + "_" + trNN;
                 LockStock = LockStock.toUpperCase();
-
+                
                 long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                 long lockReturnStock = 1;
-
+                
                 lockReturnStock = serviceAFWeb.SysSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
-
+                
                 if (lockReturnStock == 0) {
                     continue;
                 }
                 if (lockReturnStock > 0) {
                     try {
-
+                        
                         if (chk1 == false) {
                             nn1trend.TrainNN30NeuralNetByTrend(serviceAFWeb, symbol, ConstantKey.INT_TR_NN30, null);
                         }
-
+                        
                         if (chk1 == false) {
                             // process train symbol
                             nn1trend.TrainNN30NeuralNetByTrend(serviceAFWeb, symbol, ConstantKey.INT_TR_NN30, null);
-
+                            
                             for (int j = 0; j < 4; j++) {
                                 nn1ProcBySig.TrainNN1NeuralNetBySign(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1, null);
                                 NNProcessImp.ReLearnInputNeuralNet(serviceAFWeb, symbol, ConstantKey.INT_TR_NN1);
@@ -438,7 +438,7 @@ public class NNetService {
                             // process train symbol
                             for (int j = 0; j < 4; j++) {
                                 nn2ProcBySig.TrainNN2NeuralNetBySign(serviceAFWeb, symbol, ConstantKey.INT_TR_NN2, null);
-
+                                
                                 NNProcessImp.ReLearnInputNeuralNet(serviceAFWeb, symbol, ConstantKey.INT_TR_NN2);
                             }
 
@@ -446,33 +446,33 @@ public class NNetService {
 //                            return true;
                         }
                     } catch (Exception ex) {
-
+                        
                     }
                     serviceAFWeb.SysLockRemoveName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                     return true;
                 }
-
+                
             }
         }
         logger.info("End processNewLearnNeuralNet.....");
         return false;
     }
-
+    
     public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "processNeuralNetTrain";
-
+        
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         NN1ProcessBySignal nn1ProcBySig = new NN1ProcessBySignal();
         NN30ProcessByTrend nn30trend = new NN30ProcessByTrend();
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
-
+        
         NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
-
+        
         TradingSignalProcess.forceToGenerateNewNN = false;
         if (serviceAFWeb.initLocalRemoteNN == true) {
             while (true) {
                 processInitLocalRemoteNN(serviceAFWeb);
-
+                
                 logger.info("> Waiting 60 minutes ........");
                 try {
                     Thread.sleep(30 * 1000 * 60);
@@ -481,7 +481,7 @@ public class NNetService {
                 }
             }
         }
-
+        
         if (serviceAFWeb.processNeuralNetFlag == true) {
             int num = 0;
             while (true) {
@@ -500,7 +500,7 @@ public class NNetService {
                         num = 0;
                     }
                 }
-
+                
                 logger.info("> Waiting 30 sec cntNN " + cntNN + "........");
                 try {
                     Thread.sleep(30 * 1000);
@@ -509,7 +509,7 @@ public class NNetService {
                 }
             }
         }
-
+        
         int k = 0;
         while (true) {
             k++;
@@ -525,7 +525,7 @@ public class NNetService {
                     logger.info("> ProcessTrainNeuralNet NN 1 cycle " + k);
                     nn1ProcBySig.ProcessTrainNN1NeuralNetBySign(serviceAFWeb);
                     logger.info("> ProcessTrainNeuralNet NN 1 end... cycle " + k);
-
+                    
                 }
                 if (serviceAFWeb.nn2testflag == true) {
                     exitflag = false;
@@ -533,10 +533,10 @@ public class NNetService {
                         NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN2);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 2 cycle " + k);
-
+                    
                     nn2ProcBySig.ProcessTrainNN2NeuralNetBySign(serviceAFWeb);
                     logger.info("> ProcessTrainNeuralNet NN 2 end... cycle " + k);
-
+                    
                 }
                 if (serviceAFWeb.nn3testflag == true) {
                     exitflag = false;
@@ -544,21 +544,21 @@ public class NNetService {
                         NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN3);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 3 cycle " + k);
-
+                    
                     nn3ProcBySig.ProcessTrainNN3NeuralNetBySign(serviceAFWeb);
                     logger.info("> ProcessTrainNeuralNet NN 3 end... cycle " + k);
-
+                    
                 }
                 if (serviceAFWeb.nn30testflag == true) {
                     exitflag = false;
-
+                    
                     if (((k % 5) == 0) || (k == 1)) {
                         NNProcessImp.ClearStockNN_inputNameArray(serviceAFWeb, ConstantKey.TR_NN30);
                     }
                     logger.info("> ProcessTrainNeuralNet NN 30 cycle " + k);
                     nn30trend.ProcessTrainNeuralNetNN30ByTrend(serviceAFWeb);
                     logger.info("> ProcessTrainNeuralNet NN 30 end... cycle " + k);
-
+                    
                 }
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -566,11 +566,11 @@ public class NNetService {
 ////////////////////////////////////////////////////////////////////////////          
             if (serviceAFWeb.flagNNReLearning == true) {
                 exitflag = false;
-
+                
                 logger.info("> ProcessReLeanInput NN 1 cycle " + k);
                 NNProcessImp.ProcessReLearnInputNeuralNet(serviceAFWeb);
                 logger.info("> ProcessReLeanInput end... cycle " + k);
-
+                
             }
 
 ////////////////////////////////////////////////////////////////////////////            
@@ -580,26 +580,26 @@ public class NNetService {
                     logger.info("> processNNInputNeuralNet Clear NN DB..");
                     String nnName = ConstantKey.TR_NN1;
                     removeNeuralNetDataAllNNSymbolByTR(serviceAFWeb, nnName);
-
+                    
                     nnName = ConstantKey.TR_NN30;
                     removeNeuralNetDataAllNNSymbolByTR(serviceAFWeb, nnName);
-
+                    
                     nnName = ConstantKey.TR_NN2;
                     removeNeuralNetDataAllNNSymbolByTR(serviceAFWeb, nnName);
-
+                    
                     nnName = ConstantKey.TR_NN3;
                     removeNeuralNetDataAllNNSymbolByTR(serviceAFWeb, nnName);
                 }
-
+                
                 if (serviceAFWeb.nn1testflag == true) {
                     logger.info("> processNN1InputNeuralNet Rest input..");
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
                     nn1ProcBySig.processNN1InputNeuralNet(serviceAFWeb);
-
+                    
                     nn30trend.processNN30InputNeuralNetTrend(serviceAFWeb);
-
+                    
                 }
                 if (serviceAFWeb.nn2testflag == true) {
                     logger.info("> processNN2InputNeuralNet Rest input..");
@@ -617,7 +617,7 @@ public class NNetService {
                     String nnName = ConstantKey.TR_NN3;
                     removeNeuralNetDataAllNNSymbolByTR(serviceAFWeb, nnName);
                     logger.info("> processNN3InputNeuralNet Rest input..");
-
+                    
                     exitflag = true;
                     /// reset weight0 and use latest stock
                     /// remember to update nnData and nn3Data and version                
@@ -627,7 +627,7 @@ public class NNetService {
 //                    nn2trend.processAllNN40StockInputNeuralNetTrend(this);
                     ///////////////////////////////
                 }
-
+                
                 logger.info("> processNN1InputNeuralNet Edn..");
                 return;
             }
@@ -636,7 +636,7 @@ public class NNetService {
                 exitflag = true;
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
-
+                
                 ServiceAFweb.SysCreateStaticStockHistoryServ(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
 
                 /////////////////////
@@ -671,7 +671,7 @@ public class NNetService {
                 /*ArrayList to Array Conversion */
                 String SymbolAllOther[] = APIStockNameList.toArray(new String[APIStockNameList.size()]);
                 ServiceAFweb.SysCreateStaticStockHistoryServ(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
-
+                
                 return;
             }
 ////////////////////////////////////////////////////////////////////////////
@@ -681,7 +681,7 @@ public class NNetService {
                 logger.info("> processNNSignalAdmin  cycle " + k);
                 AccountTranProcess accountTranP = new AccountTranProcess();
                 accountTranP.ProcessAdminSignalTrading(serviceAFWeb);
-
+                
                 serviceAFWeb.ProcessAllAccountTradingSignal(serviceAFWeb);
                 serviceAFWeb.ProcessUpdateAllStockInfo();
                 logger.info("> processNNSignalAdmin end... cycle " + k);
@@ -697,46 +697,46 @@ public class NNetService {
                 Thread.currentThread().interrupt();
             }
         }
-
+        
     }
-
+    
     public int removeNeuralNetDataAllNNSymbolByTR(ServiceAFweb serviceAFWeb, String TRname) {
         logger.info("> removeNeuralNetDataAllNNSymbolByTR Reset input.." + TRname);
-
+        
         String BPname = CKey.NN_version + "_" + TRname;
         nndataImp.deleteNeuralNetDataByBPname(BPname);
-
+        
         return removeNeuralNetDataSymbolListByTR(serviceAFWeb, TRname);
     }
-
+    
     public int removeNeuralNetDataSymbolListByTR(ServiceAFweb serviceAFWeb, String TRname) {
         logger.info("> removeNeuralNetDataSymbolListByTR Reset input.." + TRname);
-
+        
         String BPname = CKey.NN_version + "_" + TRname;
-
+        
         AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
         ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
-
+        
         if (stockNameArray != null) {
             logger.info("> removeNeuralNetDataSymbolListByTR Stock " + stockNameArray.size());
-
+            
             for (int i = 0; i < stockNameArray.size(); i++) {
                 String symbol = (String) stockNameArray.get(i);
-
+                
                 String BPnameSym = CKey.NN_version + "_" + TRname + "_" + symbol;
                 nndataImp.deleteNeuralNetDataByBPname(BPnameSym);
             }
         }
-
+        
         return 1;
     }
-
+    
     boolean initLRnn = false;
-
+    
     public void processInitLocalRemoteNN(ServiceAFweb serviceAFWeb) {
         logger.info("> processInitLocalRemoteNN ");
         StockInfoProcess stockProcess = new StockInfoProcess();
-
+        
         try {
             if (CKey.SQL_DATABASE != CKey.LOCAL_MYSQL) {
                 return;
@@ -744,21 +744,29 @@ public class NNetService {
             if (initLRnn == false) {
                 initLRnn = true;
                 ArrayList<String> StockNameRemoteList = new ArrayList();
-
+                ArrayList<String> stockNameArray1 = new ArrayList();
+                ArrayList<String> stockNameArray2 = new ArrayList();
                 AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
-                String remoteURL = CKey.URL_PATH_HERO;
-
-                ArrayList<String> stockNameArray1 = serviceAFwebREST.
-                        RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
-                logger.info("> remote dB stock:" + stockNameArray1.size());
+                
+                for (int i = 0; i < 10; i++) {
+                    String remoteURL = CKey.URL_PATH_HERO;
+                    
+                    stockNameArray1 = serviceAFwebREST.
+                            RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
+                    logger.info("> remote dB stock:" + stockNameArray1.size());
+                    
+                    remoteURL = CKey.URL_PATH_HERO_1;
+                    stockNameArray2 = serviceAFwebREST.
+                            RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
+                    logger.info("> remote dB1 stock:" + stockNameArray2.size());
+                    
+                    if ((stockNameArray1.size() > 0) && (stockNameArray2.size() > 0)) {
+                        break;
+                    }
+                    ServiceAFweb.AFSleep1Sec(5);
+                }
                 StockNameRemoteList.addAll(stockNameArray1);
-
-                remoteURL = CKey.URL_PATH_HERO_1;
-                ArrayList<String> stockNameArray2 = serviceAFwebREST.
-                        RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
-                logger.info("> remote dB1 stock:" + stockNameArray2.size());
                 StockNameRemoteList.addAll(stockNameArray2);
-
                 ArrayList<AccountObj> accountAPIObjL = serviceAFWeb.AccGetAccountList(CKey.API_USERNAME, null);
                 if (accountAPIObjL == null) {
                     return;
@@ -775,7 +783,7 @@ public class NNetService {
                 }
                 logger.info("> API stock:" + APIStockNameList.size() + " remote dB stock:" + StockNameRemoteList.size());
                 ArrayList addedList = new ArrayList();
-
+                
                 ArrayList removeList = new ArrayList();
                 boolean result = AccountTranProcess.compareStockList(StockNameRemoteList, APIStockNameList, addedList, removeList);
                 if (result == true) {
@@ -786,27 +794,27 @@ public class NNetService {
                         }
                         int resultAdd = serviceAFWeb.AccAddAccountStockByCustAccServ(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Add API stock " + symbol);
-
+                        
                         ServiceAFweb.AFSleep();
-
+                        
                     }
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
                         int resultRemove = serviceAFWeb.AccRemoveAccountStockByUserNameAccId(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
                         logger.info("> Remove API stock " + symbol);
-
+                        
                         ServiceAFweb.AFSleep();
-
+                        
                     }
                 }
 ////////////////////////////////////////////////                
                 ////update all stock                
                 serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
                 serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
-
+                
                 AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
                 ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
-
+                
                 String printName = "";
                 for (int i = 0; i < stockNameArray.size(); i++) {
                     printName += stockNameArray.get(i) + ",";
@@ -815,7 +823,7 @@ public class NNetService {
 ////////////////////////////////////////////////                
                 ////update remote Neural Net
                 String RestURL = CKey.URL_PATH_HERO;
-
+                
                 String nnName = ConstantKey.TR_NN1;
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
                 nnName = ConstantKey.TR_NN2;
@@ -825,7 +833,7 @@ public class NNetService {
 ////////////////
 ////////////////
                 RestURL = CKey.URL_PATH_HERO_1;
-
+                
                 nnName = ConstantKey.TR_NN1;
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
                 nnName = ConstantKey.TR_NN2;
@@ -846,28 +854,28 @@ public class NNetService {
                     }
                 }
                 serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
-
+                
             }
-
+            
         } catch (Exception ex) {
             logger.info("> processInitLocalRemoteNN Exception " + ex.getMessage());
         }
     }
-
+    
     private int updateRESTNNWeight0(ServiceAFweb serviceAFWeb, ArrayList<String> APIStockNameList, String nnName, String RestURL) {
         if (APIStockNameList == null) {
             return 0;
         }
-
+        
         logger.info("> updateRESTNNWeight0 " + nnName + " " + APIStockNameList.size() + " " + RestURL);
-
+        
         String BPnameSym = CKey.NN_version + "_" + nnName;
-
+        
         AFneuralNet nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
         if (nnObj1 != null) {
             serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
         }
-
+        
         for (int i = 0; i < APIStockNameList.size(); i++) {
             String symbol = (String) APIStockNameList.get(i);
             if (symbol.equals("T_T")) {
@@ -881,24 +889,24 @@ public class NNetService {
             try {
                 nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
                 if (nnObj1 != null) {
-
+                    
                     int ret = serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
                     ServiceAFweb.AFSleep1Sec(3);
                     if (ret != 1) {
                         logger.info("> updateRESTNNWeight0 " + BPnameSym + " ret=" + ret);
                     }
                 } else {
-
+                    
                     logger.info("> updateRESTNNWeight0 not found " + BPnameSym);
                 }
             } catch (Exception ex) {
                 logger.info("> updateRESTNNWeight0 Exception " + ex.getMessage());
             }
-
+            
         }
         return 1;
     }
-
+    
     public void fileNNInputOutObjList(ServiceAFweb serviceAFWeb, ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
         if (getEnv.checkLocalPC() == false) {
             return;
@@ -911,7 +919,7 @@ public class NNetService {
             for (int i = 0; i < inputList.size(); i++) {
                 NNInputDataObj objData = inputList.get(i);
                 NNInputOutObj obj = objData.getObj();
-
+                
                 String st = "\"" + stockId + "\",\"" + objData.getUpdatedatel() + "\",\"" + obj.getDateSt() + "\",\"" + obj.getClose() + "\",\"" + obj.getTrsignal()
                         + "\",\"" + obj.getOutput1()
                         + "\",\"" + obj.getOutput2()
@@ -925,15 +933,15 @@ public class NNetService {
                         + "\",\"" + obj.getInput9() + "\",\"" + obj.getInput10()
                         // + "\",\"" + obj.getInput11() + "\",\"" + obj.getInput12()
                         + "\"";
-
+                
                 if (i == 0) {
                     st += ",\"last\"";
                 }
-
+                
                 if (i + 1 >= inputList.size()) {
                     st += ",\"first\"";
                 }
-
+                
                 if (i == 0) {
                     stTitle = "\"" + "stockId" + "\",\"" + "Updatedatel" + "\",\"" + "Date" + "\",\"" + "close" + "\",\"" + "signal"
                             + "\",\"" + "output1"
@@ -943,14 +951,14 @@ public class NNetService {
                             + "\",\"" + "ema2050" + "\",\"" + "macd" + "\",\"" + "rsi"
                             + "\",\"" + "close-0" + "\",\"" + "close-1" + "\",\"" + "close-2" + "\",\"" + "close-3" + "\",\"" + "close-4"
                             + "\",\"" + symbol + "\"";
-
+                    
                 }
                 String stDispaly = st.replaceAll("\"", "");
                 writeArray.add(stDispaly);
             }
-
+            
             writeArray.add(stTitle.replaceAll("\"", ""));
-
+            
             FileUtil.FileWriteTextArray(filename, writeArray);
         }
     }
