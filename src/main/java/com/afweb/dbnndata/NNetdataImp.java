@@ -59,7 +59,7 @@ public class NNetdataImp {
         return nndatadb.getAllNeuralNetDataDBSQL(sql);
     }
 
-    public int updateNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
+    public int addNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
         NNInputOutObj obj = objData.getObj();
         String stData;
         try {

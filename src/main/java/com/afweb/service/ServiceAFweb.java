@@ -1946,8 +1946,8 @@ public class ServiceAFweb {
         return nnSrv.updateNeuralNetStatus1(name, status, type);
     }
 
-    public int NnUpdateNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
-        return nnSrv.updateNeuralNetDataObject(name, sym, stockId, objData);
+    public int NnAddNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
+        return nnSrv.addNeuralNetDataObject(name, sym, stockId, objData);
     }
 
     public int NnUpdateNeuralNetRef0(String name, ReferNameData refnameData) {

@@ -241,7 +241,7 @@ public class NN2ProcessBySignal {
                 NNInputDataObj objData = inputList.get(i);
                 ArrayList<AFneuralNetData> objList = serviceAFWeb.NnGetNeuralNetDataObjByStockId(BPname, NormalizeSymbol, stockId, objData.getUpdatedatel());
                 if ((objList == null) || (objList.size() == 0)) {
-                    serviceAFWeb.NnUpdateNeuralNetDataObject(BPname, NormalizeSymbol, stockId, objData);
+                    serviceAFWeb.NnAddNeuralNetDataObject(BPname, NormalizeSymbol, stockId, objData);
                     totalAdd++;
                     continue;
                 }
@@ -861,7 +861,7 @@ public class NN2ProcessBySignal {
                         NNInputDataObj objData = inputlistSym.get(i);
                         ArrayList<AFneuralNetData> objList = serviceAFWeb.NnGetNeuralNetDataObjByStockId(BPnameSym, "", 0, objData.getUpdatedatel());
                         if ((objList == null) || (objList.size() == 0)) {
-                            serviceAFWeb.NnUpdateNeuralNetDataObject(BPnameSym, "", 0, objData);
+                            serviceAFWeb.NnAddNeuralNetDataObject(BPnameSym, "", 0, objData);
                             totalAdd++;
                             continue;
                         }
@@ -1123,7 +1123,7 @@ public class NN2ProcessBySignal {
 //                            }
 
                         }
-                        serviceAFWeb.NnUpdateNeuralNetDataObject(BPnameSym, "", 0, objData);
+                        serviceAFWeb.NnAddNeuralNetDataObject(BPnameSym, "", 0, objData);
                         totalAdd++;
                         writeArray.add(nameST);
                         continue;

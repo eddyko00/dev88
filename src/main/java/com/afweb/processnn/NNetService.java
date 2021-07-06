@@ -202,8 +202,8 @@ public class NNetService {
         return nndataImp.updateNeuralNetStatus1(name, status, type);
     }
 
-    public int updateNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
-        return nndataImp.updateNeuralNetDataObject(name, sym, stockId, objData);
+    public int addNeuralNetDataObject(String name, String sym, int stockId, NNInputDataObj objData) {
+        return nndataImp.addNeuralNetDataObject(name, sym, stockId, objData);
     }
 
     public int updateNeuralNetRef0(String name, ReferNameData refnameData) {
