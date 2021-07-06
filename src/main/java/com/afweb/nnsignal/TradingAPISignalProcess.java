@@ -126,7 +126,7 @@ public class TradingAPISignalProcess {
                     AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                     if (stock != null) {
                         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                            logger.info("> ProcessAPISignalTrading return stock split " + symbol);
+//                            logger.info("> ProcessAPISignalTrading return stock split " + symbol);
                             continue;
                         }
                     }
