@@ -70,7 +70,9 @@ public class CKey {
     public static final int DIRECT__MYSQL = 1;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
     public static final int REMOTE_PHP_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
     public static final int REMOTE_PHP_1_MYSQL = 3; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
+    public static final int REMOTE_PHP_2_MYSQL = 4; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
 
+    
 // default DB server and timerhandler
     public static int SQL_DATABASE = REMOTE_PHP_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)    
     public static String SERVER_DB_URL = URL_PATH_HERO_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
@@ -79,8 +81,8 @@ public class CKey {
 //    public static int SQL_DATABASE = REMOTE_PHP_1_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)  
 //    public static String SERVER_DB_URL = URL_PATH_HERO_1_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
 //    public static String SERVER_TIMMER_URL = URL_PATH_HERO_1;  // serve    
-
-//***********    
+//
+//***********        
 //*********** 
 //**********    
 //*********** 

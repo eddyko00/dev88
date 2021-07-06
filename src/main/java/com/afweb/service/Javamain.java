@@ -62,6 +62,8 @@ public class Javamain {
 
         } else if (cmd.indexOf("delayrestoryflag") != -1) {
             CKey.DELAY_RESTORE = true;
+        } else if (cmd.indexOf("dbinfoflag") != -1) {
+            ServiceAFweb.dbinfoflag = true;
 
         } else if (cmd.indexOf("processEmailFlag") != -1) {
             ServiceAFweb.processEmailFlag = true;
