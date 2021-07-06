@@ -741,7 +741,7 @@ public class NNetService {
                 logger.info("> remote dB stock:" + stockNameArray1.size());
                 StockNameRemoteList.addAll(stockNameArray1);
 
-                remoteURL = CKey.URL_PATH_HERO;
+                remoteURL = CKey.URL_PATH_HERO_1;
                 ArrayList<String> stockNameArray2 = serviceAFwebREST.
                         RESTGetAccountStockNameList(serviceAFWeb, remoteURL, CKey.ADMIN_USERNAME, accountObj.getId());
                 logger.info("> remote dB1 stock:" + stockNameArray2.size());
