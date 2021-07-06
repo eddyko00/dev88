@@ -37,7 +37,7 @@ public class TradingNNprocess {
     public static int TREND_Day = 4;
 
     public static String cfg_stockNNretrainNameArray = "cfg_stockNNretrainNameArray";
-    private static ArrayList stockNNretrainNameArray = new ArrayList();
+    public static ArrayList stockNNretrainNameArray = new ArrayList();
 //    private ServiceAFweb serviceAFWeb = null;
 
     public ArrayList reLearnInputStockNNprocessNameArray(ServiceAFweb serviceAFWeb) {
@@ -111,7 +111,7 @@ public class TradingNNprocess {
             long LastServUpdateTimer = System.currentTimeMillis();
             int timeout = 15;
             if (ServiceAFweb.processNeuralNetFlag == true) {
-                timeout = timeout * 6;
+                timeout = timeout * 10;
             }
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, timeout); // add 3 minutes
 
