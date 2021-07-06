@@ -29,11 +29,8 @@ public class Javamain {
         } else if (cmd.indexOf("initLocalRemoteNN") != -1) {
             ServiceAFweb.initLocalRemoteNN = true;
 //
-//        } else if (cmd.indexOf("otherphp1mysqlflag") != -1) {
-//            CKey.OTHER_PHP1_MYSQL = true;
-//            CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_1;
-//            CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_1_DBDB_PHP;
-////////////////
+       } else if (cmd.indexOf("directmysqlflag") != -1) {
+            CKey.SQL_DATABASE = CKey.DIRECT__MYSQL;
         } else if (cmd.indexOf("localmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
         } else if (cmd.indexOf("phpmysqlflag") != -1) {
