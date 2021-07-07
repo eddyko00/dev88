@@ -41,6 +41,9 @@ public class WebAppConfig {
             dataSource = dataSourceMYQLRemotePHP();
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
             dataSource = dataSourceMYQLRemotePHP();
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL) {
+            dataSource = dataSourceMYQLRemotePHP();           
+            
 //        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
 //            dataSource = dataSourceMS_SQLRemote();
         }

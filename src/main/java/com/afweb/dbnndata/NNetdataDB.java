@@ -105,10 +105,7 @@ public class NNetdataDB {
 //        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
 //            sqlCMD = "create table dummynndata1 (id int identity not null, primary key (id))";
 //        }
-        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL)
-                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
-                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
-                || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+        if (ServiceAFweb.SysCheckIfMySQLDB()) {
             sqlCMD = "create table dummynndata1 (id int(10) not null auto_increment, primary key (id))";
         }
         return sqlCMD;

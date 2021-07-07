@@ -1205,6 +1205,17 @@ public class ServiceAFweb {
     }
 
 ///////////////////////////
+    public static boolean SysCheckIfMySQLDB() {
+        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean SysCheckCallRemoteMysql() {
         boolean ret = true;
         if (ServiceAFweb.getServerObj().isLocalDBservice() == true) {
@@ -3052,10 +3063,7 @@ public class ServiceAFweb {
         //SELECT TOP 10 column FROM table - Microsoft SQL Server
         //SELECT column FROM table LIMIT 10 - PostgreSQL and MySQL
         //SELECT column FROM table WHERE ROWNUM <= 10 - Oracle
-        if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL)
-                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
-                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
-                || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+        if (ServiceAFweb.SysCheckIfMySQLDB()) {
             if (length != 0) {
                 if (length == 1) {
                     sql += " limit 1 ";
@@ -3077,7 +3085,6 @@ public class ServiceAFweb {
         return sql;
     }
 
-
     // do not change compress name
     public static String compress(String str) {
         if (str == null || str.length() == 0) {
@@ -3095,6 +3102,7 @@ public class ServiceAFweb {
         }
         return null;
     }
+
     // do not change decompress name
     public static String decompress(String str) {
         if (str == null || str.length() == 0) {
