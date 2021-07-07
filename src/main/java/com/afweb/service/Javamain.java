@@ -29,10 +29,12 @@ public class Javamain {
         } else if (cmd.indexOf("initLocalRemoteNN") != -1) {
             ServiceAFweb.initLocalRemoteNN = true;
 //
-       } else if (cmd.indexOf("directmysqlflag") != -1) {
+        } else if (cmd.indexOf("directmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.DIRECT__MYSQL;
         } else if (cmd.indexOf("localmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
+        } else if (cmd.indexOf("dbinfoflag") != -1) {
+            ServiceAFweb.dbinfoflag = true;
         } else if (cmd.indexOf("phpmysqlflag") != -1) {
             set_phpmysqlflag();
         } else if (cmd.indexOf("php_1_mysqlflag") != -1) {
@@ -59,8 +61,6 @@ public class Javamain {
 
         } else if (cmd.indexOf("delayrestoryflag") != -1) {
             CKey.DELAY_RESTORE = true;
-        } else if (cmd.indexOf("dbinfoflag") != -1) {
-            ServiceAFweb.dbinfoflag = true;
 
         } else if (cmd.indexOf("processEmailFlag") != -1) {
             ServiceAFweb.processEmailFlag = true;
