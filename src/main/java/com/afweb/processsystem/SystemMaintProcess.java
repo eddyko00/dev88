@@ -68,9 +68,6 @@ public class SystemMaintProcess {
                 continue;
             }
 
-            if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
-                continue;
-            }
             ArrayList stockNameList = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
             if (stockNameList == null) {
                 continue;
@@ -89,43 +86,64 @@ public class SystemMaintProcess {
             if (foundS == false) {
                 continue;
             }
-
-            ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTransList(accountObj.getId(), stock.getId(), "TR_ACC", 0);
-            if (thList == null) {
+            ArrayList<TradingRuleObj> trList = serviceAFWeb.AccGetAccountStockTRListByAccIdStockId(accountObj.getId(), stock.getId());
+            if (trList == null) {
                 continue;
             }
-            ArrayList transSQL = new ArrayList();
-
-            if (split > 1) {
-                for (int k = 0; k < thList.size(); k++) {
-                    TransationOrderObj thObj = thList.get(k);
-                    double avgprice = thObj.getAvgprice() / splitValue;
-                    double share = thObj.getShare() * splitValue;
-
-                    float priceTH = (float) (Math.round(avgprice * 100.0) / 100.0);
-                    thObj.setAvgprice(priceTH);
-
-                    float shareTH = (float) (Math.round(share * 100.0) / 100.0);
-                    thObj.setShare((float) shareTH);
-
-                    String trSql = AccountDB.updateSplitTransactionSQL(thObj);
-                    transSQL.add(trSql);
+            for (int j = 0; j < trList.size(); j++) {
+                TradingRuleObj TRObj = trList.get(j);
+                if (accountObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
+                    ;
+                } else {
+                    if (TRObj.getTrname().equals(ConstantKey.TR_ACC)) {
+                        ;
+                    } else {
+                        continue;
+                    }
                 }
-            }
-            logger.info("> processStockSplit " + accountObj.getAccountname() + " total update:" + transSQL.size());
-
-            int ret = 0;
-            if (transSQL.size() > 0) {
-                ret = serviceAFWeb.AccUpdateTransactionOrder(transSQL);
-            }
-            if (ret == 1) {
-                //udpate performance logic
-                //udpate performance logic
+                ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTransList(accountObj.getId(), stock.getId(), TRObj.getTrname(), 0);
+                int ret = this.stockSplitProcess(serviceAFWeb, accountObj, stock, thList, splitValue);
             }
 
         }
         logger.info("> processStockSplit no update " + symbol);
         //clear stocksplit
+
+        return 1;
+    }
+
+    public int stockSplitProcess(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, ArrayList<TransationOrderObj> thList, double splitValue) {
+
+        if (thList == null) {
+            return 0;
+        }
+        ArrayList transSQL = new ArrayList();
+
+        for (int k = 0; k < thList.size(); k++) {
+            TransationOrderObj thObj = thList.get(k);
+            double avgprice = thObj.getAvgprice() / splitValue;
+            double share = thObj.getShare() * splitValue;
+
+            float priceTH = (float) (Math.round(avgprice * 100.0) / 100.0);
+            thObj.setAvgprice(priceTH);
+
+            float shareTH = (float) (Math.round(share * 100.0) / 100.0);
+            thObj.setShare((float) shareTH);
+
+            String trSql = AccountDB.updateSplitTransactionSQL(thObj);
+            transSQL.add(trSql);
+        }
+
+        logger.info("> processStockSplit " + accountObj.getAccountname() + " total update:" + transSQL.size());
+
+        int ret = 0;
+        if (transSQL.size() > 0) {
+            ret = serviceAFWeb.AccUpdateTransactionOrder(transSQL);
+        }
+        if (ret == 1) {
+            //udpate performance logic
+            //udpate performance logic
+        }
 
         return 1;
     }

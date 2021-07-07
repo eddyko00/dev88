@@ -1576,7 +1576,6 @@ public class ServiceAFweb {
     public int SysGetStockSplit(String symbol, int value) {
         SystemMaintProcess maint = new SystemMaintProcess();
         return maint.StockSplitBySym(this, symbol, value);
-
     }
 
     public int SysStockSplitStatus(String symbol, int value) {
@@ -1585,7 +1584,6 @@ public class ServiceAFweb {
             return maint.StockSplitEnableBySym(this, symbol);
         }
         return maint.StockSplitDisableBySym(this, symbol);
-
     }
 
     //////////////////
