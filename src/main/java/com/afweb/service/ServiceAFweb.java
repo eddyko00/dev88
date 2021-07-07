@@ -1579,6 +1579,15 @@ public class ServiceAFweb {
 
     }
 
+    public int SysStockSplitStatus(String symbol, int value) {
+        SystemMaintProcess maint = new SystemMaintProcess();
+        if (value == 1) {
+            return maint.StockSplitEnableBySym(this, symbol);
+        }
+        return maint.StockSplitDisableBySym(this, symbol);
+
+    }
+
     //////////////////
     public StringBuffer SysGetInternetScreenPage(String url) {
         return systemSrv.getInternetScreenPage(url);
