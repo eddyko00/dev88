@@ -23,8 +23,16 @@ import java.util.logging.Logger;
 public class SystemMaintProcess {
 
     protected static Logger logger = Logger.getLogger("SystemMaintProcess");
+    // split 1:3 stock more price /3 (value 3)  
+    // Split 3:1 stock less price *3 (value -3)
+    public int StockSplitBySym(ServiceAFweb serviceAFWeb, String sym, int value) {
+   
+        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+        return TRprocessImp.processStockSplit(serviceAFWeb, sym, value);
 
-    public void StockSplitProcess(ServiceAFweb serviceAFWeb) {
+    }
+
+    public void StockSplitByCom(ServiceAFweb serviceAFWeb) {
         ///////////////////////////////////////////////////////////////////////////////////   
         /// update stock split process
         ///////////////////////////////////////////////////////////////////////////////////

@@ -2785,13 +2785,21 @@ public class TradingSignalProcess {
 
     public int processStockSplit(ServiceAFweb serviceAFWeb, String symbol, float split) {
         logger.info(">processStockSplit");
-        ArrayList accountIdList = serviceAFWeb.AccGetAllOpenAccountID();
-        if (accountIdList == null) {
-            return 0;
-        }
+
         AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
 
         if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
+            return 0;
+        }
+        // split 1:3 stock more price /3 (value 3)  
+        // Split 3:1 stock less price *3 (value -3)
+        double splitValue = 0;
+        if (split > 1) {
+            splitValue = split;
+        } else if (split < -1) {
+            splitValue = - 1 / split;
+        }
+        if (splitValue == 0) {
             return 0;
         }
 
@@ -2801,6 +2809,10 @@ public class TradingSignalProcess {
             return 0;
         }
         if (StockInfoArray.size() < 100) {
+            return 0;
+        }
+        ArrayList accountIdList = serviceAFWeb.AccGetAllOpenAccountID();
+        if (accountIdList == null) {
             return 0;
         }
         for (int i = 0; i < accountIdList.size(); i++) {
@@ -2818,7 +2830,9 @@ public class TradingSignalProcess {
             if (stockNameList == null) {
                 continue;
             }
-
+            if (stockNameList.size() == 0) {
+                continue;
+            }
             boolean foundS = false;
             for (int j = 0; j < stockNameList.size(); j++) {
                 String stockN = (String) stockNameList.get(j);
@@ -2836,61 +2850,22 @@ public class TradingSignalProcess {
                 continue;
             }
             ArrayList transSQL = new ArrayList();
-            for (int k = 0; k < thList.size(); k++) {
-                TransationOrderObj thObj = thList.get(k);
-                float avgprice = thObj.getAvgprice();
-                float share = thObj.getShare();
 
-                long stockdatel = TimeConvertion.endOfDayInMillis(thObj.getEntrydatel());
-                AFstockInfo stockInfoMatch = null;
-                for (int j = 0; j < StockInfoArray.size(); j++) {
-                    AFstockInfo stockInfo = StockInfoArray.get(j);
-                    long stockInfodatel = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
-                    if (stockdatel == stockInfodatel) {
-                        stockInfoMatch = stockInfo;
-                        break;
-                    }
-
+            if (split > 1) {
+                for (int k = 0; k < thList.size(); k++) {
+                    TransationOrderObj thObj = thList.get(k);
+                    double avgprice = thObj.getAvgprice() / splitValue;
+                    double share = thObj.getShare() * splitValue;
+                    
+                    float priceTH = (float) (Math.round(avgprice * 100.0) / 100.0);
+                    thObj.setAvgprice(priceTH);
+                    
+                    float shareTH = (float) (Math.round(share * 100.0) / 100.0);
+                    thObj.setShare((float) shareTH);
+                    
+                    String trSql = AccountDB.updateSplitTransactionSQL(thObj);
+                    transSQL.add(trSql);
                 }
-                if (stockInfoMatch == null) {
-                    continue;
-                }
-                float oldClose = avgprice;
-                float newClose = stockInfoMatch.getFclose();
-                float tempSplit = 0;
-                if (oldClose > newClose) {
-                    tempSplit = oldClose / newClose;
-                } else if (newClose > oldClose) {
-                    tempSplit = newClose / oldClose;
-                }
-                if (tempSplit < CKey.SPLIT_VAL) {
-                    // This transaction already done the spliting
-                    if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-                        stock.setSubstatus(ConstantKey.OPEN);
-                        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-                        ArrayList sqlList = new ArrayList();
-                        sqlList.add(sockNameSQL);
-                        serviceAFWeb.StoUpdateSQLArrayList(sqlList);
-                        logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
-                    }
-
-                    continue;
-                }
-
-                if (split > 0) {
-                    avgprice = avgprice / split;
-                    share = share * split;
-                }
-                if (split < 0) {
-                    split = -split;
-                    avgprice = avgprice * split;
-                    share = share / split;
-                }
-                thObj.setAvgprice(avgprice);
-                thObj.setShare(share);
-                String trSql = AccountDB.updateSplitTransactionSQL(thObj);
-                transSQL.add(trSql);
-
             }
             logger.info("> processStockSplit " + accountObj.getAccountname() + " total update:" + transSQL.size());
 
@@ -2899,15 +2874,6 @@ public class TradingSignalProcess {
                 ret = serviceAFWeb.AccUpdateTransactionOrder(transSQL);
             }
             if (ret == 1) {
-//                if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
-//                    stock.setSubstatus(ConstantKey.OPEN);
-//                    String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-//                    ArrayList sqlList = new ArrayList();
-//                    sqlList.add(sockNameSQL);
-//                    SystemUpdateSQLList(sqlList);
-//                    logger.info("updateRealTimeStock " + accountObj.getAccountname() + " " + symbol + " Stock Split cleared");
-//                }
-//
                 //udpate performance logic
                 //udpate performance logic
             }

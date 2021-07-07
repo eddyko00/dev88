@@ -28,6 +28,7 @@ import com.afweb.processcustacc.CustAccService;
 import com.afweb.processnn.NNetService;
 import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.*;
+import com.afweb.processsystem.SystemMaintProcess;
 import com.afweb.processsystem.SystemService;
 
 import com.afweb.stockinternet.StockUtils;
@@ -873,8 +874,7 @@ public class ServiceAFweb {
 
             symbol = "HOU.TO";
 
-            StockInfoProcess stockProcess = new StockInfoProcess();
-            stockProcess.updateAllStockInfoProcess(this, symbol, false);
+            SysGetStockSplit(symbol, 3);
 //
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = StoGetStockObjBySym(symbol);
@@ -1571,6 +1571,12 @@ public class ServiceAFweb {
             }
         }
         return 0;
+    }
+
+    public int SysGetStockSplit(String symbol, int value) {
+        SystemMaintProcess maint = new SystemMaintProcess();
+        return maint.StockSplitBySym(this, symbol, value);
+
     }
 
     //////////////////
