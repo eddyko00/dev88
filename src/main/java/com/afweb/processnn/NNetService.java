@@ -766,7 +766,7 @@ public class NNetService {
                     if ((stockNameArray1.size() > 0) && (stockNameArray2.size() > 0)) {
                         break;
                     }
-                    ServiceAFweb.AFSleep1Sec(5);
+                    ServiceAFweb.AFSleep1Sec(10);
                 }
                 StockNameRemoteList.addAll(stockNameArray1);
                 StockNameRemoteList.addAll(stockNameArray2);
