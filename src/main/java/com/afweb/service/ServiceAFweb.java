@@ -872,12 +872,13 @@ public class ServiceAFweb {
 
             symbol = "HOU.TO";
 
-            StockInfoProcess stockProcess = new StockInfoProcess();
-            stockProcess.updateAllStockInfoProcess(this, symbol, false);
-
-            int size1yearAll = 20 * 12 * 5 + (50 * 3);
-            AFstockObj stock = StoGetStockObjBySym(symbol);
-            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
+//            StockInfoProcess stockProcess = new StockInfoProcess();
+//            stockProcess.updateAllStockInfoProcess(this, symbol, false);
+//
+//            int size1yearAll = 20 * 12 * 5 + (50 * 3);
+//            AFstockObj stock = StoGetStockObjBySym(symbol);
+//            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
+//////////            
             logger.info("End mydebugtestflag.....");
         }
 
@@ -2707,7 +2708,7 @@ public class ServiceAFweb {
             SysCreateStaticStockHistory(serviceAFWeb, symbolL, stockInputMap);
 
             String inputListRawSt = new ObjectMapper().writeValueAsString(stockInputMap);
-            String inputListSt = ServiceAFweb.SysCompress(inputListRawSt);
+            String inputListSt = ServiceAFweb.compress(inputListRawSt);
 
             StringBuffer msgWrite = new StringBuffer();
             msgWrite.append("" ///
@@ -3076,30 +3077,9 @@ public class ServiceAFweb {
         return sql;
     }
 
-////////////////////////////////
-//    @Autowired
-//    public void setDataSource(DataSource dataSource) {
-//        //testing
-//        WebAppConfig webConfig = new WebAppConfig();
-//        dataSource = webConfig.dataSource();
-//        //testing        
-//        this.jdbcTemplate = new JdbcTemplate(dataSource);
-//        this.dataSource = dataSource;
-//    }
-    /**
-     * @return the accountImp
-     */
-//    public AccountImp getAccountImp() {
-//        return accountImp;
-//    }
-//
-//    /**
-//     * @param accountImp the accountImp to set
-//     */
-//    public void setAccountImp(AccountImp accountImp) {
-//        this.accountImp = accountImp;
-//    }
-    public static String SysCompress(String str) {
+
+    // do not change compress name
+    public static String compress(String str) {
         if (str == null || str.length() == 0) {
             return str;
         }
@@ -3115,8 +3095,8 @@ public class ServiceAFweb {
         }
         return null;
     }
-
-    public static String SysDecompress(String str) {
+    // do not change decompress name
+    public static String decompress(String str) {
         if (str == null || str.length() == 0) {
             return str;
         }

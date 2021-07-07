@@ -186,7 +186,7 @@ public class NNetdataImp {
             if (weightSt != null) {
                 if (weightSt.length() > 0) {
                     if (weightSt.indexOf("%1F%C2") != -1) {
-                        weightSt = ServiceAFweb.SysDecompress(weightSt);
+                        weightSt = ServiceAFweb.decompress(weightSt);
                     }
                     nn.setWeight(weightSt);
                 }
@@ -204,7 +204,7 @@ public class NNetdataImp {
             if (weightSt != null) {
                 if (weightSt.length() > 0) {
                     if (weightSt.indexOf("%1F%C2") != -1) {
-                        weightSt = ServiceAFweb.SysDecompress(weightSt);
+                        weightSt = ServiceAFweb.decompress(weightSt);
                     }
                     nn.setWeight(weightSt);
                 }
