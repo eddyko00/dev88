@@ -71,6 +71,7 @@ public class CKey {
     public static final int REMOTE_PHP_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
     public static final int REMOTE_PHP_1_MYSQL = 3; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
     public static final int REMOTE_PHP_2_MYSQL = 4; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
+    public static final int REMOTE_PHP_3_MYSQL = 5; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
 
     
 // default DB server and timerhandler

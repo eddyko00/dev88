@@ -323,8 +323,9 @@ public class ServiceAFweb {
                 } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
                     // need this for SystemSQLRequest
                     getServerObj().setLocalDBservice(false);
-
                 } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
+                    getServerObj().setLocalDBservice(false);
+                } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL) {
                     getServerObj().setLocalDBservice(false);
                 }
 
@@ -1205,7 +1206,7 @@ public class ServiceAFweb {
     }
 
 ///////////////////////////
-    public static boolean SysCheckIfMySQLDB() {
+    public static boolean SysIsMySQLDB() {
         if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
@@ -3063,7 +3064,7 @@ public class ServiceAFweb {
         //SELECT TOP 10 column FROM table - Microsoft SQL Server
         //SELECT column FROM table LIMIT 10 - PostgreSQL and MySQL
         //SELECT column FROM table WHERE ROWNUM <= 10 - Oracle
-        if (ServiceAFweb.SysCheckIfMySQLDB()) {
+        if (ServiceAFweb.SysIsMySQLDB()) {
             if (length != 0) {
                 if (length == 1) {
                     sql += " limit 1 ";

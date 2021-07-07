@@ -105,7 +105,7 @@ public class NNetdataDB {
 //        if ((CKey.SQL_DATABASE == CKey.MSSQL) || (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL)) {
 //            sqlCMD = "create table dummynndata1 (id int identity not null, primary key (id))";
 //        }
-        if (ServiceAFweb.SysCheckIfMySQLDB()) {
+        if (ServiceAFweb.SysIsMySQLDB()) {
             sqlCMD = "create table dummynndata1 (id int(10) not null auto_increment, primary key (id))";
         }
         return sqlCMD;
@@ -149,11 +149,7 @@ public class NNetdataDB {
 //                createTableList.add("create table neuralnet1 (id int identity not null, name varchar(255) not null unique, refname varchar(255) not null, status int not null, type int not null, weight text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
 //                createTableList.add("create table neuralnetdata (id int identity not null, name varchar(255) not null, refname varchar(255) not null, status int not null, type int not null, data text null, updatedatedisplay date null, updatedatel bigint not null, primary key (id))");
 //            }
-
-            if ((CKey.SQL_DATABASE == CKey.DIRECT__MYSQL)
-                    || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
-                    || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
-                    || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+            if (ServiceAFweb.SysIsMySQLDB()) {
                 createTableList.add("create table dummynndata1 (id int(10) not null auto_increment, primary key (id))");
                 createTableList.add("create table neuralnet (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
                 createTableList.add("create table neuralnet1 (id int(10) not null auto_increment, name varchar(255) not null unique, refname varchar(255) not null, status int(10) not null, type int(10) not null, weight text, updatedatedisplay date, updatedatel bigint(20) not null, primary key (id))");
