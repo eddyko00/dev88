@@ -450,7 +450,7 @@ public class NNetdataDB {
 
     public String getNeuralNetName0(String name) {
         String sql = "select name as name from neuralnet where name='" + name + "'";
-        ArrayList entries = getAllNameSQL(sql);
+        ArrayList entries = getAllNameNNSQL(sql);
         if (entries != null) {
             if (entries.size() == 1) {
                 String nameSt = (String) entries.get(0);
@@ -462,7 +462,7 @@ public class NNetdataDB {
 
     public String getNeuralNetName1(String name) {
         String sql = "select name as name from neuralnet1 where name='" + name + "'";
-        ArrayList entries = getAllNameSQL(sql);
+        ArrayList entries = getAllNameNNSQL(sql);
         if (entries != null) {
             if (entries.size() == 1) {
                 String nameSt = (String) entries.get(0);
@@ -684,7 +684,7 @@ public class NNetdataDB {
     }
 
     /////////////////////////////
-    public ArrayList getAllNameSQL(String sql) {
+    public ArrayList getAllNameNNSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
@@ -738,7 +738,7 @@ public class NNetdataDB {
 //        return null;
 //    }
 //    
-    public ArrayList getAllIdSQL(String sql) {
+    public ArrayList getAllIdNNSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
             try {

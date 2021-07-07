@@ -820,7 +820,7 @@ public class ServiceAFweb {
     public static boolean nn3testflag = false;
     public static boolean nn30testflag = false;
 /////////////////////////////////
-    public static boolean dbinfoflag = false;   
+    public static boolean dbinfoflag = false;
 /////////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
@@ -874,7 +874,7 @@ public class ServiceAFweb {
 
             StockInfoProcess stockProcess = new StockInfoProcess();
             stockProcess.updateAllStockInfoProcess(this, symbol, false);
-            
+
             int size1yearAll = 20 * 12 * 5 + (50 * 3);
             AFstockObj stock = StoGetStockObjBySym(symbol);
             ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
@@ -1023,12 +1023,12 @@ public class ServiceAFweb {
 
         AccDataSource(dataSource, REMOTE_URL);
 
-        NnDataSourceNNnet(dataSource, REMOTE_URL);
-        
         if (dbinfoflag == true) {
             REMOTE_URL = CKey.URL_PATH_HERO_2_DBDB_PHP + CKey.WEBPOST_HERO_2_PHP;
         }
-        InfSetDataSource(dataSource, REMOTE_URL);        
+        NnDataSourceNNnet(dataSource, REMOTE_URL);
+
+        InfSetDataSource(dataSource, REMOTE_URL);
 ////////////////////////////////////////
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);

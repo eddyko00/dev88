@@ -505,7 +505,7 @@ public class StockInfoService {
     }
 
     public ArrayList<String> getAllIdStockInfoSQL(String sql) {
-        return stockInfoImp.getAllIdSQL(sql);
+        return stockInfoImp.getAllIdInfoSQL(sql);
     }
 
 //    public String getAllStockInfoDBSQL(ServiceAFweb serviceAFWeb, String sql) {

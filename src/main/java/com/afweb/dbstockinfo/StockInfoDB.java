@@ -361,7 +361,7 @@ public class StockInfoDB {
     }
 
     ///////////
-    public ArrayList getAllIdSQL(String sql) {
+    public ArrayList getAllIdInfoSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
             try {
