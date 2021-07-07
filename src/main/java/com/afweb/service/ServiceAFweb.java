@@ -1176,10 +1176,6 @@ public class ServiceAFweb {
     //////////////////////////////////
     public RequestObj SysSQLRequest(RequestObj sqlObj) {
 
-//        boolean RemoteCallflag = checkCallRemoteMysql();
-//        if (RemoteCallflag == true) {
-//            return getServiceAFwebREST().getSQLRequest(sqlObj, CKey.SERVER_TIMMER_URL);
-//        }
         try {
             RequestObj reqObj = null;
 
