@@ -67,7 +67,6 @@ public class StockInfoService {
 //                    } catch (Exception ex) {
 //                    }
 //                    return sqlObj;
-
 //                case ServiceAFweb.StockHistoricalRange: //StockHistoricalRange = 114; //"114";  
 //                    try {
 //                        String symbol = sqlObj.getReq();
@@ -297,6 +296,22 @@ public class StockInfoService {
         ArrayList<AFstockInfo> stockInfoArray = stockInfoImp.getStockHistoricalRange(NormalizeSymbol, start, end);
 
         return stockInfoArray;
+    }
+
+    public int updateStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stockObj = serviceAFWeb.StoGetStockObjBySym(NormalizeSymbol);
+        if (stockObj != null) {
+            StockInfoProcess stockProcess = new StockInfoProcess();
+            return stockProcess.updateRealTimeStock(serviceAFWeb, stockObj);
+
+        }
+        return 0;
     }
 
     public int removeStockInfo(ServiceAFweb serviceAFWeb, String symbol) {

@@ -42,7 +42,8 @@ public class ControllerStockInfo {
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
         arrayString.add("/st/{symbol}/history?length={0 for all}");
-        arrayString.add("/st/deleteinfo/{symbol}");
+        arrayString.add("/st/{symbol}/updateinfo");
+        arrayString.add("/st/{symbol}/deleteinfo");
         arrayString.add("/st/cleanallinfo");
     }
 
@@ -67,6 +68,36 @@ public class ControllerStockInfo {
         return stockInfoList;
     }
     
+    @RequestMapping(value = "/st/{symbol}/updateinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int updateStockInfo(
+            @PathVariable("symbol") String symbol,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+        int result = stockInfoService.updateStockInfo(afWebService, symbol);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return result;
+    }        
+    @RequestMapping(value = "/st/{symbol}/deleteinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int deleteStockInfo(
+            @PathVariable("symbol") String symbol,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+        int result = stockInfoService.removeStockInfo(afWebService, symbol);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return result;
+    }
 
     @RequestMapping(value = "/st/cleanallinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
@@ -83,21 +114,6 @@ public class ControllerStockInfo {
         return result;
     }
 
-    @RequestMapping(value = "/st/deleteinfo/{symbol}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    int deleteStockInfo(
-            @PathVariable("symbol") String symbol,
-            HttpServletRequest request, HttpServletResponse response
-    ) {
-        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            return 0;
-        }
-        int result = stockInfoService.removeStockInfo(afWebService, symbol);
-        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
-        return result;
-    }
 //    
     
 }

@@ -873,8 +873,8 @@ public class ServiceAFweb {
 
             symbol = "HOU.TO";
 
-//            StockInfoProcess stockProcess = new StockInfoProcess();
-//            stockProcess.updateAllStockInfoProcess(this, symbol, false);
+            StockInfoProcess stockProcess = new StockInfoProcess();
+            stockProcess.updateAllStockInfoProcess(this, symbol, false);
 //
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = StoGetStockObjBySym(symbol);
