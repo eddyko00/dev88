@@ -373,8 +373,18 @@ public class StockUtils {
     }
 
     public static AFstockInfo parseSplit(String line, String sym) {
-        String[] data = line.split(QUOTES_CSV_DELIMITER);
         AFstockInfo stockInfo = new AFstockInfo();
+        try {
+            String splitSt = line.replaceAll("Stock Split", "");
+            String[] data = splitSt.split(":");
+            float sp = Float.parseFloat(data[0].trim());
+            stockInfo.setHigh(sp);
+            sp = Float.parseFloat(data[1].trim());
+            stockInfo.setLow(sp);
+        } catch (Exception ex) {
+
+        }
+
         return stockInfo;
     }
 

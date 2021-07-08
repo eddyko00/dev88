@@ -74,14 +74,17 @@ public class StockInternetImpDao {
             startDate = Math.round(startDate / 1000); // yahoo site does not take the milisec 000
 //            logger.info("Start time: " + new Date(startDate));
 
-
             boolean stockScreenCapture = CKey.GET_STOCKHISTORY_SCREEN;
-            if (CKey.hou3to1 == true) {
-                stockScreenCapture = true;
-            }
-            if (CKey.hod1to4 == true) {
-                stockScreenCapture = true;
-            }            
+//            if (CKey.hou3to1 == true) {
+//                if (NormalizeSymbol.equals("HOU.TO")) {
+//                    stockScreenCapture = true;
+//                }
+//            }
+//            if (CKey.hod1to4 == true) {
+//                if (NormalizeSymbol.equals("HOD.TO")) {
+//                    stockScreenCapture = true;
+//                }
+//            }
             // always the earliest day first
             // always the earliest day first
             // always the earliest day first
@@ -249,24 +252,24 @@ public class StockInternetImpDao {
                     stockInfoObj.setVolume(volume);
                     stockInfoObj.setSym(symbol);
 
-//                    if (ServiceAFweb.hou3to1 == true) {
-//                        if (symbol.equals("HOU.TO")) {
-//                            stockInfoObj.setFclose(stockInfoObj.getFclose() / 3);
-//                            stockInfoObj.setFopen(stockInfoObj.getFopen() / 3);
-//                            stockInfoObj.setHigh(stockInfoObj.getHigh() / 3);
-//                            stockInfoObj.setLow(stockInfoObj.getLow() / 3);
-//                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() / 3);
-//                        }
-//                    }
-//                    if (ServiceAFweb.hod1to4 == true) {
-//                        if (symbol.equals("HOD.TO")) {
-//                            stockInfoObj.setFclose(stockInfoObj.getFclose() * 4);
-//                            stockInfoObj.setFopen(stockInfoObj.getFopen() * 4);
-//                            stockInfoObj.setHigh(stockInfoObj.getHigh() * 4);
-//                            stockInfoObj.setLow(stockInfoObj.getLow() * 4);
-//                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() * 4);
-//                        }
-//                    }
+                    if (CKey.hou3to1 == true) {
+                        if (symbol.equals("HOU.TO")) {
+                            stockInfoObj.setFclose(stockInfoObj.getFclose() / 3);
+                            stockInfoObj.setFopen(stockInfoObj.getFopen() / 3);
+                            stockInfoObj.setHigh(stockInfoObj.getHigh() / 3);
+                            stockInfoObj.setLow(stockInfoObj.getLow() / 3);
+                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() / 3);
+                        }
+                    }
+                    if (CKey.hod1to4 == true) {
+                        if (symbol.equals("HOD.TO")) {
+                            stockInfoObj.setFclose(stockInfoObj.getFclose() * 4);
+                            stockInfoObj.setFopen(stockInfoObj.getFopen() * 4);
+                            stockInfoObj.setHigh(stockInfoObj.getHigh() * 4);
+                            stockInfoObj.setLow(stockInfoObj.getLow() * 4);
+                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() * 4);
+                        }
+                    }
                     stock.setAfstockInfo(stockInfoObj);
 
                     stock.setPrevClose(fprevClose);
@@ -390,7 +393,6 @@ public class StockInternetImpDao {
                         break;
                     }
 
-                    
                     String stHigh = sTag.GetNextText();
                     if (stHigh.equals("Dividend")) {
                         break;
@@ -405,6 +407,8 @@ public class StockInternetImpDao {
                         break;
                     }
                     if (stLow.equals("Stock Split")) {
+//                        AFstockInfo StockD = StockUtils.parseSplit(stOpen, symbol);
+//                        StockArray.add(StockD);
                         break;
                     }
 
