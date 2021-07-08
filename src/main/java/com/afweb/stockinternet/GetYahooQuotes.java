@@ -444,11 +444,24 @@ public class GetYahooQuotes {
                     return null;
                 }
 
-                // does not work
-//                if (Max6YrStock <= 0) {
-//                    break;
-//                }
-//                Max6YrStock--;
+                if (ServiceAFweb.hou3to1 == true) {
+                    if (symbol.equals("HOU.TO")) {
+                        StockD.setFclose(StockD.getFclose() / 3);
+                        StockD.setFopen(StockD.getFopen() / 3);
+                        StockD.setHigh(StockD.getHigh() / 3);
+                        StockD.setLow(StockD.getLow() / 3);
+                        StockD.setAdjustclose(StockD.getAdjustclose() / 3);
+                    }
+                }
+                if (ServiceAFweb.hod1to4 == true) {
+                    if (symbol.equals("HOD.TO")) {
+                        StockD.setFclose(StockD.getFclose() * 4);
+                        StockD.setFopen(StockD.getFopen() * 4);
+                        StockD.setHigh(StockD.getHigh() * 4);
+                        StockD.setLow(StockD.getLow() * 4);
+                        StockD.setAdjustclose(StockD.getAdjustclose() * 4);
+                    }
+                }
                 StockArray.add(StockD);
             }
             Collections.reverse(StockArray);

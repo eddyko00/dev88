@@ -5,7 +5,6 @@
  */
 package com.afweb.stockinternet;
 
-import com.afweb.model.StockInfoTranObj;
 import com.afweb.model.stock.*;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
@@ -241,6 +240,25 @@ public class StockInternetImpDao {
                     stockInfoObj.setLow(low);
                     stockInfoObj.setVolume(volume);
                     stockInfoObj.setSym(symbol);
+
+//                    if (ServiceAFweb.hou3to1 == true) {
+//                        if (symbol.equals("HOU.TO")) {
+//                            stockInfoObj.setFclose(stockInfoObj.getFclose() / 3);
+//                            stockInfoObj.setFopen(stockInfoObj.getFopen() / 3);
+//                            stockInfoObj.setHigh(stockInfoObj.getHigh() / 3);
+//                            stockInfoObj.setLow(stockInfoObj.getLow() / 3);
+//                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() / 3);
+//                        }
+//                    }
+//                    if (ServiceAFweb.hod1to4 == true) {
+//                        if (symbol.equals("HOD.TO")) {
+//                            stockInfoObj.setFclose(stockInfoObj.getFclose() * 4);
+//                            stockInfoObj.setFopen(stockInfoObj.getFopen() * 4);
+//                            stockInfoObj.setHigh(stockInfoObj.getHigh() * 4);
+//                            stockInfoObj.setLow(stockInfoObj.getLow() * 4);
+//                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() * 4);
+//                        }
+//                    }
                     stock.setAfstockInfo(stockInfoObj);
 
                     stock.setPrevClose(fprevClose);
@@ -424,7 +442,6 @@ public class StockInternetImpDao {
 //        logger.info("getHistoricalScreen  " + symbol + " " + StockArray.size());
         return StockArray;
     }
-
 
     public static String getServerIP() {
         InetAddress ip;

@@ -830,8 +830,8 @@ public class ServiceAFweb {
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
 
-    public static boolean hou3to1 = false; //false;      
-    public static boolean hod1to4 = false; //false;     
+    public static boolean hou3to1 = true; //false;      
+    public static boolean hod1to4 = true; //false;     
 
     public static boolean forceMarketOpen = false; //forceMarketOpen;
 
