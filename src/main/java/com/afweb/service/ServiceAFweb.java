@@ -875,7 +875,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "HOU.TO";
+            symbol = "HOD.TO";
 
 //            SysGetStockSplit(symbol, 3);
 //
