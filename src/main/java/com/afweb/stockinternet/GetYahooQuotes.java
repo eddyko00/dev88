@@ -428,7 +428,7 @@ public class GetYahooQuotes {
             while ((inLine = input.readLine()) != null) {
                 LineNum++;
 
-                System.out.println("Num:" + LineNum + " " + inLine);
+//                System.out.println("Num:" + LineNum + " " + inLine);
                 //3:1 Stock Split
                 if (inLine.indexOf("Split") != -1) {
                     AFstockInfo StockD = StockUtils.parseSplit(inLine, symbol);
