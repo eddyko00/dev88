@@ -499,22 +499,24 @@ public class StockInfoService {
             if (stockObj == null) {
                 continue;
             }
-            if (CKey.STATIC_STOCKH == true) {
-
-                long endStaticDay = 0;
-                ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.SysGetAllStaticStockHistoryServ(symbol);
-                if (stockInfoArrayStatic == null) {
-                    stockInfoArrayStatic = new ArrayList();
-                }
-                if (stockInfoArrayStatic.size() > 0) {
-//                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
-                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
-                    endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
-                    endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
-                    stockInfoImp.deleteStockInfoBySymDate(stockObj.getSymbol(), endStaticDay);
-                }
-
-            }
+             stockInfoImp.deleteStockInfoBySym(stockObj.getSymbol());
+             
+//            if (CKey.STATIC_STOCKH == true) {
+//
+//                long endStaticDay = 0;
+//                ArrayList<AFstockInfo> stockInfoArrayStatic = ServiceAFweb.SysGetAllStaticStockHistoryServ(symbol);
+//                if (stockInfoArrayStatic == null) {
+//                    stockInfoArrayStatic = new ArrayList();
+//                }
+//                if (stockInfoArrayStatic.size() > 0) {
+////                logger.info("> getStockHistorical" + NormalizeSymbol + " " + stockInfoArrayStatic.size());
+//                    AFstockInfo stockInfo = stockInfoArrayStatic.get(0);
+//                    endStaticDay = TimeConvertion.endOfDayInMillis(stockInfo.getEntrydatel());
+//                    endStaticDay = TimeConvertion.addDays(endStaticDay, -3);
+//                    stockInfoImp.deleteStockInfoBySymDate(stockObj.getSymbol(), endStaticDay);
+//                }
+//
+//            }
         }
         return 1;
     }

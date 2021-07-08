@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author koed
@@ -64,7 +63,6 @@ public class StockService {
 //                    nameST = new ObjectMapper().writeValueAsString(stockObj);
 //                    sqlObj.setResp(nameST);
 //                    return sqlObj;
-
 ////////////////////////////                    
                 default:
                     return null;
@@ -84,6 +82,7 @@ public class StockService {
     public ArrayList getAllSymbolSQL(String sql) {
         return stockImp.getAllSymbolSQL(sql);
     }
+
     public ArrayList getAllRemoveStockNameList(int length) {
         return stockImp.getAllRemoveStockNameList(length);
     }
@@ -91,7 +90,6 @@ public class StockService {
     public ArrayList getAllDisableStockNameList(int length) {
         return stockImp.getAllDisableStockNameList(length);
     }
-
 
     public ArrayList getStockObjArray(ServiceAFweb serviceAFWeb, int length) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
@@ -117,6 +115,7 @@ public class StockService {
         }
         if (stock.getStatus() == ConstantKey.OPEN) {
             if (stock.getSubstatus() != ConstantKey.INITIAL) {
+//                ArrayList StockArray = serviceAFWeb.InfGetStockInfo(stock, 2, null);
                 ArrayList StockArray = serviceAFWeb.InfGetStockInfo_workaround(stock, 2, null);
 
                 if (StockArray != null) {

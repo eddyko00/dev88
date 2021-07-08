@@ -41,7 +41,7 @@ public class ControllerStockInfo {
 
     public static void getHelpInfo(ArrayList<String> arrayString) {
         arrayString.add("/st/{symbol}/history?length={0 for all}");
-        arrayString.add("/st/{symbol}/stocksplit?value=");
+        arrayString.add("/st/{symbol}/stocksplit?split=");
         arrayString.add("/st/{symbol}/stocksplitstatus?value=");
         arrayString.add("/st/{symbol}/updateinfo");
         arrayString.add("/st/{symbol}/deleteinfo");
@@ -73,7 +73,7 @@ public class ControllerStockInfo {
     public @ResponseBody
     int getStockSplitStatus(
             @PathVariable("symbol") String symbol,
-            @RequestParam(value = "valut", required = true) String valueSt,
+            @RequestParam(value = "value", required = true) String valueSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -94,7 +94,7 @@ public class ControllerStockInfo {
     public @ResponseBody
     int getStockSplit(
             @PathVariable("symbol") String symbol,
-            @RequestParam(value = "valut", required = true) String valueSt,
+            @RequestParam(value = "split", required = true) String valueSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);

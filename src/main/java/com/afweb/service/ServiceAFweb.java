@@ -874,7 +874,7 @@ public class ServiceAFweb {
 
             symbol = "HOU.TO";
 
-            SysGetStockSplit(symbol, 3);
+//            SysGetStockSplit(symbol, 3);
 //
 //            int size1yearAll = 20 * 12 * 5 + (50 * 3);
 //            AFstockObj stock = StoGetStockObjBySym(symbol);
