@@ -878,12 +878,12 @@ public class ServiceAFweb {
 
 //            SysGetStockSplit(symbol, 3);
 //
-            int size1yearAll = 20 * 12 * 5 + (50 * 3);
-            AFstockObj stock = StoGetStockObjBySym(symbol);
-            StockInfoProcess stockProcess = new StockInfoProcess();
-            stockProcess.updateRealTimeStock(this, stock);
-            
-            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
+//            int size1yearAll = 20 * 12 * 5 + (50 * 3);
+//            AFstockObj stock = StoGetStockObjBySym(symbol);
+//            StockInfoProcess stockProcess = new StockInfoProcess();
+//            stockProcess.updateRealTimeStock(this, stock);
+//            
+//            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
 //////////            
             logger.info("End mydebugtestflag.....");
         }
