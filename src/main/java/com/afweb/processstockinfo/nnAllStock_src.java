@@ -184,6 +184,7 @@ inputBuf.append(nnAllStock.NN_ST171);
 inputBuf.append(nnAllStock.NN_ST172);
 inputBuf.append(nnAllStock.NN_ST173);
 inputBuf.append(nnAllStock.NN_ST174);
+inputBuf.append(nnAllStock.NN_ST175);
 String inputListSt = ServiceAFweb.decompress(inputBuf.toString());
 stockInputMap = new ObjectMapper().readValue(inputListSt, HashMap.class);
 return stockInputMap;

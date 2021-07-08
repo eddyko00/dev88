@@ -830,6 +830,9 @@ public class ServiceAFweb {
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
 
+    public static boolean hou3to1 = false; //false;      
+    public static boolean hod1to4 = false; //false;     
+
     public static boolean forceMarketOpen = false; //forceMarketOpen;
 
     public static boolean SysCheckSymbolDebugTest(String symbol) {
@@ -2877,11 +2880,29 @@ public class ServiceAFweb {
                 if (StockArray.size() < 3) {
                     continue;
                 }
-                // skiping first 3 days (last days is not final
-                for (int j = 5; j < StockArray.size(); j++) {
+                // skiping first 6 days (last days is not final
+                for (int j = 6; j < StockArray.size(); j++) {
                     try {
-                        AFstockInfo obj = StockArray.get(j);
-                        String st = new ObjectMapper().writeValueAsString(obj);
+                        AFstockInfo stockInfo = StockArray.get(j);
+                        if (ServiceAFweb.hou3to1 == true) {
+                            if (symbol.equals("HOU.TO")) {
+                                stockInfo.setFclose(stockInfo.getFclose() / 3);
+                                stockInfo.setFopen(stockInfo.getFopen() / 3);
+                                stockInfo.setHigh(stockInfo.getHigh() / 3);
+                                stockInfo.setLow(stockInfo.getLow() / 3);
+                                stockInfo.setAdjustclose(stockInfo.getAdjustclose() / 3);
+                            }
+                        }
+                        if (ServiceAFweb.hod1to4 == true) {
+                            if (symbol.equals("HOD.TO")) {
+                                stockInfo.setFclose(stockInfo.getFclose() * 4);
+                                stockInfo.setFopen(stockInfo.getFopen() * 4);
+                                stockInfo.setHigh(stockInfo.getHigh() * 4);
+                                stockInfo.setLow(stockInfo.getLow() * 4);
+                                stockInfo.setAdjustclose(stockInfo.getAdjustclose() * 4);
+                            }
+                        }
+                        String st = new ObjectMapper().writeValueAsString(stockInfo);
                         writeArray.add(st);
                     } catch (Exception ex) {
                         writeArray = null;
