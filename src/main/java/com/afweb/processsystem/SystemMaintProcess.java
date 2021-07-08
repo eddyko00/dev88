@@ -117,6 +117,9 @@ public class SystemMaintProcess {
         if (thList == null) {
             return 0;
         }
+        if (thList.size() == 0) {
+            return 0;
+        }
         ArrayList transSQL = new ArrayList();
 
         for (int k = 0; k < thList.size(); k++) {
