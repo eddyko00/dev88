@@ -25,10 +25,12 @@ import com.afweb.model.stock.AFstockInfo;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.CKey;
 import com.afweb.util.StringTag;
+import com.afweb.util.TimeConvertion;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -446,20 +448,32 @@ public class GetYahooQuotes {
 
                 if (ServiceAFweb.hou3to1 == true) {
                     if (symbol.equals("HOU.TO")) {
-                        StockD.setFclose(StockD.getFclose() / 3);
-                        StockD.setFopen(StockD.getFopen() / 3);
-                        StockD.setHigh(StockD.getHigh() / 3);
-                        StockD.setLow(StockD.getLow() / 3);
-                        StockD.setAdjustclose(StockD.getAdjustclose() / 3);
+                        long datel = StockD.getEntrydatel();
+                        Timestamp timel = TimeConvertion.setDate("2021-07-02");
+                        if (datel < timel.getTime()) {
+                            StockD.setFclose(StockD.getFclose() / 3);
+                            StockD.setFopen(StockD.getFopen() / 3);
+                            StockD.setHigh(StockD.getHigh() / 3);
+                            StockD.setLow(StockD.getLow() / 3);
+                            StockD.setAdjustclose(StockD.getAdjustclose() / 3);
+                        } else {
+                            datel = StockD.getEntrydatel();
+                        }
                     }
                 }
                 if (ServiceAFweb.hod1to4 == true) {
                     if (symbol.equals("HOD.TO")) {
-                        StockD.setFclose(StockD.getFclose() * 4);
-                        StockD.setFopen(StockD.getFopen() * 4);
-                        StockD.setHigh(StockD.getHigh() * 4);
-                        StockD.setLow(StockD.getLow() * 4);
-                        StockD.setAdjustclose(StockD.getAdjustclose() * 4);
+                        long datel = StockD.getEntrydatel();
+                        Timestamp timel = TimeConvertion.setDate("2021-07-02");
+                        if (datel < timel.getTime()) {
+                            StockD.setFclose(StockD.getFclose() * 4);
+                            StockD.setFopen(StockD.getFopen() * 4);
+                            StockD.setHigh(StockD.getHigh() * 4);
+                            StockD.setLow(StockD.getLow() * 4);
+                            StockD.setAdjustclose(StockD.getAdjustclose() * 4);
+                        } else {
+                            datel = StockD.getEntrydatel();
+                        }
                     }
                 }
                 StockArray.add(StockD);
