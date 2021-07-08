@@ -428,7 +428,14 @@ public class GetYahooQuotes {
             while ((inLine = input.readLine()) != null) {
                 LineNum++;
 
-//                    System.out.println("Num:"+LineNum+" "+ inLine);
+                System.out.println("Num:" + LineNum + " " + inLine);
+                //3:1 Stock Split
+                if (inLine.indexOf("Split") != -1) {
+                    AFstockInfo StockD = StockUtils.parseSplit(inLine, symbol);
+                    StockArray.add(StockD);
+                    continue;
+                }
+
                 //Date,Open,High,Low,Close,Adj Close,Volume
                 if (inLine.indexOf("Date,Open") != -1) {
 //                        System.out.println("Num:" + LineNum + " " + inLine);
@@ -446,7 +453,7 @@ public class GetYahooQuotes {
                     return null;
                 }
 
-                if (ServiceAFweb.hou3to1 == true) {
+                if (CKey.hou3to1 == true) {
                     if (symbol.equals("HOU.TO")) {
                         long datel = StockD.getEntrydatel();
                         Timestamp timel = TimeConvertion.setDate("2021-07-02");
@@ -461,7 +468,7 @@ public class GetYahooQuotes {
                         }
                     }
                 }
-                if (ServiceAFweb.hod1to4 == true) {
+                if (CKey.hod1to4 == true) {
                     if (symbol.equals("HOD.TO")) {
                         long datel = StockD.getEntrydatel();
                         Timestamp timel = TimeConvertion.setDate("2021-07-02");

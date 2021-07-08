@@ -830,8 +830,7 @@ public class ServiceAFweb {
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
 
-    public static boolean hou3to1 = true; //false;      
-    public static boolean hod1to4 = true; //false;     
+   
 
     public static boolean forceMarketOpen = false; //forceMarketOpen;
 
@@ -875,7 +874,7 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "HOD.TO";
+            symbol = "HOU.TO";
 
 //            SysGetStockSplit(symbol, 3);
 //
@@ -2887,7 +2886,7 @@ public class ServiceAFweb {
                 for (int j = 6; j < StockArray.size(); j++) {
                     try {
                         AFstockInfo stockInfo = StockArray.get(j);
-                        if (ServiceAFweb.hou3to1 == true) {
+                        if (CKey.hou3to1 == true) {
                             if (symbol.equals("HOU.TO")) {
                                 stockInfo.setFclose(stockInfo.getFclose() / 3);
                                 stockInfo.setFopen(stockInfo.getFopen() / 3);
@@ -2896,7 +2895,7 @@ public class ServiceAFweb {
                                 stockInfo.setAdjustclose(stockInfo.getAdjustclose() / 3);
                             }
                         }
-                        if (ServiceAFweb.hod1to4 == true) {
+                        if (CKey.hod1to4 == true) {
                             if (symbol.equals("HOD.TO")) {
                                 stockInfo.setFclose(stockInfo.getFclose() * 4);
                                 stockInfo.setFopen(stockInfo.getFopen() * 4);

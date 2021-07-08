@@ -372,6 +372,12 @@ public class StockUtils {
         return buffer.toString();
     }
 
+    public static AFstockInfo parseSplit(String line, String sym) {
+        String[] data = line.split(QUOTES_CSV_DELIMITER);
+        AFstockInfo stockInfo = new AFstockInfo();
+        return stockInfo;
+    }
+
     public static final String QUOTES_CSV_DELIMITER = ",";
 
     public static AFstockInfo parseCSVLine(String line, String sym) {
@@ -412,7 +418,7 @@ public class StockUtils {
             stockInfo.setVolume(volume);
             return stockInfo;
         } catch (Exception ex) {
-            StockUtils.logger.info("Exception:" + line +" "+ ex.getMessage());
+            StockUtils.logger.info("Exception:" + line + " " + ex.getMessage());
 
         }
         return null;

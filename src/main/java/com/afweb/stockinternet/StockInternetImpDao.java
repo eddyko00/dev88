@@ -74,10 +74,18 @@ public class StockInternetImpDao {
             startDate = Math.round(startDate / 1000); // yahoo site does not take the milisec 000
 //            logger.info("Start time: " + new Date(startDate));
 
+
+            boolean stockScreenCapture = CKey.GET_STOCKHISTORY_SCREEN;
+            if (CKey.hou3to1 == true) {
+                stockScreenCapture = true;
+            }
+            if (CKey.hod1to4 == true) {
+                stockScreenCapture = true;
+            }            
             // always the earliest day first
             // always the earliest day first
             // always the earliest day first
-            if (CKey.GET_STOCKHISTORY_SCREEN == true) {
+            if (stockScreenCapture == true) {
                 StockArray = getInternetHistoricalScreen(NormalizeSymbol, startDate, endDate);
             } else {
                 StockArray = internetQuote.getHistoricalData(NormalizeSymbol, startDate, endDate);
@@ -373,12 +381,16 @@ public class StockInternetImpDao {
                         conFlag = false;
                         break;
                     }
+                    // for  1:4 Stock Split
+                    // stOpen = 1:4
+                    // stHigh = " "
+                    // stLow = Stock Split
                     String stOpen = sTag.GetNextText();
                     if (stOpen.equals("Dividend")) {
                         break;
                     }
 
-                    //2:1 Stock Split here
+                    
                     String stHigh = sTag.GetNextText();
                     if (stHigh.equals("Dividend")) {
                         break;
