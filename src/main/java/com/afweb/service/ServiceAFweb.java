@@ -569,7 +569,7 @@ public class ServiceAFweb {
             ;
         } else {
             return false;
-        }        
+        }
         boolean retSatus = false;
 
         retSatus = InfCleanStockInfoDB();
@@ -600,7 +600,7 @@ public class ServiceAFweb {
             ;
         } else {
             return false;
-        }        
+        }
         boolean retSatus = false;
 
         retSatus = NnCleanNNdataDB();
@@ -886,16 +886,11 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
+            symbol = "HOD.TO";
 
-
-//            SysGetStockSplit(symbol, 3);
-//
-//            int size1yearAll = 20 * 12 * 5 + (50 * 3);
-//            AFstockObj stock = StoGetStockObjBySym(symbol);
-//            StockInfoProcess stockProcess = new StockInfoProcess();
-//            stockProcess.updateRealTimeStock(this, stock);
-//            
-//            ArrayList<AFstockInfo> StockInfoArray = InfGetStockHistorical(stock.getSymbol(), size1yearAll);
+//            AccountObj accountAdminObj = SysGetAdminObjFromCache();
+////            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
 //////////            
             logger.info("End mydebugtestflag.....");
         }
