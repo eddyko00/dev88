@@ -71,7 +71,7 @@ public class StockInfoProcess {
     }
 
     public int UpdateAllStockTrend(ServiceAFweb serviceAFWeb, boolean updateTrend) {
-        ServiceAFweb.lastfun = "UpdateAllStock";
+        ServiceAFweb.lastfun = "UpdateAllStockTrend";
 
         //SimpleDateFormat etDf = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
@@ -203,7 +203,7 @@ public class StockInfoProcess {
                             String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
                             ArrayList sqlList = new ArrayList();
                             sqlList.add(sockUpdateSQL);
-                            serviceAFWeb.InfUpdateSQLStockInfoArrayList(sqlList);
+                            serviceAFWeb.StoUpdateSQLArrayList(sqlList);
 
                             serviceAFWeb.SysLockRemoveName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
                             return 1;

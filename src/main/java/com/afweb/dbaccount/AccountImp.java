@@ -808,7 +808,10 @@ public class AccountImp {
         }
         return 0;
     }
-
+    public int updateSQLArrayList(ArrayList SQLTran) {
+        return accountdb.updateSQLArrayList(SQLTran);
+    }
+    
     public int addAccountStockId(AccountObj accountObj, int StockID, ArrayList TRList) {
 
         if (accountObj != null) {

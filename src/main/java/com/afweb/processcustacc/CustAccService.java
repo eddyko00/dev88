@@ -565,6 +565,10 @@ public class CustAccService {
         return accountImp.updateTransactionOrder(transSQL);
     }
 
+    public int updateSQLArrayList(ArrayList SQLTran) {
+        return accountImp.updateSQLArrayList(SQLTran);
+    }
+
     public int removeCommByType(String UserName, String Password, int type) {
         return accountImp.removeCommByType(UserName, Password, type);
     }

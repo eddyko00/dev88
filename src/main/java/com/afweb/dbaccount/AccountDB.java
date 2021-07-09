@@ -1964,7 +1964,34 @@ public class AccountDB {
         }
         return null;
     }
+    
+    public int updateSQLArrayList(ArrayList SQLTran) {
 
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
+
+            int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran, remoteURL);
+            if (ret == 0) {
+                return 0;
+            }
+            return 1;
+        }
+
+        try {
+            for (int i = 0; i < SQLTran.size(); i++) {
+                String SQL = (String) SQLTran.get(i);
+                getJdbcTemplate().update(SQL);
+
+                if ((i % 100) == 0) {
+                    ServiceAFweb.AFSleep();
+                }
+            }
+            return 1;
+        } catch (Exception e) {
+            logger.info("> UpdateSQLlList exception " + e.getMessage());
+        }
+        return 0;
+
+    }
     public int updateTransactionOrder(ArrayList transSQL) throws SQLException {
         if ((transSQL == null) || (transSQL.size() == 0)) {
             return 0;

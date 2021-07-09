@@ -2076,6 +2076,10 @@ public class ServiceAFweb {
         return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);
     }
 
+    public int AccUpdateSQLArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
+        return custAccSrv.updateSQLArrayList(SQLTran);
+    }
+
     public int AccUpdateTransactionOrder(ArrayList transSQL) {
         return custAccSrv.updateTransactionOrder(transSQL);
     }
