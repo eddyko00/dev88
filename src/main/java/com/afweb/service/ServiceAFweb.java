@@ -653,8 +653,8 @@ public class ServiceAFweb {
 
 ///////////////////////////////////////////////////////////////////////////////////
                     AFdebugProcess();
-                    NNetService nnSrv = new NNetService();
-                    nnSrv.processNeuralNetTrain(this);
+                    ProcessDebugNeuralNetTrain(this);
+             
 
 ///////////////////////////////////////////////////////////////////////////////////
                     logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
@@ -803,6 +803,11 @@ public class ServiceAFweb {
     public void ProcessNeuralNetDataTrain(ServiceAFweb serviceAFWeb) {
         NNetService nnSrv = new NNetService();
         nnSrv.AFprocessNeuralNet(this);
+    }
+
+    public void ProcessDebugNeuralNetTrain(ServiceAFweb serviceAFWeb) {
+        NNetService nnSrv = new NNetService();
+        nnSrv.AFprocessNeuralNetTrain(this);
     }
 
     public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {

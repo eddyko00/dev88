@@ -461,7 +461,7 @@ public class NNetService {
         return false;
     }
 
-    public void processNeuralNetTrain(ServiceAFweb serviceAFWeb) {
+    public void AFprocessNeuralNetTrain(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "processNeuralNetTrain";
 
         TradingNNprocess NNProcessImp = new TradingNNprocess();
@@ -474,7 +474,7 @@ public class NNetService {
         TradingSignalProcess.forceToGenerateNewNN = false;
         if (serviceAFWeb.initLocalRemoteNN == true) {
             while (true) {
-                processInitLocalRemoteNN(serviceAFWeb);
+                AFprocessInitLocalRemoteNN(serviceAFWeb);
 
                 logger.info("> Waiting 60 minutes ........");
                 try {
@@ -736,7 +736,7 @@ public class NNetService {
 
     boolean initLRnn = false;
 
-    public void processInitLocalRemoteNN(ServiceAFweb serviceAFWeb) {
+    public void AFprocessInitLocalRemoteNN(ServiceAFweb serviceAFWeb) {
         logger.info("> processInitLocalRemoteNN ");
         StockInfoProcess stockProcess = new StockInfoProcess();
 
