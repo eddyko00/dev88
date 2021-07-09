@@ -1817,13 +1817,6 @@ public class ServiceAFweb {
 //
 //        return getStockHistoricalRangeServ(symbol, start, end);
 //    }    
-    public int InfUpdateStockInfoTransaction(StockInfoTranObj stockInfoTran) {
-        if (stockInfoFlag == true) {
-            return stockInfoSrv.updateStockInfoTransaction(this, stockInfoTran);
-        }
-        return 0;
-    }
-
     public int InfRemoveStockInfo(String symbol) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.removeStockInfo(this, symbol);
@@ -1841,6 +1834,13 @@ public class ServiceAFweb {
     public int InfUpdateSQLStockInfoArrayList(ArrayList SQLTran) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.updateSQLStockInfoArrayList(this, SQLTran);
+        }
+        return 0;
+    }
+
+    public int InfUpdateStockInfoHistory(StockInfoTranObj stockInfoTran) {
+        if (stockInfoFlag == true) {
+            return stockInfoSrv.updateStockInfoHistory(this, stockInfoTran);
         }
         return 0;
     }
@@ -2081,8 +2081,10 @@ public class ServiceAFweb {
     }
 
     public int AccUpdateTransactionOrder(ArrayList transSQL) {
-        return custAccSrv.updateSQLArrayList(transSQL);
+        // Not sure if we need transaction or transaction working
 //        return custAccSrv.updateTransactionOrder(transSQL);
+
+        return custAccSrv.updateSQLArrayList(transSQL);
     }
 //    public int SystemuUpdateTransactionOrder(ArrayList<String> transSQL) {
 //        if (getServerObj().isSysMaintenance() == true) {
@@ -3070,7 +3072,7 @@ public class ServiceAFweb {
                     stockInfoTran.setStockInfoList(StockSendArray);
                     // require oldest date to earliest
                     // require oldest date to earliest
-                    int retTran = serviceAFWeb.InfUpdateStockInfoTransaction(stockInfoTran);
+                    int retTran = serviceAFWeb.InfUpdateStockInfoHistory(stockInfoTran);
                     if (retTran == 0) {
                         return false;
                     }
@@ -3086,7 +3088,7 @@ public class ServiceAFweb {
 
             // require oldest date to earliest
             // require oldest date to earliest
-            serviceAFWeb.InfUpdateStockInfoTransaction(stockInfoTran);
+            serviceAFWeb.InfUpdateStockInfoHistory(stockInfoTran);
         }
         return true;
     }

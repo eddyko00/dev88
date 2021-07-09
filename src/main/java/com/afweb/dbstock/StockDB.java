@@ -333,14 +333,6 @@ public class StockDB {
     public int updateSQLArrayList(ArrayList SQLTran) {
 
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
-            // just for testing
-//            if (CKey.SQL_DATABASE == CKey.REMOTE_MYSQL) {
-//                boolean result = ExecuteSQLArrayList(SQLTran);
-//                if (result == true) {
-//                    return 1;
-//                }
-//                return 0;
-//            }
 
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran, remoteURL);
             if (ret == 0) {

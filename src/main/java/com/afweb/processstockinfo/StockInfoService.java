@@ -328,8 +328,8 @@ public class StockInfoService {
         return 0;
     }
 
-    public int updateStockInfoTransaction(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
-        ServiceAFweb.lastfun = "updateStockInfoTransaction";
+    public int updateStockInfoHistory(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
+        ServiceAFweb.lastfun = "updateStockInfoHistory";
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
@@ -337,7 +337,7 @@ public class StockInfoService {
         String NormalizeSymbol = stockInfoTran.getNormalizeName();
         ArrayList<AFstockInfo> StockInfoArray = stockInfoTran.getStockInfoList();
         AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(NormalizeSymbol);
-        int result = updateStockInfoTransactionProcess(serviceAFWeb, stock, StockInfoArray);
+        int result = updateStockInfoHistoryAllProcess(serviceAFWeb, stock, StockInfoArray);
         if (result > 0) {
 
             //workaround unknown defect- somehow cannot find the Internet from stock to add the error update
@@ -364,7 +364,7 @@ public class StockInfoService {
 
     // StockArray require oldest date to earliest
     // StockArray require oldest date to earliest    
-    private int updateStockInfoTransactionProcess(ServiceAFweb serviceAFWeb, AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
+    private int updateStockInfoHistoryAllProcess(ServiceAFweb serviceAFWeb, AFstockObj stock, ArrayList<AFstockInfo> StockArray) {
 
 //        logger.info("> addStockInfoTransaction " + stock.getSymbol() + " - " + StockArray.size());
         try {
@@ -468,7 +468,7 @@ public class StockInfoService {
                     + "', updatedatedisplay='" + stock.getUpdatedatedisplay() + "',updatedatel=" + stock.getUpdatedatel() + ", failedupdate="
                     + stock.getFailedupdate() + " where symbol='" + stock.getSymbol() + "'";
             sqlStockTranList.add(sqlUpdateStockSQL);
-            // process all transaction
+ 
             sqlResult = updateSQLStockInfoArrayList(serviceAFWeb, sqlStockTranList);
             if (sqlResult == 1) {
                 return 1; //resultAdd; 
