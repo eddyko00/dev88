@@ -312,21 +312,13 @@ public class ServiceAFweb {
                 displayStr += "\r\n" + (">>>>> DIRECT__MYSQL = 1");
                 displayStr += "\r\n" + (">>>>> REMOTE_PHP_MYSQL = 2");
                 displayStr += "\r\n" + (">>>>> REMOTE_PHP_1_MYSQL = 3");
+                displayStr += "\r\n" + (">>>>> REMOTE_PHP_2_MYSQL = 4");
+                displayStr += "\r\n" + (">>>>> REMOTE_PHP_3_MYSQL = 5");
+                displayStr += "\r\n" + (">>>>> REMOTE_PHP_4_MYSQL = 6");
                 displayStr += "\r\n" + (">>>>> System SQL_DATABASE:" + CKey.SQL_DATABASE);
 
                 getServerObj().setLocalDBservice(true);
-                if (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL) {
-                    getServerObj().setLocalDBservice(true);
-
-                } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
-                    getServerObj().setLocalDBservice(true);
-
-                } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-                    // need this for SystemSQLRequest
-                    getServerObj().setLocalDBservice(false);
-                } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
-                    getServerObj().setLocalDBservice(false);
-                } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL) {
+                if (SysIsRemoteDBCall() == true) {
                     getServerObj().setLocalDBservice(false);
                 }
 
@@ -654,7 +646,6 @@ public class ServiceAFweb {
 ///////////////////////////////////////////////////////////////////////////////////
                     AFdebugProcess();
                     ProcessNeuralNetTrainDebug(this);
-             
 
 ///////////////////////////////////////////////////////////////////////////////////
                     logger.info(">>>>>>>> DEBUG end >>>>>>>>>");
@@ -1228,7 +1219,20 @@ public class ServiceAFweb {
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_3_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean SysIsRemoteDBCall() {
+        if ((CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_3_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL)) {
             return true;
         }
         return false;
