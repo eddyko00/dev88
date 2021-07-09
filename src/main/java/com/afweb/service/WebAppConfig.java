@@ -26,6 +26,9 @@ public class WebAppConfig {
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL) {
             Javamain.set_php_2_mysqlflag();
             URL = CKey.SERVER_DB_URL;
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL) {
+            Javamain.set_php_4_mysqlflag();
+            URL = CKey.SERVER_DB_URL;            
         }
         CKey.SERVER_DB_URL = URL;
         return URL;
@@ -44,7 +47,10 @@ public class WebAppConfig {
             dataSource = dataSourceMYQLRemotePHP();
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL) {
             dataSource = dataSourceMYQLRemotePHP();
-
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_3_MYSQL) {
+            dataSource = dataSourceMYQLRemotePHP();
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL) {
+            dataSource = dataSourceMYQLRemotePHP();            
 //        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
 //            dataSource = dataSourceMS_SQLRemote();
         }
@@ -98,14 +104,16 @@ public class WebAppConfig {
         dataSource.setUsername("uphyltwqsqsipjri");
         dataSource.setPassword("5V7FaMjFWryhGXYcagw2");
 
-//        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//        dataSource.setUrl("jdbc:mysql://remotemysql.com:3306/qrhs901Ddt?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
-//        dataSource.setUsername("qrhs901Ddt");
-//        dataSource.setPassword("YKA5Fa4hhb");
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://www.db4free.net:3306/eddydb_sample?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
-        dataSource.setUsername("eddysa");
-        dataSource.setPassword("eddyadmin");
+        dataSource.setUrl("jdbc:mysql://remotemysql.com:3306/qrhs901Ddt?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
+        dataSource.setUsername("qrhs901Ddt");
+        dataSource.setPassword("YKA5Fa4hhb");
+//        Slow DB
+//        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        dataSource.setUrl("jdbc:mysql://www.db4free.net:3306/eddydb_sample?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
+//        dataSource.setUsername("eddysa");
+//        dataSource.setPassword("eddyadmin");
+//
 //
 //$host = "sql9.freemysqlhosting.net";
 //$username = "sql9376612";

@@ -44,7 +44,6 @@ public class CKey {
     public static boolean restoreInfoFlag = false;
     public static boolean restoreNNFlag = false;
 
-    
     public static boolean hou3to1 = false; //false;      
     public static boolean hod1to4 = false; //false;      
     /////heroku
@@ -52,17 +51,19 @@ public class CKey {
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
     public static String WEBPOST_HERO_PHP = "/webgetresp.php";
     public static String URL_PATH_HERO_DBDB_PHP = "https://iiswebdb.herokuapp.com";
-
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO_1 = "https://iiswebsrv1.herokuapp.com";  // server timerhandler
     public static String WEBPOST_HERO_1_PHP = "/webgetresp_1.php";
     public static String URL_PATH_HERO_1_DBDB_PHP = "https://iiswebdb1.herokuapp.com"; //    
-
     /////
     public static final String URL_PATH_HERO_2 = "https://iiswebsrv.herokuapp.com";  // server timerhandler
     public static String WEBPOST_HERO_2_PHP = "/webgetresp_2.php"; //freemysqlhosting
     public static String URL_PATH_HERO_2_DBDB_PHP = "https://iiswebdb.herokuapp.com";
+    ////
+    public static final String URL_PATH_HERO_4 = "http://ekphp1234.atwebpages.com";  // server timerhandler
+    public static String WEBPOST_HERO_4_PHP = "/webgetresp_4.php"; //AWARDSPACE
+    public static String URL_PATH_HERO_4_DBDB_PHP = "http://ekphp1234.atwebpages.com";
 //
 //***********    
 //*********** 
@@ -71,12 +72,12 @@ public class CKey {
     // remember to update the application properties      
     public static final int LOCAL_MYSQL = 0; //jdbc:mysql://localhost:3306/db_sample     
     public static final int DIRECT__MYSQL = 1;   //jdbc:mysql://sql9.freesqldatabase.com:3306/sql9299052 direct mysql expire 3 days
-    public static final int REMOTE_PHP_MYSQL = 2; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
-    public static final int REMOTE_PHP_1_MYSQL = 3; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
-    public static final int REMOTE_PHP_2_MYSQL = 4; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
-    public static final int REMOTE_PHP_3_MYSQL = 5; // https://eddyko.000webhostapp.com/webgetreq.php php mysql
+    public static final int REMOTE_PHP_MYSQL = 2;
+    public static final int REMOTE_PHP_1_MYSQL = 3;
+    public static final int REMOTE_PHP_2_MYSQL = 4;
+    public static final int REMOTE_PHP_3_MYSQL = 5;
+    public static final int REMOTE_PHP_4_MYSQL = 6;
 
-    
 // default DB server and timerhandler
     public static int SQL_DATABASE = REMOTE_PHP_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)    
     public static String SERVER_DB_URL = URL_PATH_HERO_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;

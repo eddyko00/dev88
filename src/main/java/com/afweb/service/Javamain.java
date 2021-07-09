@@ -40,7 +40,9 @@ public class Javamain {
         } else if (cmd.indexOf("php_1_mysqlflag") != -1) {
             set_php_1_mysqlflag();
         } else if (cmd.indexOf("php_2_mysqlflag") != -1) {
-            set_php_2_mysqlflag();            
+            set_php_2_mysqlflag();
+        } else if (cmd.indexOf("php_4_mysqlflag") != -1) {
+            set_php_4_mysqlflag();
 ///////////////
         } else if (cmd.indexOf("backupFlag") != -1) {
             CKey.backupFlag = true;
@@ -109,8 +111,20 @@ public class Javamain {
     }
 
     public static void set_php_2_mysqlflag() {
+
         CKey.SQL_DATABASE = CKey.REMOTE_PHP_2_MYSQL;
         CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_2_DBDB_PHP + CKey.WEBPOST_HERO_2_PHP;
+        CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_2;
+    }
+
+    public static void set_php_4_mysqlflag() {
+
+        CKey.SQL_DATABASE = CKey.REMOTE_PHP_4_MYSQL;
+        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
+        CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_4;
+
+        CKey.SQL_DATABASE = CKey.REMOTE_PHP_2_MYSQL;
+//        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_2_DBDB_PHP + CKey.WEBPOST_HERO_2_PHP;
         CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_2;
     }
 
