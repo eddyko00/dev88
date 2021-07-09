@@ -42,7 +42,7 @@ public class ControllerStockInfo {
     public static void getHelpInfo(ArrayList<String> arrayString) {
         arrayString.add("/st/{symbol}/history?length={0 for all}");
         arrayString.add("/st/{symbol}/stocksplit?split=");
-        arrayString.add("/st/{symbol}/stocksplitstatus?value=");
+        arrayString.add("/st/{symbol}/setsplitstatus?value=");
         arrayString.add("/st/{symbol}/updateinfo");
         arrayString.add("/st/{symbol}/deleteinfo");
         arrayString.add("/st/cleanallinfo");
@@ -69,7 +69,7 @@ public class ControllerStockInfo {
         return stockInfoList;
     }
 
-    @RequestMapping(value = "/st/{symbol}/stocksplitstatus", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/st/{symbol}/setsplitstatus", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int getStockSplitStatus(
             @PathVariable("symbol") String symbol,
