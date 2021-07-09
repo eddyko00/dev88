@@ -768,6 +768,13 @@ public class NNetService {
                     }
                     ServiceAFweb.AFSleep1Sec(10);
                 }
+                if ((stockNameArray1.size() > 0) && (stockNameArray2.size() > 0)) {
+                    ;
+                } else {
+                    logger.info("> processInitLocalRemoteNN - Please try again...");
+                    return;
+                }
+
                 StockNameRemoteList.addAll(stockNameArray1);
                 StockNameRemoteList.addAll(stockNameArray2);
                 ArrayList<AccountObj> accountAPIObjL = serviceAFWeb.AccGetAccountList(CKey.API_USERNAME, null);
