@@ -1964,9 +1964,11 @@ public class AccountDB {
         }
         return null;
     }
-    
-    public int updateSQLArrayList(ArrayList SQLTran) {
 
+    public int updateSQLArrayList(ArrayList SQLTran) {
+        if ((SQLTran == null) || (SQLTran.size() == 0)) {
+            return 1;
+        }
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
 
             int ret = remoteDB.getExecuteRemoteListDB_Mysql(SQLTran, remoteURL);
@@ -1992,24 +1994,11 @@ public class AccountDB {
         return 0;
 
     }
+
+    // need to double check how to call this
     public int updateTransactionOrder(ArrayList transSQL) throws SQLException {
         if ((transSQL == null) || (transSQL.size() == 0)) {
             return 0;
-        }
-        if (true) {
-            int ret = 1;
-            for (int i = 0; i < transSQL.size(); i++) {
-                String sql = (String) transSQL.get(i);
-                try {
-//                    logger.info("> updateTransactionOrder " + sql);
-
-                    processUpdateDB(sql);
-                } catch (Exception ex) {
-                    ret = 0;
-                    break;
-                }
-            }
-            return ret;
         }
 
         Connection dbConnection = null;

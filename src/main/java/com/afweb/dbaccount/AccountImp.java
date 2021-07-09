@@ -800,14 +800,15 @@ public class AccountImp {
         return accountdb.updateAccountStockSignal(TRList);
     }
 
-    public int updateTransactionOrder(ArrayList transSQL) {
-        try {
-            return accountdb.updateTransactionOrder(transSQL);
-        } catch (SQLException ex) {
-            logger.info("> updateTransactionOrder exception " + ex.getMessage());
-        }
-        return 0;
-    }
+//    public int updateTransactionOrder(ArrayList transSQL) {
+//        try {
+//            return accountdb.updateTransactionOrder(transSQL);
+//        } catch (SQLException ex) {
+//            logger.info("> updateTransactionOrder exception " + ex.getMessage());
+//        }
+//        return 0;
+//    }
+    
     public int updateSQLArrayList(ArrayList SQLTran) {
         return accountdb.updateSQLArrayList(SQLTran);
     }
@@ -1040,7 +1041,8 @@ public class AccountImp {
                 }
             }
             if (transSQL.size() > 0) {
-                int ret = updateTransactionOrder(transSQL);
+                int ret = updateSQLArrayList(transSQL);
+//                int ret = updateTransactionOrder(transSQL);
                 return ret;
             }
 

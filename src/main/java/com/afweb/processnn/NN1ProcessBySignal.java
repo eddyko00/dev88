@@ -479,7 +479,7 @@ public class NN1ProcessBySignal {
             long LastServUpdateTimer = System.currentTimeMillis();
             int timeout = 15;
             if (ServiceAFweb.processNeuralNetFlag == true) {
-                timeout = timeout * 10;
+                timeout = timeout * 20;
             }
             long lockDate5Min = TimeConvertion.addMinutes(LastServUpdateTimer, timeout); // add 3 minutes
 

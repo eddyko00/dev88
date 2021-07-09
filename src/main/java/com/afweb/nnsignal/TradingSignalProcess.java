@@ -123,7 +123,7 @@ public class TradingSignalProcess {
                     }
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(SQLPerf);
-                    serviceAFWeb.StoUpdateSQLArrayList(sqlList);
+                    serviceAFWeb.AccUpdateSQLArrayList(sqlList);
                 }
             }
 
@@ -911,7 +911,7 @@ public class TradingSignalProcess {
                     String updateSQL = AccountDB.SQLUpdateAccountStockStatus(trObj);
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(updateSQL);
-                    serviceAFWeb.StoUpdateSQLArrayList(sqlList);
+                    serviceAFWeb.AccUpdateSQLArrayList(sqlList);
                 }
             }  // loop
         } catch (Exception ex) {

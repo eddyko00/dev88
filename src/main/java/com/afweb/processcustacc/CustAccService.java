@@ -561,9 +561,9 @@ public class CustAccService {
         return accountImp.getCustomerByAccObj(accObj);
     }
 
-    public int updateTransactionOrder(ArrayList transSQL) {
-        return accountImp.updateTransactionOrder(transSQL);
-    }
+//    public int updateTransactionOrder(ArrayList transSQL) {
+//        return accountImp.updateTransactionOrder(transSQL);
+//    }
 
     public int updateSQLArrayList(ArrayList SQLTran) {
         return accountImp.updateSQLArrayList(SQLTran);

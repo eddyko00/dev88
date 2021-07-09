@@ -2023,7 +2023,7 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public int NnUpdateSQLArrayListServ(ArrayList SQLTran) {
+    public int NnUpdateSQLArrayList(ArrayList SQLTran) {
         if (nnFlag == true) {
             return nnSrv.updateSQLNNArrayList(this, SQLTran);
         }
@@ -2076,12 +2076,13 @@ public class ServiceAFweb {
         return custAccSrv.setCustStatusPaymentBalance(UserName, status, payment, balance);
     }
 
-    public int AccUpdateSQLArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
+    public int AccUpdateSQLArrayList(ArrayList SQLTran) {
         return custAccSrv.updateSQLArrayList(SQLTran);
     }
 
     public int AccUpdateTransactionOrder(ArrayList transSQL) {
-        return custAccSrv.updateTransactionOrder(transSQL);
+        return custAccSrv.updateSQLArrayList(transSQL);
+//        return custAccSrv.updateTransactionOrder(transSQL);
     }
 //    public int SystemuUpdateTransactionOrder(ArrayList<String> transSQL) {
 //        if (getServerObj().isSysMaintenance() == true) {
