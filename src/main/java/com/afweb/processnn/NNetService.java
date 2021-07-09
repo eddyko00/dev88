@@ -751,7 +751,7 @@ public class NNetService {
                 ArrayList<String> stockNameArray2 = new ArrayList();
                 AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
 
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 15; i++) {
                     String remoteURL = CKey.URL_PATH_HERO;
 
                     stockNameArray1 = serviceAFwebREST.
