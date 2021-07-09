@@ -802,7 +802,7 @@ public class ServiceAFweb {
 
     public void ProcessNeuralNetData(ServiceAFweb serviceAFWeb) {
         NNetService nnSrv = new NNetService();
-        nnSrv.AFprocessNeuralNet(this);
+        nnSrv.AFprocessNeuralNetData(this);
     }
 
     public void ProcessNeuralNetTrainDebug(ServiceAFweb serviceAFWeb) {

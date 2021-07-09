@@ -341,7 +341,7 @@ public class NNetService {
 ////////////////////////////////////////////////////////////
     public static int cntNN = 0;
 
-    public void AFprocessNeuralNet(ServiceAFweb serviceAFWeb) {
+    public void AFprocessNeuralNetData(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "AFprocessNeuralNet";
 
         if (serviceAFWeb.processNeuralNetFlag == true) {
@@ -494,7 +494,7 @@ public class NNetService {
                         num++;
                     }
                 } else {
-                    AFprocessNeuralNet(serviceAFWeb);
+                    AFprocessNeuralNetData(serviceAFWeb);
                     num++;
                     if (num > 2) {
                         num = 0;
