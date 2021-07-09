@@ -653,7 +653,7 @@ public class ServiceAFweb {
 
 ///////////////////////////////////////////////////////////////////////////////////
                     AFdebugProcess();
-                    ProcessDebugNeuralNetTrain(this);
+                    ProcessNeuralNetTrainDebug(this);
              
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -747,7 +747,7 @@ public class ServiceAFweb {
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             ProcessUpdateAllStockInfo();
 
-            ProcessNeuralNetDataTrain(this);
+            ProcessNeuralNetData(this);
 //            
             ProcessUserBilling(this);
             ProcessPUBSUBAccountComm(this);
@@ -800,12 +800,12 @@ public class ServiceAFweb {
         pubsub.ProcessPUBSUBAccount(this);
     }
 
-    public void ProcessNeuralNetDataTrain(ServiceAFweb serviceAFWeb) {
+    public void ProcessNeuralNetData(ServiceAFweb serviceAFWeb) {
         NNetService nnSrv = new NNetService();
         nnSrv.AFprocessNeuralNet(this);
     }
 
-    public void ProcessDebugNeuralNetTrain(ServiceAFweb serviceAFWeb) {
+    public void ProcessNeuralNetTrainDebug(ServiceAFweb serviceAFWeb) {
         NNetService nnSrv = new NNetService();
         nnSrv.AFprocessNeuralNetTrain(this);
     }
