@@ -36,6 +36,8 @@ public class SystemMaintProcess {
         if (stock.getSubstatus() != ConstantKey.STOCK_SPLIT) {
             return 0;
         }
+        symbol = symbol.toUpperCase();
+
         // split 1:3 stock more price /3 (value 3)  
         // Split 3:1 stock less price *3 (value -3)
         double splitValue = 0;
@@ -101,18 +103,16 @@ public class SystemMaintProcess {
                         continue;
                     }
                 }
-                ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTransList(accountObj.getId(), stock.getId(), TRObj.getTrname(), 0);
-                int ret = this.stockSplitProcess(serviceAFWeb, accountObj, stock, thList, splitValue);
+                ArrayList<TransationOrderObj> thList = serviceAFWeb.AccGetAccountStockTransList(accountObj.getId(),
+                        stock.getId(), TRObj.getTrname(), 0);
+                int ret = this.stockSplitProcess(serviceAFWeb, accountObj, stock, TRObj, thList, splitValue);
             }
-
         }
-        logger.info("> processStockSplit no update " + symbol);
-        //clear stocksplit
-
         return 1;
     }
 
-    public int stockSplitProcess(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock, ArrayList<TransationOrderObj> thList, double splitValue) {
+    public int stockSplitProcess(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock,
+            TradingRuleObj TRObj, ArrayList<TransationOrderObj> thList, double splitValue) {
 
         if (thList == null) {
             return 0;
@@ -137,7 +137,7 @@ public class SystemMaintProcess {
             transSQL.add(trSql);
         }
 
-        logger.info("> processStockSplit " + accountObj.getAccountname() + " total update:" + transSQL.size());
+        logger.info("> processStockSplit " + accountObj.getAccountname() + " " + TRObj.getTrname() + " total update:" + transSQL.size());
 
         int ret = 0;
         if (transSQL.size() > 0) {

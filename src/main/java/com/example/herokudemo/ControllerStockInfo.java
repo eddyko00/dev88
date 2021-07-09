@@ -85,6 +85,7 @@ public class ControllerStockInfo {
         if (valueSt != null) {
             value = Integer.parseInt(valueSt);
         }
+
         int ret = afWebService.SysStockSplitStatus(symbol, value);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
@@ -98,6 +99,7 @@ public class ControllerStockInfo {
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
@@ -106,6 +108,8 @@ public class ControllerStockInfo {
         if (valueSt != null) {
             value = Integer.parseInt(valueSt);
         }
+        // split 1:3 stock more price /3 (value 3)  
+        // Split 3:1 stock less price *3 (value -3)        
         int ret = afWebService.SysGetStockSplit(symbol, value);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;

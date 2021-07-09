@@ -534,6 +534,11 @@ public class ServiceAFweb {
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreSystem?");
         String YN = scan.next();
+        if (YN.equals("y")) {
+            ;
+        } else {
+            return false;
+        }
         boolean retSatus = false;
 
         retSatus = SysCleanStockDB();
@@ -560,6 +565,11 @@ public class ServiceAFweb {
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreInfo?");
         String YN = scan.next();
+        if (YN.equals("y")) {
+            ;
+        } else {
+            return false;
+        }        
         boolean retSatus = false;
 
         retSatus = InfCleanStockInfoDB();
@@ -586,6 +596,11 @@ public class ServiceAFweb {
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreNN?");
         String YN = scan.next();
+        if (YN.equals("y")) {
+            ;
+        } else {
+            return false;
+        }        
         boolean retSatus = false;
 
         retSatus = NnCleanNNdataDB();
@@ -830,8 +845,6 @@ public class ServiceAFweb {
     public static boolean mydebugSim = false; //false;  
     public static long SimDateL = 0;
 
-   
-
     public static boolean forceMarketOpen = false; //forceMarketOpen;
 
     public static boolean SysCheckSymbolDebugTest(String symbol) {
@@ -874,7 +887,6 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "HOU.TO";
 
 //            SysGetStockSplit(symbol, 3);
 //
