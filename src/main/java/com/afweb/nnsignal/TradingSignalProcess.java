@@ -2606,7 +2606,7 @@ public class TradingSignalProcess {
 
             if (nnError == 1) {
                 ReferNameData refData = nnservice.getReferNameData(afNeuralNet);
-                double refminError = minError + 0.004; //+ 0.002;
+                double refminError = minError + 0.008; //+ 0.002;
                 refData.setmError(refminError);
 
                 serviceAFWeb.NnUpdateNeuralNetRef0(name, refData);
