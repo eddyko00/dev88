@@ -75,6 +75,11 @@ var app = {
                 window.location.href = "index.html";
             },
             success: function (resultTRList) {
+                if ((resultTRList === null) || (resultTRList === "")) {
+                    $('#error_message').fadeIn().html('Network error. Please try again later. ');
+                    window.location.href = "index.html";
+                    return;
+                }
                 console.log(resultTRList);
 
                 window.localStorage.setItem(iisMsgSession, "");

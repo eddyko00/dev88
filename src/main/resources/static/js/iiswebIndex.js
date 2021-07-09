@@ -56,8 +56,9 @@ var app = {
                 // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
 
                 function handleResult(result) {
-                    if (result === null) {
+                    if ((result === null) || (result === "")) {
                         $('#error_message').fadeIn().html('Network error. Please try again later. ');
+                        window.location.href = "index.html";
                         return;
                     }
                     if (result.webMsg.resultID === 100) {
@@ -103,7 +104,7 @@ var app = {
 //          "/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}"
 //          SUCC = 1;  EXISTED = 2; FAIL =0;
             $.ajax({
-                url: iisurl + "/cust/add?email=" + txtemailaddress + "&pass=" + txtpassword + "&firstName=" + txtfirstname 
+                url: iisurl + "/cust/add?email=" + txtemailaddress + "&pass=" + txtpassword + "&firstName=" + txtfirstname
                         + "&lastName=" + txtlastname + "&plan=" + pricemodelconfirm,
                 crossDomain: true,
                 cache: false,
@@ -175,9 +176,9 @@ var app = {
             // add cordova progress indicator https://www.npmjs.com/package/cordova-plugin-progress-indicator
 
             function handleResult(result) {
-
-                if (result === null) {
+                if ((result === null) || (result === "")) {
                     $('#error_message').fadeIn().html('Network error. Please try again later. ');
+                    window.location.href = "index.html";
                     return;
                 }
 

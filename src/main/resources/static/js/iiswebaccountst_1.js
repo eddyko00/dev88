@@ -76,9 +76,10 @@ var app = {
                         window.location.href = "index.html";
                     },
                     success: function (resultStockList) {
-                        if (result === null) {
+                        if ((resultStockList === null) ||  (resultStockList === "")) {
                             $('#error_message').fadeIn().html('Network error. Please try again later. ');
                             window.location.href = "index.html";
+                            return;
                         }
                         console.log(resultStockList);
                         window.localStorage.setItem(iisMsgSession, "");

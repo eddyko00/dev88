@@ -38,6 +38,11 @@ var app = {
                 window.location.href = "index.html";
             },
             success: function (resultAccObjList) {
+                if ((resultAccObjList === null) || (resultAccObjList === "")) {
+                    $('#error_message').fadeIn().html('Network error. Please try again later. ');
+                    window.location.href = "index.html";
+                    return;
+                }
                 console.log(resultAccObjList);
                 if (resultAccObjList === "") {
                     window.location.href = "index.html";

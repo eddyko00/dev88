@@ -29,13 +29,13 @@ var app = {
         var accObjList = JSON.parse(accObjListStr);
         var accId = iisWebObj.accId;
         console.log(accId);
-               
+
         var fundObjListStr = iisWebObj.fundObjListStr;
         var fundObjList = "";
         if (fundObjListStr != "") {
             fundObjList = JSON.parse(fundObjListStr);
         }
-        
+
         var fundBestObjListStr = iisWebObj.fundBestObjListStr;
         var fundBestObjList = "";
         if (fundBestObjListStr != "") {
@@ -48,7 +48,7 @@ var app = {
 
 //var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 
 //      'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId, 'stockObjListStr': stockObjListStr};
-        
+
         $.ajax({
             url: iisurl + "/cust/" + custObj.username + "/acc/" + accId + "/fundlink/" + fundId + "/st",
             crossDomain: true,
@@ -61,11 +61,16 @@ var app = {
                 window.location.href = "index.html";
             },
             success: function (resultStockList) {
+                if ((resultStockList === null) || (resultStockList === "")) {
+                    $('#error_message').fadeIn().html('Network error. Please try again later. ');
+                    window.location.href = "index.html";
+                    return;
+                }
                 console.log(resultStockList);
                 window.localStorage.setItem(iisMsgSession, "");
 
                 var stockObjListStr = JSON.stringify(resultStockList, null, '\t');
-                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId, 
+                var iisWebObj = {'custObjStr': custObjStr, 'iisurlStr': iisurlStr, 'accObjListStr': accObjListStr, 'accId': accId,
                     'fundObjListStr': fundObjListStr, 'fundBestObjListStr': fundBestObjListStr, 'fundId': fundId, 'stockObjListStr': stockObjListStr};
                 window.localStorage.setItem(iisWebSession, JSON.stringify(iisWebObj));
                 window.location.href = "fundst.html";
