@@ -1998,9 +1998,16 @@ public class AccountDB {
     // need to double check how to call this
     public int updateTransactionOrder(ArrayList transSQL) throws SQLException {
         if ((transSQL == null) || (transSQL.size() == 0)) {
-            return 0;
+            return 1;
         }
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
 
+            int ret = remoteDB.getExecuteRemoteListDB_Mysql(transSQL, remoteURL);
+            if (ret == 0) {
+                return 0;
+            }
+            return 1;
+        }
         Connection dbConnection = null;
         PreparedStatement preparedStatement = null;
         try {
