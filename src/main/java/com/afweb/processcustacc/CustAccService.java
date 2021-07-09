@@ -363,7 +363,7 @@ public class CustAccService {
 
     public AccountObj getAccountByCustomerAccountID(String UserName, String Password, int accountID) {
         if (ECacheService.cacheFlag == true) {
-            String name = accountID + "";
+            String name = UserName+"acid"+accountID;
             AccountObj accObj = ECacheService.getAccountByCustomerAccountID(name);
             if (accObj == null) {
                 accObj = accountImp.getAccountByCustomerAccountID(UserName, Password, accountID);
