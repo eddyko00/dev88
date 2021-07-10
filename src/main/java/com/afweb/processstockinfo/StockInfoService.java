@@ -404,11 +404,11 @@ public class StockInfoService {
             ArrayList sqlTranList = new ArrayList();
 
             if (stock.getSubstatus() == ConstantKey.INITIAL) {
-                String sqlDelete = "DELETE From stockinfo where stockid=" + stock.getId();
+                String sqlDelete = "DELETE From stockinfo where sym='" + stock.getSymbol() + "'";
                 sqlTranList.add(sqlDelete);
                 stock.setSubstatus(ConstantKey.OPEN);
-
             }
+            ////
             int resultAdd = 0;
             for (int i = 0; i < StockArray.size(); i++) {
                 AFstockInfo stockinfoTemp = StockArray.get(i);
@@ -468,7 +468,7 @@ public class StockInfoService {
                     + "', updatedatedisplay='" + stock.getUpdatedatedisplay() + "',updatedatel=" + stock.getUpdatedatel() + ", failedupdate="
                     + stock.getFailedupdate() + " where symbol='" + stock.getSymbol() + "'";
             sqlStockTranList.add(sqlUpdateStockSQL);
- 
+
             sqlResult = updateSQLStockInfoArrayList(serviceAFWeb, sqlStockTranList);
             if (sqlResult == 1) {
                 return 1; //resultAdd; 
@@ -499,8 +499,8 @@ public class StockInfoService {
             if (stockObj == null) {
                 continue;
             }
-             stockInfoImp.deleteStockInfoBySym(stockObj.getSymbol());
-             
+            stockInfoImp.deleteStockInfoBySym(stockObj.getSymbol());
+
 //            if (CKey.STATIC_STOCKH == true) {
 //
 //                long endStaticDay = 0;

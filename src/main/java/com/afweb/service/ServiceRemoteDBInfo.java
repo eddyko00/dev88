@@ -5,10 +5,10 @@
  */
 package com.afweb.service;
 
-
 import com.afweb.model.stock.*;
 import com.afweb.service.db.*;
 import com.afweb.util.CKey;
+import com.afweb.util.getEnv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,7 +42,6 @@ public class ServiceRemoteDBInfo {
     public static String CMD = "cmd";
     public static String CMDPOST = "sqlreq";
 
-
     public int getExecuteRemoteListDB_Mysql(ArrayList<String> sqlCMDList, String remoteURL) {
 //        log.info("postExecuteListRemoteDB_Mysql sqlCMDList " + sqlCMDList.size());
         String postSt = "";
@@ -54,7 +53,11 @@ public class ServiceRemoteDBInfo {
             postSize++;
             if ((postSize > MAXPostNumSize) || (postSt.length() > MAXByteSize)) {
                 try {
+
                     int ret = postExecuteListRemoteDB_Mysql(postSt, remoteURL);
+                    if (getEnv.checkLocalPC() == true) {
+                        logger.info("postExecuteListRemoteDB_Mysql  " + postSize);
+                    }
                     if (ret == 0) {
                         return ret;
                     }
@@ -62,6 +65,7 @@ public class ServiceRemoteDBInfo {
                     postSt = "";
                     // seems fail for AWARDSPACE
                     ServiceAFweb.AFSleep1Sec(5);
+
                 } catch (Exception ex) {
                     logger.info("postExecuteListRemoteDB_Mysql exception " + ex);
                     return 0;
@@ -231,7 +235,6 @@ public class ServiceRemoteDBInfo {
 
     }
 
-
     public ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
@@ -272,7 +275,7 @@ public class ServiceRemoteDBInfo {
                 output += "\"low\":\"" + dataArray[i + 6] + "\",";
                 output += "\"volume\":\"" + dataArray[i + 7] + "\",";
                 output += "\"adjustclose\":\"" + dataArray[i + 8] + "\",";
-                output += "\"sym\":\"" + dataArray[i + 9] + "\",";                
+                output += "\"sym\":\"" + dataArray[i + 9] + "\",";
                 output += "\"stockid\":\"" + dataArray[i + 10] + "\"";
 
                 if (i + recSize >= dataArray.length) {
@@ -397,7 +400,6 @@ public class ServiceRemoteDBInfo {
             return null;
         }
     }
-
 
     /////////////////////////////////////////////////////////////
     // operations names constants
