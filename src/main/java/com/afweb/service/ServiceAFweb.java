@@ -325,6 +325,8 @@ public class ServiceAFweb {
                 }
 
                 displayStr += "\r\n" + (">>>>> System REMOTE DB URL:" + StockDB.remoteURL);
+                displayStr += "\r\n" + (">>>>> System REMOTE INFO DB URL:" + StockInfoDB.remoteURL);
+                displayStr += "\r\n" + (">>>>> System REMOTE NN DB URL:" + NNetdataDB.remoteURL);               
                 displayStr += "\r\n" + (">>>>> System SERVER_DB_URL:" + CKey.SERVER_DB_URL);
                 displayStr += "\r\n" + (">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
