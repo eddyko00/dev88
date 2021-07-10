@@ -1238,6 +1238,7 @@ public class ServiceAFweb {
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_3_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL)
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_5_MYSQL)                
                 || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             return true;
         }

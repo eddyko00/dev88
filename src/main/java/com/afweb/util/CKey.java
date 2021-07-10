@@ -65,9 +65,14 @@ public class CKey {
     public static String WEBPOST_HERO_2_PHP = "/webgetresp_2.php"; //freemysqlhosting
     public static String URL_PATH_HERO_2_DBDB_PHP = "https://iiswebdb.herokuapp.com";
     ////
+    ////   
     public static final String URL_PATH_HERO_4 = "http://ekphp1234.atwebpages.com";  // server timerhandler
     public static String WEBPOST_HERO_4_PHP = "/webgetresp_4.php"; //AWARDSPACE
     public static String URL_PATH_HERO_4_DBDB_PHP = "http://ekphp1234.atwebpages.com";
+    ////
+    public static final String URL_PATH_HERO_5 = "http://ek1php1234.atwebpages.com";  // server timerhandler
+    public static String WEBPOST_HERO_5_PHP = "/webgetresp_5.php"; //AWARDSPACE
+    public static String URL_PATH_HERO_5_DBDB_PHP = "http://ek1php1234.atwebpages.com";    
 //
 //
 //***********    
@@ -82,7 +87,7 @@ public class CKey {
     public static final int REMOTE_PHP_2_MYSQL = 4;
     public static final int REMOTE_PHP_3_MYSQL = 5;
     public static final int REMOTE_PHP_4_MYSQL = 6;
-
+    public static final int REMOTE_PHP_5_MYSQL = 7;
 // default DB server and timerhandler
     public static int SQL_DATABASE = REMOTE_PHP_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)    
     public static String SERVER_DB_URL = URL_PATH_HERO_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;

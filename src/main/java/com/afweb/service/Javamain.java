@@ -43,6 +43,8 @@ public class Javamain {
             set_php_2_mysqlflag();
         } else if (cmd.indexOf("php_4_mysqlflag") != -1) {
             set_php_4_mysqlflag();
+        } else if (cmd.indexOf("php_5_mysqlflag") != -1) {
+            set_php_5_mysqlflag();            
 ///////////////
         } else if (cmd.indexOf("backupFlag") != -1) {
             CKey.backupFlag = true;
@@ -124,6 +126,12 @@ public class Javamain {
         CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_4;
     }
 
+    public static void set_php_5_mysqlflag() {
+
+        CKey.SQL_DATABASE = CKey.REMOTE_PHP_5_MYSQL;
+        CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_5_DBDB_PHP + CKey.WEBPOST_HERO_5_PHP;
+        CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_5;
+    }
     /**
      * @param args the command line arguments
      */

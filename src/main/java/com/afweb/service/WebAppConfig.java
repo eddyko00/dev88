@@ -13,13 +13,10 @@ public class WebAppConfig {
             URL = "Local MySQL DB " + dataSource.getUrl();
         } else if (CKey.SQL_DATABASE == CKey.DIRECT__MYSQL) {
             URL = "Direct MySQL DB " + dataSource.getUrl();
+/////////            
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-            URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP;
-        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_MYSQL) {
-
             Javamain.set_phpmysqlflag();
             URL = CKey.SERVER_DB_URL;
-
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL) {
             Javamain.set_php_1_mysqlflag();
             URL = CKey.SERVER_DB_URL;
@@ -29,6 +26,10 @@ public class WebAppConfig {
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL) {
             Javamain.set_php_4_mysqlflag();
             URL = CKey.SERVER_DB_URL;            
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_5_MYSQL) {
+            Javamain.set_php_5_mysqlflag();
+            URL = CKey.SERVER_DB_URL;     
+/////////                        
         }
         CKey.SERVER_DB_URL = URL;
         return URL;
@@ -51,6 +52,8 @@ public class WebAppConfig {
             dataSource = dataSourceMYQLRemotePHP();
         } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL) {
             dataSource = dataSourceMYQLRemotePHP();            
+        } else if (CKey.SQL_DATABASE == CKey.REMOTE_PHP_5_MYSQL) {
+            dataSource = dataSourceMYQLRemotePHP();              
 //        } else if (CKey.SQL_DATABASE == CKey.REMOTE_MS_SQL) {
 //            dataSource = dataSourceMS_SQLRemote();
         }
