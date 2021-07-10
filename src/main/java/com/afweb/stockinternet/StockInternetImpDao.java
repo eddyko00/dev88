@@ -252,24 +252,24 @@ public class StockInternetImpDao {
                     stockInfoObj.setVolume(volume);
                     stockInfoObj.setSym(symbol);
 
-                    if (CKey.hou3to1 == true) {
-                        if (symbol.equals("HOU.TO")) {
-                            stockInfoObj.setFclose(stockInfoObj.getFclose() / 3);
-                            stockInfoObj.setFopen(stockInfoObj.getFopen() / 3);
-                            stockInfoObj.setHigh(stockInfoObj.getHigh() / 3);
-                            stockInfoObj.setLow(stockInfoObj.getLow() / 3);
-                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() / 3);
-                        }
-                    }
-                    if (CKey.hod1to4 == true) {
-                        if (symbol.equals("HOD.TO")) {
-                            stockInfoObj.setFclose(stockInfoObj.getFclose() * 4);
-                            stockInfoObj.setFopen(stockInfoObj.getFopen() * 4);
-                            stockInfoObj.setHigh(stockInfoObj.getHigh() * 4);
-                            stockInfoObj.setLow(stockInfoObj.getLow() * 4);
-                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() * 4);
-                        }
-                    }
+//                    if (CKey.hou3to1 == true) {
+//                        if (symbol.equals("HOU.TO")) {
+//                            stockInfoObj.setFclose(stockInfoObj.getFclose() / 3);
+//                            stockInfoObj.setFopen(stockInfoObj.getFopen() / 3);
+//                            stockInfoObj.setHigh(stockInfoObj.getHigh() / 3);
+//                            stockInfoObj.setLow(stockInfoObj.getLow() / 3);
+//                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() / 3);
+//                        }
+//                    }
+//                    if (CKey.hod1to4 == true) {
+//                        if (symbol.equals("HOD.TO")) {
+//                            stockInfoObj.setFclose(stockInfoObj.getFclose() * 4);
+//                            stockInfoObj.setFopen(stockInfoObj.getFopen() * 4);
+//                            stockInfoObj.setHigh(stockInfoObj.getHigh() * 4);
+//                            stockInfoObj.setLow(stockInfoObj.getLow() * 4);
+//                            stockInfoObj.setAdjustclose(stockInfoObj.getAdjustclose() * 4);
+//                        }
+//                    }
                     stock.setAfstockInfo(stockInfoObj);
 
                     stock.setPrevClose(fprevClose);

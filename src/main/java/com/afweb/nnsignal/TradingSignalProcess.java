@@ -2884,5 +2884,4 @@ public class TradingSignalProcess {
 //
 //        return 1;
 //    }
-
 }

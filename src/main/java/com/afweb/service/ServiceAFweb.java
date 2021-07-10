@@ -882,7 +882,10 @@ public class ServiceAFweb {
             int TR_NN = trNN;
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
-            symbol = "HOD.TO";
+
+            symbol = "T.TO";
+
+            ArrayList StockArray = this.InfGetStockHistorical(symbol, 100);
 
 //            AccountObj accountAdminObj = SysGetAdminObjFromCache();
 ////            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
@@ -2779,6 +2782,11 @@ public class ServiceAFweb {
             int end = sizeline;
             int index = 1;
             int line = 0;
+
+            if (end >= len) {
+                end = len;
+            }
+
             while (true) {
                 if (line == 0) {
                     msgWrite.append(""
@@ -2911,24 +2919,7 @@ public class ServiceAFweb {
                 for (int j = 6; j < StockArray.size(); j++) {
                     try {
                         AFstockInfo stockInfo = StockArray.get(j);
-                        if (CKey.hou3to1 == true) {
-                            if (symbol.equals("HOU.TO")) {
-                                stockInfo.setFclose(stockInfo.getFclose() / 3);
-                                stockInfo.setFopen(stockInfo.getFopen() / 3);
-                                stockInfo.setHigh(stockInfo.getHigh() / 3);
-                                stockInfo.setLow(stockInfo.getLow() / 3);
-                                stockInfo.setAdjustclose(stockInfo.getAdjustclose() / 3);
-                            }
-                        }
-                        if (CKey.hod1to4 == true) {
-                            if (symbol.equals("HOD.TO")) {
-                                stockInfo.setFclose(stockInfo.getFclose() * 4);
-                                stockInfo.setFopen(stockInfo.getFopen() * 4);
-                                stockInfo.setHigh(stockInfo.getHigh() * 4);
-                                stockInfo.setLow(stockInfo.getLow() * 4);
-                                stockInfo.setAdjustclose(stockInfo.getAdjustclose() * 4);
-                            }
-                        }
+
                         String st = new ObjectMapper().writeValueAsString(stockInfo);
                         writeArray.add(st);
                     } catch (Exception ex) {

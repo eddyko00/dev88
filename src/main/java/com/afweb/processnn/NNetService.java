@@ -637,13 +637,23 @@ public class NNetService {
 ////////////////////////////////////////////////////////////////////////////
             if (serviceAFWeb.processRestAllStockflag == true) {
                 exitflag = true;
+
                 ///////////////////////////////   
                 String symbolL[] = ServiceAFweb.primaryStock;
-
+                //////////////////
+                CKey.hou3to1 = true; //false;      
+                CKey.hod1to4 = true; //false; 
+                /////////////////
                 ServiceAFweb.SysCreateStaticStockHistoryServ(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
 
-                /////////////////////
                 ArrayList<String> APIStockNameList = new ArrayList();
+                if (ServiceAFweb.dbinfonnflag == true) {
+                    String SymbolAllOther[] = APIStockNameList.toArray(new String[APIStockNameList.size()]);
+                    ServiceAFweb.SysCreateStaticStockHistoryServ(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
+                    return;
+                }
+
+                /////////////////////
                 ArrayList<AccountObj> accountAPIObjL = serviceAFWeb.AccGetAccountList(CKey.API_USERNAME, null);
                 if (accountAPIObjL != null) {
                     if (accountAPIObjL.size() > 0) {
