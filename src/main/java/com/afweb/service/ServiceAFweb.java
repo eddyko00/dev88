@@ -20,6 +20,7 @@ import com.afweb.processsystem.AccountMaintProcess;
 import com.afweb.model.*;
 import com.afweb.chart.ChartService;
 import com.afweb.dbnndata.NNetdataDB;
+import com.afweb.dbstock.StockDB;
 import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
@@ -79,7 +80,6 @@ public class ServiceAFweb {
     private static ServerObj serverObj = new ServerObj();
 
     private DataSource dataSource;
-    private String REMOTE_URL = "";
 
     public static String serverLockName = "server";
     public static boolean NN_AllowTraingStockFlag = false;
@@ -324,7 +324,7 @@ public class ServiceAFweb {
                     getServerObj().setLocalDBservice(false);
                 }
 
-                displayStr += "\r\n" + (">>>>> System REMOTE DB URL:" + REMOTE_URL);
+                displayStr += "\r\n" + (">>>>> System REMOTE DB URL:" + StockDB.remoteURL);
                 displayStr += "\r\n" + (">>>>> System SERVER_DB_URL:" + CKey.SERVER_DB_URL);
                 displayStr += "\r\n" + (">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -466,7 +466,7 @@ public class ServiceAFweb {
     private boolean AFbackupSystem() {
         serverObj.setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> backupSystem form DB URL:" + REMOTE_URL);
+        logger.info(">>>>> backupSystem form DB URL:" + StockDB.remoteURL);
 
         boolean retSatus = false;
 
@@ -504,7 +504,7 @@ public class ServiceAFweb {
     private boolean backupNN() {
         serverObj.setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> backupNN form DB URL:" + REMOTE_URL);
+        logger.info(">>>>> backupNN form DB URL:" + NNetdataDB.remoteURL);
 
         boolean retSatus = false;
 
@@ -523,7 +523,7 @@ public class ServiceAFweb {
     private boolean AFrestoreSystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> restoreSystem form DB URL:" + REMOTE_URL);
+        logger.info(">>>>> restoreSystem form DB URL:" + StockDB.remoteURL);
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreSystem?");
@@ -585,7 +585,7 @@ public class ServiceAFweb {
     private boolean restoreNN() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> restoreNN form DB URL:"+ NNetdataDB.remoteURL);
+        logger.info(">>>>> restoreNN form DB URL:" + NNetdataDB.remoteURL);
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreNN?");
@@ -894,13 +894,10 @@ public class ServiceAFweb {
 
             symbol = "HOU.TO";
 
-        
 //            AFstockObj stock = this.StoGetStockObjBySym(symbol);
 //            this.ProcessUpdateAllStockInfo();
 //            StockInfoProcess infoProc = new StockInfoProcess();
 //            infoProc.updateAllStockInfoProcess(this, symbol);
-
-
 //            AccountObj accountAdminObj = SysGetAdminObjFromCache();
 ////            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
@@ -1044,7 +1041,7 @@ public class ServiceAFweb {
         WebAppConfig webConfig = new WebAppConfig();
         this.dataSource = webConfig.dataSourceSystem();
 
-        REMOTE_URL = webConfig.dataSourceURLSystem((DriverManagerDataSource) dataSource);
+        String REMOTE_URL = webConfig.dataSourceURLSystem((DriverManagerDataSource) dataSource);
 
         SysDataSourceSystem(dataSource, REMOTE_URL);
 
@@ -1241,7 +1238,7 @@ public class ServiceAFweb {
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_3_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL)
-                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_5_MYSQL)                
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_5_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.LOCAL_MYSQL)) {
             return true;
         }
@@ -1253,7 +1250,7 @@ public class ServiceAFweb {
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_1_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_2_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_3_MYSQL)
-                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL)                
+                || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_4_MYSQL)
                 || (CKey.SQL_DATABASE == CKey.REMOTE_PHP_5_MYSQL)) {
             return true;
         }
