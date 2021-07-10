@@ -831,6 +831,7 @@ public class NNetService {
                 }
                 logger.info("processInitLocalRemoteNN " + printName);
 ////////////////////////////////////////////////                
+
                 ////update remote Neural Net
                 String RestURL = CKey.URL_PATH_HERO;
 
@@ -842,14 +843,18 @@ public class NNetService {
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
 ////////////////
 ////////////////
-                RestURL = CKey.URL_PATH_HERO_1;
+                if (ServiceAFweb.dbinfonnflag == true) {
+                    ;
+                } else {
+                    RestURL = CKey.URL_PATH_HERO_1;
 
-                nnName = ConstantKey.TR_NN1;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
-                nnName = ConstantKey.TR_NN2;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
-                nnName = ConstantKey.TR_NN30;
-                this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
+                    nnName = ConstantKey.TR_NN1;
+                    this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
+                    nnName = ConstantKey.TR_NN2;
+                    this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
+                    nnName = ConstantKey.TR_NN30;
+                    this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
+                }
 ////////////////////////////////////////////////  
 
                 logger.info("> update  stock:" + stockNameArray.size());
