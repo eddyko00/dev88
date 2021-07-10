@@ -5,10 +5,7 @@
  */
 package com.afweb.processstockinfo;
 
-import com.afweb.processcustacc.CommMsgImp;
-import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.stockinternet.StockInternetImpDao;
-import com.afweb.nnsignal.NNCalProcess;
 
 import com.afweb.model.*;
 
@@ -17,20 +14,16 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.signal.*;
 import com.afweb.dbstock.StockDB;
-import com.afweb.dbstock.StockImp;
+
 import com.afweb.processsystem.SystemMaintProcess;
 
 import com.afweb.util.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.TimeZone;
+
 import java.util.logging.Logger;
 
 /**

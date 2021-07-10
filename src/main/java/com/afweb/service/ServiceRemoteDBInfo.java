@@ -46,12 +46,13 @@ public class ServiceRemoteDBInfo {
     public int getExecuteRemoteListDB_Mysql(ArrayList<String> sqlCMDList, String remoteURL) {
 //        log.info("postExecuteListRemoteDB_Mysql sqlCMDList " + sqlCMDList.size());
         String postSt = "";
-        int MAXPostSize = 20;
+        int MAXPostNumSize = 18;
+        int MAXByteSize = 1800;
         int postSize = 0;
         for (int i = 0; i < sqlCMDList.size(); i++) {
 
             postSize++;
-            if ((postSize > MAXPostSize) || (postSt.length() > 2000)) {
+            if ((postSize > MAXPostNumSize) || (postSt.length() > MAXByteSize)) {
                 try {
                     int ret = postExecuteListRemoteDB_Mysql(postSt, remoteURL);
                     if (ret == 0) {
@@ -59,6 +60,8 @@ public class ServiceRemoteDBInfo {
                     }
                     postSize = 0;
                     postSt = "";
+                    // seems fail for AWARDSPACE
+                    ServiceAFweb.AFSleep1Sec(5);
                 } catch (Exception ex) {
                     logger.info("postExecuteListRemoteDB_Mysql exception " + ex);
                     return 0;

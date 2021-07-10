@@ -739,7 +739,8 @@ public class ServiceAFweb {
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             ProcessUpdateAllStockInfo();
-
+            ProcessUpdateAllStockTrend();
+            
             ProcessNeuralNetData(this);
 //            
             ProcessUserBilling(this);
@@ -811,7 +812,6 @@ public class ServiceAFweb {
     }
 
     public int ProcessUpdateAllStockInfo() {
-        StoUpdateAllStockTrend();
         return InfUpdateAllStockInfo();
 
     }

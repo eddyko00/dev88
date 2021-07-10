@@ -149,28 +149,28 @@ public class StockProcess {
                 }
                 if (lockReturn > 0) {
 
-                    long lastupdate1 = stock.getUpdatedatel();
-                    long lastUpdate5Day = TimeConvertion.addDays(lastupdate1, 5); // 5 days
+//                    long lastupdate1 = stock.getUpdatedatel();
+//                    long lastUpdate5Day = TimeConvertion.addDays(lastupdate1, 5); // 5 days
+//
+//                    if (lastUpdate5Day > currentdate) {
 
-                    if (lastUpdate5Day > currentdate) {
+                    //////// Update Long and short term trend 
+                    int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
+                    // udpate other trends 
 
-                        //////// Update Long and short term trend 
-                        int resultCalcuate = calculateTrend(serviceAFWeb, stock, 0);
-                        // udpate other trends 
+                    // send SQL update
+                    String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
+                    ArrayList sqlList = new ArrayList();
+                    sqlList.add(sockUpdateSQL);
+                    serviceAFWeb.StoUpdateSQLArrayList(sqlList);
 
-                        // send SQL update
-                        String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
-                        ArrayList sqlList = new ArrayList();
-                        sqlList.add(sockUpdateSQL);
-                        serviceAFWeb.StoUpdateSQLArrayList(sqlList);
-
-                        serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.STOCK_LOCKTYPE);
-                        return 1;
-                    }
+                    serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.STOCK_LOCKTYPE);
+                    return 1;
+//                    }
 
                 } else {
                     if (ServiceAFweb.mydebugtestflag == true) {
-                        logger.info("> updateAllStock lockReturn fail " + lockDateValue + " " + NormalizeSymbol);
+                        logger.info("> updateAllStockTrendProcess lockReturn fail " + lockDateValue + " " + NormalizeSymbol);
                     }
                 }
                 return 0;
