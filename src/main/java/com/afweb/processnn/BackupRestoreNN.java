@@ -6,7 +6,6 @@
 package com.afweb.processnn;
 
 import com.afweb.dbnndata.NNetdataDB;
-import com.afweb.model.RequestObj;
 
 import com.afweb.model.stock.*;
 
@@ -44,7 +43,7 @@ public class BackupRestoreNN {
     }
 
     public boolean restoreDBDataNN(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>> restoreDBDataNN ");
+        logger.info(">>>>>>>> restoreDBDataNN "+ NNetdataDB.remoteURL);
 
         restoreDBneuralnet(serviceAFWeb);
         restoreDBdummyNN(serviceAFWeb);
@@ -205,7 +204,7 @@ public class BackupRestoreNN {
 
     //////////////////////////////////////////////////////////////////
     public boolean downloadDBDataNN(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>> downloadDBDataNN ");
+        logger.info(">>>>>>>> downloadDBDataNN "+ NNetdataDB.remoteURL);
         saveDBneuralnet(serviceAFWeb);
 
         return true;

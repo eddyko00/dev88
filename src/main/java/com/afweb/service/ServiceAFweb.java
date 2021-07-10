@@ -19,6 +19,8 @@ import com.afweb.processsystem.AccountMaintProcess;
 
 import com.afweb.model.*;
 import com.afweb.chart.ChartService;
+import com.afweb.dbnndata.NNetdataDB;
+import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
@@ -483,7 +485,7 @@ public class ServiceAFweb {
     private boolean backupInfo() {
         serverObj.setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> backupInfo form DB URL:" + REMOTE_URL);
+        logger.info(">>>>> backupInfo form DB URL:" + StockInfoDB.remoteURL);
 
         boolean retSatus = false;
 
@@ -552,7 +554,7 @@ public class ServiceAFweb {
     private boolean restoreInfo() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> restoreInfo form DB URL:" + REMOTE_URL);
+        logger.info(">>>>> restoreInfo form DB URL:" + StockInfoDB.remoteURL);
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreInfo?");
@@ -583,7 +585,7 @@ public class ServiceAFweb {
     private boolean restoreNN() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> restoreNN form DB URL:" + REMOTE_URL);
+        logger.info(">>>>> restoreNN form DB URL:"+ NNetdataDB.remoteURL);
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreNN?");
