@@ -11,17 +11,18 @@ package com.afweb.service;
  */
 public class MyDebug {
     
-    
+///////////////////////////Update Signal////////////////////////////////////    
 //            ArrayList StockArray = this.InfGetStockHistorical(symbol, 100);
-
 //            AccountObj accountAdminObj = SysGetAdminObjFromCache();
 ////            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
-/////////////////////////////////////////////////////////////// 
+///////////////////////////Update Stock info history//////////////////////////////////// 
 //            AFstockObj stock = this.StoGetStockObjBySym(symbol);
 //            this.ProcessUpdateAllStockInfo();
 //            StockInfoProcess infoProc = new StockInfoProcess();
 //            infoProc.updateAllStockInfoProcess(this, symbol);
+///////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////    
 ///////////////////////////////////////////////////////////////    
     
     

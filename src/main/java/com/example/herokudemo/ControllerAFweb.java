@@ -163,7 +163,7 @@ public class ControllerAFweb {
         return arrayString;
     }
 
-    @RequestMapping(value = "helphelpall", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "helphelpsystem", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     ArrayList SystemHelpAllPage() {
 
@@ -296,11 +296,15 @@ public class ControllerAFweb {
 
     @RequestMapping(value = "/server/dburl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    String getServerDBURL() {
-        String ret = " StockDB" + StockDB.remoteURL;
-        ret += " StockInfoDB" + StockInfoDB.remoteURL;
-        ret += " NnetDB" + NNetdataDB.remoteURL;
-        return ret;
+    ArrayList getServerDBURL() {
+        ArrayList arrayString = new ArrayList();
+        arrayString.add(" DBURL:" + CKey.SERVER_DB_URL);
+        arrayString.add(" DBInfoNNURL:" + CKey.dbInfoNNURL);
+        arrayString.add(" StockDB:" + StockDB.remoteURL);
+        arrayString.add(" StockInfoDB:" + StockInfoDB.remoteURL);
+        arrayString.add(" NnetDB:" + NNetdataDB.remoteURL);
+
+        return arrayString;
     }
 //
 
@@ -310,8 +314,12 @@ public class ControllerAFweb {
             @RequestParam(value = "path", required = true) String pathSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
-        StockInfoDB.remoteURL = pathSt;
-        NNetdataDB.remoteURL = pathSt;
+        if (pathSt.equals("default")) {
+            CKey.dbInfoNNURL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
+
+        } else {
+            CKey.dbInfoNNURL = pathSt;
+        }
         return pathSt;
     }
 

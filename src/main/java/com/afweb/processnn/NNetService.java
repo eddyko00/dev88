@@ -647,7 +647,7 @@ public class NNetService {
                 ServiceAFweb.SysCreateStaticStockHistoryServ(serviceAFWeb, symbolL, "nnAllStock", "NN_ST");
 
                 ArrayList<String> APIStockNameList = new ArrayList();
-                if (ServiceAFweb.dbinfonnflag == true) {
+                if (CKey.dbinfonnflag == true) {
                     String SymbolAllOther[] = APIStockNameList.toArray(new String[APIStockNameList.size()]);
                     ServiceAFweb.SysCreateStaticStockHistoryServ(serviceAFWeb, SymbolAllOther, "nnAllStock_1", "NN_ST1");
                     return;
@@ -853,7 +853,7 @@ public class NNetService {
                 this.updateRESTNNWeight0(serviceAFWeb, stockNameArray, nnName, RestURL);
 ////////////////
 ////////////////
-                if (ServiceAFweb.dbinfonnflag == true) {
+                if (CKey.dbinfonnflag == true) {
                     ;
                 } else {
                     RestURL = CKey.URL_PATH_HERO_1;

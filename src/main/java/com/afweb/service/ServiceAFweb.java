@@ -841,7 +841,6 @@ public class ServiceAFweb {
     public static boolean nn3testflag = false;
     public static boolean nn30testflag = false;
 /////////////////////////////////
-    public static boolean dbinfonnflag = true; // true;
 /////////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
@@ -896,8 +895,8 @@ public class ServiceAFweb {
         
 //            AFstockObj stock = this.StoGetStockObjBySym(symbol);
 //            this.ProcessUpdateAllStockInfo();
-            StockInfoProcess infoProc = new StockInfoProcess();
-            infoProc.updateAllStockInfoProcess(this, symbol);
+//            StockInfoProcess infoProc = new StockInfoProcess();
+//            infoProc.updateAllStockInfoProcess(this, symbol);
 
 
 //            AccountObj accountAdminObj = SysGetAdminObjFromCache();
@@ -1050,8 +1049,8 @@ public class ServiceAFweb {
         AccDataSource(dataSource, REMOTE_URL);
 
         if (SysIsRemoteDBCall() == true) {
-            if (dbinfonnflag == true) {
-                REMOTE_URL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
+            if (CKey.dbinfonnflag == true) {
+                REMOTE_URL = CKey.dbInfoNNURL;
             }
         }
         NnDataSourceNNnet(dataSource, REMOTE_URL);

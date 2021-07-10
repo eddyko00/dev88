@@ -44,8 +44,12 @@ public class CKey {
     public static boolean restoreInfoFlag = false;
     public static boolean restoreNNFlag = false;
 
+//////////////////    
     public static boolean hou3to1 = true; //false;      
-    public static boolean hod1to4 = true; //false;      
+    public static boolean hod1to4 = true; //false;   
+    public static boolean dbinfonnflag = true; // true;
+    public static String dbInfoNNURL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
+/////////////////    
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
