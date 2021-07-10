@@ -892,12 +892,12 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "HOU.TO";
+            symbol = "NEM";
 
 //            AFstockObj stock = this.StoGetStockObjBySym(symbol);
 //            this.ProcessUpdateAllStockInfo();
-//            StockInfoProcess infoProc = new StockInfoProcess();
-//            infoProc.updateAllStockInfoProcess(this, symbol);
+            StockInfoProcess infoProc = new StockInfoProcess();
+            infoProc.updateAllStockInfoProcess(this, symbol);
 //            AccountObj accountAdminObj = SysGetAdminObjFromCache();
 ////            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
