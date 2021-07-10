@@ -42,7 +42,8 @@ public class ControllerStockInfo {
     public static void getHelpInfo(ArrayList<String> arrayString) {
         arrayString.add("/st/{symbol}/history?length={0 for all}");
         arrayString.add("/st/{symbol}/stocksplit?split=");
-        arrayString.add("/st/{symbol}/setsplitstatus?value=");
+        arrayString.add("/st/{symbol}/stocksplitenable");
+        arrayString.add("/st/{symbol}/stocksplitclear");
         arrayString.add("/st/{symbol}/updateinfo");
         arrayString.add("/st/{symbol}/deleteinfo");
         arrayString.add("/st/cleanallinfo");
@@ -69,11 +70,10 @@ public class ControllerStockInfo {
         return stockInfoList;
     }
 
-    @RequestMapping(value = "/st/{symbol}/setsplitstatus", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/st/{symbol}/stocksplitenable", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    int getStockSplitStatus(
+    int getStockSplitEn(
             @PathVariable("symbol") String symbol,
-            @RequestParam(value = "value", required = true) String valueSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
         ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
@@ -81,12 +81,25 @@ public class ControllerStockInfo {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int value = 0; //20;
-        if (valueSt != null) {
-            value = Integer.parseInt(valueSt);
-        }
+        int value = 1;
+        int ret = afWebService.SysUpdateStockSplitStatus(symbol, value);
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return ret;
+    }
 
-        int ret = afWebService.SysStockSplitStatus(symbol, value);
+    @RequestMapping(value = "/st/{symbol}/stocksplitclear", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int getStockSplitClear(
+            @PathVariable("symbol") String symbol,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+        int value = 0;
+        int ret = afWebService.SysUpdateStockSplitStatus(symbol, value);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return ret;
     }

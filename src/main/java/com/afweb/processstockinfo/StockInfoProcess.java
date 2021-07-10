@@ -20,6 +20,7 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
 import com.afweb.dbstock.StockDB;
 import com.afweb.dbstock.StockImp;
+import com.afweb.processsystem.SystemMaintProcess;
 
 import com.afweb.util.*;
 
@@ -460,6 +461,11 @@ public class StockInfoProcess {
 
                 // splitFlag == false     
                 if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+                    if (true) {
+                        // disable Stock split by manual not automatic
+                        return 0;
+                    }
+
                     stock.setSubstatus(ConstantKey.OPEN);
 
                     String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
@@ -572,31 +578,8 @@ public class StockInfoProcess {
                 //just for testing
                 return true;
             }
-            stock.setSubstatus(ConstantKey.STOCK_SPLIT);
-            String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-            ArrayList sqlList = new ArrayList();
-            sqlList.add(sockNameSQL);
-            serviceAFWeb.StoUpdateSQLArrayList(sqlList);
-            logger.info(msg);
 
-            // send admin messsage
-            String tzid = "America/New_York"; //EDT
-            TimeZone tz = TimeZone.getTimeZone(tzid);
-            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            long dateNowLong = dateNow.getTimeInMillis();
-            java.sql.Date d = new java.sql.Date(dateNowLong);
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-            DateFormat format = new SimpleDateFormat(" hh:mm a");
-            format.setTimeZone(tz);
-            String ESTdate = format.format(d);
-
-            String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
-
-            commDataObj.setMsg(commMsg);
-            CommMsgImp commMsgImp = new CommMsgImp();
-            commMsgImp.AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_TYPE_COM_SPLIT, commDataObj);
-
+            SystemMaintProcess.EnableStockSplitComm(serviceAFWeb, stock, commDataObj, splitF, msg);
             return true;
         }
         return false;
@@ -662,30 +645,7 @@ public class StockInfoProcess {
                 //just for testing
                 return true;
             }
-            stock.setSubstatus(ConstantKey.STOCK_SPLIT);
-            String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-            ArrayList sqlList = new ArrayList();
-            sqlList.add(sockNameSQL);
-            serviceAFWeb.StoUpdateSQLArrayList(sqlList);
-            logger.info(msg);
-
-            // send admin messsage
-            String tzid = "America/New_York"; //EDT
-            TimeZone tz = TimeZone.getTimeZone(tzid);
-            AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
-            Calendar dateNow = TimeConvertion.getCurrentCalendar();
-            long dateNowLong = dateNow.getTimeInMillis();
-            java.sql.Date d = new java.sql.Date(dateNowLong);
-//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
-            DateFormat format = new SimpleDateFormat(" hh:mm a");
-            format.setTimeZone(tz);
-            String ESTdate = format.format(d);
-
-            String commMsg = ESTdate + " " + NormalizeSymbol + " stock split=" + splitF;
-
-            commDataObj.setMsg(commMsg);
-            CommMsgImp commMsgImp = new CommMsgImp();
-            commMsgImp.AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_TYPE_COM_SPLIT, commDataObj);
+            SystemMaintProcess.EnableStockSplitComm(serviceAFWeb, stock, commDataObj, splitF, msg);
 
             return true;
         }

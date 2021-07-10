@@ -11,11 +11,16 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 
 import com.afweb.model.stock.*;
+import com.afweb.processcustacc.CommMsgImp;
 
 import com.afweb.service.ServiceAFweb;
 
 import com.afweb.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 /**
@@ -168,15 +173,59 @@ public class SystemMaintProcess {
     public int StockSplitEnableBySym(ServiceAFweb serviceAFWeb, String sym) {
         AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(sym);
         if (stock.getSubstatus() == ConstantKey.OPEN) {
-            stock.setSubstatus(ConstantKey.STOCK_SPLIT);
-            String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
-            ArrayList sqlList = new ArrayList();
-            sqlList.add(sockNameSQL);
-            serviceAFWeb.StoUpdateSQLArrayList(sqlList);
-            logger.info("StockSplitDisableBySym " + sym + " Stock Split enabled");
+            String msg = "StockSplitDisableBySym " + sym + " Stock Split enabled";
+            CommData commDataObj = new CommData();
+            commDataObj.setType(0);
+            commDataObj.setSymbol(sym);
+            Calendar dateNow = TimeConvertion.getCurrentCalendar();
+            long entrytime = dateNow.getTimeInMillis();
+            commDataObj.setEntrydatedisplay(new java.sql.Date(entrytime));
+            commDataObj.setEntrydatel(entrytime);
+            commDataObj.setSplit(1);
+            commDataObj.setOldclose(0);
+            commDataObj.setNewclose(0);
+
+            EnableStockSplitComm(serviceAFWeb, stock, commDataObj, 1, msg);
+//            logger.info(msg);
             return 1;
         }
         return 0;
+    }
+
+    public static boolean EnableStockSplitComm(ServiceAFweb serviceAFWeb, AFstockObj stock, CommData commDataObj, float splitF, String msg) {
+
+        if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
+            //just for testing
+            return true;
+        }
+
+        stock.setSubstatus(ConstantKey.STOCK_SPLIT);
+        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+        ArrayList sqlList = new ArrayList();
+        sqlList.add(sockNameSQL);
+        serviceAFWeb.StoUpdateSQLArrayList(sqlList);
+        logger.info(msg);
+
+        // send admin messsage
+        String tzid = "America/New_York"; //EDT
+        TimeZone tz = TimeZone.getTimeZone(tzid);
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long dateNowLong = dateNow.getTimeInMillis();
+        java.sql.Date d = new java.sql.Date(dateNowLong);
+//                                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+        DateFormat format = new SimpleDateFormat(" hh:mm a");
+        format.setTimeZone(tz);
+        String ESTdate = format.format(d);
+
+        String commMsg = ESTdate + " " + stock.getSymbol() + " stock split=" + splitF;
+
+        commDataObj.setMsg(commMsg);
+        CommMsgImp commMsgImp = new CommMsgImp();
+        commMsgImp.AddCommObjMessage(serviceAFWeb, accountAdminObj, ConstantKey.COM_SPLIT, ConstantKey.INT_TYPE_COM_SPLIT, commDataObj);
+
+        return true;
+
     }
 
     public void StockSplitByCom(ServiceAFweb serviceAFWeb) {

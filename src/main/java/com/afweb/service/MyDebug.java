@@ -10,6 +10,21 @@ package com.afweb.service;
  * @author eddyko
  */
 public class MyDebug {
+    
+    
+//            ArrayList StockArray = this.InfGetStockHistorical(symbol, 100);
+
+//            AccountObj accountAdminObj = SysGetAdminObjFromCache();
+////            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
+//            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
+/////////////////////////////////////////////////////////////// 
+//            AFstockObj stock = this.StoGetStockObjBySym(symbol);
+//            this.ProcessUpdateAllStockInfo();
+//            StockInfoProcess infoProc = new StockInfoProcess();
+//            infoProc.updateAllStockInfoProcess(this, symbol);
+///////////////////////////////////////////////////////////////    
+    
+    
 //            String symbolL[] = ServiceAFweb.allStock;
 //            TradingNNprocess.CreateAllStockHistoryFile(this, symbolL, "nnAllStock");
 //            ArrayList<AFstockInfo> stockInfoList = TradingNNprocess.getAllStockHistoryFile(this, "MSFT", "nnAllStock");

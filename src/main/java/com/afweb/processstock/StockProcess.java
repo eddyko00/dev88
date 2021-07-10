@@ -117,7 +117,7 @@ public class StockProcess {
     public int updateAllStockTrendProcess(ServiceAFweb serviceAFWeb, String NormalizeSymbol, boolean updateTrend) {
         ServiceAFweb.lastfun = "updateAllStockTrendProcess";
 
-        logger.info("> updateAllStockTrendProcess " + NormalizeSymbol);
+//        logger.info("> updateAllStockTrendProcess " + NormalizeSymbol);
         AFstockObj stock = null;
         // eddy testing
         // yahoo crumb fail not working

@@ -457,7 +457,8 @@ public class GetYahooQuotes {
                     if (symbol.equals("HOU.TO")) {
                         long datel = StockD.getEntrydatel();
                         Timestamp timel = TimeConvertion.setDate("2021-07-02");
-                        if (datel < timel.getTime()) {
+                        long timelend = TimeConvertion.endOfDayInMillis(timel.getTime());
+                        if (datel <= timelend) {
                             StockD.setFclose(StockD.getFclose() / 3);
                             StockD.setFopen(StockD.getFopen() / 3);
                             StockD.setHigh(StockD.getHigh() / 3);
@@ -472,7 +473,8 @@ public class GetYahooQuotes {
                     if (symbol.equals("HOD.TO")) {
                         long datel = StockD.getEntrydatel();
                         Timestamp timel = TimeConvertion.setDate("2021-07-02");
-                        if (datel < timel.getTime()) {
+                        long timelend = TimeConvertion.endOfDayInMillis(timel.getTime());
+                        if (datel <= timelend) {
                             StockD.setFclose(StockD.getFclose() * 4);
                             StockD.setFopen(StockD.getFopen() * 4);
                             StockD.setHigh(StockD.getHigh() * 4);

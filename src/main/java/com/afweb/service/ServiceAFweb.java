@@ -891,9 +891,14 @@ public class ServiceAFweb {
             String nnName = ConstantKey.TR_NN1;
             String BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
 
-            symbol = "T.TO";
+            symbol = "HOU.TO";
 
-            ArrayList StockArray = this.InfGetStockHistorical(symbol, 100);
+        
+//            AFstockObj stock = this.StoGetStockObjBySym(symbol);
+//            this.ProcessUpdateAllStockInfo();
+            StockInfoProcess infoProc = new StockInfoProcess();
+            infoProc.updateAllStockInfoProcess(this, symbol);
+
 
 //            AccountObj accountAdminObj = SysGetAdminObjFromCache();
 ////            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
@@ -1612,7 +1617,7 @@ public class ServiceAFweb {
         return maint.StockSplitBySym(this, symbol, value);
     }
 
-    public int SysStockSplitStatus(String symbol, int value) {
+    public int SysUpdateStockSplitStatus(String symbol, int value) {
         SystemMaintProcess maint = new SystemMaintProcess();
         if (value == 1) {
             return maint.StockSplitEnableBySym(this, symbol);

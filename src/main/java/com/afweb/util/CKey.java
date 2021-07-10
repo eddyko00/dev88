@@ -44,8 +44,8 @@ public class CKey {
     public static boolean restoreInfoFlag = false;
     public static boolean restoreNNFlag = false;
 
-    public static boolean hou3to1 = false; //false;      
-    public static boolean hod1to4 = false; //false;      
+    public static boolean hou3to1 = true; //false;      
+    public static boolean hod1to4 = true; //false;      
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
