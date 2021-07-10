@@ -114,7 +114,7 @@ public class NNetdataDB {
     public int initNNdataDB() {
 
         int total = 0;
-        logger.info(">>>>> initNNdataDB Table creation");
+        logger.info(">>>>> initNNdataDB Table creation URL:" + remoteURL);
         try {
 
             boolean initDBflag = false;

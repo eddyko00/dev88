@@ -258,7 +258,7 @@ public class StockInfoDB {
     public int initStockInfoDB() {
 
         int total = 0;
-        logger.info(">>>>> InitStockInfoDB Table creation");
+        logger.info(">>>>> InitStockInfoDB Table creation URL:" + remoteURL);
         try {
 
             boolean initDBflag = false;

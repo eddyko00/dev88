@@ -12,8 +12,7 @@ import com.afweb.service.ServiceAFweb;
 
 import com.afweb.service.ServiceRemoteDB;
 
-import com.afweb.util.CKey;
-import com.afweb.util.TimeConvertion;
+import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -499,7 +498,7 @@ public class StockDB {
     public int initStockDB() {
 
         int total = 0;
-        logger.info(">>>>> InitStockDB Table creation");
+        logger.info(">>>>> InitStockDB Table creation URL:" + remoteURL);
         try {
 
             boolean initDBflag = false;

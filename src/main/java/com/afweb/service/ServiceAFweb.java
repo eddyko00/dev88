@@ -1033,7 +1033,7 @@ public class ServiceAFweb {
 
         AccDataSource(dataSource, REMOTE_URL);
 
-        if (SysCheckCallRemoteMysql() == true) {
+        if (SysIsRemoteDBCall() == true) {
             if (dbinfonnflag == true) {
                 REMOTE_URL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
             }
