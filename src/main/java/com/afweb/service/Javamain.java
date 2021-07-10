@@ -34,7 +34,7 @@ public class Javamain {
         } else if (cmd.indexOf("localmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
         } else if (cmd.indexOf("dbinfoflag") != -1) {
-            ServiceAFweb.dbinfoflag = true;
+            ServiceAFweb.dbinfonnflag = true;
         } else if (cmd.indexOf("phpmysqlflag") != -1) {
             set_phpmysqlflag();
         } else if (cmd.indexOf("php_1_mysqlflag") != -1) {

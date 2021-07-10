@@ -833,7 +833,7 @@ public class ServiceAFweb {
     public static boolean nn3testflag = false;
     public static boolean nn30testflag = false;
 /////////////////////////////////
-    public static boolean dbinfoflag = false;
+    public static boolean dbinfonnflag = true;
 /////////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
@@ -1033,8 +1033,10 @@ public class ServiceAFweb {
 
         AccDataSource(dataSource, REMOTE_URL);
 
-        if (dbinfoflag == true) {
-            REMOTE_URL = CKey.URL_PATH_HERO_2_DBDB_PHP + CKey.WEBPOST_HERO_2_PHP;
+        if (SysCheckCallRemoteMysql() == true) {
+            if (dbinfonnflag == true) {
+                REMOTE_URL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
+            }
         }
         NnDataSourceNNnet(dataSource, REMOTE_URL);
 
