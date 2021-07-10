@@ -47,9 +47,8 @@ public class CKey {
 //////////////////    
     public static boolean hou3to1 = true; //false;      
     public static boolean hod1to4 = true; //false;   
-    public static boolean dbinfonnflag = true; // true;
-    public static String dbInfoNNURL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
-/////////////////    
+
+    /////////////////    
     /////heroku
     /////heroku
     public static final String URL_PATH_HERO = "https://iiswebsrv.herokuapp.com";  // server timerhandler
@@ -72,10 +71,12 @@ public class CKey {
     ////
     public static final String URL_PATH_HERO_5 = "http://ek1php1234.atwebpages.com";  // server timerhandler
     public static String WEBPOST_HERO_5_PHP = "/webgetresp_5.php"; //AWARDSPACE
-    public static String URL_PATH_HERO_5_DBDB_PHP = "http://ek1php1234.atwebpages.com";    
+    public static String URL_PATH_HERO_5_DBDB_PHP = "http://ek1php1234.atwebpages.com";
 //
 //
-//***********    
+//***********  
+    public static String dbInfoNNURL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
+    public static boolean dbinfonnflag = true; // true;    
 //*********** 
     //////////////////////
 //    public static final int REMOTE_MS_SQL = 3;////// do not use // http://eddyko00.freeasphost.net asp on freeasphost ma sql   
