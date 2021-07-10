@@ -5,6 +5,9 @@
  */
 package com.example.herokudemo;
 
+import com.afweb.dbnndata.NNetdataDB;
+import com.afweb.dbstock.StockDB;
+import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFLockObject;
@@ -62,16 +65,15 @@ public class ControllerAFweb {
         arrayString.add("/server/filepath");
         arrayString.add("/server/filepath/set?path=&name=&string= ");
         arrayString.add("/server/filepath/read?path=&name=");
-//        arrayString.add("/server/url0 - 0-local, 1- Heroku, 2- OP");
-//        arrayString.add("/server/url0/set?url=stop");
-//        arrayString.add("/server/dburl");
-//        arrayString.add("/server/dburl/set?url=");
- 
+        arrayString.add("/server/timerurl");
+        arrayString.add("/server/timerurl/set?url=stop");
+
+        arrayString.add("/server/dburl");
+        arrayString.add("/server/dburl/setinfonndb?path=");
+
 //        arrayString.add("/cust/{username}/sys/downloaddb");
 //        arrayString.add("/cust/{username}/sys/restoredb");
-
         arrayString.add("/cust/{username}/sys/cleandb");
-
         arrayString.add("/cust/{username}/sys/request");
     }
 
@@ -107,10 +109,10 @@ public class ControllerAFweb {
 
         ControllerStock.getHelpSystem(arrayString);
         ControllerStock.getHelpInfo(arrayString);
-        
+
         ControllerStockInfo.getHelpSystem(arrayString);
         ControllerStockInfo.getHelpInfo(arrayString);
-        
+
         ControllerNN.getHelpSystem(arrayString);
         ControllerNN.getHelpInfo(arrayString);
 
@@ -292,38 +294,28 @@ public class ControllerAFweb {
         return "";
     }
 
-
-//    @RequestMapping(value = "/server/dburl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    String getServerDBURL() {
-//        return ServiceRemoteDB.getURL_PATH();
-//    }
+    @RequestMapping(value = "/server/dburl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String getServerDBURL() {
+        String ret = " StockDB" + StockDB.remoteURL;
+        ret += " StockInfoDB" + StockInfoDB.remoteURL;
+        ret += " NnetDB" + NNetdataDB.remoteURL;
+        return ret;
+    }
 //
-//    @RequestMapping(value = "/server/dburl/setherodb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    String getServerDBURLOPHERDB() {
-//        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP);
-//        return ServiceRemoteDB.getURL_PATH();
-//    }
 
-//    @RequestMapping(value = "/server/dburl/setop", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    String getServerDBURLOP() {
-//        ServiceRemoteDB.setURL_PATH(CKey.URL_PATH_HERO_1_DBDB_PHP + CKey.WEBPOST_HERO_1_PHP);
-//        return ServiceRemoteDB.getURL_PATH();
-//    }
-//
-//    @RequestMapping(value = "/server/dburl/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public @ResponseBody
-//    String setServerDBURL(
-//            @RequestParam(value = "url", required = true) String urlSt,
-//            HttpServletRequest request, HttpServletResponse response
-//    ) {
-//        ServiceRemoteDB.setURL_PATH(urlSt.trim());
-//        return "done...";
-//    }
+    @RequestMapping(value = "/server/dburl/setinfonndb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String setServerDBURL(
+            @RequestParam(value = "path", required = true) String pathSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        StockInfoDB.remoteURL = pathSt;
+        NNetdataDB.remoteURL = pathSt;
+        return pathSt;
+    }
 
-    @RequestMapping(value = "/server/url0", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/server/timerurl", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String getServerURL() {
         String url0 = RESTtimer.serverURL_0;
@@ -333,14 +325,7 @@ public class ControllerAFweb {
         return url0;
     }
 
-    @RequestMapping(value = "/server/url0/sethero", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    String getServerURLHERO() {
-        RESTtimer.serverURL_0 = CKey.URL_PATH_HERO;
-        return RESTtimer.serverURL_0;
-    }
-
-    @RequestMapping(value = "/server/url0/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/server/timerurl/set", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String setServerURL(
             @RequestParam(value = "url", required = true) String urlSt,
@@ -516,7 +501,6 @@ public class ControllerAFweb {
 //        }
 //        return null;
 //    }
-
     //"/cust/{username}/uisys/{custid}/lock"
     @RequestMapping(value = "/cust/{username}/uisys/{custid}/lock", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

@@ -12,8 +12,7 @@ import com.afweb.service.ServiceAFweb;
 
 import com.afweb.service.*;
 
-import com.afweb.util.CKey;
-import com.afweb.util.TimeConvertion;
+import com.afweb.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,7 +38,7 @@ public class NNetdataDB {
 
     private static JdbcTemplate jdbcTemplate;
     private static DataSource dataSource;
-    private static String remoteURL = "";
+    public static String remoteURL = "";
     private ServiceRemoteDBnndata remoteDB = new ServiceRemoteDBnndata();
 
 //    private StockInfoDB stockinfodb = new StockInfoDB();

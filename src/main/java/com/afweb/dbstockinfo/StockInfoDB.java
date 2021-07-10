@@ -36,7 +36,7 @@ public class StockInfoDB {
 
     private static JdbcTemplate jdbcTemplate;
     private static DataSource dataSource;
-    private static String remoteURL = "";
+    public static String remoteURL = "";
     private ServiceRemoteDBInfo remoteDB = new ServiceRemoteDBInfo();
 
 //    private StockInfoDB stockinfodb = new StockInfoDB();

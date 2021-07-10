@@ -55,7 +55,7 @@ public class StockDB {
     static public int Max2HAdmin = 120;
     private static JdbcTemplate jdbcTemplate;
     private static DataSource dataSource;
-    private static String remoteURL = "";
+    public static String remoteURL = "";
     private ServiceRemoteDB remoteDB = new ServiceRemoteDB();
 
     /**
