@@ -833,7 +833,7 @@ public class ServiceAFweb {
     public static boolean nn3testflag = false;
     public static boolean nn30testflag = false;
 /////////////////////////////////
-    public static boolean dbinfonnflag = true;
+    public static boolean dbinfonnflag = true; // true;
 /////////////////////////////////
     public static boolean mydebugtestflag = false;
     public static boolean mydebugtestNN3flag = false;
