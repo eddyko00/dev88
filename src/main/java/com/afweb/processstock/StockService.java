@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 public class StockService {
 
     protected static Logger logger = Logger.getLogger("StockService");
-    StockInfoProcess stockProcess = new StockInfoProcess();
+    private StockProcess stockProcess = new StockProcess();
     private StockImp stockImp = new StockImp();
 
     // need to move to account service
@@ -74,7 +74,11 @@ public class StockService {
         return null;
     }
 
+    public int UpdateAllStockTrend(ServiceAFweb serviceAFWeb) {
+        return stockProcess.UpdateAllStockTrend(serviceAFWeb);
+    }
 //////////////////////////////////////////    
+
     public String getAllStockDBSQL(String sql) {
         return stockImp.getAllStockDBSQL(sql);
     }

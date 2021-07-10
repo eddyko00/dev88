@@ -873,7 +873,7 @@ public class NNetService {
                     if (symbol.equals("T_T")) {
                         continue;
                     }
-                    int re = stockProcess.updateAllStockInfoProcess(serviceAFWeb, symbol, false);
+                    int re = stockProcess.updateAllStockInfoProcess(serviceAFWeb, symbol);
                     if ((i % 5) == 0) {
                         logger.info("> updated: " + i);
                     }

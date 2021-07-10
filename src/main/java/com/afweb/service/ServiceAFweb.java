@@ -809,9 +809,17 @@ public class ServiceAFweb {
     }
 
     public int ProcessUpdateAllStockInfo() {
+        StoUpdateAllStockTrend();
         return InfUpdateAllStockInfo();
+
     }
 
+    public int ProcessUpdateAllStockTrend() {
+        if (ServiceAFweb.javamainflag == true) {
+            return StoUpdateAllStockTrend();
+        }
+        return 0;
+    }
 /////////////////////////////////////////////
     public static String debugSymbol = "HOU.TO";
 
@@ -1704,6 +1712,13 @@ public class ServiceAFweb {
 //        }
 //        return getStockByStockIDServ(stockId);
 //    }    
+
+    public int StoUpdateAllStockTrend() {
+        if (stockFlag == true) {
+            return stockSrv.UpdateAllStockTrend(this);
+        }
+        return 0;
+    }
 
     public boolean StoCheckStockValidServ(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
         if (stockFlag == true) {
