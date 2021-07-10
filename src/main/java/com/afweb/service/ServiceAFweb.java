@@ -1048,14 +1048,15 @@ public class ServiceAFweb {
 
         AccDataSource(dataSource, REMOTE_URL);
 
+        String infonnURL = REMOTE_URL;
         if (SysIsRemoteDBCall() == true) {
             if (CKey.dbinfonnflag == true) {
-                REMOTE_URL = CKey.dbInfoNNURL;
+                infonnURL = CKey.dbInfoNNURL;
             }
         }
-        NnDataSourceNNnet(dataSource, REMOTE_URL);
+        NnDataSourceNNnet(dataSource, infonnURL);
 
-        InfSetDataSource(dataSource, REMOTE_URL);
+        InfSetDataSource(dataSource, infonnURL);
 ////////////////////////////////////////
         String enSt = CKey.PROXYURL_TMP;
         enSt = StringTag.replaceAll("abc", "", enSt);

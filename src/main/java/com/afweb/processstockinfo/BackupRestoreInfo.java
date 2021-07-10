@@ -90,7 +90,7 @@ public class BackupRestoreInfo {
                 String sql = StockInfoDB.insertStockInfo(item);
                 writeSQLArray.add(sql);
                 index++;
-                if (index > 500) {  //500) {
+                if (index > 300) {  //500) {
                     index = 0;
                     int ret = sendRequestObj(serviceAFWeb, writeSQLArray);
                     if (ret == 0) {
