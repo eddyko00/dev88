@@ -37,7 +37,7 @@ import static org.apache.http.protocol.HTTP.USER_AGENT;
  */
 public class ServiceRemoteDBnndata {
 
-    public static Logger logger = Logger.getLogger("ServiceRemoteDB");
+    public static Logger logger = Logger.getLogger("ServiceRemoteDBnndata");
     public static String CMD = "cmd";
     public static String CMDPOST = "sqlreq";
 
