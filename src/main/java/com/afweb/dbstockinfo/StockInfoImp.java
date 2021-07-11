@@ -81,4 +81,34 @@ public class StockInfoImp {
     public ArrayList getAllIdInfoSQL(String sql) {
         return stockInfodb.getAllIdInfoSQL(sql);
     }
+//////////////////////////////////////    
+    public String getAllLockDBSQL(String sql) {
+        return stockInfodb.getAllLockDBSQL(sql);
+    }
+
+    public ArrayList getAllLock() {
+        return stockInfodb.getAllLock();
+    }
+
+    public int setLockName(String name, int type, long lockDateValue, String comment) {
+        return stockInfodb.setLockName(name, type, lockDateValue, comment);
+    }
+
+    public AFLockObject getLockName(String name, int type) {
+        return stockInfodb.getLockName(name, type);
+    }
+
+    public int setRenewLock(String name, int type, long lockDateValue) {
+        return stockInfodb.setRenewLock(name, type, lockDateValue);
+    }
+
+    public int removeLock(String name, int type) {
+        return stockInfodb.removeLock(name, type);
+    }
+
+    public int deleteAllLock() {
+        return stockInfodb.deleteAllLock();
+    }
+////////////////////////////////////////////////////////////////
+    
 }

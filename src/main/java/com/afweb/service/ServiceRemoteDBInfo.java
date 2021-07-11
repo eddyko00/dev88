@@ -6,13 +6,15 @@
 package com.afweb.service;
 
 import com.afweb.model.stock.*;
+
 import com.afweb.service.db.*;
 import com.afweb.util.CKey;
 import com.afweb.util.getEnv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.BufferedReader;
+
+import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -20,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
+import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -329,7 +332,104 @@ public class ServiceRemoteDBInfo {
             return null;
         }
     }
+//////////////////
+    public ArrayList getAllLockSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
+        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+//        log.info("getAllLockSqlRemoteDB_RemoteMysql " + sqlCMD);
+        try {
+            String subResourcePath = remoteURL;
+            HashMap newmap = new HashMap();
+            newmap.put(CMD, "1");
+
+            HashMap newbodymap = new HashMap();
+            newbodymap.put(CMDPOST, sqlCMD);
+
+            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
+
+            int beg = output.indexOf("~~ ");
+            int end = output.indexOf(" ~~");
+            // create hash map
+            if (beg > end) {
+                return null;
+            }
+            output = output.substring(beg + 3, end);
+            if (output.length() == 0) {
+                return null;
+            }
+//            String[] dataArray = output.split("~");
+            String[] dataArray = splitIncludeEmpty(output, '~');
+            output = "[";
+// "create table lockobject (id int(10) not null auto_increment, lockname varchar(255) not null unique, type int(10) not null, 
+//lockdatedisplay date, lockdatel bigint(20), comment varchar(255), primary key (id))");
+
+            int recSize = 6;
+            for (int i = 0; i < dataArray.length; i += recSize) {
+                output += "{";
+                output += "\"id\":\"" + dataArray[i] + "\",";
+                output += "\"lockname\":\"" + dataArray[i + 1] + "\",";
+                output += "\"type\":\"" + dataArray[i + 2] + "\",";
+                output += "\"lockdatedisplay\":\"" + dataArray[i + 3] + "\",";
+                output += "\"lockdatel\":\"" + dataArray[i + 4] + "\",";
+                output += "\"comment\":\"" + dataArray[i + 5] + "\"";
+
+                if (i + recSize >= dataArray.length) {
+                    output += "}";
+                } else {
+                    output += "},";
+                }
+            }
+            output += "]";
+            return getAllLockSqlRemoteDB_Process(output);
+
+        } catch (Exception ex) {
+            logger.info("getAllLockSqlRemoteDB exception " + ex);
+            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+            throw ex;
+        }
+    }
+
+    private ArrayList<AFLockObject> getAllLockSqlRemoteDB_Process(String output) {
+        if (output.equals("")) {
+            return null;
+        }
+        ArrayList<LockObjectRDB> arrayDB = null;
+        ArrayList<AFLockObject> arrayReturn = new ArrayList();
+        try {
+            LockObjectRDB[] arrayItem = new ObjectMapper().readValue(output, LockObjectRDB[].class);
+            List<LockObjectRDB> listItem = Arrays.<LockObjectRDB>asList(arrayItem);
+            arrayDB = new ArrayList<LockObjectRDB>(listItem);
+
+            for (int i = 0; i < arrayDB.size(); i++) {
+                LockObjectRDB rs = arrayDB.get(i);
+
+                AFLockObject lock = new AFLockObject();
+                lock.setLockname(rs.getLockname());
+                lock.setType(Integer.parseInt(rs.getType()));
+                lock.setLockdatel(Long.parseLong(rs.getLockdatel()));
+                lock.setLockdatedisplay(new java.sql.Date(lock.getLockdatel()));
+
+                lock.setId(Integer.parseInt(rs.getId()));
+                lock.setComment(rs.getComment());
+
+                String tzid = "America/New_York"; //EDT
+                TimeZone tz = TimeZone.getTimeZone(tzid);
+                Date d = new Date(lock.getLockdatel());
+                DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                format.setTimeZone(tz);
+                String ESTdate = format.format(d);
+                lock.setUpdateDateD(ESTdate);
+
+                arrayReturn.add(lock);
+            }
+            return arrayReturn;
+        } catch (IOException ex) {
+            logger.info("getAllLockSqlRemoteDB exception " + output);
+            return null;
+        }
+
+    }
+///////////////
     public ArrayList getAllIdSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);

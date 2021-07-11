@@ -793,8 +793,8 @@ public class SysDB {
         }
         return 0;
     }
-
-//
+    
+    /////////////////////////
     public ArrayList getAllSymbolSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;

@@ -5,6 +5,9 @@
  */
 package com.afweb.dbstockinfo;
 
+import static com.afweb.dbsys.SysDB.Max2HAdmin;
+import static com.afweb.dbsys.SysDB.MaxMinuteAdminSignalTrading;
+import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
@@ -12,13 +15,18 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.service.*;
 
 import com.afweb.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.sql.Date;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.sql.DataSource;
 import java.util.logging.Logger;
@@ -349,7 +357,172 @@ public class StockInfoDB {
         return 0;
 
     }
+    ////////////////////////
+    public int deleteAllLock() {
 
+        try {
+            String deleteSQL = "delete from lockobject";
+            processExecuteDB(deleteSQL);
+            return 1;
+        } catch (Exception e) {
+            logger.info("> DeleteAllLock exception " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public String getAllLockDBSQL(String sql) {
+        try {
+            ArrayList<AFLockObject> entries = getAllLockObjSQL(sql);
+            String nameST = new ObjectMapper().writeValueAsString(entries);
+            return nameST;
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
+    public ArrayList getAllLock() {
+        String sql = "select * from lockobject";
+        ArrayList entries = getAllLockObjSQL(sql);
+        return entries;
+    }
+
+    public AFLockObject getLockName(String name, int type) {
+        String sql = "select * from lockobject where lockname='" + name + "' and type=" + type;
+        ArrayList entries = getAllLockObjSQL(sql);
+        if (entries != null) {
+            if (entries.size() == 1) {
+                AFLockObject lock = (AFLockObject) entries.get(0);
+                return lock;
+            }
+        }
+        return null;
+    }
+
+    private ArrayList getAllLockObjSQL(String sql) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
+            ArrayList lockList;
+            try {
+                lockList = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                return lockList;
+            } catch (Exception ex) {
+
+            }
+            return null;
+        }
+
+        try {
+            List<AFLockObject> entries = new ArrayList<>();
+            entries.clear();
+            entries = this.jdbcTemplate.query(sql, new RowMapper() {
+                public AFLockObject mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    AFLockObject lock = new AFLockObject();
+                    lock.setLockname(rs.getString("lockname"));
+                    lock.setType(rs.getInt("type"));
+                    lock.setLockdatedisplay(new java.sql.Date(rs.getDate("lockdatedisplay").getTime()));
+                    lock.setLockdatel(Long.parseLong(rs.getString("lockdatel")));
+                    lock.setId(rs.getInt("id"));
+                    lock.setComment(rs.getString("comment"));
+
+                    String tzid = "America/New_York"; //EDT
+                    TimeZone tz = TimeZone.getTimeZone(tzid);
+                    Date d = new Date(lock.getLockdatel());
+                    DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm a z");
+                    format.setTimeZone(tz);
+                    String ESTdate = format.format(d);
+                    lock.setUpdateDateD(ESTdate);
+
+                    return lock;
+                }
+            });
+            return (ArrayList) entries;
+        } catch (Exception e) {
+            logger.info("> getAllLockObjSQL exception " + e.getMessage());
+        }
+        return null;
+    }
+
+    public int setRenewLock(String name, int type, long lockDateValue) {
+
+        try {
+            AFLockObject lock = getLockName(name, type);
+
+            if (lock == null) {
+                return 0;
+            }
+            String sqlCMD = "update lockobject set lockdatedisplay='" + new java.sql.Date(lockDateValue) + "', lockdatel=" + lockDateValue + " where id=" + lock.getId();
+            return processUpdateDB(sqlCMD);
+
+        } catch (Exception ex) {
+            logger.info("> setRenewLock exception " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    private int setLockObject(String name, int type, long lockDateValue, String comment) {
+        try {
+            String sqlCMD = "insert into lockobject (lockname, type, lockdatedisplay, lockdatel, comment) VALUES "
+                    + "('" + name + "'," + type + ",'" + new java.sql.Date(lockDateValue) + "'," + lockDateValue + ",'" + comment + "')";
+            return processUpdateDB(sqlCMD);
+
+        } catch (Exception e) {
+            logger.info("> setLockObject exception " + name + " - " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int setLockName(String name, int type, long lockDateValue, String comment) {
+
+        try {
+            AFLockObject lock = getLockName(name, type);
+            if (lock == null) {
+                return setLockObject(name, type, lockDateValue, comment);
+            }
+
+            int allowTime = 6; // default 6 minutes
+
+            if (type == ConstantKey.STOCK_LOCKTYPE) {
+                allowTime = 3; // 3 minutes for stock timeout
+            } else if (type == ConstantKey.STOCK_UPDATE_LOCKTYPE) {
+                allowTime = 3; // 3 minutes for stock timeout
+            } else if (type == ConstantKey.SRV_LOCKTYPE) {
+                allowTime = 10; // 10 minutes for stock timeout
+            } else if (type == ConstantKey.NN_TR_LOCKTYPE) {
+                allowTime = 30; // 30 minutes for NN trrain timeout                
+            } else if (type == ConstantKey.ADMIN_SIGNAL_LOCKTYPE) {
+                allowTime = MaxMinuteAdminSignalTrading; // 90 minutes for stock timeout                
+            } else if (type == ConstantKey.NN_LOCKTYPE) {
+                allowTime = MaxMinuteAdminSignalTrading; // 90 minutes for stock timeout                
+            } else if (type == ConstantKey.H2_LOCKTYPE) {
+                allowTime = Max2HAdmin; // 100 minutes for stock timeout
+
+            }
+            long lockDate = lock.getLockdatel();
+            long lockDate10Min = TimeConvertion.addMinutes(lockDate, allowTime);
+
+            if (lockDate10Min > lockDateValue) {
+                return 0;
+            }
+            removeLock(name, type);
+
+        } catch (Exception ex) {
+            logger.info("> SetLockName exception " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int removeLock(String name, int type) {
+
+        try {
+            String sqlDelete = "delete from lockobject where lockname='" + name + "' and type=" + type;
+            this.processExecuteDB(sqlDelete);
+            return 1;
+        } catch (Exception ex) {
+            logger.info("> removeLock exception " + ex.getMessage());
+        }
+        return 0;
+    }
+    
+    /////////////////////////
     ///////////
     public ArrayList getAllIdInfoSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {

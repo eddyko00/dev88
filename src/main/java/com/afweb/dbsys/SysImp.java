@@ -30,48 +30,47 @@ public class SysImp {
     public static int SHORT_TERM_TREND = 16;
     public static int LONG_TERM_TREND = 50;
 
-    private SysDB stockdb = new SysDB();
-    private StockInfoDB stockInfodb = new StockInfoDB();
+    private SysDB sysdb = new SysDB();
 
     public void setDataSource(DataSource dataSource, String URL) {
-        stockdb.setDataSource(dataSource, URL);
+        sysdb.setDataSource(dataSource, URL);
 
     }
 
     public ArrayList getAllRemoveStockNameList(int length) {
         ArrayList returnStocNamekArray = new ArrayList();
-        returnStocNamekArray = stockdb.getAllDisableStockName(ConstantKey.COMPLETED);
+        returnStocNamekArray = sysdb.getAllDisableStockName(ConstantKey.COMPLETED);
         return returnStocNamekArray;
     }
 
     public ArrayList getAllDisableStockNameList(int length) {
         ArrayList returnStocNamekArray = new ArrayList();
-        returnStocNamekArray = stockdb.getAllDisableStockName(ConstantKey.DISABLE);
+        returnStocNamekArray = sysdb.getAllDisableStockName(ConstantKey.DISABLE);
         return returnStocNamekArray;
     }
 
     public int addStock(String NormalizeSymbol) {
-        return stockdb.addStock(NormalizeSymbol);
+        return sysdb.addStock(NormalizeSymbol);
     }
 
     public int deleteStock(AFstockObj stockObj) {
         if (stockObj == null) {
             return 0;
         }
-        return stockdb.deleteStock(stockObj);
+        return sysdb.deleteStock(stockObj);
     }
 
     public int disableStock(String NormalizeSymbol) {
-        return stockdb.disableStock(NormalizeSymbol);
+        return sysdb.disableStock(NormalizeSymbol);
     }
 
     public AFstockObj getStockByStockID(int StockID, Calendar dateNow) {
-        return stockdb.getStockByStockID(StockID, dateNow);
+        return sysdb.getStockByStockID(StockID, dateNow);
     }
 
     public AFstockObj getStockByName(String NormalizeSymbol, Calendar dateNow) {
 //        logger.info("> getRealTimeStock " + NormalizeSymbol);
-        AFstockObj stock = stockdb.getStock(NormalizeSymbol, dateNow);
+        AFstockObj stock = sysdb.getStock(NormalizeSymbol, dateNow);
         return stock;
     }
 
@@ -90,7 +89,7 @@ public class SysImp {
 
     public ArrayList getStockObjArray(int length) {
         ArrayList returnStockArray = new ArrayList();
-        ArrayList stockArray = stockdb.getAllOpenStock();
+        ArrayList stockArray = sysdb.getAllOpenStock();
         if (stockArray != null && stockArray.size() > 0) {
             if (length == 0) {
                 // all stock
@@ -108,83 +107,82 @@ public class SysImp {
     }
 
     public int updateStockStatusDB(AFstockObj stock) {
-        return stockdb.updateStockStatusDB(stock);
+        return sysdb.updateStockStatusDB(stock);
     }
 
     public int updateSQLArrayList(ArrayList SQLTran) {
-        return stockdb.updateSQLArrayList(SQLTran);
+        return sysdb.updateSQLArrayList(SQLTran);
     }
 
     public String getAllStockDBSQL(String sql) {
-        return stockdb.getAllStockDBSQL(sql);
+        return sysdb.getAllStockDBSQL(sql);
     }
 
     public ArrayList<String> getAllIdSQL(String sql) {
-        return stockdb.getAllIdSQL(sql);
+        return sysdb.getAllIdSQL(sql);
     }
 
 //////////////////////////////////////    
     public String getAllLockDBSQL(String sql) {
-        return stockdb.getAllLockDBSQL(sql);
+        return sysdb.getAllLockDBSQL(sql);
     }
 
     public ArrayList getAllLock() {
-        return stockdb.getAllLock();
+        return sysdb.getAllLock();
     }
 
     public int setLockName(String name, int type, long lockDateValue, String comment) {
-        return stockdb.setLockName(name, type, lockDateValue, comment);
+        return sysdb.setLockName(name, type, lockDateValue, comment);
     }
 
     public AFLockObject getLockName(String name, int type) {
-        return stockdb.getLockName(name, type);
+        return sysdb.getLockName(name, type);
     }
 
     public int setRenewLock(String name, int type, long lockDateValue) {
-        return stockdb.setRenewLock(name, type, lockDateValue);
+        return sysdb.setRenewLock(name, type, lockDateValue);
     }
 
     public int removeLock(String name, int type) {
-        return stockdb.removeLock(name, type);
+        return sysdb.removeLock(name, type);
+    }
+
+    public int deleteAllLock() {
+        return sysdb.deleteAllLock();
     }
 ////////////////////////////////////////////////////////////////
-    
+
     public boolean restStockDB() {
-        return stockdb.restStockDB();
+        return sysdb.restStockDB();
     }
 
     public boolean cleanStockDB() {
-        return stockdb.cleanStockDB();
+        return sysdb.cleanStockDB();
     }
 
 //    public boolean cleanNNonlyStockDB() {
 //        return stockdb.cleanNNonlyStockDB();
 //    }
-
-    public int deleteAllLock() {
-        return stockdb.deleteAllLock();
-    }
-
     // 0 - new db, 1 - db already exist, -1 db error
     public int initStockDB() {
-        return stockdb.initStockDB();
+        return sysdb.initStockDB();
     }
 
     public String getAllSQLquery(String sql) {
-        return stockdb.getAllSQLqueryDBSQL(sql);
+        return sysdb.getAllSQLqueryDBSQL(sql);
     }
 
     public ArrayList getAllNameSQL(String sql) {
-        return stockdb.getAllNameSQL(sql);
+        return sysdb.getAllNameSQL(sql);
     }
 
     public ArrayList getAllSymbolSQL(String sql) {
-        return stockdb.getAllSymbolSQL(sql);
+        return sysdb.getAllSymbolSQL(sql);
     }
 
     public String getRemoteMYSQL(String sql) {
         try {
-            return stockdb.getRemoteMYSQL(sql);
+            return sysdb.getRemoteMYSQL(sql);
         } catch (Exception ex) {
             logger.info("> getRemoteMYSQL exception " + ex.getMessage());
             return null;
@@ -193,7 +191,7 @@ public class SysImp {
 
     public int updateRemoteMYSQL(String sql) {
         try {
-            return stockdb.updateRemoteMYSQL(sql);
+            return sysdb.updateRemoteMYSQL(sql);
         } catch (Exception ex) {
             logger.info("> getRemoteMYSQL exception " + ex.getMessage());
             return 0;
