@@ -48,7 +48,7 @@ public class BackupRestoreInfo {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
 
-        String LockName = "BAKUP";
+        String LockName = "RESTORE";
         int lockReturn = infServ.InfoSetLockName(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_restoreDBDataInfo");
         if (CKey.NN_DEBUG == true) {
             lockReturn = 1;

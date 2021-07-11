@@ -55,9 +55,9 @@ public class StockInfoProcess {
         ServiceAFweb.lastfun = "UpdateAllStockTrend";
 
         // exit if restore stockinfo data
-        String LName = "BAKUP";
-        AFLockObject backupLock = infServ.InfoGetLockName(LName, ConstantKey.H2_LOCKTYPE);
-        if (backupLock != null) {
+        String LName = "RESTORE";
+        AFLockObject restoreLock = infServ.InfoGetLockName(LName, ConstantKey.H2_LOCKTYPE);
+        if (restoreLock != null) {
             return 0;
         }
 
