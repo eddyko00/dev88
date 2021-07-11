@@ -6,6 +6,7 @@
 package com.afweb.processstockinfo;
 
 import com.afweb.dbstockinfo.StockInfoDB;
+import com.afweb.model.ConstantKey;
 
 import com.afweb.model.stock.*;
 
@@ -13,9 +14,9 @@ import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import java.util.logging.Logger;
 
@@ -26,6 +27,7 @@ import java.util.logging.Logger;
 public class BackupRestoreInfo {
 
     protected static Logger logger = Logger.getLogger("BackupRestoreInfo");
+    private static StockInfoService infServ = new StockInfoService();
 
     private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
@@ -43,10 +45,22 @@ public class BackupRestoreInfo {
 
     public boolean restoreDBDataInfo(ServiceAFweb serviceAFWeb) {
         logger.info(">>>>>>>> restoreDBstockinfo ");
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long lockDateValue = dateNow.getTimeInMillis();
+
+        String LockName = "BAKUP";
+        int lockReturn = infServ.InfoSetLockName(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_restoreDBDataInfo");
+        if (CKey.NN_DEBUG == true) {
+            lockReturn = 1;
+        }
+        if (lockReturn == 0) {
+            //no unlock and just wait for 90 minutes
+//            return false;
+        }
 
         restoreDBstockinfo(serviceAFWeb);
         restoreDBdummyInfo(serviceAFWeb);
-
+        infServ.InfoRemoveLockName(LockName, ConstantKey.H2_LOCKTYPE);
         return true;
     }
 
@@ -182,8 +196,8 @@ public class BackupRestoreInfo {
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            ArrayList<AFstockInfo> array =  serviceAFWeb.InfGetAllStockInfoDBSQLArray(sql);
-            
+            ArrayList<AFstockInfo> array = serviceAFWeb.InfGetAllStockInfoDBSQLArray(sql);
+
 //            String output = serviceAFWeb.getAllStockInfoDBSQLServ(sql);
 //            sqlObj.setReq(sql);
 //

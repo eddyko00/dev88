@@ -8,9 +8,7 @@ package com.afweb.processstockinfo;
 import com.afweb.stockinternet.StockInternetImpDao;
 
 import com.afweb.model.*;
-
 import com.afweb.model.account.*;
-
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
@@ -34,7 +32,7 @@ public class StockInfoProcess {
 
     protected static Logger logger = Logger.getLogger("StockInfoProcess");
     private static StockInfoService infServ = new StockInfoService();
-    
+
     ///////////////
     public static int stockPass = 0;
     public static int stockFail = 0;
@@ -55,6 +53,13 @@ public class StockInfoProcess {
 
     public int updateAllStockInfo(ServiceAFweb serviceAFWeb) {
         ServiceAFweb.lastfun = "UpdateAllStockTrend";
+
+        // exit if restore stockinfo data
+        String LName = "BAKUP";
+        AFLockObject backupLock = infServ.InfoGetLockName(LName, ConstantKey.H2_LOCKTYPE);
+        if (backupLock != null) {
+            return 0;
+        }
 
         //SimpleDateFormat etDf = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
