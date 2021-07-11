@@ -8,7 +8,7 @@ package com.afweb.signal;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.AFstockInfo;
 import com.afweb.signal.BBands.*;
-import com.afweb.dbstock.StockImp;
+import com.afweb.dbsys.SysImp;
 import com.jasonlam604.stocktechnicals.indicators.*;
 
 import java.util.ArrayList;
@@ -352,7 +352,7 @@ public class TechnicalCal {
 
         double Trend1, Trend2;
         try {
-            if (period < StockImp.LONG_TERM_TREND) {
+            if (period < SysImp.LONG_TERM_TREND) {
                 Trend1 = TrendUpDownProcess(StockRecArray, DataOffset, period);
                 return Trend1;
             }

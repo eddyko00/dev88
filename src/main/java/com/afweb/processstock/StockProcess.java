@@ -16,8 +16,8 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
-import com.afweb.dbstock.StockDB;
-import com.afweb.dbstock.StockImp;
+import com.afweb.dbsys.SysDB;
+import com.afweb.dbsys.SysImp;
 
 import com.afweb.util.*;
 
@@ -159,7 +159,7 @@ public class StockProcess {
                     // udpate other trends 
 
                     // send SQL update
-                    String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
+                    String sockUpdateSQL = SysDB.SQLupdateStockSignal(stock);
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(sockUpdateSQL);
                     serviceAFWeb.StoUpdateSQLArrayList(sqlList);
@@ -197,8 +197,8 @@ public class StockProcess {
         }
         int offset = AccountTranImp.getOffetDate(StockArray, dateNowL);
 
-        float STerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-        float LTerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+        float STerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, SysImp.SHORT_TERM_TREND);
+        float LTerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, SysImp.LONG_TERM_TREND);
         ADXObj adx = TechnicalCal.AvgDir(StockArray, offset, 14);
 
         int iSTerm = (int) STerm;

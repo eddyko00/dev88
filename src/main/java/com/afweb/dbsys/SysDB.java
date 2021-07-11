@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.dbstock;
+package com.afweb.dbsys;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
@@ -47,7 +47,7 @@ import org.springframework.jdbc.core.RowMapper;
  *
  *
  */
-public class StockDB {
+public class SysDB {
 
     protected static Logger logger = Logger.getLogger("StockDB");
 

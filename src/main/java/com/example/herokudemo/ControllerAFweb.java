@@ -6,7 +6,7 @@
 package com.example.herokudemo;
 
 import com.afweb.dbnndata.NNetdataDB;
-import com.afweb.dbstock.StockDB;
+import com.afweb.dbsys.SysDB;
 import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
@@ -300,7 +300,7 @@ public class ControllerAFweb {
         ArrayList arrayString = new ArrayList();
         arrayString.add(" DBURL:" + CKey.SERVER_DB_URL);
         arrayString.add(" DBInfoNNURL:" + CKey.dbInfoNNURL);
-        arrayString.add(" StockDB:" + StockDB.remoteURL);
+        arrayString.add(" StockDB:" + SysDB.remoteURL);
         arrayString.add(" StockInfoDB:" + StockInfoDB.remoteURL);
         arrayString.add(" NnetDB:" + NNetdataDB.remoteURL);
 

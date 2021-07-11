@@ -13,7 +13,7 @@ import com.afweb.model.stock.*;
 import com.afweb.processcustacc.CommService;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.dbstock.StockDB;
+import com.afweb.dbsys.SysDB;
 import com.afweb.util.*;
 
 import java.text.DateFormat;
@@ -127,7 +127,7 @@ public class AccountMaintProcess {
                         AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
                         stock.setStatus(ConstantKey.COMPLETED);
                         //send SQL update
-                        String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
+                        String sockUpdateSQL = SysDB.SQLupdateStockStatus(stock);
                         ArrayList sqlList = new ArrayList();
                         sqlList.add(sockUpdateSQL);
                         serviceAFWeb.StoUpdateSQLArrayList(sqlList);
@@ -213,7 +213,7 @@ public class AccountMaintProcess {
 
                 if (lockObj.getType() == ConstantKey.ADMIN_SIGNAL_LOCKTYPE) {
                     // TR Best takes a long time
-                    lastUpdateAdd30 = TimeConvertion.addMinutes(lastUpdate, StockDB.MaxMinuteAdminSignalTrading); // remove lock for 90min
+                    lastUpdateAdd30 = TimeConvertion.addMinutes(lastUpdate, SysDB.MaxMinuteAdminSignalTrading); // remove lock for 90min
                 }
                 if (lastUpdateAdd30 < dateNow.getTimeInMillis()) {
                     serviceAFWeb.SysLockRemoveName(lockObj.getLockname(), lockObj.getType());

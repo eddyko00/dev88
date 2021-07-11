@@ -11,8 +11,8 @@ package com.afweb.nnsignal;
 //https://stackoverflow.com/questions/8587047/support-resistance-algorithm-technical-analysis/8590007
 import com.afweb.dbaccount.AccountDB;
 import com.afweb.processcustacc.AccountTranImp;
-import com.afweb.dbstock.StockImp;
-import com.afweb.dbstock.StockDB;
+import com.afweb.dbsys.SysImp;
+import com.afweb.dbsys.SysDB;
 import com.afweb.processnn.signal.*;
 
 import com.afweb.processnn.*;
@@ -826,7 +826,7 @@ public class TradingSignalProcess {
                 }
 
                 long lockExit90M = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-                lockExit90M = TimeConvertion.addMinutes(lockExit90M, StockDB.MaxMinuteAdminSignalTrading - 20);  //90 minutes
+                lockExit90M = TimeConvertion.addMinutes(lockExit90M, SysDB.MaxMinuteAdminSignalTrading - 20);  //90 minutes
 
                 if (subStatus == ConstantKey.INITIAL) {
 //                    logger.info("> upateAdminTransaction INITIAL " + stock.getSymbol() + " " + trObj.getTrname());
@@ -1013,8 +1013,8 @@ public class TradingSignalProcess {
                     trHistory.setTrsignal(trObj.getTrsignal());
                     trHistory.setParm1((float) ema2050.ema);
                     trHistory.setParm2((float) ema2050.lastema);
-                    float LTerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-                    float STerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
+                    float LTerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, SysImp.LONG_TERM_TREND);
+                    float STerm = (float) TechnicalCal.TrendUpDown(StockArray, offset, SysImp.SHORT_TERM_TREND);
                     trHistory.setParm3((float) LTerm);
                     trHistory.setParm4((float) STerm);
                     break;
@@ -1119,14 +1119,6 @@ public class TradingSignalProcess {
                         String nameSt = serviceAFWeb.saveAccData(accData);
                         trObj.setComment(nameSt);
 
-                        if (ServiceAFweb.mydebugtestflag == true) {
-
-//                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-//                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
-//
-//                            logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn1Signal + " C:" + trHistory.getParm5()
-//                                    + " " + trObj.getComment() + " " + trHistory.getParmSt1());
-                        }
                     }
                     break;
                 case ConstantKey.INT_TR_NN91: // shadow of INT_TR_NN1
@@ -1159,8 +1151,8 @@ public class TradingSignalProcess {
 //                            if (offset < 99) {
 //                                prevSignal = nn2Signal;
 //                            }
-                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+                            float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, SysImp.SHORT_TERM_TREND);
+                            float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, SysImp.LONG_TERM_TREND);
                             logger.info(">ProcessTRHistoryOffset NN1 " + offset + " " + stdate + " S:" + nn2Signal + " C:" + trHistory.getParm5()
                                     + " " + trHistory.getParmSt1());
                         }
@@ -1194,8 +1186,8 @@ public class TradingSignalProcess {
 
                             if (ServiceAFweb.mydebugtestflag == true) {
 
-                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.SHORT_TERM_TREND);
-                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, StockImp.LONG_TERM_TREND);
+                                float STerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, SysImp.SHORT_TERM_TREND);
+                                float LTerm1 = (float) TechnicalCal.TrendUpDown(StockArray, offset, SysImp.LONG_TERM_TREND);
 
                                 logger.info(">ProcessTRHistoryOffset NN3 " + offset + " " + stdate + " S:" + nn3Signal + " C:" + trHistory.getParm5()
                                         + " " + trObj.getComment() + " " + trHistory.getParmSt1());

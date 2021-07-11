@@ -6,7 +6,7 @@
 package com.afweb.processsystem;
 
 import com.afweb.dbaccount.AccountDB;
-import com.afweb.dbstock.StockDB;
+import com.afweb.dbsys.SysDB;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 
@@ -160,7 +160,7 @@ public class SystemMaintProcess {
         AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(sym);
         if (stock.getSubstatus() == ConstantKey.STOCK_SPLIT) {
             stock.setSubstatus(ConstantKey.OPEN);
-            String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+            String sockNameSQL = SysDB.SQLupdateStockStatus(stock);
             ArrayList sqlList = new ArrayList();
             sqlList.add(sockNameSQL);
             serviceAFWeb.StoUpdateSQLArrayList(sqlList);
@@ -200,7 +200,7 @@ public class SystemMaintProcess {
         }
 
         stock.setSubstatus(ConstantKey.STOCK_SPLIT);
-        String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+        String sockNameSQL = SysDB.SQLupdateStockStatus(stock);
         ArrayList sqlList = new ArrayList();
         sqlList.add(sockNameSQL);
         serviceAFWeb.StoUpdateSQLArrayList(sqlList);

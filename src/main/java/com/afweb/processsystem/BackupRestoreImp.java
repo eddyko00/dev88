@@ -5,7 +5,7 @@
  */
 package com.afweb.processsystem;
 
-import com.afweb.dbstock.StockDB;
+import com.afweb.dbsys.SysDB;
 import com.afweb.dbaccount.AccountDB;
 
 import com.afweb.model.*;
@@ -84,7 +84,7 @@ public class BackupRestoreImp {
 
         logger.info("> restoreDBdummy ");
         ArrayList<String> writeSQLArray = new ArrayList();
-        String sql = StockDB.createDummytable();
+        String sql = SysDB.createDummytable();
         writeSQLArray.add(sql);
         return serviceAFWeb.AccUpdateSQLArrayList(writeSQLArray);
 
@@ -235,7 +235,7 @@ public class BackupRestoreImp {
             for (int i = 0; i < writeArray.size(); i++) {
                 String output = writeArray.get(i);
                 AFstockObj item = new ObjectMapper().readValue(output, AFstockObj.class);
-                String sql = StockDB.insertStock(item);
+                String sql = SysDB.insertStock(item);
                 writeSQLArray.add(sql);
 
             }

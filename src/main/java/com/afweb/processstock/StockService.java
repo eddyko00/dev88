@@ -10,7 +10,7 @@ import com.afweb.model.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.dbstock.StockImp;
+import com.afweb.dbsys.SysImp;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +30,7 @@ public class StockService {
 
     protected static Logger logger = Logger.getLogger("StockService");
     private StockProcess stockProcess = new StockProcess();
-    private StockImp stockImp = new StockImp();
+    private SysImp sysImp = new SysImp();
 
     // need to move to account service
     public RequestObj SQLRequestStock(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
@@ -80,19 +80,19 @@ public class StockService {
 //////////////////////////////////////////    
 
     public String getAllStockDBSQL(String sql) {
-        return stockImp.getAllStockDBSQL(sql);
+        return sysImp.getAllStockDBSQL(sql);
     }
 
     public ArrayList getAllSymbolSQL(String sql) {
-        return stockImp.getAllSymbolSQL(sql);
+        return sysImp.getAllSymbolSQL(sql);
     }
 
     public ArrayList getAllRemoveStockNameList(int length) {
-        return stockImp.getAllRemoveStockNameList(length);
+        return sysImp.getAllRemoveStockNameList(length);
     }
 
     public ArrayList getAllDisableStockNameList(int length) {
-        return stockImp.getAllDisableStockNameList(length);
+        return sysImp.getAllDisableStockNameList(length);
     }
 
     public ArrayList getStockObjArray(ServiceAFweb serviceAFWeb, int length) {
@@ -100,7 +100,7 @@ public class StockService {
             return null;
         }
 
-        ArrayList stockList = stockImp.getStockObjArray(length);
+        ArrayList stockList = sysImp.getStockObjArray(length);
         return stockList;
     }
 
@@ -112,7 +112,7 @@ public class StockService {
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
 
-        AFstockObj stock = stockImp.getStockByName(NormalizeSymbol, null);
+        AFstockObj stock = sysImp.getStockByName(NormalizeSymbol, null);
 
         if (stock == null) {
             return null;
@@ -164,7 +164,7 @@ public class StockService {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
-        AFstockObj stock = stockImp.getStockByStockID(stockID, null);
+        AFstockObj stock = sysImp.getStockByStockID(stockID, null);
 
         if (stock == null) {
             return null;
@@ -200,7 +200,7 @@ public class StockService {
             return 0;
         }
 
-        int result = stockImp.addStock(NormalizeSymbol);
+        int result = sysImp.addStock(NormalizeSymbol);
         if (result == ConstantKey.NEW) {
 //            stockProcess.ResetStockUpdateNameArray(serviceAFWeb);
         }
@@ -211,7 +211,7 @@ public class StockService {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        return stockImp.deleteStock(stock);
+        return sysImp.deleteStock(stock);
     }
 
     public int disableStock(ServiceAFweb serviceAFWeb, String symbol) {
@@ -221,7 +221,7 @@ public class StockService {
 
         SymbolNameObj symObj = new SymbolNameObj(symbol);
         String NormalizeSymbol = symObj.getYahooSymbol();
-        return stockImp.disableStock(NormalizeSymbol);
+        return sysImp.disableStock(NormalizeSymbol);
     }
 
     public boolean checkStock(ServiceAFweb serviceAFWeb, String NormalizeSymbol) {
@@ -239,7 +239,7 @@ public class StockService {
     }
 
     public int updateStockStatusDB(AFstockObj stock) {
-        return stockImp.updateStockStatusDB(stock);
+        return sysImp.updateStockStatusDB(stock);
     }
 
     public ArrayList<String> getAllOpenStockNameArray(ServiceAFweb serviceAFWeb) {
@@ -247,12 +247,12 @@ public class StockService {
             return null;
         }
 
-        ArrayList stockNameList = stockImp.getOpenStockNameArray();
+        ArrayList stockNameList = sysImp.getOpenStockNameArray();
         return stockNameList;
     }
 
     public int updateSQLArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
-        return stockImp.updateSQLArrayList(SQLTran);
+        return sysImp.updateSQLArrayList(SQLTran);
     }
 
 ///////////////////////////////////////////        

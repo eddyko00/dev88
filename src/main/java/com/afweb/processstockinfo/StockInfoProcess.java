@@ -14,7 +14,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.dbstock.StockDB;
+import com.afweb.dbsys.SysDB;
 
 import com.afweb.processsystem.SystemMaintProcess;
 
@@ -181,7 +181,7 @@ public class StockInfoProcess {
 //                                // udpate other trends 
 //                            }
                             // send SQL update
-                            String sockUpdateSQL = StockDB.SQLupdateStockSignal(stock);
+                            String sockUpdateSQL = SysDB.SQLupdateStockSignal(stock);
                             ArrayList sqlList = new ArrayList();
                             sqlList.add(sockUpdateSQL);
                             serviceAFWeb.StoUpdateSQLArrayList(sqlList);
@@ -202,7 +202,7 @@ public class StockInfoProcess {
                     }
                     stock.setFailedupdate(failCnt);
                     //send SQL update
-                    String sockUpdateSQL = StockDB.SQLupdateStockStatus(stock);
+                    String sockUpdateSQL = SysDB.SQLupdateStockStatus(stock);
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(sockUpdateSQL);
                     serviceAFWeb.InfUpdateSQLStockInfoArrayList(sqlList);
@@ -374,7 +374,7 @@ public class StockInfoProcess {
                 stock.setDirection(0);
                 if (!stock.getStockname().equals(stockRTinternet.getStockname())) {
                     stock.setStockname(stockRTinternet.getStockname());
-                    String sockNameSQL = StockDB.SQLupdateStockName(stock);
+                    String sockNameSQL = SysDB.SQLupdateStockName(stock);
 
                     ArrayList<String> SQLlist = new ArrayList();
                     SQLlist.add(sockNameSQL);
@@ -461,7 +461,7 @@ public class StockInfoProcess {
 
                     stock.setSubstatus(ConstantKey.OPEN);
 
-                    String sockNameSQL = StockDB.SQLupdateStockStatus(stock);
+                    String sockNameSQL = SysDB.SQLupdateStockStatus(stock);
 
                     ArrayList<String> SQLlist = new ArrayList();
                     SQLlist.add(sockNameSQL);

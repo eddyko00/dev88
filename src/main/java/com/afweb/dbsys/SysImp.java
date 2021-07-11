@@ -1,4 +1,4 @@
-package com.afweb.dbstock;
+package com.afweb.dbsys;
 
 import com.afweb.stockinternet.StockInternetImpDao;
 import com.afweb.dbstockinfo.StockInfoDB;
@@ -23,14 +23,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
  *
  * @author eddy
  */
-public class StockImp {
+public class SysImp {
 
-    protected static Logger logger = Logger.getLogger("StockImp");
+    protected static Logger logger = Logger.getLogger("SysImp");
 
     public static int SHORT_TERM_TREND = 16;
     public static int LONG_TERM_TREND = 50;
 
-    private StockDB stockdb = new StockDB();
+    private SysDB stockdb = new SysDB();
     private StockInfoDB stockInfodb = new StockInfoDB();
 
     public void setDataSource(DataSource dataSource, String URL) {

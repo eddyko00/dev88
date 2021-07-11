@@ -53,7 +53,7 @@ public class StockInfoImp {
     }
 
     ///////////////
-//    StockImp stockImp = new StockImp();
+
     public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
         ArrayList StockArray = null;
         StockArray = stockInfodb.getStockInfoBySymRange(NormalizeSymbol, start, end);

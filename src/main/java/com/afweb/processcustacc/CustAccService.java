@@ -953,8 +953,7 @@ public class CustAccService {
             }
 
             AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(trObj.getSymbol());
-//            int stockId = trObj.getStockid();            
-//            AFstockObj stock = getStockImp().getRealTimeStockByStockID(stockId, null);
+
             if (stock == null) {
                 return 0;
             }

@@ -9,7 +9,7 @@ import com.afweb.model.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.dbstock.StockImp;
+import com.afweb.dbsys.SysImp;
 import com.afweb.stockinternet.StockInternetImpDao;
 
 import com.afweb.util.*;
@@ -28,7 +28,7 @@ import javax.sql.DataSource;
 public class SystemService {
 
     protected static Logger logger = Logger.getLogger("SystemService");
-    private StockImp stockImp = new StockImp();
+    private SysImp sysImp = new SysImp();
 
     public RequestObj SQLRequestSystem(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
 
@@ -98,29 +98,29 @@ public class SystemService {
     }
 
     public void setDataSource(DataSource dataSource, String URL) {
-        stockImp.setDataSource(dataSource, URL);
+        sysImp.setDataSource(dataSource, URL);
     }
 
     // 0 - new db, 1 - db already exist, -1 db error
     public int initStockDB() {
         try {
 
-            int result = stockImp.initStockDB();
+            int result = sysImp.initStockDB();
 
             if (result >= 0) {
 
                 //dummy stock
-                stockImp.addStock("T_T");
+                sysImp.addStock("T_T");
 
                 if (result == 0) {
                     //clear lock                    
-                    stockImp.deleteAllLock();
+                    sysImp.deleteAllLock();
                     // add stocks
                     for (int i = 0; i < ServiceAFweb.primaryStock.length; i++) {
                         String stockN = ServiceAFweb.primaryStock[i];
-                        stockImp.addStock(stockN);
+                        sysImp.addStock(stockN);
                     }
-                    stockImp.addStock("T.TO");
+                    sysImp.addStock("T.TO");
                     return 0; // new db
                 }
                 return 1; // DB already exist
@@ -132,44 +132,44 @@ public class SystemService {
     }
 
     public boolean cleanStockDB() {
-        return stockImp.cleanStockDB();
+        return sysImp.cleanStockDB();
     }
 
     public boolean restStockDB() {
-        return stockImp.restStockDB();
+        return sysImp.restStockDB();
     }
 
 //    public boolean cleanNNonlyStockDB() {
 //        return stockImp.cleanNNonlyStockDB();
 //    }
     public int deleteAllLock() {
-        return stockImp.deleteAllLock();
+        return sysImp.deleteAllLock();
     }
 
     public int updateRemoteMYSQL(String sql) {
-        return stockImp.updateRemoteMYSQL(sql);
+        return sysImp.updateRemoteMYSQL(sql);
     }
 
     public String getRemoteMYSQL(String sql) {
-        return stockImp.getRemoteMYSQL(sql);
+        return sysImp.getRemoteMYSQL(sql);
     }
 
     public ArrayList getAllNameSQL(String sql) {
-        return stockImp.getAllNameSQL(sql);
+        return sysImp.getAllNameSQL(sql);
     }
 
     public ArrayList<String> getAllIdSQL(String sql) {
-        return stockImp.getAllIdSQL(sql);
+        return sysImp.getAllIdSQL(sql);
     }
 
 ////////////////////////////////////////// 
     // System Lock
     public String getAllLockDBSQL(String sql) {
-        return stockImp.getAllLockDBSQL(sql);
+        return sysImp.getAllLockDBSQL(sql);
     }
 
     public ArrayList getAllLock() {
-        return stockImp.getAllLock();
+        return sysImp.getAllLock();
     }
 
     public int setRenewLock(String name, int type) {
@@ -180,7 +180,7 @@ public class SystemService {
             SymbolNameObj symObj = new SymbolNameObj(name);
             name = symObj.getYahooSymbol();
         }
-        return stockImp.setRenewLock(name, type, lockDateValue);
+        return sysImp.setRenewLock(name, type, lockDateValue);
     }
 
     public AFLockObject getLockName(String name, int type) {
@@ -190,7 +190,7 @@ public class SystemService {
             name = symObj.getYahooSymbol();
         }
         name = name.toUpperCase();
-        return stockImp.getLockName(name, type);
+        return sysImp.getLockName(name, type);
     }
 
     public int setLockName(String name, int type, long lockDateValue, String comment) {
@@ -200,7 +200,7 @@ public class SystemService {
             name = symObj.getYahooSymbol();
         }
         name = name.toUpperCase();
-        return stockImp.setLockName(name, type, lockDateValue, comment);
+        return sysImp.setLockName(name, type, lockDateValue, comment);
     }
 
     public int removeLock(String name, int type) {
@@ -210,7 +210,7 @@ public class SystemService {
             name = symObj.getYahooSymbol();
         }
         name = name.toUpperCase();
-        return stockImp.removeLock(name, type);
+        return sysImp.removeLock(name, type);
     }
 //////////////////////////////////////////    
 

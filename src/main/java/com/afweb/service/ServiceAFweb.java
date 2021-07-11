@@ -20,7 +20,7 @@ import com.afweb.processsystem.AccountMaintProcess;
 import com.afweb.model.*;
 import com.afweb.chart.ChartService;
 import com.afweb.dbnndata.NNetdataDB;
-import com.afweb.dbstock.StockDB;
+import com.afweb.dbsys.SysDB;
 import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
@@ -324,7 +324,7 @@ public class ServiceAFweb {
                     getServerObj().setLocalDBservice(false);
                 }
 
-                displayStr += "\r\n" + (">>>>> System REMOTE DB URL:" + StockDB.remoteURL);
+                displayStr += "\r\n" + (">>>>> System REMOTE DB URL:" + SysDB.remoteURL);
                 displayStr += "\r\n" + (">>>>> System REMOTE INFO DB URL:" + StockInfoDB.remoteURL);
                 displayStr += "\r\n" + (">>>>> System REMOTE NN DB URL:" + NNetdataDB.remoteURL);               
                 displayStr += "\r\n" + (">>>>> System SERVER_DB_URL:" + CKey.SERVER_DB_URL);
@@ -468,7 +468,7 @@ public class ServiceAFweb {
     private boolean AFbackupSystem() {
         serverObj.setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> backupSystem form DB URL:" + StockDB.remoteURL);
+        logger.info(">>>>> backupSystem form DB URL:" + SysDB.remoteURL);
 
         boolean retSatus = false;
 
@@ -525,7 +525,7 @@ public class ServiceAFweb {
     private boolean AFrestoreSystem() {
         getServerObj().setSysMaintenance(true);
         serverObj.setTimerInit(true);
-        logger.info(">>>>> restoreSystem form DB URL:" + StockDB.remoteURL);
+        logger.info(">>>>> restoreSystem form DB URL:" + SysDB.remoteURL);
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Hit any key to continue to restore restoreSystem?");
@@ -911,10 +911,6 @@ public class ServiceAFweb {
     }
 
     public void debugtest() {
-//        String symbol = "IWM";
-//        AFstockObj stock = getStockImp().getRealTimeStock(symbol, null);
-//        int size1yearAll = 20 * 12 * 5 + (50 * 3);
-//        ArrayList<AFstockInfo> StockArray = getStockHistorical(symbol, size1yearAll);
 
     }
 

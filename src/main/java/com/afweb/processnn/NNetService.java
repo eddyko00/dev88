@@ -290,7 +290,6 @@ public class NNetService {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-//        return getStockImp().releaseNeuralNetObj(name);
         return nndataImp.releaseNeuralNetBPObj(name);
     }
 

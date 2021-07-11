@@ -51,11 +51,7 @@ public class TradingNNData {
                     NNInputDataObj objData = inputlistSym.get(i);
                     serviceAFWeb.NnAddNeuralNetDataObject(BPnameSym, "", 0, objData);
                     added++;
-//                    ArrayList<AFneuralNetData> objList = serviceAFWeb.getStockImp().getNeuralNetDataObj(BPnameSym, 0, objData.getUpdatedatel());
-//                    if ((objList == null) || (objList.size() == 0)) {
-//                        serviceAFWeb.getStockImp().updateNeuralNetDataObject(BPnameSym, 0, objData);
-//                        added++;
-//                    }
+
                 }
             }
             logger.info(">>>>>>>>>>>> saveNNdataDB - " + BPnameSym + " added " + added + " of " + total);
