@@ -287,7 +287,7 @@ public class StockInfoDB {
             ArrayList dropTableList = new ArrayList();
             dropTableList.add("drop table if exists dummyinfo1");
             dropTableList.add("drop table if exists stockinfo");
-            dropTableList.add("drop table if exists lockInfoobject");            
+            dropTableList.add("drop table if exists lockinfoobject");            
 
             //must use this ExecuteSQLArrayList to exec one by one for 2 db 
             boolean resultDropList = ExecuteSQLArrayList(dropTableList);
@@ -301,7 +301,7 @@ public class StockInfoDB {
             if (ServiceAFweb.SysIsMySQLDB()) {
                 createTableList.add("create table dummyinfo1 (id int(10) not null auto_increment, primary key (id))");
                 createTableList.add("create table stockinfo (id int(10) not null auto_increment, entrydatedisplay date not null, entrydatel bigint(20) not null, fopen float not null, fclose float not null, high float not null, low float not null, volume float not null, adjustclose float not null, sym varchar(255) not null, stockid int(10) not null, primary key (id))");
-                createTableList.add("create table lockInfoobject (id int(10) not null auto_increment, lockname varchar(255) not null unique, type int(10) not null, lockdatedisplay date, lockdatel bigint(20), comment varchar(255), primary key (id))");
+                createTableList.add("create table lockinfoobject (id int(10) not null auto_increment, lockname varchar(255) not null unique, type int(10) not null, lockdatedisplay date, lockdatel bigint(20), comment varchar(255), primary key (id))");
                 
             }
 
