@@ -1566,10 +1566,10 @@ public class ServiceAFweb {
     }
 
     //////////////////////
-    public ArrayList SysLockGetAll() {
-        ArrayList result = null;
-        ArrayList resultSys = systemSrv.getAllLock();
-        ArrayList resultInfo = stockInfoSrv.InfoGetAllLock();
+    public ArrayList<AFLockObject> SysLockGetAll() {
+        ArrayList<AFLockObject> result = new ArrayList();
+        ArrayList<AFLockObject> resultSys = systemSrv.getAllLock();
+        ArrayList<AFLockObject> resultInfo = stockInfoSrv.InfoGetAllLock();
         result.addAll(resultSys);
         result.addAll(resultInfo);
         return result;

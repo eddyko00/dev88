@@ -390,7 +390,7 @@ public class StockInfoDB {
     }
 
     public AFLockObject getLockName(String name, int type) {
-        String sql = "select * from lockoinfobject where lockname='" + name + "' and type=" + type;
+        String sql = "select * from lockinfobject where lockname='" + name + "' and type=" + type;
         ArrayList entries = getAllLockObjSQL(sql);
         if (entries != null) {
             if (entries.size() == 1) {

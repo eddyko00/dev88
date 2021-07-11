@@ -670,7 +670,7 @@ public class SysDB {
         return null;
     }
 
-    private ArrayList getAllLockObjSQL(String sql) {
+    private ArrayList<AFLockObject> getAllLockObjSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList lockList;
             try {
