@@ -364,7 +364,7 @@ public class StockInfoDB {
     public int deleteAllLock() {
 
         try {
-            String deleteSQL = "delete from lockobject";
+            String deleteSQL = "delete from lockinfoobject";
             processExecuteDB(deleteSQL);
             return 1;
         } catch (Exception e) {
@@ -384,13 +384,13 @@ public class StockInfoDB {
     }
 
     public ArrayList getAllLock() {
-        String sql = "select * from lockobject";
+        String sql = "select * from lockinfoobject";
         ArrayList entries = getAllLockObjSQL(sql);
         return entries;
     }
 
     public AFLockObject getLockName(String name, int type) {
-        String sql = "select * from lockobject where lockname='" + name + "' and type=" + type;
+        String sql = "select * from lockoinfobject where lockname='" + name + "' and type=" + type;
         ArrayList entries = getAllLockObjSQL(sql);
         if (entries != null) {
             if (entries.size() == 1) {
@@ -452,7 +452,7 @@ public class StockInfoDB {
             if (lock == null) {
                 return 0;
             }
-            String sqlCMD = "update lockobject set lockdatedisplay='" + new java.sql.Date(lockDateValue) + "', lockdatel=" + lockDateValue + " where id=" + lock.getId();
+            String sqlCMD = "update lockinfoobject set lockdatedisplay='" + new java.sql.Date(lockDateValue) + "', lockdatel=" + lockDateValue + " where id=" + lock.getId();
             return processUpdateDB(sqlCMD);
 
         } catch (Exception ex) {
@@ -463,7 +463,7 @@ public class StockInfoDB {
 
     private int setLockObject(String name, int type, long lockDateValue, String comment) {
         try {
-            String sqlCMD = "insert into lockobject (lockname, type, lockdatedisplay, lockdatel, comment) VALUES "
+            String sqlCMD = "insert into lockinfoobject (lockname, type, lockdatedisplay, lockdatel, comment) VALUES "
                     + "('" + name + "'," + type + ",'" + new java.sql.Date(lockDateValue) + "'," + lockDateValue + ",'" + comment + "')";
             return processUpdateDB(sqlCMD);
 
@@ -516,7 +516,7 @@ public class StockInfoDB {
     public int removeLock(String name, int type) {
 
         try {
-            String sqlDelete = "delete from lockobject where lockname='" + name + "' and type=" + type;
+            String sqlDelete = "delete from lockinfoobject where lockname='" + name + "' and type=" + type;
             this.processExecuteDB(sqlDelete);
             return 1;
         } catch (Exception ex) {
