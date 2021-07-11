@@ -1570,8 +1570,12 @@ public class ServiceAFweb {
         ArrayList<AFLockObject> result = new ArrayList();
         ArrayList<AFLockObject> resultSys = systemSrv.getAllLock();
         ArrayList<AFLockObject> resultInfo = stockInfoSrv.InfoGetAllLock();
-        result.addAll(resultSys);
-        result.addAll(resultInfo);
+        if (resultSys != null) {
+            result.addAll(resultSys);
+        }
+        if (resultInfo != null) {
+            result.addAll(resultInfo);
+        }
         return result;
     }
 
