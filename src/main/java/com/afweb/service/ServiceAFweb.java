@@ -326,7 +326,7 @@ public class ServiceAFweb {
 
                 displayStr += "\r\n" + (">>>>> System REMOTE DB URL:" + SysDB.remoteURL);
                 displayStr += "\r\n" + (">>>>> System REMOTE INFO DB URL:" + StockInfoDB.remoteURL);
-                displayStr += "\r\n" + (">>>>> System REMOTE NN DB URL:" + NNetdataDB.remoteURL);               
+                displayStr += "\r\n" + (">>>>> System REMOTE NN DB URL:" + NNetdataDB.remoteURL);
                 displayStr += "\r\n" + (">>>>> System SERVER_DB_URL:" + CKey.SERVER_DB_URL);
                 displayStr += "\r\n" + (">>>>> System SERVER_TIMMER_URL:" + CKey.SERVER_TIMMER_URL);
                 displayStr += "\r\n" + (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -742,7 +742,7 @@ public class ServiceAFweb {
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             ProcessUpdateAllStockInfo();
             ProcessUpdateAllStockTrend();
-            
+
             ProcessNeuralNetData(this);
 //            
             ProcessUserBilling(this);
@@ -1565,9 +1565,7 @@ public class ServiceAFweb {
         return systemSrv.deleteAllLock();
     }
 
-//    public String SysLockGetAllDBSQL(String sql) {
-//        return systemSrv.getAllLockDBSQL(sql);
-//    }
+    //////////////////////
     public ArrayList SysLockGetAll() {
         ArrayList result = null;
         result = systemSrv.getAllLock();
@@ -1590,7 +1588,6 @@ public class ServiceAFweb {
         return systemSrv.removeLock(name, type);
 
     }
-/////////////////////////////////////////////
 
     public String SysClearLock() {
         int retSatus = 0;
@@ -1611,6 +1608,7 @@ public class ServiceAFweb {
         return 0;
     }
 
+    /////////////////////////////////////////////
     public int SysGetStockSplit(String symbol, int value) {
         SystemMaintProcess maint = new SystemMaintProcess();
         return maint.StockSplitBySym(this, symbol, value);

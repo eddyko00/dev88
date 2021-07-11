@@ -583,5 +583,61 @@ public class StockInfoService {
         return stockInfoImp.initStockInfoDB();
     }
 
+
+////////////////////////////////////////// 
+    // System LockInfo
+    public String InfoGetAllLockDBSQL(String sql) {
+        return stockInfoImp.getAllLockDBSQL(sql);
+    }
+
+    public int InfoDeleteAllLock() {
+        return stockInfoImp.deleteAllLock();
+    }
+
+    public ArrayList InfoGetAllLock() {
+        return stockInfoImp.getAllLock();
+    }
+
+    public int InfoSetRenewLock(String name, int type) {
+        Calendar dateNow = TimeConvertion.getCurrentCalendar();
+        long lockDateValue = dateNow.getTimeInMillis();
+
+        if (type == ConstantKey.STOCK_LOCKTYPE) {
+            SymbolNameObj symObj = new SymbolNameObj(name);
+            name = symObj.getYahooSymbol();
+        }
+        return stockInfoImp.setRenewLock(name, type, lockDateValue);
+    }
+
+    public AFLockObject InfoGetLockName(String name, int type) {
+
+        if (type == ConstantKey.STOCK_LOCKTYPE) {
+            SymbolNameObj symObj = new SymbolNameObj(name);
+            name = symObj.getYahooSymbol();
+        }
+        name = name.toUpperCase();
+        return stockInfoImp.getLockName(name, type);
+    }
+
+    public int InfoSetLockName(String name, int type, long lockDateValue, String comment) {
+
+        if (type == ConstantKey.STOCK_LOCKTYPE) {
+            SymbolNameObj symObj = new SymbolNameObj(name);
+            name = symObj.getYahooSymbol();
+        }
+        name = name.toUpperCase();
+        return stockInfoImp.setLockName(name, type, lockDateValue, comment);
+    }
+
+    public int InfoRemoveLockName(String name, int type) {
+
+        if (type == ConstantKey.STOCK_LOCKTYPE) {
+            SymbolNameObj symObj = new SymbolNameObj(name);
+            name = symObj.getYahooSymbol();
+        }
+        name = name.toUpperCase();
+        return stockInfoImp.removeLock(name, type);
+    }
+//////////////////////////////////////////        
 /////////////////////////    
 }

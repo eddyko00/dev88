@@ -33,7 +33,8 @@ import java.util.logging.Logger;
 public class StockInfoProcess {
 
     protected static Logger logger = Logger.getLogger("StockInfoProcess");
-
+    private static StockInfoService infServ = new StockInfoService();
+    
     ///////////////
     public static int stockPass = 0;
     public static int stockFail = 0;
@@ -75,7 +76,7 @@ public class StockInfoProcess {
         if (mkopen == false) {  //
             String LockName = "MK_CLOSE_" + ServiceAFweb.getServerObj().getServerName();
 
-            int lockReturn = serviceAFWeb.SysSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);
+            int lockReturn = infServ.InfoSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);
 //            if (CKey.NN_DEBUG == true) {
 //                lockReturn = 1;
 //            }
@@ -151,7 +152,7 @@ public class StockInfoProcess {
             }
             if (lastUpdate5Min < lockDateValue) {
 
-                int lockReturn = serviceAFWeb.SysSetLockName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess");
+                int lockReturn = infServ.InfoSetLockName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess");
                 if (CKey.NN_DEBUG == true) {
                     lockReturn = 1;
                 }
@@ -186,7 +187,7 @@ public class StockInfoProcess {
                             sqlList.add(sockUpdateSQL);
                             serviceAFWeb.StoUpdateSQLArrayList(sqlList);
 
-                            serviceAFWeb.SysLockRemoveName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
+                            infServ.InfoRemoveLockName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
                             return 1;
                         }
 

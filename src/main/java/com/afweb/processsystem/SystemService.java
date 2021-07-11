@@ -20,7 +20,6 @@ import java.util.Calendar;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 
-
 /**
  *
  * @author eddyko
@@ -69,7 +68,6 @@ public class SystemService {
 //                    sqlObj.setResp("" + nameST);
 //
 //                    return sqlObj;
-
 //                case ServiceAFweb.RemoteUpdateMySQL:  //RemoteUpdateMySQL = 10; //"10"; 
 //                    st = sqlObj.getReq();
 //                    ret = stockImp.updateRemoteMYSQL(st);
@@ -142,10 +140,6 @@ public class SystemService {
 //    public boolean cleanNNonlyStockDB() {
 //        return stockImp.cleanNNonlyStockDB();
 //    }
-    public int deleteAllLock() {
-        return sysImp.deleteAllLock();
-    }
-
     public int updateRemoteMYSQL(String sql) {
         return sysImp.updateRemoteMYSQL(sql);
     }
@@ -166,6 +160,10 @@ public class SystemService {
     // System Lock
     public String getAllLockDBSQL(String sql) {
         return sysImp.getAllLockDBSQL(sql);
+    }
+
+    public int deleteAllLock() {
+        return sysImp.deleteAllLock();
     }
 
     public ArrayList getAllLock() {
