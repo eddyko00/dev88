@@ -58,9 +58,9 @@ public class ServiceRemoteDBInfo {
                 try {
 
                     int ret = postExecuteListRemoteDB_Mysql(postSt, remoteURL);
-                    if (getEnv.checkLocalPC() == true) {
-                        logger.info("postExecuteListRemoteDB_Mysql  " + postSize);
-                    }
+//                    if (getEnv.checkLocalPC() == true) {
+//                        logger.info("postExecuteListRemoteDB_Mysql  " + postSize);
+//                    }
                     if (ret == 0) {
                         return ret;
                     }
