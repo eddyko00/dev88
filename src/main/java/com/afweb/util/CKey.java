@@ -75,8 +75,8 @@ public class CKey {
 //
 //
 //***********  
-    public static String dbInfoNNURL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
     public static boolean dbinfonnflag = true; // true;    
+    public static String dbInfoNNURL = CKey.URL_PATH_HERO_5_DBDB_PHP + CKey.WEBPOST_HERO_5_PHP;    
 //*********** 
     //////////////////////
 //    public static final int REMOTE_MS_SQL = 3;////// do not use // http://eddyko00.freeasphost.net asp on freeasphost ma sql   
