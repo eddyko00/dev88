@@ -46,7 +46,7 @@ public class ControllerStockInfo {
         arrayString.add("/st/{symbol}/stocksplitclear");
         arrayString.add("/st/{symbol}/updateinfo");
         arrayString.add("/st/{symbol}/deleteinfo");
-        arrayString.add("/st/cleanallinfo");
+        arrayString.add("/st/deleteallinfo");
     }
 
     @RequestMapping(value = "/st/{symbol}/history", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -160,7 +160,7 @@ public class ControllerStockInfo {
         return result;
     }
 
-    @RequestMapping(value = "/st/cleanallinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/st/deleteallinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int cleanAllStockInfo(
             HttpServletRequest request, HttpServletResponse response

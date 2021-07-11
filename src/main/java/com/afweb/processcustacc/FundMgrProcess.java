@@ -93,7 +93,7 @@ public class FundMgrProcess {
                 logger.info("> ProcessIISWebGlobalFundMgr Exception " + e.getMessage());
             }
 
-            serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.FUND_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.FUND_LOCKTYPE);
         }
     }
 
@@ -153,7 +153,7 @@ public class FundMgrProcess {
                     logger.info("> SelectBestFundMgrAccount Exception " + e.getMessage());
                 }
             }
-            serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.FUND_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.FUND_LOCKTYPE);
         }
     }
 

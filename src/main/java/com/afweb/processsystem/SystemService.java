@@ -201,7 +201,7 @@ public class SystemService {
         return sysImp.setLockName(name, type, lockDateValue, comment);
     }
 
-    public int removeLock(String name, int type) {
+    public int removeLockName(String name, int type) {
 
         if (type == ConstantKey.STOCK_LOCKTYPE) {
             SymbolNameObj symObj = new SymbolNameObj(name);

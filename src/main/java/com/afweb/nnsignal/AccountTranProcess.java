@@ -148,14 +148,14 @@ public class AccountTranProcess {
                             }
                         }
 
-                        serviceAFWeb.SysLockRemoveName(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+                        serviceAFWeb.SysLockRemoveLockName(LockStock, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
 //                        logger.info("ProcessAdminSignalTrading " + LockStock + " unLock LockStock ");
                     }
                 } catch (Exception ex) {
                     logger.info("> ProcessAdminSignalTrading Exception " + ex.getMessage());
                 }
             }
-            serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.ADMIN_SIGNAL_LOCKTYPE);
             logger.info("ProcessAdminSignalTrading " + LockName + " unlock LockName");
         }
     }
@@ -236,7 +236,7 @@ public class AccountTranProcess {
                     logger.info("> AddRemoveFundAccount Exception " + e.getMessage());
                 }
             }
-            serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.FUND_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.FUND_LOCKTYPE);
         }
     }
 
@@ -692,7 +692,7 @@ public class AccountTranProcess {
                     }
                 }  // end of stockNameArray.size() for that account
             }
-            serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.SIGNAL_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.SIGNAL_LOCKTYPE);
 //            logger.info("ProcessAllAccountTradingSignal " + LockName + " unlock LockName ");
         }
 

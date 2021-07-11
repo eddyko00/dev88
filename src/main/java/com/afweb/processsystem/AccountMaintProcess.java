@@ -79,7 +79,7 @@ public class AccountMaintProcess {
                 commSrv.removeAllCommBy1Month(serviceAFWeb);
             }
         }
-        serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.ACC_LOCKTYPE);
+        serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.ACC_LOCKTYPE);
 
     }
     //////////////////////////////////////////////
@@ -216,7 +216,7 @@ public class AccountMaintProcess {
                     lastUpdateAdd30 = TimeConvertion.addMinutes(lastUpdate, SysDB.MaxMinuteAdminSignalTrading); // remove lock for 90min
                 }
                 if (lastUpdateAdd30 < dateNow.getTimeInMillis()) {
-                    serviceAFWeb.SysLockRemoveName(lockObj.getLockname(), lockObj.getType());
+                    serviceAFWeb.SysLockRemoveLockName(lockObj.getLockname(), lockObj.getType());
                     numCnt++;
                     if (numCnt > 10) {
                         break;

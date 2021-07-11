@@ -705,7 +705,7 @@ public class NN2ProcessBySignal {
 
                 }
             }  // end for loop
-            serviceAFWeb.SysLockRemoveName(LockName, ConstantKey.NN_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> ProcessTrainNN2NeuralNetBySign ... done");
@@ -754,7 +754,7 @@ public class NN2ProcessBySignal {
             } catch (Exception ex) {
                 logger.info("> ProcessTrainNN2NeuralNetBySign Exception " + ex.getMessage());
             }
-            serviceAFWeb.SysLockRemoveName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+            serviceAFWeb.SysLockRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //                        logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
         }
     }

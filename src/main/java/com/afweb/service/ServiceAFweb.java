@@ -714,7 +714,7 @@ public class ServiceAFweb {
             logger.info("> Exception lastfun - " + lastfun);
             logger.info("> processTimer Exception " + ex.getMessage());
         }
-        SysLockRemoveName(LockName, ConstantKey.SRV_LOCKTYPE);
+        SysLockRemoveLockName(LockName, ConstantKey.SRV_LOCKTYPE);
     }
 
     void AFwebExec() {
@@ -1568,7 +1568,10 @@ public class ServiceAFweb {
     //////////////////////
     public ArrayList SysLockGetAll() {
         ArrayList result = null;
-        result = systemSrv.getAllLock();
+        ArrayList resultSys = systemSrv.getAllLock();
+        ArrayList resultInfo = stockInfoSrv.InfoGetAllLock();
+        result.addAll(resultSys);
+        result.addAll(resultInfo);
         return result;
     }
 
@@ -1584,8 +1587,10 @@ public class ServiceAFweb {
         return systemSrv.setLockName(name, type, lockdatel, comment);
     }
 
-    public int SysLockRemoveName(String name, int type) {
-        return systemSrv.removeLock(name, type);
+    public int SysLockRemoveLockName(String name, int type) {
+        int ret = systemSrv.removeLockName(name, type);
+        stockInfoSrv.InfoRemoveLockName(name, type);
+        return ret;
 
     }
 

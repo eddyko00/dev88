@@ -450,7 +450,7 @@ public class NNetService {
                     } catch (Exception ex) {
 
                     }
-                    serviceAFWeb.SysLockRemoveName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                    serviceAFWeb.SysLockRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                     return true;
                 }
 

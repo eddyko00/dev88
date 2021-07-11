@@ -634,7 +634,7 @@ public class ControllerAFweb {
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
                 int locktype = Integer.parseInt(type);
-                int result = afWebService.SysLockRemoveName(name, locktype);
+                int result = afWebService.SysLockRemoveLockName(name, locktype);
                 ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
                 return result;
             }
