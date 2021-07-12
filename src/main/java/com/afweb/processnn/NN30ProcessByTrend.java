@@ -416,7 +416,7 @@ public class NN30ProcessByTrend {
 
     //////////////////////////////////////////////////
     private static ArrayList stockNNprocessNameArray = new ArrayList();
-    private static ArrayList stockNNinputNameArray = new ArrayList();
+//    private static ArrayList stockNNinputNameArray = new ArrayList();
     private static ArrayList stockNNretrainprocessNameArray = new ArrayList();
 
     private ArrayList UpdateStockNN30processNameArray(ServiceAFweb serviceAFWeb, AccountObj accountObj) {

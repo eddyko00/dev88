@@ -204,7 +204,7 @@ public class ControllerNN {
 
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(nnService.SystemClearNNtran(afWebService, ConstantKey.SIZE_TR));
+                msg.setResponse(nnService.SystemClearTranByTRname(afWebService, ConstantKey.SIZE_TR));
                 msg.setResult(true);
                 return msg;
             }
@@ -213,7 +213,7 @@ public class ControllerNN {
         CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(nnService.SystemClearNNtran(afWebService, ConstantKey.SIZE_TR));
+                msg.setResponse(nnService.SystemClearTranByTRname(afWebService, ConstantKey.SIZE_TR));
                 msg.setResult(true);
                 return msg;
             }
@@ -240,7 +240,7 @@ public class ControllerNN {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
 
-                msg.setResponse(nnService.SystemClearNNtran(afWebService, defTR));
+                msg.setResponse(nnService.SystemClearTranByTRname(afWebService, defTR));
                 msg.setResult(true);
                 return msg;
             }
@@ -249,7 +249,7 @@ public class ControllerNN {
         CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
         if (cust != null) {
             if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(nnService.SystemClearNNtran(afWebService, defTR));
+                msg.setResponse(nnService.SystemClearTranByTRname(afWebService, defTR));
                 msg.setResult(true);
                 return msg;
             }

@@ -255,32 +255,32 @@ public class NNetService {
         return true;
     }
 
-    public String SystemClearNNtran(ServiceAFweb serviceAFWeb, int tr) {
+    public String SystemClearTranByTRname(ServiceAFweb serviceAFWeb, int tr) {
 
         TradingNNprocess NNProcessImp = new TradingNNprocess();
         int retSatus = 0;
         if (tr == ConstantKey.SIZE_TR) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_MACD);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_MV);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_RSI);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN1);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN2);
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN3);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_MACD);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_MV);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_RSI);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_NN1);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_NN2);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_NN3);
         } else if (tr == ConstantKey.INT_TR_ACC) {
-            retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(serviceAFWeb, ConstantKey.TR_ACC, "");
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_ACC);
+            retSatus = NNProcessImp.ClearAccStockTranHistoryAllAccBySymTRname(serviceAFWeb, ConstantKey.TR_ACC, "");
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_ACC);
         } else if (tr == ConstantKey.INT_TR_MACD) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_MACD);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_MACD);
         } else if (tr == ConstantKey.INT_TR_MV) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_MV);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_MV);
         } else if (tr == ConstantKey.INT_TR_RSI) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_RSI);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_RSI);
         } else if (tr == ConstantKey.INT_TR_NN1) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN1);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_NN1);
         } else if (tr == ConstantKey.INT_TR_NN2) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN2);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_NN2);
         } else if (tr == ConstantKey.INT_TR_NN3) {
-            retSatus = NNProcessImp.ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN3);
+            retSatus = NNProcessImp.ClearAccStockTranHistory(serviceAFWeb, ConstantKey.TR_NN3);
         }
 
         return "" + retSatus;

@@ -183,8 +183,8 @@ public class TradingNNprocess {
         }
     }
 
-    public int ClearStockNNTranHistory(ServiceAFweb serviceAFWeb, String nnName) {
-        return ClearStockNNTranHistory(serviceAFWeb, nnName, "");
+    public int ClearAccStockTranHistory(ServiceAFweb serviceAFWeb, String nnName) {
+        return ClearAccStockTranHistoryBySymTRname(serviceAFWeb, nnName, "");
     }
 
     public int ClearStockNNData(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj) {
@@ -194,7 +194,7 @@ public class TradingNNprocess {
             return -1;
         }
 
-        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             for (int i = 0; i < stockNameArray.size(); i++) {
@@ -213,8 +213,8 @@ public class TradingNNprocess {
         return 0;
     }
 
-    public int ClearStockNNTranHistoryAllAcc(ServiceAFweb serviceAFWeb, String nnName, String sym) {
-        logger.info("> ClearStockNNTranHistoryAllAcc " + nnName);
+    public int ClearAccStockTranHistoryAllAccBySymTRname(ServiceAFweb serviceAFWeb, String nnName, String sym) {
+        logger.info("> ClearAccStockTranHistoryAllAccBySymTRname " + nnName);
 
         ArrayList accNameArray = serviceAFWeb.AccGetAllOpenAccountID();
         if (accNameArray != null) {
@@ -225,7 +225,8 @@ public class TradingNNprocess {
                 if (accObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
                     continue;
                 }
-                ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accObj.getId());
+     
+                ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accObj.getId());
                 if (stockNameArray != null) {
                     for (int i = 0; i < stockNameArray.size(); i++) {
                         String symbol = (String) stockNameArray.get(i);
@@ -243,23 +244,23 @@ public class TradingNNprocess {
                 ServiceAFweb.AFSleep();
             }
         }
-        logger.info("> ClearStockNNTranHistoryAllAcc done..." + nnName);
+        logger.info("> ClearAccStockTranHistoryAllAccBySymTRname done..." + nnName);
         return 0;
     }
 
-    public int SysClearNNtranBySymbol(ServiceAFweb serviceAFWeb, String sym) {
+    public int SysClearAccStockTranBySym(ServiceAFweb serviceAFWeb, String sym) {
 
-        int retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_MACD, sym);
-        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_MV, sym);
-        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_RSI, sym);
-        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN1, sym);
-        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN2, sym);
-        retSatus = ClearStockNNTranHistory(serviceAFWeb, ConstantKey.TR_NN3, sym);
+        int retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_MACD, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_MV, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_RSI, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN1, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN2, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN3, sym);
         return retSatus;
     }
 
-    public int ClearStockNNTranHistory(ServiceAFweb serviceAFWeb, String nnName, String sym) {
-        logger.info("> ClearStockNNTranHistory " + nnName);
+    public int ClearAccStockTranHistoryBySymTRname(ServiceAFweb serviceAFWeb, String nnName, String sym) {
+        logger.info("> ClearAccStockTranHistoryBySymTRname " + nnName);
         AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
         if (accountAdminObj == null) {
             return -1;
@@ -280,7 +281,7 @@ public class TradingNNprocess {
                 ServiceAFweb.AFSleep();
             }
         }
-        logger.info("> ClearStockNNTranHistory done..." + nnName);
+        logger.info("> ClearAccStockTranHistoryBySymTRname done..." + nnName);
         return 0;
     }
 

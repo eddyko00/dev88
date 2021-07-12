@@ -1272,13 +1272,13 @@ public class ServiceAFweb {
 
     public String SysClearNNtranAllAcc() {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = NNProcessImp.ClearStockNNTranHistoryAllAcc(this, ConstantKey.TR_ACC, "");
+        int retSatus = NNProcessImp.ClearAccStockTranHistoryAllAccBySymTRname(this, ConstantKey.TR_ACC, "");
         return "" + retSatus;
     }
 
     public String SysClearNNtran(String sym) {
         TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = NNProcessImp.SysClearNNtranBySymbol(this, sym);
+        int retSatus = NNProcessImp.SysClearAccStockTranBySym(this, sym);
         return "" + retSatus;
     }
 
@@ -1859,8 +1859,9 @@ public class ServiceAFweb {
 //    }    
     
 
-    public ArrayList InfGetStockINfioNameListServ(int accountId) {
-        return custAccSrv.getAccountStockNameList(accountId);
+    public ArrayList<String> InfGetStockINfioNameListServ(int accountId) {
+        return stockInfoSrv.getAllStockInfoUniqueNameList(this);
+//        return custAccSrv.getAccountStockNameList(accountId);
     }
     
     public int InfDeleteStockInfoBySym(String symbol) {
