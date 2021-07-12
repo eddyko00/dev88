@@ -38,10 +38,13 @@ public class ControllerCustAcc {
     private static AFwebService afWebService = new AFwebService();
     private static CustAccService custaccService = new CustAccService();
 
-    public static void getHelpSystem(ArrayList<String> arrayString) {
+    public static void getHelpSystem(ArrayList<String> arrayString) {       
         arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
         arrayString.add("/cust/login?email={email}&pass={pass}");
-
+        
+        arrayString.add("/cust/{username}/sys/clearalltran");
+        arrayString.add("/cust/{username}/sys/cleartran?tr=");   
+        
         arrayString.add("/cust/{username}/acc/{accountid}/custupdate?email=&pass=&firstName=&lastName=&plan=");
 
         arrayString.add("/cust/{username}/uisys/{custid}/custnlist?length={0 for all} - default 20");
@@ -93,7 +96,69 @@ public class ControllerCustAcc {
 //        arrayString.add("/cust/{username}/acc/{accountid}/st/{stockidsymbol}/tr/{trname}/tran/history/chart?path={filePath}");
 
     }
+    @RequestMapping(value = "/cust/{username}/sys/clearalltran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemClearAllNNtran(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
 
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse(custaccService.SystemClearTranByTRname(afWebService, ConstantKey.SIZE_TR));
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(custaccService.SystemClearTranByTRname(afWebService, ConstantKey.SIZE_TR));
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/cleartran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemClearNNtran(
+            @PathVariable("username") String username,
+            @RequestParam(value = "tr", required = false) String trSt
+    ) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+
+        int defTR = ConstantKey.INT_TR_NN2;
+
+        if (trSt != null) {
+            defTR = Integer.parseInt(trSt);
+        }
+
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+
+                msg.setResponse(custaccService.SystemClearTranByTRname(afWebService, defTR));
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(custaccService.SystemClearTranByTRname(afWebService, defTR));
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
+    
 //  arrayString.add("/cust/add?email={email}&pass={pass}&firstName={firstName}&lastName={lastName}&plan=");
     @RequestMapping(value = "/cust/add", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

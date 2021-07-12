@@ -2738,4 +2738,112 @@ public class CustAccService {
 
         return true;
     }
+//////////////////
+
+    public int ClearAccStockTranHistoryAllAccBySymTRname(ServiceAFweb serviceAFWeb, String nnName, String sym) {
+        logger.info("> ClearAccStockTranHistoryAllAccBySymTRname " + nnName);
+
+        ArrayList accNameArray = serviceAFWeb.AccGetAllOpenAccountID();
+        if (accNameArray != null) {
+            for (int j = 0; j < accNameArray.size(); j++) {
+                String accIdSt = (String) accNameArray.get(j);
+                int accountId = Integer.parseInt(accIdSt);
+                AccountObj accObj = serviceAFWeb.AccGetAccountObjByAccountIDServ(accountId);
+                if (accObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
+                    continue;
+                }
+     
+                ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accObj.getId());
+                if (stockNameArray != null) {
+                    for (int i = 0; i < stockNameArray.size(); i++) {
+                        String symbol = (String) stockNameArray.get(i);
+                        if (sym.length() != 0) {
+                            if (!sym.equals(symbol)) {
+                                continue;
+                            }
+                        }
+                        AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
+                        serviceAFWeb.AccClearAccountStockTranByAccountID(accObj, stock.getId(), nnName);
+
+                        ServiceAFweb.AFSleep();
+                    }
+                }
+                ServiceAFweb.AFSleep();
+            }
+        }
+        logger.info("> ClearAccStockTranHistoryAllAccBySymTRname done..." + nnName);
+        return 0;
+    }
+
+    public String SystemClearTranByTRname(ServiceAFweb serviceAFWeb, int tr) {
+
+        int retSatus = 0;
+        if (tr == ConstantKey.SIZE_TR) {
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_MACD);
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_MV);
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_RSI);
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_NN1);
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_NN2);
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_NN3);
+        } else if (tr == ConstantKey.INT_TR_ACC) {
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_ACC);
+        } else if (tr == ConstantKey.INT_TR_MACD) {
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_MACD);
+        } else if (tr == ConstantKey.INT_TR_MV) {
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_MV);
+        } else if (tr == ConstantKey.INT_TR_RSI) {
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_RSI);
+        } else if (tr == ConstantKey.INT_TR_NN1) {
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_NN1);
+        } else if (tr == ConstantKey.INT_TR_NN2) {
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_NN2);
+        } else if (tr == ConstantKey.INT_TR_NN3) {
+            retSatus = ClearAccStockTranHistoryByTRname(serviceAFWeb, ConstantKey.TR_NN3);
+        }
+
+        return "" + retSatus;
+    }
+
+    public int ClearAccStockTranHistoryByTRname(ServiceAFweb serviceAFWeb, String nnName) {
+        return ClearAccStockTranHistoryBySymTRname(serviceAFWeb, nnName, "");
+    }
+
+    public int ClearAccStockTranBySym(ServiceAFweb serviceAFWeb, String sym) {
+
+        int retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_MACD, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_MV, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_RSI, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN1, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN2, sym);
+        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN3, sym);
+        return retSatus;
+    }
+
+    public int ClearAccStockTranHistoryBySymTRname(ServiceAFweb serviceAFWeb, String nnName, String sym) {
+        logger.info("> ClearAccStockTranHistoryBySymTRname " + nnName);
+        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
+        if (accountAdminObj == null) {
+            return -1;
+        }
+        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
+
+        if (stockNameArray != null) {
+            for (int i = 0; i < stockNameArray.size(); i++) {
+                String symbol = (String) stockNameArray.get(i);
+                if (sym.length() != 0) {
+                    if (!sym.equals(symbol)) {
+                        continue;
+                    }
+                }
+                AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
+                clearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+
+                ServiceAFweb.AFSleep();
+            }
+        }
+        logger.info("> ClearAccStockTranHistoryBySymTRname done..." + nnName);
+        return 0;
+    }
+    
+    
 }

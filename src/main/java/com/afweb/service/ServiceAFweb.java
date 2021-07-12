@@ -33,7 +33,6 @@ import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.*;
 import com.afweb.processsystem.*;
 
-
 import com.afweb.stockinternet.StockUtils;
 import com.afweb.util.*;
 
@@ -1270,18 +1269,6 @@ public class ServiceAFweb {
         return "" + retStatus;
     }
 
-    public String SysClearNNtranAllAcc() {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = NNProcessImp.ClearAccStockTranHistoryAllAccBySymTRname(this, ConstantKey.TR_ACC, "");
-        return "" + retSatus;
-    }
-
-    public String SysClearNNtran(String sym) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
-        int retSatus = NNProcessImp.SysClearAccStockTranBySym(this, sym);
-        return "" + retSatus;
-    }
-
     ////////////////////////
     public String SysUpdateFromRemoteMySQLList(String SQL) {
         if (getServerObj().isSysMaintenance() == true) {
@@ -1857,13 +1844,11 @@ public class ServiceAFweb {
 //
 //        return getStockHistoricalRangeServ(symbol, start, end);
 //    }    
-    
-
     public ArrayList<String> InfGetStockINfioNameListServ(int accountId) {
         return stockInfoSrv.getAllStockInfoUniqueNameList(this);
 //        return custAccSrv.getAccountStockNameList(accountId);
     }
-    
+
     public int InfDeleteStockInfoBySym(String symbol) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.deleteStockInfo(this, symbol);
@@ -2787,6 +2772,9 @@ public class ServiceAFweb {
         custAccSrv.removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
+
+
+
 ////////////////////////////////////////////////////
     // Util
     public static HashMap<String, ArrayList> stockInputMap = null;

@@ -40,8 +40,8 @@ public class ControllerNN {
 
     public static void getHelpSystem(ArrayList<String> arrayString) {
         arrayString.add("/cust/{username}/sys/clearnninput");
-        arrayString.add("/cust/{username}/sys/clearallnntran");
-        arrayString.add("/cust/{username}/sys/clearnn2tran?tr=");
+//        arrayString.add("/cust/{username}/sys/clearallnntran");
+//        arrayString.add("/cust/{username}/sys/clearnn2tran?tr=");
 
         arrayString.add("/cust/{username}/sys/autonnflag");
         arrayString.add("/cust/{username}/sys/autonnflag/enable");
@@ -196,67 +196,6 @@ public class ControllerNN {
         return null;
     }
 
-    @RequestMapping(value = "/cust/{username}/sys/clearallnntran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus SystemClearAllNNtran(@PathVariable("username") String username) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-                msg.setResponse(nnService.SystemClearTranByTRname(afWebService, ConstantKey.SIZE_TR));
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(nnService.SystemClearTranByTRname(afWebService, ConstantKey.SIZE_TR));
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
-
-    @RequestMapping(value = "/cust/{username}/sys/clearnn2tran", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody
-    WebStatus SystemClearNNtran(
-            @PathVariable("username") String username,
-            @RequestParam(value = "tr", required = false) String trSt
-    ) {
-        WebStatus msg = new WebStatus();
-        // remote is stopped
-
-        int defTR = ConstantKey.INT_TR_NN2;
-
-        if (trSt != null) {
-            defTR = Integer.parseInt(trSt);
-        }
-
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
-
-                msg.setResponse(nnService.SystemClearTranByTRname(afWebService, defTR));
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
-        if (cust != null) {
-            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
-                msg.setResponse(nnService.SystemClearTranByTRname(afWebService, defTR));
-                msg.setResult(true);
-                return msg;
-            }
-        }
-
-        return null;
-    }
 
 //    @RequestMapping(value = "/cust/{username}/sys/neuralnet/{name}/release", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public @ResponseBody

@@ -182,10 +182,10 @@ public class TradingNNprocess {
 //          logger.info("ProcessReLearnInputNeuralNet " + LockStock + " unLock LockStock ");
         }
     }
-
-    public int ClearAccStockTranHistory(ServiceAFweb serviceAFWeb, String nnName) {
-        return ClearAccStockTranHistoryBySymTRname(serviceAFWeb, nnName, "");
-    }
+//
+//    public int ClearAccStockTranHistoryByTRname(ServiceAFweb serviceAFWeb, String nnName) {
+//        return ClearAccStockTranHistoryBySymTRname(serviceAFWeb, nnName, "");
+//    }
 
     public int ClearStockNNData(ServiceAFweb serviceAFWeb, AccountObj accountAdminObj) {
         logger.info("> ClearStockNNData ");
@@ -212,78 +212,78 @@ public class TradingNNprocess {
         logger.info("> ClearStockNNData ..... Done");
         return 0;
     }
-
-    public int ClearAccStockTranHistoryAllAccBySymTRname(ServiceAFweb serviceAFWeb, String nnName, String sym) {
-        logger.info("> ClearAccStockTranHistoryAllAccBySymTRname " + nnName);
-
-        ArrayList accNameArray = serviceAFWeb.AccGetAllOpenAccountID();
-        if (accNameArray != null) {
-            for (int j = 0; j < accNameArray.size(); j++) {
-                String accIdSt = (String) accNameArray.get(j);
-                int accountId = Integer.parseInt(accIdSt);
-                AccountObj accObj = serviceAFWeb.AccGetAccountObjByAccountIDServ(accountId);
-                if (accObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
-                    continue;
-                }
-     
-                ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accObj.getId());
-                if (stockNameArray != null) {
-                    for (int i = 0; i < stockNameArray.size(); i++) {
-                        String symbol = (String) stockNameArray.get(i);
-                        if (sym.length() != 0) {
-                            if (!sym.equals(symbol)) {
-                                continue;
-                            }
-                        }
-                        AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
-                        serviceAFWeb.AccClearAccountStockTranByAccountID(accObj, stock.getId(), nnName);
-
-                        ServiceAFweb.AFSleep();
-                    }
-                }
-                ServiceAFweb.AFSleep();
-            }
-        }
-        logger.info("> ClearAccStockTranHistoryAllAccBySymTRname done..." + nnName);
-        return 0;
-    }
-
-    public int SysClearAccStockTranBySym(ServiceAFweb serviceAFWeb, String sym) {
-
-        int retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_MACD, sym);
-        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_MV, sym);
-        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_RSI, sym);
-        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN1, sym);
-        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN2, sym);
-        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN3, sym);
-        return retSatus;
-    }
-
-    public int ClearAccStockTranHistoryBySymTRname(ServiceAFweb serviceAFWeb, String nnName, String sym) {
-        logger.info("> ClearAccStockTranHistoryBySymTRname " + nnName);
-        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
-        if (accountAdminObj == null) {
-            return -1;
-        }
-        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountAdminObj.getId());
-
-        if (stockNameArray != null) {
-            for (int i = 0; i < stockNameArray.size(); i++) {
-                String symbol = (String) stockNameArray.get(i);
-                if (sym.length() != 0) {
-                    if (!sym.equals(symbol)) {
-                        continue;
-                    }
-                }
-                AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
-                serviceAFWeb.AccClearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
-
-                ServiceAFweb.AFSleep();
-            }
-        }
-        logger.info("> ClearAccStockTranHistoryBySymTRname done..." + nnName);
-        return 0;
-    }
+//
+//    public int ClearAccStockTranHistoryAllAccBySymTRname(ServiceAFweb serviceAFWeb, String nnName, String sym) {
+//        logger.info("> ClearAccStockTranHistoryAllAccBySymTRname " + nnName);
+//
+//        ArrayList accNameArray = serviceAFWeb.AccGetAllOpenAccountID();
+//        if (accNameArray != null) {
+//            for (int j = 0; j < accNameArray.size(); j++) {
+//                String accIdSt = (String) accNameArray.get(j);
+//                int accountId = Integer.parseInt(accIdSt);
+//                AccountObj accObj = serviceAFWeb.AccGetAccountObjByAccountIDServ(accountId);
+//                if (accObj.getType() == AccountObj.INT_ADMIN_ACCOUNT) {
+//                    continue;
+//                }
+//     
+//                ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accObj.getId());
+//                if (stockNameArray != null) {
+//                    for (int i = 0; i < stockNameArray.size(); i++) {
+//                        String symbol = (String) stockNameArray.get(i);
+//                        if (sym.length() != 0) {
+//                            if (!sym.equals(symbol)) {
+//                                continue;
+//                            }
+//                        }
+//                        AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
+//                        serviceAFWeb.AccClearAccountStockTranByAccountID(accObj, stock.getId(), nnName);
+//
+//                        ServiceAFweb.AFSleep();
+//                    }
+//                }
+//                ServiceAFweb.AFSleep();
+//            }
+//        }
+//        logger.info("> ClearAccStockTranHistoryAllAccBySymTRname done..." + nnName);
+//        return 0;
+//    }
+//
+//    public int ClearAccStockTranBySym(ServiceAFweb serviceAFWeb, String sym) {
+//
+//        int retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_MACD, sym);
+//        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_MV, sym);
+//        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_RSI, sym);
+//        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN1, sym);
+//        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN2, sym);
+//        retSatus = ClearAccStockTranHistoryBySymTRname(serviceAFWeb, ConstantKey.TR_NN3, sym);
+//        return retSatus;
+//    }
+//
+//    public int ClearAccStockTranHistoryBySymTRname(ServiceAFweb serviceAFWeb, String nnName, String sym) {
+//        logger.info("> ClearAccStockTranHistoryBySymTRname " + nnName);
+//        AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
+//        if (accountAdminObj == null) {
+//            return -1;
+//        }
+//        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
+//
+//        if (stockNameArray != null) {
+//            for (int i = 0; i < stockNameArray.size(); i++) {
+//                String symbol = (String) stockNameArray.get(i);
+//                if (sym.length() != 0) {
+//                    if (!sym.equals(symbol)) {
+//                        continue;
+//                    }
+//                }
+//                AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
+//                serviceAFWeb.AccClearAccountStockTranByAccountID(accountAdminObj, stock.getId(), nnName);
+//
+//                ServiceAFweb.AFSleep();
+//            }
+//        }
+//        logger.info("> ClearAccStockTranHistoryBySymTRname done..." + nnName);
+//        return 0;
+//    }
 
     public int ClearStockNN_inputNameArray(ServiceAFweb serviceAFWeb, String nnName) {
 //        logger.info("> ClearStockNNinputNameArray ");
