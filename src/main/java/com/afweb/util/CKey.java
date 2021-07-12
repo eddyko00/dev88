@@ -65,9 +65,9 @@ public class CKey {
     public static String URL_PATH_HERO_2_DBDB_PHP = "https://iiswebdb.herokuapp.com";
     ////
     ////   
-    public static final String URL_PATH_HERO_4 = "http://ekphp1234.atwebpages.com";  // server timerhandler
+    public static final String URL_PATH_HERO_4 = "http://ek2php1234.atwebpages.com";  // server timerhandler
     public static String WEBPOST_HERO_4_PHP = "/webgetresp_4.php"; //AWARDSPACE
-    public static String URL_PATH_HERO_4_DBDB_PHP = "http://ekphp1234.atwebpages.com";
+    public static String URL_PATH_HERO_4_DBDB_PHP = "http://ek2php1234.atwebpages.com";
     ////
     public static final String URL_PATH_HERO_5 = "http://ek1php1234.atwebpages.com";  // server timerhandler
     public static String WEBPOST_HERO_5_PHP = "/webgetresp_5.php"; //AWARDSPACE
