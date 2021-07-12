@@ -94,13 +94,13 @@ public class CKey {
 // default DB server and timerhandler
 // default DB server and timerhandler
     
-    public static int SQL_DATABASE = REMOTE_PHP_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)    
-    public static String SERVER_DB_URL = URL_PATH_HERO_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
-    public static String SERVER_TIMMER_URL = URL_PATH_HERO;  // server timerhandler OTHER_DB1 = false;
+//    public static int SQL_DATABASE = REMOTE_PHP_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)    
+//    public static String SERVER_DB_URL = URL_PATH_HERO_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
+//    public static String SERVER_TIMMER_URL = URL_PATH_HERO;  // server timerhandler OTHER_DB1 = false;
 /////////////////    
-//    public static int SQL_DATABASE = REMOTE_PHP_1_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)  
-//    public static String SERVER_DB_URL = URL_PATH_HERO_1_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
-//    public static String SERVER_TIMMER_URL = URL_PATH_HERO_1;  // serve    
+    public static int SQL_DATABASE = REMOTE_PHP_1_MYSQL;  //MYSQL direct db //REMOTE_MYSQL (for PHP DB proxy)  
+    public static String SERVER_DB_URL = URL_PATH_HERO_1_DBDB_PHP;  // server timerhandler OTHER_DB1 = false;
+    public static String SERVER_TIMMER_URL = URL_PATH_HERO_1;  // serve    
 // default DB server and timerhandler
 // default DB server and timerhandler
 // default DB server and timerhandler
