@@ -155,7 +155,7 @@ public class ControllerStockInfo {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return 0;
         }
-        int result = stockInfoService.removeStockInfo(afWebService, symbol);
+        int result = stockInfoService.deleteStockInfo(afWebService, symbol);
         ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
         return result;
     }

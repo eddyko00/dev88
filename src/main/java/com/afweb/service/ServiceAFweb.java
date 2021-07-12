@@ -1857,9 +1857,9 @@ public class ServiceAFweb {
 //
 //        return getStockHistoricalRangeServ(symbol, start, end);
 //    }    
-    public int InfRemoveStockInfo(String symbol) {
+    public int InfDeleteStockInfoBySym(String symbol) {
         if (stockInfoFlag == true) {
-            return stockInfoSrv.removeStockInfo(this, symbol);
+            return stockInfoSrv.deleteStockInfo(this, symbol);
         }
         return 0;
     }
@@ -3046,7 +3046,7 @@ public class ServiceAFweb {
             return false;
         }
 
-        serviceAFWeb.InfRemoveStockInfo(NormalizeSymbol);
+        serviceAFWeb.InfDeleteStockInfoBySym(NormalizeSymbol);
 
         ArrayList<AFstockInfo> StockArray = new ArrayList();
         boolean ret = FileUtil.FileReadTextArray(nnFileName, inputArray);

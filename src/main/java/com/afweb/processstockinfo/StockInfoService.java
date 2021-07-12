@@ -314,7 +314,7 @@ public class StockInfoService {
         return 0;
     }
 
-    public int removeStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
+    public int deleteStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
