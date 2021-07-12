@@ -35,7 +35,7 @@ public class NN2ProcessBySignal {
 
     public static Logger logger = Logger.getLogger("NN2Process");
     NNetService nnservice = new NNetService();
-    private static StockInfoService infServ = new StockInfoService();    
+    private static StockInfoService infServ = new StockInfoService();
 ///////////////////////////////
 
     public void processNN2InputNeuralNet(ServiceAFweb serviceAFWeb) {
@@ -705,7 +705,7 @@ public class NN2ProcessBySignal {
 
                 }
             }  // end for loop
-            serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.NN_LOCKTYPE);
+            infServ.InfoRemoveLockName(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> ProcessTrainNN2NeuralNetBySign ... done");
@@ -754,7 +754,7 @@ public class NN2ProcessBySignal {
             } catch (Exception ex) {
                 logger.info("> ProcessTrainNN2NeuralNetBySign Exception " + ex.getMessage());
             }
-            serviceAFWeb.SysLockRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+            infServ.InfoRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //                        logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
         }
     }

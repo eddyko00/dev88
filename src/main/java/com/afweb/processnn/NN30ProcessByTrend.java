@@ -571,7 +571,7 @@ public class NN30ProcessByTrend {
 //                    }
                 }
             }  // end for loop
-            serviceAFWeb.SysLockRemoveLockName(LockName, ConstantKey.NN_LOCKTYPE);
+            infServ.InfoRemoveLockName(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessTrainNeuralNetByTrend " + LockName + " unlock LockName");
         }
         logger.info("> ProcessTrainNeuralNetNN1ByTrend ... done");
@@ -619,7 +619,7 @@ public class NN30ProcessByTrend {
             } catch (Exception ex) {
                 logger.info("> PTrainNN30NeuralNetByTrend Exception " + ex.getMessage());
             }
-            serviceAFWeb.SysLockRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+            infServ.InfoRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //                        logger.info("ProcessTrainNeuralNetByTrend " + LockStock + " unLock LockStock ");
         }
     }
