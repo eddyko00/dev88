@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 public class TradingNNprocess {
 
     protected static Logger logger = Logger.getLogger("TradingNNprocess");
-    private static StockInfoService infServ = new StockInfoService();     
+    private static StockInfoService infServ = new StockInfoService();
 
     // data history from  old to more recent
     // get next 5 days close price
@@ -45,7 +45,7 @@ public class TradingNNprocess {
             return stockNNretrainNameArray;
         }
 
-        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameList(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
@@ -291,7 +291,7 @@ public class TradingNNprocess {
         if (accountAdminObj == null) {
             return -1;
         }
-        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameList(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             for (int i = 0; i < stockNameArray.size(); i++) {

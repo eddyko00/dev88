@@ -51,7 +51,7 @@ public class ControllerStockInfo {
         arrayString.add("/st/clearlockinfo");
     }
 
-    @RequestMapping(value = "/cust/clearlockinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/st/clearlockinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     int cleaLockStockInfo(
             HttpServletRequest request, HttpServletResponse response

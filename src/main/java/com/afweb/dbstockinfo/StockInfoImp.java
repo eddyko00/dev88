@@ -9,6 +9,7 @@ import com.afweb.model.stock.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -52,7 +53,9 @@ public class StockInfoImp {
 
     ///////////////
     public ArrayList<String> getAllStockInfoUniqueNameList() {
-        return stockInfodb.getAllStockInfoUniqueNameList();
+        ArrayList<String> listName =  stockInfodb.getAllStockInfoUniqueNameList();
+        Collections.sort(listName);
+        return listName;
     }
 
     public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {

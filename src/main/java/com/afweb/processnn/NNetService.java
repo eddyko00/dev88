@@ -357,7 +357,7 @@ public class NNetService {
         NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 
         AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
-        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameList(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             logger.info("Start processNewLearnNeuralNet.....Stock Size " + stockNameArray.size());
@@ -628,7 +628,7 @@ public class NNetService {
                 if (accountAPIObjL != null) {
                     if (accountAPIObjL.size() > 0) {
                         AccountObj accountAPIObj = accountAPIObjL.get(0);
-                        APIStockNameList = serviceAFWeb.InfGetStockINfioNameListServ(accountAPIObj.getId());
+                        APIStockNameList = serviceAFWeb.InfGetStockINfioNameList(accountAPIObj.getId());
                     }
                 }
                 String symbolPriL[] = ServiceAFweb.primaryStock;
@@ -698,7 +698,7 @@ public class NNetService {
         String BPname = CKey.NN_version + "_" + TRname;
 
         AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
-        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameList(accountObj.getId());
 
         if (stockNameArray != null) {
             logger.info("> removeNeuralNetDataSymbolListByTR Stock " + stockNameArray.size());
@@ -767,7 +767,7 @@ public class NNetService {
 ////////////////////////////////
                 // Add or remove stock
                 AccountObj accountAPIObj = accountAPIObjL.get(0);
-                ArrayList<String> APIStockNameList = serviceAFWeb.InfGetStockINfioNameListServ(accountAPIObj.getId());
+                ArrayList<String> APIStockNameList = serviceAFWeb.InfGetStockINfioNameList(accountAPIObj.getId());
                 if (APIStockNameList == null) {
                     return;
                 }
@@ -803,7 +803,7 @@ public class NNetService {
                 serviceAFWeb.ProcessAdminAddRemoveStock(serviceAFWeb);
 
                 AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
-                ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountAdminObj.getId());
+                ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameList(accountAdminObj.getId());
 
                 String printName = "";
                 for (int i = 0; i < stockNameArray.size(); i++) {

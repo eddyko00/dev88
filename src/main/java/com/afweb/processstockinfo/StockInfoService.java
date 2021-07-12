@@ -493,7 +493,7 @@ public class StockInfoService {
         }
         logger.info("> deleteAllStockInfo");
         AccountObj accountObj = serviceAFWeb.SysGetAdminObjFromCache();
-        ArrayList<String> stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountObj.getId());
+        ArrayList<String> stockNameArray = serviceAFWeb.InfGetStockINfioNameList(accountObj.getId());
         for (int i = 0; i < stockNameArray.size(); i++) {
             String symbol = stockNameArray.get(i);
             if (symbol.equals("T.T")) {
