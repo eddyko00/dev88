@@ -1562,7 +1562,7 @@ public class ServiceAFweb {
 
 ///////////////////////////////////////
     public int SysLockDeleteAll() {
-        stockInfoSrv.deleteAllStockInfo(this);
+        stockInfoSrv.InfoDeleteAllLock();
         return systemSrv.deleteAllLock();
     }
 

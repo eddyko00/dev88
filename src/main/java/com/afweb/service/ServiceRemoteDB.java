@@ -153,7 +153,7 @@ public class ServiceRemoteDB {
             int end = output.indexOf(" ~~");
 
             if ((beg >= end) || (beg == -1)) {
-                logger.info("postExecuteListRemoteDB_Mysql output" + sqlCMDList);
+                logger.info("postExecuteListRemoteDB_Mysql output " + sqlCMDList);
                 return -1;
             }
             output = output.substring(beg + 3, end);

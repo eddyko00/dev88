@@ -211,7 +211,7 @@ public class StockInfoProcess {
                     String sockUpdateSQL = SysDB.SQLupdateStockStatus(stock);
                     ArrayList sqlList = new ArrayList();
                     sqlList.add(sockUpdateSQL);
-                    serviceAFWeb.InfUpdateSQLStockInfoArrayList(sqlList);
+                    serviceAFWeb.StoUpdateSQLArrayList(sqlList);
                 } else {
                     if (ServiceAFweb.mydebugtestflag == true) {
                         logger.info("> updateAllStock lockReturn fail " + lockDateValue + " " + NormalizeSymbol);

@@ -598,6 +598,7 @@ public class StockInfoService {
         return stockInfoImp.getAllLock();
     }
 
+    
     public int InfoSetRenewLock(String name, int type) {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();
