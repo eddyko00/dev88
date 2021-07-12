@@ -10,18 +10,15 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.nn.*;
+import com.afweb.processstockinfo.StockInfoService;
 
 import com.afweb.service.ServiceAFweb;
 
 import com.afweb.util.*;
 
-import com.afweb.util.TimeConvertion;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import java.util.Calendar;
-
 import java.util.logging.Logger;
 
 /**
@@ -31,7 +28,8 @@ import java.util.logging.Logger;
 public class TradingNNprocess {
 
     protected static Logger logger = Logger.getLogger("TradingNNprocess");
-//    NNetService nnservice = new NNetService();
+    private static StockInfoService infServ = new StockInfoService();     
+
     // data history from  old to more recent
     // get next 5 days close price
     public static int TREND_Day = 4;
@@ -101,7 +99,7 @@ public class TradingNNprocess {
 
         LockName = "NNRE_LEARN";
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
-        long lockReturn = serviceAFWeb.SysSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
+        long lockReturn = infServ.InfoSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
         boolean testing = false;
         if (testing == true) {
             lockReturn = 1;
@@ -158,7 +156,7 @@ public class TradingNNprocess {
         LockStock = LockStock.toUpperCase();
 
         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
-        long lockReturnStock = serviceAFWeb.SysSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
+        long lockReturnStock = infServ.InfoSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
         if (ServiceAFweb.mydebugtestflag == true) {
             lockReturnStock = 1;
         }
