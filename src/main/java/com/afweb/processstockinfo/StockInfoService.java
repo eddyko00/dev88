@@ -469,7 +469,7 @@ public class StockInfoService {
                     + stock.getFailedupdate() + " where symbol='" + stock.getSymbol() + "'";
             sqlStockTranList.add(sqlUpdateStockSQL);
 
-            sqlResult = updateSQLStockInfoArrayList(serviceAFWeb, sqlStockTranList);
+            sqlResult = serviceAFWeb.StoUpdateSQLArrayList(sqlStockTranList);
             if (sqlResult == 1) {
                 return 1; //resultAdd; 
             }

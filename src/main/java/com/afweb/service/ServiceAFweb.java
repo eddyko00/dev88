@@ -1562,6 +1562,7 @@ public class ServiceAFweb {
 
 ///////////////////////////////////////
     public int SysLockDeleteAll() {
+        stockInfoSrv.deleteAllStockInfo(this);
         return systemSrv.deleteAllLock();
     }
 
@@ -1593,7 +1594,6 @@ public class ServiceAFweb {
 
     public int SysLockRemoveLockName(String name, int type) {
         int ret = systemSrv.removeLockName(name, type);
-        stockInfoSrv.InfoRemoveLockName(name, type);
         return ret;
 
     }
