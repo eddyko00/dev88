@@ -1844,7 +1844,7 @@ public class ServiceAFweb {
 //
 //        return getStockHistoricalRangeServ(symbol, start, end);
 //    }    
-    public ArrayList<String> InfGetStockINfioNameListServ(int accountId) {
+    public ArrayList<String> InfGetStockINfioNameListServ(int accountId) {        
         return stockInfoSrv.getAllStockInfoUniqueNameList(this);
 //        return custAccSrv.getAccountStockNameList(accountId);
     }
