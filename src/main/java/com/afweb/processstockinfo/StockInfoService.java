@@ -88,7 +88,7 @@ public class StockInfoService {
         return null;
     }
 
-    public ArrayList<String> getAllStockInfoUniqueNameList() {
+    public ArrayList<String> getAllStockInfoUniqueNameList(ServiceAFweb serviceAFWeb) {
         return stockInfoImp.getAllStockInfoUniqueNameList();
     }
 
