@@ -48,6 +48,22 @@ public class ControllerStockInfo {
         arrayString.add("/st/{symbol}/deleteinfo");
         arrayString.add("/st/getallinfoname");
         arrayString.add("/st/deleteallinfo");
+        arrayString.add("/st/clearlockinfo");
+    }
+
+    @RequestMapping(value = "/cust/clearlockinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    int cleaLockStockInfo(
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        ServiceAFweb.getServerObj().setCntControRequest(ServiceAFweb.getServerObj().getCntControRequest() + 1);
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return 0;
+        }
+        int result = stockInfoService.InfoDeleteAllLock();
+        ServiceAFweb.getServerObj().setCntControlResp(ServiceAFweb.getServerObj().getCntControlResp() + 1);
+        return result;
     }
 
     @RequestMapping(value = "/st/{symbol}/history", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
