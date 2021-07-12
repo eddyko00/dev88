@@ -31,7 +31,6 @@ import javax.sql.DataSource;
 public class StockInfoService {
 
     protected static Logger logger = Logger.getLogger("StockService");
-    StockInfoProcess stockProcess = new StockInfoProcess();
     StockInfoImp stockInfoImp = new StockInfoImp();
 
     public RequestObj SQLRequestStockInfo(ServiceAFweb serviceAFWeb, RequestObj sqlObj) {
@@ -89,10 +88,15 @@ public class StockInfoService {
         return null;
     }
 
+    public ArrayList<String> getAllStockInfoUniqueNameList() {
+        return stockInfoImp.getAllStockInfoUniqueNameList();
+    }
+
     public int updateAllStockInfo(ServiceAFweb serviceAFWeb) {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
+        StockInfoProcess stockProcess = new StockInfoProcess();
         return stockProcess.updateAllStockInfo(serviceAFWeb);
     }
 
@@ -583,7 +587,6 @@ public class StockInfoService {
         return stockInfoImp.initStockInfoDB();
     }
 
-
 ////////////////////////////////////////// 
     // System LockInfo
     public String InfoGetAllLockDBSQL(String sql) {
@@ -598,7 +601,6 @@ public class StockInfoService {
         return stockInfoImp.getAllLock();
     }
 
-    
     public int InfoSetRenewLock(String name, int type) {
         Calendar dateNow = TimeConvertion.getCurrentCalendar();
         long lockDateValue = dateNow.getTimeInMillis();

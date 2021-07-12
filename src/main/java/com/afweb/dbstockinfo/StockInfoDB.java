@@ -164,7 +164,13 @@ public class StockInfoDB {
         }
         return null;
     }
-
+    
+    public ArrayList<String> getAllStockInfoUniqueNameList() {
+        String sqlCMD ="select DISTINCT sym as name from stockinfo";
+        return getAllNameSQL(sqlCMD);
+    }
+    
+    
     public ArrayList<AFstockInfo> getAllStockInfoDBSQLArray(String sql) {
         return getStockInfoListSQL(sql);
     }
@@ -527,7 +533,36 @@ public class StockInfoDB {
     }
 
     /////////////////////////
+
     ///////////
+    public ArrayList getAllNameSQL(String sql) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
+            ArrayList nnList;
+            try {
+                nnList = remoteDB.getAllNameSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                return nnList;
+            } catch (Exception ex) {
+            }
+            return null;
+        }
+
+        try {
+            List<String> entries = new ArrayList<>();
+            entries.clear();
+            entries = this.jdbcTemplate.query(sql, new RowMapper() {
+                public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    String name = rs.getString("name");
+                    return name;
+                }
+            });
+            return (ArrayList) entries;
+        } catch (Exception e) {
+            logger.info("> getAllNameSQL exception " + e.getMessage());
+        }
+        return null;
+    }
+    
+    
     public ArrayList getAllIdInfoSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;

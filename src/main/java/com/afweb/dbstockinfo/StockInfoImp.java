@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 
-
 /**
  *
  * @author eddyko
@@ -23,7 +22,7 @@ public class StockInfoImp {
     protected static Logger logger = Logger.getLogger("StockInfoImp");
     private StockInfoDB stockInfodb = new StockInfoDB();
 
-    public void setStockInfoDataSource( DataSource dataSource, String URL) {
+    public void setStockInfoDataSource(DataSource dataSource, String URL) {
 
         stockInfodb.setDataSource(dataSource, URL);
     }
@@ -43,7 +42,6 @@ public class StockInfoImp {
 //    public String getAllStockInfoDBSQL(String sql) {
 //        return stockInfodb.getAllStockInfoDBSQL(sql);
 //    }
-
     public int deleteStockInfoBySym(String sym) {
         return stockInfodb.deleteStockInfoBySym(sym);
     }
@@ -53,6 +51,9 @@ public class StockInfoImp {
     }
 
     ///////////////
+    public ArrayList<String> getAllStockInfoUniqueNameList() {
+        return stockInfodb.getAllStockInfoUniqueNameList();
+    }
 
     public ArrayList<AFstockInfo> getStockHistoricalRange(String NormalizeSymbol, long start, long end) {
         ArrayList StockArray = null;
@@ -82,6 +83,7 @@ public class StockInfoImp {
         return stockInfodb.getAllIdInfoSQL(sql);
     }
 //////////////////////////////////////    
+
     public String getAllLockDBSQL(String sql) {
         return stockInfodb.getAllLockDBSQL(sql);
     }
@@ -110,5 +112,5 @@ public class StockInfoImp {
         return stockInfodb.deleteAllLock();
     }
 ////////////////////////////////////////////////////////////////
-    
+
 }
