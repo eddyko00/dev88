@@ -318,20 +318,6 @@ public class StockInfoService {
         return 0;
     }
 
-    public int deleteStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            return 0;
-        }
-
-        SymbolNameObj symObj = new SymbolNameObj(symbol);
-        String NormalizeSymbol = symObj.getYahooSymbol();
-        AFstockObj stockObj = serviceAFWeb.StoGetStockObjBySym(NormalizeSymbol);
-        if (stockObj != null) {
-            return stockInfoImp.deleteStockInfoBySym(stockObj.getSymbol());
-        }
-        return 0;
-    }
-
     public int updateStockInfoHistory(ServiceAFweb serviceAFWeb, StockInfoTranObj stockInfoTran) {
         ServiceAFweb.lastfun = "updateStockInfoHistory";
 
@@ -485,6 +471,20 @@ public class StockInfoService {
 
     public int updateSQLStockInfoArrayList(ServiceAFweb serviceAFWeb, ArrayList SQLTran) {
         return stockInfoImp.updateSQLStockInfoArrayList(SQLTran);
+    }
+
+    public int deleteStockInfo(ServiceAFweb serviceAFWeb, String symbol) {
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            return 0;
+        }
+
+        SymbolNameObj symObj = new SymbolNameObj(symbol);
+        String NormalizeSymbol = symObj.getYahooSymbol();
+        AFstockObj stockObj = serviceAFWeb.StoGetStockObjBySym(NormalizeSymbol);
+        if (stockObj != null) {
+            return stockInfoImp.deleteStockInfoBySym(stockObj.getSymbol());
+        }
+        return 0;
     }
 
     public int deleteAllStockInfo(ServiceAFweb serviceAFWeb) {
