@@ -291,7 +291,7 @@ public class ServiceRemoteDBInfo {
             return getStockInfoSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            logger.info("getStockInfoSqlRemoteDB_RemoteMysql exception " + ex);
+            logger.info("getStockInfoSqlRemoteDB_RemoteMysql exception " + sqlCMD + " " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
             throw ex;
         }

@@ -53,7 +53,6 @@ public class ServiceRemoteDB {
 //
 //    public static String WEBPOST_MYSQL = CKey.WEBPOST_HERO_PHP; //"/webgetresp.php";
 //    public static String URLPath_MYSQL = CKey.URL_PATH_HERO_DBDB_PHP;
-
 //    public static String WEBPOST_REQ = "sqlreq";
 //    public static String WEBPOST_ASP = "/webgetresp.asp";
 //    public static String URLPath_ASP = CKey.REMOTEDB_MS_SQLURL;
@@ -80,7 +79,6 @@ public class ServiceRemoteDB {
 //    public static void setURL_PATH(String aURL_PATH) {
 //        URL_PATH = aURL_PATH;
 //    }
-
 //    /**
 //     * @return the serviceAFWeb
 //     */
@@ -94,7 +92,6 @@ public class ServiceRemoteDB {
 //    public static void setServiceAFWeb(ServiceAFweb aServiceAFWeb) {
 //        serviceAFWeb = aServiceAFWeb;
 //    }
-
     public int getExecuteRemoteListDB_Mysql(ArrayList<String> sqlCMDList, String remoteURL) {
 //        log.info("postExecuteListRemoteDB_Mysql sqlCMDList " + sqlCMDList.size());
         String postSt = "";
@@ -386,100 +383,100 @@ public class ServiceRemoteDB {
         }
     }
 
-    public ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
-
-        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
-//        log.info("getStockInfoSqlRemoteDB_RemoteMysql " + sqlCMD);
-        try {
-            String subResourcePath = remoteURL;
-            HashMap newmap = new HashMap();
-            newmap.put(CMD, "1");
-
-            HashMap newbodymap = new HashMap();
-            newbodymap.put(CMDPOST, sqlCMD);
-
-            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
-
-            int beg = output.indexOf("~~ ");
-            int end = output.indexOf(" ~~");
-            // create hash map
-            if (beg > end) {
-                return null;
-            }
-            output = output.substring(beg + 3, end);
-            if (output.length() == 0) {
-                return null;
-            }
-//            String[] dataArray = output.split("~");
-            String[] dataArray = splitIncludeEmpty(output, '~');
-            output = "[";
-
-            int recSize = 11;  // remember to add 1 more of the last dataArray
-            for (int i = 0; i < dataArray.length; i += recSize) {
-                output += "{";
-                output += "\"id\":\"" + dataArray[i] + "\",";
-                output += "\"entrydatedisplay\":\"" + dataArray[i + 1] + "\",";
-                output += "\"entrydatel\":\"" + dataArray[i + 2] + "\",";
-                output += "\"fopen\":\"" + dataArray[i + 3] + "\",";
-                output += "\"fclose\":\"" + dataArray[i + 4] + "\",";
-                output += "\"high\":\"" + dataArray[i + 5] + "\",";
-                output += "\"low\":\"" + dataArray[i + 6] + "\",";
-                output += "\"volume\":\"" + dataArray[i + 7] + "\",";
-                output += "\"adjustclose\":\"" + dataArray[i + 8] + "\",";
-                output += "\"sym\":\"" + dataArray[i + 9] + "\",";                
-                output += "\"stockid\":\"" + dataArray[i + 10] + "\"";
-
-                if (i + recSize >= dataArray.length) {
-                    output += "}";
-                } else {
-                    output += "},";
-                }
-            }
-            output += "]";
-            return getStockInfoSqlRemoteDB_Process(output);
-
-        } catch (Exception ex) {
-            logger.info("getStockInfoSqlRemoteDB_RemoteMysql exception " + ex);
-            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-            throw ex;
-        }
-    }
-
-    private ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_Process(String output) {
-        if (output.equals("")) {
-            return null;
-        }
-        ArrayList<StockInfoRDB> arrayDB = null;
-        ArrayList<AFstockInfo> arrayReturn = new ArrayList();
-        try {
-            StockInfoRDB[] arrayItem = new ObjectMapper().readValue(output, StockInfoRDB[].class);
-            List<StockInfoRDB> listItem = Arrays.<StockInfoRDB>asList(arrayItem);
-            arrayDB = new ArrayList<StockInfoRDB>(listItem);
-
-            for (int i = 0; i < arrayDB.size(); i++) {
-                StockInfoRDB rs = arrayDB.get(i);
-
-                AFstockInfo stocktmp = new AFstockInfo();
-                stocktmp.setEntrydatel(Long.parseLong(rs.getEntrydatel()));
-                stocktmp.setEntrydatedisplay(new java.sql.Date(stocktmp.getEntrydatel()));
-                stocktmp.setFopen(Float.parseFloat(rs.getFopen()));
-                stocktmp.setFclose(Float.parseFloat(rs.getFclose()));
-                stocktmp.setHigh(Float.parseFloat(rs.getHigh()));
-                stocktmp.setLow(Float.parseFloat(rs.getLow()));
-                stocktmp.setVolume(Float.parseFloat(rs.getVolume()));
-                stocktmp.setAdjustclose(Float.parseFloat(rs.getAdjustclose()));
-                stocktmp.setSym(rs.getSym());
-                stocktmp.setStockid(Integer.parseInt(rs.getStockid()));
-                stocktmp.setId(Integer.parseInt(rs.getId()));
-
-                arrayReturn.add(stocktmp);
-            }
-            return arrayReturn;
-        } catch (IOException ex) {
-            logger.info("getStockInfoSqlRemoteDB_Process exception " + output);
-            return null;
-        }
-    }
+//    public ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
+//
+//        ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
+////        log.info("getStockInfoSqlRemoteDB_RemoteMysql " + sqlCMD);
+//        try {
+//            String subResourcePath = remoteURL;
+//            HashMap newmap = new HashMap();
+//            newmap.put(CMD, "1");
+//
+//            HashMap newbodymap = new HashMap();
+//            newbodymap.put(CMDPOST, sqlCMD);
+//
+//            String output = sendRequest_remotesql(METHOD_POST, subResourcePath, newmap, newbodymap);
+//
+//            int beg = output.indexOf("~~ ");
+//            int end = output.indexOf(" ~~");
+//            // create hash map
+//            if (beg > end) {
+//                return null;
+//            }
+//            output = output.substring(beg + 3, end);
+//            if (output.length() == 0) {
+//                return null;
+//            }
+////            String[] dataArray = output.split("~");
+//            String[] dataArray = splitIncludeEmpty(output, '~');
+//            output = "[";
+//
+//            int recSize = 11;  // remember to add 1 more of the last dataArray
+//            for (int i = 0; i < dataArray.length; i += recSize) {
+//                output += "{";
+//                output += "\"id\":\"" + dataArray[i] + "\",";
+//                output += "\"entrydatedisplay\":\"" + dataArray[i + 1] + "\",";
+//                output += "\"entrydatel\":\"" + dataArray[i + 2] + "\",";
+//                output += "\"fopen\":\"" + dataArray[i + 3] + "\",";
+//                output += "\"fclose\":\"" + dataArray[i + 4] + "\",";
+//                output += "\"high\":\"" + dataArray[i + 5] + "\",";
+//                output += "\"low\":\"" + dataArray[i + 6] + "\",";
+//                output += "\"volume\":\"" + dataArray[i + 7] + "\",";
+//                output += "\"adjustclose\":\"" + dataArray[i + 8] + "\",";
+//                output += "\"sym\":\"" + dataArray[i + 9] + "\",";
+//                output += "\"stockid\":\"" + dataArray[i + 10] + "\"";
+//
+//                if (i + recSize >= dataArray.length) {
+//                    output += "}";
+//                } else {
+//                    output += "},";
+//                }
+//            }
+//            output += "]";
+//            return getStockInfoSqlRemoteDB_Process(output);
+//
+//        } catch (Exception ex) {
+//            logger.info("getStockInfoSqlRemoteDB_RemoteMysql exception " + sqlCMD + " " + ex);
+//            ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
+//            throw ex;
+//        }
+//    }
+//
+//    private ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_Process(String output) {
+//        if (output.equals("")) {
+//            return null;
+//        }
+//        ArrayList<StockInfoRDB> arrayDB = null;
+//        ArrayList<AFstockInfo> arrayReturn = new ArrayList();
+//        try {
+//            StockInfoRDB[] arrayItem = new ObjectMapper().readValue(output, StockInfoRDB[].class);
+//            List<StockInfoRDB> listItem = Arrays.<StockInfoRDB>asList(arrayItem);
+//            arrayDB = new ArrayList<StockInfoRDB>(listItem);
+//
+//            for (int i = 0; i < arrayDB.size(); i++) {
+//                StockInfoRDB rs = arrayDB.get(i);
+//
+//                AFstockInfo stocktmp = new AFstockInfo();
+//                stocktmp.setEntrydatel(Long.parseLong(rs.getEntrydatel()));
+//                stocktmp.setEntrydatedisplay(new java.sql.Date(stocktmp.getEntrydatel()));
+//                stocktmp.setFopen(Float.parseFloat(rs.getFopen()));
+//                stocktmp.setFclose(Float.parseFloat(rs.getFclose()));
+//                stocktmp.setHigh(Float.parseFloat(rs.getHigh()));
+//                stocktmp.setLow(Float.parseFloat(rs.getLow()));
+//                stocktmp.setVolume(Float.parseFloat(rs.getVolume()));
+//                stocktmp.setAdjustclose(Float.parseFloat(rs.getAdjustclose()));
+//                stocktmp.setSym(rs.getSym());
+//                stocktmp.setStockid(Integer.parseInt(rs.getStockid()));
+//                stocktmp.setId(Integer.parseInt(rs.getId()));
+//
+//                arrayReturn.add(stocktmp);
+//            }
+//            return arrayReturn;
+//        } catch (IOException ex) {
+//            logger.info("getStockInfoSqlRemoteDB_Process exception " + output);
+//            return null;
+//        }
+//    }
 
     public ArrayList<CustomerObj> getCustomerListSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
@@ -1373,7 +1370,6 @@ public class ServiceRemoteDB {
     }
 
 ////    
-
     public ArrayList getAllNameSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
