@@ -429,7 +429,7 @@ public class NN30ProcessByTrend {
 //            AccountObj account = serviceAFWeb.getAccountImp().getAccountByType("GUEST", "guest", AccountObj.INT_TRADING_ACCOUNT);
 //            accountObj = account;
 //        }
-        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountObj.getId());
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");
@@ -872,7 +872,7 @@ public class NN30ProcessByTrend {
             return stockNNretrainprocessNameArray;
         }
 
-        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountAdminObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountAdminObj.getId());
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");

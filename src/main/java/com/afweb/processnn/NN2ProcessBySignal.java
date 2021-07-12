@@ -602,7 +602,7 @@ public class NN2ProcessBySignal {
             return stockNNprocessNameArray;
         }
 
-        ArrayList stockNameArray = serviceAFWeb.AccGetAccountStockNameListServ(accountObj.getId());
+        ArrayList stockNameArray = serviceAFWeb.InfGetStockINfioNameListServ(accountObj.getId());
 
         if (stockNameArray != null) {
             stockNameArray.add(0, "HOU.TO");

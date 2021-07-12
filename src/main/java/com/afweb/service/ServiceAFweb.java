@@ -31,8 +31,8 @@ import com.afweb.processcustacc.CustAccService;
 import com.afweb.processnn.NNetService;
 import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.*;
-import com.afweb.processsystem.SystemMaintProcess;
-import com.afweb.processsystem.SystemService;
+import com.afweb.processsystem.*;
+
 
 import com.afweb.stockinternet.StockUtils;
 import com.afweb.util.*;
@@ -1857,6 +1857,12 @@ public class ServiceAFweb {
 //
 //        return getStockHistoricalRangeServ(symbol, start, end);
 //    }    
+    
+
+    public ArrayList InfGetStockINfioNameListServ(int accountId) {
+        return custAccSrv.getAccountStockNameList(accountId);
+    }
+    
     public int InfDeleteStockInfoBySym(String symbol) {
         if (stockInfoFlag == true) {
             return stockInfoSrv.deleteStockInfo(this, symbol);
