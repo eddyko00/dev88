@@ -77,9 +77,9 @@ public class StockProcess {
                 return 0;
             }
             long currentTime = System.currentTimeMillis();
-            long lockDate1Min = TimeConvertion.addMinutes(currentTime, 1);
+            long lockDate1Min = TimeConvertion.addMinutes(currentTime, 5);
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 15; i++) {
                 currentTime = System.currentTimeMillis();
                 if (CKey.NN_DEBUG != true) {
                     if (lockDate1Min < currentTime) {
