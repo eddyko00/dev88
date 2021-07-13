@@ -20,6 +20,6 @@ var S_EXIT = 8;
 var TRADING_AMOUNT = 6000;
 var INT_MUTUAL_FUND_ACCOUNT = 120;
 
-var recMsg = ["NN1 AI cannot find a good signal pattern. You should wait unit the pattern is found.",
-    "NN1 AI is able to find a signal pattern. You can follow signal.",
-    "NN1 AI finds a strong related signal pattern. You should follow the signal."];
+var recMsg = ["NN AI cannot find a good signal pattern. You should wait unit the pattern is found.",
+    "NN AI is able to find a signal pattern. You can follow signal.",
+    "NN AI finds a strong related signal pattern. You should follow the signal."];

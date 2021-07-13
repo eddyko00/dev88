@@ -236,7 +236,7 @@ var app = {
                         var objData = JSON.parse(objDataStr);
                         if (objData != null) {
                             if (objData.conf != "") {
-                                comment = objData.conf + "<br>n" + objData.nn + " t" + objData.tt  + "<br>" + objData.nnst;
+                                comment = objData.conf + "<br>n" + objData.nn + " t" + objData.tt + "<br>" + objData.nnst;
                             }
                         }
                     } catch (err) {
@@ -284,6 +284,50 @@ var app = {
                 $("#myid").append('<li></li>');
                 $("#myid").append('This is system simulated transactions with AI neural Networking.');
                 $("#myid").append('<li></li>');
+                if (stockData !== null) {
+
+                    var stockMsg = "Stock Analysis:<p>";
+                    var rec = stockData.rec;
+                    if (rec < recMsg.length) {
+                        stockMsg += recMsg[rec];
+                    }
+                    if (stockData.pCl > 0) {
+                        var updown = " going up to $";
+                        if (stockData.pCl < close) {
+                            updown = " going down to $";
+                        }
+                        stockMsg += "<br>The predict price will be " + updown + stockData.pCl.toFixed(2) + " in the next few days.";
+                    }
+                    stockMsg += "<p>";
+
+
+                    if (stockData.upDn !== 0) {
+
+                        if (stockData.upDn > 70) {
+                            stockMsg += "The up trend is very strong.";
+                        } else if (stockData.upDn > 50) {
+                            stockMsg += "The up trend is strong.";
+                        }
+                        if (stockData.top !== 0) {
+                            if (stockData.top === 1) {
+                                stockMsg += " Also, price is near to the top.";
+                            }
+                        }
+                    }
+                    if (stockData.upDn < -70) {
+                        stockMsg += "The down trend is very strong.";
+                    } else if (stockData.upDn < -50) {
+                        stockMsg += "The down trend is strong.";
+                    }
+                    if (stockData.top !== 0) {
+                        if (stockData.top === -1) {
+                            stockMsg += " Also, price is near to the bottom.";
+                        }
+                    }
+
+                    $("#myid").append(stockMsg);
+                    $("#myid").append('<li></li>');
+                }
 
             }
         } // end for loop

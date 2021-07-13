@@ -300,20 +300,22 @@ var app = {
             }
             $("#myid").append('<li id="' + nameId + '"><a href="#">' + htmlName + '</a></li>');
             if (findTR_ACC === true) {
-
-                if (stockData !== null) {
-                    var stockMsg = "Stock Analysis:<br>";
-                    var rec = stockData.rec;
-                    if (rec < recMsg.length) {
-                        stockMsg += recMsg[rec];
-                    }
-//                    stockMsg += ' <a href="accountsttrmsg.html"><small>continue....</a></small>';
-
-                    stockMsg += ' <a id="link" href="#"><small>continue....</a></small>';
                     $("#myid").append('<li></li>');
-                    $("#myid").append(stockMsg);
+                    $("#myid").append('The following AI model are simulated transactions.');
                     $("#myid").append('<li></li>');
-                }
+//                if (stockData !== null) {
+//                    var stockMsg = "Stock Analysis:<br>";
+//                    var rec = stockData.rec;
+//                    if (rec < recMsg.length) {
+//                        stockMsg += recMsg[rec];
+//                    }
+////                    stockMsg += ' <a href="accountsttrmsg.html"><small>continue....</a></small>';
+//
+//                    stockMsg += ' <a id="link" href="#"><small>continue....</a></small>';
+//                    $("#myid").append('<li></li>');
+//                    $("#myid").append(stockMsg);
+//                    $("#myid").append('<li></li>');
+//                }
             }
         } // end for loop
         if (accObj.type === INT_MUTUAL_FUND_ACCOUNT) { //INT_MUTUAL_FUND_ACCOUNT = 120;
