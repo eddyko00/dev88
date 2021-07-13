@@ -200,6 +200,8 @@ public class StockInternetImpDao {
                 if (node.has("longName")) {
                     String longname = node.get("longName").asText();
                     longname = StockUtils.RemoveASCIIChar(longname);
+                    // fdb34.awardspace.net not allow Apple Inc.
+                    longname = longname.replaceAll("Inc.", "In");
                     stock.setStockname(longname);
                 } else {
                     stock.setStockname(symbol);

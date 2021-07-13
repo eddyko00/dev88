@@ -124,6 +124,9 @@ public class Javamain {
         CKey.SQL_DATABASE = CKey.REMOTE_PHP_4_MYSQL;
         CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
         CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_4;
+        // also set dbInfoNNURL
+        CKey.dbInfoNNURL = CKey.SERVER_DB_URL;    
+        
     }
 
     public static void set_php_5_mysqlflag() {
