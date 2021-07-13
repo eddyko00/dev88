@@ -734,13 +734,13 @@ public class ServiceAFweb {
             System.gc();
             AccFundPocessAddRemove();
 //            ProcessAddRemoveFundAccount(this);
-
+            ProcessUpdateAllStockTrend();
+            
             AccountMaintProcess maintProcess = new AccountMaintProcess();
             maintProcess.ProcessSystemMaintance(this);
 
         } else if ((getServerObj().getProcessTimerCnt() % 7) == 0) {
             ProcessUpdateAllStockInfo();
-            ProcessUpdateAllStockTrend();
 
             ProcessNeuralNetData(this);
 //            
@@ -818,10 +818,7 @@ public class ServiceAFweb {
     }
 
     public int ProcessUpdateAllStockTrend() {
-        if (ServiceAFweb.javamainflag == true) {
-            return StoUpdateAllStockTrend();
-        }
-        return 0;
+        return StoUpdateAllStockTrend();
     }
 /////////////////////////////////////////////
     public static String debugSymbol = "HOU.TO";
@@ -895,10 +892,13 @@ public class ServiceAFweb {
 
             symbol = "NEM";
 
+            ProcessUpdateAllStockTrend();
+
 //            AFstockObj stock = this.StoGetStockObjBySym(symbol);
 //            this.ProcessUpdateAllStockInfo();
-            StockInfoProcess infoProc = new StockInfoProcess();
-            infoProc.updateAllStockInfoProcess(this, symbol);
+//            StockInfoProcess infoProc = new StockInfoProcess();
+//            infoProc.updateAllStockInfoProcess(this, symbol);
+//
 //            AccountObj accountAdminObj = SysGetAdminObjFromCache();
 ////            TRprocessImp.updateAdminTradingsignal(this, accountAdminObj, symbol);
 //            TRprocessImp.upateAdminTransaction(this, accountAdminObj, symbol);
@@ -1844,7 +1844,7 @@ public class ServiceAFweb {
 //
 //        return getStockHistoricalRangeServ(symbol, start, end);
 //    }    
-    public ArrayList<String> InfGetStockINfioNameList(int accountId) {        
+    public ArrayList<String> InfGetStockINfioNameList(int accountId) {
         return stockInfoSrv.getAllStockInfoUniqueNameList(this);
 //        return custAccSrv.getAccountStockNameList(accountId);
     }
@@ -2772,8 +2772,6 @@ public class ServiceAFweb {
         custAccSrv.removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
-
-
 
 ////////////////////////////////////////////////////
     // Util
