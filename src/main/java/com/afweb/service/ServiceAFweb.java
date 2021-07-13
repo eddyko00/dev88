@@ -5,6 +5,7 @@
  */
 package com.afweb.service;
 
+import com.afweb.model.nn.NNInputDataObj;
 import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.processsystem.BackupRestoreImp;
 import com.afweb.stockinternet.StockInternetImpDao;

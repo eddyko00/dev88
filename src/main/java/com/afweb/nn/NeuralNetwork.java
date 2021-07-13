@@ -5,11 +5,7 @@
  */
 package com.afweb.nn;
 
-import com.afweb.service.ServiceAFweb;
-import com.afweb.util.FileUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
+
 import java.util.logging.Logger;
 
 /**

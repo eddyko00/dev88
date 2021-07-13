@@ -5,6 +5,8 @@
  */
 package com.afweb.processnn;
 
+import com.afweb.model.nn.NNInputOutObj;
+import com.afweb.model.nn.NNInputDataObj;
 import com.afweb.model.stock.AFneuralNetData;
 
 import com.afweb.nn.*;

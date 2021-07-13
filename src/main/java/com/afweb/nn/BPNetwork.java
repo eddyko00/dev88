@@ -5,6 +5,7 @@
  */
 package com.afweb.nn;
 
+import com.afweb.model.nn.*;
 import java.util.logging.Logger;
 
 /**

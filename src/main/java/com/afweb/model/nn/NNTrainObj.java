@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.nn;
+package com.afweb.model.nn;
 
+import com.afweb.model.nn.NNInputOutObj;
 import static com.afweb.service.ServiceAFweb.FileLocalDebugPath;
 import com.afweb.util.FileUtil;
 import com.afweb.util.getEnv;

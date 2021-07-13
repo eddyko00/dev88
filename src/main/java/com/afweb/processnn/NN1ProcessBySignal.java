@@ -5,6 +5,9 @@
  */
 package com.afweb.processnn;
 
+import com.afweb.model.nn.NNTrainObj;
+import com.afweb.model.nn.NNInputOutObj;
+import com.afweb.model.nn.NNInputDataObj;
 import com.afweb.processnn.signal.ProcessNN1;
 import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.util.CKey;

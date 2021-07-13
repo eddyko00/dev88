@@ -11,7 +11,7 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
-import com.afweb.nn.NNormalObj;
+import com.afweb.model.nn.NNormalObj;
 import com.afweb.nnsignal.AccountTranProcess;
 import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.processaccounting.AccountingProcess;

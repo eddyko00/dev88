@@ -5,12 +5,15 @@
  */
 package com.afweb.processnn;
 
+import com.afweb.model.nn.NNInputOutObj;
+import com.afweb.model.nn.NNInputDataObj;
 import com.afweb.dbnndata.NNetdataImp;
 import com.afweb.model.*;
 import com.afweb.model.account.AccountObj;
 
 import com.afweb.model.stock.*;
 import com.afweb.nn.*;
+import com.afweb.nnBP.NNBPservice;
 
 import com.afweb.nnsignal.*;
 import com.afweb.processcache.ECacheService;
@@ -260,7 +263,26 @@ public class NNetService {
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
-        return nndataImp.releaseNeuralNetBPObj(name);
+        ///NeuralNetObj1 transition
+        ///NeuralNetObj0 release
+        String nameSt = nndataImp.getNeuralNetName1(name);
+        if (nameSt != null) {
+
+            AFneuralNet nnObj1 = nndataImp.getNeuralNetObjWeight1(name);
+            NNBPservice nnTemp = new NNBPservice();
+            nnTemp.createNet(nnObj1.getWeight());
+            nnTemp.setInputpattern(null);
+            nnTemp.setOutputpattern(null);
+            String weightSt = nnTemp.getNetObjSt();
+            int ret = nndataImp.setCreateNeuralNetObj0(name, weightSt);
+            if (ret == 1) {
+                nndataImp.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
+
+                setCreateNeuralNetObj1(name, "");
+                return nndataImp.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
+            }
+        }
+        return 0;
     }
 
     public AFneuralNet getNeuralNetObjWeight0(ServiceAFweb serviceAFWeb, String name, int type) {

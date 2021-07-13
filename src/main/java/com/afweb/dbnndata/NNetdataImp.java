@@ -7,9 +7,8 @@ package com.afweb.dbnndata;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.stock.*;
-import com.afweb.nn.NNInputDataObj;
-import com.afweb.nn.NNInputOutObj;
-import com.afweb.nnBP.NNBPservice;
+import com.afweb.model.nn.*;
+
 import com.afweb.service.ServiceAFweb;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,11 +45,12 @@ public class NNetdataImp {
 
     public int updateSQLNNArrayList(ArrayList SQLTran) {
         return nndatadb.updateSQLArrayList(SQLTran);
-    }    
+    }
+
     public ArrayList getAllIdNNSQL(String sql) {
         return nndatadb.getAllIdNNSQL(sql);
-    }    
-    
+    }
+
     public String getAllNeuralNetDBSQL(String sql) {
         return nndatadb.getAllNeuralNetDBSQL(sql);
     }
@@ -83,7 +83,6 @@ public class NNetdataImp {
 //    public int insertNeuralNetDataObject(String name, String sym, int stockId, String data, long updatedatel) {
 //        return nndatadb.insertNeuralNetDataObject(name, sym, stockId, data, updatedatel);
 //    }
-
     public int updateNeuralNetStatus0(String name, int status, int type) {
         return nndatadb.updateNeuralNetStatus0(name, status, type);
     }
@@ -116,30 +115,37 @@ public class NNetdataImp {
         return nndatadb.deleteNeuralNetData(name);
     }
 
-    public int releaseNeuralNetBPObj(String name) {
-
-        ///NeuralNetObj1 transition
-        ///NeuralNetObj0 release
-        String nameSt = nndatadb.getNeuralNetName1(name);
-        if (nameSt != null) {
-
-            AFneuralNet nnObj1 = getNeuralNetObjWeight1(name);
-            NNBPservice nnTemp = new NNBPservice();
-            nnTemp.createNet(nnObj1.getWeight());
-            nnTemp.setInputpattern(null);
-            nnTemp.setOutputpattern(null);
-            String weightSt = nnTemp.getNetObjSt();
-            int ret = setCreateNeuralNetObj0(name, weightSt);
-            if (ret == 1) {
-                nndatadb.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
-
-                setCreateNeuralNetObj1(name, "");
-                return nndatadb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
-            }
-        }
-        return 0;
+    public String getNeuralNetName0(String name) {
+        return nndatadb.getNeuralNetName0(name);
     }
 
+    public String getNeuralNetName1(String name) {
+        return nndatadb.getNeuralNetName1(name);
+    }
+
+//    public int releaseNeuralNetBPObj(String name) {
+//
+//        ///NeuralNetObj1 transition
+//        ///NeuralNetObj0 release
+//        String nameSt = nndatadb.getNeuralNetName1(name);
+//        if (nameSt != null) {
+//
+//            AFneuralNet nnObj1 = getNeuralNetObjWeight1(name);
+//            NNBPservice nnTemp = new NNBPservice();
+//            nnTemp.createNet(nnObj1.getWeight());
+//            nnTemp.setInputpattern(null);
+//            nnTemp.setOutputpattern(null);
+//            String weightSt = nnTemp.getNetObjSt();
+//            int ret = setCreateNeuralNetObj0(name, weightSt);
+//            if (ret == 1) {
+//                nndatadb.updateNeuralNetStatus0(name, ConstantKey.OPEN, 0);
+//
+//                setCreateNeuralNetObj1(name, "");
+//                return nndatadb.updateNeuralNetStatus1(name, ConstantKey.COMPLETED, 0);
+//            }
+//        }
+//        return 0;
+//    }
     // return 0 for error
     public int updateNeuralNetRef0(String name, ReferNameData refnameData) {
         String nameSt = "";

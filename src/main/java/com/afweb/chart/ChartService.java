@@ -7,7 +7,7 @@ package com.afweb.chart;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.StockTRHistoryObj;
-import com.afweb.nn.NNormalObj;
+import com.afweb.model.nn.NNormalObj;
 import com.afweb.service.ServiceAFweb;
 
 import com.afweb.util.getEnv;
