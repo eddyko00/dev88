@@ -177,7 +177,8 @@ public class StockInfoService {
             long startLoop = start;
             long endLoop = 0;
             while (true) {
-                long endDay100 = TimeConvertion.addDays(startLoop, -100);
+//                long endDay100 = TimeConvertion.addDays(startLoop, -100);
+                long endDay100 = TimeConvertion.addDays(startLoop, -50);
                 endLoop = TimeConvertion.endOfDayInMillis(endDay100);
                 if (endLoop <= end) {
                     endLoop = end;
@@ -194,6 +195,7 @@ public class StockInfoService {
                 if (endLoop == end) {
                     break;
                 }
+                ServiceAFweb.AFSleep1Sec(2);
             }
             mergedList.addAll(stockInfoArrayStatic);
 
@@ -201,7 +203,8 @@ public class StockInfoService {
             long startLoop = start;
             long endLoop = 0;
             while (true) {
-                long endDay100 = TimeConvertion.addDays(startLoop, -100);
+//                long endDay100 = TimeConvertion.addDays(startLoop, -100);
+                long endDay100 = TimeConvertion.addDays(startLoop, -50);
                 endLoop = TimeConvertion.endOfDayInMillis(endDay100);
                 if (endLoop <= end) {
                     endLoop = end;
@@ -218,6 +221,7 @@ public class StockInfoService {
                 if (endLoop == end) {
                     break;
                 }
+                ServiceAFweb.AFSleep1Sec(2);
             }
         }
         if (mergedList.size() == 0) {
