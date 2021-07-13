@@ -5,7 +5,7 @@
  */
 package com.afweb.processnn;
 
-import com.afweb.dbnndata.NNetdataDB;
+import com.afweb.dbnndata.*;
 
 import com.afweb.model.stock.*;
 
