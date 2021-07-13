@@ -164,13 +164,12 @@ public class StockInfoDB {
         }
         return null;
     }
-    
+
     public ArrayList<String> getAllStockInfoUniqueNameList() {
-        String sqlCMD ="select DISTINCT sym as name from stockinfo";
+        String sqlCMD = "select DISTINCT sym as name from stockinfo";
         return getAllNameSQL(sqlCMD);
     }
-    
-    
+
     public ArrayList<AFstockInfo> getAllStockInfoDBSQLArray(String sql) {
         return getStockInfoListSQL(sql);
     }
@@ -186,14 +185,31 @@ public class StockInfoDB {
 //        return null;
 //
 //    }
-    private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
-        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
+    
+    // awardspace seem getting error
+    private ArrayList<AFstockInfo> getStockInfoListSQLRemoteRetry(String sql) {
+        for (int i = 0; i < 4; i++) {
             try {
                 ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 return AFstockObjArry;
             } catch (Exception ex) {
             }
-            return null;
+            logger.info("> getStockInfoListSQLRemoteRetry " + i);
+            ServiceAFweb.AFSleep1Sec(5);
+        }
+        return null;
+
+    }
+
+    private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
+            return getStockInfoListSQLRemoteRetry(sql);
+//            try {
+//                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
+//                return AFstockObjArry;
+//            } catch (Exception ex) {
+//            }
+//            return null;
         }
 
         List<AFstockInfo> entries = new ArrayList<>();
@@ -533,7 +549,6 @@ public class StockInfoDB {
     }
 
     /////////////////////////
-
     ///////////
     public ArrayList getAllNameSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
@@ -561,8 +576,7 @@ public class StockInfoDB {
         }
         return null;
     }
-    
-    
+
     public ArrayList getAllIdInfoSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
