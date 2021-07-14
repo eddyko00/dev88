@@ -888,7 +888,6 @@ public class ServiceAFweb {
 //            NN2ProcessBySignal nn2ProcBySig = new NN2ProcessBySignal();
 //            NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
 
-            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
 
             String symbol = "HOU.TO";
