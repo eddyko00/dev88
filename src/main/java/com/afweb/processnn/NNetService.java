@@ -799,6 +799,7 @@ public class NNetService {
                 ArrayList removeList = new ArrayList();
                 boolean result = AccountTranProcess.compareStockList(StockNameRemoteList, APIStockNameList, addedList, removeList);
                 if (result == true) {
+                    logger.info("> Stock addedList " + addedList.size());
                     for (int i = 0; i < addedList.size(); i++) {
                         String symbol = (String) addedList.get(i);
                         if (symbol.equals("T_T")) {
@@ -810,6 +811,7 @@ public class NNetService {
                         ServiceAFweb.AFSleep();
 
                     }
+                    logger.info("> Stock removeList " + removeList.size());
                     for (int i = 0; i < removeList.size(); i++) {
                         String symbol = (String) removeList.get(i);
                         int resultRemove = serviceAFWeb.AccRemoveAccountStockByUserNameAccId(CKey.API_USERNAME, null, accountAPIObj.getId() + "", symbol);
@@ -907,7 +909,7 @@ public class NNetService {
                 nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
 
                 if (nnObj1 != null) {
-                    if (checkReady(nnObj1) == false) {
+                    if (checkReady(nnObj1, nnName) == false) {
                         logger.info("> updateRESTNNWeight0 " + BPnameSym + " not ready");
                     } else {
                         int ret = serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
@@ -928,7 +930,10 @@ public class NNetService {
         return 1;
     }
 
-    public boolean checkReady(AFneuralNet nnObj1) {
+    public boolean checkReady(AFneuralNet nnObj1, String nnName) {
+        if (nnName.equals(ConstantKey.TR_NN30)) {
+            return true;
+        }
         ReferNameData refData = getReferNameData(nnObj1);
         int numReLearn = refData.getnRLearn();
         if (numReLearn == -1) {

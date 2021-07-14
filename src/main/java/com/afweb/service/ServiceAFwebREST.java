@@ -1256,7 +1256,9 @@ public class ServiceAFwebREST {
             String sqlSt = new ObjectMapper().writeValueAsString(sqlObj);
 
             String output = sendRequest_1(METHOD_POST, subResourcePath, null, sqlSt);
-
+            if (output == null) {
+                return null;
+            }
             RequestObj sqlResp = new ObjectMapper().readValue(output, RequestObj.class);
             return sqlResp;
         } catch (Exception ex) {
