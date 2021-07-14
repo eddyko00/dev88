@@ -2816,6 +2816,30 @@ public class ServiceAFweb {
         }
         return null;
     }
+
+    public void SigUpdateAdminTradingsignal(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        if (sigFlag == true) {
+            sigSrv.updateAdminTradingsignal(serviceAFWeb, accountObj, symbol);
+        }
+    }
+
+    public void SigUpateAdminTransaction(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        if (sigFlag == true) {
+            sigSrv.upateAdminTransaction(serviceAFWeb, accountObj, symbol);
+        }
+    }
+
+    public void SigUpateAdminPerformance(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        if (sigFlag == true) {
+            sigSrv.upateAdminPerformance(serviceAFWeb, accountObj, symbol);
+        }
+    }
+
+    public void SigUpateAdminTRPerf(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol) {
+        if (sigFlag == true) {
+            sigSrv.upateAdminTRPerf(serviceAFWeb, accountObj, symbol);
+        }
+    }
 ////////////////////////////////////////////////////
     // Util
     public static HashMap<String, ArrayList> stockInputMap = null;

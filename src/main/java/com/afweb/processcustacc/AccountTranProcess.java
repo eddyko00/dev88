@@ -6,11 +6,9 @@
 package com.afweb.processcustacc;
 
 import com.afweb.dbaccount.AccountDB;
-import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
-import com.afweb.processsignal.TradingSignalProcess;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -140,11 +138,11 @@ public class AccountTranProcess {
                                 if (lastUpdate5Min < curDateValue) {
                                     // process only if within 5 minutes on the last update
                                     // so that it will not do it so often
-                                    TradingSignalProcess TSprocess = new TradingSignalProcess();
-                                    TSprocess.updateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
-                                    TSprocess.upateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
-                                    TSprocess.upateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
-                                    TSprocess.upateAdminTRPerf(serviceAFWeb, accountAdminObj, symbol);
+//                                    TradingSignalProcess TSprocess = new TradingSignalProcess();
+                                    serviceAFWeb.SigUpdateAdminTradingsignal(serviceAFWeb, accountAdminObj, symbol);
+                                    serviceAFWeb.SigUpateAdminTransaction(serviceAFWeb, accountAdminObj, symbol);
+                                    serviceAFWeb.SigUpateAdminPerformance(serviceAFWeb, accountAdminObj, symbol);
+                                    serviceAFWeb.SigUpateAdminTRPerf(serviceAFWeb, accountAdminObj, symbol);
                                 }
                             }
                         }
@@ -389,7 +387,7 @@ public class AccountTranProcess {
                             updateTran = false;
                         }
                         if (updateTran == true) {
-                            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//                            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 
                             tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
                             ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();

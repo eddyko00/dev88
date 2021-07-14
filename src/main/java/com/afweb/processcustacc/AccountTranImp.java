@@ -9,11 +9,9 @@ import com.afweb.dbaccount.AccountDB;
 import com.afweb.model.*;
 
 import com.afweb.model.account.*;
-
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.processsignal.TradingSignalProcess;
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -299,7 +297,7 @@ public class AccountTranImp {
         }
 
 //        logger.info("> updateTradingTransaction " + symbol + " " + accountObj.getAccountname());
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         try {
             AFstockObj stock = serviceAFWeb.StoGetStockObjBySym(symbol);
             if (stock != null) {
@@ -346,7 +344,7 @@ public class AccountTranImp {
             tranOrderList = serviceAFWeb.AccGetAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
             if ((tranOrderList != null) && (tranOrderList.size() > 0)) {
 
-                ArrayList<PerformanceObj> performanceList = TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, true); // buyOnly true for TR_ACC
+                ArrayList<PerformanceObj> performanceList = serviceAFWeb.SigProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, 1, true); // buyOnly true for TR_ACC
                 if (performanceList != null) {
                     if (performanceList.size() == 1) {
                         PerformanceObj pObj = performanceList.get(0);
