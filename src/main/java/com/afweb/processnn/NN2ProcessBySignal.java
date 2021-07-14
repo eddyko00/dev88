@@ -5,16 +5,15 @@
  */
 package com.afweb.processnn;
 
-import com.afweb.model.nn.NNTrainObj;
-import com.afweb.model.nn.NNInputOutObj;
-import com.afweb.model.nn.NNInputDataObj;
-import com.afweb.processnn.model.ProcessNN2;
+import com.afweb.model.nn.*;
+
+import com.afweb.processnn.model.*;
 import com.afweb.processsignal.TradingSignalProcess;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.SymbolNameObj;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
-import com.afweb.nn.*;
+
 import com.afweb.nnBP.NNBPservice;
 import com.afweb.processstockinfo.StockInfoService;
 

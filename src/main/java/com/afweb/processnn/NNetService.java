@@ -7,8 +7,8 @@ package com.afweb.processnn;
 
 import com.afweb.processcustacc.AccountTranProcess;
 import com.afweb.processsignal.TradingSignalProcess;
-import com.afweb.model.nn.NNInputOutObj;
-import com.afweb.model.nn.NNInputDataObj;
+import com.afweb.model.nn.*;
+
 import com.afweb.dbnndata.NNetdataImp;
 import com.afweb.model.*;
 import com.afweb.model.account.AccountObj;
