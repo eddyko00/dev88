@@ -26,7 +26,6 @@ import com.afweb.dbsys.SysDB;
 import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
-import com.afweb.nn.*;
 
 import com.afweb.processcache.ECacheService;
 import com.afweb.processcustacc.CustAccService;
@@ -2788,19 +2787,31 @@ public class ServiceAFweb {
 
     //////////////////////////////////////////////////
     public NNObj SigNNpredict(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
-        return sigSrv.NNpredict(serviceAFWeb, TR_Name, accountObj, stock, StockRecArray, DataOffset);
+        if (sigFlag == true) {
+            return sigSrv.NNpredict(serviceAFWeb, TR_Name, accountObj, stock, StockRecArray, DataOffset);
+        }
+        return null;
     }
 
     public ArrayList<StockTRHistoryObj> SigProcessTRHistory(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, int lengthYr, int month) {
-        return sigSrv.ProcessTRHistory(serviceAFWeb, trObj, lengthYr, month);
+        if (sigFlag == true) {
+            return sigSrv.ProcessTRHistory(serviceAFWeb, trObj, lengthYr, month);
+        }
+        return null;
     }
 
     public ArrayList<PerformanceObj> SigProcessTranPerfHistory(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, AFstockObj stock, int length, boolean buyOnly) {
-        return sigSrv.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, buyOnly);
+        if (sigFlag == true) {
+            return sigSrv.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, buyOnly);
+        }
+        return null;
     }
 
     public ArrayList<PerformanceObj> SigProcessTranPerfHistoryReinvest(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, AFstockObj stock, int length, boolean buyOnly) {
-        return sigSrv.ProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, buyOnly);
+        if (sigFlag == true) {
+            return sigSrv.ProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, buyOnly);
+        }
+        return null;
     }
 ////////////////////////////////////////////////////
     // Util
