@@ -68,7 +68,8 @@ public class ControllerAFweb {
         arrayString.add("/server/timerurl");
         arrayString.add("/server/timerurl/set?url=stop");
 
-        arrayString.add("/server/dburl");
+        arrayString.add("/server/dburl");        
+        arrayString.add("/server/dburl/setsysdb?path=");                
         arrayString.add("/server/dburl/setinfonndb?path=");
 
 //        arrayString.add("/cust/{username}/sys/downloaddb");
@@ -83,6 +84,7 @@ public class ControllerAFweb {
 
         arrayString.add("/cust/{username}/sys/stop");
         arrayString.add("/cust/{username}/sys/clearlock");
+        arrayString.add("/cust/{username}/sys/clearlockinfo");
         arrayString.add("/cust/{username}/sys/start");
         arrayString.add("/cust/{username}/sys/resetdb");
 
@@ -299,8 +301,7 @@ public class ControllerAFweb {
     ArrayList getServerDBURL() {
         ArrayList arrayString = new ArrayList();
         arrayString.add(" DBURL:" + CKey.SERVER_DB_URL);
-        arrayString.add(" DBInfoNNURL:" + CKey.dbInfoNNURL);
-        arrayString.add(" StockDB:" + SysDB.remoteURL);
+        arrayString.add(" SystemDB:" + SysDB.remoteURL);
         arrayString.add(" StockInfoDB:" + StockInfoDB.remoteURL);
         arrayString.add(" NnetDB:" + NNetdataDB.remoteURL);
 
@@ -308,9 +309,27 @@ public class ControllerAFweb {
     }
 //
 
-    @RequestMapping(value = "/server/dburl/setinfonndb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/server/dburl/setsysdb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     String setServerDBURL(
+            @RequestParam(value = "path", required = true) String pathSt,
+            HttpServletRequest request, HttpServletResponse response
+    ) {
+        if (pathSt.equals("default")) {
+            CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_DBDB_PHP + CKey.WEBPOST_HERO_PHP;
+
+        } else {
+            CKey.SERVER_DB_URL = pathSt;
+        }
+        afWebService.SysDataSourceSystem(afWebService.dataSource, CKey.SERVER_DB_URL);
+        afWebService.AccDataSource(afWebService.dataSource, CKey.SERVER_DB_URL);
+        
+        return pathSt;
+    }
+
+    @RequestMapping(value = "/server/dburl/setinfonndb", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    String setServerDBURLInfo(
             @RequestParam(value = "path", required = true) String pathSt,
             HttpServletRequest request, HttpServletResponse response
     ) {
@@ -320,6 +339,8 @@ public class ControllerAFweb {
         } else {
             CKey.dbInfoNNURL = pathSt;
         }
+        afWebService.NnDataSourceNNnet(afWebService.dataSource, CKey.dbInfoNNURL);
+        afWebService.InfSetDataSource(afWebService.dataSource, CKey.dbInfoNNURL);
         return pathSt;
     }
 
@@ -430,6 +451,30 @@ public class ControllerAFweb {
                 return msg;
             }
         }
+        return null;
+    }
+
+    @RequestMapping(value = "/cust/{username}/sys/clearlockInfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    WebStatus SystemClearLockInfo(@PathVariable("username") String username) {
+        WebStatus msg = new WebStatus();
+        // remote is stopped
+        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+            if (username.toLowerCase().equals(CKey.ADMIN_USERNAME.toLowerCase())) {
+                msg.setResponse(afWebService.SysClearLockInfo());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+        CustomerObj cust = afWebService.SysGetCustomerIgnoreMaintenance(username, null);
+        if (cust != null) {
+            if (cust.getType() == CustomerObj.INT_ADMIN_USER) {
+                msg.setResponse(afWebService.SysClearLockInfo());
+                msg.setResult(true);
+                return msg;
+            }
+        }
+
         return null;
     }
 

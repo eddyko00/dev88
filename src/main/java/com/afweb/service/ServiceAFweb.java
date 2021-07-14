@@ -81,7 +81,7 @@ public class ServiceAFweb {
 
     private static ServerObj serverObj = new ServerObj();
 
-    private DataSource dataSource;
+    public DataSource dataSource;
 
     public static String serverLockName = "server";
     public static boolean NN_AllowTraingStockFlag = false;
@@ -658,7 +658,7 @@ public class ServiceAFweb {
                 }
             }
         }
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+
         AccountTranProcess accountTranP = new AccountTranProcess();
         String LockName = null;
         //////           
@@ -889,7 +889,6 @@ public class ServiceAFweb {
 //            NN3ProcessBySignal nn3ProcBySig = new NN3ProcessBySignal();
 
             //select * FROM sampledb.neuralnetdata where name like '%NN2%';
-
             String symbol = "HOU.TO";
             int trNN = ConstantKey.INT_TR_NN1;
             int TR_NN = trNN;
@@ -1589,6 +1588,12 @@ public class ServiceAFweb {
         int ret = systemSrv.removeLockName(name, type);
         return ret;
 
+    }
+
+    public String SysClearLockInfo() {
+        int retSatus = 0;
+        retSatus = stockInfoSrv.InfoDeleteAllLock();
+        return "" + retSatus;
     }
 
     public String SysClearLock() {
