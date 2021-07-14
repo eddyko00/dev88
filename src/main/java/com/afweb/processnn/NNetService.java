@@ -905,12 +905,16 @@ public class NNetService {
             BPnameSym = CKey.NN_version + "_" + nnName + "_" + symbol;
             try {
                 nnObj1 = getNeuralNetObjWeight0(serviceAFWeb, BPnameSym, 0);
-                if (nnObj1 != null) {
 
-                    int ret = serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
-                    ServiceAFweb.AFSleep1Sec(3);
-                    if (ret != 1) {
-                        logger.info("> updateRESTNNWeight0 " + BPnameSym + " ret=" + ret);
+                if (nnObj1 != null) {
+                    if (checkReady(nnObj1) == false) {
+                        logger.info("> updateRESTNNWeight0 " + BPnameSym + " not ready");
+                    } else {
+                        int ret = serviceAFwebREST.RESTSetNeuralNetObjWeight0(serviceAFWeb, RestURL, nnObj1);
+                        ServiceAFweb.AFSleep1Sec(3);
+                        if (ret != 1) {
+                            logger.info("> updateRESTNNWeight0 " + BPnameSym + " ret=" + ret);
+                        }
                     }
                 } else {
 
@@ -922,6 +926,21 @@ public class NNetService {
 
         }
         return 1;
+    }
+
+    public boolean checkReady(AFneuralNet nnObj1) {
+        ReferNameData refData = getReferNameData(nnObj1);
+        int numReLearn = refData.getnRLearn();
+        if (numReLearn == -1) {
+            return false;
+        }
+        if (numReLearn > 4) {
+            return false;
+        }
+        if (refData.getnRLCnt() < 4) {
+            return false;
+        }
+        return true;
     }
 
     public void fileNNInputOutObjList(ServiceAFweb serviceAFWeb, ArrayList<NNInputDataObj> inputList, String symbol, int stockId, String filename) {
