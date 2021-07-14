@@ -1933,8 +1933,15 @@ public class ServiceAFweb {
         if (stockInfoFlag == true) {
             stockInfoSrv.setStockInfoDataSource(dataSource, URL);
         }
-
     }
+    public int InfoSetLockName(String name, int type, long lockDateValue, String comment) {
+        return stockInfoSrv.InfoSetLockName(name, type, lockDateValue, comment);
+    }
+
+    public int InfoRemoveLockName(String name, int type) {
+        return stockInfoSrv.InfoRemoveLockName(name, type);
+    }    
+    
     //////////////////////////////////////////////////
     // NNService
     NNetService nnSrv = new NNetService();

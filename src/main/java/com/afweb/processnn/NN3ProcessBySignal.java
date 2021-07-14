@@ -16,7 +16,6 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.nnBP.NNBPservice;
-import com.afweb.processstockinfo.StockInfoService;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -39,7 +38,6 @@ public class NN3ProcessBySignal {
 
     public static Logger logger = Logger.getLogger("NN3Process");
     NNetService nnservice = new NNetService();
-    private static StockInfoService infServ = new StockInfoService();    
 
     public void processNN3InputNeuralNet(ServiceAFweb serviceAFWeb) {
         TradingSignalProcess.forceToInitleaningNewNN = true;  // must be true all for init learning             
@@ -473,7 +471,7 @@ public class NN3ProcessBySignal {
 
         LockName = "NN3_" + ServiceAFweb.getServerObj().getServerName();
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
-        long lockReturn = infServ.InfoSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+        long lockReturn = serviceAFWeb.InfoSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
         boolean testing = false;
         if (testing == true) {
             lockReturn = 1;
@@ -530,7 +528,7 @@ public class NN3ProcessBySignal {
 
                 }
             }  // end for loop
-            infServ.InfoRemoveLockName(LockName, ConstantKey.NN_LOCKTYPE);
+            serviceAFWeb.InfoRemoveLockName(LockName, ConstantKey.NN_LOCKTYPE);
 //            logger.info("ProcessTrainNeuralNet " + LockName + " unlock LockName");
         }
         logger.info("> ProcessTrainNeuralNetBySign ... done");
@@ -544,7 +542,7 @@ public class NN3ProcessBySignal {
         long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
         long lockReturnStock = 1;
 
-        lockReturnStock = infServ.InfoSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
+        lockReturnStock = serviceAFWeb.InfoSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessTrainNeuralNet");
 
 //                    logger.info("ProcessTrainNeuralNet " + LockStock + " LockStock " + lockReturnStock);
         if (lockReturnStock == 0) {
@@ -579,7 +577,7 @@ public class NN3ProcessBySignal {
             } catch (Exception ex) {
                 logger.info("> ProcessTrainNeuralNetBySign Exception " + ex.getMessage());
             }
-            infServ.InfoRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+            serviceAFWeb.InfoRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
 //          logger.info("ProcessTrainNeuralNet " + LockStock + " unLock LockStock ");
         }
     }

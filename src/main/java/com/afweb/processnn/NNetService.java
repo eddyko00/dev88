@@ -19,7 +19,6 @@ import com.afweb.nnBP.NNBPservice;
 import com.afweb.processcache.ECacheService;
 
 import com.afweb.processstockinfo.StockInfoProcess;
-import com.afweb.processstockinfo.StockInfoService;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.service.ServiceAFwebREST;
@@ -406,8 +405,7 @@ public class NNetService {
                 long lockDateValueStock = TimeConvertion.getCurrentCalendar().getTimeInMillis();
                 long lockReturnStock = 1;
 
-                StockInfoService infServ = new StockInfoService();
-                lockReturnStock = infServ.InfoSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
+                lockReturnStock = serviceAFWeb.InfoSetLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE, lockDateValueStock, ServiceAFweb.getServerObj().getSrvProjName() + "processNewLearnNeuralNet");
 
                 if (lockReturnStock == 0) {
                     continue;
@@ -443,7 +441,7 @@ public class NNetService {
                     } catch (Exception ex) {
 
                     }
-                    infServ.InfoRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
+                    serviceAFWeb.InfoRemoveLockName(LockStock, ConstantKey.NN_TR_LOCKTYPE);
                     return true;
                 }
 

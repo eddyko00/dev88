@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 public class BackupRestoreInfo {
 
     protected static Logger logger = Logger.getLogger("BackupRestoreInfo");
-    private static StockInfoService infServ = new StockInfoService();
 
     private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
@@ -49,7 +48,7 @@ public class BackupRestoreInfo {
         long lockDateValue = dateNow.getTimeInMillis();
 
         String LockName = "RESTORE";
-        int lockReturn = infServ.InfoSetLockName(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_restoreDBDataInfo");
+        int lockReturn = serviceAFWeb.InfoSetLockName(LockName, ConstantKey.H2_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_restoreDBDataInfo");
         if (CKey.NN_DEBUG == true) {
             lockReturn = 1;
         }
@@ -60,7 +59,7 @@ public class BackupRestoreInfo {
 
         restoreDBstockinfo(serviceAFWeb);
         restoreDBdummyInfo(serviceAFWeb);
-        infServ.InfoRemoveLockName(LockName, ConstantKey.H2_LOCKTYPE);
+        serviceAFWeb.InfoRemoveLockName(LockName, ConstantKey.H2_LOCKTYPE);
         return true;
     }
 

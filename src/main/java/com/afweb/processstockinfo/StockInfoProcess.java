@@ -81,7 +81,7 @@ public class StockInfoProcess {
         if (mkopen == false) {  //
             String LockName = "MK_CLOSE_" + ServiceAFweb.getServerObj().getServerName();
 
-            int lockReturn = infServ.InfoSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);
+            int lockReturn = serviceAFWeb.InfoSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess_" + hr);
 //            if (CKey.NN_DEBUG == true) {
 //                lockReturn = 1;
 //            }
@@ -157,7 +157,7 @@ public class StockInfoProcess {
             }
             if (lastUpdate5Min < lockDateValue) {
 
-                int lockReturn = infServ.InfoSetLockName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess");
+                int lockReturn = serviceAFWeb.InfoSetLockName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_updateAllStockProcess");
                 if (CKey.NN_DEBUG == true) {
                     lockReturn = 1;
                 }
@@ -192,7 +192,7 @@ public class StockInfoProcess {
                             sqlList.add(sockUpdateSQL);
                             serviceAFWeb.StoUpdateSQLArrayList(sqlList);
 
-                            infServ.InfoRemoveLockName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
+                            serviceAFWeb.InfoRemoveLockName(NormalizeSymbol, ConstantKey.STOCK_LOCKTYPE);
                             return 1;
                         }
 
