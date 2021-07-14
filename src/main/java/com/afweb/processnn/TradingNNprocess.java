@@ -99,6 +99,9 @@ public class TradingNNprocess {
         long lockDateValue = dateNow.getTimeInMillis();
 
         LockName = "NNRE_LEARN";
+        if (serviceAFWeb.flagNNReLearning == true) {
+            LockName = "NNRE_LEARN" + ServiceAFweb.getServerObj().getServerName();;
+        }
         LockName = LockName.toUpperCase().replace(CKey.WEB_SRV.toUpperCase(), "W");
         long lockReturn = infServ.InfoSetLockName(LockName, ConstantKey.NN_LOCKTYPE, lockDateValue, ServiceAFweb.getServerObj().getSrvProjName() + "_ProcessReTrainNeuralNet");
         boolean testing = false;
