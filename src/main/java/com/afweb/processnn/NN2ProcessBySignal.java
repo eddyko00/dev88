@@ -95,22 +95,22 @@ public class NN2ProcessBySignal {
         }
     }
 
-    private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
-        int sizeYr = 2;
-        for (int j = 0; j < sizeYr; j++) { //4; j++) {
-            int size = 20 * CKey.MONTH_SIZE * j;
-//                writeArrayNeuralNet.clear();
-            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
-            logger.info("> NeuralNetAllStockInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
-
-            String symbol = "";
-            String symbolL[] = ServiceAFweb.allStock;
-            for (int i = 0; i < symbolL.length; i++) {
-                symbol = symbolL[i];
-                ArrayList<NNInputDataObj> InputList = getTrainingNN2dataProcess(serviceAFWeb, symbol, TR_Name, size);
-            }
-        }
-    }
+//    private void NeuralNetAllStockInputTesting(ServiceAFweb serviceAFWeb, int TR_Name) {
+//        int sizeYr = 2;
+//        for (int j = 0; j < sizeYr; j++) { //4; j++) {
+//            int size = 20 * CKey.MONTH_SIZE * j;
+////                writeArrayNeuralNet.clear();
+//            serviceAFWeb.initTrainNeuralNetNumber = j + 1;
+//            logger.info("> NeuralNetAllStockInputTesting tr_" + TR_Name + " " + serviceAFWeb.initTrainNeuralNetNumber);
+//
+//            String symbol = "";
+//            String symbolL[] = ServiceAFweb.allStock;
+//            for (int i = 0; i < symbolL.length; i++) {
+//                symbol = symbolL[i];
+//                ArrayList<NNInputDataObj> InputList = getTrainingNN2dataProcess(serviceAFWeb, symbol, TR_Name, size);
+//            }
+//        }
+//    }
 
     public ArrayList<NNInputDataObj> getTrainingNN2dataProcess(ServiceAFweb serviceAFWeb, String symbol, int tr, int offset) {
 //        logger.info("> getTrainingNNdataProcess tr_" + tr + " " + NormalizeSym);
