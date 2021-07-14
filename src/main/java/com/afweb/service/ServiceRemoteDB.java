@@ -1703,10 +1703,26 @@ public class ServiceRemoteDB {
                     return response;
                 }
             } catch (Exception ex) {
-                // retry
-//                log.info("sendRequest " + bodyElement);
-                logger.info("sendRequest " + method + " Rety " + (i + 1));
             }
+            logger.info("sendRequest " + method + " Rety " + (i + 1));
+
+            if (i == 0) {
+                String bodyElement = "";
+                if (bodyParams != null && !bodyParams.isEmpty()) {
+                    String bodyTmp = "";
+                    for (String key : bodyParams.keySet()) {
+                        bodyTmp = bodyParams.get(key);
+                        bodyTmp = bodyTmp.replaceAll("&", "-");
+                        bodyTmp = bodyTmp.replaceAll("%", "%25");
+                        bodyElement = key + "=" + bodyTmp;
+                    }
+                }
+                if (bodyElement.length()> 100) {
+                    bodyElement = bodyElement.substring(90);
+                }                
+                logger.info("sendRequest " + bodyElement);
+            }
+            ServiceAFweb.AFSleep1Sec(4);            
         }
         response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
 
@@ -1791,8 +1807,8 @@ public class ServiceRemoteDB {
             if (responseCode >= 200 && responseCode < 300) {
                 ;
             } else {
-                logger.info("Response Code:: " + responseCode);
-                logger.info("bodyElement :: " + bodyElement);
+//                logger.info("Response Code:: " + responseCode);
+//                logger.info("bodyElement :: " + bodyElement);
                 return null;
             }
             if (responseCode == HttpURLConnection.HTTP_OK) { //success

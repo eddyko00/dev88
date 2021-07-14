@@ -186,30 +186,30 @@ public class StockInfoDB {
 //
 //    }
     
-    // awardspace seem getting error
-    private ArrayList<AFstockInfo> getStockInfoListSQLRemoteRetry(String sql) {
-        for (int i = 0; i < 4; i++) {
-            try {
-                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
-                return AFstockObjArry;
-            } catch (Exception ex) {
-            }
-            logger.info("> getStockInfoListSQLRemoteRetry " + i);
-            ServiceAFweb.AFSleep1Sec(5);
-        }
-        return null;
-
-    }
-
-    private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
-        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
-            return getStockInfoListSQLRemoteRetry(sql);
+//    // awardspace seem getting error
+//    private ArrayList<AFstockInfo> getStockInfoListSQLRemoteRetry(String sql) {
+//        for (int i = 0; i < 4; i++) {
 //            try {
 //                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
 //                return AFstockObjArry;
 //            } catch (Exception ex) {
 //            }
-//            return null;
+//            logger.info("> getStockInfoListSQLRemoteRetry " + i);
+//            ServiceAFweb.AFSleep1Sec(5);
+//        }
+//        return null;
+//
+//    }
+
+    private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
+//            return getStockInfoListSQLRemoteRetry(sql);
+            try {
+                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                return AFstockObjArry;
+            } catch (Exception ex) {
+            }
+            return null;
         }
 
         List<AFstockInfo> entries = new ArrayList<>();
