@@ -151,7 +151,6 @@ public class ProcessNN93 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN93dataMACD1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -205,7 +204,6 @@ public class ProcessNN93 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN93dataMACD2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -742,7 +740,7 @@ public class ProcessNN93 {
                         confidentSt = confidentSt + " (Take Profit)";
                     }
 
-                    confidentSt = confidentSt + " [" + debugSt+"] ";
+                    confidentSt = confidentSt + " [" + debugSt + "] ";
                     nnRet.setConfident(confidentSt);
                     accData.setConf(confidentSt);
                 }

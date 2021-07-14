@@ -14,7 +14,6 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
-
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
 
@@ -34,7 +33,6 @@ import java.util.logging.Logger;
 public class ProcessNN3 {
 
     protected static Logger logger = Logger.getLogger("ProcessNN3");
-    
 
     public static NNObj NNpredictNN3(ServiceAFweb serviceAFWeb, AccountObj accountObj, AFstockObj stock,
             ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
@@ -151,7 +149,6 @@ public class ProcessNN3 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN3dataMACD1(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -205,7 +202,6 @@ public class ProcessNN3 {
     //StockArray assume recent date to old data
     //StockArray assume recent date to old data   
     public ArrayList<NNInputDataObj> trainingNN3dataMACD2(ServiceAFweb serviceAFWeb, String sym, ArrayList<AFstockInfo> StockArray, int offset, int monthSize) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
         TradingSignalProcess TRprocessImp = new TradingSignalProcess();
 //        logger.info("> trainingNN ");
 
@@ -742,7 +738,7 @@ public class ProcessNN3 {
                         confidentSt = confidentSt + " (Take Profit)";
                     }
 
-                    confidentSt = confidentSt + " [" + debugSt+"] ";
+                    confidentSt = confidentSt + " [" + debugSt + "] ";
                     nnRet.setConfident(confidentSt);
                     accData.setConf(confidentSt);
                 }
