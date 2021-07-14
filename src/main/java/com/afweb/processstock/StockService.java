@@ -5,7 +5,6 @@
  */
 package com.afweb.processstock;
 
-import com.afweb.processstockinfo.StockInfoProcess;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
 
@@ -187,7 +186,6 @@ public class StockService {
     }
 
     public int addStock(ServiceAFweb serviceAFWeb, String symbol) {
-        StockInfoProcess stockProcess = new StockInfoProcess();
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return 0;
         }
