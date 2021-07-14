@@ -33,8 +33,6 @@ public class Javamain {
             CKey.SQL_DATABASE = CKey.DIRECT__MYSQL;
         } else if (cmd.indexOf("localmysqlflag") != -1) {
             CKey.SQL_DATABASE = CKey.LOCAL_MYSQL;
-        } else if (cmd.indexOf("dbinfoflag") != -1) {
-            CKey.dbinfonnflag = true;
         } else if (cmd.indexOf("phpmysqlflag") != -1) {
             set_phpmysqlflag();
         } else if (cmd.indexOf("php_1_mysqlflag") != -1) {
@@ -124,6 +122,7 @@ public class Javamain {
         CKey.SQL_DATABASE = CKey.REMOTE_PHP_4_MYSQL;
         CKey.SERVER_DB_URL = CKey.URL_PATH_HERO_4_DBDB_PHP + CKey.WEBPOST_HERO_4_PHP;
         CKey.SERVER_TIMMER_URL = CKey.URL_PATH_HERO_4;
+        // special case all DB URL are use URL_PATH_HERO_4_DBDB_PHP
         // also set dbInfoNNURL
         CKey.dbInfoNNURL = CKey.SERVER_DB_URL;    
         

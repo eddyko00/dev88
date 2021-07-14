@@ -6,7 +6,6 @@
 package com.afweb.service;
 
 import com.afweb.processcustacc.AccountTranProcess;
-import com.afweb.processsignal.TradingSignalProcess;
 import com.afweb.model.nn.*;
 import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.processsystem.BackupRestoreImp;
