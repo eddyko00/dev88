@@ -749,7 +749,6 @@ public class ServiceAFweb {
             ProcessPUBSUBAccountComm(this);
             
             ProcessEmailAccount(this);            
-
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
             ProcessUpdateAllStockInfo();
@@ -758,14 +757,14 @@ public class ServiceAFweb {
             ProcessAdminAddRemoveStock(this);
 
             ProcessEmailAccount(this);
-
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             ProcessUpdateAllStockInfo();
             ProcessAllAccountTradingSignal(this);
             ProcessAdminAddRemoveStock(this);
 
-//            
+            ProcessEmailAccount(this);            
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
+            
             ProcessEmailAccount(this);
         } else {
 
