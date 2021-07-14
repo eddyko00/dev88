@@ -5,7 +5,6 @@
  */
 package com.afweb.processsystem;
 
-
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
 
@@ -87,7 +86,7 @@ public class AccountMaintProcess {
         ArrayList stockRemoveList = serviceAFWeb.SysGetRemoveStockNameList(20);  // status = ConstantKey.COMPLETED      
         //delete stock if disable
         if (stockRemoveList != null) {
-            if (stockRemoveList.size() >= 0) {
+            if (stockRemoveList.size() > 0) {
                 int numCnt = 0;
                 logger.info("> ProcessStockInfodeleteMaintance stockRemoveList " + stockRemoveList.size());
                 try {
@@ -98,6 +97,7 @@ public class AccountMaintProcess {
                         boolean hasTran = serviceAFWeb.AccCheckTRListByStockID(stock.getId() + "");
                         if (hasTran == false) {
                             serviceAFWeb.StoDeleteStockServ(stock);
+                            logger.info("> stockN Delete  " + stock.getSymbol());
                         }
                         numCnt++;
                         if (numCnt > 10) {
@@ -131,6 +131,7 @@ public class AccountMaintProcess {
                         ArrayList sqlList = new ArrayList();
                         sqlList.add(sockUpdateSQL);
                         serviceAFWeb.StoUpdateSQLArrayList(sqlList);
+                        logger.info("> stockN Disable  " + stock.getSymbol());
 
                         numCnt++;
                         if (numCnt > 10) {
