@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.nnsignal;
+package com.afweb.processcustacc;
 
 import com.afweb.dbaccount.AccountDB;
 import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
+import com.afweb.processsignal.TradingSignalProcess;
 
 import com.afweb.service.ServiceAFweb;
 
@@ -43,7 +44,7 @@ public class AccountTranProcess {
     public void ProcessAdminSignalTrading(ServiceAFweb serviceAFWeb) {
 //        logger.info("> ProcessAdminSignalTrading ");
         ///////////
-        TradingAPISignalProcess TradingSignalAPI = new TradingAPISignalProcess();
+        AccountAPITranProcess TradingSignalAPI = new AccountAPITranProcess();
         TradingSignalAPI.ProcessAPISignalTrading(serviceAFWeb);
         //////////
         AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();

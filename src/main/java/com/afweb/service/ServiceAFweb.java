@@ -5,12 +5,13 @@
  */
 package com.afweb.service;
 
+import com.afweb.processcustacc.AccountTranProcess;
+import com.afweb.processsignal.TradingSignalProcess;
 import com.afweb.model.nn.*;
 import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.processsystem.BackupRestoreImp;
 import com.afweb.stockinternet.StockInternetImpDao;
 import com.afweb.processnn.*;
-import com.afweb.nnsignal.*;
 
 import com.afweb.processemail.EmailProcess;
 import com.afweb.processcustacc.PUBSUBprocess;
@@ -30,9 +31,11 @@ import com.afweb.nn.*;
 import com.afweb.processcache.ECacheService;
 import com.afweb.processcustacc.CustAccService;
 import com.afweb.processnn.NNetService;
+import com.afweb.processsignal.SignalService;
 import com.afweb.processstock.StockService;
 import com.afweb.processstockinfo.*;
 import com.afweb.processsystem.*;
+import com.afweb.signal.NNObj;
 
 import com.afweb.stockinternet.StockUtils;
 import com.afweb.util.*;
@@ -747,8 +750,8 @@ public class ServiceAFweb {
 //            
             ProcessUserBilling(this);
             ProcessPUBSUBAccountComm(this);
-            
-            ProcessEmailAccount(this);            
+
+            ProcessEmailAccount(this);
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
             ProcessUpdateAllStockInfo();
@@ -762,9 +765,9 @@ public class ServiceAFweb {
             ProcessAllAccountTradingSignal(this);
             ProcessAdminAddRemoveStock(this);
 
-            ProcessEmailAccount(this);            
+            ProcessEmailAccount(this);
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-            
+
             ProcessEmailAccount(this);
         } else {
 
@@ -2777,7 +2780,28 @@ public class ServiceAFweb {
         custAccSrv.removeCommByType(CKey.ADMIN_USERNAME, null, ConstantKey.INT_TYPE_COM_EMAIL);
         return 1;
     }
+    ///////////////////////////////////////
+    //////////////////////////////////////////////////
+    // CustAccService
+    SignalService sigSrv = new SignalService();
+    public static boolean sigFlag = true;
 
+    //////////////////////////////////////////////////
+    public NNObj SigNNpredict(ServiceAFweb serviceAFWeb, int TR_Name, AccountObj accountObj, AFstockObj stock, ArrayList<AFstockInfo> StockRecArray, int DataOffset) {
+        return sigSrv.NNpredict(serviceAFWeb, TR_Name, accountObj, stock, StockRecArray, DataOffset);
+    }
+
+    public ArrayList<StockTRHistoryObj> SigProcessTRHistory(ServiceAFweb serviceAFWeb, TradingRuleObj trObj, int lengthYr, int month) {
+        return sigSrv.ProcessTRHistory(serviceAFWeb, trObj, lengthYr, month);
+    }
+
+    public ArrayList<PerformanceObj> SigProcessTranPerfHistory(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, AFstockObj stock, int length, boolean buyOnly) {
+        return sigSrv.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, buyOnly);
+    }
+
+    public ArrayList<PerformanceObj> SigProcessTranPerfHistoryReinvest(ServiceAFweb serviceAFWeb, ArrayList<TransationOrderObj> tranOrderList, AFstockObj stock, int length, boolean buyOnly) {
+        return sigSrv.ProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, buyOnly);
+    }
 ////////////////////////////////////////////////////
     // Util
     public static HashMap<String, ArrayList> stockInputMap = null;

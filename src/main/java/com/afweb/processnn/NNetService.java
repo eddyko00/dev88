@@ -5,6 +5,8 @@
  */
 package com.afweb.processnn;
 
+import com.afweb.processcustacc.AccountTranProcess;
+import com.afweb.processsignal.TradingSignalProcess;
 import com.afweb.model.nn.NNInputOutObj;
 import com.afweb.model.nn.NNInputDataObj;
 import com.afweb.dbnndata.NNetdataImp;
@@ -12,10 +14,8 @@ import com.afweb.model.*;
 import com.afweb.model.account.AccountObj;
 
 import com.afweb.model.stock.*;
-import com.afweb.nn.*;
 import com.afweb.nnBP.NNBPservice;
 
-import com.afweb.nnsignal.*;
 import com.afweb.processcache.ECacheService;
 
 import com.afweb.processstockinfo.StockInfoProcess;
@@ -37,7 +37,7 @@ import javax.sql.DataSource;
  */
 public class NNetService {
 
-    protected static Logger logger = Logger.getLogger("EmailService");
+    protected static Logger logger = Logger.getLogger("NNetService");
     private ServiceAFwebREST serviceAFwebREST = new ServiceAFwebREST();
     private NNetdataImp nndataImp = new NNetdataImp();
 

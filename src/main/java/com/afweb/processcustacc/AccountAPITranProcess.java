@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.nnsignal;
+package com.afweb.processcustacc;
 
 import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.model.*;
@@ -24,15 +24,15 @@ import java.util.logging.Logger;
  *
  * @author eddyko
  */
-public class TradingAPISignalProcess {
+public class AccountAPITranProcess {
 
     protected static Logger logger = Logger.getLogger("TradingAPISignalProcess");
 
     private static ArrayList<String> stockSignalNameArray = new ArrayList();
 
-    public void InitSystemData() {
-        stockSignalNameArray = new ArrayList();
-    }
+//    public void InitSystemData() {
+//        stockSignalNameArray = new ArrayList();
+//    }
 
     private ArrayList UpdateStockSignalNameArray(ServiceAFweb serviceAFWeb) {
         if (stockSignalNameArray != null && stockSignalNameArray.size() > 0) {

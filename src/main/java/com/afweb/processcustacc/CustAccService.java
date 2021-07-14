@@ -12,8 +12,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
 import com.afweb.model.nn.NNormalObj;
-import com.afweb.nnsignal.AccountTranProcess;
-import com.afweb.nnsignal.TradingSignalProcess;
+
 import com.afweb.processaccounting.AccountingProcess;
 import com.afweb.processbilling.BillingProcess;
 import com.afweb.processcache.ECacheService;
@@ -1092,7 +1091,7 @@ public class CustAccService {
                 updateTran = false;
             }
             if (updateTran == true) {
-                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
                 tradingRuleObj.setLinktradingruleid(ConstantKey.INT_TR_ACC);
 
                 ArrayList<TradingRuleObj> UpdateTRList = new ArrayList();
@@ -1265,7 +1264,7 @@ public class CustAccService {
     }
 
     public ArrayList<StockTRHistoryObj> getAccountStockTRListHistory(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname) {
-        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+//        TradingSignalProcess TRprocessImp = new TradingSignalProcess();
         if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
             return null;
         }
@@ -1276,7 +1275,7 @@ public class CustAccService {
             for (int i = 0; i < trObjList.size(); i++) {
                 TradingRuleObj trObj = trObjList.get(i);
                 if (trname.equals(trObj.getTrname())) {
-                    ArrayList<StockTRHistoryObj> thObjList = TRprocessImp.ProcessTRHistory(serviceAFWeb, trObj, 2, CKey.MONTH_SIZE);
+                    ArrayList<StockTRHistoryObj> thObjList = serviceAFWeb.SigProcessTRHistory(serviceAFWeb, trObj, 2, CKey.MONTH_SIZE);
                     return thObjList;
                 }
             }
@@ -1477,8 +1476,8 @@ public class CustAccService {
             ArrayList<TransationOrderObj> tranOrderList = null;
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 tranOrderList = getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-                return TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, true);  // buyOnly = true
+//                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+                return serviceAFWeb.SigProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, true);  // buyOnly = true
             }
 
             AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
@@ -1487,8 +1486,8 @@ public class CustAccService {
             }
             tranOrderList = getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
 
-            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-            return TRprocessImp.ProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, false);  // buyOnly = false
+//            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+            return serviceAFWeb.SigProcessTranPerfHistory(serviceAFWeb, tranOrderList, stock, length, false);  // buyOnly = false
         }
         return null;
     }
@@ -1509,8 +1508,8 @@ public class CustAccService {
             ArrayList<TransationOrderObj> tranOrderList = null;
             if (trName.toUpperCase().equals(ConstantKey.TR_ACC)) {
                 tranOrderList = getAccountStockTransList(accountObj.getId(), stock.getId(), trName.toUpperCase(), 0);
-                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-                return TRprocessImp.ProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, true);  // buyOnly = true
+//                TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+                return serviceAFWeb.SigProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, true);  // buyOnly = true
 
             }
             AccountObj accountAdminObj = serviceAFWeb.SysGetAdminObjFromCache();
@@ -1519,8 +1518,8 @@ public class CustAccService {
             }
             tranOrderList = getAccountStockTransList(accountAdminObj.getId(), stock.getId(), trName.toUpperCase(), 0);
 
-            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
-            return TRprocessImp.ProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, false); //buyOnly = false
+//            TradingSignalProcess TRprocessImp = new TradingSignalProcess();
+            return serviceAFWeb.SigProcessTranPerfHistoryReinvest(serviceAFWeb, tranOrderList, stock, length, false); //buyOnly = false
         }
         return null;
     }

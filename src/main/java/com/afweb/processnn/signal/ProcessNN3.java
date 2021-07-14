@@ -5,6 +5,8 @@
  */
 package com.afweb.processnn.signal;
 
+import com.afweb.processsignal.TradingSignalProcess;
+import com.afweb.processnn.NNpredictProcess;
 import com.afweb.model.nn.*;
 
 import com.afweb.processnn.*;
@@ -12,7 +14,6 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
-import com.afweb.nnsignal.*;
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.*;
@@ -940,7 +941,7 @@ public class ProcessNN3 {
 
     public boolean Rule0_CheckNN(ServiceAFweb serviceAFWeb, NNObj nn, AccountObj accountObj,
             ArrayList StockArray, int offset, AFstockObj stock) {
-        NNObj nnTmp = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN3, accountObj, stock, StockArray, offset);
+        NNObj nnTmp = NNpredictProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN3, accountObj, stock, StockArray, offset);
 
         if (nnTmp != null) {
             nn.setComment(nnTmp.getComment());
@@ -1049,7 +1050,7 @@ public class ProcessNN3 {
 
     // check current trend change
     public int Rule3_CheckTrend(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
-        NNObj nn = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset);
+        NNObj nn = NNpredictProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset);
         if (nn != null) {
 
             float output1 = nn.getOutput1();
@@ -1059,7 +1060,7 @@ public class ProcessNN3 {
 
                 for (int i = 0; i < 5; i++) {
                     //StockArray recent to old date
-                    NNObj NN3 = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset + 1 + i);
+                    NNObj NN3 = NNpredictProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset + 1 + i);
                     if (NN3 != null) {
                         output1 = NN3.getOutput1();
                         output2 = NN3.getOutput2();

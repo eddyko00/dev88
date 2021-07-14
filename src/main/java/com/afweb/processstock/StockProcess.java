@@ -6,7 +6,6 @@
 package com.afweb.processstock;
 
 import com.afweb.processcustacc.AccountTranImp;
-import com.afweb.nnsignal.NNCalProcess;
 
 import com.afweb.model.*;
 
@@ -251,7 +250,7 @@ public class StockProcess {
 
                 stockData.setpCl(0);
                 if (ServiceAFweb.javamainflag == true) {
-                    NNObj nn = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountAdminObj, stock, StockArray, 0);
+                    NNObj nn = serviceAFWeb.SigNNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountAdminObj, stock, StockArray, 0);
                     if (nn != null) {
 
                         float output1 = nn.getOutput1();

@@ -13,8 +13,8 @@ import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
-import com.afweb.nnsignal.NNCalProcess;
-import com.afweb.nnsignal.TradingSignalProcess;
+import com.afweb.processnn.NNpredictProcess;
+import com.afweb.processsignal.TradingSignalProcess;
 import com.afweb.service.ServiceAFweb;
 import com.afweb.signal.MACDObj;
 import com.afweb.signal.NNObj;
@@ -941,7 +941,7 @@ public class ProcessNN91 {
 
     public boolean Rule0_CheckNN(ServiceAFweb serviceAFWeb, NNObj nn, AccountObj accountObj,
             ArrayList StockArray, int offset, AFstockObj stock) {
-        NNObj nnTmp = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN91, accountObj, stock, StockArray, offset);
+        NNObj nnTmp = NNpredictProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN91, accountObj, stock, StockArray, offset);
 
         if (nnTmp != null) {
             nn.setComment(nnTmp.getComment());
@@ -1050,7 +1050,7 @@ public class ProcessNN91 {
 
     // check current trend change
     public int Rule3_CheckTrend(ServiceAFweb serviceAFWeb, AccountObj accountObj, String symbol, TradingRuleObj trObj, ArrayList StockArray, int offset, AFstockObj stock, ArrayList tradingRuleList, int nnSignal) {
-        NNObj nn = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset);
+        NNObj nn = NNpredictProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset);
         if (nn != null) {
 
             float output1 = nn.getOutput1();
@@ -1060,7 +1060,7 @@ public class ProcessNN91 {
 
                 for (int i = 0; i < 5; i++) {
                     //StockArray recent to old date
-                    NNObj NN91 = NNCalProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset + 1 + i);
+                    NNObj NN91 = NNpredictProcess.NNpredict(serviceAFWeb, ConstantKey.INT_TR_NN30, accountObj, stock, StockArray, offset + 1 + i);
                     if (NN91 != null) {
                         output1 = NN91.getOutput1();
                         output2 = NN91.getOutput2();

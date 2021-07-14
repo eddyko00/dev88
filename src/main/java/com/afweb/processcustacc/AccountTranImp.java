@@ -13,7 +13,7 @@ import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
 
 import com.afweb.service.ServiceAFweb;
-import com.afweb.nnsignal.TradingSignalProcess;
+import com.afweb.processsignal.TradingSignalProcess;
 
 import com.afweb.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;

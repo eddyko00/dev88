@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.afweb.nnsignal;
+package com.afweb.processnn;
 
 import com.afweb.processnn.signal.*;
 
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author eddy
  */
-public class NNCalProcess {
+public class NNpredictProcess {
 
     protected static Logger logger = Logger.getLogger("NNCal");
 
