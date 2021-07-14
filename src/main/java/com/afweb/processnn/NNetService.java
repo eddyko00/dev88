@@ -799,6 +799,9 @@ public class NNetService {
                 ArrayList removeList = new ArrayList();
                 boolean result = AccountTranProcess.compareStockList(StockNameRemoteList, APIStockNameList, addedList, removeList);
                 if (result == true) {
+                    addedList.remove("T_T");
+                    addedList.remove("T_T");
+                    addedList.remove("T_T");
                     logger.info("> Stock addedList " + addedList.size());
                     for (int i = 0; i < addedList.size(); i++) {
                         String symbol = (String) addedList.get(i);
