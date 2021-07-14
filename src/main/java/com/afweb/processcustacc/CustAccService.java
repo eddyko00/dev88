@@ -17,7 +17,7 @@ import com.afweb.nnsignal.TradingSignalProcess;
 import com.afweb.processaccounting.AccountingProcess;
 import com.afweb.processbilling.BillingProcess;
 import com.afweb.processcache.ECacheService;
-import com.afweb.processnn.TradingNNprocess;
+
 
 import com.afweb.service.ServiceAFweb;
 
@@ -1526,7 +1526,6 @@ public class CustAccService {
     }
 
     public String getAccountStockTRLIstCurrentChartFile(ServiceAFweb serviceAFWeb, String EmailUserName, String Password, String AccountIDSt, String stockidsymbol, String trname, String pathSt) {
-        TradingNNprocess NNProcessImp = new TradingNNprocess();
         try {
             CustAccService custAccSrv = new CustAccService();
             ArrayList<TransationOrderObj> thList = custAccSrv.getAccountStockTRTranListByAccountID(serviceAFWeb, EmailUserName, Password, AccountIDSt, stockidsymbol, trname, 0);
