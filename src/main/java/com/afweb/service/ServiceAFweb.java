@@ -736,7 +736,7 @@ public class ServiceAFweb {
             AccFundPocessAddRemove();
 //            ProcessAddRemoveFundAccount(this);
             ProcessUpdateAllStockTrend();
-            
+
             AccountMaintProcess maintProcess = new AccountMaintProcess();
             maintProcess.ProcessSystemMaintance(this);
 
@@ -747,6 +747,8 @@ public class ServiceAFweb {
 //            
             ProcessUserBilling(this);
             ProcessPUBSUBAccountComm(this);
+            
+            ProcessEmailAccount(this);            
 
         } else if ((getServerObj().getProcessTimerCnt() % 5) == 0) {
 //            TRprocessImp.UpdateAllStockTrend(this, true);
@@ -755,6 +757,8 @@ public class ServiceAFweb {
             ProcessAdminSignalTrading(this);
             ProcessAdminAddRemoveStock(this);
 
+            ProcessEmailAccount(this);
+
         } else if ((getServerObj().getProcessTimerCnt() % 3) == 0) {
             ProcessUpdateAllStockInfo();
             ProcessAllAccountTradingSignal(this);
@@ -762,9 +766,7 @@ public class ServiceAFweb {
 
 //            
         } else if ((getServerObj().getProcessTimerCnt() % 2) == 0) {
-            if (CKey.PROXY == false) {
-                ProcessEmailAccount(this);
-            }
+            ProcessEmailAccount(this);
         } else {
 
         }
@@ -807,6 +809,9 @@ public class ServiceAFweb {
     }
 
     public void ProcessEmailAccount(ServiceAFweb serviceAFWeb) {
+        if (CKey.PROXY == true) {
+            return;
+        }
         if (ServiceAFweb.processEmailFlag == true) {
             EmailProcess eProcess = new EmailProcess();
             eProcess.ProcessEmailAccount(this);
