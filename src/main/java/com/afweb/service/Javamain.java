@@ -40,6 +40,7 @@ public class Javamain {
         } else if (cmd.indexOf("php_2_mysqlflag") != -1) {
             set_php_2_mysqlflag();
         } else if (cmd.indexOf("php_4_mysqlflag") != -1) {
+            // special case all DB URL are use URL_PATH_HERO_4_DBDB_PHP
             set_php_4_mysqlflag();
         } else if (cmd.indexOf("php_5_mysqlflag") != -1) {
             set_php_5_mysqlflag();            
