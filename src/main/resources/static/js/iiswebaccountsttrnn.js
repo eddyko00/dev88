@@ -287,9 +287,11 @@ var app = {
                 if (stockData !== null) {
 
                     var stockMsg = "Stock Analysis:<p>";
-                    var rec = stockData.rec;
-                    if (rec < recMsg.length) {
-                        stockMsg += recMsg[rec];
+                    if (trObj.trname === "TR_NN1") {
+                        var rec = stockData.rec;
+                        if (rec < recMsg.length) {
+                            stockMsg += recMsg[rec];
+                        }
                     }
                     if (stockData.pCl > 0) {
                         if (trObj.trsignal == S_BUY) {
