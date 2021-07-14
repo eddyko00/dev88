@@ -1,23 +1,13 @@
 package com.afweb.dbsys;
 
-import com.afweb.stockinternet.StockInternetImpDao;
-import com.afweb.dbstockinfo.StockInfoDB;
 import com.afweb.model.*;
 import com.afweb.model.stock.*;
-import com.afweb.nn.*;
-
-import com.afweb.nnBP.NNBPservice;
-import com.afweb.service.ServiceAFweb;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
