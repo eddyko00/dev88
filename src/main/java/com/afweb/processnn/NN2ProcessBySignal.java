@@ -8,7 +8,7 @@ package com.afweb.processnn;
 import com.afweb.model.nn.NNTrainObj;
 import com.afweb.model.nn.NNInputOutObj;
 import com.afweb.model.nn.NNInputDataObj;
-import com.afweb.processnn.signal.ProcessNN2;
+import com.afweb.processnn.model.ProcessNN2;
 import com.afweb.processsignal.TradingSignalProcess;
 import com.afweb.model.ConstantKey;
 import com.afweb.model.SymbolNameObj;

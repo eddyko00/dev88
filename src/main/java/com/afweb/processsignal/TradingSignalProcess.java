@@ -9,12 +9,17 @@ package com.afweb.processsignal;
 //https://jar-download.com/artifacts/eu.verdelhan/ta4j-examples/0.4/source-code/ta4jexamples/strategies/MovingMomentumStrategy.java
 
 //https://stackoverflow.com/questions/8587047/support-resistance-algorithm-technical-analysis/8590007
+import com.afweb.processnn.model.ProcessNN3;
+import com.afweb.processnn.model.ProcessNN91;
+import com.afweb.processnn.model.ProcessNN92;
+import com.afweb.processnn.model.ProcessNN2;
+import com.afweb.processnn.model.ProcessNN1;
+import com.afweb.processnn.model.ProcessNN93;
 import com.afweb.model.nn.*;
 import com.afweb.dbaccount.AccountDB;
 import com.afweb.processcustacc.AccountTranImp;
 import com.afweb.dbsys.SysImp;
 import com.afweb.dbsys.SysDB;
-import com.afweb.processnn.signal.*;
 
 import com.afweb.processnn.*;
 

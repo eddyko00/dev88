@@ -5,7 +5,10 @@
  */
 package com.afweb.processnn;
 
-import com.afweb.processnn.signal.*;
+import com.afweb.processnn.model.ProcessNN3;
+import com.afweb.processnn.model.ProcessNN2;
+import com.afweb.processnn.model.ProcessNN1;
+import com.afweb.processnn.model.ProcessNN00;
 
 import com.afweb.model.ConstantKey;
 import com.afweb.model.account.*;
