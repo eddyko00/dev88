@@ -382,7 +382,7 @@ public class BackupRestoreNN {
 //            RequestObj sqlObj = new RequestObj();
 //            sqlObj.setCmd(ServiceAFweb.AllIdInfo + "");
             String sql = "select id from " + table + " order by id asc";
-            return serviceAFWeb.NnGetAllIdNNetDataSQL(sql);
+            return nnSrv.getAllIdNNetDataSQL(sql);
 
 //            sqlObj.setReq(sql);
 //            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);

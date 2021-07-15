@@ -287,7 +287,7 @@ public class TradingNNData {
         try {
 
             String sql = "select id from " + table + " order by id asc";
-            return serviceAFWeb.NnGetAllIdNNetDataSQL(sql);
+            return nnSrv.getAllIdNNetDataSQL(sql);
 
         } catch (Exception ex) {
             logger.info("> getDBDataTableId " + ex);

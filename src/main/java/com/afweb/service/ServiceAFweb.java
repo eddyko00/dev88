@@ -2060,9 +2060,9 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList<String> NnGetAllIdNNetDataSQL(String sql) {
-        return nnSrv.getAllIdNNetDataSQL(sql);
-    }
+//    public ArrayList<String> NnGetAllIdNNetDataSQL(String sql) {
+//        return nnSrv.getAllIdNNetDataSQL(sql);
+//    }
 
     public boolean NnDropNNdataDB() {
         if (nnFlag == true) {
