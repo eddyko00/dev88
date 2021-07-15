@@ -254,9 +254,7 @@ public class TradingNNData {
                 NNInputOutObj obj = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
 
                 String st = ""
-                        + obj.getOutput1()
-                        + "," + obj.getOutput2()
-                        + "," + obj.getInput1()
+                        + obj.getInput1()
                         + "," + obj.getInput2()
                         + "," + obj.getInput3()
                         + "," + obj.getInput4()
@@ -264,6 +262,8 @@ public class TradingNNData {
                         + "," + obj.getInput6()
                         + "," + obj.getInput7() + "," + obj.getInput8()
                         + "," + obj.getInput9() + "," + obj.getInput10()
+//                        + "," + obj.getOutput1()
+//                        + "," + obj.getOutput2()
                         + "";
 
                 nnSrv.updateNeuralNetDataRefName(objData.getId(), st);
