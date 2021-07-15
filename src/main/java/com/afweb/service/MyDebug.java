@@ -22,6 +22,9 @@ public class MyDebug {
 //            StockInfoProcess infoProc = new StockInfoProcess();
 //            infoProc.updateAllStockInfoProcess(this, symbol);
 ///////////////////////////////////////////////////////////////    
+//            TradingNNData nndataProc = new TradingNNData();
+//            nndataProc.processClearDataRefName(this);            
+//            nndataProc.processSetDataRefName(this);    
 ///////////////////////////////////////////////////////////////    
 ///////////////////////////////////////////////////////////////    
     

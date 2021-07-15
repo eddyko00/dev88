@@ -287,7 +287,8 @@ public class TradingNNData {
 
                     // already exist
                     AFneuralNetData nnDataObj = nnDataObjL.get(0);
-                    logger.info("> nnDataObj already exist " + objData.getName() + " " + nnDataObj.getUpdatedatedisplay() + " " + refName);
+                    logger.info("> nnDataObj already exist " + objData.getName()
+                            + " " + objData.getUpdatedatedisplay() + " " + nnDataObj.getUpdatedatedisplay() + " " + refName);
 
                 } else {
                     nnSrv.updateNeuralNetDataRefName(objData.getId(), refName);
