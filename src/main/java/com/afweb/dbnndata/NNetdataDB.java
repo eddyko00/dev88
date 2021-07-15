@@ -221,6 +221,17 @@ public class NNetdataDB {
         return 0;
     }
 
+    public int updateNeuralNetDataRefName(int id, String refname) {
+        try {
+            String sqlCMD = "update neuralnetdata set refname='" + refname + "'" + " where id =" + id;
+            return processUpdateDB(sqlCMD);
+
+        } catch (Exception e) {
+            logger.info("> updateNeuralNetRefData exception " + id + " - " + e.getMessage());
+        }
+        return 0;
+    }
+
     public int updateNeuralNetStatus0(String name, int status, int type) {
         try {
             String sqlCMD = "update neuralnet set status=" + status + ", type=" + type + " where name='" + name + "'";

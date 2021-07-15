@@ -171,6 +171,10 @@ public class NNetdataImp {
         return nndatadb.updateNeuralNetRef1(name, nameSt);
     }
 
+    public int updateNeuralNetDataRefName(int id, String refname) {
+        return nndatadb.updateNeuralNetDataRefName(id, refname);
+    }
+
     //desc
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
         return nndatadb.getNeuralNetDataObj(name, length);
