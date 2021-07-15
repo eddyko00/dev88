@@ -5,6 +5,7 @@
  */
 package com.afweb.processnn;
 
+import com.afweb.model.ConstantKey;
 import com.afweb.model.nn.*;
 import com.afweb.model.stock.AFneuralNetData;
 
@@ -258,6 +259,14 @@ public class TradingNNData {
                 String dataSt = objData.getData();
                 NNInputOutObj obj = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
 
+                String BPname1 = CKey.NN_version + "_" + ConstantKey.TR_NN1;
+                String BPname2 = CKey.NN_version + "_" + ConstantKey.TR_NN2;
+                String BPname3 = CKey.NN_version + "_" + ConstantKey.TR_NN3;
+
+                if (objData.getName().equals(BPname1) || objData.getName().equals(BPname2)
+                        || objData.getName().equals(BPname3)) {
+                    continue;
+                }
                 String refName = ""
                         + obj.getInput1()
                         + "," + obj.getInput2()
@@ -273,7 +282,9 @@ public class TradingNNData {
                 // check if already exist
                 ArrayList<AFneuralNetData> nnDataObjL = nnSrv.getNeuralNetDataObjByRef(objData.getName(), refName);
                 ServiceAFweb.AFSleep();
+
                 if ((nnDataObjL != null) && (nnDataObjL.size() > 0)) {
+
                     // already exist
                     AFneuralNetData nnDataObj = nnDataObjL.get(0);
                     logger.info("> nnDataObj already exist " + objData.getName() + " " + nnDataObj.getUpdatedatedisplay() + " " + refName);
