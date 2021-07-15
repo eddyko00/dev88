@@ -135,9 +135,9 @@ public class TradingNNData {
 
 ////////
     public int processSetDataRefName(ServiceAFweb serviceAFWeb) {
-     return 1;   
+        return 1;
     }
-    
+
     private int saveDBneuralnetDataPro(ServiceAFweb serviceAFWeb, String tableName) {
 
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
@@ -194,7 +194,7 @@ public class TradingNNData {
 //
 //            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
 //            String output = sqlObjresp.getResp();
-            
+
             String output = serviceAFWeb.NnGetAllNeuralNetDataDBSQL(sql);
             if (output == null) {
                 return 0;
@@ -205,9 +205,23 @@ public class TradingNNData {
             array = new ArrayList<AFneuralNetData>(listItem);
 
             for (int i = 0; i < array.size(); i++) {
-                AFneuralNetData obj = array.get(i);
-                String st = new ObjectMapper().writeValueAsString(obj);
-                writeArray.add(st);
+                AFneuralNetData objData = array.get(i);
+                String dataSt = objData.getData();
+                NNInputOutObj obj = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
+
+                String st = ""
+                        + "," + obj.getOutput1()
+                        + "," + obj.getOutput2()
+                        + "," + obj.getInput1()
+                        + "," + obj.getInput2()
+                        + "," + obj.getInput3()
+                        + "," + obj.getInput4()
+                        + "," + obj.getInput5()
+                        + "," + obj.getInput6()
+                        + "," + obj.getInput7() + "," + obj.getInput8()
+                        + "," + obj.getInput9() + "," + obj.getInput10()
+                        + "";
+
             }
             return 1;
 
@@ -239,6 +253,6 @@ public class TradingNNData {
         }
         return null;
 
-    }    
+    }
 ///////    
 }
