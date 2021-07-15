@@ -294,14 +294,15 @@ var app = {
                         }
                     }
                     if (stockData.pCl > 0) {
-                        if (trObj.trsignal == S_BUY) {
-                            stockMsg += "<br>The predict price will be going up to $" + updown + stockData.pCl.toFixed(2) + " in the next few days.";
-                        }
-                    }
-                    if (stockData.pCl < close) {
-                        if (trObj.trsignal == S_SELL) {
-                            stockMsg += "<br>The predict price will be going down to $" + updown + stockData.pCl.toFixed(2) + " in the next few days.";
+                        if (stockData.pCl > close) {
+                            if (trObj.trsignal == S_BUY) {
+                                stockMsg += "<br>The predict price will be going up to $" + stockData.pCl.toFixed(2) + " in the next few days.";
+                            }
+                        } else if (stockData.pCl < close) {
+                            if (trObj.trsignal == S_SELL) {
+                                stockMsg += "<br>The predict price will be going down to $" + stockData.pCl.toFixed(2) + " in the next few days.";
 
+                            }
                         }
                     }
                     stockMsg += "<p>";
@@ -316,7 +317,7 @@ var app = {
                         }
                         if (stockData.top !== 0) {
                             if (stockData.top === 1) {
-                                stockMsg += " Also, price is near to the top.";
+                                stockMsg += " Price is near to the top.";
                             }
                         }
                     }
@@ -327,7 +328,7 @@ var app = {
                     }
                     if (stockData.top !== 0) {
                         if (stockData.top === -1) {
-                            stockMsg += " Also, price is near to the bottom.";
+                            stockMsg += " Price is near to the bottom.";
                         }
                     }
 
