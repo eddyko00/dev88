@@ -604,9 +604,9 @@ public class ServiceRemoteDBInfo {
                         bodyElement = key + "=" + bodyTmp;
                     }
                 }
-                if (bodyElement.length()> 100) {
+                if (bodyElement.length() > 100) {
                     bodyElement = bodyElement.substring(90);
-                }                
+                }
                 logger.info("sendRequest " + bodyElement);
             }
             ServiceAFweb.AFSleep1Sec(4);
@@ -697,9 +697,11 @@ public class ServiceRemoteDBInfo {
                 ;
             } else {
                 // 406
+                Exception e = new Exception();
+                throw e;
 //                logger.info("Response Code:: " + responseCode);
 //                logger.info("bodyElement :: " + bodyElement);
-                return null;
+//                return null;
             }
             if (responseCode == HttpURLConnection.HTTP_OK) { //success
                 BufferedReader in = new BufferedReader(new InputStreamReader(
