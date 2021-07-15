@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 public class BackupRestoreInfo {
 
     protected static Logger logger = Logger.getLogger("BackupRestoreInfo");
+    StockInfoService stockInfoSrv = new StockInfoService();
 
     private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
@@ -195,7 +196,7 @@ public class BackupRestoreInfo {
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-            ArrayList<AFstockInfo> array = serviceAFWeb.InfGetAllStockInfoDBSQLArray(sql);
+            ArrayList<AFstockInfo> array = stockInfoSrv.getAllStockInfoDBSQLArray(sql);
 
 //            String output = serviceAFWeb.getAllStockInfoDBSQLServ(sql);
 //            sqlObj.setReq(sql);
@@ -227,7 +228,7 @@ public class BackupRestoreInfo {
 //            RequestObj sqlObj = new RequestObj();
 //            sqlObj.setCmd(ServiceAFweb.AllIdInfo + "");
             String sql = "select id from " + table + " order by id asc";
-            return serviceAFWeb.InfGetAllIdStockInfoSQL(sql);
+            return stockInfoSrv.getAllIdStockInfoSQL(sql);
 
 //            sqlObj.setReq(sql);
 //            RequestObj sqlObjresp = serviceAFWeb.SystemSQLRequest(sqlObj);

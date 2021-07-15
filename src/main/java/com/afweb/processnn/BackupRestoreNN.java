@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 public class BackupRestoreNN {
 
     protected static Logger logger = Logger.getLogger("BackupRestoreInfo");
+    NNetService nnSrv = new NNetService();
 
     private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
@@ -43,7 +44,7 @@ public class BackupRestoreNN {
     }
 
     public boolean restoreDBDataNN(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>> restoreDBDataNN "+ NNetdataDB.remoteURL);
+        logger.info(">>>>>>>> restoreDBDataNN " + NNetdataDB.remoteURL);
 
         restoreDBneuralnet(serviceAFWeb);
         restoreDBdummyNN(serviceAFWeb);
@@ -204,7 +205,7 @@ public class BackupRestoreNN {
 
     //////////////////////////////////////////////////////////////////
     public boolean downloadDBDataNN(ServiceAFweb serviceAFWeb) {
-        logger.info(">>>>>>>> downloadDBDataNN "+ NNetdataDB.remoteURL);
+        logger.info(">>>>>>>> downloadDBDataNN " + NNetdataDB.remoteURL);
         saveDBneuralnet(serviceAFWeb);
 
         return true;
@@ -274,7 +275,7 @@ public class BackupRestoreNN {
 //            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
 //            String output = sqlObjresp.getResp();
 
-            String output = serviceAFWeb.NnGetAllNeuralNetDBSQL(sql);
+            String output = nnSrv.getAllNeuralNetDBSQL(sql);
             if (output == null) {
                 return 0;
             }
@@ -352,8 +353,8 @@ public class BackupRestoreNN {
 //
 //            RequestObj sqlObjresp = serviceAFWeb.SysSQLRequest(sqlObj);
 //            String output = sqlObjresp.getResp();
-            
-            String output = serviceAFWeb.NnGetAllNeuralNetDataDBSQL(sql);
+
+            String output = nnSrv.getAllNeuralNetDataDBSQL(sql);
             if (output == null) {
                 return 0;
             }

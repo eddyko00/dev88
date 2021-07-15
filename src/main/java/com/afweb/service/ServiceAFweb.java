@@ -1888,26 +1888,13 @@ public class ServiceAFweb {
         return 0;
     }
 
-    public ArrayList<AFstockInfo> InfGetAllStockInfoDBSQLArray(String sql) {
-        if (stockInfoFlag == true) {
-            return stockInfoSrv.getAllStockInfoDBSQLArray(this, sql);
-        }
-        return null;
-    }
+//    public ArrayList<AFstockInfo> InfGetAllStockInfoDBSQLArray(String sql) {
+//        if (stockInfoFlag == true) {
+//            return stockInfoSrv.getAllStockInfoDBSQLArray(this, sql);
+//        }
+//        return null;
+//    }
 
-    public String InfGetAllStockInfoDBSQL(String sql) {
-        if (stockInfoFlag == true) {
-            return stockInfoSrv.getAllStockInfoDBSQL(this, sql);
-        }
-        return "";
-    }
-
-    public ArrayList<String> InfGetAllIdStockInfoSQL(String sql) {
-        if (stockInfoFlag == true) {
-            return stockInfoSrv.getAllIdStockInfoSQL(sql);
-        }
-        return null;
-    }
 
     public boolean InfDropStockInfoDB() {
         if (stockInfoFlag == true) {
@@ -1958,13 +1945,6 @@ public class ServiceAFweb {
         return NnGetNeuralNetDataObj(BPnameTR, 0);
     }
 
-    public String NnGetAllNeuralNetDBSQL(String sql) {
-        return nnSrv.getAllNeuralNetDBSQL(sql);
-    }
-
-    public String NnGetAllNeuralNetDataDBSQL(String sql) {
-        return nnSrv.getAllNeuralNetDataDBSQL(sql);
-    }
 
     public ArrayList<AFneuralNetData> NnGetNeuralNetDataObj(String name, int length) {
         return nnSrv.getNeuralNetDataObj(name, length);

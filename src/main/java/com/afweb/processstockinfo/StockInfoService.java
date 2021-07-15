@@ -544,36 +544,27 @@ public class StockInfoService {
 //        }
 //        return stockInfoImp.getAllStockInfoDBSQL(sql);
 //    }
-    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArray(ServiceAFweb serviceAFWeb, String sql) {
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            // ignore backup and resotre
-            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
-                ;
-            } else {
-                return null;
-            }
-        }
+    public ArrayList<AFstockInfo> getAllStockInfoDBSQLArray(String sql) {
         return stockInfoImp.getAllStockInfoDBSQLArray(sql);
     }
 
-    public String getAllStockInfoDBSQL(ServiceAFweb serviceAFWeb, String sql) {
-        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
-            // ignore backup and resotre
-            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
-                ;
-            } else {
-                return "";
-            }
-        }
-        try {
-            ArrayList<AFstockInfo> entries = stockInfoImp.getAllStockInfoDBSQLArray(sql);
-            String nameST = new ObjectMapper().writeValueAsString(entries);
-            return nameST;
-        } catch (JsonProcessingException ex) {
-        }
-        return null;
-    }
-
+//    public String getAllStockInfoDBSQL(ServiceAFweb serviceAFWeb, String sql) {
+//        if (ServiceAFweb.getServerObj().isSysMaintenance() == true) {
+//            // ignore backup and resotre
+//            if ((CKey.backupFlag == true) || (CKey.restoreFlag == true)) {
+//                ;
+//            } else {
+//                return "";
+//            }
+//        }
+//        try {
+//            ArrayList<AFstockInfo> entries = stockInfoImp.getAllStockInfoDBSQLArray(sql);
+//            String nameST = new ObjectMapper().writeValueAsString(entries);
+//            return nameST;
+//        } catch (JsonProcessingException ex) {
+//        }
+//        return null;
+//    }
     public boolean restStockInfoDB(ServiceAFweb serviceAFWeb) {
         return stockInfoImp.restStockInfoDB();
     }

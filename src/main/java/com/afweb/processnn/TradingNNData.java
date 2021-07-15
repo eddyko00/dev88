@@ -25,7 +25,8 @@ import java.util.logging.Logger;
 public class TradingNNData {
 
     public static Logger logger = Logger.getLogger("TradingNNData");
-
+    NNetService nnSrv = new NNetService();
+    
     public int saveNNBaseDataDB(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
         ServiceAFweb.lastfun = "saveNNBaseDataDB";
         String BPnameSym = CKey.NN_version + "_" + nnName;
@@ -172,7 +173,7 @@ public class TradingNNData {
                 sql = "select * from " + tableName + " where id = " + first;
             }
 
-            String output = serviceAFWeb.NnGetAllNeuralNetDataDBSQL(sql);
+            String output = nnSrv.getAllNeuralNetDataDBSQL(sql);
             if (output == null) {
                 return 0;
             }
@@ -235,7 +236,7 @@ public class TradingNNData {
                 sql = "select * from " + tableName + " where id = " + first;
             }
 
-            String output = serviceAFWeb.NnGetAllNeuralNetDataDBSQL(sql);
+            String output = nnSrv.getAllNeuralNetDataDBSQL(sql);
             if (output == null) {
                 return 0;
             }
