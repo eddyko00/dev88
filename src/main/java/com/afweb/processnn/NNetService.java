@@ -159,7 +159,9 @@ public class NNetService {
     public ArrayList<AFneuralNetData> getNeuralNetDataObj(String name, int length) {
         return nndataImp.getNeuralNetDataObj(name, length);
     }
-
+    public ArrayList<AFneuralNetData> getNeuralNetDataObjByRef(String name, String refName) {
+        return nndataImp.getNeuralNetDataObjByRef(name, refName);
+    }
     public ArrayList<AFneuralNetData> getNeuralNetDataObjByStockId(String name, String refname, int stockId, long updatedatel) {
         return nndataImp.getNeuralNetDataObjByStockId(name, refname, stockId, updatedatel);
     }

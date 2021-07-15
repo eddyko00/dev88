@@ -186,9 +186,7 @@ public class TradingNNData {
             for (int i = 0; i < array.size(); i++) {
                 AFneuralNetData objData = array.get(i);
                 String st = "";
-
                 nnSrv.updateNeuralNetDataRefName(objData.getId(), st);
-
             }
             return 1;
 
@@ -253,7 +251,7 @@ public class TradingNNData {
                 String dataSt = objData.getData();
                 NNInputOutObj obj = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
 
-                String st = ""
+                String refName = ""
                         + obj.getInput1()
                         + "," + obj.getInput2()
                         + "," + obj.getInput3()
@@ -262,17 +260,23 @@ public class TradingNNData {
                         + "," + obj.getInput6()
                         + "," + obj.getInput7() + "," + obj.getInput8()
                         + "," + obj.getInput9() + "," + obj.getInput10()
-//                        + "," + obj.getOutput1()
-//                        + "," + obj.getOutput2()
+                        //                        + "," + obj.getOutput1()
+                        //                        + "," + obj.getOutput2()
                         + "";
-
-                nnSrv.updateNeuralNetDataRefName(objData.getId(), st);
+                // check if already exist
+                ArrayList<AFneuralNetData> nnDataObjL = nnSrv.getNeuralNetDataObjByRef(last, refName);
+                if ((nnDataObjL != null) && (nnDataObjL.size() > 0)) {
+                    // already exist
+                    AFneuralNetData nnDataObj = nnDataObjL.get(0);
+                    logger.info("> nnDataObj already exist " + nnDataObj.getUpdatedatedisplay() + " " + refName);
+                }
+                nnSrv.updateNeuralNetDataRefName(objData.getId(), refName);
 
             }
             return 1;
 
         } catch (Exception ex) {
-            logger.info("> saveDBneuralnetDataPro " + ex);
+            logger.info("> updateDBneuralnetData " + ex);
         }
         return 0;
     }

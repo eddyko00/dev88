@@ -559,6 +559,14 @@ public class NNetdataDB {
         return entries;
     }
 
+    public ArrayList<AFneuralNetData> getNeuralNetDataObjByRef(String name, String refName) {
+        String sql = "select * from neuralnetdata where name='" + name + "' and refname='" + refName + "'"
+                + " order by updatedatel desc";
+
+        ArrayList entries = getAllNeuralNetDataSQL(sql);
+        return entries;
+    }
+
     private ArrayList getAllNeuralNetSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
             ArrayList nnList;
