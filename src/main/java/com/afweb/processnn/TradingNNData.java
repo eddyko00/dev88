@@ -26,7 +26,7 @@ public class TradingNNData {
 
     public static Logger logger = Logger.getLogger("TradingNNData");
     NNetService nnSrv = new NNetService();
-    
+
     public int saveNNBaseDataDB(ServiceAFweb serviceAFWeb, String nnName, HashMap<String, ArrayList> stockInputMap) {
         ServiceAFweb.lastfun = "saveNNBaseDataDB";
         String BPnameSym = CKey.NN_version + "_" + nnName;
@@ -136,6 +136,7 @@ public class TradingNNData {
 
 ////////
     public int processClearDataRefName(ServiceAFweb serviceAFWeb) {
+        logger.info("> processClearDataRefName ");
         String tableName = "neuralnetdata";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
@@ -145,7 +146,7 @@ public class TradingNNData {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = clearDBneuralnetData(serviceAFWeb, tableName, first, last);
+                    int ret = clearDBneuralnetData(tableName, first, last);
                     if (ret == 0) {
                         return 0;
                     }
@@ -153,7 +154,7 @@ public class TradingNNData {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = clearDBneuralnetData(serviceAFWeb, tableName, first, last);
+                    int ret = clearDBneuralnetData(tableName, first, last);
                     if (ret == 0) {
                         return 0;
                     }
@@ -165,7 +166,7 @@ public class TradingNNData {
         return 0;
     }
 
-    private int clearDBneuralnetData(ServiceAFweb serviceAFWeb, String tableName, String first, String last) {
+    private int clearDBneuralnetData(String tableName, String first, String last) {
         try {
 //            logger.info("> saveDBneuralnetDataPro - " + first + " " + last);
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
@@ -183,6 +184,7 @@ public class TradingNNData {
             array = new ArrayList<AFneuralNetData>(listItem);
 
             NNetService nnSrv = new NNetService();
+            logger.info("> clearDBneuralnetData " + array.size());
 
             for (int i = 0; i < array.size(); i++) {
                 AFneuralNetData objData = array.get(i);
@@ -199,6 +201,7 @@ public class TradingNNData {
 //
 
     public int processSetDataRefName(ServiceAFweb serviceAFWeb) {
+        logger.info("> processSetDataRefName ");
         String tableName = "neuralnetdata";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
@@ -208,7 +211,7 @@ public class TradingNNData {
                 String first = idList.get(id);
                 if ((id + 500) < len) {
                     String last = idList.get(id - 1 + 500);
-                    int ret = updateDBneuralnetData(serviceAFWeb, tableName, first, last);
+                    int ret = updateDBneuralnetData(tableName, first, last);
                     if (ret == 0) {
                         return 0;
                     }
@@ -216,7 +219,7 @@ public class TradingNNData {
                 }
                 if ((id + 500) >= len) {
                     String last = idList.get(len - 1);
-                    int ret = updateDBneuralnetData(serviceAFWeb, tableName, first, last);
+                    int ret = updateDBneuralnetData(tableName, first, last);
                     if (ret == 0) {
                         return 0;
                     }
@@ -228,14 +231,15 @@ public class TradingNNData {
         return 0;
     }
 
-    private int updateDBneuralnetData(ServiceAFweb serviceAFWeb, String tableName, String first, String last) {
+    private int updateDBneuralnetData(String tableName, String first, String last) {
+
         try {
 //            logger.info("> saveDBneuralnetDataPro - " + first + " " + last);
             String sql = "select * from " + tableName + " where id >= " + first + " and id <= " + last + " order by id asc";
             if (first.equals(last)) {
                 sql = "select * from " + tableName + " where id = " + first;
             }
-
+            logger.info("> updateDBneuralnetData ");
             String output = nnSrv.getAllNeuralNetDataDBSQL(sql);
             if (output == null) {
                 return 0;
@@ -246,7 +250,7 @@ public class TradingNNData {
             array = new ArrayList<AFneuralNetData>(listItem);
 
             NNetService nnSrv = new NNetService();
-
+            logger.info("> updateDBneuralnetData " + array.size());
             for (int i = 0; i < array.size(); i++) {
                 AFneuralNetData objData = array.get(i);
                 String dataSt = objData.getData();
@@ -265,11 +269,11 @@ public class TradingNNData {
                         //                        + "," + obj.getOutput2()
                         + "";
                 // check if already exist
-                ArrayList<AFneuralNetData> nnDataObjL = nnSrv.getNeuralNetDataObjByRef(last, refName);
+                ArrayList<AFneuralNetData> nnDataObjL = nnSrv.getNeuralNetDataObjByRef(objData.getName(), refName);
                 if ((nnDataObjL != null) && (nnDataObjL.size() > 0)) {
                     // already exist
                     AFneuralNetData nnDataObj = nnDataObjL.get(0);
-                    logger.info("> nnDataObj already exist " + nnDataObj.getUpdatedatedisplay() + " " + refName);
+                    logger.info("> nnDataObj already exist " + objData.getName() + "" + nnDataObj.getUpdatedatedisplay() + " " + refName);
                 }
                 nnSrv.updateNeuralNetDataRefName(objData.getId(), refName);
 
