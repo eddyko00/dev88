@@ -697,11 +697,12 @@ public class ServiceRemoteDBInfo {
                 ;
             } else {
                 // 406
-                Exception e = new Exception();
-                throw e;
+//                Exception e = new Exception();
+//                throw e;
+//
 //                logger.info("Response Code:: " + responseCode);
 //                logger.info("bodyElement :: " + bodyElement);
-//                return null;
+                return null;
             }
             if (responseCode == HttpURLConnection.HTTP_OK) { //success
                 BufferedReader in = new BufferedReader(new InputStreamReader(
