@@ -431,7 +431,7 @@ public class StockInfoDB {
     private ArrayList<AFLockObject> getAllLockObjSQLRemoteRetry(String sql) {
         for (int i = 0; i < 4; i++) {
             try {
-                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                ArrayList AFstockObjArry = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql, remoteURL);
                 if (AFstockObjArry != null) {
                     return AFstockObjArry;
                 }
