@@ -136,11 +136,11 @@ public class TradingNNData {
 
 ////////
     public int processClearDataRefName(ServiceAFweb serviceAFWeb) {
-        logger.info("> processClearDataRefName ");
+
         String tableName = "neuralnetdata";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
-
+        logger.info("> processClearDataRefName " + len);
         if (len > 0) {
             for (int id = 0; id < len; id += 500) {
                 String first = idList.get(id);
@@ -203,11 +203,11 @@ public class TradingNNData {
 //
 
     public int processSetDataRefName(ServiceAFweb serviceAFWeb) {
-        logger.info("> processSetDataRefName ");
+
         String tableName = "neuralnetdata";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
-
+        logger.info("> processSetDataRefName " + len);
         if (len > 0) {
             for (int id = 0; id < len; id += 500) {
                 String first = idList.get(id);
@@ -276,7 +276,7 @@ public class TradingNNData {
                 if ((nnDataObjL != null) && (nnDataObjL.size() > 0)) {
                     // already exist
                     AFneuralNetData nnDataObj = nnDataObjL.get(0);
-                    logger.info("> nnDataObj already exist " + objData.getName() + "" + nnDataObj.getUpdatedatedisplay() + " " + refName);
+                    logger.info("> nnDataObj already exist " + objData.getName() + " " + nnDataObj.getUpdatedatedisplay() + " " + refName);
 
                 } else {
                     nnSrv.updateNeuralNetDataRefName(objData.getId(), refName);

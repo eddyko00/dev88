@@ -185,31 +185,35 @@ public class StockInfoDB {
 //        return null;
 //
 //    }
-    
 //    // awardspace seem getting error
-//    private ArrayList<AFstockInfo> getStockInfoListSQLRemoteRetry(String sql) {
-//        for (int i = 0; i < 4; i++) {
+    private ArrayList<AFstockInfo> getStockInfoListSQLRemoteRetry(String sql) {
+        for (int i = 0; i < 4; i++) {
+            try {
+                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                if (AFstockObjArry != null) {
+                    return AFstockObjArry;
+                }
+            } catch (Exception ex) {
+            }
+
+            logger.info("> getStockInfoListSQLRemoteRetry " + i);
+            if (i == 0) {
+                logger.info(sql);
+            }
+            ServiceAFweb.AFSleep1Sec(5);
+        }
+        return null;
+    }
+
+    private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
+            return getStockInfoListSQLRemoteRetry(sql);
 //            try {
 //                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
 //                return AFstockObjArry;
 //            } catch (Exception ex) {
 //            }
-//            logger.info("> getStockInfoListSQLRemoteRetry " + i);
-//            ServiceAFweb.AFSleep1Sec(5);
-//        }
-//        return null;
-//
-//    }
-
-    private ArrayList<AFstockInfo> getStockInfoListSQL(String sql) {
-        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
-//            return getStockInfoListSQLRemoteRetry(sql);
-            try {
-                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
-                return AFstockObjArry;
-            } catch (Exception ex) {
-            }
-            return null;
+//            return null;
         }
 
         List<AFstockInfo> entries = new ArrayList<>();
@@ -423,17 +427,37 @@ public class StockInfoDB {
         }
         return null;
     }
-
-    private ArrayList getAllLockObjSQL(String sql) {
-        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
-            ArrayList lockList;
+//    // awardspace seem getting error
+    private ArrayList<AFLockObject> getAllLockObjSQLRemoteRetry(String sql) {
+        for (int i = 0; i < 4; i++) {
             try {
-                lockList = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql, remoteURL);
-                return lockList;
+                ArrayList AFstockObjArry = remoteDB.getStockInfoSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                if (AFstockObjArry != null) {
+                    return AFstockObjArry;
+                }
             } catch (Exception ex) {
-
             }
-            return null;
+
+            logger.info("> getAllLockObjSQLRemoteRetry " + i);
+            if (i == 0) {
+                logger.info(sql);
+            }
+            ServiceAFweb.AFSleep1Sec(5);
+        }
+        return null;
+    }
+    
+    private ArrayList<AFLockObject> getAllLockObjSQL(String sql) {
+        if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
+            return getAllLockObjSQLRemoteRetry(sql);
+//            ArrayList lockList;
+//            try {
+//                lockList = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql, remoteURL);
+//                return lockList;
+//            } catch (Exception ex) {
+//
+//            }
+//            return null;
         }
 
         try {

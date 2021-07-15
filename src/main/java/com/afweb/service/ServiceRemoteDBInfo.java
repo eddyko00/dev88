@@ -9,7 +9,6 @@ import com.afweb.model.stock.*;
 
 import com.afweb.service.db.*;
 import com.afweb.util.CKey;
-import com.afweb.util.getEnv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
@@ -291,10 +290,11 @@ public class ServiceRemoteDBInfo {
             return getStockInfoSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            logger.info("getStockInfoSqlRemoteDB_RemoteMysql exception " + sqlCMD + " " + ex);
+//            logger.info("getStockInfoSqlRemoteDB_RemoteMysql exception " + sqlCMD + " " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-            throw ex;
+//            throw ex;
         }
+        return null;
     }
 
     private ArrayList<AFstockInfo> getStockInfoSqlRemoteDB_Process(String output) {
@@ -384,10 +384,11 @@ public class ServiceRemoteDBInfo {
             return getAllLockSqlRemoteDB_Process(output);
 
         } catch (Exception ex) {
-            logger.info("getAllLockSqlRemoteDB exception " + ex);
+//            logger.info("getAllLockSqlRemoteDB exception " + ex);
             ServiceAFweb.getServerObj().setCntRESTexception(ServiceAFweb.getServerObj().getCntRESTexception() + 1);
-            throw ex;
+//            throw ex;
         }
+        return null;
     }
 
     private ArrayList<AFLockObject> getAllLockSqlRemoteDB_Process(String output) {
