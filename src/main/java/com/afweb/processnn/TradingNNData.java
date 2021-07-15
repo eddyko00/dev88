@@ -190,6 +190,8 @@ public class TradingNNData {
                 AFneuralNetData objData = array.get(i);
                 String st = "";
                 nnSrv.updateNeuralNetDataRefName(objData.getId(), st);
+                ServiceAFweb.AFSleep();
+                ServiceAFweb.AFSleep();
             }
             return 1;
 
@@ -270,13 +272,16 @@ public class TradingNNData {
                         + "";
                 // check if already exist
                 ArrayList<AFneuralNetData> nnDataObjL = nnSrv.getNeuralNetDataObjByRef(objData.getName(), refName);
+                ServiceAFweb.AFSleep();
                 if ((nnDataObjL != null) && (nnDataObjL.size() > 0)) {
                     // already exist
                     AFneuralNetData nnDataObj = nnDataObjL.get(0);
                     logger.info("> nnDataObj already exist " + objData.getName() + "" + nnDataObj.getUpdatedatedisplay() + " " + refName);
-                }
-                nnSrv.updateNeuralNetDataRefName(objData.getId(), refName);
 
+                } else {
+                    nnSrv.updateNeuralNetDataRefName(objData.getId(), refName);
+                }
+                ServiceAFweb.AFSleep();
             }
             return 1;
 
