@@ -199,7 +199,7 @@ public class TradingNNData {
     }
 //
 
-    private int processSetDataRefName(ServiceAFweb serviceAFWeb) {
+    public int processSetDataRefName(ServiceAFweb serviceAFWeb) {
         String tableName = "neuralnetdata";
         ArrayList<String> idList = getDBDataTableId(serviceAFWeb, tableName);
         int len = idList.size();
@@ -254,7 +254,7 @@ public class TradingNNData {
                 NNInputOutObj obj = new ObjectMapper().readValue(dataSt, NNInputOutObj.class);
 
                 String st = ""
-                        + "," + obj.getOutput1()
+                        + obj.getOutput1()
                         + "," + obj.getOutput2()
                         + "," + obj.getInput1()
                         + "," + obj.getInput2()

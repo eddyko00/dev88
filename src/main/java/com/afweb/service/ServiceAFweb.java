@@ -896,7 +896,8 @@ public class ServiceAFweb {
 
             symbol = "NEM";
 
-            ProcessUpdateAllStockTrend();
+            TradingNNData nndataProc = new TradingNNData();
+            nndataProc.processSetDataRefName(this);
 
 //            AFstockObj stock = this.StoGetStockObjBySym(symbol);
 //            this.ProcessUpdateAllStockInfo();
