@@ -8,9 +8,9 @@ package com.afweb.processsystem;
 import com.afweb.dbsys.SysDB;
 import com.afweb.dbaccount.AccountDB;
 
-import com.afweb.model.*;
 import com.afweb.model.account.*;
 import com.afweb.model.stock.*;
+
 
 import com.afweb.service.ServiceAFweb;
 import com.afweb.util.*;
@@ -34,7 +34,6 @@ public class BackupRestoreImp {
 ////////////////uploadDBData////////////////////////    
 ////////////////uploadDBData////////////////////////        
 ////////////////////////////////////////    
-
     private int sendRequestObj(ServiceAFweb serviceAFWeb, ArrayList<String> writeSQLArray) {
         logger.info("> sendRequestObj " + writeSQLArray.size());
         try {
