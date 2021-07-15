@@ -262,9 +262,9 @@ public class TradingNNData {
                 String BPname1 = CKey.NN_version + "_" + ConstantKey.TR_NN1;
                 String BPname2 = CKey.NN_version + "_" + ConstantKey.TR_NN2;
                 String BPname3 = CKey.NN_version + "_" + ConstantKey.TR_NN3;
-
+                String BPname30 = CKey.NN_version + "_" + ConstantKey.TR_NN30;
                 if (objData.getName().equals(BPname1) || objData.getName().equals(BPname2)
-                        || objData.getName().equals(BPname3)) {
+                        || objData.getName().equals(BPname3) || objData.getName().equals(BPname30)) {
                     continue;
                 }
                 String refName = ""

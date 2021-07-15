@@ -428,36 +428,36 @@ public class StockInfoDB {
         return null;
     }
 //    // awardspace seem getting error
-    private ArrayList<AFLockObject> getAllLockObjSQLRemoteRetry(String sql) {
-        for (int i = 0; i < 4; i++) {
-            try {
-                ArrayList AFstockObjArry = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql, remoteURL);
-                if (AFstockObjArry != null) {
-                    return AFstockObjArry;
-                }
-            } catch (Exception ex) {
-            }
-
-            logger.info("> getAllLockObjSQLRemoteRetry " + i);
-            if (i == 0) {
-                logger.info(sql);
-            }
-            ServiceAFweb.AFSleep1Sec(5);
-        }
-        return null;
-    }
+//    private ArrayList<AFLockObject> getAllLockObjSQLRemoteRetry(String sql) {
+//        for (int i = 0; i < 4; i++) {
+//            try {
+//                ArrayList AFstockObjArry = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql, remoteURL);
+//                if (AFstockObjArry != null) {
+//                    return AFstockObjArry;
+//                }
+//            } catch (Exception ex) {
+//            }
+//
+//            logger.info("> getAllLockObjSQLRemoteRetry " + i);
+//            if (i == 0) {
+//                logger.info(sql);
+//            }
+//            ServiceAFweb.AFSleep1Sec(5);
+//        }
+//        return null;
+//    }
     
     private ArrayList<AFLockObject> getAllLockObjSQL(String sql) {
         if (ServiceAFweb.SysCheckCallRemoteMysql() == true) {
-            return getAllLockObjSQLRemoteRetry(sql);
-//            ArrayList lockList;
-//            try {
-//                lockList = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql, remoteURL);
-//                return lockList;
-//            } catch (Exception ex) {
-//
-//            }
-//            return null;
+//            return getAllLockObjSQLRemoteRetry(sql);
+            ArrayList lockList;
+            try {
+                lockList = remoteDB.getAllLockSqlRemoteDB_RemoteMysql(sql, remoteURL);
+                return lockList;
+            } catch (Exception ex) {
+
+            }
+            return null;
         }
 
         try {
