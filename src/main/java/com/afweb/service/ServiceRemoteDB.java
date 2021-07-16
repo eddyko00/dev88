@@ -477,7 +477,6 @@ public class ServiceRemoteDB {
 //            return null;
 //        }
 //    }
-
     public ArrayList<CustomerObj> getCustomerListSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
 
         ServiceAFweb.getServerObj().setCntRESTrequest(ServiceAFweb.getServerObj().getCntRESTrequest() + 1);
@@ -1698,10 +1697,7 @@ public class ServiceRemoteDB {
         for (int i = 0; i < 4; i++) {
             try {
                 response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
-
-                if (response != null) {
-                    return response;
-                }
+                return response;
             } catch (Exception ex) {
             }
             logger.info("sendRequest " + method + " Rety " + (i + 1));
@@ -1717,12 +1713,12 @@ public class ServiceRemoteDB {
                         bodyElement = key + "=" + bodyTmp;
                     }
                 }
-                if (bodyElement.length()> 100) {
+                if (bodyElement.length() > 100) {
                     bodyElement = bodyElement.substring(90);
-                }                
+                }
                 logger.info("sendRequest " + bodyElement);
             }
-            ServiceAFweb.AFSleep1Sec(4);            
+            ServiceAFweb.AFSleep1Sec(4);
         }
         response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
 
@@ -1807,9 +1803,13 @@ public class ServiceRemoteDB {
             if (responseCode >= 200 && responseCode < 300) {
                 ;
             } else {
+                // 406
+                Exception e = new Exception();
+                throw e;
+//
 //                logger.info("Response Code:: " + responseCode);
 //                logger.info("bodyElement :: " + bodyElement);
-                return null;
+//                return null;
             }
             if (responseCode == HttpURLConnection.HTTP_OK) { //success
                 BufferedReader in = new BufferedReader(new InputStreamReader(

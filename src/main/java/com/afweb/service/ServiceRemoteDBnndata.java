@@ -262,7 +262,7 @@ public class ServiceRemoteDBnndata {
                 output += "{";
                 output += "\"id\":\"" + dataArray[i] + "\",";
                 output += "\"name\":\"" + dataArray[i + 1] + "\",";
-                output += "\"refname\":\"" + dataArray[i + 2] + "\",";                
+                output += "\"refname\":\"" + dataArray[i + 2] + "\",";
                 output += "\"status\":\"" + dataArray[i + 3] + "\",";
                 output += "\"type\":\"" + dataArray[i + 4] + "\",";
                 output += "\"data\":\"" + dataArray[i + 5] + "\",";
@@ -360,7 +360,7 @@ public class ServiceRemoteDBnndata {
                 AFneuralNetData nn = new AFneuralNetData();
                 nn.setId(Integer.parseInt(rs.getId()));
                 nn.setName(rs.getName());
-                nn.setRefname(rs.getRefname());                
+                nn.setRefname(rs.getRefname());
                 nn.setStatus(Integer.parseInt(rs.getStatus()));
                 nn.setType(Integer.parseInt(rs.getType()));
 
@@ -412,7 +412,6 @@ public class ServiceRemoteDBnndata {
             return null;
         }
     }
-
 
 ///////////////////////////////////
     public ArrayList getAllNameSqlRemoteDB_RemoteMysql(String sqlCMD, String remoteURL) throws Exception {
@@ -639,10 +638,7 @@ public class ServiceRemoteDBnndata {
         for (int i = 0; i < 4; i++) {
             try {
                 response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
-
-                if (response != null) {
-                    return response;
-                }
+                return response;
             } catch (Exception ex) {
 
             }
@@ -659,12 +655,12 @@ public class ServiceRemoteDBnndata {
                         bodyElement = key + "=" + bodyTmp;
                     }
                 }
-                if (bodyElement.length()> 100) {
+                if (bodyElement.length() > 100) {
                     bodyElement = bodyElement.substring(90);
                 }
                 logger.info("sendRequest " + bodyElement);
             }
-            ServiceAFweb.AFSleep1Sec(4);            
+            ServiceAFweb.AFSleep1Sec(4);
         }
         response = sendRequest_Process_Mysql(method, subResourcePath, queryParams, bodyParams);
 
@@ -750,9 +746,12 @@ public class ServiceRemoteDBnndata {
             if (responseCode >= 200 && responseCode < 300) {
                 ;
             } else {
+                // 406
+                Exception e = new Exception();
+                throw e;
 //                logger.info("Response Code:: " + responseCode);
 //                logger.info("bodyElement :: " + bodyElement);
-                return null;
+//                return null;
             }
             if (responseCode == HttpURLConnection.HTTP_OK) { //success
                 BufferedReader in = new BufferedReader(new InputStreamReader(
