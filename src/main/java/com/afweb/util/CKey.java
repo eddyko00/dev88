@@ -75,7 +75,7 @@ public class CKey {
 //
 //
 //***********  
-    public static boolean dbinfonnflag = true; // true;    
+    public static boolean dbinfonnflag = false; // true;    
     public static String dbInfoNNURL = CKey.URL_PATH_HERO_5_DBDB_PHP + CKey.WEBPOST_HERO_5_PHP;    
 //*********** 
     //////////////////////
